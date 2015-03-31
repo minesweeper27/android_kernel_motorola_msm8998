@@ -56,11 +56,14 @@ static unsigned long vmpressure_scale_max = 100;
 module_param_named(vmpressure_scale_max, vmpressure_scale_max,
 			ulong, S_IRUGO | S_IWUSR);
 
+<<<<<<< HEAD
 /* vmpressure values >= this will be scaled based on allocstalls */
 static unsigned long allocstall_threshold = 70;
 module_param_named(allocstall_threshold, allocstall_threshold,
 			ulong, S_IRUGO | S_IWUSR);
 
+=======
+>>>>>>> 29e2aa448fca... mm: vmpressure: scale pressure based on reclaim context
 static struct vmpressure global_vmpressure;
 BLOCKING_NOTIFIER_HEAD(vmpressure_notifier);
 
@@ -178,12 +181,17 @@ out:
 static unsigned long vmpressure_account_stall(unsigned long pressure,
 				unsigned long stall, unsigned long scanned)
 {
+<<<<<<< HEAD
 	unsigned long scale;
 
 	if (pressure < allocstall_threshold)
 		return pressure;
 
 	scale = ((vmpressure_scale_max - pressure) * stall) / scanned;
+=======
+	unsigned long scale =
+		((vmpressure_scale_max - pressure) * stall) / scanned;
+>>>>>>> 29e2aa448fca... mm: vmpressure: scale pressure based on reclaim context
 
 	return pressure + scale;
 }
