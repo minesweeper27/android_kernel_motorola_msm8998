@@ -1093,3 +1093,7 @@ config BOOTINFO
 	  from both kernel context (via function call) and user
 	  context (via /proc/bootinfo).
 
+config STATE_NOTIFIER
+    bool "State Notifier"
+
+source "drivers/soc/qcom/memshare/Kconfig"
