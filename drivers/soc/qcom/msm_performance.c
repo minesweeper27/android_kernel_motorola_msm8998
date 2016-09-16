@@ -50,6 +50,14 @@ static int set_cpu_min_freq(const char *buf, const struct kernel_param *kp)
 	struct cpu_status *i_cpu_stats;
 	struct cpufreq_policy policy;
 	cpumask_var_t limit_mask;
+<<<<<<< HEAD
+=======
+	int ret;
+	const char *reset = "0:0 1:0 2:0 3:0";
+
+	if (touchboost == 0)
+		cp = reset;
+>>>>>>> 913a1d0d3f19... msm_performance: fix input boosting disable not sticking on big cluster
 
 	while ((cp = strpbrk(cp + 1, " :")))
 		ntokens++;
