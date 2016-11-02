@@ -1071,7 +1071,11 @@ int mdss_mdp_resource_control(struct mdss_mdp_ctl *ctl, u32 sw_event)
 			 * up is called but no frame update is sent.
 			 */
 			queue_delayed_work(system_power_efficient_wq,
+<<<<<<< HEAD
                                 &ctx->delayed_off_clk_work,
+=======
+				&ctx->delayed_off_clk_work,
+>>>>>>> 3fe1f11d090d... drivers: mdss: queue work on system_power_efficient_wq
 				      CMD_MODE_IDLE_TIMEOUT);
 			pr_debug("off work scheduled\n");
 		}
