@@ -370,7 +370,10 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 
 	*freq = stats.current_frequency;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 80e074426eca... Introduce Adreno idler for devfreq-based Adreno devices
 #ifdef CONFIG_ADRENO_IDLER
 	if (adreno_idler(stats, devfreq, freq)) {
 		/* adreno_idler has asked to bail out now */
