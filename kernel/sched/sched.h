@@ -793,7 +793,11 @@ struct rq {
 
 	int cstate, wakeup_latency, wakeup_energy;
 	u64 window_start;
+<<<<<<< HEAD
         u64 load_reported_window;
+=======
+	u64 load_reported_window;
+>>>>>>> adcc78f1698a... sched: cpufreq: HMP load reporting changes
 	unsigned long hmp_flags;
 
 	u64 cur_irqload;
@@ -2855,6 +2859,18 @@ static inline void cpufreq_update_util(struct rq *rq, unsigned int flags)
         struct update_util_data *data;
    
         #ifdef CONFIG_SCHED_HMP
+	/*
+	 * Skip if we've already reported, but not if this is an inter-cluster
+	 * migration
+	 */
+	if (!sched_disable_window_stats &&
+		(rq->load_reported_window == rq->window_start) &&
+		!(flags & SCHED_CPUFREQ_INTERCLUSTER_MIG))
+		return;
+	rq->load_reported_window = rq->window_start;
+#endif
+
+#ifdef CONFIG_SCHED_HMP
 	/*
 	 * Skip if we've already reported, but not if this is an inter-cluster
 	 * migration
