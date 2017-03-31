@@ -3220,7 +3220,11 @@ void sched_get_cpus_busy(struct sched_load *busy,
 		update_task_ravg(rq->curr, rq, TASK_UPDATE, sched_ktime_clock(),
 				 0);
 
+<<<<<<< HEAD
                 /*
+=======
+		/*
+>>>>>>> 60444d507091... sched: hmp: Reduce number of load reports in a window
 		 * Ensure that we don't report load for 'cpu' again via the
 		 * cpufreq_update_util path in the window that started at
 		 * rq->window_start
