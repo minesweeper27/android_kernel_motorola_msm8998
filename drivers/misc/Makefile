@@ -79,6 +79,16 @@ obj-$(CONFIG_TPS61280) += tps61280.o
 obj-$(CONFIG_MODS_CODEC_BUS) += mods_codec_bus.o
 obj-$(CONFIG_FSUSB42_MUX) += fsusb42_mux.o
 obj-$(CONFIG_MODS_MODBUS_SWITCH) += modbus_switch.o
+<<<<<<< HEAD
 obj-$(CONFIG_MOTOMODS) += motomods/
 obj-$(CONFIG_MMI_SYSTEM_TEMP)	+= mmi_sys_temp/
 
+=======
+obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
+
+
+# TODO: remove me b/62058353
+subdir-ccflags-y += \
+	-Wno-ignored-attributes \
+	-Wno-header-guard
+>>>>>>> fe6e842cf02d... Implement USB Fast Charge
