@@ -323,6 +323,7 @@ config PM_GENERIC_DOMAINS_OF
 config CPU_PM
 	bool
 
+<<<<<<< HEAD
 config SUSPEND_DEBUG
 	bool "Enable snapshot of regulator and tlmm when suspend"
 	depends on SUSPEND
@@ -331,3 +332,9 @@ config SUSPEND_DEBUG
 	  This allows you to dump the regulator state and tlmm configuration
 	  before suspend. It doesn't work only if you have read the system
 	  file node /sys/privae/tlmm_before_sleep and vreg_before_sleep
+=======
+config	BOEFFLA_WL_BLOCKER
+	bool "Boeffla generic wakelock blocker driver"
+	depends on PM
+	default y
+>>>>>>> f821355ebe5c... boeffla_wl_blocker: add generic wakelock blocker driver v1.0.0
