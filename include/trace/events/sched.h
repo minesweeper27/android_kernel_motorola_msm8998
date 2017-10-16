@@ -1373,14 +1373,22 @@ TRACE_EVENT(core_ctl_set_busy,
 		__field(u32, busy)
 		__field(u32, old_is_busy)
 		__field(u32, is_busy)
+<<<<<<< HEAD
                 __field(bool, high_irqload)
+=======
+		__field(bool, high_irqload)
+>>>>>>> 828015c02ac4... core_ctl: Consider high irq loaded CPU as busy
 	),
 	TP_fast_assign(
 		__entry->cpu = cpu;
 		__entry->busy = busy;
 		__entry->old_is_busy = old_is_busy;
 		__entry->is_busy = is_busy;
+<<<<<<< HEAD
                 __entry->high_irqload = sched_cpu_high_irqload(cpu);
+=======
+		__entry->high_irqload = sched_cpu_high_irqload(cpu);
+>>>>>>> 828015c02ac4... core_ctl: Consider high irq loaded CPU as busy
 	),
 	TP_printk("cpu=%u, busy=%u, old_is_busy=%u, new_is_busy=%u high_irqload=%d",
 		  __entry->cpu, __entry->busy, __entry->old_is_busy,
