@@ -40,6 +40,10 @@
 #include <linux/state_notifier.h>
 #endif
 
+#ifdef CONFIG_STATE_NOTIFIER
+#include <linux/state_notifier.h>
+#endif
+
 #define CMDLINE_DSI_CTL_NUM_STRING_LEN 2
 
 /* Master structure to hold all the information about the DSI/panel */
@@ -512,7 +516,13 @@ static int mdss_dsi_panel_power_ctrl(struct mdss_panel_data *pdata,
 		break;
 #ifdef CONFIG_STATE_NOTIFIER
 		state_resume();
+<<<<<<< HEAD
 #endif		
+=======
+#endif
+		
+		break;
+>>>>>>> 101435ae04ce... mdss: Add state_notifier hooks
 	case MDSS_PANEL_POWER_LP1:
 	case MDSS_PANEL_POWER_LP2:
 		ret = mdss_dsi_panel_power_lp(pdata, true);
