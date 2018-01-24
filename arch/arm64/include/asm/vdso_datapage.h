@@ -29,7 +29,13 @@ struct vdso_data {
 	__u64 xtime_coarse_sec;	/* Coarse time */
 	__u64 xtime_coarse_nsec;
 	__u64 wtm_clock_sec;	/* Wall to monotonic time */
+<<<<<<< HEAD
 	__u64 wtm_clock_nsec;
+=======
+	vdso_wtm_clock_nsec_t wtm_clock_nsec;
+	__u32 btm_sec;		/* monotonic to boot time */
+	__u32 btm_nsec;
+>>>>>>> 81bc4898554e... ANDROID: clock_gettime(CLOCK_BOOTTIME,) slows down >20x
 	__u32 tb_seq_count;	/* Timebase sequence counter */
 	/* cs_* members must be adjacent and in this order (ldp accesses) */
 	__u32 cs_mono_mult;	/* NTP-adjusted clocksource multiplier */
