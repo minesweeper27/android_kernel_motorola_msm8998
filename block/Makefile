@@ -18,8 +18,11 @@ obj-$(CONFIG_BLK_DEV_THROTTLING)	+= blk-throttle.o
 obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
 obj-$(CONFIG_IOSCHED_BFQ)	+= bfq-iosched.o
+=======
+>>>>>>> 2af08c1fd724... Disable test io/mmc drivers
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o
