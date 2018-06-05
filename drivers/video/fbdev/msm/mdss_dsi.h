@@ -603,7 +603,17 @@ struct mdss_dsi_ctrl_pdata {
 	bool update_phy_timing; /* flag to recalculate PHY timings */
 
 	bool phy_power_off;
+<<<<<<< HEAD
         struct pm_qos_request pm_qos_req;
+=======
+
+	struct notifier_block wake_notif;
+	struct task_struct *wake_thread;
+	struct completion wake_comp;
+	wait_queue_head_t wake_waitq;
+	atomic_t disp_is_on;
+	atomic_t needs_wake;
+>>>>>>> 89788565816e... msm: mdss: Power on display asynchronously as early as possible
 };
 
 struct dsi_status_data {
