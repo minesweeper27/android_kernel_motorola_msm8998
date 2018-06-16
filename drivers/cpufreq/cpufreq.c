@@ -708,7 +708,11 @@ static ssize_t store_##file_name					\
 	int ret, temp;							\
 	struct cpufreq_policy new_policy;				\
 									\
+<<<<<<< HEAD
         if (&policy->object == &policy->min)				\
+=======
+	if (&policy->object == &policy->min)				\
+>>>>>>> e708be984b65... cpufreq: Kill userspace CPU boosting entirely
 		return count;						\
 									\
 	memcpy(&new_policy, policy, sizeof(*policy));			\
