@@ -32,7 +32,11 @@
 #define PMIC_INT_ANALOG_CODEC "analog-codec"
 
 #define DEV_NAME_STR_LEN  32
+<<<<<<< HEAD
 #define DEFAULT_MCLK_RATE 24576000
+=======
+#define DEFAULT_MCLK_RATE 11289600
+>>>>>>> 95a349402bf2... Audio Regulator OC [sdm_660]
 #define MSM_LL_QOS_VALUE 300 /* time in us to ensure LPM doesn't go in C3/C4 */
 
 struct dev_config {
