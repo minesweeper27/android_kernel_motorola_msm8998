@@ -31,9 +31,13 @@
 
 #define DEV_NAME_STR_LEN  32
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define DEFAULT_MCLK_RATE 9600000
 =======
 #define DEFAULT_MCLK_RATE 11289600
+=======
+#define DEFAULT_MCLK_RATE 24576000
+>>>>>>> 1b4223a833cf... sdm660_audio: use 24.576MHz MCLK
 #define MSM_LL_QOS_VALUE 300 /* time in us to ensure LPM doesn't go in C3/C4 */
 >>>>>>> 95a349402bf2... Audio Regulator OC [sdm_660]
 
