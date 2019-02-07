@@ -3117,6 +3117,7 @@ static int dwc3_msm_vbus_notifier(struct notifier_block *nb,
 	struct extcon_dev *edev = ptr;
 	int cc_state;
 	int speed;
+	int self_powered;
 
 	if (!edev) {
 		dev_err(mdwc->dev, "%s: edev null\n", __func__);
@@ -3159,6 +3160,13 @@ static int dwc3_msm_vbus_notifier(struct notifier_block *nb,
 
 	if (mdwc->vbus_active == event)
 		return NOTIFY_DONE;
+
+	self_powered = extcon_get_cable_state_(edev,
+					EXTCON_USB_TYPEC_MED_HIGH_CURRENT);
+	if (self_powered < 0)
+		dwc->gadget.is_selfpowered = 0;
+	else
+		dwc->gadget.is_selfpowered = self_powered;
 
 	mdwc->vbus_active = event;
 	if (dwc->is_drd && !mdwc->in_restart) {
