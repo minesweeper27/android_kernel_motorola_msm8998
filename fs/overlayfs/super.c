@@ -31,7 +31,11 @@ struct ovl_config {
 	char *lowerdir;
 	char *upperdir;
 	char *workdir;
+<<<<<<< HEAD
         bool override_creds;
+=======
+	bool override_creds;
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 };
 
 /* private information held for overlayfs's superblock */
@@ -256,6 +260,8 @@ const struct cred *ovl_override_creds(struct super_block *sb)
         if (!ofs->config.override_creds)
 		return NULL;
 
+	if (!ofs->config.override_creds)
+		return NULL;
 	return override_creds(ofs->creator_cred);
 }
 
@@ -657,7 +663,11 @@ static int ovl_show_options(struct seq_file *m, struct dentry *dentry)
 		seq_show_option(m, "upperdir", ufs->config.upperdir);
 		seq_show_option(m, "workdir", ufs->config.workdir);
 	}
+<<<<<<< HEAD
         if (ufs->config.override_creds != ovl_override_creds_def)
+=======
+	if (ufs->config.override_creds != ovl_override_creds_def)
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 		seq_show_option(m, "override_creds",
 				ufs->config.override_creds ? "on" : "off");
 	return 0;
@@ -684,7 +694,11 @@ enum {
 	OPT_LOWERDIR,
 	OPT_UPPERDIR,
 	OPT_WORKDIR,
+<<<<<<< HEAD
         OPT_OVERRIDE_CREDS_ON,
+=======
+	OPT_OVERRIDE_CREDS_ON,
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 	OPT_OVERRIDE_CREDS_OFF,
 	OPT_ERR,
 };
@@ -693,7 +707,11 @@ static const match_table_t ovl_tokens = {
 	{OPT_LOWERDIR,			"lowerdir=%s"},
 	{OPT_UPPERDIR,			"upperdir=%s"},
 	{OPT_WORKDIR,			"workdir=%s"},
+<<<<<<< HEAD
         {OPT_OVERRIDE_CREDS_ON,		"override_creds=on"},
+=======
+	{OPT_OVERRIDE_CREDS_ON,		"override_creds=on"},
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 	{OPT_OVERRIDE_CREDS_OFF,	"override_creds=off"},
 	{OPT_ERR,			NULL}
 };
@@ -725,7 +743,11 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
 {
 	char *p;
 
+<<<<<<< HEAD
         config->override_creds = ovl_override_creds_def;
+=======
+	config->override_creds = ovl_override_creds_def;
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 	while ((p = ovl_next_opt(&opt)) != NULL) {
 		int token;
 		substring_t args[MAX_OPT_ARGS];
@@ -756,7 +778,11 @@ static int ovl_parse_opt(char *opt, struct ovl_config *config)
 				return -ENOMEM;
 			break;
 
+<<<<<<< HEAD
                 case OPT_OVERRIDE_CREDS_ON:
+=======
+		case OPT_OVERRIDE_CREDS_ON:
+>>>>>>> 93434854ad7f... FROMLIST: BACKPORT: overlayfs: override_creds=off option bypass creator_cred
 			config->override_creds = true;
 			break;
 
