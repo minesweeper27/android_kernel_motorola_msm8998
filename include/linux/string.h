@@ -200,5 +200,4 @@ static inline const char *kbasename(const char *path)
 			memcmp((left), (right), strlen(right) + 1),		\
 			(strcmp)((left), (right))))
 
-
 #endif /* _LINUX_STRING_H_ */
