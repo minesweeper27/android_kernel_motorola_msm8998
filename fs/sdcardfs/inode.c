@@ -22,6 +22,7 @@
 #include <linux/fs_struct.h>
 #include <linux/ratelimit.h>
 #include <linux/sched.h>
+#include <linux/xattr.h>
 
 const struct cred *override_fsids(struct sdcardfs_sb_info *sbi,
 		struct sdcardfs_inode_data *data)
