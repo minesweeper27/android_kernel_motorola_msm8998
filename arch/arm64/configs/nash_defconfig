@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.4.177 Kernel Configuration
+# Linux/arm64 4.4.178 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -542,6 +542,7 @@ CONFIG_COREDUMP=y
 # CONFIG_COREDUMP_GZ is not set
 # CONFIG_COREDUMP_PERMISSION_HACK is not set
 CONFIG_COMPAT=y
+CONFIG_KEYS_COMPAT=y
 
 #
 # Power management options
@@ -5234,7 +5235,6 @@ CONFIG_DEBUG_RODATA=y
 # Security options
 #
 CONFIG_KEYS=y
-CONFIG_KEYS_COMPAT=y
 # CONFIG_PERSISTENT_KEYRINGS is not set
 # CONFIG_BIG_KEYS is not set
 CONFIG_ENCRYPTED_KEYS=y
