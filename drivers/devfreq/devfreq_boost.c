@@ -295,8 +295,13 @@ static int __init devfreq_boost_init(void)
 	for (i = 0; i < DEVFREQ_MAX; i++) {
 		struct boost_dev *b = d->devices + i;
 
+<<<<<<< HEAD
 		thread[i] = kthread_run_perf_critical(devfreq_boost_thread, b,
 						      "devfreq_boostd/%d", i);
+=======
+		thread[i] = kthread_run(devfreq_boost_thread, b,
+					"devfreq_boostd/%d", i);
+>>>>>>> 6c5abdf8697d... devfreq_boost: Introduce devfreq boost driver
 		if (IS_ERR(thread[i])) {
 			ret = PTR_ERR(thread[i]);
 			pr_err("Failed to create kthread, err: %d\n", ret);
