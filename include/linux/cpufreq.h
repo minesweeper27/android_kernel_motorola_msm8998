@@ -525,6 +525,18 @@ extern struct cpufreq_governor cpufreq_gov_powersave;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE)
 extern struct cpufreq_governor cpufreq_gov_userspace;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_userspace)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS)
+extern struct cpufreq_governor cpufreq_gov_darkness;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_darkness)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESSV5)
+extern struct cpufreq_governor cpufreq_gov_darknessv5;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_darknessv5)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ALUCARD)
+extern struct cpufreq_governor cpufreq_gov_alucard;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_alucard)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_NIGHTMARE)
+extern struct cpufreq_governor cpufreq_gov_nightmare;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_nightmare)
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND)
 extern struct cpufreq_governor cpufreq_gov_ondemand;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_ondemand)
@@ -540,6 +552,24 @@ extern struct cpufreq_governor cpufreq_gov_sched;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL)
 extern struct cpufreq_governor cpufreq_gov_schedutil;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_schedutil)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_INTERACTIVEX)
+extern struct cpufreq_governor cpufreq_gov_interactivex;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_interactivex)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMANDX)
+extern struct cpufreq_governor cpufreq_gov_ondemandx;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_ondemandx)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVEX)
+extern struct cpufreq_governor cpufreq_gov_conservativex;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_conservativex)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_LIONHEART)
+extern struct cpufreq_governor cpufreq_gov_lionheart;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_lionheart)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_IMPULSE)
+extern struct cpufreq_governor cpufreq_gov_impulse;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_impulse)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ZZMOOVE)
++extern struct cpufreq_governor cpufreq_gov_zzmoove;
++#define CPUFREQ_DEFAULT_GOVERNOR       (&cpufreq_gov_zzmoove)
 #endif
 
 static inline void cpufreq_policy_apply_limits(struct cpufreq_policy *policy)
