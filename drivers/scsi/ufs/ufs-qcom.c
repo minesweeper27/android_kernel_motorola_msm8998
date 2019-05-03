@@ -66,7 +66,6 @@ static int ufs_qcom_update_sec_cfg(struct ufs_hba *hba, bool restore_sec_cfg);
 static void ufs_qcom_get_default_testbus_cfg(struct ufs_qcom_host *host);
 static int ufs_qcom_set_dme_vs_core_clk_ctrl_clear_div(struct ufs_hba *hba,
 						       u32 clk_cycles);
-static void ufs_qcom_pm_qos_suspend(struct ufs_qcom_host *host);
 
 static void ufs_qcom_dump_regs(struct ufs_hba *hba, int offset, int len,
 		char *prefix)
@@ -811,8 +810,6 @@ static int ufs_qcom_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 			goto out;
 		}
 	}
-	/* Unvote PM QoS */
-	ufs_qcom_pm_qos_suspend(host);
 
 out:
 	return ret;
@@ -1611,6 +1608,7 @@ out:
 	return err;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SMP /* CONFIG_SMP */
 static int ufs_qcom_cpu_to_group(struct ufs_qcom_host *host, int cpu)
 {
@@ -2000,6 +1998,8 @@ static void ufs_qcom_pm_qos_remove(struct ufs_qcom_host *host)
 }
 #endif /* CONFIG_SMP */
 
+=======
+>>>>>>> 9dda7b09869e... scsi: ufs: Remove CPU latency voting to save power
 #define	ANDROID_BOOT_DEV_MAX	30
 static char android_boot_dev[ANDROID_BOOT_DEV_MAX];
 
@@ -2150,10 +2150,6 @@ static int ufs_qcom_init(struct ufs_hba *hba)
 		goto out;
 	}
 
-	err = ufs_qcom_pm_qos_init(host);
-	if (err)
-		dev_info(dev, "%s: PM QoS will be disabled\n", __func__);
-
 	/* restore the secure configuration */
 	ufs_qcom_update_sec_cfg(hba, true);
 
@@ -2256,7 +2252,6 @@ static void ufs_qcom_exit(struct ufs_hba *hba)
 	msm_bus_scale_unregister_client(host->bus_vote.client_handle);
 	ufs_qcom_disable_lane_clks(host);
 	phy_power_off(host->generic_phy);
-	ufs_qcom_pm_qos_remove(host);
 }
 
 static int ufs_qcom_set_dme_vs_core_clk_ctrl_clear_div(struct ufs_hba *hba,
@@ -2796,16 +2791,10 @@ static struct ufs_hba_crypto_variant_ops ufs_hba_crypto_variant_ops = {
 	.crypto_engine_get_status = ufs_qcom_crypto_engine_get_status,
 };
 
-static struct ufs_hba_pm_qos_variant_ops ufs_hba_pm_qos_variant_ops = {
-	.req_start	= ufs_qcom_pm_qos_req_start,
-	.req_end	= ufs_qcom_pm_qos_req_end,
-};
-
 static struct ufs_hba_variant ufs_hba_qcom_variant = {
 	.name		= "qcom",
 	.vops		= &ufs_hba_qcom_vops,
 	.crypto_vops	= &ufs_hba_crypto_variant_ops,
-	.pm_qos_vops	= &ufs_hba_pm_qos_variant_ops,
 };
 
 /**
