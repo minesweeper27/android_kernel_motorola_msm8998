@@ -906,7 +906,7 @@ static struct cftype files[] = {
 		.read_u64 = prefer_idle_read,
 		.write_u64 = prefer_idle_write,
 	},
-a
+
 #ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	{
 		.name = "sched_boost",
