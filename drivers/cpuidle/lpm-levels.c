@@ -1771,6 +1771,17 @@ static int lpm_suspend_enter(suspend_state_t state)
 	}
 	cpu_prepare(cluster, idx, false);
 	cluster_prepare(cluster, cpumask, idx, false, 0);
+<<<<<<< HEAD
+=======
+
+	/*
+	 * Print the clocks which are enabled during system suspend
+	 * This debug information is useful to know which are the
+	 * clocks that are enabled and preventing the system level
+	 * LPMs(XO and Vmin).
+	 */
+	clock_debug_print_enabled();
+>>>>>>> 5dfec2930420... cpuidle: lpm-levels: Remove debug event logging
 
 	BUG_ON(!use_psci);
 	psci_enter_sleep(cluster, idx, true);
