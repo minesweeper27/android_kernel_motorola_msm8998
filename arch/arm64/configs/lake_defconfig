@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.4.179 Kernel Configuration
+# Linux/arm64 4.4.180 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -45,7 +45,7 @@ CONFIG_THREAD_INFO_IN_TASK=y
 # General setup
 #
 CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_CROSS_COMPILE="-DeluxeK_pie_r5.2_lake-seba_3567"
+CONFIG_CROSS_COMPILE="-DeluxeK_pie_r7.0_lake-seba_3567"
 # CONFIG_COMPILE_TEST is not set
 CONFIG_LOCALVERSION="-perf"
 # CONFIG_LOCALVERSION_AUTO is not set
