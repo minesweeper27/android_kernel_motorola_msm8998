@@ -880,7 +880,7 @@
 			qcom,high-threshold-uamp = <4200000>;
 			qcom,vph-high-threshold-uv = <3500000>;
 			qcom,vph-low-threshold-uv = <3300000>;
-			qcom,soc-low-threshold = <10>;
+			qcom,soc-low-threshold = <5>;
 		};
 	};
 
@@ -1243,10 +1243,14 @@
 		mincpubw-cpufreq {
 			target-dev = <&mincpubw>;
 			cpu-to-dev-map-0 =
+        < 300000 381 >,
 				< 633600 762 >,
 				< 1401600 1571 >,
 				< 1881600 2929 >;
 			cpu-to-dev-map-4 =
+        < 300000 381 >,
+        < 633600 572 >,
+        < 902400 762 >,
 				< 1113600 762 >,
 				< 1401600 2086 >,
 				< 1747200 2929 >,
@@ -1388,7 +1392,8 @@
 
 		qcom,governor-per-policy;
 
-		qcom,cpufreq-table-0 =
+		qcom,cpufreq-table-0 =.
+      <  300000 >,
 			<  633600 >,
 			<  902400 >,
 			< 1113600 >,
@@ -1399,6 +1404,9 @@
 			< 1843200 >;
 
 		qcom,cpufreq-table-4 =
+      <  300000 >,	
+      <  633600 >,
+      <  902400 >,
 			< 1113600 >,
 			< 1401600 >,
 			< 1747200 >,
