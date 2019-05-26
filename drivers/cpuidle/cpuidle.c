@@ -202,9 +202,15 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	time_start = local_clock();
 
 	stop_critical_timings();
+<<<<<<< HEAD
         cpuidle_set_idle_cpu(dev->cpu);
 	entered_state = target_state->enter(dev, drv, index);
         cpuidle_clear_idle_cpu(dev->cpu);
+=======
+	cpuidle_set_idle_cpu(dev->cpu);
+	entered_state = target_state->enter(dev, drv, index);
+	cpuidle_clear_idle_cpu(dev->cpu);
+>>>>>>> 898a38860e70... cpuidle: Optimize pm_qos notifier callback
 	start_critical_timings();
 
 	time_end = local_clock();
@@ -627,6 +633,7 @@ static atomic_t idle_cpu_mask = ATOMIC_INIT(0);
 #if NR_CPUS > 32
 #error idle_cpu_mask not big enough for NR_CPUS
 #endif
+<<<<<<< HEAD
 
 static void cpuidle_set_idle_cpu(unsigned int cpu)
 {
@@ -635,6 +642,16 @@ static void cpuidle_set_idle_cpu(unsigned int cpu)
 
 static void cpuidle_clear_idle_cpu(unsigned int cpu)
 {
+=======
+
+static void cpuidle_set_idle_cpu(unsigned int cpu)
+{
+	atomic_or(BIT(cpu), &idle_cpu_mask);
+}
+
+static void cpuidle_clear_idle_cpu(unsigned int cpu)
+{
+>>>>>>> 898a38860e70... cpuidle: Optimize pm_qos notifier callback
 	atomic_andnot(BIT(cpu), &idle_cpu_mask);
 }
 
@@ -662,10 +679,17 @@ static int cpuidle_latency_notify(struct notifier_block *b,
 
 	if (!cpumask_empty(&update_mask)) {
 		unsigned long idle_cpus = atomic_read(&idle_cpu_mask);
+<<<<<<< HEAD
 
 	cpumask_and(&update_mask, &update_mask, to_cpumask(&idle_cpus));
 		cpumask_andnot(&update_mask, &update_mask, cpu_isolated_mask);
 
+=======
+
+		cpumask_and(&update_mask, &update_mask, to_cpumask(&idle_cpus));
+		cpumask_andnot(&update_mask, &update_mask, cpu_isolated_mask);
+
+>>>>>>> 898a38860e70... cpuidle: Optimize pm_qos notifier callback
 		/* Notifier is called with preemption disabled */
 		arch_send_call_function_ipi_mask(&update_mask);
 	}
