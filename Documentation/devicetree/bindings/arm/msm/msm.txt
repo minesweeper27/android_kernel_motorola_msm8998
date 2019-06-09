@@ -295,12 +295,9 @@ compatible = "qcom,sdm660-cdp"
 compatible = "qcom,sdm660-mtp"
 compatible = "qcom,sdm660-qrd"
 compatible = "qcom,sda660-qrd"
-<<<<<<< HEAD
 compatible = "qcom,sdm455-mtp"
 compatible = "qcom,sdm455-qrd"
 compatible = "qcom,sdm455-cdp"
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 compatible = "qcom,sda658-mtp"
 compatible = "qcom,sda658-cdp"
 compatible = "qcom,sda660-mtp"
