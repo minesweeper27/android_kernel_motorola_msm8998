@@ -1,16 +1,7 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2011-2019, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
-=======
 /* Copyright (c) 2011-2019, The Linux Foundation. All rights reserved.
->>>>>>> 8d4fe02141038456fa03e43b51c835d3ae37d29a
->>>>>>> parent of 79275f841e90... Revert "Merge tag 'LA.UM.7.2.r1-07000-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into dexk5.1"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
