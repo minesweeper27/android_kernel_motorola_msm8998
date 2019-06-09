@@ -196,6 +196,7 @@ dtb-$(CONFIG_ARCH_MSM8996) += msm8996-v2-pmi8994-cdp.dtb \
 	apq8096-v3-pmi8994-mdm9x55-slimbus-mtp.dtb \
 	apq8096-v3-pmi8996-mdm9x55-i2s-mtp.dtb \
 	apq8096-v3-pmi8996-mdm9x55-slimbus-mtp.dtb \
+<<<<<<< HEAD
 	apq8096-v3-pmi8996-dragonboard.dtb \
 	msm8996-auto-mizar.dtb
 
@@ -228,7 +229,7 @@ msm8998-qrd-overlay.dtbo-base :=  msm8998-qrd.dtb
 msm8998-qrd-vr1-overlay.dtbo-base :=  msm8998-qrd-vr1.dtb
 msm8998-qrd-skuk-overlay.dtbo-base :=  msm8998-qrd-skuk.dtb
 endif
-
+=======
 	apq8096-v3-pmi8996-dragonboard.dtb
 
 dtb-$(CONFIG_ARCH_MSM8998) += msm8998-sim.dtb \
@@ -264,6 +265,7 @@ dtb-$(CONFIG_ARCH_MSM8998) += msm8998-sim.dtb \
 	msm8998-v2.1-interposer-sdm660-cdp.dtb \
 	msm8998-v2.1-interposer-sdm660-mtp.dtb \
 	msm8998-v2.1-interposer-sdm660-qrd.dtb
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 dtb-$(CONFIG_ARCH_MSMHAMSTER) += msmhamster-rumi.dtb
 
@@ -346,9 +348,15 @@ dtb-$(CONFIG_ARCH_SDM660) += sdm660-sim.dtb \
 	sda636-pm660a-cdp.dtb \
 	sda636-pm660a-mtp.dtb \
 	sda636-pm660a-qrd-hdk.dtb \
-	sda658-pm660a-rcm.dtb \
+<<<<<<< HEAD
+<<<<<<< HEAD
+	sda658-pm660a-rcm.dtb
+=======
 	sda636-pm660a-rcm.dtb
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
 	sda636-pm660a-rcm.dtb
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 dtb-$(CONFIG_ARCH_SDM630) += sdm630-rumi.dtb \
 	sdm630-pm660a-rumi.dtb \
