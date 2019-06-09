@@ -1,4 +1,20 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+/* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+=======
+/* Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
+>>>>>>> 8d4fe02141038456fa03e43b51c835d3ae37d29a
+>>>>>>> parent of 79275f841e90... Revert "Merge tag 'LA.UM.7.2.r1-07000-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into dexk5.1"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -655,7 +671,7 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 
 	mask_info = (!info) ? &msg_mask : info->msg_mask;
 	if (!src_buf || !dest_buf || src_len <= 0 || dest_len <= 0 ||
-	    !mask_info) {
+	    !mask_info || (src_len < sizeof(struct diag_build_mask_req_t))) {
 		pr_err("diag: Invalid input in %s, src_buf: %pK, src_len: %d, dest_buf: %pK, dest_len: %d, mask_info: %pK\n",
 		       __func__, src_buf, src_len, dest_buf, dest_len,
 		       mask_info);
