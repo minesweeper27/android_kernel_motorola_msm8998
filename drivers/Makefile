@@ -185,5 +185,7 @@ obj-$(CONFIG_SENSORS_SSC)	+= sensors/
 obj-$(CONFIG_ESOC)              += esoc/
 obj-$(CONFIG_TEE)		+= tee/
 
+obj-$(CONFIG_AINUR_DTS_SW) += dts_eagle/
+
 # <t-base drivers
 obj-$(CONFIG_TRUSTONIC_TEE)	+= gud/
