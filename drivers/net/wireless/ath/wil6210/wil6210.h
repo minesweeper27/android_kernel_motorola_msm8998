@@ -90,14 +90,11 @@ struct wil_suspend_stats {
 	unsigned long failed_resumes;
 	unsigned long rejected_by_device;
 	unsigned long rejected_by_host;
-<<<<<<< HEAD
 	unsigned long long total_suspend_time;
 	unsigned long long min_suspend_time;
 	unsigned long long max_suspend_time;
 	ktime_t collection_start;
 	ktime_t suspend_start_time;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 /* Calculate MAC buffer size for the firmware. It includes all overhead,
@@ -743,7 +740,6 @@ struct wil6210_priv {
 	struct wil_ftm_priv ftm;
 	bool tt_data_set;
 	struct wmi_tt_data tt_data;
-<<<<<<< HEAD
 	struct {
 		bool enabled;
 		short omni;
@@ -751,8 +747,6 @@ struct wil6210_priv {
 	} snr_thresh;
 
 	int fw_calib_result;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #ifdef CONFIG_PM
 #ifdef CONFIG_PM_SLEEP
@@ -971,13 +965,10 @@ int wil_cfg80211_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
 #if defined(CONFIG_WIL6210_DEBUGFS)
 int wil6210_debugfs_init(struct wil6210_priv *wil);
 void wil6210_debugfs_remove(struct wil6210_priv *wil);
-<<<<<<< HEAD
 #else
 static inline int wil6210_debugfs_init(struct wil6210_priv *wil) { return 0; }
 static inline void wil6210_debugfs_remove(struct wil6210_priv *wil) {}
 #endif
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 int wil6210_sysfs_init(struct wil6210_priv *wil);
 void wil6210_sysfs_remove(struct wil6210_priv *wil);
 int wil_cid_fill_sinfo(struct wil6210_priv *wil, int cid,

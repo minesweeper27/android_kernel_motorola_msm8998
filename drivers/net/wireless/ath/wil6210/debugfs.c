@@ -804,17 +804,10 @@ static ssize_t wil_write_file_txmgmt(struct file *file, const char __user *buf,
 	struct cfg80211_mgmt_tx_params params;
 	int rc;
 	void *frame;
-<<<<<<< HEAD
 
 	if (!len)
 		return -EINVAL;
 
-=======
-
-	if (!len)
-		return -EINVAL;
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	frame = kmalloc(len, GFP_KERNEL);
 	if (!frame)
 		return -ENOMEM;
@@ -1633,11 +1626,8 @@ static ssize_t wil_write_suspend_stats(struct file *file,
 	struct wil6210_priv *wil = file->private_data;
 
 	memset(&wil->suspend_stats, 0, sizeof(wil->suspend_stats));
-<<<<<<< HEAD
 	wil->suspend_stats.min_suspend_time = ULONG_MAX;
 	wil->suspend_stats.collection_start = ktime_get();
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	return len;
 }
@@ -1649,38 +1639,27 @@ static ssize_t wil_read_suspend_stats(struct file *file,
 	struct wil6210_priv *wil = file->private_data;
 	static char text[400];
 	int n;
-<<<<<<< HEAD
 	unsigned long long stats_collection_time =
 		ktime_to_us(ktime_sub(ktime_get(),
 				      wil->suspend_stats.collection_start));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	n = snprintf(text, sizeof(text),
 		     "Suspend statistics:\n"
 		     "successful suspends:%ld failed suspends:%ld\n"
 		     "successful resumes:%ld failed resumes:%ld\n"
-<<<<<<< HEAD
 		     "rejected by host:%ld rejected by device:%ld\n"
 		     "total suspend time:%lld min suspend time:%lld\n"
 		     "max suspend time:%lld stats collection time: %lld\n",
-=======
-		     "rejected by host:%ld rejected by device:%ld\n",
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		     wil->suspend_stats.successful_suspends,
 		     wil->suspend_stats.failed_suspends,
 		     wil->suspend_stats.successful_resumes,
 		     wil->suspend_stats.failed_resumes,
 		     wil->suspend_stats.rejected_by_host,
-<<<<<<< HEAD
 		     wil->suspend_stats.rejected_by_device,
 		     wil->suspend_stats.total_suspend_time,
 		     wil->suspend_stats.min_suspend_time,
 		     wil->suspend_stats.max_suspend_time,
 		     stats_collection_time);
-=======
-		     wil->suspend_stats.rejected_by_device);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	n = min_t(int, n, sizeof(text));
 
@@ -1793,10 +1772,7 @@ static const struct dbg_off dbg_wil_off[] = {
 	WIL_FIELD(chip_revision, 0444,	doff_u8),
 	WIL_FIELD(abft_len, 0644,		doff_u8),
 	WIL_FIELD(wakeup_trigger, 0644,		doff_u8),
-<<<<<<< HEAD
 	WIL_FIELD(vring_idle_trsh, 0644,	doff_u32),
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	{},
 };
 

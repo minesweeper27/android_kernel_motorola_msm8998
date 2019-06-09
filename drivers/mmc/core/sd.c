@@ -446,45 +446,30 @@ static void sd_update_bus_speed_mode(struct mmc_card *card)
 	    (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_SDR104) &&
 	    (card->host->f_max > UHS_SDR104_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR104_BUS_SPEED;
-<<<<<<< HEAD
 		pr_err("%s: selected SDR104\n", mmc_hostname(card->host));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50)) && (card->sw_caps.sd3_bus_mode &
 		    SD_MODE_UHS_SDR50) &&
 		    (card->host->f_max > UHS_SDR50_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR50_BUS_SPEED;
-<<<<<<< HEAD
 		pr_err("%s: selected SDR50\n", mmc_hostname(card->host));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else if ((card->host->caps & MMC_CAP_UHS_DDR50) &&
 		   (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_DDR50) &&
 		    (card->host->f_max > UHS_DDR50_MIN_DTR)) {
 		card->sd_bus_speed = UHS_DDR50_BUS_SPEED;
-<<<<<<< HEAD
 		pr_err("%s: selected DDR50\n", mmc_hostname(card->host));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50 | MMC_CAP_UHS_SDR25)) &&
 		   (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_SDR25) &&
 		 (card->host->f_max > UHS_SDR25_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR25_BUS_SPEED;
-<<<<<<< HEAD
 		pr_err("%s: selected SDR25\n", mmc_hostname(card->host));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50 | MMC_CAP_UHS_SDR25 |
 		    MMC_CAP_UHS_SDR12)) && (card->sw_caps.sd3_bus_mode &
 		    SD_MODE_UHS_SDR12)) {
 		card->sd_bus_speed = UHS_SDR12_BUS_SPEED;
-<<<<<<< HEAD
 		pr_err("%s: selected SDR12\n", mmc_hostname(card->host));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 }
 
@@ -1210,7 +1195,6 @@ static void mmc_sd_detect(struct mmc_host *host)
 		pm_runtime_put_autosuspend(&host->card->dev);
 		return;
 	}
-<<<<<<< HEAD
 
 	if (mmc_bus_needs_resume(host))
 		mmc_resume_bus(host);
@@ -1221,8 +1205,6 @@ static void mmc_sd_detect(struct mmc_host *host)
 		mmc_card_clr_suspended(host->card);
 		goto out;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/*
 	 * Just check if our card has been removed.

@@ -20,10 +20,7 @@
 #include <linux/of_irq.h>
 #include <linux/qpnp/qpnp-revid.h>
 #include <linux/pmic-voter.h>
-<<<<<<< HEAD
 #include <linux/delay.h>
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #define QNOVO_REVISION1		0x00
 #define QNOVO_REVISION2		0x01
@@ -1166,13 +1163,8 @@ static ssize_t batt_prop_show(struct class *c, struct class_attribute *attr,
 static struct class_attribute qnovo_attributes[] = {
 	[VER]			= __ATTR_RO(version),
 	[OK_TO_QNOVO]		= __ATTR_RO(ok_to_qnovo),
-<<<<<<< HEAD
 	[QNOVO_ENABLE]		= __ATTR_RW(qnovo_enable),
 	[PT_ENABLE]		= __ATTR_RW(pt_enable),
-=======
-	[ENABLE]		= __ATTR(enable, 0644,
-					enable_show, enable_store),
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	[FV_REQUEST]		= __ATTR(fv_uV_request, 0644,
 					val_show, val_store),
 	[FCC_REQUEST]		= __ATTR(fcc_uA_request, 0644,
@@ -1185,11 +1177,8 @@ static struct class_attribute qnovo_attributes[] = {
 					reg_show, NULL),
 	[INT_RT_STS_REG]	= __ATTR(INT_RT_STS_REG, 0444,
 					reg_show, NULL),
-<<<<<<< HEAD
 	[ERR_STS2_REG]		= __ATTR(ERR_STS2_REG, 0444,
 					reg_show, NULL),
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	[PREST1]		= __ATTR(PREST1_mS, 0644,
 					time_show, time_store),
 	[PPULS1]		= __ATTR(PPULS1_uC, 0644,
@@ -1210,11 +1199,7 @@ static struct class_attribute qnovo_attributes[] = {
 					time_show, NULL),
 	[PREST2]		= __ATTR(PREST2_mS, 0644,
 					time_show, time_store),
-<<<<<<< HEAD
 	[PPULS2]		= __ATTR(PPULS2_uC, 0644,
-=======
-	[PPULS2]		= __ATTR(PPULS2_mS, 0644,
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					coulomb_show, coulomb_store),
 	[NREST2]		= __ATTR(NREST2_mS, 0644,
 					time_show, time_store),
@@ -1486,13 +1471,6 @@ static int qnovo_hw_init(struct qnovo *chip)
 		return rc;
 	}
 
-	val = 0;
-	rc = qnovo_write(chip, QNOVO_STRM_CTRL, &val, 1);
-	if (rc < 0) {
-		pr_err("Couldn't write iadc bitstream control rc = %d\n", rc);
-		return rc;
-	}
-
 	rc = qnovo_read(chip, QNOVO_IADC_OFFSET_0, &iadc_offset_external, 1);
 	if (rc < 0) {
 		pr_err("Couldn't read iadc exernal offset rc = %d\n", rc);
@@ -1559,7 +1537,6 @@ static int qnovo_hw_init(struct qnovo *chip)
 	chip->v_gain_mega = 1000000000 + (s64)(s8)vadc_gain * GAIN_LSB_FACTOR;
 	chip->v_gain_mega = div_s64(chip->v_gain_mega, 1000);
 
-<<<<<<< HEAD
 	/* allow charger error conditions to disable qnovo, CV mode excluded */
 	val = ERR_SWITCHER_DISABLED | ERR_JEITA_SOFT_CONDITION | ERR_BAT_OV |
 		ERR_BATTERY_MISSING | ERR_SAFETY_TIMER_EXPIRED |
@@ -1570,8 +1547,6 @@ static int qnovo_hw_init(struct qnovo *chip)
 		return rc;
 	}
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 

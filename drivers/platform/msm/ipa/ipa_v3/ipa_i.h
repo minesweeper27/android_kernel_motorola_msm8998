@@ -98,11 +98,7 @@
 
 #define IPAERR_RL(fmt, args...) \
 	do { \
-<<<<<<< HEAD
 		pr_err_ratelimited_ipa(DRV_NAME " %s:%d " fmt, __func__,\
-=======
-		pr_err_ratelimited(DRV_NAME " %s:%d " fmt, __func__,\
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		__LINE__, ## args);\
 		if (ipa3_ctx) { \
 			IPA_IPC_LOGGING(ipa3_ctx->logbuf, \
@@ -1063,14 +1059,11 @@ struct ipa_tz_unlock_reg_info {
 	u32 size;
 };
 
-<<<<<<< HEAD
 struct ipa_dma_task_info {
 	struct ipa_mem_buffer mem;
 	struct ipahal_imm_cmd_pyld *cmd_pyld;
 };
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 struct ipa_cne_evt {
 	struct ipa_wan_msg wan_msg;
 	struct ipa_msg_meta msg_meta;
@@ -1299,10 +1292,7 @@ struct ipa3_context {
 	struct ipa3_smp2p_info smp2p_info;
 	u32 ipa_tz_unlock_reg_num;
 	struct ipa_tz_unlock_reg_info *ipa_tz_unlock_reg;
-<<<<<<< HEAD
 	struct ipa_dma_task_info dma_task_info;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	struct ipa_cne_evt ipa_cne_evt_req_cache[IPA_MAX_NUM_REQ_CACHE];
 	int num_ipa_cne_evt_req;
 	struct mutex ipa_cne_evt_lock;

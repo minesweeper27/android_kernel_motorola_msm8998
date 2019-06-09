@@ -82,15 +82,6 @@ static int __btrfs_set_acl(struct btrfs_trans_handle *trans,
 	switch (type) {
 	case ACL_TYPE_ACCESS:
 		name = POSIX_ACL_XATTR_ACCESS;
-<<<<<<< HEAD
-=======
-		if (acl) {
-			ret = posix_acl_update_mode(inode, &inode->i_mode, &acl);
-			if (ret)
-				return ret;
-		}
-		ret = 0;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		break;
 	case ACL_TYPE_DEFAULT:
 		if (!S_ISDIR(inode->i_mode))

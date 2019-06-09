@@ -2861,11 +2861,8 @@ static const struct kgsl_functable adreno_functable = {
 	.clk_set_options = adreno_clk_set_options,
 	.gpu_model = adreno_gpu_model,
 	.stop_fault_timer = adreno_dispatcher_stop_fault_timer,
-<<<<<<< HEAD
 	.suspend_device = adreno_suspend_device,
 	.resume_device = adreno_resume_device,
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct platform_driver adreno_platform_driver = {

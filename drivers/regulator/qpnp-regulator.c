@@ -1771,11 +1771,7 @@ static int qpnp_regulator_check_constraints(struct qpnp_regulator *vreg,
 	if (vreg->logical_type == QPNP_REGULATOR_LOGICAL_TYPE_FTSMPS) {
 		max_uV = pdata->init_data.constraints.max_uV;
 		/* Find the range which max_uV is inside of. */
-<<<<<<< HEAD
 		for (i = vreg->set_points->count - 1; i >= 0; i--) {
-=======
-		for (i = vreg->set_points->count - 1; i > 0; i--) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			range = &vreg->set_points->range[i];
 			if (range->set_point_max_uV > 0
 				&& max_uV >= range->set_point_min_uV

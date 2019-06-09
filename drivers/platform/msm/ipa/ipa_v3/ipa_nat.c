@@ -259,16 +259,10 @@ int ipa3_allocate_nat_device(struct ipa_ioc_nat_alloc_mem *mem)
 	IPADBG("passed memory size %zu\n", mem->size);
 
 	mutex_lock(&nat_ctx->lock);
-<<<<<<< HEAD
 	if (strcmp(IPA_NAT_DEV_NAME, mem->dev_name)) {
 		IPAERR_RL("Nat device name mismatch\n");
 		IPAERR_RL("Expect: %s Recv: %s\n",
 			IPA_NAT_DEV_NAME, mem->dev_name);
-=======
-	if (strcmp(mem->dev_name, NAT_DEV_NAME)) {
-		IPAERR_RL("Nat device name mismatch\n");
-		IPAERR_RL("Expect: %s Recv: %s\n", NAT_DEV_NAME, mem->dev_name);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		result = -EPERM;
 		goto bail;
 	}

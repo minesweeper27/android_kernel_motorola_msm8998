@@ -3,11 +3,7 @@
  * MSM 7k High speed uart driver
  *
  * Copyright (c) 2008 Google Inc.
-<<<<<<< HEAD
  * Copyright (c) 2007-2018, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2007-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  * Modified: Nick Pelly <npelly@google.com>
  *
  * All source code in this file is licensed under the following license
@@ -223,11 +219,7 @@ struct msm_hs_wakeup {
 };
 
 struct msm_hs_port {
-<<<<<<< HEAD
 	atomic_t startup_locked;
-=======
-	bool startup_locked;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	struct uart_port uport;
 	unsigned long imr_reg;  /* shadow value of UARTDM_IMR */
 	struct clk *clk;
@@ -650,7 +642,6 @@ static int msm_serial_loopback_enable_set(void *data, u64 val)
 	unsigned long flags;
 	int ret = 0;
 
-	msm_uport->startup_locked = true;
 	msm_hs_resource_vote(msm_uport);
 
 	if (val) {
@@ -670,10 +661,6 @@ static int msm_serial_loopback_enable_set(void *data, u64 val)
 	}
 	/* Calling CLOCK API. Hence mb() requires here. */
 	mb();
-<<<<<<< HEAD
-=======
-	msm_uport->startup_locked = false;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	msm_hs_resource_unvote(msm_uport);
 	return 0;
 }
@@ -685,13 +672,11 @@ static int msm_serial_loopback_enable_get(void *data, u64 *val)
 	unsigned long flags;
 	int ret = 0;
 
-	msm_uport->startup_locked = true;
 	msm_hs_resource_vote(msm_uport);
 
 	spin_lock_irqsave(&uport->lock, flags);
 	ret = msm_hs_read(&msm_uport->uport, UART_DM_MR2);
 	spin_unlock_irqrestore(&uport->lock, flags);
-	msm_uport->startup_locked = false;
 
 	msm_hs_resource_unvote(msm_uport);
 
@@ -1376,18 +1361,9 @@ static void msm_hs_stop_rx_locked(struct uart_port *uport)
 	struct msm_hs_port *msm_uport = UARTDM_TO_MSM(uport);
 
 	if (msm_uport->pm_state != MSM_HS_PM_ACTIVE) {
-<<<<<<< HEAD
 		MSM_HS_WARN("%s(): Clocks are off, Rx still active\n",
 				__func__);
 		return;
-=======
-		MSM_HS_WARN("%s(): Clocks are off\n", __func__);
-		/* Make sure resource_on doesn't get called */
-		if (msm_hs_clk_bus_vote(msm_uport))
-			MSM_HS_ERR("%s:Failed clock vote\n",  __func__);
-		msm_hs_disable_rx(uport);
-		msm_hs_clk_bus_unvote(msm_uport);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else
 		msm_hs_disable_rx(uport);
 
@@ -1432,11 +1408,7 @@ void tx_timeout_handler(unsigned long arg)
 	if (UARTDM_ISR_CURRENT_CTS_BMSK & isr)
 		MSM_HS_WARN("%s(): CTS Disabled, ISR 0x%x", __func__, isr);
 	dump_uart_hs_registers(msm_uport);
-<<<<<<< HEAD
 	/* Stop further logging */
-=======
-	/* Stop further loging */
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	MSM_HS_ERR("%s(): Stop IPC logging\n", __func__);
 }
 
@@ -1882,15 +1854,6 @@ static void msm_hs_start_tx_locked(struct uart_port *uport)
 	struct msm_hs_port *msm_uport = UARTDM_TO_MSM(uport);
 	struct msm_hs_tx *tx = &msm_uport->tx;
 	unsigned int isr;
-<<<<<<< HEAD
-=======
-
-	if (msm_uport->startup_locked) {
-		MSM_HS_DBG("%s(): No Tx Request, startup_locked=%d\n",
-			__func__, msm_uport->startup_locked);
-		return;
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* Bail if transfer in progress */
 	if (tx->flush < FLUSH_STOP || tx->dma_in_flight) {
@@ -1899,18 +1862,12 @@ static void msm_hs_start_tx_locked(struct uart_port *uport)
 
 		if (msm_uport->pm_state == MSM_HS_PM_ACTIVE) {
 			isr = msm_hs_read(uport, UART_DM_ISR);
-<<<<<<< HEAD
 			if (UARTDM_ISR_CURRENT_CTS_BMSK & isr) {
 				MSM_HS_DBG("%s():CTS 1: Peer is Busy\n",
 					__func__);
 				MSM_HS_DBG("%s():ISR 0x%x\n",
 					__func__, isr);
 			}
-=======
-			if (UARTDM_ISR_CURRENT_CTS_BMSK & isr)
-			MSM_HS_DBG("%s():CTS 1: Peer is Busy, ISR 0x%x",
-						__func__, isr);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		} else
 			MSM_HS_WARN("%s(): Clocks are off\n", __func__);
 
@@ -2399,19 +2356,11 @@ void msm_hs_resource_on(struct msm_hs_port *msm_uport)
 	unsigned int data;
 	unsigned long flags;
 
-<<<<<<< HEAD
 	if (atomic_read(&msm_uport->startup_locked)) {
 		MSM_HS_DBG("%s(): Port open in progress\n", __func__);
 		return;
 	}
 	msm_hs_disable_flow_control(uport, false);
-=======
-	if (msm_uport->startup_locked) {
-		MSM_HS_WARN("%s(): startup_locked=%d\n",
-			__func__, msm_uport->startup_locked);
-		return;
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (msm_uport->rx.flush == FLUSH_SHUTDOWN ||
 	msm_uport->rx.flush == FLUSH_STOP) {
@@ -2430,11 +2379,8 @@ void msm_hs_resource_on(struct msm_hs_port *msm_uport)
 		spin_unlock_irqrestore(&uport->lock, flags);
 	}
 	msm_hs_spsconnect_tx(msm_uport);
-<<<<<<< HEAD
 
 	msm_hs_enable_flow_control(uport, false);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 /* Request to turn off uart clock once pending TX is flushed */
@@ -2732,11 +2678,7 @@ static int msm_hs_startup(struct uart_port *uport)
 	struct sps_pipe *sps_pipe_handle_tx = tx->cons.pipe_handle;
 	struct sps_pipe *sps_pipe_handle_rx = rx->prod.pipe_handle;
 
-<<<<<<< HEAD
 	atomic_set(&msm_uport->startup_locked, 1);
-=======
-	msm_uport->startup_locked = true;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rfr_level = uport->fifosize;
 	if (rfr_level > 16)
 		rfr_level -= 16;
@@ -2748,16 +2690,11 @@ static int msm_hs_startup(struct uart_port *uport)
 	msm_hs_resource_vote(msm_uport);
 
 	if (is_use_low_power_wakeup(msm_uport)) {
-<<<<<<< HEAD
 		irq_type = irq_get_trigger_type(msm_uport->wakeup.irq);
 		if (irq_type == IRQ_TYPE_NONE)
 			irq_type = IRQ_TYPE_EDGE_FALLING;
 		ret = request_irq(msm_uport->wakeup.irq, msm_hs_wakeup_isr,
 					irq_type | IRQF_ONESHOT,
-=======
-		ret = request_irq(msm_uport->wakeup.irq, msm_hs_wakeup_isr,
-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					"msm_hs_wakeup", msm_uport);
 		if (unlikely(ret)) {
 			MSM_HS_ERR("%s():Err getting uart wakeup_irq %d\n",
@@ -2874,11 +2811,7 @@ static int msm_hs_startup(struct uart_port *uport)
 	atomic_set(&msm_uport->client_req_state, 0);
 	LOG_USR_MSG(msm_uport->ipc_msm_hs_pwr_ctxt,
 			"%s: Client_Count 0\n", __func__);
-<<<<<<< HEAD
 	atomic_set(&msm_uport->startup_locked, 0);
-=======
-	msm_uport->startup_locked = false;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	msm_hs_start_rx_locked(uport);
 
 	spin_unlock_irqrestore(&uport->lock, flags);
@@ -3308,11 +3241,6 @@ static void msm_hs_pm_suspend(struct device *dev)
 	msm_uport->pm_state = MSM_HS_PM_SUSPENDED;
 	msm_hs_resource_off(msm_uport);
 	obs_manage_irq(msm_uport, false);
-<<<<<<< HEAD
-=======
-	if (!atomic_read(&msm_uport->client_req_state))
-		enable_wakeup_interrupt(msm_uport);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	msm_hs_clk_bus_unvote(msm_uport);
 
 	/* For OBS, don't use wakeup interrupt, set gpio to suspended state */
@@ -3324,11 +3252,8 @@ static void msm_hs_pm_suspend(struct device *dev)
 				__func__);
 	}
 
-<<<<<<< HEAD
 	if (!atomic_read(&msm_uport->client_req_state))
 		enable_wakeup_interrupt(msm_uport);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	LOG_USR_MSG(msm_uport->ipc_msm_hs_pwr_ctxt,
 		"%s: PM State Suspended client_count %d\n", __func__,
 								client_count);

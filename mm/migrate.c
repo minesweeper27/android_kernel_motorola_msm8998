@@ -75,11 +75,7 @@ int migrate_prep_local(void)
 	return 0;
 }
 
-<<<<<<< HEAD
 int isolate_movable_page(struct page *page, isolate_mode_t mode)
-=======
-bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	struct address_space *mapping;
 
@@ -130,22 +126,14 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
 	__SetPageIsolated(page);
 	unlock_page(page);
 
-<<<<<<< HEAD
 	return 0;
-=======
-	return true;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 out_no_isolated:
 	unlock_page(page);
 out_putpage:
 	put_page(page);
 out:
-<<<<<<< HEAD
 	return -EBUSY;
-=======
-	return false;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 /* It should be called on page which is PG_movable */
@@ -1113,12 +1101,9 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
 			goto out;
 
 	rc = __unmap_and_move(page, newpage, force, mode);
-<<<<<<< HEAD
 	if (rc == MIGRATEPAGE_SUCCESS) {
 		set_page_owner_migrate_reason(newpage, reason);
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 out:
 	if (rc != -EAGAIN) {

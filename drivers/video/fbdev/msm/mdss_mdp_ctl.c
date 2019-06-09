@@ -2577,10 +2577,7 @@ struct mdss_mdp_mixer *mdss_mdp_mixer_alloc(
 			mixer_pool += ctl->mdata->ndspp;
 			nmixers -= ctl->mdata->ndspp;
 		} else if ((ctl->panel_data->panel_info.is_pluggable) &&
-<<<<<<< HEAD
 				!(ctl->panel_data->panel_info.is_prim_panel) &&
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				nmixers_active) {
 			mixer_pool += ctl->mdata->ndspp;
 			nmixers -= ctl->mdata->ndspp;

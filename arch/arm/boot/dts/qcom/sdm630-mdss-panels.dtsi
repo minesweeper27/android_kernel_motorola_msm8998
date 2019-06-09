@@ -27,11 +27,7 @@
 			reg = <0>;
 			qcom,supply-name = "wqhd-vddio";
 			qcom,supply-min-voltage = <1800000>;
-<<<<<<< HEAD
 			qcom,supply-max-voltage = <1800000>;
-=======
-			qcom,supply-max-voltage = <1950000>;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			qcom,supply-enable-load = <32000>;
 			qcom,supply-disable-load = <80>;
 		};

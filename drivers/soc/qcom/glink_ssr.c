@@ -944,11 +944,7 @@ static int glink_ssr_probe(struct platform_device *pdev)
 	ss_info->cb_data = NULL;
 	spin_lock_init(&ss_info->link_up_lock);
 	spin_lock_init(&ss_info->cb_lock);
-<<<<<<< HEAD
 	init_waitqueue_head(&waitqueue);
-=======
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	nb = kmalloc(sizeof(struct restart_notifier_block), GFP_KERNEL);
 	if (!nb) {
 		GLINK_SSR_ERR("<SSR> %s: Could not allocate notifier block\n",

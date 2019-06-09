@@ -2101,7 +2101,6 @@ static void arm_iommu_sync_single_for_device(struct device *dev,
 
 	if (!iova_coherent)
 		__dma_page_cpu_to_dev(page, offset, size, dir);
-<<<<<<< HEAD
 }
 
 static int arm_iommu_dma_supported(struct device *dev, u64 mask)
@@ -2122,28 +2121,6 @@ static int arm_iommu_mapping_error(struct device *dev,
 	return dma_addr == DMA_ERROR_CODE;
 }
 
-=======
-}
-
-static int arm_iommu_dma_supported(struct device *dev, u64 mask)
-{
-	struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(dev);
-
-	if (!mapping) {
-		dev_warn(dev, "No IOMMU mapping for device\n");
-		return 0;
-	}
-
-	return iommu_dma_supported(mapping->domain, dev, mask);
-}
-
-static int arm_iommu_mapping_error(struct device *dev,
-				   dma_addr_t dma_addr)
-{
-	return dma_addr == DMA_ERROR_CODE;
-}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 const struct dma_map_ops iommu_ops = {
 	.alloc		= arm_iommu_alloc_attrs,

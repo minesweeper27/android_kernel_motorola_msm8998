@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -93,14 +89,9 @@ struct hbtp_data {
 	u32 power_on_delay;
 	u32 power_off_delay;
 	bool manage_pin_ctrl;
-<<<<<<< HEAD
 	bool init_completion_done_once;
 	s16 ROI[MAX_ROI_SIZE];
 	s16 accelBuffer[MAX_ACCEL_SIZE];
-=======
-	bool afe_force_power_on;
-	bool regulator_enabled;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct hbtp_data *hbtp;
@@ -156,10 +147,7 @@ static int fb_notifier_callback(struct notifier_block *self,
 					lcd_state <= FB_BLANK_NORMAL) {
 				pr_debug("%s: receives EARLY_BLANK:POWERDOWN\n",
 					__func__);
-<<<<<<< HEAD
 				hbtp_fb_early_suspend(hbtp_data);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			} else {
 				pr_debug("%s: receives EARLY_BLANK:%d in %d state\n",
 					__func__, blank, lcd_state);
@@ -168,18 +156,12 @@ static int fb_notifier_callback(struct notifier_block *self,
 			if (blank <= FB_BLANK_NORMAL) {
 				pr_debug("%s: receives R_EARLY_BALNK:UNBLANK\n",
 					__func__);
-<<<<<<< HEAD
 				hbtp_fb_early_suspend(hbtp_data);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				hbtp_fb_suspend(hbtp_data);
 			} else if (blank == FB_BLANK_POWERDOWN) {
 				pr_debug("%s: receives R_EARLY_BALNK:POWERDOWN\n",
 					__func__);
-<<<<<<< HEAD
 				hbtp_fb_revert_resume(hbtp_data);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			} else {
 				pr_debug("%s: receives R_EARLY_BALNK:%d in %d state\n",
 					__func__, blank, lcd_state);
@@ -198,10 +180,6 @@ static int fb_notifier_callback(struct notifier_block *self,
 		} else if (blank <= FB_BLANK_NORMAL &&
 				lcd_state == FB_BLANK_POWERDOWN) {
 			pr_debug("%s: receives BLANK:UNBLANK\n", __func__);
-<<<<<<< HEAD
-=======
-			hbtp_fb_resume(hbtp_data);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		} else {
 			pr_debug("%s: receives BLANK:%d in %d state\n",
 				__func__, blank, lcd_state);
@@ -431,11 +409,6 @@ static int hbtp_pdev_power_on(struct hbtp_data *hbtp, bool on)
 	if (!on)
 		goto reg_off;
 
-	if (hbtp->regulator_enabled) {
-		pr_debug("%s: regulator already enabled\n", __func__);
-		return 0;
-	}
-
 	if (hbtp->vcc_ana) {
 		ret = reg_set_load_check(hbtp->vcc_ana,
 			hbtp->afe_load_ua);
@@ -479,16 +452,9 @@ static int hbtp_pdev_power_on(struct hbtp_data *hbtp, bool on)
 		}
 	}
 
-	hbtp->regulator_enabled = true;
-
 	return 0;
 
 reg_off:
-	if (!hbtp->regulator_enabled) {
-		pr_debug("%s: regulator not enabled\n", __func__);
-		return 0;
-	}
-
 	if (hbtp->vcc_dig) {
 		reg_set_load_check(hbtp->vcc_dig, 0);
 		regulator_disable(hbtp->vcc_dig);
@@ -505,9 +471,6 @@ reg_off:
 		reg_set_load_check(hbtp->vcc_ana, 0);
 		regulator_disable(hbtp->vcc_ana);
 	}
-
-	hbtp->regulator_enabled = false;
-
 	return 0;
 }
 
@@ -1012,12 +975,6 @@ static int hbtp_parse_dt(struct device *dev)
 			hbtp->power_on_delay, hbtp->power_off_delay);
 	}
 
-	hbtp->afe_force_power_on =
-		of_property_read_bool(np, "qcom,afe-force-power-on");
-
-	if (hbtp->afe_force_power_on)
-		hbtp->lcd_state = FB_BLANK_POWERDOWN;
-
 	prop = of_find_property(np, "qcom,display-resolution", NULL);
 	if (prop != NULL) {
 		if (!prop->value)
@@ -1350,19 +1307,13 @@ static int hbtp_fb_early_resume(struct hbtp_data *ts)
 
 	pr_debug("%s: hbtp_fb_early_resume\n", __func__);
 
-	if (ts->pdev && (ts->power_sync_enabled || ts->afe_force_power_on)) {
+	if (ts->pdev && ts->power_sync_enabled) {
 		pr_debug("%s: power_sync is enabled\n", __func__);
-
-		if (!ts->power_suspended &&
-		   (ts->afe_force_power_on == false)) {
+		if (!ts->power_suspended) {
 			pr_err("%s: power is not suspended\n", __func__);
 			mutex_unlock(&hbtp->mutex);
 			return 0;
 		}
-
-		if (ts->afe_force_power_on)
-			ts->afe_force_power_on = false;
-
 		rc = hbtp_pdev_power_on(ts, true);
 		if (rc) {
 			pr_err("%s: failed to enable panel power\n", __func__);

@@ -643,14 +643,10 @@ int mdss_smmu_fault_handler(struct iommu_domain *domain, struct device *dev,
 	} else {
 		pr_err("mdss_smmu: iova:0x%lx flags:0x%x\n",
 			iova, flags);
-<<<<<<< HEAD
 		MDSS_XLOG_TOUT_HANDLER_MMI("mdp", "dsi0_ctrl", "dsi0_phy",
 		    "dsi1_ctrl", "dsi1_phy", "vbif", "vbif_nrt",
 		    "dbg_bus", "vbif_dbg_bus",
 		    "dsi_dbg_bus");
-=======
-		MDSS_XLOG_TOUT_HANDLER("mdp");
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 end:
 	return -ENOSYS;

@@ -327,14 +327,11 @@ static void soc_mitigate(struct work_struct *work)
 	update_cpu_freq();
 }
 
-<<<<<<< HEAD
 static void get_and_evaluate_charger_active(void)
 {
 	schedule_work(&gbcl->charger_mitig_work);
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int get_and_evaluate_battery_soc(void)
 {
 	static struct power_supply *batt_psy;
@@ -378,12 +375,9 @@ static int power_supply_callback(struct notifier_block *nb,
 	if (strcmp(psy->desc->name, "battery"))
 		return NOTIFY_OK;
 
-<<<<<<< HEAD
 	if (gbcl->bcl_charger_mitigate_enabe)
 		get_and_evaluate_charger_active();
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return get_and_evaluate_battery_soc();
 }
 

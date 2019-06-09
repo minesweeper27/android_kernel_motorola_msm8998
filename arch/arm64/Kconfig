@@ -105,10 +105,7 @@ config ARM64
 	select HAVE_CONTEXT_TRACKING
 	select HAVE_ARM_SMCCC
 	select THREAD_INFO_IN_TASK
-<<<<<<< HEAD
 	select HAVE_ARM_SMCCC
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	help
 	  ARM 64-bit (AArch64) Linux support.
 
@@ -834,7 +831,6 @@ config FORCE_MAX_ZONEORDER
 	  However for 4K, we choose a higher default value, 11 as opposed to 10, giving us
 	  4M allocations matching the default size used by generic code.
 
-<<<<<<< HEAD
 config UNMAP_KERNEL_AT_EL0
 	bool "Unmap kernel when running in userspace (aka \"KAISER\")" if EXPERT
 	default y
@@ -847,8 +843,6 @@ config UNMAP_KERNEL_AT_EL0
 
 	  If unsure, say Y.
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 config HARDEN_BRANCH_PREDICTOR
 	bool "Harden the branch predictor against aliasing attacks" if EXPERT
 	default y

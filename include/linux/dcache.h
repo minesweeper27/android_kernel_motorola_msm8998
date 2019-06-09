@@ -618,13 +618,8 @@ static inline struct inode *d_real_inode(struct dentry *dentry)
 }
 
 struct name_snapshot {
-<<<<<<< HEAD
 	const unsigned char *name;
 	unsigned char inline_name[DNAME_INLINE_LEN];
-=======
-	const char *name;
-	char inline_name[DNAME_INLINE_LEN];
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
 void release_dentry_name_snapshot(struct name_snapshot *);

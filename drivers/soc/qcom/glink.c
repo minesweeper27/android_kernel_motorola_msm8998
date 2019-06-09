@@ -311,12 +311,9 @@ struct channel_ctx {
 	unsigned long req_rate_kBps;
 	uint32_t tx_intent_cnt;
 	uint32_t tx_cnt;
-<<<<<<< HEAD
 
 	uint32_t rt_vote_on;
 	uint32_t rt_vote_off;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct glink_core_if core_impl;
@@ -456,7 +453,6 @@ static int glink_get_ch_ctx(struct channel_ctx *ctx)
 static void glink_put_ch_ctx(struct channel_ctx *ctx)
 {
 	rwref_put(&ctx->ch_state_lhb2);
-<<<<<<< HEAD
 }
 
 
@@ -492,8 +488,6 @@ int glink_subsys_up(const char *subsystem)
 		ret = -ENODEV;
 
 	return ret;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 EXPORT_SYMBOL(glink_subsys_up);
 
@@ -1944,7 +1938,6 @@ check_ctx:
 			spin_unlock_irqrestore(&xprt_ctx->xprt_ctx_lock_lhb1,
 					flags);
 			kfree(ctx);
-			rwref_get(&entry->ch_state_lhb2);
 			rwref_write_put(&xprt_ctx->xprt_state_lhb0);
 			return entry;
 		}
@@ -1973,14 +1966,10 @@ check_ctx:
 			kfree(flcid);
 		}
 
-<<<<<<< HEAD
 		ctx->transport_ptr = xprt_ctx;
 		rwref_get(&ctx->ch_state_lhb2);
 		if (local)
 			ctx->local_open_state = GLINK_CHANNEL_OPENING;
-=======
-		rwref_get(&ctx->ch_state_lhb2);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		list_add_tail(&ctx->port_list_node, &xprt_ctx->channels);
 
 		GLINK_INFO_PERF_CH_XPRT(ctx, xprt_ctx,
@@ -2673,19 +2662,6 @@ void *glink_open(const struct glink_open_config *cfg)
 		return ERR_PTR(-ENOMEM);
 	}
 
-<<<<<<< HEAD
-=======
-	/* port already exists */
-	if (ctx->local_open_state != GLINK_CHANNEL_CLOSED) {
-		/* not ready to be re-opened */
-		GLINK_INFO_CH_XPRT(ctx, transport_ptr,
-		"%s: Channel not ready to be re-opened. State: %u\n",
-		__func__, ctx->local_open_state);
-		rwref_put(&ctx->ch_state_lhb2);
-		return ERR_PTR(-EBUSY);
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* initialize port structure */
 	ctx->user_priv = cfg->priv;
 	ctx->rx_intent_req_timeout_jiffies =
@@ -3132,10 +3108,7 @@ glink_tx_common_err:
 	rwref_read_put(&ctx->ch_state_lhb2);
 glink_tx_common_err_2:
 	glink_put_ch_ctx(ctx);
-<<<<<<< HEAD
 	kfree(tx_info);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return ret;
 }
 

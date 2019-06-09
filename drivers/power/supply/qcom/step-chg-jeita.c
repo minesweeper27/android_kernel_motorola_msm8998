@@ -356,7 +356,6 @@ static void status_change_work(struct work_struct *work)
 	int reschedule_us;
 	int reschedule_jeita_work_us = 0;
 	int reschedule_step_work_us = 0;
-<<<<<<< HEAD
 	union power_supply_propval pval = {0, };
 
 	if (!is_batt_available(chip)) {
@@ -372,13 +371,6 @@ static void status_change_work(struct work_struct *work)
 		return;
 	}
 
-=======
-
-	if (!is_batt_available(chip))
-		return;
-
-	/* skip elapsed_us debounce for handling battery temperature */
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rc = handle_jeita(chip);
 	if (rc > 0)
 		reschedule_jeita_work_us = rc;

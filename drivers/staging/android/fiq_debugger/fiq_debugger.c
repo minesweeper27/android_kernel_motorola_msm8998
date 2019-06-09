@@ -402,11 +402,7 @@ static void fiq_debugger_work(struct work_struct *work)
 		cmd += 6;
 		while (*cmd == ' ')
 			cmd++;
-<<<<<<< HEAD
 		if ((*cmd != '\0') && sysrq_on())
-=======
-		if ((cmd != '\0') && sysrq_on())
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			kernel_restart(cmd);
 		else
 			kernel_restart(NULL);

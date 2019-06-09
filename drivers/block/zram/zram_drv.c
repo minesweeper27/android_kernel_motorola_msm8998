@@ -925,17 +925,10 @@ static bool zram_meta_alloc(struct zram *zram, u64 disksize)
 	if (!zram->table)
 		return false;
 
-<<<<<<< HEAD
 	zram->mem_pool = zs_create_pool(zram->disk->disk_name);
 	if (!zram->mem_pool) {
 		vfree(zram->table);
 		return false;
-=======
-	meta->mem_pool = zs_create_pool(pool_name);
-	if (!meta->mem_pool) {
-		pr_err("Error creating memory pool\n");
-		goto out_error;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	return true;
@@ -1139,7 +1132,6 @@ compress_again:
 		}
 	}
 
-<<<<<<< HEAD
 	/*
 	 * handle allocation has 2 paths:
 	 * a) fast path is executed with preemption disabled (for
@@ -1158,9 +1150,6 @@ compress_again:
 				__GFP_KSWAPD_RECLAIM |
 				__GFP_NOWARN |
 				__GFP_HIGHMEM |
-=======
-	handle = zs_malloc(meta->mem_pool, clen, GFP_NOIO | __GFP_HIGHMEM |
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				__GFP_MOVABLE);
 	if (!handle) {
 		zcomp_stream_put(zram->comp);

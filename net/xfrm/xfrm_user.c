@@ -414,24 +414,16 @@ static inline int xfrm_replay_verify_len(struct xfrm_replay_state_esn *replay_es
 	ulen = xfrm_replay_state_esn_len(up);
 
 	/* Check the overall length and the internal bitmap length to avoid
-<<<<<<< HEAD
 	 * potential overflow. */
-=======
-	 * potential overflow.
-         */
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (nla_len(rp) < ulen ||
 	    xfrm_replay_state_esn_len(replay_esn) != ulen ||
 	    replay_esn->bmp_len != up->bmp_len)
 		return -EINVAL;
 
 	if (up->replay_window > up->bmp_len * sizeof(__u32) * 8)
-<<<<<<< HEAD
 		return -EINVAL;
 
 	if (up->replay_window > up->bmp_len * sizeof(__u32) * 8)
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		return -EINVAL;
 
 	return 0;
@@ -1423,7 +1415,6 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 		if (!ut[i].family)
 			ut[i].family = family;
 
-<<<<<<< HEAD
 		switch (ut[i].mode) {
 		case XFRM_MODE_TUNNEL:
 		case XFRM_MODE_BEET:
@@ -1434,10 +1425,6 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 			break;
 		}
 		if (ut[i].mode >= XFRM_MODE_MAX)
-=======
-		if ((ut[i].mode == XFRM_MODE_TRANSPORT) &&
-		    (ut[i].family != prev_family))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			return -EINVAL;
 
 		prev_family = ut[i].family;

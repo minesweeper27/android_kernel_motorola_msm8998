@@ -581,10 +581,7 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	if (add_ref_hdr)
 		hdr_entry->ref_cnt++;
 	entry->cookie = IPA_PROC_HDR_COOKIE;
-<<<<<<< HEAD
 	entry->ipacm_installed = user_only;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	needed_len = (proc_ctx->type == IPA_HDR_PROC_NONE) ?
 			sizeof(struct ipa_hdr_proc_ctx_add_hdr_seq) :
@@ -604,14 +601,6 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	mem_size = (ipa_ctx->hdr_proc_ctx_tbl_lcl) ?
 		IPA_MEM_PART(apps_hdr_proc_ctx_size) :
 		IPA_MEM_PART(apps_hdr_proc_ctx_size_ddr);
-<<<<<<< HEAD
-=======
-	if (htbl->end + ipa_hdr_proc_ctx_bin_sz[bin] > mem_size) {
-		IPAERR_RL("hdr proc ctx table overflow\n");
-		goto bad_len;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (list_empty(&htbl->head_free_offset_list[bin])) {
 		if (htbl->end + ipa_hdr_proc_ctx_bin_sz[bin] > mem_size) {
 			IPAERR_RL("hdr proc ctx table overflow\n");
@@ -663,12 +652,7 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	return 0;
 
 ipa_insert_failed:
-<<<<<<< HEAD
 	list_move(&offset->link,
-=======
-	if (offset)
-		list_move(&offset->link,
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		&htbl->head_free_offset_list[offset->bin]);
 	entry->offset_entry = NULL;
 	list_del(&entry->link);
@@ -719,10 +703,7 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr, bool user)
 	entry->is_eth2_ofst_valid = hdr->is_eth2_ofst_valid;
 	entry->eth2_ofst = hdr->eth2_ofst;
 	entry->cookie = IPA_HDR_COOKIE;
-<<<<<<< HEAD
 	entry->ipacm_installed = user;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (hdr->hdr_len <= ipa_hdr_bin_sz[IPA_HDR_BIN0])
 		bin = IPA_HDR_BIN0;
@@ -765,24 +746,7 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr, bool user)
 				}
 			}
 		} else {
-<<<<<<< HEAD
 			entry->is_hdr_proc_ctx = false;
-=======
-			entry->is_hdr_proc_ctx = true;
-			entry->phys_base = dma_map_single(ipa_ctx->pdev,
-				entry->hdr,
-				entry->hdr_len,
-				DMA_TO_DEVICE);
-			if (dma_mapping_error(ipa_ctx->pdev,
-				entry->phys_base)) {
-				IPAERR("dma_map_single failure for entry\n");
-				goto fail_dma_mapping;
-			}
-		}
-	} else {
-		entry->is_hdr_proc_ctx = false;
-		if (list_empty(&htbl->head_free_offset_list[bin])) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			offset = kmem_cache_zalloc(ipa_ctx->hdr_offset_cache,
 						   GFP_KERNEL);
 			if (!offset) {
@@ -1034,11 +998,7 @@ int ipa2_add_hdr_usr(struct ipa_ioc_add_hdr *hdrs, bool user_only)
 	IPADBG("adding %d headers to IPA driver internal data struct\n",
 			hdrs->num_hdrs);
 	for (i = 0; i < hdrs->num_hdrs; i++) {
-<<<<<<< HEAD
 		if (__ipa_add_hdr(&hdrs->hdr[i], user_only)) {
-=======
-		if (__ipa_add_hdr(&hdrs->hdr[i])) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			IPAERR_RL("failed to add hdr %d\n", i);
 			hdrs->hdr[i].status = -1;
 		} else {
@@ -1151,12 +1111,8 @@ int ipa2_add_hdr_proc_ctx(struct ipa_ioc_add_hdr_proc_ctx *proc_ctxs,
 	IPADBG("adding %d header processing contextes to IPA driver\n",
 			proc_ctxs->num_proc_ctxs);
 	for (i = 0; i < proc_ctxs->num_proc_ctxs; i++) {
-<<<<<<< HEAD
 		if (__ipa_add_hdr_proc_ctx(&proc_ctxs->proc_ctx[i],
 				true, user_only)) {
-=======
-		if (__ipa_add_hdr_proc_ctx(&proc_ctxs->proc_ctx[i], true)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			IPAERR_RL("failed to add hdr pric ctx %d\n", i);
 			proc_ctxs->proc_ctx[i].status = -1;
 		} else {

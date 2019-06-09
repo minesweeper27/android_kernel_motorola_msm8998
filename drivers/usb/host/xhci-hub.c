@@ -406,11 +406,7 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
 			if (ret) {
 				spin_unlock_irqrestore(&xhci->lock, flags);
 				xhci_free_command(xhci, command);
-<<<<<<< HEAD
 				goto cmd_cleanup;
-=======
-				goto err_cmd_queue;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			}
 		}
 	}

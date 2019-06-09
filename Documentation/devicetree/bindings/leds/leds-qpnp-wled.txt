@@ -78,7 +78,6 @@ Optional properties for WLED:
 - qcom,lcd-psm-ctrl	: A boolean property to specify if PSM needs to be
 			  controlled dynamically when WLED module is enabled
 			  or disabled.
-<<<<<<< HEAD
 - qcom,auto-calibration-enable : A boolean property which enables auto-calibration
 				 of the WLED sink configuration.
 - qcom,wled-brightness-map	: Array of brightness map codes of size 256.
@@ -88,8 +87,6 @@ Optional properties for WLED:
 - qcom,wled-stepper-en	: A boolean property to specify if stepper algorithm
 			  needs to be enabled. This needs the brightness map
 			  table to be specified.
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 Optional properties if 'qcom,disp-type-amoled' is mentioned in DT:
 - qcom,loop-comp-res-kohm	: control to select the compensation resistor in kohm. default is 320.

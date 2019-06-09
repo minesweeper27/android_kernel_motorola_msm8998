@@ -49,19 +49,11 @@ arm64-obj-$(CONFIG_HIBERNATION)		+= hibernate.o hibernate-asm.o
 arm64-obj-$(CONFIG_ARM64_ACPI_PARKING_PROTOCOL)	+= acpi_parking_protocol.o
 arm64-obj-$(CONFIG_PARAVIRT)		+= paravirt.o
 
-<<<<<<< HEAD
-=======
-obj-y					+= $(arm64-obj-y) vdso/
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 ifeq ($(CONFIG_KVM),y)
 arm64-obj-$(CONFIG_HARDEN_BRANCH_PREDICTOR)	+= bpi.o
 endif
 
-<<<<<<< HEAD
 obj-y					+= $(arm64-obj-y) vdso/ probes/
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 obj-m					+= $(arm64-obj-m)
 head-y					:= head.o
 extra-y					+= $(head-y) vmlinux.lds

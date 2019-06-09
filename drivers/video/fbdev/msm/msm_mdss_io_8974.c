@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1828,9 +1824,6 @@ static u8 mdss_dsi_get_lane_cnt(struct mdss_panel_info *panel_info)
 	if (!panel_info)
 		return -EINVAL;
 
-	if (!panel_info)
-		return -EINVAL;
-
 	if (panel_info->mipi.data_lane3)
 		lanes += 1;
 	if (panel_info->mipi.data_lane2)
@@ -1909,15 +1902,6 @@ u32 mdss_dsi_get_pclk_rate(struct mdss_panel_info *panel_info, u64 clk_rate)
 	bpp = mdss_dsi_get_bpp(panel_info->mipi.dst_format);
 
 	do_div(clk_rate, 8 * bpp);
-<<<<<<< HEAD
-=======
-
-	if (panel_info->split_link_enabled)
-		dsi_pclk_rate = (u32) clk_rate *
-			panel_info->mipi.lanes_per_sublink;
-	else
-		dsi_pclk_rate = (u32) clk_rate * lanes;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (panel_info->split_link_enabled)
 		pclk_rate = (u32) clk_rate *

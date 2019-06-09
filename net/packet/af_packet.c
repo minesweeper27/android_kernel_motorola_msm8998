@@ -1672,10 +1672,6 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 		atomic_long_set(&rollover->num, 0);
 		atomic_long_set(&rollover->num_huge, 0);
 		atomic_long_set(&rollover->num_failed, 0);
-<<<<<<< HEAD
-=======
-		po->rollover = rollover;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	match = NULL;
@@ -1700,7 +1696,7 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 		match->flags = flags;
 		INIT_LIST_HEAD(&match->list);
 		spin_lock_init(&match->lock);
-		refcount_set(&match->sk_ref, 0);
+		atomic_set(&match->sk_ref, 0);
 		fanout_init_data(match);
 		match->prot_hook.type = po->prot_hook.type;
 		match->prot_hook.dev = po->prot_hook.dev;
@@ -1717,40 +1713,25 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 	    match->prot_hook.type == po->prot_hook.type &&
 	    match->prot_hook.dev == po->prot_hook.dev) {
 		err = -ENOSPC;
-		if (refcount_read(&match->sk_ref) < PACKET_FANOUT_MAX) {
+		if (atomic_read(&match->sk_ref) < PACKET_FANOUT_MAX) {
 			__dev_remove_pack(&po->prot_hook);
 			po->fanout = match;
-<<<<<<< HEAD
 			po->rollover = rollover;
 			rollover = NULL;
 			atomic_inc(&match->sk_ref);
-=======
-			refcount_set(&match->sk_ref, refcount_read(&match->sk_ref) + 1);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			__fanout_link(sk, po);
 			err = 0;
 		}
 	}
 	spin_unlock(&po->bind_lock);
 
-<<<<<<< HEAD
 	if (err && !atomic_read(&match->sk_ref)) {
-=======
-	if (err && !refcount_read(&match->sk_ref)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		list_del(&match->list);
 		kfree(match);
 	}
 
 out:
-<<<<<<< HEAD
 	kfree(rollover);
-=======
-	if (err && rollover) {
-		kfree(rollover);
-		po->rollover = NULL;
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mutex_unlock(&fanout_mutex);
 	return err;
 }
@@ -1769,7 +1750,6 @@ static struct packet_fanout *fanout_release(struct sock *sk)
 	f = po->fanout;
 	if (f) {
 		po->fanout = NULL;
-<<<<<<< HEAD
 
 		if (atomic_dec_and_test(&f->sk_ref))
 			list_del(&f->list);
@@ -1779,20 +1759,6 @@ static struct packet_fanout *fanout_release(struct sock *sk)
 	mutex_unlock(&fanout_mutex);
 
 	return f;
-=======
-
-		if (refcount_dec_and_test(&f->sk_ref)) {
-			list_del(&f->list);
-			dev_remove_pack(&f->prot_hook);
-			fanout_release_data(f);
-			kfree(f);
-		}
-
-		if (po->rollover)
-			kfree_rcu(po->rollover, rcu);
-	}
-	mutex_unlock(&fanout_mutex);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static bool packet_extra_vlan_len_allowed(const struct net_device *dev,
@@ -4201,7 +4167,6 @@ static int packet_set_ring(struct sock *sk, union tpacket_req_u *req_u,
 	/* Added to avoid minimal code churn */
 	struct tpacket_req *req = &req_u->req;
 
-	lock_sock(sk);
 	/* Opening a Tx-ring is NOT supported in TPACKET_V3 */
 	if (!closing && tx_ring && (po->tp_version > TPACKET_V2)) {
 		WARN(1, "Tx-ring is not supported.\n");
@@ -4246,13 +4211,8 @@ static int packet_set_ring(struct sock *sk, union tpacket_req_u *req_u,
 			goto out;
 		min_frame_size = po->tp_hdrlen + po->tp_reserve;
 		if (po->tp_version >= TPACKET_V3 &&
-<<<<<<< HEAD
 		    req->tp_block_size <
 		    BLK_PLUS_PRIV((u64)req_u->req3.tp_sizeof_priv) + min_frame_size)
-=======
-		    req->tp_block_size <=
-			  BLK_PLUS_PRIV((u64)req_u->req3.tp_sizeof_priv))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			goto out;
 		if (unlikely(req->tp_frame_size < min_frame_size))
 			goto out;
@@ -4262,11 +4222,7 @@ static int packet_set_ring(struct sock *sk, union tpacket_req_u *req_u,
 		rb->frames_per_block = req->tp_block_size / req->tp_frame_size;
 		if (unlikely(rb->frames_per_block == 0))
 			goto out;
-<<<<<<< HEAD
 		if (unlikely(rb->frames_per_block > UINT_MAX / req->tp_block_nr))
-=======
-		if (unlikely(req->tp_block_size > UINT_MAX / req->tp_block_nr))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			goto out;
 		if (unlikely((rb->frames_per_block * req->tp_block_nr) !=
 					req->tp_frame_nr))
@@ -4348,7 +4304,6 @@ static int packet_set_ring(struct sock *sk, union tpacket_req_u *req_u,
 	if (pg_vec)
 		free_pg_vec(pg_vec, order, req->tp_block_nr);
 out:
-	release_sock(sk);
 	return err;
 }
 

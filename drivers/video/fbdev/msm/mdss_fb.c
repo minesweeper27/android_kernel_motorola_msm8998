@@ -328,13 +328,10 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 		mutex_unlock(&mfd->bl_lock);
 	}
 	mfd->bl_level_usr = bl_lvl;
-<<<<<<< HEAD
 
 #ifdef CONFIG_KLAPSE
 	set_rgb_slider(bl_lvl);
 #endif
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static enum led_brightness mdss_fb_get_bl_brightness(
@@ -2524,7 +2521,6 @@ static int mdss_fb_blank(int blank_mode, struct fb_info *info)
 
 	ret = mdss_fb_blank_sub(blank_mode, info, mfd->op_enable);
 	MDSS_XLOG(blank_mode);
-<<<<<<< HEAD
 
 	if (blank_mode == FB_BLANK_UNBLANK && !panel_dead &&
 		mfd->panel_info->panel_dead) {
@@ -2533,8 +2529,6 @@ static int mdss_fb_blank(int blank_mode, struct fb_info *info)
 		usleep_range(225 * 1000, 225 * 1000);
 		mdss_fb_blank_sub(FB_BLANK_UNBLANK, info, 1);
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 end:
 	mutex_unlock(&mfd->mdss_sysfs_lock);
@@ -4032,12 +4026,9 @@ static void mdss_fb_var_to_panelinfo(struct fb_var_screeninfo *var,
 	 */
 	if (pinfo->is_dba_panel) {
 		pinfo->mipi.dsi_pclk_rate = pinfo->clk_rate;
-<<<<<<< HEAD
 		pinfo->panel_max_fps = mdss_panel_get_framerate(pinfo);
 		pinfo->panel_max_vtotal = mdss_panel_get_vtotal(pinfo);
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (var->sync & FB_SYNC_HOR_HIGH_ACT)
 		pinfo->lcdc.h_polarity = 0;
@@ -4048,10 +4039,6 @@ static void mdss_fb_var_to_panelinfo(struct fb_var_screeninfo *var,
 		pinfo->lcdc.v_polarity = 0;
 	else
 		pinfo->lcdc.v_polarity = 1;
-<<<<<<< HEAD
-=======
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 void mdss_panelinfo_to_fb_var(struct mdss_panel_info *pinfo,
@@ -5083,10 +5070,7 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 	struct mdp_destination_scaler_data *ds_data = NULL;
 	struct mdp_destination_scaler_data __user *ds_data_user;
 	struct msm_fb_data_type *mfd;
-<<<<<<< HEAD
 	struct mdss_overlay_private *mdp5_data = NULL;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	ret = copy_from_user(&commit, argp, sizeof(struct mdp_layer_commit));
 	if (ret) {
@@ -5098,7 +5082,6 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 	if (!mfd)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	mdp5_data = mfd_to_mdp5_data(mfd);
 
 	if (mfd->panel_info->panel_dead) {
@@ -5113,11 +5096,6 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 			mfd->mdp.signal_retire_fence && mdp5_data)
 			mfd->mdp.signal_retire_fence(mfd,
 						mdp5_data->retire_cnt);
-=======
-	if (mfd->panel_info->panel_dead) {
-		pr_debug("early commit return\n");
-		MDSS_XLOG(mfd->panel_info->panel_dead);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		return 0;
 	}
 

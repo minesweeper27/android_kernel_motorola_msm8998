@@ -1221,11 +1221,8 @@ struct ipa_context {
 	struct ipa_cne_evt ipa_cne_evt_req_cache[IPA_MAX_NUM_REQ_CACHE];
 	int num_ipa_cne_evt_req;
 	struct mutex ipa_cne_evt_lock;
-<<<<<<< HEAD
 	int (*q6_cleanup_cb)(void);
 	bool is_apps_shutdown_support;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 /**

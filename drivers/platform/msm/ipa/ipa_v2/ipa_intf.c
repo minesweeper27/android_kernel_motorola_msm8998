@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -511,11 +507,7 @@ int ipa2_send_msg(struct ipa_msg_meta *meta, void *buff,
 	}
 
 	if (meta == NULL || (buff == NULL && callback != NULL) ||
-<<<<<<< HEAD
 	    (buff != NULL && callback == NULL) || buff == NULL) {
-=======
-	    (buff != NULL && callback == NULL)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		IPAERR_RL("invalid param meta=%p buff=%p, callback=%p\n",
 		       meta, buff, callback);
 		return -EINVAL;
@@ -759,7 +751,6 @@ ssize_t ipa_read(struct file *filp, char __user *buf, size_t count,
 			buf += sizeof(struct ipa_msg_meta);
 			count -= sizeof(struct ipa_msg_meta);
 			if (msg->buff) {
-<<<<<<< HEAD
 				if (count >= msg->meta.msg_len) {
 					if (copy_to_user(buf, msg->buff,
 							  msg->meta.msg_len)) {
@@ -769,10 +760,6 @@ ssize_t ipa_read(struct file *filp, char __user *buf, size_t count,
 						break;
 					}
 				} else {
-=======
-				if (copy_to_user(buf, msg->buff,
-						  msg->meta.msg_len)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					kfree(msg);
 					msg = NULL;
 					ret = -EFAULT;

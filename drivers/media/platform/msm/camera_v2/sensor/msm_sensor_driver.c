@@ -1104,12 +1104,9 @@ CSID_TG:
 
 	pr_err("%s probe succeeded", slave_info->sensor_name);
 
-<<<<<<< HEAD
 	s_ctrl->bypass_video_node_creation =
 		slave_info->bypass_video_node_creation;
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/*
 	 * Create /dev/videoX node, comment for now until dummy /dev/videoX
 	 * node is created and used by HAL
@@ -1488,13 +1485,8 @@ static int32_t msm_sensor_driver_i2c_probe(struct i2c_client *client,
 				rc);
 			goto FREE_S_CTRL;
 		}
-<<<<<<< HEAD
 	}
 	return rc;
-=======
-		return rc;
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 FREE_S_CTRL:
 	kfree(s_ctrl);
 	return rc;

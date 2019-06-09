@@ -577,15 +577,9 @@ static int __mdss_mdp_validate_qseed3_cfg(struct mdss_mdp_pipe *pipe)
 
 		vert_fetch_pixels = DECIMATED_DIMENSION(src_h +
 				(int8_t)(pipe->scaler.top_ftch[plane]
-<<<<<<< HEAD
 					& 0xFF)+
 				(int8_t)(pipe->scaler.btm_ftch[plane]
 					& 0xFF),
-=======
-					& 0xFF) +
-				(int8_t)(pipe->scaler.btm_ftch[plane]
-				& 0xFF),
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			pipe->vert_deci);
 
 		if ((hor_req_pixels != hor_fetch_pixels) ||
@@ -2380,11 +2374,8 @@ static void __overlay_set_secure_transition_state(struct msm_fb_data_type *mfd)
 
 	/* Reset the secure transition state */
 	mdp5_data->secure_transition_state = SECURE_TRANSITION_NONE;
-<<<<<<< HEAD
 
 	mdp5_data->cache_null_commit = list_empty(&mdp5_data->pipes_used);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/*
 	 * Secure transition would be NONE in two conditions:
@@ -6611,7 +6602,6 @@ void mdss_mdp_footswitch_ctrl_handler(bool on)
 	mdss_mdp_footswitch_ctrl(mdata, on);
 }
 
-<<<<<<< HEAD
 static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
 					 int retire_cnt)
 {
@@ -6628,8 +6618,6 @@ static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
 	pr_debug("Signaled (%d) pending retire fence\n", retire_cnt);
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 {
 	struct device *dev = mfd->fbi->dev;
@@ -6672,14 +6660,6 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 	mdp5_interface->configure_panel = mdss_mdp_update_panel_info;
 	mdp5_interface->input_event_handler = mdss_mdp_input_event_handler;
 	mdp5_interface->signal_retire_fence = mdss_mdp_signal_retire_fence;
-
-	/*
-	 * Register footswitch control only for primary fb pm
-	 * suspend/resume calls.
-	 */
-	if (mfd->panel_info->is_prim_panel)
-		mdp5_interface->footswitch_ctrl =
-			mdss_mdp_footswitch_ctrl_handler;
 
 	/*
 	 * Register footswitch control only for primary fb pm

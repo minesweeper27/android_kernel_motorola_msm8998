@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2002,2007-2018, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2002,2007-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -176,12 +172,9 @@ struct kgsl_functable {
 	void (*gpu_model)(struct kgsl_device *device, char *str,
 		size_t bufsz);
 	void (*stop_fault_timer)(struct kgsl_device *device);
-<<<<<<< HEAD
 	void (*suspend_device)(struct kgsl_device *device,
 		pm_message_t pm_state);
 	void (*resume_device)(struct kgsl_device *device);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 struct kgsl_ioctl {

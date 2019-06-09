@@ -307,7 +307,6 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(hw_current_max),
 	POWER_SUPPLY_ATTR(real_type),
 	POWER_SUPPLY_ATTR(pr_swap),
-<<<<<<< HEAD
 	POWER_SUPPLY_ATTR(cc_step),
 	POWER_SUPPLY_ATTR(cc_step_sel),
 	POWER_SUPPLY_ATTR(sw_jeita_enabled),
@@ -331,9 +330,6 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(max_input_voltage),
 	POWER_SUPPLY_ATTR(input_voltage),
 	POWER_SUPPLY_ATTR(age),
-=======
-	POWER_SUPPLY_ATTR(sw_jeita_enabled),
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* Local extensions of type int64_t */
 	POWER_SUPPLY_ATTR(charge_counter_ext),
 	/* Properties of type `const char *' */

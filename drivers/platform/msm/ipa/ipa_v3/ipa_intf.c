@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -516,11 +512,7 @@ int ipa3_send_msg(struct ipa_msg_meta *meta, void *buff,
 	void *data = NULL;
 
 	if (meta == NULL || (buff == NULL && callback != NULL) ||
-<<<<<<< HEAD
 	    (buff != NULL && callback == NULL) || buff == NULL) {
-=======
-	    (buff != NULL && callback == NULL)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		IPAERR_RL("invalid param meta=%p buff=%p, callback=%p\n",
 		       meta, buff, callback);
 		return -EINVAL;

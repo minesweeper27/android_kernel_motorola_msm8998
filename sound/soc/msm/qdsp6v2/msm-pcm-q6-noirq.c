@@ -891,7 +891,6 @@ static int msm_pcm_playback_app_type_cfg_ctl_put(struct snd_kcontrol *kcontrol,
 	u64 fe_id = kcontrol->private_value;
 	int session_type = SESSION_TYPE_RX;
 	int be_id = ucontrol->value.integer.value[3];
-<<<<<<< HEAD
 	struct msm_pcm_stream_app_type_cfg cfg_data = {0, 0, 48000};
 	int ret = 0;
 
@@ -907,28 +906,6 @@ static int msm_pcm_playback_app_type_cfg_ctl_put(struct snd_kcontrol *kcontrol,
 	if (ret < 0)
 		pr_err("%s: msm_pcm_routing_reg_stream_app_type_cfg failed returned %d\n",
 		       __func__, ret);
-=======
-	int ret = 0;
-	int app_type;
-	int acdb_dev_id;
-	int sample_rate = 48000;
-
-	app_type = ucontrol->value.integer.value[0];
-	acdb_dev_id = ucontrol->value.integer.value[1];
-	if (ucontrol->value.integer.value[2] != 0)
-		sample_rate = ucontrol->value.integer.value[2];
-
-	ret = msm_pcm_routing_reg_stream_app_type_cfg(fe_id, session_type,
-						      be_id, app_type,
-						      acdb_dev_id, sample_rate);
-	if (ret < 0)
-		pr_err("%s: msm_pcm_playback_app_type_cfg_ctl_put failed, err %d\n",
-			__func__, ret);
-
-	pr_debug("%s: fe_id- %llu session_type- %d be_id- %d app_type- %d acdb_dev_id- %d sample_rate- %d\n",
-		__func__, fe_id, session_type, be_id,
-		app_type, acdb_dev_id, sample_rate);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return ret;
 }
 
@@ -937,7 +914,6 @@ static int msm_pcm_playback_app_type_cfg_ctl_get(struct snd_kcontrol *kcontrol,
 {
 	u64 fe_id = kcontrol->private_value;
 	int session_type = SESSION_TYPE_RX;
-<<<<<<< HEAD
 	int be_id = 0;
 	struct msm_pcm_stream_app_type_cfg cfg_data = {0};
 	int ret = 0;
@@ -957,31 +933,6 @@ static int msm_pcm_playback_app_type_cfg_ctl_get(struct snd_kcontrol *kcontrol,
 	pr_debug("%s: fedai_id %llu, session_type %d, be_id %d, app_type %d, acdb_dev_id %d, sample_rate %d\n",
 		__func__, fe_id, session_type, be_id,
 		cfg_data.app_type, cfg_data.acdb_dev_id, cfg_data.sample_rate);
-=======
-	int be_id = ucontrol->value.integer.value[3];
-	int ret = 0;
-	int app_type;
-	int acdb_dev_id;
-	int sample_rate;
-
-	ret = msm_pcm_routing_get_stream_app_type_cfg(fe_id, session_type,
-						      be_id, &app_type,
-						      &acdb_dev_id,
-						      &sample_rate);
-	if (ret < 0) {
-		pr_err("%s: msm_pcm_playback_app_type_cfg_ctl_get failed, err: %d\n",
-			__func__, ret);
-		goto done;
-	}
-
-	ucontrol->value.integer.value[0] = app_type;
-	ucontrol->value.integer.value[1] = acdb_dev_id;
-	ucontrol->value.integer.value[2] = sample_rate;
-
-	pr_debug("%s: fedai_id %llu, session_type %d, be_id %d, app_type %d, acdb_dev_id %d, sample_rate %d\n",
-		__func__, fe_id, session_type, be_id,
-		app_type, acdb_dev_id, sample_rate);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 done:
 	return ret;
 }
@@ -992,7 +943,6 @@ static int msm_pcm_capture_app_type_cfg_ctl_put(struct snd_kcontrol *kcontrol,
 	u64 fe_id = kcontrol->private_value;
 	int session_type = SESSION_TYPE_TX;
 	int be_id = ucontrol->value.integer.value[3];
-<<<<<<< HEAD
 	struct msm_pcm_stream_app_type_cfg cfg_data = {0, 0, 48000};
 	int ret = 0;
 
@@ -1008,28 +958,6 @@ static int msm_pcm_capture_app_type_cfg_ctl_put(struct snd_kcontrol *kcontrol,
 	if (ret < 0)
 		pr_err("%s: msm_pcm_routing_reg_stream_app_type_cfg failed returned %d\n",
 		       __func__, ret);
-=======
-	int ret = 0;
-	int app_type;
-	int acdb_dev_id;
-	int sample_rate = 48000;
-
-	app_type = ucontrol->value.integer.value[0];
-	acdb_dev_id = ucontrol->value.integer.value[1];
-	if (ucontrol->value.integer.value[2] != 0)
-		sample_rate = ucontrol->value.integer.value[2];
-
-	ret = msm_pcm_routing_reg_stream_app_type_cfg(fe_id, session_type,
-						      be_id, app_type,
-						      acdb_dev_id, sample_rate);
-	if (ret < 0)
-		pr_err("%s: msm_pcm_capture_app_type_cfg_ctl_put failed, err: %d\n",
-			__func__, ret);
-
-	pr_debug("%s: fe_id- %llu session_type- %d be_id- %d app_type- %d acdb_dev_id- %d sample_rate- %d\n",
-		__func__, fe_id, session_type, be_id,
-		app_type, acdb_dev_id, sample_rate);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	return ret;
 }
@@ -1039,7 +967,6 @@ static int msm_pcm_capture_app_type_cfg_ctl_get(struct snd_kcontrol *kcontrol,
 {
 	u64 fe_id = kcontrol->private_value;
 	int session_type = SESSION_TYPE_TX;
-<<<<<<< HEAD
 	int be_id = 0;
 	struct msm_pcm_stream_app_type_cfg cfg_data = {0};
 	int ret = 0;
@@ -1059,30 +986,6 @@ static int msm_pcm_capture_app_type_cfg_ctl_get(struct snd_kcontrol *kcontrol,
 	pr_debug("%s: fedai_id %llu, session_type %d, be_id %d, app_type %d, acdb_dev_id %d, sample_rate %d\n",
 		__func__, fe_id, session_type, be_id,
 		cfg_data.app_type, cfg_data.acdb_dev_id, cfg_data.sample_rate);
-=======
-	int be_id = ucontrol->value.integer.value[3];
-	int ret = 0;
-	int app_type;
-	int acdb_dev_id;
-	int sample_rate;
-
-	ret = msm_pcm_routing_get_stream_app_type_cfg(fe_id, session_type,
-						      be_id, &app_type,
-						      &acdb_dev_id,
-						      &sample_rate);
-	if (ret < 0) {
-		pr_err("%s: msm_pcm_capture_app_type_cfg_ctl_get failed, err: %d\n",
-			__func__, ret);
-		goto done;
-	}
-
-	ucontrol->value.integer.value[0] = app_type;
-	ucontrol->value.integer.value[1] = acdb_dev_id;
-	ucontrol->value.integer.value[2] = sample_rate;
-	pr_debug("%s: fedai_id %llu, session_type %d, be_id %d, app_type %d, acdb_dev_id %d, sample_rate %d\n",
-		__func__, fe_id, session_type, be_id,
-		app_type, acdb_dev_id, sample_rate);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 done:
 	return ret;
 }
@@ -1140,7 +1043,6 @@ static int msm_pcm_add_app_type_controls(struct snd_soc_pcm_runtime *rtd)
 	return 0;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_HWDEP
 static int msm_pcm_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
 			       unsigned int cmd, unsigned long arg)
@@ -1238,8 +1140,6 @@ static int msm_pcm_add_hwdep_dev(struct snd_soc_pcm_runtime *runtime)
 	return 0;
 }
 #endif
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 static int msm_asoc_pcm_new(struct snd_soc_pcm_runtime *rtd)
 {
@@ -1273,15 +1173,11 @@ static int msm_asoc_pcm_new(struct snd_soc_pcm_runtime *rtd)
 		pr_err("%s: Could not add app type controls failed %d\n",
 			__func__, ret);
 	}
-<<<<<<< HEAD
 #ifdef CONFIG_SND_HWDEP
 	ret = msm_pcm_add_hwdep_dev(rtd);
 	if (ret)
 		pr_err("%s: Could not add hw dep node\n", __func__);
 #endif
-=======
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	pcm->nonatomic = true;
 exit:
 	return ret;

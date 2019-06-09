@@ -289,38 +289,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-/**
- * nqx_standby_write()
- * @buf:       pointer to data buffer
- * @len:       # of bytes need to transfer
- *
- * write data buffer over I2C and retry
- * if NFCC is in stand by mode
- *
- * Return: # of bytes written or -ve value in case of error
- */
-static int nqx_standby_write(struct nqx_dev *nqx_dev,
-				const unsigned char *buf, size_t len)
-{
-	int ret = -EINVAL;
-	int retry_cnt;
-
-	for (retry_cnt = 1; retry_cnt <= MAX_RETRY_COUNT; retry_cnt++) {
-		ret = i2c_master_send(nqx_dev->client, buf, len);
-		if (ret < 0) {
-			dev_dbg(&nqx_dev->client->dev,
-				"%s: write failed, Maybe in Standby Mode - Retry(%d)\n",
-				 __func__, retry_cnt);
-			usleep_range(1000, 1100);
-		} else if (ret == len)
-			break;
-	}
-	return ret;
-}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /*
  * Power management of the eSE
  * NFC & eSE ON : NFC_EN high and eSE_pwr_req high.

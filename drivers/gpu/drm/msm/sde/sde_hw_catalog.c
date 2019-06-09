@@ -450,7 +450,6 @@ static int _parse_dt_u32_handler(struct device_node *np,
 	char *prop_name, u32 *offsets, int len, bool mandatory)
 {
 	int rc = -EINVAL;
-<<<<<<< HEAD
 
 	if (len > MAX_SDE_HW_BLK) {
 		SDE_ERROR(
@@ -459,16 +458,6 @@ static int _parse_dt_u32_handler(struct device_node *np,
 		return -E2BIG;
 	}
 
-=======
-
-	if (len > MAX_SDE_HW_BLK) {
-		SDE_ERROR(
-			"prop: %s tries out of bound access for u32 array read len: %d\n",
-				prop_name, len);
-		return -E2BIG;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rc = of_property_read_u32_array(np, prop_name, offsets, len);
 	if (rc && mandatory)
 		SDE_ERROR("mandatory prop: %s u32 array read len:%d\n",

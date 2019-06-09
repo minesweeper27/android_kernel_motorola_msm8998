@@ -160,14 +160,9 @@ void mdss_check_dsi_ctrl_status(struct work_struct *work, uint32_t interval)
 		if (ctl->ops.wait_pingpong && !ctrl_pdata->burst_mode_enabled)
 			ctl->ops.wait_pingpong(ctl, NULL);
 
-<<<<<<< HEAD
 		pr_debug("%s: DSI ctrl wait for ping pong done\n", __func__);
 		MDSS_XLOG(mipi->mode);
 	}
-=======
-	pr_debug("%s: DSI ctrl wait for ping pong done\n", __func__);
-	MDSS_XLOG(mipi->mode);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON);
 	ret = ctrl_pdata->check_status(ctrl_pdata);

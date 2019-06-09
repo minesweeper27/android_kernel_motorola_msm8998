@@ -910,19 +910,12 @@ static ssize_t wcd_miscdev_write(struct file *filep, const char __user *ubuf,
 {
 	struct wcd_dsp_cntl *cntl = container_of(filep->private_data,
 						 struct wcd_dsp_cntl, miscdev);
-<<<<<<< HEAD
 	char val[WCD_DSP_CNTL_MAX_COUNT + 1];
 	bool vote;
 	int ret = 0;
 
 	memset(val, 0, WCD_DSP_CNTL_MAX_COUNT + 1);
 
-=======
-	char val[WCD_DSP_CNTL_MAX_COUNT];
-	bool vote;
-	int ret = 0;
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (count == 0 || count > WCD_DSP_CNTL_MAX_COUNT) {
 		pr_err("%s: Invalid count = %zd\n", __func__, count);
 		ret = -EINVAL;

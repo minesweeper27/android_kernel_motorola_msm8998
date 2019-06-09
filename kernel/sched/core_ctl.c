@@ -247,7 +247,6 @@ static ssize_t show_is_big_cluster(const struct cluster_data *state, char *buf)
 	return snprintf(buf, PAGE_SIZE, "%u\n", state->is_big_cluster);
 }
 
-<<<<<<< HEAD
 static ssize_t store_enable(struct cluster_data *state,
 				const char *buf, size_t count)
 {
@@ -271,8 +270,6 @@ static ssize_t show_enable(const struct cluster_data *state, char *buf)
 	return scnprintf(buf, PAGE_SIZE, "%u\n", state->enable);
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static ssize_t show_need_cpus(const struct cluster_data *state, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%u\n", state->need_cpus);
@@ -411,10 +408,7 @@ static struct attribute *default_attrs[] = {
 	&busy_down_thres.attr,
 	&task_thres.attr,
 	&is_big_cluster.attr,
-<<<<<<< HEAD
 	&enable.attr,
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	&need_cpus.attr,
 	&active_cpus.attr,
 	&global_state.attr,

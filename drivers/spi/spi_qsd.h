@@ -404,11 +404,8 @@ struct msm_spi {
 	struct pinctrl_state	*pins_sleep;
 	bool			is_init_complete;
 	bool			pack_words;
-<<<<<<< HEAD
 	bool			slv_support;
 	atomic_t                qup_state;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 /* Forward declaration */

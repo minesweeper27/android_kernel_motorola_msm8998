@@ -754,7 +754,6 @@ static int ufs_qcom_enable_vreg(struct device *dev, struct ufs_vreg *vreg)
 
 	ret = ufs_qcom_config_vreg(dev, vreg, true);
 	if (ret)
-<<<<<<< HEAD
 		goto out;
 
 	ret = regulator_enable(vreg->reg);
@@ -781,58 +780,11 @@ static int ufs_qcom_disable_vreg(struct device *dev, struct ufs_vreg *vreg)
 	if (ret)
 		goto out;
 
-=======
-		goto out;
-
-	ret = regulator_enable(vreg->reg);
-	if (ret)
-		goto out;
-
-	vreg->enabled = true;
-out:
-	return ret;
-}
-
-static int ufs_qcom_disable_vreg(struct device *dev, struct ufs_vreg *vreg)
-{
-	int ret = 0;
-
-	if (!vreg->enabled)
-		return ret;
-
-	ret = regulator_disable(vreg->reg);
-	if (ret)
-		goto out;
-
-	ret = ufs_qcom_config_vreg(dev, vreg, false);
-	if (ret)
-		goto out;
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	vreg->enabled = false;
 out:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-static void ufs_qcom_phy_off(struct ufs_hba *hba)
-{
-	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
-	struct phy *phy = host->generic_phy;
-
-	phy_power_off(phy);
-}
-
-static void ufs_qcom_phy_on(struct ufs_hba *hba)
-{
-	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
-	struct phy *phy = host->generic_phy;
-
-	phy_power_on(phy);
-}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int ufs_qcom_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 {
 	struct ufs_qcom_host *host = ufshcd_get_variant(hba);
@@ -2141,6 +2093,9 @@ static int ufs_qcom_init(struct ufs_hba *hba)
 	struct ufs_qcom_host *host;
 	struct resource *res;
 
+	if (strlen(android_boot_dev) && strcmp(android_boot_dev, dev_name(dev)))
+		return -ENODEV;
+
 	host = devm_kzalloc(dev, sizeof(*host), GFP_KERNEL);
 	if (!host) {
 		err = -ENOMEM;
@@ -2644,11 +2599,7 @@ bool ufs_qcom_testbus_cfg_is_ok(struct ufs_qcom_host *host,
 int ufs_qcom_testbus_config(struct ufs_qcom_host *host)
 {
 	int reg = 0;
-<<<<<<< HEAD
 	int offset = 0, ret = 0, testbus_sel_offset = 19;
-=======
-	int offset, ret = 0, testbus_sel_offset = 19;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	u32 mask = TEST_BUS_SUB_SEL_MASK;
 	unsigned long flags;
 	struct ufs_hba *hba;
@@ -2828,8 +2779,6 @@ static struct ufs_hba_variant_ops ufs_hba_qcom_vops = {
 	.suspend		= ufs_qcom_suspend,
 	.resume			= ufs_qcom_resume,
 	.full_reset		= ufs_qcom_full_reset,
-	.phy_off                = ufs_qcom_phy_off,
-	.phy_on                 = ufs_qcom_phy_on,
 	.update_sec_cfg		= ufs_qcom_update_sec_cfg,
 	.get_scale_down_gear	= ufs_qcom_get_scale_down_gear,
 	.set_bus_vote		= ufs_qcom_set_bus_vote,
@@ -2869,24 +2818,6 @@ static int ufs_qcom_probe(struct platform_device *pdev)
 {
 	int err;
 	struct device *dev = &pdev->dev;
-	struct device_node *np = dev->of_node;
-
-	/*
-	 * On qcom platforms, bootdevice is the primary storage
-	 * device. This device can either be eMMC or UFS.
-	 * The type of device connected is detected at runtime.
-	 * So, if an eMMC device is connected, and this function
-	 * is invoked, it would turn-off the regulator if it detects
-	 * that the storage device is not ufs.
-	 * These regulators are turned ON by the bootloaders & turning
-	 * them off without sending PON may damage the connected device.
-	 * Hence, check for the connected device early-on & don't turn-off
-	 * the regulators.
-	 */
-	if (of_property_read_bool(np, "non-removable") &&
-	    strlen(android_boot_dev) &&
-	    strcmp(android_boot_dev, dev_name(dev)))
-		return -ENODEV;
 
 	/* Perform generic probe */
 	err = ufshcd_pltfrm_init(pdev, &ufs_hba_qcom_variant);

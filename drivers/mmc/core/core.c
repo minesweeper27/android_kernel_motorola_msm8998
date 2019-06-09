@@ -464,18 +464,11 @@ out:
 }
 EXPORT_SYMBOL(mmc_clk_update_freq);
 
-<<<<<<< HEAD
 int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 {
 	int err = 0;
 	if (!host->card)
 		return -EINVAL;
-=======
-void mmc_recovery_fallback_lower_speed(struct mmc_host *host)
-{
-	if (!host->card)
-		return;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (host->sdr104_wa && mmc_card_sd(host->card) &&
 	    (host->ios.timing == MMC_TIMING_UHS_SDR104) &&
@@ -483,7 +476,6 @@ void mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 		pr_err("%s: %s: blocked SDR104, lower the bus-speed (SDR50 / DDR50)\n",
 			mmc_hostname(host), __func__);
 		mmc_host_clear_sdr104(host);
-<<<<<<< HEAD
 		err = mmc_hw_reset(host);
 		host->card->sdr104_blocked = true;
 	} else {
@@ -495,11 +487,6 @@ void mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 			mmc_hostname(host), __func__, err);
 
 	return err;
-=======
-		mmc_hw_reset(host);
-		host->card->sdr104_blocked = true;
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static int mmc_devfreq_set_target(struct device *dev,
@@ -567,11 +554,7 @@ static int mmc_devfreq_set_target(struct device *dev,
 	if (err && err != -EAGAIN) {
 		pr_err("%s: clock scale to %lu failed with error %d\n",
 			mmc_hostname(host), *freq, err);
-<<<<<<< HEAD
 		err = mmc_recovery_fallback_lower_speed(host);
-=======
-		mmc_recovery_fallback_lower_speed(host);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else {
 		pr_debug("%s: clock change to %lu finished successfully (%s)\n",
 			mmc_hostname(host), *freq, current->comm);
@@ -1616,12 +1599,8 @@ static void mmc_wait_for_req_done(struct mmc_host *host,
 		    mmc_card_removed(host->card)) {
 			if (cmd->error && !cmd->retries &&
 			     cmd->opcode != MMC_SEND_STATUS &&
-<<<<<<< HEAD
 			     cmd->opcode != MMC_SEND_TUNING_BLOCK &&
 			     cmd->opcode != MMC_SEND_TUNING_BLOCK_HS200)
-=======
-			     cmd->opcode != MMC_SEND_TUNING_BLOCK)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				mmc_recovery_fallback_lower_speed(host);
 			break;
 		}
@@ -4230,12 +4209,7 @@ int _mmc_detect_card_removed(struct mmc_host *host)
 
 	if (ret) {
 		if (host->ops->get_cd && host->ops->get_cd(host)) {
-<<<<<<< HEAD
 			ret = mmc_recovery_fallback_lower_speed(host);
-=======
-			mmc_recovery_fallback_lower_speed(host);
-			ret = 0;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		} else {
 			mmc_card_set_removed(host->card);
 			if (host->card->sdr104_blocked) {

@@ -89,10 +89,7 @@ struct mdss_dbg_xlog {
 	phys_addr_t vbif_dbgbus_phys;/*phy address for the vbif debug bus dump*/
 	u32 *nrt_vbif_dbgbus_dump; /* address for the nrt vbif debug bus dump */
 	u32 *dsi_dbgbus_dump; /* address for the dsi debug bus dump */
-<<<<<<< HEAD
 	phys_addr_t nrt_vbif_dbgbus_phys;/*phy address for vbif debug bus dump*/
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 } mdss_dbg_xlog;
 
 static inline bool mdss_xlog_is_enabled(u32 flag)
@@ -688,17 +685,12 @@ static void mdss_xlog_dump_array(struct mdss_debug_base *blk_arr[],
 		usleep_range(10000, 10010);
 		__dump_vbif_state();
 		mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF);
-<<<<<<< HEAD
 		mutex_unlock(&mdss_dbg_xlog.xlog_lock);
 		panic(name);
 	}
 
 	pr_info("%s: xlog dump created\n", __func__);
 	mutex_unlock(&mdss_dbg_xlog.xlog_lock);
-=======
-		panic(name);
-	}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static void xlog_debug_work(struct work_struct *work)
@@ -781,7 +773,6 @@ void mdss_xlog_tout_handler_default(bool is_mmi, bool queue,
 	} else {
 		mdss_xlog_dump_array(blk_arr, blk_len, dead, name, dump_dbgbus,
 			dump_vbif_dbgbus, dump_dsi_dbgbus);
-<<<<<<< HEAD
 	}
 }
 
@@ -797,8 +788,6 @@ static void regs_print_util(char *name, char *addr, int len, u32 *reg_dump,
 			reg_dump[i*4 + 1], reg_dump[i*4 + 2],
 			reg_dump[i*4 + 3]);
 		addr += 16;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 }
 
@@ -1100,12 +1089,8 @@ static ssize_t mdss_xlog_dump_read(struct file *file, char __user *buff,
 			return 0;
 		}
 
-<<<<<<< HEAD
 		if (copy_to_user(buff, xlog_buf, len)) {
 			mutex_unlock(&mdss_dbg_xlog.xlog_lock);
-=======
-		if (copy_to_user(buff, xlog_buf, len))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			return -EFAULT;
 		}
 		*ppos += len;

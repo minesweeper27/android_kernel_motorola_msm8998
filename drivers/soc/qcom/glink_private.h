@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -696,10 +692,6 @@ enum ssr_command {
  *			received.
  * edge:		The G-Link edge name for the channel associated with
  *			this callback data
-<<<<<<< HEAD
-=======
- * do_cleanup_data:	Structure containing the G-Link SSR do_cleanup message.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  * cb_kref:		Kref object to maintain cb_data reference.
  */
 struct ssr_notify_data {
@@ -707,10 +699,6 @@ struct ssr_notify_data {
 	unsigned event;
 	bool responded;
 	const char *edge;
-<<<<<<< HEAD
-=======
-	struct do_cleanup_msg *do_cleanup_data;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	struct kref cb_kref;
 };
 

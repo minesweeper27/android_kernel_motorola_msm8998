@@ -215,14 +215,11 @@ static int snd_usb_copy_string_desc(struct mixer_build *state,
 				    int index, char *buf, int maxlen)
 {
 	int len = usb_string(state->chip->dev, index, buf, maxlen - 1);
-<<<<<<< HEAD
 
 	if (len < 0)
 		return 0;
 
 	buf[len] = 0;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return len;
 }
 

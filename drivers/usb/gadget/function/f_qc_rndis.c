@@ -162,15 +162,9 @@ static struct usb_interface_descriptor rndis_qc_control_intf = {
 	/* .bInterfaceNumber = DYNAMIC */
 	/* status endpoint is optional; this could be patched later */
 	.bNumEndpoints =	1,
-<<<<<<< HEAD
 	.bInterfaceClass =	USB_CLASS_MISC,
 	.bInterfaceSubClass =   0x04,
 	.bInterfaceProtocol =   0x01, /* RNDIS over ethernet */
-=======
-	.bInterfaceClass =	USB_CLASS_WIRELESS_CONTROLLER,
-	.bInterfaceSubClass =   0x01,
-	.bInterfaceProtocol =   0x03,
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* .iInterface = DYNAMIC */
 };
 
@@ -229,15 +223,9 @@ rndis_qc_iad_descriptor = {
 	.bDescriptorType =	USB_DT_INTERFACE_ASSOCIATION,
 	.bFirstInterface =	0, /* XXX, hardcoded */
 	.bInterfaceCount =	2, /* control + data */
-<<<<<<< HEAD
 	.bFunctionClass =	USB_CLASS_MISC,
 	.bFunctionSubClass =	0x04,
 	.bFunctionProtocol =	0x01, /* RNDIS over ethernet */
-=======
-	.bFunctionClass =	USB_CLASS_WIRELESS_CONTROLLER,
-	.bFunctionSubClass =	0x01,
-	.bFunctionProtocol =	0x03,
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* .iFunction = DYNAMIC */
 };
 
@@ -1278,22 +1266,9 @@ usb_function *rndis_qc_bind_config_vendor(struct usb_function_instance *fi,
 	rndis->func.resume = rndis_qc_resume;
 	rndis->func.free_func = rndis_qc_free;
 
-<<<<<<< HEAD
-=======
-	status = rndis_ipa_init(&rndis_ipa_params);
-	if (status) {
-		pr_err("%s: failed to init rndis_ipa\n", __func__);
-		goto fail;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	_rndis_qc = rndis;
 
 	return &rndis->func;
-fail:
-	kfree(rndis);
-	_rndis_qc = NULL;
-	return ERR_PTR(status);
 }
 
 static struct usb_function *qcrndis_alloc(struct usb_function_instance *fi)
@@ -1368,15 +1343,9 @@ static long rndis_qc_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
 		ret = -EBUSY;
 		goto fail;
 	}
-<<<<<<< HEAD
 
 	spin_unlock_irqrestore(&rndis_lock, flags);
 
-=======
-
-	spin_unlock_irqrestore(&rndis_lock, flags);
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	pr_info("Received command %d\n", cmd);
 
 	switch (cmd) {
@@ -1408,7 +1377,6 @@ static long rndis_qc_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
 	}
 
 	spin_lock_irqsave(&rndis_lock, flags);
-<<<<<<< HEAD
 
 	if (!_rndis_qc) {
 		pr_err("rndis_qc_dev not present\n");
@@ -1418,17 +1386,6 @@ static long rndis_qc_ioctl(struct file *fp, unsigned cmd, unsigned long arg)
 
 	rndis_qc_unlock(&_rndis_qc->ioctl_excl);
 
-=======
-
-	if (!_rndis_qc) {
-		pr_err("rndis_qc_dev not present\n");
-		ret = -ENODEV;
-		goto fail;
-	}
-
-	rndis_qc_unlock(&_rndis_qc->ioctl_excl);
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 fail:
 	spin_unlock_irqrestore(&rndis_lock, flags);
 	return ret;

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012, 2015-2017, 2018 The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012, 2015-2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -188,11 +184,8 @@ void sched_update_nr_prod(int cpu, long delta, bool inc)
 	if (per_cpu(nr, cpu) > per_cpu(nr_max, cpu))
 		per_cpu(nr_max, cpu) = per_cpu(nr, cpu);
 
-<<<<<<< HEAD
 	update_last_busy_time(cpu, !inc, nr_running, curr_time);
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	per_cpu(nr_prod_sum, cpu) += nr_running * diff;
 	per_cpu(nr_big_prod_sum, cpu) += nr_eligible_big_tasks(cpu) * diff;
 	per_cpu(iowait_prod_sum, cpu) += nr_iowait_cpu(cpu) * diff;

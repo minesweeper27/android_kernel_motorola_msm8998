@@ -276,7 +276,6 @@ void cfg80211_conn_work(struct work_struct *work)
 		}
 		treason = NL80211_TIMEOUT_UNSPECIFIED;
 		if (cfg80211_conn_do_work(wdev, &treason)) {
-<<<<<<< HEAD
 			struct cfg80211_connect_resp_params cr;
 
 			memset(&cr, 0, sizeof(cr));
@@ -284,12 +283,6 @@ void cfg80211_conn_work(struct work_struct *work)
 			cr.bssid = bssid;
 			cr.timeout_reason = treason;
 			__cfg80211_connect_result(wdev->netdev, &cr, false);
-=======
-			__cfg80211_connect_result(
-					wdev->netdev, bssid,
-					NULL, 0, NULL, 0, -1, false, NULL,
-					treason);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 		wdev_unlock(wdev);
 	}
@@ -392,7 +385,6 @@ void cfg80211_sme_rx_auth(struct wireless_dev *wdev, const u8 *buf, size_t len)
 		wdev->conn->state = CFG80211_CONN_AUTHENTICATE_NEXT;
 		schedule_work(&rdev->conn_work);
 	} else if (status_code != WLAN_STATUS_SUCCESS) {
-<<<<<<< HEAD
 		struct cfg80211_connect_resp_params cr;
 
 		memset(&cr, 0, sizeof(cr));
@@ -400,12 +392,6 @@ void cfg80211_sme_rx_auth(struct wireless_dev *wdev, const u8 *buf, size_t len)
 		cr.bssid = mgmt->bssid;
 		cr.timeout_reason = NL80211_TIMEOUT_UNSPECIFIED;
 		__cfg80211_connect_result(wdev->netdev, &cr, false);
-=======
-		__cfg80211_connect_result(wdev->netdev, mgmt->bssid,
-					  NULL, 0, NULL, 0,
-					  status_code, false, NULL,
-					  NL80211_TIMEOUT_UNSPECIFIED);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	} else if (wdev->conn->state == CFG80211_CONN_AUTHENTICATING) {
 		wdev->conn->state = CFG80211_CONN_ASSOCIATE_NEXT;
 		schedule_work(&rdev->conn_work);
@@ -476,7 +462,6 @@ void cfg80211_sme_assoc_timeout(struct wireless_dev *wdev)
 		return;
 
 	wdev->conn->state = CFG80211_CONN_ASSOC_FAILED_TIMEOUT;
-<<<<<<< HEAD
 	schedule_work(&rdev->conn_work);
 }
 
@@ -488,8 +473,6 @@ void cfg80211_sme_abandon_assoc(struct wireless_dev *wdev)
 		return;
 
 	wdev->conn->state = CFG80211_CONN_ABANDON;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	schedule_work(&rdev->conn_work);
 }
 
@@ -706,18 +689,9 @@ static DECLARE_WORK(cfg80211_disconnect_work, disconnect_work);
  */
 
 /* This method must consume bss one way or another */
-<<<<<<< HEAD
 void __cfg80211_connect_result(struct net_device *dev,
 			       struct cfg80211_connect_resp_params *cr,
 			       bool wextev)
-=======
-void __cfg80211_connect_result(struct net_device *dev, const u8 *bssid,
-			       const u8 *req_ie, size_t req_ie_len,
-			       const u8 *resp_ie, size_t resp_ie_len,
-			       int status, bool wextev,
-			       struct cfg80211_bss *bss,
-			       enum nl80211_timeout_reason timeout_reason)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	struct wireless_dev *wdev = dev->ieee80211_ptr;
 	const u8 *country_ie;
@@ -733,15 +707,8 @@ void __cfg80211_connect_result(struct net_device *dev, const u8 *bssid,
 		return;
 	}
 
-<<<<<<< HEAD
 	nl80211_send_connect_result(wiphy_to_rdev(wdev->wiphy), dev, cr,
 				    GFP_KERNEL);
-=======
-	nl80211_send_connect_result(wiphy_to_rdev(wdev->wiphy), dev,
-				    bssid, req_ie, req_ie_len,
-				    resp_ie, resp_ie_len,
-				    status, timeout_reason, GFP_KERNEL);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #ifdef CONFIG_CFG80211_WEXT
 	if (wextev) {
@@ -829,17 +796,9 @@ void __cfg80211_connect_result(struct net_device *dev, const u8 *bssid,
 }
 
 /* Consumes bss object one way or another */
-<<<<<<< HEAD
 void cfg80211_connect_done(struct net_device *dev,
 			   struct cfg80211_connect_resp_params *params,
 			   gfp_t gfp)
-=======
-void cfg80211_connect_bss(struct net_device *dev, const u8 *bssid,
-			  struct cfg80211_bss *bss, const u8 *req_ie,
-			  size_t req_ie_len, const u8 *resp_ie,
-			  size_t resp_ie_len, int status, gfp_t gfp,
-			  enum nl80211_timeout_reason timeout_reason)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	struct wireless_dev *wdev = dev->ieee80211_ptr;
 	struct cfg80211_registered_device *rdev = wiphy_to_rdev(wdev->wiphy);
@@ -880,7 +839,6 @@ void cfg80211_connect_bss(struct net_device *dev, const u8 *bssid,
 		       params->req_ie_len);
 		next += params->req_ie_len;
 	}
-<<<<<<< HEAD
 	if (params->resp_ie_len) {
 		ev->cr.resp_ie = next;
 		ev->cr.resp_ie_len = params->resp_ie_len;
@@ -914,13 +872,6 @@ void cfg80211_connect_bss(struct net_device *dev, const u8 *bssid,
 	ev->cr.bss = params->bss;
 	ev->cr.status = params->status;
 	ev->cr.timeout_reason = params->timeout_reason;
-=======
-	if (bss)
-		cfg80211_hold_bss(bss_from_pub(bss));
-	ev->cr.bss = bss;
-	ev->cr.status = status;
-	ev->cr.timeout_reason = timeout_reason;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	spin_lock_irqsave(&wdev->event_lock, flags);
 	list_add_tail(&ev->list, &wdev->event_list);

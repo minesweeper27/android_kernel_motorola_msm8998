@@ -799,7 +799,6 @@ void mdss_dp_sw_config_msa(struct mdss_dp_drv_pdata *dp)
 {
 	u32 pixel_m, pixel_n;
 	u32 mvid, nvid;
-<<<<<<< HEAD
 	u64 mvid_calc;
 	u32 const nvid_fixed = 0x8000;
 	struct dss_io_data *ctrl_io = &dp->ctrl_io;
@@ -839,18 +838,6 @@ void mdss_dp_sw_config_msa(struct mdss_dp_drv_pdata *dp)
 		if (dp->link_rate == DP_LINK_RATE_540)
 			nvid *= 2;
 	}
-=======
-
-	pixel_m = readl_relaxed(dp_cc_io->base + MMSS_DP_PIXEL_M);
-	pixel_n = readl_relaxed(dp_cc_io->base + MMSS_DP_PIXEL_N);
-	pr_debug("pixel_m=0x%x, pixel_n=0x%x\n",
-					pixel_m, pixel_n);
-
-	mvid = (pixel_m & 0xFFFF) * 5;
-	nvid = (0xFFFF & (~pixel_n)) + (pixel_m & 0xFFFF);
-	if (lrate == DP_LINK_RATE_540)
-		nvid *= 2;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	pr_debug("mvid=0x%x, nvid=0x%x\n", mvid, nvid);
 	writel_relaxed(mvid, ctrl_io->base + DP_SOFTWARE_MVID);

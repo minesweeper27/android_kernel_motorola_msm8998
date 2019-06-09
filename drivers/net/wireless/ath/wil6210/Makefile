@@ -4,11 +4,7 @@ wil6210-y := main.o
 wil6210-y += netdev.o
 wil6210-y += cfg80211.o
 wil6210-y += pcie_bus.o
-<<<<<<< HEAD
 wil6210-$(CONFIG_WIL6210_DEBUGFS) += debugfs.o
-=======
-wil6210-y += debugfs.o
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 wil6210-y += sysfs.o
 wil6210-y += wmi.o
 wil6210-y += interrupt.o

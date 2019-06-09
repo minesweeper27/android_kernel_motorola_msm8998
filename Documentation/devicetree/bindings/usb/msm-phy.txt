@@ -212,11 +212,8 @@ Optional properties:
  - qcom,hold-reset: Indicates that hold QUSB PHY into reset state.
  - qcom,phy-clk-scheme: Should be one of "cml" or "cmos" if ref_clk_addr is provided.
  - qcom,major-rev: provide major revision number to differentiate power up sequence. default is 2.0
-<<<<<<< HEAD
  - qcom,vdda33-voltage-level: A list of three integer values (min, op, max) representing
    specific voltages (in microvolts) used for the vdda33 supply.
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  - qcom,tune2-efuse-correction: The value to be adjusted from fused value for
    improved rise/fall times.
 

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2011-2016, 2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -518,11 +514,7 @@ static ssize_t rpmstats_show(struct kobject *kobj,
 					prvdata);
 	}
 
-<<<<<<< HEAD
 	ret = snprintf(buf, prvdata->len, "%s", prvdata->buf);
-=======
-	ret = snprintf(buf, prvdata->len, prvdata->buf);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	iounmap(prvdata->reg_base);
 ioremap_fail:
 	kfree(prvdata);

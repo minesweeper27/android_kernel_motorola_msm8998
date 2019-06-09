@@ -334,14 +334,10 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
 		mm_flags |= FAULT_FLAG_WRITE;
 	}
 
-<<<<<<< HEAD
 	if (addr < USER_DS && is_permission_fault(esr, regs)) {
 		if (is_el1_instruction_abort(esr))
 			die("Attempting to execute userspace memory", regs, esr);
 
-=======
-	if (permission_fault(esr) && (addr < USER_DS)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		if (!search_exception_tables(regs->pc))
 			die("Accessing user space memory outside uaccess.h routines", regs, esr);
 	}
@@ -731,10 +727,7 @@ int cpu_enable_pan(void *__unused)
 	WARN_ON_ONCE(in_interrupt());
 
 	config_sctlr_el1(SCTLR_EL1_SPAN, 0);
-<<<<<<< HEAD
 	asm(SET_PSTATE_PAN(1));
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 #endif /* CONFIG_ARM64_PAN */

@@ -103,13 +103,10 @@ static inline int pd_phy_update_roles(enum data_role dr, enum power_role pr)
 }
 
 static inline void pd_phy_close(void)
-<<<<<<< HEAD
 {
 }
 
 static inline void pd_phy_audio_detect(bool enable)
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 }
 #endif

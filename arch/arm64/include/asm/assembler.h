@@ -23,15 +23,11 @@
 #ifndef __ASM_ASSEMBLER_H
 #define __ASM_ASSEMBLER_H
 
-<<<<<<< HEAD
 #include <asm/asm-offsets.h>
 #include <asm/cpufeature.h>
 #include <asm/page.h>
 #include <asm/pgtable-hwdef.h>
 #include <asm/cputype.h>
-=======
-#include <asm/cpufeature.h>
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include <asm/ptrace.h>
 #include <asm/thread_info.h>
 
@@ -407,7 +403,6 @@ alternative_endif
 	.endif
 	movk	\reg, :abs_g0_nc:\val
 	.endm
-<<<<<<< HEAD
 
 /*
  * Return the current thread_info.
@@ -455,6 +450,4 @@ alternative_endif
 .Ldone\@:
 	.endm
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #endif	/* __ASM_ASSEMBLER_H */

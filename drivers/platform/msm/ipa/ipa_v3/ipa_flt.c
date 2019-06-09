@@ -748,11 +748,7 @@ static int __ipa_validate_flt_rule(const struct ipa_flt_rule *rule,
 			}
 
 			if ((*rt_tbl)->cookie != IPA_RT_TBL_COOKIE) {
-<<<<<<< HEAD
 				IPAERR_RL("RT table cookie is invalid\n");
-=======
-				IPAERR("RT table cookie is invalid\n");
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				goto error;
 			}
 		} else {
@@ -773,16 +769,13 @@ static int __ipa_validate_flt_rule(const struct ipa_flt_rule *rule,
 	if (rule->rule_id) {
 		if ((rule->rule_id < ipahal_get_rule_id_hi_bit()) ||
 		(rule->rule_id >= ((ipahal_get_rule_id_hi_bit()<<1)-1))) {
-<<<<<<< HEAD
 			IPAERR_RL("invalid rule_id provided 0x%x\n"
-=======
-			IPAERR("invalid rule_id provided 0x%x\n"
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				"rule_id with bit 0x%x are auto generated\n",
 				rule->rule_id, ipahal_get_rule_id_hi_bit());
 			goto error;
 		}
 	}
+
 	return 0;
 
 error:
@@ -836,13 +829,8 @@ static int __ipa_finish_flt_rule_add(struct ipa3_flt_tbl *tbl,
 		entry->rt_tbl->ref_cnt++;
 	id = ipa3_id_alloc(entry);
 	if (id < 0) {
-<<<<<<< HEAD
 		IPAERR_RL("failed to add to tree\n");
 		WARN_ON_RATELIMIT_IPA(1);
-=======
-		IPAERR("failed to add to tree\n");
-		WARN_ON(1);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		goto ipa_insert_failed;
 	}
 	*rule_hdl = id;
@@ -1409,7 +1397,6 @@ int ipa3_reset_flt(enum ipa_ip_type ip, bool user_only)
 				mutex_unlock(&ipa3_ctx->lock);
 				return -EFAULT;
 			}
-<<<<<<< HEAD
 
 			if (!user_only ||
 					entry->ipacm_installed) {
@@ -1431,23 +1418,6 @@ int ipa3_reset_flt(enum ipa_ip_type ip, bool user_only)
 				/* remove the handle from the database */
 				ipa3_id_remove(id);
 			}
-=======
-			list_del(&entry->link);
-			entry->tbl->rule_cnt--;
-			if (entry->rt_tbl)
-				entry->rt_tbl->ref_cnt--;
-			/* if rule id was allocated from idr, remove it */
-			if ((entry->rule_id < ipahal_get_rule_id_hi_bit()) &&
-				(entry->rule_id >= ipahal_get_low_rule_id()))
-				idr_remove(&entry->tbl->rule_ids,
-					entry->rule_id);
-			entry->cookie = 0;
-			id = entry->id;
-			kmem_cache_free(ipa3_ctx->flt_rule_cache, entry);
-
-			/* remove the handle from the database */
-			ipa3_id_remove(id);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 	}
 

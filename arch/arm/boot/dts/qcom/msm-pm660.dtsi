@@ -32,11 +32,6 @@
 			reg = <0x900 0x100>;
 		};
 
-		pm660_misc: qcom,misc@900 {
-			compatible = "qcom,qpnp-misc";
-			reg = <0x900 0x100>;
-		};
-
 		qcom,power-on@800 {
 			compatible = "qcom,qpnp-power-on";
 			reg = <0x800 0x100>;
@@ -477,12 +472,8 @@
 					  "msg-rx-discarded";
 
 			qcom,default-sink-caps = <5000 3000>, /* 5V @ 3A */
-<<<<<<< HEAD
 						 <9000 3000>, /* 9V @ 3A */
 						 <12000 2250>; /* 12V @ 2.25A */
-=======
-						 <9000 3000>; /* 9V @ 3A */
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		};
 
 		pm660_adc_tm: vadc@3400 {

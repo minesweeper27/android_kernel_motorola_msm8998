@@ -143,13 +143,10 @@ struct rmnet_ipa3_context {
 	u32 ipa3_to_apps_hdl;
 	struct mutex pipe_handle_guard;
 	struct mutex add_mux_channel_lock;
-<<<<<<< HEAD
 	struct mutex per_client_stats_guard;
 	struct ipa_tether_device_info
 		tether_device
 		[IPACM_MAX_CLIENT_DEVICE_TYPES];
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct rmnet_ipa3_context *rmnet_ipa3_ctx;
@@ -3037,10 +3034,6 @@ static int rmnet_ipa3_query_tethering_stats_modem(
 		kfree(req);
 		kfree(resp);
 		return 0;
-	} else if (data == NULL) {
-		kfree(req);
-		kfree(resp);
-		return 0;
 	}
 
 	if (resp->dl_dst_pipe_stats_list_valid) {
@@ -3232,14 +3225,8 @@ int rmnet_ipa3_query_tethering_stats_all(
 int rmnet_ipa3_reset_tethering_stats(struct wan_ioctl_reset_tether_stats *data)
 {
 	enum ipa_upstream_type upstream_type;
-	struct wan_ioctl_query_tether_stats tether_stats;
 	int rc = 0;
 
-<<<<<<< HEAD
-=======
-	memset(&tether_stats, 0, sizeof(struct wan_ioctl_query_tether_stats));
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* prevent string buffer overflows */
 	data->upstreamIface[IFNAMSIZ-1] = '\0';
 
@@ -3260,7 +3247,7 @@ int rmnet_ipa3_reset_tethering_stats(struct wan_ioctl_reset_tether_stats *data)
 	} else {
 		IPAWANERR(" reset modem-backhaul stats\n");
 		rc = rmnet_ipa3_query_tethering_stats_modem(
-			&tether_stats, true);
+			NULL, true);
 		if (rc) {
 			IPAWANERR("reset MODEM stats failed\n");
 			return rc;
@@ -3865,7 +3852,6 @@ static int __init ipa3_wwan_init(void)
 
 	mutex_init(&rmnet_ipa3_ctx->pipe_handle_guard);
 	mutex_init(&rmnet_ipa3_ctx->add_mux_channel_lock);
-<<<<<<< HEAD
 	mutex_init(&rmnet_ipa3_ctx->per_client_stats_guard);
 	/* Reset the Lan Stats. */
 	for (i = 0; i < IPACM_MAX_CLIENT_DEVICE_TYPES; i++) {
@@ -3874,8 +3860,6 @@ static int __init ipa3_wwan_init(void)
 			rmnet_ipa3_ctx->tether_device[i].
 				lan_client[j].client_idx = -1;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rmnet_ipa3_ctx->ipa3_to_apps_hdl = -1;
 	rmnet_ipa3_ctx->apps_to_ipa3_hdl = -1;
 
@@ -3898,10 +3882,7 @@ static void __exit ipa3_wwan_cleanup(void)
 	ipa3_qmi_cleanup();
 	mutex_destroy(&rmnet_ipa3_ctx->pipe_handle_guard);
 	mutex_destroy(&rmnet_ipa3_ctx->add_mux_channel_lock);
-<<<<<<< HEAD
 	mutex_destroy(&rmnet_ipa3_ctx->per_client_stats_guard);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	ret = subsys_notif_unregister_notifier(
 		rmnet_ipa3_ctx->subsys_notify_handle, &ipa3_ssr_notifier);
 	if (ret)

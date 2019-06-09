@@ -411,12 +411,8 @@ retry:
 
 		if (!connected) {
 			pr_err("dp cable disconnected\n");
-<<<<<<< HEAD
 			ret = -ENODEV;
 			goto end;
-=======
-			break;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 
 		dp->aux_error_num = EDP_AUX_ERR_NONE;
@@ -982,10 +978,7 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 	u32 checksum = 0;
 	bool phy_aux_update_requested = false;
 	bool ext_block_parsing_done = false;
-<<<<<<< HEAD
 	bool connected = false;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	ret = dp_aux_chan_ready(dp);
 	if (ret) {
@@ -1005,7 +998,6 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 		u8 segment;
 		u8 edid_buf[EDID_BLOCK_SIZE] = {0};
 
-<<<<<<< HEAD
 		mutex_lock(&dp->attention_lock);
 		connected = dp->cable_connected;
 		mutex_unlock(&dp->attention_lock);
@@ -1015,8 +1007,6 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 			return -ENODEV;
 		}
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		/*
 		 * Write the segment first.
 		 * Segment = 0, for blocks 0 and 1
@@ -1129,7 +1119,6 @@ int mdss_dp_dpcd_cap_read(struct mdss_dp_drv_pdata *ep)
 	if (rlen <= 0) {
 		pr_err("edp aux read failed\n");
 		return rlen;
-<<<<<<< HEAD
 	}
 
 	if (rlen != len) {
@@ -1138,16 +1127,6 @@ int mdss_dp_dpcd_cap_read(struct mdss_dp_drv_pdata *ep)
 		return -EINVAL;
 	}
 
-=======
-	}
-
-	if (rlen != len) {
-		pr_debug("Read size expected(%d) bytes, actual(%d) bytes\n",
-			len, rlen);
-		return -EINVAL;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rp = &ep->rxp;
 	bp = rp->data;
 
@@ -1206,19 +1185,11 @@ int mdss_dp_dpcd_cap_read(struct mdss_dp_drv_pdata *ep)
 	bp += 1;	/* Skip Byte 6 */
 
 	data = *bp++; /* Byte 7: DOWN_STREAM_PORT_COUNT */
-<<<<<<< HEAD
 	cap->downstream_port.dsp_count = data & 0x7;
 	if (cap->downstream_port.dsp_count > DP_MAX_DS_PORT_COUNT) {
 		pr_debug("DS port count %d greater that max (%d) supported\n",
 			cap->downstream_port.dsp_count, DP_MAX_DS_PORT_COUNT);
 		cap->downstream_port.dsp_count = DP_MAX_DS_PORT_COUNT;
-=======
-	cap->downstream_port.dfp_count = data & 0x7;
-	if (cap->downstream_port.dfp_count > DP_MAX_DS_PORT_COUNT) {
-		pr_debug("DS port count %d greater that max (%d) supported\n",
-			cap->downstream_port.dfp_count, DP_MAX_DS_PORT_COUNT);
-		cap->downstream_port.dfp_count = DP_MAX_DS_PORT_COUNT;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 	cap->downstream_port.msa_timing_par_ignored = data & BIT(6);
 	cap->downstream_port.oui_support = data & BIT(7);

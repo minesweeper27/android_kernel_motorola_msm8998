@@ -712,7 +712,6 @@ int ipa3_qmi_filter_request_ex_send(
 		req->filter_spec_ex_list_len);
 	}
 
-<<<<<<< HEAD
 	if (req->filter_spec_ex_list_len >= QMI_IPA_MAX_FILTERS_EX_V01) {
 		IPAWANDBG(
 		"IPACM pass the number of filtering rules exceed limit\n");
@@ -741,8 +740,6 @@ int ipa3_qmi_filter_request_ex_send(
 			QMI_IPA_FILTER_ACTION_EXCEPTION_V01))
 			return -EINVAL;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mutex_lock(&ipa3_qmi_lock);
 	if (ipa3_qmi_ctx != NULL) {
 		/* cache the qmi_filter_request */
@@ -943,7 +940,6 @@ int ipa3_qmi_filter_notify_send(
 		IPAWANERR("Source pipe index invalid\n");
 		return -EINVAL;
 	}
-<<<<<<< HEAD
 	if (req->install_status != IPA_QMI_RESULT_SUCCESS_V01) {
 		IPAWANERR(" UL filter rule for pipe %d install_status = %d\n",
 			req->source_pipe_index, req->install_status);
@@ -969,8 +965,6 @@ int ipa3_qmi_filter_notify_send(
 		req->source_pipe_index);
 		return -EINVAL;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	mutex_lock(&ipa3_qmi_lock);
 	if (ipa3_qmi_ctx != NULL) {
@@ -1554,7 +1548,6 @@ int ipa3_qmi_stop_data_qouta(void)
 		resp.resp.error, "ipa_stop_data_usage_quota_req_msg_v01");
 }
 
-<<<<<<< HEAD
 int ipa3_qmi_enable_per_client_stats(
 	struct ipa_enable_per_client_stats_req_msg_v01 *req,
 	struct ipa_enable_per_client_stats_resp_msg_v01 *resp)
@@ -1623,8 +1616,6 @@ int ipa3_qmi_get_per_client_packet_stats(
 		"struct ipa_get_stats_per_client_req_msg_v01");
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 void ipa3_qmi_init(void)
 {
 	mutex_init(&ipa3_qmi_lock);

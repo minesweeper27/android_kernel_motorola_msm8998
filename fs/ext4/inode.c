@@ -1196,11 +1196,7 @@ static int ext4_write_end(struct file *file,
 
 	trace_android_fs_datawrite_end(inode, pos, len);
 	trace_ext4_write_end(inode, pos, len, copied);
-<<<<<<< HEAD
 	if (inline_data) {
-=======
-	if (ext4_has_inline_data(inode)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		ret = ext4_write_inline_data_end(inode, pos, len,
 						 copied, page);
 		if (ret < 0) {

@@ -573,7 +573,6 @@ static int fg_get_charge_raw(struct fg_chip *chip, int *val)
 	return 0;
 }
 
-<<<<<<< HEAD
 #define BATT_SOC_32BIT	GENMASK(31, 0)
 static int fg_get_charge_counter_shadow(struct fg_chip *chip, int *val)
 {
@@ -589,8 +588,6 @@ static int fg_get_charge_counter_shadow(struct fg_chip *chip, int *val)
 	return 0;
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int fg_get_charge_counter(struct fg_chip *chip, int *val)
 {
 	int rc, cc_soc;
@@ -712,13 +709,10 @@ static int fg_get_battery_temp(struct fg_chip *chip, int *val)
 
 	/* Value is in Kelvin; Convert it to deciDegC */
 	temp = (temp - 273) * 10;
-<<<<<<< HEAD
 
 	if (chip->dt.batt_therm_high_lut_len > 0 ||
 	    chip->dt.batt_therm_low_lut_len > 0)
 		temp = fg_get_rectified_battery_temp(chip, temp);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	*val = temp;
 	return 0;
 }
@@ -1369,11 +1363,7 @@ static int fg_batt_miss_irq_en_cb(struct votable *votable, void *data,
 		enable_irq_wake(chip->irqs[BATT_MISSING_IRQ].irq);
 	} else {
 		disable_irq_wake(chip->irqs[BATT_MISSING_IRQ].irq);
-<<<<<<< HEAD
 		disable_irq_nosync(chip->irqs[BATT_MISSING_IRQ].irq);
-=======
-		disable_irq(chip->irqs[BATT_MISSING_IRQ].irq);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	return 0;
@@ -1392,11 +1382,7 @@ static int fg_delta_bsoc_irq_en_cb(struct votable *votable, void *data,
 		enable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
 	} else {
 		disable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
-<<<<<<< HEAD
 		disable_irq_nosync(chip->irqs[BSOC_DELTA_IRQ].irq);
-=======
-		disable_irq(chip->irqs[BSOC_DELTA_IRQ].irq);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	return 0;
@@ -1682,10 +1668,6 @@ static int fg_cap_learning_process_full_data(struct fg_chip *chip)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-#define BATT_SOC_32BIT	GENMASK(31, 0)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int fg_cap_learning_begin(struct fg_chip *chip, u32 batt_soc)
 {
 	int rc, cc_soc_sw, batt_soc_msb;
@@ -1704,13 +1686,7 @@ static int fg_cap_learning_begin(struct fg_chip *chip, u32 batt_soc)
 	/* Prime cc_soc_sw with battery SOC when capacity learning begins */
 	cc_soc_sw = div64_s64((int64_t)batt_soc * CC_SOC_30BIT,
 				BATT_SOC_32BIT);
-<<<<<<< HEAD
 	rc = fg_prime_cc_soc_sw(chip, cc_soc_sw);
-=======
-	rc = fg_sram_write(chip, chip->sp[FG_SRAM_CC_SOC_SW].addr_word,
-		chip->sp[FG_SRAM_CC_SOC_SW].addr_byte, (u8 *)&cc_soc_sw,
-		chip->sp[FG_SRAM_CC_SOC_SW].len, FG_IMA_ATOMIC);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (rc < 0) {
 		pr_err("Error in writing cc_soc_sw, rc=%d\n", rc);
 		goto out;
@@ -1749,14 +1725,9 @@ out:
 
 static void fg_cap_learning_update(struct fg_chip *chip)
 {
-<<<<<<< HEAD
 	int rc, batt_soc, batt_soc_msb, cc_soc_sw;
 	bool input_present = is_input_present(chip);
 	bool prime_cc = false;
-=======
-	int rc, batt_soc, batt_soc_msb;
-	bool input_present = is_input_present(chip);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	mutex_lock(&chip->cl.lock);
 
@@ -1810,10 +1781,7 @@ static void fg_cap_learning_update(struct fg_chip *chip)
 					 batt_soc_msb);
 				chip->cl.active = false;
 				chip->cl.init_cc_uah = 0;
-<<<<<<< HEAD
 				prime_cc = true;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			}
 		}
 
@@ -1830,10 +1798,7 @@ static void fg_cap_learning_update(struct fg_chip *chip)
 					batt_soc_msb);
 				chip->cl.active = false;
 				chip->cl.init_cc_uah = 0;
-<<<<<<< HEAD
 				prime_cc = true;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			}
 		}
 	}
@@ -1922,11 +1887,8 @@ static int fg_adjust_ki_coeff_full_soc(struct fg_chip *chip, int batt_temp)
 
 	if (batt_temp < 0)
 		ki_coeff_full_soc = 0;
-<<<<<<< HEAD
 	else if (chip->charge_status == POWER_SUPPLY_STATUS_DISCHARGING)
 		ki_coeff_full_soc = chip->dt.ki_coeff_full_soc_dischg;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	else
 		ki_coeff_full_soc = KI_COEFF_FULL_SOC_DEFAULT;
 
@@ -2322,7 +2284,6 @@ static int fg_adjust_recharge_soc(struct fg_chip *chip)
 						rc);
 					return rc;
 				}
-<<<<<<< HEAD
 
 				/* Adjust the recharge_soc threshold */
 				new_recharge_soc = msoc - (FULL_CAPACITY -
@@ -2342,20 +2303,6 @@ static int fg_adjust_recharge_soc(struct fg_chip *chip)
 			/* Restore the default value */
 			new_recharge_soc = recharge_soc;
 			chip->recharge_soc_adjusted = false;
-=======
-
-				/* Adjust the recharge_soc threshold */
-				new_recharge_soc = msoc - (FULL_CAPACITY -
-								recharge_soc);
-				chip->recharge_soc_adjusted = true;
-			} else {
-				/* adjusted already, do nothing */
-				return 0;
-			}
-		} else {
-			/* Charging, do nothing */
-			return 0;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 	} else {
 		/* Restore the default value */
@@ -2368,7 +2315,6 @@ static int fg_adjust_recharge_soc(struct fg_chip *chip)
 		chip->recharge_soc_adjusted = recharge_soc_status;
 		pr_err("Couldn't set resume SOC for FG, rc=%d\n", rc);
 		return rc;
-<<<<<<< HEAD
 	}
 
 	fg_dbg(chip, FG_STATUS, "resume soc set to %d\n", new_recharge_soc);
@@ -2397,11 +2343,8 @@ static int fg_adjust_recharge_voltage(struct fg_chip *chip)
 		pr_err("Error in setting recharge_voltage, rc=%d\n",
 			rc);
 		return rc;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
-	fg_dbg(chip, FG_STATUS, "resume soc set to %d\n", new_recharge_soc);
 	return 0;
 }
 
@@ -2709,53 +2652,6 @@ static int fg_esr_fcc_config(struct fg_chip *chip)
 }
 
 static int fg_esr_timer_config(struct fg_chip *chip, bool sleep)
-<<<<<<< HEAD
-=======
-{
-	int rc, cycles_init, cycles_max;
-	bool end_of_charge = false;
-
-	end_of_charge = is_input_present(chip) && chip->charge_done;
-	fg_dbg(chip, FG_STATUS, "sleep: %d eoc: %d\n", sleep, end_of_charge);
-
-	/* ESR discharging timer configuration */
-	cycles_init = sleep ? chip->dt.esr_timer_asleep[TIMER_RETRY] :
-			chip->dt.esr_timer_awake[TIMER_RETRY];
-	if (end_of_charge)
-		cycles_init = 0;
-
-	cycles_max = sleep ? chip->dt.esr_timer_asleep[TIMER_MAX] :
-			chip->dt.esr_timer_awake[TIMER_MAX];
-
-	rc = fg_set_esr_timer(chip, cycles_init, cycles_max, false,
-		sleep ? FG_IMA_NO_WLOCK : FG_IMA_DEFAULT);
-	if (rc < 0) {
-		pr_err("Error in setting ESR timer, rc=%d\n", rc);
-		return rc;
-	}
-
-	/* ESR charging timer configuration */
-	cycles_init = cycles_max = -EINVAL;
-	if (end_of_charge || sleep) {
-		cycles_init = chip->dt.esr_timer_charging[TIMER_RETRY];
-		cycles_max = chip->dt.esr_timer_charging[TIMER_MAX];
-	} else if (is_input_present(chip)) {
-		cycles_init = chip->esr_timer_charging_default[TIMER_RETRY];
-		cycles_max = chip->esr_timer_charging_default[TIMER_MAX];
-	}
-
-	rc = fg_set_esr_timer(chip, cycles_init, cycles_max, true,
-		sleep ? FG_IMA_NO_WLOCK : FG_IMA_DEFAULT);
-	if (rc < 0) {
-		pr_err("Error in setting ESR timer, rc=%d\n", rc);
-		return rc;
-	}
-
-	return 0;
-}
-
-static void fg_batt_avg_update(struct fg_chip *chip)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	int rc, cycles_init, cycles_max;
 	bool end_of_charge = false;
@@ -2828,7 +2724,6 @@ static void fg_ttf_update(struct fg_chip *chip)
 		online = online || prop.intval;
 	}
 
-<<<<<<< HEAD
 	if (dc_psy_initialized(chip)) {
 		rc = power_supply_get_property(chip->dc_psy,
 			POWER_SUPPLY_PROP_ONLINE, &prop);
@@ -2838,23 +2733,6 @@ static void fg_ttf_update(struct fg_chip *chip)
 		}
 
 		online = online || prop.intval;
-=======
-	rc = fg_esr_timer_config(chip, false);
-	if (rc < 0)
-		pr_err("Error in configuring ESR timer, rc=%d\n", rc);
-
-	rc = fg_get_battery_temp(chip, &batt_temp);
-	if (!rc) {
-		rc = fg_slope_limit_config(chip, batt_temp);
-		if (rc < 0)
-			pr_err("Error in configuring slope limiter rc:%d\n",
-				rc);
-
-		rc = fg_adjust_ki_coeff_full_soc(chip, batt_temp);
-		if (rc < 0)
-			pr_err("Error in configuring ki_coeff_full_soc rc:%d\n",
-				rc);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 
@@ -3108,7 +2986,6 @@ static int fg_get_cycle_count(struct fg_chip *chip)
 	return count;
 }
 
-<<<<<<< HEAD
 static void status_change_work(struct work_struct *work)
 {
 	struct fg_chip *chip = container_of(work,
@@ -3191,14 +3068,11 @@ out:
 
 #define SAT_CC_CLR_AUTO_BIT BIT(3)
 #define VCTIBTRSLWEN_MASK   GENMASK(7, 6)
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int fg_bp_params_config(struct fg_chip *chip)
 {
 	int rc = 0;
 	u8 buf;
 
-<<<<<<< HEAD
 	/* Set CC_SOC saturation auto-clear */
 	rc = fg_sram_masked_write(chip, SAT_CC_CLR_VCTIBTRSLWEN_WORD,
 				SAT_CC_CLR_OFFSET, SAT_CC_CLR_AUTO_BIT,
@@ -3217,8 +3091,6 @@ static int fg_bp_params_config(struct fg_chip *chip)
 		return rc;
 	}
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* This SRAM register is only present in v2.0 and above */
 	if (!(chip->wa_flags & PMI8998_V1_REV_WA) &&
 					chip->bp.float_volt_uv > 0) {
@@ -3243,7 +3115,6 @@ static int fg_bp_params_config(struct fg_chip *chip)
 	return rc;
 }
 
-<<<<<<< HEAD
 static bool has_profile_revision_changed(struct fg_chip *chip)
 {
 	u8 val;
@@ -3270,8 +3141,6 @@ static bool has_profile_revision_changed(struct fg_chip *chip)
 	}
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define PROFILE_LOAD_BIT	BIT(0)
 #define BOOTLOADER_LOAD_BIT	BIT(1)
 #define BOOTLOADER_RESTART_BIT	BIT(2)
@@ -4027,7 +3896,6 @@ static int fg_esr_validate(struct fg_chip *chip)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int fg_force_esr_meas(struct fg_chip *chip)
 {
 	int rc;
@@ -4195,8 +4063,6 @@ end_work:
 	mutex_unlock(&chip->ttf.lock);
 }
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /* PSY CALLBACKS STAY HERE */
 
 static int fg_psy_get_property(struct power_supply *psy,
@@ -4290,12 +4156,9 @@ static int fg_psy_get_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
 		rc = fg_get_charge_counter(chip, &pval->intval);
-<<<<<<< HEAD
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER_SHADOW:
 		rc = fg_get_charge_counter_shadow(chip, &pval->intval);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		break;
 	case POWER_SUPPLY_PROP_TIME_TO_FULL_AVG:
 		rc = fg_get_time_to_full(chip, &pval->intval);
@@ -4453,10 +4316,7 @@ static int fg_psy_set_property(struct power_supply *psy,
 			return -EINVAL;
 		}
 		break;
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
 		rc = fg_set_constant_chg_voltage(chip, pval->intval);
 		break;
@@ -4848,16 +4708,6 @@ static int fg_hw_init(struct fg_chip *chip)
 	if (rc < 0) {
 		pr_err("Error in setting ESR timer, rc=%d\n", rc);
 		return rc;
-<<<<<<< HEAD
-=======
-	}
-
-	rc = fg_set_esr_timer(chip, chip->dt.esr_timer_awake[TIMER_RETRY],
-		chip->dt.esr_timer_awake[TIMER_MAX], false, FG_IMA_DEFAULT);
-	if (rc < 0) {
-		pr_err("Error in setting ESR timer, rc=%d\n", rc);
-		return rc;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	rc = fg_set_esr_timer(chip, chip->dt.esr_timer_awake[TIMER_RETRY],
@@ -4935,7 +4785,6 @@ static int fg_hw_init(struct fg_chip *chip)
 		}
 	}
 
-<<<<<<< HEAD
 	/*
 	*set ibat_cutoff from 500ma to 200ma
 	*val = ibat_cutoff / 0.00012207
@@ -4950,8 +4799,6 @@ static int fg_hw_init(struct fg_chip *chip)
 	if (rc < 0)
 		pr_err("Error in configuring Sram, rc=%d\n", rc);
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 
@@ -5105,14 +4952,11 @@ static irqreturn_t fg_delta_batt_temp_irq_handler(int irq, void *data)
 		if (rc < 0)
 			pr_err("Error in adjusting timebase, rc=%d\n", rc);
 
-<<<<<<< HEAD
 		rc = fg_adjust_recharge_voltage(chip);
 		if (rc < 0)
 			pr_err("Error in adjusting recharge_voltage, rc=%d\n",
 				rc);
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		chip->last_batt_temp = batt_temp;
 		power_supply_changed(chip->batt_psy);
 	}
@@ -5405,13 +5249,10 @@ static int fg_parse_ki_coefficients(struct fg_chip *chip)
 	struct device_node *node = chip->dev->of_node;
 	int rc, i, temp;
 
-<<<<<<< HEAD
 	rc = of_property_read_u32(node, "qcom,ki-coeff-full-dischg", &temp);
 	if (!rc)
 		chip->dt.ki_coeff_full_soc_dischg = temp;
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rc = fg_parse_dt_property_u32_array(node, "qcom,ki-coeff-soc-dischg",
 		chip->dt.ki_coeff_soc, KI_COEFF_SOC_LEVELS);
 	if (rc < 0)
@@ -5477,12 +5318,9 @@ static int fg_parse_ki_coefficients(struct fg_chip *chip)
 #define DEFAULT_ESR_BROAD_FLT_UPCT	99610
 #define DEFAULT_ESR_TIGHT_LT_FLT_UPCT	30000
 #define DEFAULT_ESR_BROAD_LT_FLT_UPCT	30000
-<<<<<<< HEAD
 #define DEFAULT_ESR_FLT_RT_DECIDEGC	60
 #define DEFAULT_ESR_TIGHT_RT_FLT_UPCT	5860
 #define DEFAULT_ESR_BROAD_RT_FLT_UPCT	156250
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define DEFAULT_ESR_CLAMP_MOHMS		20
 #define DEFAULT_ESR_PULSE_THRESH_MA	110
 #define DEFAULT_ESR_MEAS_CURR_MA	120
@@ -5864,7 +5702,6 @@ static int fg_parse_dt(struct fg_chip *chip)
 			chip->dt.esr_meas_curr_ma = temp;
 	}
 
-<<<<<<< HEAD
 	chip->dt.batt_therm_high_lut_len =
 		of_property_count_elems_of_size(node,
 		"qcom,battery-thermal-high-lut",
@@ -5911,8 +5748,6 @@ static int fg_parse_dt(struct fg_chip *chip)
 	} else
 		chip->dt.batt_therm_low_lut_len = -EINVAL;
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 
@@ -5952,10 +5787,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	chip->charge_status = -EINVAL;
 	chip->prev_charge_status = -EINVAL;
 	chip->ki_coeff_full_soc = -EINVAL;
-<<<<<<< HEAD
 	chip->online_status = -EINVAL;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	chip->regmap = dev_get_regmap(chip->dev->parent, NULL);
 	if (!chip->regmap) {
 		dev_err(chip->dev, "Parent regmap is unavailable\n");
@@ -6032,10 +5864,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	mutex_init(&chip->cl.lock);
 	mutex_init(&chip->ttf.lock);
 	mutex_init(&chip->charge_full_lock);
-<<<<<<< HEAD
 	mutex_init(&chip->qnovo_esr_ctrl_lock);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	spin_lock_init(&chip->suspend_lock);
 	init_completion(&chip->soc_update);
 	init_completion(&chip->soc_ready);
@@ -6043,12 +5872,9 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	INIT_WORK(&chip->status_change_work, status_change_work);
 	INIT_DELAYED_WORK(&chip->ttf_work, ttf_work);
 	INIT_DELAYED_WORK(&chip->sram_dump_work, sram_dump_work);
-<<<<<<< HEAD
 	INIT_WORK(&chip->esr_filter_work, esr_filter_work);
 	alarm_init(&chip->esr_filter_alarm, ALARM_BOOTTIME,
 			fg_esr_filter_alarm_cb);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	rc = fg_memif_init(chip);
 	if (rc < 0) {

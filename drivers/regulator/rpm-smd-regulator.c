@@ -1738,20 +1738,11 @@ static int rpm_vreg_device_probe(struct platform_device *pdev)
 		init_data->constraints.valid_ops_mask
 			|= REGULATOR_CHANGE_MODE | REGULATOR_CHANGE_DRMS;
 
-<<<<<<< HEAD
 		init_data->constraints.valid_modes_mask
 			|= REGULATOR_MODE_NORMAL | REGULATOR_MODE_IDLE;
 		if (regulator_type == RPM_REGULATOR_TYPE_BOB)
 			init_data->constraints.valid_modes_mask |=
 				REGULATOR_MODE_FAST;
-=======
-		if (regulator_type == RPM_REGULATOR_TYPE_BOB)
-			init_data->constraints.valid_modes_mask
-				= REGULATOR_MODE_FAST | REGULATOR_MODE_NORMAL;
-		else
-			init_data->constraints.valid_modes_mask
-				|= REGULATOR_MODE_NORMAL | REGULATOR_MODE_IDLE;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	reg->rdesc.name		= init_data->constraints.name;

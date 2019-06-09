@@ -556,11 +556,7 @@ int kgsl_devfreq_target(struct device *dev, unsigned long *freq, u32 flags)
 		 * power levels, i.e., from max_pwrlevel to min_pwrlevel.
 		 */
 		for (i = pwr->min_pwrlevel; (i >= pwr->max_pwrlevel
-<<<<<<< HEAD
 					&& i <= pwr->min_pwrlevel); i--)
-=======
-					  && i <= pwr->min_pwrlevel); i--)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			if (*freq <= pwr->pwrlevels[i].gpu_freq) {
 				if (pwr->thermal_cycle == CYCLE_ACTIVE)
 					level = _thermal_adjust(pwr, i);

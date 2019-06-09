@@ -290,10 +290,7 @@ static int unregister_gadget(struct gadget_info *gi)
 	if (ret) {
 		log_event_dbg("unregister gadget failed, ret = %d\n", ret);
 		return ret;
-<<<<<<< HEAD
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	gi->unbinding = false;
 	kfree(gi->udc_name);
 	gi->udc_name = NULL;

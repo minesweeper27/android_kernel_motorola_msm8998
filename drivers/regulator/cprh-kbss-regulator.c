@@ -81,13 +81,8 @@ struct cprh_kbss_fuses {
  * Fuse combos 32 - 39 map to CPR fusing revision 0 - 7 with speed bin fuse = 4.
  */
 #define CPRH_MSM8998_KBSS_FUSE_COMBO_COUNT	32
-<<<<<<< HEAD
 #define CPRH_SDM660_KBSS_FUSE_COMBO_COUNT	40
 #define CPRH_SDM630_KBSS_FUSE_COMBO_COUNT	32
-=======
-#define CPRH_SDM660_KBSS_FUSE_COMBO_COUNT	32
-#define CPRH_SDM630_KBSS_FUSE_COMBO_COUNT	24
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /*
  * Constants which define the name of each fuse corner.

@@ -26,10 +26,7 @@
 #include "dsi-panel-truly-1080p-video.dtsi"
 #include "dsi-panel-rm67195-amoled-fhd-cmd.dtsi"
 #include "dsi-panel-lgd-incell-sw49106-fhd-video.dtsi"
-<<<<<<< HEAD
 #include "dsi-panel-hx8399c-fhd-plus-video.dtsi"
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 &soc {
 	dsi_panel_pwr_supply: dsi_panel_pwr_supply {
@@ -124,11 +121,7 @@
 			reg = <0>;
 			qcom,supply-name = "wqhd-vddio";
 			qcom,supply-min-voltage = <1800000>;
-<<<<<<< HEAD
 			qcom,supply-max-voltage = <1800000>;
-=======
-			qcom,supply-max-voltage = <1950000>;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			qcom,supply-enable-load = <32000>;
 			qcom,supply-disable-load = <80>;
 		};
@@ -348,7 +341,6 @@
 		24 1b 08 09 05 03 04 a0];
 	qcom,mdss-dsi-t-clk-post = <0x0d>;
 	qcom,mdss-dsi-t-clk-pre = <0x30>;
-<<<<<<< HEAD
 };
 
 &dsi_hx8399c_truly_vid {
@@ -370,6 +362,4 @@
 	qcom,mdss-dsi-pan-enable-dynamic-fps;
 	qcom,mdss-dsi-pan-fps-update =
 		"dfps_immediate_porch_mode_vfp";
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };

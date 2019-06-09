@@ -234,7 +234,6 @@ static inline bool lockdep_softirq_start(void) { return false; }
 static inline void lockdep_softirq_end(bool in_hardirq) { }
 #endif
 
-<<<<<<< HEAD
 #define softirq_deferred_for_rt(pending)		\
 ({							\
 	__u32 deferred = 0;				\
@@ -246,11 +245,6 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
 })
 
 asmlinkage __visible void __softirq_entry __do_softirq(void)
-=======
-#define long_softirq_pending()	(local_softirq_pending() & LONG_SOFTIRQ_MASK)
-#define defer_for_rt()		(long_softirq_pending() && cpupri_check_rt())
-asmlinkage __visible void __do_softirq(void)
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
 	unsigned long old_flags = current->flags;
@@ -276,11 +270,7 @@ asmlinkage __visible void __do_softirq(void)
 
 restart:
 	/* Reset the pending bitmask before enabling irqs */
-<<<<<<< HEAD
 	set_softirq_pending(deferred);
-=======
-	set_softirq_pending(0);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	__this_cpu_write(active_softirqs, pending);
 
 	local_irq_enable();
@@ -320,7 +310,6 @@ restart:
 
 	if (pending) {
 		if (time_before(jiffies, end) && !need_resched() &&
-		    !defer_for_rt() &&
 		    --max_restart)
 			goto restart;
 	}
@@ -373,7 +362,7 @@ void irq_enter(void)
 
 static inline void invoke_softirq(void)
 {
-	if (!force_irqthreads && !defer_for_rt()) {
+	if (!force_irqthreads) {
 #ifdef CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK
 		/*
 		 * We can safely execute softirq on the current stack if

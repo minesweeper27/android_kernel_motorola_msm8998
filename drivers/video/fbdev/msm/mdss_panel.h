@@ -371,10 +371,7 @@ enum mdss_intf_events {
 	MDSS_EVENT_DSI_TIMING_DB_CTRL,
 	MDSS_EVENT_AVR_MODE,
 	MDSS_EVENT_REGISTER_CLAMP_HANDLER,
-<<<<<<< HEAD
 	MDSS_EVENT_DSI_DYNAMIC_BITCLK,
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	MDSS_EVENT_MAX,
 	MDSS_EVENT_ENABLE_TE,
 };
@@ -606,13 +603,10 @@ struct mipi_panel_info {
 	u32  post_init_delay;
 	u32  num_of_sublinks;
 	u32  lanes_per_sublink;
-<<<<<<< HEAD
 
 	char lp11_reset_lcdb;
 	char lp11_lcdb_reset;
 	char bl_shutdown_dcs;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 struct edp_panel_info {
@@ -1014,7 +1008,6 @@ struct mdss_panel_info {
 
 	/* esc clk recommended for the panel */
 	u32 esc_clk_rate_hz;
-<<<<<<< HEAD
 
 	u32 disp_on_check_val;
 	bool no_panel_read_support;
@@ -1027,8 +1020,6 @@ struct mdss_panel_info {
 	u32 forced_tx_mode_ftr_enabled;
 	u32 forced_tx_mode_state;
 	bool bklt_dcs_2bytes_enabled;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 struct mdss_panel_timing {

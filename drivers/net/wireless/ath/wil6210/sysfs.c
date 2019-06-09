@@ -268,7 +268,6 @@ static DEVICE_ATTR(fst_link_loss, 0644,
 		   wil_fst_link_loss_sysfs_show,
 		   wil_fst_link_loss_sysfs_store);
 
-<<<<<<< HEAD
 static ssize_t
 wil_snr_thresh_sysfs_show(struct device *dev, struct device_attribute *attr,
 			  char *buf)
@@ -307,16 +306,11 @@ static DEVICE_ATTR(snr_thresh, 0644,
 		   wil_snr_thresh_sysfs_show,
 		   wil_snr_thresh_sysfs_store);
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static struct attribute *wil6210_sysfs_entries[] = {
 	&dev_attr_ftm_txrx_offset.attr,
 	&dev_attr_thermal_throttling.attr,
 	&dev_attr_fst_link_loss.attr,
-<<<<<<< HEAD
 	&dev_attr_snr_thresh.attr,
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	NULL
 };
 
@@ -336,11 +330,8 @@ int wil6210_sysfs_init(struct wil6210_priv *wil)
 		return err;
 	}
 
-<<<<<<< HEAD
 	kobject_uevent(&dev->kobj, KOBJ_CHANGE);
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 
@@ -349,8 +340,5 @@ void wil6210_sysfs_remove(struct wil6210_priv *wil)
 	struct device *dev = wil_to_dev(wil);
 
 	sysfs_remove_group(&dev->kobj, &wil6210_attribute_group);
-<<<<<<< HEAD
 	kobject_uevent(&dev->kobj, KOBJ_CHANGE);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }

@@ -260,7 +260,6 @@ struct dwc3_msm {
 	struct pm_qos_request pm_qos_req_dma;
 	struct delayed_work perf_vote_work;
 	struct delayed_work sdp_check;
-<<<<<<< HEAD
 	bool usb_compliance_mode;
 	struct mutex suspend_resume_mutex;
 	bool			ext_typec_switch;
@@ -305,9 +304,6 @@ static int set_usb_pri_param(const char *val, const struct kernel_param *kp)
 static struct kernel_param_ops usb_pri_ops = {
 	.set = set_usb_pri_param,
 	.get = param_get_int,
-=======
-	struct mutex suspend_resume_mutex;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 module_param_cb(usb_priority, &usb_pri_ops, &usb_priority, S_IRUGO|S_IWUSR);
@@ -2487,13 +2483,6 @@ static int dwc3_msm_suspend(struct dwc3_msm *mdwc, bool hibernation)
 		mutex_unlock(&mdwc->suspend_resume_mutex);
 		return ret;
 	}
-<<<<<<< HEAD
-=======
-
-	/* Initialize variables here */
-	can_suspend_ssphy = !(mdwc->in_host_mode &&
-				dwc3_msm_is_host_superspeed(mdwc));
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* Disable core irq */
 	if (dwc->irq)
@@ -3104,7 +3093,6 @@ static void check_for_sdp_connection(struct work_struct *w)
 	if (!mdwc->vbus_active)
 		return;
 
-<<<<<<< HEAD
 	/* USB 3.1 compliance equipment usually repoted as floating
 	 * charger as HS dp/dm lines are never connected. Do not
 	 * tear down USB stack if compliance parameter is set
@@ -3112,8 +3100,6 @@ static void check_for_sdp_connection(struct work_struct *w)
 	if (mdwc->usb_compliance_mode)
 		return;
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* floating D+/D- lines detected */
 	if (dwc->gadget.state < USB_STATE_DEFAULT &&
 		dwc3_gadget_get_link_state(dwc) != DWC3_LINK_STATE_CMPLY) {
@@ -3552,15 +3538,12 @@ static int dwc3_msm_probe(struct platform_device *pdev)
 	INIT_DELAYED_WORK(&mdwc->sm_work, dwc3_otg_sm_work);
 	INIT_DELAYED_WORK(&mdwc->perf_vote_work, msm_dwc3_perf_vote_work);
 	INIT_DELAYED_WORK(&mdwc->sdp_check, check_for_sdp_connection);
-<<<<<<< HEAD
 
 	mdwc->sm_usb_wq = create_freezable_workqueue("k_sm_usb");
 	if (!mdwc->sm_usb_wq) {
 		pr_err("%s: Failed to create workqueue for sm_usb\n", __func__);
 		return -ENOMEM;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	mdwc->dwc3_wq = alloc_ordered_workqueue("dwc3_wq", 0);
 	if (!mdwc->dwc3_wq) {
@@ -4192,10 +4175,7 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 		dev_dbg(mdwc->dev, "%s: turn on host\n", __func__);
 
 		mdwc->hs_phy->flags |= PHY_HOST_MODE;
-<<<<<<< HEAD
 		pm_runtime_get_sync(mdwc->dev);
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		if (dwc->maximum_speed == USB_SPEED_SUPER) {
 			mdwc->ss_phy->flags |= PHY_HOST_MODE;
 			usb_phy_notify_connect(mdwc->ss_phy,
@@ -4203,10 +4183,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 		}
 
 		usb_phy_notify_connect(mdwc->hs_phy, USB_SPEED_HIGH);
-<<<<<<< HEAD
-=======
-		pm_runtime_get_sync(mdwc->dev);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		dbg_event(0xFF, "StrtHost gync",
 			atomic_read(&mdwc->dev->power.usage_count));
 		if (!IS_ERR(mdwc->vbus_reg))
@@ -4460,7 +4436,6 @@ static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA)
 	union power_supply_propval pval = {0};
 	int ret, psy_type;
 
-<<<<<<< HEAD
 	psy_type = get_psy_type(mdwc);
 	if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
 		if (!mA)
@@ -4478,22 +4453,6 @@ static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA)
 	pval.intval = 1000 * mA;
 
 set_prop:
-=======
-	if (mdwc->max_power == mA)
-		return 0;
-
-	psy_type = get_psy_type(mdwc);
-	if (psy_type == POWER_SUPPLY_TYPE_USB) {
-		dev_info(mdwc->dev, "Avail curr from USB = %u\n", mA);
-		/* Set max current limit in uA */
-		pval.intval = 1000 * mA;
-	} else if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
-		pval.intval = -ETIMEDOUT;
-	} else {
-		return 0;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	ret = power_supply_set_property(mdwc->usb_psy,
 				POWER_SUPPLY_PROP_SDP_CURRENT_MAX, &pval);
 	if (ret) {

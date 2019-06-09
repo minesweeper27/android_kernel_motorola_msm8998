@@ -163,10 +163,7 @@ static const struct {
 	{ adreno_is_a530, a530_efuse_speed_bin },
 	{ adreno_is_a505, a530_efuse_speed_bin },
 	{ adreno_is_a512, a530_efuse_speed_bin },
-<<<<<<< HEAD
 	{ adreno_is_a509, a530_efuse_speed_bin },
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	{ adreno_is_a508, a530_efuse_speed_bin },
 };
 
@@ -1660,11 +1657,7 @@ static void a5xx_clk_set_options(struct adreno_device *adreno_dev,
 {
 
 	if (!adreno_is_a540(adreno_dev) && !adreno_is_a512(adreno_dev) &&
-<<<<<<< HEAD
 		!adreno_is_a508(adreno_dev) && !adreno_is_a509(adreno_dev))
-=======
-		!adreno_is_a508(adreno_dev))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		return;
 
 	/* Handle clock settings for GFX PSCBCs */

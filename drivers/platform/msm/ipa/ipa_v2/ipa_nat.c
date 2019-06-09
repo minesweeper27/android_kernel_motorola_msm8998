@@ -800,11 +800,7 @@ int ipa2_nat_del_cmd(struct ipa_ioc_v4_nat_del *del)
 		return -EPERM;
 	}
 
-<<<<<<< HEAD
 	if (!ipa_ctx->nat_mem.public_ip_addr) {
-=======
-	if (ipa_ctx->nat_mem.public_ip_addr) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		IPAERR_RL("Public IP addr not assigned and trying to delete\n");
 		return -EPERM;
 	}

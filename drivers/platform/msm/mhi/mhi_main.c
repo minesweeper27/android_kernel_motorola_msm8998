@@ -1351,25 +1351,12 @@ int parse_xfer_event(struct mhi_device_ctxt *mhi_dev_ctxt,
 	case MHI_EVENT_CC_DB_MODE:
 	{
 		u64 db_value = 0;
-		unsigned long flags;
 
-<<<<<<< HEAD
 		mhi_log(mhi_dev_ctxt, MHI_MSG_INFO,
 			"DB_MODE/OOB Detected chan %d.\n", chan);
 
 		local_chan_ctxt->db_mode.db_mode = 1;
 		if (local_chan_ctxt->wp != local_chan_ctxt->rp) {
-=======
-		mhi_dev_ctxt->flags.uldl_enabled = 1;
-		chan = MHI_EV_READ_CHID(EV_CHID, event);
-		mhi_dev_ctxt->flags.db_mode[chan] = 1;
-		chan_ctxt =
-			&mhi_dev_ctxt->mhi_local_chan_ctxt[chan];
-		mhi_log(MHI_MSG_INFO, "DB_MODE/OOB Detected chan %d.\n", chan);
-		spin_lock_irqsave(&mhi_dev_ctxt->db_write_lock[chan],
-				  flags);
-		if (chan_ctxt->wp != chan_ctxt->rp) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			db_value = mhi_v2p_addr(mhi_dev_ctxt,
 					MHI_RING_TYPE_XFER_RING, chan,
 					(uintptr_t) local_chan_ctxt->wp);
@@ -1377,14 +1364,6 @@ int parse_xfer_event(struct mhi_device_ctxt *mhi_dev_ctxt,
 				     mhi_dev_ctxt->mmio_info.chan_db_addr, chan,
 				     db_value);
 		}
-<<<<<<< HEAD
-=======
-		client_handle = mhi_dev_ctxt->client_handle_list[chan];
-		if (client_handle)
-			result->transaction_status = -ENOTCONN;
-		spin_unlock_irqrestore(&mhi_dev_ctxt->db_write_lock[chan],
-				       flags);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		break;
 	}
 	case MHI_EVENT_CC_BAD_TRE:

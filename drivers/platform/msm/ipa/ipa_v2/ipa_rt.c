@@ -1156,12 +1156,8 @@ int ipa2_add_rt_rule_usr(struct ipa_ioc_add_rt_rule *rules, bool user_only)
 		if (__ipa_add_rt_rule(rules->ip, rules->rt_tbl_name,
 					&rules->rules[i].rule,
 					rules->rules[i].at_rear,
-<<<<<<< HEAD
 					&rules->rules[i].rt_rule_hdl,
 					user_only)) {
-=======
-					&rules->rules[i].rt_rule_hdl)) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			IPAERR_RL("failed to add rt rule %d\n", i);
 			rules->rules[i].status = IPA_RT_STATUS_OF_ADD_FAILED;
 		} else {
@@ -1369,11 +1365,7 @@ int ipa2_reset_rt(enum ipa_ip_type ip, bool user_only)
 	 * issue a reset on the filtering module of same IP type since
 	 * filtering rules point to routing tables
 	 */
-<<<<<<< HEAD
 	if (ipa2_reset_flt(ip, user_only))
-=======
-	if (ipa2_reset_flt(ip))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		IPAERR_RL("fail to reset flt ip=%d\n", ip);
 
 	set = &ipa_ctx->rt_tbl_set[ip];

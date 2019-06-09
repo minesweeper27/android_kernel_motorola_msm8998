@@ -443,17 +443,10 @@ void msm_vfe47_process_reset_irq(struct vfe_device *vfe_dev,
 	unsigned long flags;
 
 	if (irq_status0 & (1 << 31)) {
-<<<<<<< HEAD
 		spin_lock_irqsave(&vfe_dev->reset_completion_lock, flags);
 		complete(&vfe_dev->reset_complete);
 		vfe_dev->reset_pending = 0;
 		spin_unlock_irqrestore(&vfe_dev->reset_completion_lock, flags);
-=======
-		spin_lock_irqsave(&vfe_dev->completion_lock, flags);
-		complete(&vfe_dev->reset_complete);
-		vfe_dev->reset_pending = 0;
-		spin_unlock_irqrestore(&vfe_dev->completion_lock, flags);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 }
 
@@ -718,11 +711,7 @@ void msm_vfe47_process_epoch_irq(struct vfe_device *vfe_dev,
 void msm_isp47_preprocess_camif_irq(struct vfe_device *vfe_dev,
 	uint32_t irq_status0)
 {
-<<<<<<< HEAD
 	if (irq_status0 & BIT(3))
-=======
-	if (irq_status0 & BIT(1))
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = false;
 	if (irq_status0 & BIT(0))
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = true;
@@ -788,15 +777,9 @@ long msm_vfe47_reset_hardware(struct vfe_device *vfe_dev,
 	uint32_t reset;
 	unsigned long flags;
 
-<<<<<<< HEAD
 	spin_lock_irqsave(&vfe_dev->reset_completion_lock, flags);
 	init_completion(&vfe_dev->reset_complete);
 	spin_unlock_irqrestore(&vfe_dev->reset_completion_lock, flags);
-=======
-	spin_lock_irqsave(&vfe_dev->completion_lock, flags);
-	init_completion(&vfe_dev->reset_complete);
-	spin_unlock_irqrestore(&vfe_dev->completion_lock, flags);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (blocking_call)
 		vfe_dev->reset_pending = 1;
@@ -1938,11 +1921,7 @@ void msm_vfe47_cfg_axi_ub_equal_default(
 
 			rdi_ub_offset = (SRC_TO_INTF(
 					HANDLE_TO_IDX(axi_data->free_wm[i])) -
-<<<<<<< HEAD
 					VFE_RAW_0) *
-=======
-					VFE_RAW_0 ) *
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					axi_data->hw_info->min_wm_ub * 2;
 			wm_ub_size = axi_data->hw_info->min_wm_ub * 2;
 			msm_camera_io_w(rdi_ub_offset << 16 | (wm_ub_size - 1),
@@ -2681,19 +2660,11 @@ int msm_vfe47_set_clk_rate(struct vfe_device *vfe_dev, long *rate)
 	int clk_idx = vfe_dev->hw_info->vfe_clk_idx;
 	int ret;
 	long clk_rate, prev_clk_rate;
-<<<<<<< HEAD
 
 	clk_rate = clk_round_rate(vfe_dev->vfe_clk[clk_idx], *rate);
 	if (vfe_dev->vfe_clk_info[clk_idx].clk_rate == clk_rate)
 		return rc;
 
-=======
-
-	clk_rate = clk_round_rate(vfe_dev->vfe_clk[clk_idx], *rate);
-	if (vfe_dev->vfe_clk_info[clk_idx].clk_rate == clk_rate)
-		return rc;
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	prev_clk_rate =
 		vfe_dev->vfe_clk_info[clk_idx].clk_rate;
 	vfe_dev->vfe_clk_info[clk_idx].clk_rate =

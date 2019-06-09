@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -35,10 +31,7 @@
 &soc {
 	/delete-node/ qcom,turing@1a300000;
 
-<<<<<<< HEAD
 	/delete-node/ qcom,msm-cdsp-loader;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/delete-node/ cti@7068000;
 	/delete-node/ turing_etm0;
 	funnel@6042000 {
@@ -80,21 +73,8 @@
 	};
 };
 
-<<<<<<< HEAD
 /* GPU overrides */
 &msm_gpu {
 		/* Update GPU chip ID*/
 		qcom,chipid = <0x05000900>;
-=======
-&soc {
-	/delete-node/ qcom,turing@1a300000;
-
-	/delete-node/ cti@7068000;
-	/delete-node/ turing_etm0;
-	funnel@6042000 {
-		ports {
-			/delete-node/ port@4;
-		};
-	};
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };

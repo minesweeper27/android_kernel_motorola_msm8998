@@ -407,14 +407,11 @@ static ssize_t dwc3_mode_write(struct file *file,
 	unsigned long		flags;
 	u32			mode = 0;
 	char buf[32] = {};
-<<<<<<< HEAD
 
 	if (atomic_read(&dwc->in_lpm)) {
 		dev_err(dwc->dev, "USB device is powered off\n");
 		return count;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;
@@ -501,14 +498,11 @@ static ssize_t dwc3_testmode_write(struct file *file,
 	unsigned long		flags;
 	u32			testmode = 0;
 	char			buf[32] = {};
-<<<<<<< HEAD
 
 	if (atomic_read(&dwc->in_lpm)) {
 		seq_puts(s, "USB device is powered off\n");
 		return count;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;
@@ -621,14 +615,11 @@ static ssize_t dwc3_link_state_write(struct file *file,
 	unsigned long		flags;
 	enum dwc3_link_state	state = 0;
 	char			buf[32] = {};
-<<<<<<< HEAD
 
 	if (atomic_read(&dwc->in_lpm)) {
 		seq_puts(s, "USB device is powered off\n");
 		return count;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;
@@ -1023,7 +1014,6 @@ static ssize_t dwc3_store_events(struct file *file,
 		pr_err("[%s] EINVAL\n", __func__);
 		ret = -EINVAL;
 		return ret;
-<<<<<<< HEAD
 	}
 
 	ret = kstrtou8_from_user(buf, count, 0, &tty);
@@ -1032,16 +1022,6 @@ static ssize_t dwc3_store_events(struct file *file,
 		return ret;
 	}
 
-=======
-	}
-
-	ret = kstrtou8_from_user(buf, count, 0, &tty);
-	if (ret < 0) {
-		pr_err("can't get enter value.\n");
-		return ret;
-	}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (tty > 1) {
 		pr_err("<1|0>: enable|disable console log\n");
 		ret = -EINVAL;

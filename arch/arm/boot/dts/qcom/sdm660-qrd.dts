@@ -86,7 +86,6 @@
 		qcom,afe-power-off-delay-us = <6>;
 	};
 };
-<<<<<<< HEAD
 
 &slim_aud {
 	/delete-node/wcd934x_cdc;
@@ -96,5 +95,3 @@
 	/delete-node/sound-tavil;
 };
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5

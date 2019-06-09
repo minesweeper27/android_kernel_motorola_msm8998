@@ -1148,18 +1148,12 @@ static ssize_t sde_rotator_debug_base_reg_read(struct file *file,
 			SDEROT_ERR("not enough memory to hold reg dump\n");
 			rc = -ENOMEM;
 			goto debug_read_error;
-<<<<<<< HEAD
 		}
 
 		if (dbg->off % sizeof(u32)) {
 			rc = -EFAULT;
 			goto debug_read_error;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
-
-		if (dbg->off % sizeof(u32))
-			return -EFAULT;
 
 		ptr = dbg->base + dbg->off;
 		tot = 0;

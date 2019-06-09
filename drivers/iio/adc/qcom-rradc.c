@@ -908,33 +908,6 @@ static int rradc_enable_batt_id_channel(struct rradc_chip *chip, bool enable)
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
-static int rradc_enable_batt_id_channel(struct rradc_chip *chip, bool enable)
-{
-	int rc = 0;
-
-	if (enable) {
-		rc = rradc_masked_write(chip, FG_ADC_RR_BATT_ID_CTRL,
-				FG_ADC_RR_BATT_ID_CTRL_CHANNEL_CONV,
-				FG_ADC_RR_BATT_ID_CTRL_CHANNEL_CONV);
-		if (rc < 0) {
-			pr_err("Enabling BATT ID channel failed:%d\n", rc);
-			return rc;
-		}
-	} else {
-		rc = rradc_masked_write(chip, FG_ADC_RR_BATT_ID_CTRL,
-				FG_ADC_RR_BATT_ID_CTRL_CHANNEL_CONV, 0);
-		if (rc < 0) {
-			pr_err("Disabling BATT ID channel failed:%d\n", rc);
-			return rc;
-		}
-	}
-
-	return rc;
-}
-
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int rradc_do_batt_id_conversion(struct rradc_chip *chip,
 		struct rradc_chan_prop *prop, u16 *data, u8 *buf)
 {

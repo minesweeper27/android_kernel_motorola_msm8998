@@ -4731,13 +4731,7 @@ static int mmc_blk_probe(struct mmc_card *card)
 
 	dev_set_drvdata(&card->dev, md);
 
-<<<<<<< HEAD
 	mmc_set_bus_resume_policy(card->host, 1);
-=======
-#ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
-	mmc_set_bus_resume_policy(card->host, 1);
-#endif
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (mmc_add_disk(md))
 		goto out;
@@ -4782,13 +4776,7 @@ static void mmc_blk_remove(struct mmc_card *card)
 	pm_runtime_put_noidle(&card->dev);
 	mmc_blk_remove_req(md);
 	dev_set_drvdata(&card->dev, NULL);
-<<<<<<< HEAD
 	mmc_set_bus_resume_policy(card->host, 0);
-=======
-#ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
-	mmc_set_bus_resume_policy(card->host, 0);
-#endif
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static int _mmc_blk_suspend(struct mmc_card *card, bool wait)
