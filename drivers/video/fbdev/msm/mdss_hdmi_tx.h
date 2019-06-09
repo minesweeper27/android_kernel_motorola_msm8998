@@ -22,7 +22,10 @@
 
 #define MAX_SWITCH_NAME_SIZE        5
 #define HDMI_GEN_PKT_CTRL_CLR_MASK  0x7
+<<<<<<< HEAD
 #define WAIT_HDMI_PANEL_OFF 5000
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 enum hdmi_tx_io_type {
 	HDMI_TX_CORE_IO,

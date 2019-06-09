@@ -1370,10 +1370,14 @@ static int fg_batt_miss_irq_en_cb(struct votable *votable, void *data,
 	} else {
 		disable_irq_wake(chip->irqs[BATT_MISSING_IRQ].irq);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		disable_irq_nosync(chip->irqs[BATT_MISSING_IRQ].irq);
 =======
 		disable_irq(chip->irqs[BATT_MISSING_IRQ].irq);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		disable_irq_nosync(chip->irqs[BATT_MISSING_IRQ].irq);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	return 0;
@@ -1393,10 +1397,14 @@ static int fg_delta_bsoc_irq_en_cb(struct votable *votable, void *data,
 	} else {
 		disable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		disable_irq_nosync(chip->irqs[BSOC_DELTA_IRQ].irq);
 =======
 		disable_irq(chip->irqs[BSOC_DELTA_IRQ].irq);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		disable_irq_nosync(chip->irqs[BSOC_DELTA_IRQ].irq);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	return 0;
@@ -1923,10 +1931,15 @@ static int fg_adjust_ki_coeff_full_soc(struct fg_chip *chip, int batt_temp)
 	if (batt_temp < 0)
 		ki_coeff_full_soc = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	else if (chip->charge_status == POWER_SUPPLY_STATUS_DISCHARGING)
 		ki_coeff_full_soc = chip->dt.ki_coeff_full_soc_dischg;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	else if (chip->charge_status == POWER_SUPPLY_STATUS_DISCHARGING)
+		ki_coeff_full_soc = chip->dt.ki_coeff_full_soc_dischg;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	else
 		ki_coeff_full_soc = KI_COEFF_FULL_SOC_DEFAULT;
 
@@ -2073,8 +2086,12 @@ static int fg_charge_full_update(struct fg_chip *chip)
 			fg_dbg(chip, FG_STATUS, "Terminated charging @ SOC%d\n",
 				msoc);
 		}
+<<<<<<< HEAD
 	} else if ((msoc_raw <= recharge_soc || !chip->charge_done)
 			&& chip->charge_full) {
+=======
+	} else if (msoc_raw <= recharge_soc && chip->charge_full) {
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (chip->dt.linearize_soc) {
 			chip->delta_soc = FULL_CAPACITY - msoc;
 
@@ -5404,6 +5421,13 @@ static int fg_parse_ki_coefficients(struct fg_chip *chip)
 {
 	struct device_node *node = chip->dev->of_node;
 	int rc, i, temp;
+<<<<<<< HEAD
+=======
+
+	rc = of_property_read_u32(node, "qcom,ki-coeff-full-dischg", &temp);
+	if (!rc)
+		chip->dt.ki_coeff_full_soc_dischg = temp;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 <<<<<<< HEAD
 	rc = of_property_read_u32(node, "qcom,ki-coeff-full-dischg", &temp);
@@ -5950,7 +5974,6 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	chip->debug_mask = &fg_gen3_debug_mask;
 	chip->irqs = fg_irqs;
 	chip->charge_status = -EINVAL;
-	chip->prev_charge_status = -EINVAL;
 	chip->ki_coeff_full_soc = -EINVAL;
 <<<<<<< HEAD
 	chip->online_status = -EINVAL;

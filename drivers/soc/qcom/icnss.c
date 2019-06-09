@@ -316,11 +316,14 @@ enum icnss_driver_state {
 	ICNSS_HOST_TRIGGERED_PDR,
 	ICNSS_FW_DOWN,
 	ICNSS_DRIVER_UNLOADING,
+<<<<<<< HEAD
 	ICNSS_REJUVENATE,
 =======
 	ICNSS_WDOG_BITE,
 	ICNSS_SHUTDOWN_DONE,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 struct ce_irq_list {
@@ -1287,6 +1290,7 @@ bool icnss_is_fw_down(void)
 {
 	if (!penv)
 		return false;
+<<<<<<< HEAD
 
 	return test_bit(ICNSS_FW_DOWN, &penv->state) ||
 		test_bit(ICNSS_PD_RESTART, &penv->state) ||
@@ -1302,6 +1306,13 @@ bool icnss_is_rejuvenate(void)
 		return test_bit(ICNSS_REJUVENATE, &penv->state);
 }
 EXPORT_SYMBOL(icnss_is_rejuvenate);
+=======
+	else
+		return test_bit(ICNSS_FW_DOWN, &penv->state);
+}
+EXPORT_SYMBOL(icnss_is_fw_down);
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 int icnss_power_off(struct device *dev)
 {
@@ -1494,6 +1505,9 @@ static int wlfw_msa_mem_info_send_sync_msg(void)
 	penv->nr_mem_region = resp.mem_region_info_len;
 	for (i = 0; i < resp.mem_region_info_len; i++) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		if (resp.mem_region_info[i].size > penv->msa_mem_size ||
 		    resp.mem_region_info[i].region_addr > max_mapped_addr ||
@@ -1507,8 +1521,11 @@ static int wlfw_msa_mem_info_send_sync_msg(void)
 			goto fail_unwind;
 		}
 
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		penv->mem_region[i].reg_addr =
 			resp.mem_region_info[i].region_addr;
 		penv->mem_region[i].size =
@@ -1927,6 +1944,56 @@ static int wlfw_send_modem_shutdown_msg(void)
 out:
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+	return ret;
+}
+
+static int wlfw_send_modem_shutdown_msg(void)
+{
+	int ret;
+	struct wlfw_shutdown_req_msg_v01 req;
+	struct wlfw_shutdown_resp_msg_v01 resp;
+	struct msg_desc req_desc, resp_desc;
+
+	if (!penv || !penv->wlfw_clnt)
+		return -ENODEV;
+
+	icnss_pr_dbg("Sending modem shutdown request, state: 0x%lx\n",
+		     penv->state);
+
+	memset(&req, 0, sizeof(req));
+	memset(&resp, 0, sizeof(resp));
+
+	req.shutdown_valid = 1;
+	req.shutdown = 1;
+
+	req_desc.max_msg_len = WLFW_SHUTDOWN_REQ_MSG_V01_MAX_MSG_LEN;
+	req_desc.msg_id = QMI_WLFW_SHUTDOWN_REQ_V01;
+	req_desc.ei_array = wlfw_shutdown_req_msg_v01_ei;
+
+	resp_desc.max_msg_len = WLFW_SHUTDOWN_RESP_MSG_V01_MAX_MSG_LEN;
+	resp_desc.msg_id = QMI_WLFW_SHUTDOWN_RESP_V01;
+	resp_desc.ei_array = wlfw_shutdown_resp_msg_v01_ei;
+
+	ret = qmi_send_req_wait(penv->wlfw_clnt, &req_desc, &req, sizeof(req),
+				&resp_desc, &resp, sizeof(resp),
+				WLFW_TIMEOUT_MS);
+	if (ret < 0) {
+		icnss_pr_err("Send modem shutdown req failed, ret: %d\n", ret);
+		goto out;
+	}
+
+	if (resp.resp.result != QMI_RESULT_SUCCESS_V01) {
+		icnss_pr_err("QMI modem shutdown request rejected result:%d error:%d\n",
+			     resp.resp.result, resp.resp.error);
+		ret = -resp.resp.result;
+		goto out;
+	}
+
+	icnss_pr_dbg("modem shutdown request sent successfully, state: 0x%lx\n",
+		     penv->state);
+	return 0;
+
+out:
 	return ret;
 }
 
@@ -2658,6 +2725,7 @@ out:
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 static int icnss_call_driver_remove(struct icnss_priv *priv)
 {
@@ -2683,6 +2751,8 @@ static int icnss_call_driver_remove(struct icnss_priv *priv)
 }
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int icnss_fw_crashed(struct icnss_priv *priv,
 			    struct icnss_event_pd_service_down_data *event_data)
 {
@@ -2889,6 +2959,7 @@ static int icnss_modem_notifier_nb(struct notifier_block *nb,
 	if (code == SUBSYS_BEFORE_SHUTDOWN && !notif->crashed) {
 		ret = wlfw_send_modem_shutdown_msg();
 		if (ret)
+<<<<<<< HEAD
 		icnss_pr_dbg("Fail to send modem shutdown Indication %d\n",
 		ret);
 	}
@@ -2903,6 +2974,13 @@ static int icnss_modem_notifier_nb(struct notifier_block *nb,
 			icnss_call_driver_uevent(priv,
 						 ICNSS_UEVENT_FW_DOWN,
 						 &fw_down_data);
+=======
+			icnss_pr_dbg("Fail to send modem shutdown Indication %d\n",
+				     ret);
+	}
+
+	if (test_bit(ICNSS_PDR_REGISTERED, &priv->state))
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return NOTIFY_OK;
 	}
 
@@ -2910,6 +2988,9 @@ static int icnss_modem_notifier_nb(struct notifier_block *nb,
 		      priv->state, notif->crashed);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	set_bit(ICNSS_FW_DOWN, &priv->state);
 
 	if (notif->crashed)
@@ -3048,6 +3129,7 @@ static int icnss_service_notifier_notify(struct notifier_block *nb,
 		      *state, priv->state, icnss_pdr_cause[cause]);
 event_post:
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (!test_bit(ICNSS_FW_DOWN, &priv->state)) {
 		set_bit(ICNSS_FW_DOWN, &priv->state);
 		icnss_ignore_qmi_timeout(true);
@@ -3060,13 +3142,23 @@ event_post:
 						 &fw_down_data);
 	}
 
+=======
+	set_bit(ICNSS_FW_DOWN, &priv->state);
+	icnss_ignore_qmi_timeout(true);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	clear_bit(ICNSS_HOST_TRIGGERED_PDR, &priv->state);
 =======
 	icnss_ignore_qmi_timeout(true);
 
 	fw_down_data.crashed = event_data->crashed;
+<<<<<<< HEAD
 	icnss_call_driver_uevent(priv, ICNSS_UEVENT_FW_DOWN, &fw_down_data);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	if (!test_bit(ICNSS_DRIVER_UNLOADING, &priv->state))
+		icnss_call_driver_uevent(priv, ICNSS_UEVENT_FW_DOWN,
+					 &fw_down_data);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	icnss_driver_event_post(ICNSS_DRIVER_EVENT_PD_SERVICE_DOWN,
 				ICNSS_EVENT_SYNC, event_data);
 done:
@@ -3821,7 +3913,6 @@ int icnss_trigger_recovery(struct device *dev)
 	if (test_bit(ICNSS_PD_RESTART, &priv->state)) {
 		icnss_pr_err("PD recovery already in progress: state: 0x%lx\n",
 			     priv->state);
-		ret = -EPERM;
 		goto out;
 	}
 
@@ -4310,6 +4401,7 @@ static int icnss_stats_show_state(struct seq_file *s, struct icnss_priv *priv)
 			seq_puts(s, "HOST TRIGGERED PDR");
 			continue;
 <<<<<<< HEAD
+<<<<<<< HEAD
 		case ICNSS_FW_DOWN:
 			seq_puts(s, "FW DOWN");
 			continue;
@@ -4323,6 +4415,13 @@ static int icnss_stats_show_state(struct seq_file *s, struct icnss_priv *priv)
 			seq_puts(s, "SHUTDOWN DONE");
 			continue;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		case ICNSS_FW_DOWN:
+			seq_puts(s, "FW DOWN");
+			continue;
+		case ICNSS_DRIVER_UNLOADING:
+			seq_puts(s, "DRIVER UNLOADING");
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		seq_printf(s, "UNKNOWN-%d", i);

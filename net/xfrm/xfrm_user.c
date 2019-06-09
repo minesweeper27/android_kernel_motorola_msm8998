@@ -1424,6 +1424,7 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 			ut[i].family = family;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		switch (ut[i].mode) {
 		case XFRM_MODE_TUNNEL:
 		case XFRM_MODE_BEET:
@@ -1438,6 +1439,13 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 		if ((ut[i].mode == XFRM_MODE_TRANSPORT) &&
 		    (ut[i].family != prev_family))
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		if ((ut[i].mode == XFRM_MODE_TRANSPORT) &&
+		    (ut[i].family != prev_family))
+			return -EINVAL;
+
+		if (ut[i].mode >= XFRM_MODE_MAX)
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			return -EINVAL;
 
 		prev_family = ut[i].family;

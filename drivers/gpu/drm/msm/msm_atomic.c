@@ -563,7 +563,11 @@ int msm_atomic_commit(struct drm_device *dev,
 	int i, ret;
 
 	if (!priv || priv->shutdown_in_progress) {
+<<<<<<< HEAD
 		DRM_ERROR("priv is null or shutdwon is in-progress\n");
+=======
+		DRM_ERROR("priv is null or shutdown is in-progress\n");
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EINVAL;
 	}
 

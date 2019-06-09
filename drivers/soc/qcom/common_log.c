@@ -258,6 +258,9 @@ static void __init register_kernel_sections(void)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #ifdef CONFIG_QCOM_MINIDUMP
 void dump_stack_minidump(u64 sp)
 {

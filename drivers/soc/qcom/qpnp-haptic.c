@@ -2321,10 +2321,15 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 	struct qpnp_hap *hap = container_of(dev, struct qpnp_hap,
 					 timed_dev);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	bool state = !!time_ms;
 	ktime_t rem;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	bool state = !!time_ms;
+	ktime_t rem;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	int rc;
 
 	if (time_ms < 0)
@@ -2333,6 +2338,9 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 	mutex_lock(&hap->lock);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (hap->state == state) {
 		if (state) {
 			rem = hrtimer_get_remaining(&hap->hap_timer);
@@ -2347,6 +2355,7 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 						HRTIMER_MODE_REL);
 			}
 		}
+<<<<<<< HEAD
 		mutex_unlock(&hap->lock);
 		return;
 	}
@@ -2356,10 +2365,13 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		hrtimer_cancel(&hap->hap_timer);
 		hap->state = 0;
 		schedule_work(&hap->work);
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		mutex_unlock(&hap->lock);
 		return;
 	}
 
+<<<<<<< HEAD
 	if (time_ms < 10)
 		time_ms = 10;
 
@@ -2367,12 +2379,15 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		hrtimer_cancel(&hap->auto_res_err_poll_timer);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	hap->state = state;
 	if (!hap->state) {
 		hrtimer_cancel(&hap->hap_timer);
 	} else {
 		if (time_ms < 10)
 			time_ms = 10;
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 		if (hap->auto_mode) {
@@ -2400,9 +2415,28 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 			pr_err("Unable to do auto mode config\n");
 			mutex_unlock(&hap->lock);
 			return;
+=======
+
+		if (hap->auto_mode) {
+			rc = qpnp_hap_auto_mode_config(hap, time_ms);
+			if (rc < 0) {
+				pr_err("Unable to do auto mode config\n");
+				mutex_unlock(&hap->lock);
+				return;
+			}
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
+
+		time_ms = (time_ms > hap->timeout_ms ?
+				 hap->timeout_ms : time_ms);
+		hap->play_time_ms = time_ms;
+		hrtimer_start(&hap->hap_timer,
+				ktime_set(time_ms / 1000,
+				(time_ms % 1000) * 1000000),
+				HRTIMER_MODE_REL);
 	}
 
+<<<<<<< HEAD
 	time_ms = (time_ms > hap->timeout_ms ? hap->timeout_ms : time_ms);
 	hap->play_time_ms = time_ms;
 	hap->state = 1;
@@ -2410,6 +2444,8 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		ktime_set(time_ms / 1000, (time_ms % 1000) * 1000000),
 		HRTIMER_MODE_REL);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	mutex_unlock(&hap->lock);
 	schedule_work(&hap->work);
 }

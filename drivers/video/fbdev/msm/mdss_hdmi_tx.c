@@ -426,33 +426,47 @@ static inline void hdmi_tx_cec_device_suspend(struct hdmi_tx_ctrl *hdmi_ctrl)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 static inline void hdmi_tx_send_audio_notification(
 		struct hdmi_tx_ctrl *hdmi_ctrl, int val)
 =======
 static inline void hdmi_tx_send_cable_notification(
 	struct hdmi_tx_ctrl *hdmi_ctrl, int val, bool async)
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+static inline void hdmi_tx_send_audio_notification(
+		struct hdmi_tx_ctrl *hdmi_ctrl, int val)
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 {
 	if (hdmi_ctrl && hdmi_ctrl->ext_audio_data.intf_ops.hpd) {
 		u32 flags = 0;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 		if (!hdmi_tx_is_dvi_mode(hdmi_ctrl))
 			flags |= MSM_EXT_DISP_HPD_AUDIO;
 =======
 		if (async || hdmi_tx_is_in_splash(hdmi_ctrl)) {
 			flags |= MSM_EXT_DISP_HPD_ASYNC_VIDEO;
+=======
+		if (!hdmi_tx_is_dvi_mode(hdmi_ctrl))
+			flags |= MSM_EXT_DISP_HPD_AUDIO;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
-			if (async) {
-				if (!hdmi_tx_is_dvi_mode(hdmi_ctrl))
-					flags |= MSM_EXT_DISP_HPD_ASYNC_AUDIO;
-			} else
-				if (!hdmi_tx_is_dvi_mode(hdmi_ctrl))
-					flags |= MSM_EXT_DISP_HPD_AUDIO;
+		if (flags)
+			hdmi_ctrl->ext_audio_data.intf_ops.hpd(
+				hdmi_ctrl->ext_pdev,
+				hdmi_ctrl->ext_audio_data.type, val, flags);
+	}
+}
 
-		} else {
-			flags |= MSM_EXT_DISP_HPD_VIDEO;
+static inline void hdmi_tx_send_video_notification(
+	struct hdmi_tx_ctrl *hdmi_ctrl, int val, bool async)
+{
+	if (hdmi_ctrl && hdmi_ctrl->ext_audio_data.intf_ops.hpd) {
+		u32 flags = 0;
 
+<<<<<<< HEAD
 			if (!hdmi_tx_is_dvi_mode(hdmi_ctrl))
 				flags |= MSM_EXT_DISP_HPD_AUDIO;
 		}
@@ -471,6 +485,8 @@ static inline void hdmi_tx_send_video_notification(
 	if (hdmi_ctrl && hdmi_ctrl->ext_audio_data.intf_ops.hpd) {
 		u32 flags = 0;
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (async || hdmi_tx_is_in_splash(hdmi_ctrl))
 			flags |= MSM_EXT_DISP_HPD_ASYNC_VIDEO;
 		else
@@ -920,11 +936,16 @@ static ssize_t hdmi_tx_sysfs_wta_hpd(struct device *dev,
 			 * case since HAL is not up so no ACK can be expected.
 			 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 			hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
 			hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
 =======
 			hdmi_tx_send_cable_notification(hdmi_ctrl, 0, true);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+			hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
+			hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		break;
@@ -2510,6 +2531,9 @@ static void hdmi_tx_hpd_int_work(struct work_struct *work)
 	mutex_unlock(&hdmi_ctrl->tx_lock);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (hdmi_ctrl->hpd_state)
 		hdmi_tx_send_video_notification(hdmi_ctrl,
 				hdmi_ctrl->hpd_state, true);
@@ -2519,9 +2543,12 @@ static void hdmi_tx_hpd_int_work(struct work_struct *work)
 		hdmi_tx_send_video_notification(hdmi_ctrl,
 				hdmi_ctrl->hpd_state, true);
 	}
+<<<<<<< HEAD
 =======
 	hdmi_tx_send_cable_notification(hdmi_ctrl, hdmi_ctrl->hpd_state, false);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 } /* hdmi_tx_hpd_int_work */
 
 static int hdmi_tx_check_capability(struct hdmi_tx_ctrl *hdmi_ctrl)
@@ -4369,11 +4396,16 @@ static int hdmi_tx_post_evt_handle_resume(struct hdmi_tx_ctrl *hdmi_ctrl)
 		if (!timeout) {
 			pr_debug("cable removed during suspend\n");
 <<<<<<< HEAD
+<<<<<<< HEAD
 			hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
 			hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
 =======
 			hdmi_tx_send_cable_notification(hdmi_ctrl, 0, false);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+			hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
+			hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 	}
 
@@ -4385,11 +4417,16 @@ static int hdmi_tx_post_evt_handle_panel_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 	if (hdmi_ctrl->panel_suspend) {
 		pr_debug("panel suspend has triggered\n");
 <<<<<<< HEAD
+<<<<<<< HEAD
 		hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
 		hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
 =======
 		hdmi_tx_send_cable_notification(hdmi_ctrl, 0, false);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		hdmi_tx_send_audio_notification(hdmi_ctrl, 0);
+		hdmi_tx_send_video_notification(hdmi_ctrl, 0, true);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	return 0;

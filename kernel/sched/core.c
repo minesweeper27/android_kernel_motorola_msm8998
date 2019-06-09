@@ -630,8 +630,12 @@ void resched_cpu(int cpu)
 	unsigned long flags;
 
 	raw_spin_lock_irqsave(&rq->lock, flags);
+<<<<<<< HEAD
 	if (cpu_online(cpu) || cpu == smp_processor_id())
 		resched_curr(rq);
+=======
+	resched_curr(rq);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	raw_spin_unlock_irqrestore(&rq->lock, flags);
 }
 

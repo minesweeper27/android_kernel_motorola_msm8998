@@ -4815,10 +4815,13 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 	if (sdhci_msm_is_bootdevice(&pdev->dev))
 		mmc_flush_detect_work(host->mmc);
 
+<<<<<<< HEAD
 	snprintf(boot_marker, sizeof(boot_marker),
 			"M - DRIVER %s Ready", mmc_hostname(host->mmc));
 	place_marker(boot_marker);
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* Successful initialization */
 	goto out;
 
@@ -5101,7 +5104,7 @@ static int sdhci_msm_suspend_noirq(struct device *dev)
 }
 
 static const struct dev_pm_ops sdhci_msm_pmops = {
-	SET_SYSTEM_SLEEP_PM_OPS(sdhci_msm_suspend, sdhci_msm_resume)
+	SET_LATE_SYSTEM_SLEEP_PM_OPS(sdhci_msm_suspend, sdhci_msm_resume)
 	SET_RUNTIME_PM_OPS(sdhci_msm_runtime_suspend, sdhci_msm_runtime_resume,
 			   NULL)
 	.suspend_noirq = sdhci_msm_suspend_noirq,

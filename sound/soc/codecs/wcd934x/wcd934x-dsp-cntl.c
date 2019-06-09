@@ -911,6 +911,7 @@ static ssize_t wcd_miscdev_write(struct file *filep, const char __user *ubuf,
 	struct wcd_dsp_cntl *cntl = container_of(filep->private_data,
 						 struct wcd_dsp_cntl, miscdev);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	char val[WCD_DSP_CNTL_MAX_COUNT + 1];
 	bool vote;
 	int ret = 0;
@@ -923,6 +924,14 @@ static ssize_t wcd_miscdev_write(struct file *filep, const char __user *ubuf,
 	int ret = 0;
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	char val[WCD_DSP_CNTL_MAX_COUNT + 1];
+	bool vote;
+	int ret = 0;
+
+	memset(val, 0, WCD_DSP_CNTL_MAX_COUNT + 1);
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (count == 0 || count > WCD_DSP_CNTL_MAX_COUNT) {
 		pr_err("%s: Invalid count = %zd\n", __func__, count);
 		ret = -EINVAL;

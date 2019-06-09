@@ -224,10 +224,14 @@ struct msm_hs_wakeup {
 
 struct msm_hs_port {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	atomic_t startup_locked;
 =======
 	bool startup_locked;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	atomic_t startup_locked;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	struct uart_port uport;
 	unsigned long imr_reg;  /* shadow value of UARTDM_IMR */
 	struct clk *clk;
@@ -671,9 +675,12 @@ static int msm_serial_loopback_enable_set(void *data, u64 val)
 	/* Calling CLOCK API. Hence mb() requires here. */
 	mb();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	msm_uport->startup_locked = false;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	msm_hs_resource_unvote(msm_uport);
 	return 0;
 }
@@ -1377,6 +1384,7 @@ static void msm_hs_stop_rx_locked(struct uart_port *uport)
 
 	if (msm_uport->pm_state != MSM_HS_PM_ACTIVE) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		MSM_HS_WARN("%s(): Clocks are off, Rx still active\n",
 				__func__);
 		return;
@@ -1388,6 +1396,11 @@ static void msm_hs_stop_rx_locked(struct uart_port *uport)
 		msm_hs_disable_rx(uport);
 		msm_hs_clk_bus_unvote(msm_uport);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		MSM_HS_WARN("%s(): Clocks are off, Rx still active\n",
+				__func__);
+		return;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	} else
 		msm_hs_disable_rx(uport);
 
@@ -1433,10 +1446,14 @@ void tx_timeout_handler(unsigned long arg)
 		MSM_HS_WARN("%s(): CTS Disabled, ISR 0x%x", __func__, isr);
 	dump_uart_hs_registers(msm_uport);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	/* Stop further logging */
 =======
 	/* Stop further loging */
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	/* Stop further logging */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	MSM_HS_ERR("%s(): Stop IPC logging\n", __func__);
 }
 
@@ -1883,6 +1900,7 @@ static void msm_hs_start_tx_locked(struct uart_port *uport)
 	struct msm_hs_tx *tx = &msm_uport->tx;
 	unsigned int isr;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 	if (msm_uport->startup_locked) {
@@ -1891,6 +1909,8 @@ static void msm_hs_start_tx_locked(struct uart_port *uport)
 		return;
 	}
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	/* Bail if transfer in progress */
 	if (tx->flush < FLUSH_STOP || tx->dma_in_flight) {
@@ -1900,17 +1920,23 @@ static void msm_hs_start_tx_locked(struct uart_port *uport)
 		if (msm_uport->pm_state == MSM_HS_PM_ACTIVE) {
 			isr = msm_hs_read(uport, UART_DM_ISR);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			if (UARTDM_ISR_CURRENT_CTS_BMSK & isr) {
 				MSM_HS_DBG("%s():CTS 1: Peer is Busy\n",
 					__func__);
 				MSM_HS_DBG("%s():ISR 0x%x\n",
 					__func__, isr);
 			}
+<<<<<<< HEAD
 =======
 			if (UARTDM_ISR_CURRENT_CTS_BMSK & isr)
 			MSM_HS_DBG("%s():CTS 1: Peer is Busy, ISR 0x%x",
 						__func__, isr);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		} else
 			MSM_HS_WARN("%s(): Clocks are off\n", __func__);
 
@@ -2400,11 +2426,15 @@ void msm_hs_resource_on(struct msm_hs_port *msm_uport)
 	unsigned long flags;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (atomic_read(&msm_uport->startup_locked)) {
 		MSM_HS_DBG("%s(): Port open in progress\n", __func__);
 		return;
 	}
 	msm_hs_disable_flow_control(uport, false);
+<<<<<<< HEAD
 =======
 	if (msm_uport->startup_locked) {
 		MSM_HS_WARN("%s(): startup_locked=%d\n",
@@ -2412,6 +2442,8 @@ void msm_hs_resource_on(struct msm_hs_port *msm_uport)
 		return;
 	}
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (msm_uport->rx.flush == FLUSH_SHUTDOWN ||
 	msm_uport->rx.flush == FLUSH_STOP) {
@@ -2431,10 +2463,15 @@ void msm_hs_resource_on(struct msm_hs_port *msm_uport)
 	}
 	msm_hs_spsconnect_tx(msm_uport);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	msm_hs_enable_flow_control(uport, false);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+
+	msm_hs_enable_flow_control(uport, false);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 
 /* Request to turn off uart clock once pending TX is flushed */
@@ -2733,10 +2770,14 @@ static int msm_hs_startup(struct uart_port *uport)
 	struct sps_pipe *sps_pipe_handle_rx = rx->prod.pipe_handle;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	atomic_set(&msm_uport->startup_locked, 1);
 =======
 	msm_uport->startup_locked = true;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	atomic_set(&msm_uport->startup_locked, 1);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	rfr_level = uport->fifosize;
 	if (rfr_level > 16)
 		rfr_level -= 16;
@@ -2875,10 +2916,14 @@ static int msm_hs_startup(struct uart_port *uport)
 	LOG_USR_MSG(msm_uport->ipc_msm_hs_pwr_ctxt,
 			"%s: Client_Count 0\n", __func__);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	atomic_set(&msm_uport->startup_locked, 0);
 =======
 	msm_uport->startup_locked = false;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	atomic_set(&msm_uport->startup_locked, 0);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	msm_hs_start_rx_locked(uport);
 
 	spin_unlock_irqrestore(&uport->lock, flags);

@@ -192,6 +192,9 @@ void check_and_switch_context(struct mm_struct *mm, unsigned int cpu)
 
 switch_mm_fastpath:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	arm64_apply_bp_hardening();
 
@@ -210,6 +213,7 @@ asmlinkage void post_ttbr_update_workaround(void)
 			"ic iallu; dsb nsh; isb",
 			ARM64_WORKAROUND_CAVIUM_27456,
 			CONFIG_CAVIUM_ERRATUM_27456));
+<<<<<<< HEAD
 =======
 	arm64_apply_bp_hardening();
 	cpu_switch_mm(mm->pgd, mm);
@@ -223,6 +227,8 @@ asmlinkage void post_ttbr_update_workaround(void)
 			"ic iallu; dsb nsh; isb",
 			ARM64_WORKAROUND_CAVIUM_27456,
 			CONFIG_CAVIUM_ERRATUM_27456));
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 
 static int asids_init(void)

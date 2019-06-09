@@ -163,6 +163,7 @@ static struct usb_interface_descriptor rndis_qc_control_intf = {
 	/* status endpoint is optional; this could be patched later */
 	.bNumEndpoints =	1,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	.bInterfaceClass =	USB_CLASS_MISC,
 	.bInterfaceSubClass =   0x04,
 	.bInterfaceProtocol =   0x01, /* RNDIS over ethernet */
@@ -171,6 +172,11 @@ static struct usb_interface_descriptor rndis_qc_control_intf = {
 	.bInterfaceSubClass =   0x01,
 	.bInterfaceProtocol =   0x03,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	.bInterfaceClass =	USB_CLASS_MISC,
+	.bInterfaceSubClass =   0x04,
+	.bInterfaceProtocol =   0x01, /* RNDIS over ethernet */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* .iInterface = DYNAMIC */
 };
 
@@ -230,6 +236,7 @@ rndis_qc_iad_descriptor = {
 	.bFirstInterface =	0, /* XXX, hardcoded */
 	.bInterfaceCount =	2, /* control + data */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	.bFunctionClass =	USB_CLASS_MISC,
 	.bFunctionSubClass =	0x04,
 	.bFunctionProtocol =	0x01, /* RNDIS over ethernet */
@@ -238,6 +245,11 @@ rndis_qc_iad_descriptor = {
 	.bFunctionSubClass =	0x01,
 	.bFunctionProtocol =	0x03,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	.bFunctionClass =	USB_CLASS_MISC,
+	.bFunctionSubClass =	0x04,
+	.bFunctionProtocol =	0x01, /* RNDIS over ethernet */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* .iFunction = DYNAMIC */
 };
 

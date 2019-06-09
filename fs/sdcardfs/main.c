@@ -34,7 +34,10 @@ enum {
 	Opt_userid,
 	Opt_reserved_mb,
 	Opt_gid_derivation,
+<<<<<<< HEAD
 	Opt_default_normal,
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	Opt_err,
 };
 
@@ -47,7 +50,10 @@ static const match_table_t sdcardfs_tokens = {
 	{Opt_userid, "userid=%d"},
 	{Opt_multiuser, "multiuser"},
 	{Opt_gid_derivation, "derive_gid"},
+<<<<<<< HEAD
 	{Opt_default_normal, "default_normal"},
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	{Opt_reserved_mb, "reserved_mb=%u"},
 	{Opt_err, NULL}
 };
@@ -67,11 +73,18 @@ static int parse_options(struct super_block *sb, char *options, int silent,
 	opts->multiuser = false;
 	opts->fs_user_id = 0;
 	vfsopts->gid = 0;
+<<<<<<< HEAD
 	/* by default, 8 MB is reserved */
 	opts->reserved_mb = 8;
 	/* by default, gid derivation is off */
 	opts->gid_derivation = false;
 	opts->default_normal = false;
+=======
+	/* by default, 0MB is reserved */
+	opts->reserved_mb = 0;
+	/* by default, gid derivation is off */
+	opts->gid_derivation = false;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	*debug = 0;
 
@@ -126,9 +139,12 @@ static int parse_options(struct super_block *sb, char *options, int silent,
 		case Opt_gid_derivation:
 			opts->gid_derivation = true;
 			break;
+<<<<<<< HEAD
 		case Opt_default_normal:
 			opts->default_normal = true;
 			break;
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		/* unknown option */
 		default:
 			if (!silent)

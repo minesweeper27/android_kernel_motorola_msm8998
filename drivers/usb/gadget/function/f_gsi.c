@@ -50,10 +50,14 @@ static struct gsi_inst_status {
 static void gsi_inst_clean(struct gsi_opts *opts);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port);
 =======
 static void gsi_rndis_ipa_reset_trigger(struct f_gsi *rndis);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static void ipa_disconnect_handler(struct gsi_data_port *d_port);
 static int gsi_ctrl_send_notification(struct f_gsi *gsi);
 static int gsi_alloc_trb_buffer(struct f_gsi *gsi);
@@ -1007,9 +1011,15 @@ static int gsi_ctrl_dev_release(struct inode *ip, struct file *fp)
 	}
 
 	inst_cur->opts->gsi->c_port.is_open = false;
+<<<<<<< HEAD
 
 	mutex_unlock(&inst_cur->gsi_lock);
 
+=======
+
+	mutex_unlock(&inst_cur->gsi_lock);
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	log_event_dbg("close ctrl dev %s\n",
 			inst_cur->opts->gsi->c_port.name);
 
@@ -3113,14 +3123,22 @@ static ssize_t gsi_info_show(struct config_item *item, char *page)
 
 CONFIGFS_ATTR_RO(gsi_, info);
 
+<<<<<<< HEAD
 static ssize_t gsi_wceis_show(struct config_item *item, char *page)
+=======
+static ssize_t gsi_rndis_wceis_show(struct config_item *item, char *page)
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 {
 	struct f_gsi *gsi = to_gsi_opts(item)->gsi;
 
 	return snprintf(page, PAGE_SIZE, "%d\n", gsi->rndis_use_wceis);
 }
 
+<<<<<<< HEAD
 static ssize_t gsi_wceis_store(struct config_item *item,
+=======
+static ssize_t gsi_rndis_wceis_store(struct config_item *item,
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			const char *page, size_t len)
 {
 	struct f_gsi *gsi = to_gsi_opts(item)->gsi;
@@ -3134,11 +3152,19 @@ static ssize_t gsi_wceis_store(struct config_item *item,
 	return len;
 }
 
+<<<<<<< HEAD
 CONFIGFS_ATTR(gsi_, wceis);
 
 static struct configfs_attribute *gsi_rndis_attrs[] = {
 	&gsi_attr_info,
 	&gsi_attr_wceis,
+=======
+CONFIGFS_ATTR(gsi_, rndis_wceis);
+
+static struct configfs_attribute *gsi_rndis_attrs[] = {
+	&gsi_attr_info,
+	&gsi_attr_rndis_wceis,
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	NULL,
 };
 
@@ -3200,6 +3226,7 @@ static int gsi_set_inst_name(struct usb_function_instance *fi,
 	mutex_unlock(&inst_status[prot_id].gsi_lock);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (prot_id == IPA_USB_RNDIS)
 		config_group_init_type_name(&opts->func_inst.group,
 				opts->func_inst.group.cg_item.ci_name,
@@ -3207,6 +3234,12 @@ static int gsi_set_inst_name(struct usb_function_instance *fi,
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	if (prot_id == IPA_USB_RNDIS)
+		config_group_init_type_name(&opts->func_inst.group, "",
+					    &gsi_func_rndis_type);
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	gsi = gsi_function_init(prot_id);
 	if (IS_ERR(gsi))
 		return PTR_ERR(gsi);

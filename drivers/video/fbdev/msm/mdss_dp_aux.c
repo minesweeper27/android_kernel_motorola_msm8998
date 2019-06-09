@@ -412,11 +412,16 @@ retry:
 		if (!connected) {
 			pr_err("dp cable disconnected\n");
 <<<<<<< HEAD
+<<<<<<< HEAD
 			ret = -ENODEV;
 			goto end;
 =======
 			break;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+			ret = -ENODEV;
+			goto end;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		dp->aux_error_num = EDP_AUX_ERR_NONE;
@@ -983,9 +988,13 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 	bool phy_aux_update_requested = false;
 	bool ext_block_parsing_done = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	bool connected = false;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	bool connected = false;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	ret = dp_aux_chan_ready(dp);
 	if (ret) {
@@ -1006,6 +1015,9 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 		u8 edid_buf[EDID_BLOCK_SIZE] = {0};
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		mutex_lock(&dp->attention_lock);
 		connected = dp->cable_connected;
 		mutex_unlock(&dp->attention_lock);
@@ -1015,8 +1027,11 @@ int mdss_dp_edid_read(struct mdss_dp_drv_pdata *dp)
 			return -ENODEV;
 		}
 
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		/*
 		 * Write the segment first.
 		 * Segment = 0, for blocks 0 and 1

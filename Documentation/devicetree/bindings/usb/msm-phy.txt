@@ -215,8 +215,11 @@ Optional properties:
 <<<<<<< HEAD
  - qcom,vdda33-voltage-level: A list of three integer values (min, op, max) representing
    specific voltages (in microvolts) used for the vdda33 supply.
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  - qcom,tune2-efuse-correction: The value to be adjusted from fused value for
    improved rise/fall times.
 

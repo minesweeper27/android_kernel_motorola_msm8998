@@ -1,9 +1,13 @@
 /*
 <<<<<<< HEAD
+<<<<<<< HEAD
  * Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
 =======
  * Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+ * Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -587,6 +591,7 @@ static int msm_ssphy_qmp_set_suspend(struct usb_phy *uphy, int suspend)
 	}
 
 	if (suspend) {
+<<<<<<< HEAD
 		if (phy->cable_connected) {
 			if (phy->vls_clamp_reg)
 				msm_ssusb_qmp_enable_autonomous(phy, 1);
@@ -594,6 +599,13 @@ static int msm_ssphy_qmp_set_suspend(struct usb_phy *uphy, int suspend)
 			writel_relaxed(0x00,
 			phy->base + phy->phy_reg[USB3_PHY_POWER_DOWN_CONTROL]);
 		}
+=======
+		if (phy->cable_connected)
+			msm_ssusb_qmp_enable_autonomous(phy, 1);
+		else
+			writel_relaxed(0x00,
+			phy->base + phy->phy_reg[USB3_PHY_POWER_DOWN_CONTROL]);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		/* Make sure above write completed with PHY */
 		wmb();

@@ -335,6 +335,17 @@ static int snd_usb_create_streams(struct snd_usb_audio *chip, int ctrlif)
 		}
 
 		h1 = control_header;
+<<<<<<< HEAD
+=======
+		rest_bytes = (void *)(host_iface->extra +
+				host_iface->extralen) - control_header;
+
+		/* just to be sure -- this shouldn't hit at all */
+		if (rest_bytes <= 0) {
+			dev_err(&dev->dev, "invalid control header\n");
+			return -EINVAL;
+		}
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		if (rest_bytes < sizeof(*h1)) {
 			dev_err(&dev->dev, "too short v1 buffer descriptor\n");

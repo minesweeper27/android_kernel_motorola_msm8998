@@ -614,6 +614,9 @@ static int raw_sendmsg(struct sock *sk, struct msghdr *msg, size_t len)
 			   inet_sk_flowi_flags(sk) |
 			    (hdrincl ? FLOWI_FLAG_KNOWN_NH : 0),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			   daddr, saddr, 0, 0, sk->sk_uid);
 =======
 			   daddr, saddr, 0, 0,

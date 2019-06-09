@@ -260,6 +260,7 @@ int ipa3_allocate_nat_device(struct ipa_ioc_nat_alloc_mem *mem)
 
 	mutex_lock(&nat_ctx->lock);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (strcmp(IPA_NAT_DEV_NAME, mem->dev_name)) {
 		IPAERR_RL("Nat device name mismatch\n");
 		IPAERR_RL("Expect: %s Recv: %s\n",
@@ -269,6 +270,12 @@ int ipa3_allocate_nat_device(struct ipa_ioc_nat_alloc_mem *mem)
 		IPAERR_RL("Nat device name mismatch\n");
 		IPAERR_RL("Expect: %s Recv: %s\n", NAT_DEV_NAME, mem->dev_name);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	if (strcmp(IPA_NAT_DEV_NAME, mem->dev_name)) {
+		IPAERR_RL("Nat device name mismatch\n");
+		IPAERR_RL("Expect: %s Recv: %s\n",
+			IPA_NAT_DEV_NAME, mem->dev_name);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		result = -EPERM;
 		goto bail;
 	}
@@ -388,7 +395,10 @@ int ipa3_nat_init_cmd(struct ipa_ioc_v4_nat_init *init)
 		IPAERR_RL("Detected overflow\n");
 		return -EPERM;
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	mutex_lock(&ipa3_ctx->nat_mem.lock);
 
 	/* Check Table Entry offset is not
@@ -778,11 +788,13 @@ void ipa3_nat_free_mem_and_device(struct ipa3_nat_mem *nat_ctx)
 
 	if (nat_ctx->is_sys_mem) {
 		IPADBG("freeing the dma memory\n");
-		dma_free_coherent(
-			 ipa3_ctx->pdev, nat_ctx->size,
-			 nat_ctx->vaddr, nat_ctx->dma_handle);
-		nat_ctx->size = 0;
-		nat_ctx->vaddr = NULL;
+		if (nat_ctx->vaddr) {
+			dma_free_coherent(
+				ipa3_ctx->pdev, nat_ctx->size,
+				nat_ctx->vaddr, nat_ctx->dma_handle);
+			nat_ctx->size = 0;
+			nat_ctx->vaddr = NULL;
+		}
 	}
 	nat_ctx->is_mapped = false;
 	nat_ctx->is_sys_mem = false;

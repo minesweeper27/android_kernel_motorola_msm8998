@@ -166,8 +166,11 @@ void __iomem *wmi_buffer_block(struct wil6210_priv *wil, __le32 ptr_, u32 size)
 		return NULL;
 	if (size && ((off + size > wil->bar_size) || (off + size < off)))
 		return NULL;
+<<<<<<< HEAD
 	if (size && ((off + size > WIL6210_MEM_SIZE) || (off + size < off)))
 		return NULL;
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	return wil->csr + off;
 }
@@ -402,7 +405,11 @@ static void wmi_evt_rx_mgmt(struct wil6210_priv *wil, int id, void *d, int len)
 		signal = 100 * data->info.rssi;
 	else
 		signal = data->info.sqi;
+<<<<<<< HEAD
 	snr = le16_to_cpu(data->info.snr); /* 1/4 dB units */
+=======
+	d_status = le16_to_cpu(data->info.status);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	fc = rx_mgmt_frame->frame_control;
 
 	wil_dbg_wmi(wil, "MGMT Rx: channel %d MCS %d RSSI %d SQI %d%%\n",
@@ -1429,6 +1436,7 @@ int wmi_set_ie(struct wil6210_priv *wil, u8 type, u16 ie_len, const void *ie)
 	u16 len = sizeof(struct wmi_set_appie_cmd) + ie_len;
 	struct wmi_set_appie_cmd *cmd;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	if (len < ie_len) {
 		rc = -EINVAL;
@@ -1436,13 +1444,18 @@ int wmi_set_ie(struct wil6210_priv *wil, u8 type, u16 ie_len, const void *ie)
 	}
 
 =======
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (len < ie_len) {
 		rc = -EINVAL;
 		goto out;
 	}
 
+<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	cmd = kzalloc(len, GFP_KERNEL);
 	if (!cmd) {
 		rc = -ENOMEM;

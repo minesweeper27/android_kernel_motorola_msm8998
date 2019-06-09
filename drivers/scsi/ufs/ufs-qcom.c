@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2017, Linux Foundation. All rights reserved.
+ * Copyright (c) 2013-2018, Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -728,6 +728,11 @@ static int ufs_qcom_config_vreg(struct device *dev,
 
 	reg = vreg->reg;
 	if (regulator_count_voltages(reg) > 0) {
+		uA_load = on ? vreg->max_uA : 0;
+		ret = regulator_set_load(vreg->reg, uA_load);
+		if (ret)
+			goto out;
+
 		min_uV = on ? vreg->min_uV : 0;
 		ret = regulator_set_voltage(reg, min_uV, vreg->max_uV);
 		if (ret) {
@@ -735,11 +740,6 @@ static int ufs_qcom_config_vreg(struct device *dev,
 					__func__, vreg->name, ret);
 			goto out;
 		}
-
-		uA_load = on ? vreg->max_uA : 0;
-		ret = regulator_set_load(vreg->reg, uA_load);
-		if (ret)
-			goto out;
 	}
 out:
 	return ret;
@@ -2645,10 +2645,14 @@ int ufs_qcom_testbus_config(struct ufs_qcom_host *host)
 {
 	int reg = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int offset = 0, ret = 0, testbus_sel_offset = 19;
 =======
 	int offset, ret = 0, testbus_sel_offset = 19;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	int offset, ret = 0, testbus_sel_offset = 19;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	u32 mask = TEST_BUS_SUB_SEL_MASK;
 	unsigned long flags;
 	struct ufs_hba *hba;

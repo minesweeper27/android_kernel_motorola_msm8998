@@ -2868,10 +2868,14 @@ int mdss_mdp_pp_setup_locked(struct mdss_mdp_ctl *ctl,
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (info->pp_program_mask & PP_NORMAL_PROGRAM_MASK) {
 		mdss_pp_res->pp_disp_flags[disp_num] &=
 				~PP_EARLY_PROGRAM_DIRTY_MASK;
 	}
+<<<<<<< HEAD
 	if (info->pp_program_mask & PP_DEFER_PROGRAM_MASK) {
 		/* clear dirty flag */
 		if (disp_num < MDSS_BLOCK_DISP_NUM) {
@@ -2883,6 +2887,13 @@ int mdss_mdp_pp_setup_locked(struct mdss_mdp_ctl *ctl,
 		if (disp_num < MDSS_BLOCK_DISP_NUM) {
 			mdss_pp_res->pp_disp_flags[disp_num] = 0;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	if (info->pp_program_mask & PP_DEFER_PROGRAM_MASK) {
+		/* clear dirty flag */
+		if (disp_num < MDSS_BLOCK_DISP_NUM) {
+			mdss_pp_res->pp_disp_flags[disp_num] &=
+				~PP_DEFERRED_PROGRAM_DIRTY_MASK;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			if (disp_num < mdata->nad_cfgs)
 				mdata->ad_cfgs[disp_num].reg_sts = 0;
 		}

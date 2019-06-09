@@ -208,9 +208,12 @@ static DEFINE_SPINLOCK(reg_spinlock);
 #define WCNSS_MAX_CMD_LEN		(128)
 #define WCNSS_MIN_CMD_LEN		(3)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #define WCNSS_MIN_SERIAL_LEN		(6)
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define WCNSS_CMD_INFO_LEN		2
 
 /* control messages from userspace */
@@ -2646,6 +2649,7 @@ static ssize_t wcnss_ctrl_write(struct file *fp, const char __user
 		goto exit;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 	cmd = buf[0] << 8 | buf[1];
@@ -2660,6 +2664,8 @@ static ssize_t wcnss_ctrl_write(struct file *fp, const char __user
 			| buf[4] << 8 | buf[5];
 		break;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	cmd = buf[0] << 8 | buf[1];
 	switch (cmd) {

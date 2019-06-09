@@ -49,6 +49,7 @@ static inline int msm_minidump_add_region(const struct md_region *entry)
 }
 
 static inline void dump_stack_minidump(u64 sp) {}
+<<<<<<< HEAD
 #endif
 
 
@@ -62,4 +63,9 @@ static inline int msm_minidump_add_region(const struct md_region *entry)
 static inline bool msm_minidump_enabled(void) { return false; }
 #endif
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+#endif
+
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #endif

@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Copyright (c) 2014-2019, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2014-2017, 2019 The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+/* Copyright (c) 2014-2019, The Linux Foundation. All rights reserved.
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1223,6 +1227,7 @@ static void __rx_worker(struct edge_info *einfo, bool atomic_ctx)
 
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
  * rx_worker_atomic() - worker function to process received command in atomic
  *			context.
@@ -1270,6 +1275,8 @@ static void tx_wakeup_worker(struct work_struct *work)
 
 /**
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  * rx_worker() - worker function to process received commands
  * @work:	kwork associated with the edge to process commands on.
  */
@@ -2441,10 +2448,13 @@ static int glink_smem_native_probe(struct platform_device *pdev)
 	init_kthread_work(&einfo->kwork, rx_worker);
 	init_kthread_worker(&einfo->kworker);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	INIT_WORK(&einfo->wakeup_work, tx_wakeup_worker);
 	tasklet_init(&einfo->tasklet, rx_worker_atomic, (unsigned long)einfo);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	einfo->read_from_fifo = read_from_fifo;
 	einfo->write_to_fifo = write_to_fifo;
 	init_srcu_struct(&einfo->use_ref);
@@ -2635,10 +2645,13 @@ static int glink_rpm_native_probe(struct platform_device *pdev)
 	init_kthread_work(&einfo->kwork, rx_worker);
 	init_kthread_worker(&einfo->kworker);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	INIT_WORK(&einfo->wakeup_work, tx_wakeup_worker);
 	tasklet_init(&einfo->tasklet, rx_worker_atomic, (unsigned long)einfo);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	einfo->intentless = true;
 	einfo->read_from_fifo = memcpy32_fromio;
 	einfo->write_to_fifo = memcpy32_toio;
@@ -2930,10 +2943,13 @@ static int glink_mailbox_probe(struct platform_device *pdev)
 	init_kthread_work(&einfo->kwork, rx_worker);
 	init_kthread_worker(&einfo->kworker);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	INIT_WORK(&einfo->wakeup_work, tx_wakeup_worker);
 	tasklet_init(&einfo->tasklet, rx_worker_atomic, (unsigned long)einfo);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	einfo->read_from_fifo = read_from_fifo;
 	einfo->write_to_fifo = write_to_fifo;
 	init_srcu_struct(&einfo->use_ref);

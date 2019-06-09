@@ -1289,8 +1289,11 @@ static int wsa881x_swr_probe(struct swr_device *pdev)
 						wsa881x->wsa_rst_np);
 	mutex_init(&wsa881x->res_lock);
 	mutex_init(&wsa881x->temp_lock);
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	wsa881x_gpio_ctrl(wsa881x, true);
 	wsa881x->state = WSA881X_DEV_UP;
 

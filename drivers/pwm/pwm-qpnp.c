@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2105,8 +2105,12 @@ static int qpnp_parse_dt_config(struct platform_device *pdev,
 	}
 
 	rc = of_property_read_u32(of_node, "qcom,mode-select", &mode);
+<<<<<<< HEAD
 	if (rc) {
 		chip->pwm_mode = -EINVAL;
+=======
+	if (rc)
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto read_opt_props;
 	}
 

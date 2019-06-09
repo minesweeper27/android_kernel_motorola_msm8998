@@ -2076,6 +2076,7 @@ static void usbpd_sm(struct work_struct *w)
 		val.intval = pd->requested_voltage;
 		power_supply_set_property(pd->usb_psy,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				POWER_SUPPLY_PROP_PD_VOLTAGE_MIN, &val);
 
 		if (pd->requested_current) {
@@ -2090,6 +2091,9 @@ static void usbpd_sm(struct work_struct *w)
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				POWER_SUPPLY_PROP_VOLTAGE_MIN, &val);
+=======
+				POWER_SUPPLY_PROP_PD_VOLTAGE_MIN, &val);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		pd->in_pr_swap = false;
 		val.intval = 0;

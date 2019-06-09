@@ -2921,10 +2921,13 @@ int rmnet_ipa_query_tethering_stats_modem(
 		return rc;
 	} else if (data == NULL) {
 		IPAWANDBG("only reset modem stats\n");
+<<<<<<< HEAD
 		kfree(req);
 		kfree(resp);
 		return 0;
 	} else if (data == NULL) {
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		kfree(req);
 		kfree(resp);
 		return 0;
@@ -3119,12 +3122,16 @@ int rmnet_ipa_query_tethering_stats_all(
 int rmnet_ipa_reset_tethering_stats(struct wan_ioctl_reset_tether_stats *data)
 {
 	enum ipa_upstream_type upstream_type;
-	struct wan_ioctl_query_tether_stats tether_stats;
 	int rc = 0;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	memset(&tether_stats, 0, sizeof(struct wan_ioctl_query_tether_stats));
+=======
+	/* prevent string buffer overflows */
+	data->upstreamIface[IFNAMSIZ-1] = '\0';
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* prevent string buffer overflows */
@@ -3147,7 +3154,7 @@ int rmnet_ipa_reset_tethering_stats(struct wan_ioctl_reset_tether_stats *data)
 	} else {
 		IPAWANDBG(" reset modem-backhaul stats\n");
 		rc = rmnet_ipa_query_tethering_stats_modem(
-			&tether_stats, true);
+			NULL, true);
 		if (rc) {
 			IPAWANERR("reset MODEM stats failed\n");
 			return rc;

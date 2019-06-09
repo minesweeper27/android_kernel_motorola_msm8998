@@ -69,9 +69,13 @@ static int mdss_dp_process_phy_test_pattern_request(
 static int mdss_dp_send_audio_notification(
 	struct mdss_dp_drv_pdata *dp, int val);
 <<<<<<< HEAD
+<<<<<<< HEAD
 static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 static inline void mdss_dp_reset_sink_count(struct mdss_dp_drv_pdata *dp)
 {
@@ -2171,14 +2175,20 @@ static int mdss_dp_notify_clients(struct mdss_dp_drv_pdata *dp,
 		if (dp->hpd_notification_status == NOTIFY_DISCONNECT_IRQ_HPD) {
 			/*
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			 * Just in case if NOTIFY_DISCONNECT_IRQ_HPD is timedout
 			 */
 			if (dp->power_on)
 				mdss_dp_state_ctrl(&dp->ctrl_io, ST_PUSH_IDLE);
 
 			/*
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			 * user modules already turned off. Need to explicitly
 			 * turn off DP core here.
 			 */
@@ -2252,6 +2262,9 @@ static int mdss_dp_process_hpd_high(struct mdss_dp_drv_pdata *dp)
 	if (ret || !mdss_dp_aux_is_link_rate_valid(dp->dpcd.max_link_rate) ||
 		!mdss_dp_aux_is_lane_count_valid(dp->dpcd.max_lane_count)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if ((ret == -ENODEV) || (ret == EDP_AUX_ERR_TOUT)) {
 			pr_err("DPCD read timedout, skip connect notification\n");
 			goto end;
@@ -2287,11 +2300,17 @@ read_edid:
 	ret = mdss_dp_edid_read(dp);
 	if (ret) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (ret == -ENODEV)
 			goto end;
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		if (ret == -ENODEV)
+			goto end;
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		pr_err("edid read error, setting default resolution\n");
 		goto notify;
 	}
@@ -3070,6 +3089,9 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 	mutex_lock(&dp_drv->train_mutex);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (!dp_drv->power_on) {
 		pr_err("DP Controller not powered on\n");
 		mutex_unlock(&dp_drv->train_mutex);
@@ -3084,8 +3106,12 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 		if (mdss_dp_aux_send_psm_request(dp_drv, true))
 			pr_err("Failed to enter low power mode\n");
 	}
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	reinit_completion(&dp_drv->idle_comp);
 	mdss_dp_state_ctrl(&dp_drv->ctrl_io, ST_PUSH_IDLE);
 	if (!wait_for_completion_timeout(&dp_drv->idle_comp,
@@ -3207,12 +3233,18 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 			break;
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (!atomic_read(&dp->notification_pending)) {
 			pr_debug("blank when cable is connected\n");
 			kthread_park(dp->ev_thread);
 		}
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (dp_is_hdcp_enabled(dp)) {
 			dp->hdcp_status = HDCP_STATE_INACTIVE;
 
@@ -3253,6 +3285,7 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 		 * device is in suspend state.
 		 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if ((!dp->power_on) && (dp->dp_initialized)) {
 			rc = mdss_dp_host_deinit(dp);
 			kthread_park(dp->ev_thread);
@@ -3261,6 +3294,12 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 		if ((!dp->power_on) && (dp->dp_initialized))
 			rc = mdss_dp_host_deinit(dp);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		if ((!dp->power_on) && (dp->dp_initialized)) {
+			rc = mdss_dp_host_deinit(dp);
+			kthread_park(dp->ev_thread);
+		}
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		/*
 		 * For DP suspend/resume use case, CHECK_PARAMS is
@@ -3273,6 +3312,7 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 		break;
 	case MDSS_EVENT_RESUME:
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (dp->suspend_vic != HDMI_VFRMT_UNKNOWN) {
 			dp_init_panel_info(dp, dp->suspend_vic);
 			mdss_dp_reset_sw_state(dp);
@@ -3282,6 +3322,13 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 		if (dp->suspend_vic != HDMI_VFRMT_UNKNOWN)
 			dp_init_panel_info(dp, dp->suspend_vic);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		if (dp->suspend_vic != HDMI_VFRMT_UNKNOWN) {
+			dp_init_panel_info(dp, dp->suspend_vic);
+			mdss_dp_reset_sw_state(dp);
+			kthread_unpark(dp->ev_thread);
+		}
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		break;
 	default:
 		pr_debug("unhandled event=%d\n", event);
@@ -3626,6 +3673,7 @@ static void mdss_dp_reset_event_list(struct mdss_dp_drv_pdata *dp)
 static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int ret = 0;
 
 	pr_debug("enter\n");
@@ -3654,10 +3702,39 @@ static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp)
 	atomic_set(&dp->notification_pending, 0);
 	/* complete any waiting completions */
 =======
+=======
+	int ret = 0;
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	pr_debug("enter\n");
 	mdss_dp_reset_event_list(dp);
+
+	/*
+	 * IRQ_HPD attention event handler first turns on DP path and then
+	 * notifies CONNECT_IRQ_HPD and waits for userspace to trigger UNBLANK.
+	 * In such cases, before UNBLANK call, if cable is disconnected, if
+	 * DISCONNECT is notified immediately, userspace might not sense any
+	 * change in connection status, leaving DP controller ON.
+	 *
+	 * To avoid such cases, wait for the connection event to complete before
+	 * sending disconnection event
+	 */
+	if (atomic_read(&dp->notification_pending)) {
+		pr_debug("waiting for the pending notitfication\n");
+		ret = wait_for_completion_timeout(&dp->notification_comp, HZ);
+		if (ret <= 0) {
+			pr_err("%s timed out\n",
+				mdss_dp_notification_status_to_string(
+					dp->hpd_notification_status));
+		}
+	}
+
 	atomic_set(&dp->notification_pending, 0);
+<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	/* complete any waiting completions */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	complete_all(&dp->notification_comp);
 }
 

@@ -451,6 +451,9 @@ static int _parse_dt_u32_handler(struct device_node *np,
 {
 	int rc = -EINVAL;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (len > MAX_SDE_HW_BLK) {
 		SDE_ERROR(
@@ -459,6 +462,7 @@ static int _parse_dt_u32_handler(struct device_node *np,
 		return -E2BIG;
 	}
 
+<<<<<<< HEAD
 =======
 
 	if (len > MAX_SDE_HW_BLK) {
@@ -469,6 +473,8 @@ static int _parse_dt_u32_handler(struct device_node *np,
 	}
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	rc = of_property_read_u32_array(np, prop_name, offsets, len);
 	if (rc && mandatory)
 		SDE_ERROR("mandatory prop: %s u32 array read len:%d\n",

@@ -749,10 +749,14 @@ static int __ipa_validate_flt_rule(const struct ipa_flt_rule *rule,
 
 			if ((*rt_tbl)->cookie != IPA_RT_TBL_COOKIE) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				IPAERR_RL("RT table cookie is invalid\n");
 =======
 				IPAERR("RT table cookie is invalid\n");
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+				IPAERR_RL("RT table cookie is invalid\n");
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				goto error;
 			}
 		} else {
@@ -774,10 +778,14 @@ static int __ipa_validate_flt_rule(const struct ipa_flt_rule *rule,
 		if ((rule->rule_id < ipahal_get_rule_id_hi_bit()) ||
 		(rule->rule_id >= ((ipahal_get_rule_id_hi_bit()<<1)-1))) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			IPAERR_RL("invalid rule_id provided 0x%x\n"
 =======
 			IPAERR("invalid rule_id provided 0x%x\n"
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+			IPAERR_RL("invalid rule_id provided 0x%x\n"
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				"rule_id with bit 0x%x are auto generated\n",
 				rule->rule_id, ipahal_get_rule_id_hi_bit());
 			goto error;
@@ -837,12 +845,17 @@ static int __ipa_finish_flt_rule_add(struct ipa3_flt_tbl *tbl,
 	id = ipa3_id_alloc(entry);
 	if (id < 0) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		IPAERR_RL("failed to add to tree\n");
 		WARN_ON_RATELIMIT_IPA(1);
 =======
 		IPAERR("failed to add to tree\n");
 		WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		IPAERR_RL("failed to add to tree\n");
+		WARN_ON_RATELIMIT_IPA(1);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto ipa_insert_failed;
 	}
 	*rule_hdl = id;
@@ -1203,7 +1216,11 @@ int ipa3_add_flt_rule_after(struct ipa_ioc_add_flt_rule_after *rules)
 	}
 
 	if (entry->cookie != IPA_FLT_COOKIE) {
+<<<<<<< HEAD
 		IPAERR_RL("Invalid cookie value =  %u flt hdl id = %d\n",
+=======
+		IPAERR_RL("Invalid cookie value =  %u rule = %d in rt tbls\n",
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			entry->cookie, rules->add_after_hdl);
 		result = -EINVAL;
 		goto bail;

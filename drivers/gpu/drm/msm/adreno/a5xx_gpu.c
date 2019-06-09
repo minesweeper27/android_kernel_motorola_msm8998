@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2017 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,6 +15,7 @@
 #include "msm_iommu.h"
 #include "msm_trace.h"
 #include "a5xx_gpu.h"
+#include <linux/clk/msm-clk.h>
 
 #define SECURE_VA_START 0xc0000000
 #define SECURE_VA_SIZE  SZ_256M
@@ -783,6 +784,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
 	a5xx_gpu->timestamp_counter = adreno_get_counter(gpu,
 		MSM_COUNTER_GROUP_CP, 0, NULL, NULL);
 
+	/* Get RBBM performance counter countable 6 to read GPU busy cycles */
+	a5xx_gpu->gpu_busy_counter = adreno_get_counter(gpu,
+		MSM_COUNTER_GROUP_RBBM, 6, NULL, NULL);
+
 	/* Load the GPMU firmware before starting the HW init */
 	a5xx_gpmu_ucode_init(gpu);
 
@@ -1169,6 +1174,17 @@ static int a5xx_pm_resume(struct msm_gpu *gpu)
 {
 	int ret;
 
+	/*
+	 * Between suspend/resumes the GPU clocks need to be turned off
+	 * but not a complete power down, typically between frames. Set the
+	 * memory retention flags on the GPU core clock to retain memory
+	 * across clock toggles.
+	 */
+	if (gpu->core_clk) {
+		clk_set_flags(gpu->core_clk, CLKFLAG_RETAIN_PERIPH);
+		clk_set_flags(gpu->core_clk, CLKFLAG_RETAIN_MEM);
+	}
+
 	/* Turn on the core power */
 	ret = msm_gpu_pm_resume(gpu);
 	if (ret)
@@ -1206,9 +1222,24 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
 {
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
 
+<<<<<<< HEAD
 	/* Clear the VBIF pipe before shutting down */
 	gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0xF);
 	spin_until((gpu_read(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL1) & 0xF)
+=======
+	/* Turn off the memory retention flag when not necessary */
+	if (gpu->core_clk) {
+		clk_set_flags(gpu->core_clk, CLKFLAG_NORETAIN_PERIPH);
+		clk_set_flags(gpu->core_clk, CLKFLAG_NORETAIN_MEM);
+	}
+
+	/* Only do this next bit if we are about to go down */
+	if (gpu->active_cnt == 1) {
+		/* Clear the VBIF pipe before shutting down */
+
+		gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0xF);
+		spin_until((gpu_read(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL1) & 0xF)
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			== 0xF);
 
 	gpu_write(gpu, REG_A5XX_VBIF_XIN_HALT_CTRL0, 0);
@@ -1260,6 +1291,15 @@ static struct msm_ringbuffer *a5xx_active_ring(struct msm_gpu *gpu)
 	return a5xx_gpu->cur_ring;
 }
 
+static u64 a5xx_gpu_busy(struct msm_gpu *gpu)
+{
+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
+
+	return adreno_read_counter(gpu, MSM_COUNTER_GROUP_RBBM,
+		a5xx_gpu->gpu_busy_counter);
+}
+
 static const struct adreno_gpu_funcs funcs = {
 	.base = {
 		.get_param = adreno_get_param,
@@ -1280,6 +1320,7 @@ static const struct adreno_gpu_funcs funcs = {
 		.get_counter = adreno_get_counter,
 		.read_counter = adreno_read_counter,
 		.put_counter = adreno_put_counter,
+		.gpu_busy = a5xx_gpu_busy,
 	},
 	.get_timestamp = a5xx_get_timestamp,
 };
@@ -1386,7 +1427,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
 	adreno_gpu = &a5xx_gpu->base;
 	gpu = &adreno_gpu->base;
 
-	a5xx_gpu->pdev = pdev;
 	adreno_gpu->registers = a5xx_registers;
 	adreno_gpu->reg_offsets = a5xx_register_offsets;
 

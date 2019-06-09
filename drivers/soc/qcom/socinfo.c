@@ -571,11 +571,14 @@ static struct msm_soc_info cpu_of_id[] = {
 	[346] = {MSM_CPU_636, "SDA636"},
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	/* 455 ID */
 	[385] = {MSM_CPU_455, "SDM455"},
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* Uninitialized IDs are not known to run Linux.
 	   MSM_CPU_UNKNOWN is set to 0 to ensure these IDs are
 	   considered as unknown CPU. */
@@ -786,8 +789,10 @@ msm_get_build_id(struct device *dev,
 		   struct device_attribute *attr,
 		   char *buf)
 {
-	return snprintf(buf, PAGE_SIZE, "%-.32s\n",
-			socinfo_get_build_id());
+	if (socinfo_get_build_id())
+		return snprintf(buf, PAGE_SIZE, "%-.32s\n",
+				socinfo_get_build_id());
+	return 0;
 }
 
 static ssize_t

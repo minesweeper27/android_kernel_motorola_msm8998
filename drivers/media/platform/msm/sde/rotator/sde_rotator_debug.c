@@ -1158,8 +1158,10 @@ static ssize_t sde_rotator_debug_base_reg_read(struct file *file,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 
-		if (dbg->off % sizeof(u32))
-			return -EFAULT;
+		if (dbg->off % sizeof(u32)) {
+			rc = -EFAULT;
+			goto debug_read_error;
+		}
 
 		ptr = dbg->base + dbg->off;
 		tot = 0;

@@ -1,7 +1,11 @@
 /*
  * Core MDSS framebuffer driver.
  *
+<<<<<<< HEAD
  * Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  * Copyright (C) 2007 Google Incorporated
  *
  * This software is licensed under the terms of the GNU General Public
@@ -5084,9 +5088,13 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 	struct mdp_destination_scaler_data __user *ds_data_user;
 	struct msm_fb_data_type *mfd;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	struct mdss_overlay_private *mdp5_data = NULL;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	struct mdss_overlay_private *mdp5_data = NULL;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	ret = copy_from_user(&commit, argp, sizeof(struct mdp_layer_commit));
 	if (ret) {
@@ -5098,6 +5106,7 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 	if (!mfd)
 		return -EINVAL;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	mdp5_data = mfd_to_mdp5_data(mfd);
 
@@ -5118,6 +5127,22 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 		pr_debug("early commit return\n");
 		MDSS_XLOG(mfd->panel_info->panel_dead);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	mdp5_data = mfd_to_mdp5_data(mfd);
+
+	if (mfd->panel_info->panel_dead) {
+		pr_debug("early commit return\n");
+		MDSS_XLOG(mfd->panel_info->panel_dead);
+		/*
+		 * In case of an ESD attack, since we early return from the
+		 * commits, we need to signal the outstanding fences.
+		 */
+		mdss_fb_release_fences(mfd);
+		if ((mfd->panel.type == MIPI_CMD_PANEL) &&
+			mfd->mdp.signal_retire_fence && mdp5_data)
+			mfd->mdp.signal_retire_fence(mfd,
+						mdp5_data->retire_cnt);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return 0;
 	}
 

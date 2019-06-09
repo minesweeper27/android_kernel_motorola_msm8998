@@ -1151,6 +1151,7 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar)
 			   "%s: WLAN OFF CMD Reset on PM Resume\n", __func__);
 		ath10k_snoc_qmi_wlan_disable(ar);
 		atomic_set(&ar_snoc->pm_ops_inprogress, 0);
+<<<<<<< HEAD
 	}
 
 	if ((ar->state == ATH10K_STATE_ON) ||
@@ -1161,7 +1162,16 @@ static int ath10k_snoc_hif_power_up(struct ath10k *ar)
 			ath10k_err(ar, "failed to configure bus: %d\n", ret);
 			return ret;
 		}
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
+
+	ret = ath10k_snoc_bus_configure(ar);
+	if (ret) {
+		ath10k_err(ar, "failed to configure bus: %d\n", ret);
+		return ret;
+	}
+
 	ret = ath10k_snoc_init_pipes(ar);
 	if (ret) {
 		ath10k_err(ar, "failed to initialize CE: %d\n", ret);
@@ -1634,9 +1644,13 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	int ret;
 	struct ath10k *ar;
 	struct ath10k_snoc *ar_snoc;
+	struct ath10k_snoc_qmi_config *qmi_cfg;
 	enum ath10k_hw_rev hw_rev;
 	struct device *dev;
+<<<<<<< HEAD
 	u32 chip_id;
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	u32 i;
 
 	dev = &pdev->dev;
@@ -1662,6 +1676,7 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 		goto err_core_destroy;
 	}
 
+	qmi_cfg = &ar_snoc->qmi_cfg;
 	spin_lock_init(&ar_snoc->opaque_ctx.ce_lock);
 	ar_snoc->opaque_ctx.bus_ops = &ath10k_snoc_bus_ops;
 	ath10k_snoc_resource_init(ar);
@@ -1686,6 +1701,7 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	}
 
 	ret = ath10k_hw_power_on(ar);
+<<<<<<< HEAD
 	if (ret) {
 		ath10k_err(ar, "failed to power on device: %d\n", ret);
 		goto err_stop_qmi_service;
@@ -1700,6 +1716,16 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 	ret = ath10k_snoc_bus_configure(ar);
 	if (ret) {
 		ath10k_err(ar, "failed to configure bus: %d\n", ret);
+=======
+	if (ret) {
+		ath10k_err(ar, "failed to power on device: %d\n", ret);
+		goto err_stop_qmi_service;
+	}
+
+	ret = ath10k_snoc_claim(ar);
+	if (ret) {
+		ath10k_err(ar, "failed to claim device: %d\n", ret);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto err_hw_power_off;
 	}
 
@@ -1719,12 +1745,18 @@ static int ath10k_snoc_probe(struct platform_device *pdev)
 		goto err_free_pipes;
 	}
 
-	chip_id = ar_snoc->target_info.soc_version;
+	ar_snoc->drv_state = ATH10K_DRIVER_STATE_PROBED;
 	/* chip id needs to be retrieved from platform driver */
-	ret = ath10k_core_register(ar, chip_id);
-	if (ret) {
-		ath10k_err(ar, "failed to register driver core: %d\n", ret);
-		goto err_free_irq;
+	if (atomic_read(&qmi_cfg->fw_ready)) {
+		ret = ath10k_core_register(ar,
+					   ar_snoc->target_info.soc_version);
+		if (ret) {
+			ath10k_err(ar,
+				   "failed to register driver core: %d\n",
+				   ret);
+			goto err_free_irq;
+		}
+		ar_snoc->drv_state = ATH10K_DRIVER_STATE_STARTED;
 	}
 
 	ath10k_snoc_modem_ssr_register_notifier(ar);

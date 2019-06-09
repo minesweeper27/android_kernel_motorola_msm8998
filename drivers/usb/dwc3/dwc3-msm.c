@@ -261,6 +261,7 @@ struct dwc3_msm {
 	struct delayed_work perf_vote_work;
 	struct delayed_work sdp_check;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	bool usb_compliance_mode;
 	struct mutex suspend_resume_mutex;
 	bool			ext_typec_switch;
@@ -275,6 +276,10 @@ struct dwc3_msm {
 	struct usb_ext_status   ext_state;   /* Greybus control of mod intf */
 	bool			ext_enabled; /* Greybus control of mod intf */
 	struct work_struct	ext_usb_work;
+=======
+	bool usb_compliance_mode;
+	struct mutex suspend_resume_mutex;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 static struct dwc3_msm *the_chip;
@@ -2488,7 +2493,10 @@ static int dwc3_msm_suspend(struct dwc3_msm *mdwc, bool hibernation)
 		return ret;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	/* Initialize variables here */
 	can_suspend_ssphy = !(mdwc->in_host_mode &&
@@ -3105,6 +3113,9 @@ static void check_for_sdp_connection(struct work_struct *w)
 		return;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* USB 3.1 compliance equipment usually repoted as floating
 	 * charger as HS dp/dm lines are never connected. Do not
 	 * tear down USB stack if compliance parameter is set
@@ -3112,8 +3123,11 @@ static void check_for_sdp_connection(struct work_struct *w)
 	if (mdwc->usb_compliance_mode)
 		return;
 
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* floating D+/D- lines detected */
 	if (dwc->gadget.state < USB_STATE_DEFAULT &&
 		dwc3_gadget_get_link_state(dwc) != DWC3_LINK_STATE_CMPLY) {
@@ -3165,6 +3179,7 @@ static int dwc3_msm_vbus_notifier(struct notifier_block *nb,
 	if (dwc->maximum_speed > dwc->max_hw_supp_speed)
 		dwc->maximum_speed = dwc->max_hw_supp_speed;
 
+<<<<<<< HEAD
 	/* Ignore Vbus notifications when Mod USB is enabled via sysfs */
 	if (mdwc->mod_enabled) {
 		mdwc->mod_vbus_active = event;
@@ -3175,6 +3190,8 @@ static int dwc3_msm_vbus_notifier(struct notifier_block *nb,
 	if (mdwc->vbus_active == event)
 		return NOTIFY_DONE;
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	self_powered = extcon_get_cable_state_(edev,
 					EXTCON_USB_TYPEC_MED_HIGH_CURRENT);
 	if (self_powered < 0)
@@ -3374,6 +3391,7 @@ static ssize_t usb_compliance_mode_store(struct device *dev,
 }
 static DEVICE_ATTR_RW(usb_compliance_mode);
 
+<<<<<<< HEAD
 static void dwc3_ext_send_uevent(struct dwc3_msm *mdwc, bool usb_present)
 {
 	struct kobj_uevent_env *env;
@@ -3513,6 +3531,8 @@ ext_done:
 	return NOTIFY_OK;
 }
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int dwc3_msm_probe(struct platform_device *pdev)
 {
 	struct device_node *node = pdev->dev.of_node, *dwc3_node, *hub_node;
@@ -3991,6 +4011,7 @@ static int dwc3_msm_remove(struct platform_device *pdev)
 
 	if (mdwc->hs_phy)
 		mdwc->hs_phy->flags &= ~PHY_HOST_MODE;
+<<<<<<< HEAD
 	if (mdwc->ss_compliance) {
 		device_remove_file(&pdev->dev, &dev_attr_enable_ss_compliance);
 		device_remove_file(&pdev->dev, &dev_attr_toggle_pattern);
@@ -4003,6 +4024,8 @@ static int dwc3_msm_remove(struct platform_device *pdev)
 		device_remove_file(&pdev->dev, &dev_attr_extusb_state);
 	}
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	of_platform_depopulate(&pdev->dev);
 
 	dbg_event(0xFF, "Remov put", 0);
@@ -4191,11 +4214,15 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 	if (on) {
 		dev_dbg(mdwc->dev, "%s: turn on host\n", __func__);
 
+		pm_runtime_get_sync(mdwc->dev);
 		mdwc->hs_phy->flags |= PHY_HOST_MODE;
+<<<<<<< HEAD
 <<<<<<< HEAD
 		pm_runtime_get_sync(mdwc->dev);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (dwc->maximum_speed == USB_SPEED_SUPER) {
 			mdwc->ss_phy->flags |= PHY_HOST_MODE;
 			usb_phy_notify_connect(mdwc->ss_phy,
@@ -4204,9 +4231,12 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 
 		usb_phy_notify_connect(mdwc->hs_phy, USB_SPEED_HIGH);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		pm_runtime_get_sync(mdwc->dev);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		dbg_event(0xFF, "StrtHost gync",
 			atomic_read(&mdwc->dev->power.usage_count));
 		if (!IS_ERR(mdwc->vbus_reg))
@@ -4461,6 +4491,7 @@ static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA)
 	int ret, psy_type;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	psy_type = get_psy_type(mdwc);
 	if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
 		if (!mA)
@@ -4482,18 +4513,26 @@ set_prop:
 	if (mdwc->max_power == mA)
 		return 0;
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	psy_type = get_psy_type(mdwc);
-	if (psy_type == POWER_SUPPLY_TYPE_USB) {
-		dev_info(mdwc->dev, "Avail curr from USB = %u\n", mA);
-		/* Set max current limit in uA */
-		pval.intval = 1000 * mA;
-	} else if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
+	if (psy_type == POWER_SUPPLY_TYPE_USB_FLOAT) {
 		pval.intval = -ETIMEDOUT;
-	} else {
-		return 0;
+		goto set_prop;
 	}
 
+<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	if (mdwc->max_power == mA || psy_type != POWER_SUPPLY_TYPE_USB)
+		return 0;
+
+	dev_info(mdwc->dev, "Avail curr from USB = %u\n", mA);
+	/* Set max current limit in uA */
+	pval.intval = 1000 * mA;
+
+set_prop:
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	ret = power_supply_set_property(mdwc->usb_psy,
 				POWER_SUPPLY_PROP_SDP_CURRENT_MAX, &pval);
 	if (ret) {

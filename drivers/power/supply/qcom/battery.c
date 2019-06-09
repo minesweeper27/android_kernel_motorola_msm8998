@@ -630,6 +630,7 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 				pr_err("Could not set main fcc, rc=%d\n", rc);
 				return rc;
 			}
+<<<<<<< HEAD
 
 			pval.intval = slave_fcc_ua;
 			rc = power_supply_set_property(chip->pl_psy,
@@ -663,6 +664,40 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 				pr_err("Could not set main fcc, rc=%d\n", rc);
 				return rc;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+
+			pval.intval = slave_fcc_ua;
+			rc = power_supply_set_property(chip->pl_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Couldn't set parallel fcc, rc=%d\n",
+						rc);
+				return rc;
+			}
+
+			chip->slave_fcc_ua = slave_fcc_ua;
+		} else {
+			pval.intval = slave_fcc_ua;
+			rc = power_supply_set_property(chip->pl_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Couldn't set parallel fcc, rc=%d\n",
+						rc);
+				return rc;
+			}
+
+			chip->slave_fcc_ua = slave_fcc_ua;
+
+			pval.intval = master_fcc_ua;
+			rc = power_supply_set_property(chip->main_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Could not set main fcc, rc=%d\n", rc);
+				return rc;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			}
 		}
 	}

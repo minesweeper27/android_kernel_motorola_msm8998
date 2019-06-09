@@ -1322,6 +1322,9 @@ static int sde_kms_hw_init(struct msm_kms *kms)
 	DRM_INFO("mapped mdp address space @%pK\n", sde_kms->mmio);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	rc = sde_dbg_reg_register_base(SDE_DBG_NAME, sde_kms->mmio,
 			sde_kms->mmio_len);
 	if (rc)
@@ -1331,6 +1334,7 @@ static int sde_kms_hw_init(struct msm_kms *kms)
 			&sde_kms->vbif_len[VBIF_RT]);
 	if (!sde_kms->vbif[VBIF_RT]) {
 		SDE_ERROR("vbif register memory map failed\n");
+<<<<<<< HEAD
 =======
 	sde_kms->vbif[VBIF_RT] = msm_ioremap(dev->platformdev,
 			"vbif_phys", "VBIF");
@@ -1339,6 +1343,8 @@ static int sde_kms_hw_init(struct msm_kms *kms)
 		SDE_ERROR("vbif register memory map failed: %d\n", rc);
 		sde_kms->vbif[VBIF_RT] = NULL;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto error;
 	}
 

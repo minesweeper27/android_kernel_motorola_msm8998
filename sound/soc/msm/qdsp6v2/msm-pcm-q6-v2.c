@@ -1676,7 +1676,10 @@ static int msm_pcm_playback_pan_scale_ctl_put(struct snd_kcontrol *kcontrol,
 	struct asm_stream_pan_ctrl_params pan_param;
 	char *usr_value = NULL;
 	uint32_t *gain_ptr = NULL;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (!usr_info) {
 		pr_err("%s: usr_info is null\n", __func__);
 		ret = -EINVAL;

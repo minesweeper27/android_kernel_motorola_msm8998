@@ -99,10 +99,14 @@
 #define IPAERR_RL(fmt, args...) \
 	do { \
 <<<<<<< HEAD
+<<<<<<< HEAD
 		pr_err_ratelimited_ipa(DRV_NAME " %s:%d " fmt, __func__,\
 =======
 		pr_err_ratelimited(DRV_NAME " %s:%d " fmt, __func__,\
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+		pr_err_ratelimited_ipa(DRV_NAME " %s:%d " fmt, __func__,\
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		__LINE__, ## args);\
 		if (ipa3_ctx) { \
 			IPA_IPC_LOGGING(ipa3_ctx->logbuf, \

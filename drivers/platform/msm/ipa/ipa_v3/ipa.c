@@ -2561,6 +2561,7 @@ static int ipa3_q6_set_ex_path_to_apps(void)
 		if (IPA_CLIENT_IS_Q6_PROD(client_idx) ||
 			(ipa3_ctx->ep[ep_idx].valid &&
 			ipa3_ctx->ep[ep_idx].skip_ep_cfg)) {
+<<<<<<< HEAD
 			ipa_assert_on(num_descs >= ipa3_ctx->ipa_num_pipes);
 
 			reg_write.skip_pipeline_clear = false;
@@ -2591,6 +2592,8 @@ static int ipa3_q6_set_ex_path_to_apps(void)
 
 		/* disable statuses for modem producers */
 		if (IPA_CLIENT_IS_Q6_PROD(client_idx)) {
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			ipa_assert_on(num_descs >= ipa3_ctx->ipa_num_pipes);
 
 			reg_write.skip_pipeline_clear = false;
@@ -4990,12 +4993,16 @@ static int ipa3_pre_init(const struct ipa3_plat_drv_res *resource_p,
 	mutex_init(&ipa3_ctx->lock);
 	mutex_init(&ipa3_ctx->nat_mem.lock);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	mutex_init(&ipa3_ctx->q6_proxy_clk_vote_mutex);
 	mutex_init(&ipa3_ctx->ipa_cne_evt_lock);
 =======
 	mutex_init(&ipa3_ctx->ipa_cne_evt_lock);
 	mutex_init(&ipa3_ctx->q6_proxy_clk_vote_mutex);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	mutex_init(&ipa3_ctx->q6_proxy_clk_vote_mutex);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	ipa3_ctx->q6_proxy_clk_vote_cnt = 0;
 
 	idr_init(&ipa3_ctx->ipa_idr);

@@ -581,6 +581,8 @@ static int __read_queue(struct vidc_iface_q_info *qinfo, u8 *packet,
 
 	queue->qhdr_read_idx = new_read_idx;
 
+	queue->qhdr_read_idx = new_read_idx;
+
 	*pb_tx_req_is_set = (1 == queue->qhdr_tx_req) ? 1 : 0;
 
 	if (msm_vidc_debug & VIDC_PKT) {
@@ -3726,7 +3728,10 @@ err_no_work:
 =======
 
 		if (!__core_in_valid_state(device)) {
+<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			dprintk(VIDC_ERR,
 				"Ignore responses from %d to %d as device is in invalid state",
 				(i + 1), num_responses);

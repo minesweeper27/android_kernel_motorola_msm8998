@@ -701,6 +701,7 @@
 
 				qcom,cpr-fuse-corners = <5>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 				qcom,cpr-fuse-combos = <40>;
 				qcom,cpr-speed-bins = <5>;
 				qcom,cpr-speed-bin-corners = <8 8 0 8 8>;
@@ -709,6 +710,11 @@
 				qcom,cpr-speed-bins = <4>;
 				qcom,cpr-speed-bin-corners = <8 8 0 8>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+				qcom,cpr-fuse-combos = <40>;
+				qcom,cpr-speed-bins = <5>;
+				qcom,cpr-speed-bin-corners = <8 8 0 8 8>;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				qcom,cpr-corners =
 					/* Speed bin 0 */
 					<8 8 8 8 8 8 8 8>,
@@ -721,14 +727,20 @@
 
 					/* Speed bin 3 */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					<8 8 8 8 8 8 8 8>,
 
 					/* Speed bin 4 */
 					<8 8 8 8 8 8 8 8>;
 
+<<<<<<< HEAD
 =======
 					<8 8 8 8 8 8 8 8>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				qcom,cpr-corner-fmax-map =
 					/* Speed bin 0 */
 					<2 3 4 5 8>,
@@ -741,11 +753,17 @@
 
 					/* Speed bin 3 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<2 3 4 5 8>,
 
 					/* Speed bin 4 */
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+					<2 3 4 5 8>,
+
+					/* Speed bin 4 */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					<2 3 4 5 8>;
 
 				qcom,cpr-voltage-ceiling =
@@ -769,6 +787,14 @@
 
 					/* Speed bin 3 */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+					<300000000  633600000  902400000
+					1113600000 1401600000 1536000000
+					1612800000 1843200000>,
+
+					/* Speed bin 4 */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					<300000000  633600000  902400000
 					1113600000 1401600000 1536000000
 					1612800000 1843200000>,
@@ -806,12 +832,17 @@
 
 				qcom,cpr-closed-loop-voltage-fuse-adjustment =
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<(-32000) (-30000) (-29000) (-23000)
 					(-21000)>;
 =======
 					<(-32000) (-30000) (-29000) (-38000)
 					(-36000)>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+					<(-32000) (-30000) (-29000) (-23000)
+					(-21000)>;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 				qcom,cpr-floor-to-ceiling-max-range =
 					<32000  32000  32000  40000  44000
@@ -873,6 +904,7 @@
 
 				qcom,cpr-fuse-corners = <5>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 				qcom,cpr-fuse-combos = <40>;
 				qcom,cpr-speed-bins = <5>;
 				qcom,cpr-speed-bin-corners = <7 7 0 7 7>;
@@ -881,6 +913,11 @@
 				qcom,cpr-speed-bins = <4>;
 				qcom,cpr-speed-bin-corners = <7 7 0 7>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+				qcom,cpr-fuse-combos = <40>;
+				qcom,cpr-speed-bins = <5>;
+				qcom,cpr-speed-bin-corners = <7 7 0 7 7>;
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				qcom,cpr-corners =
 					/* Speed-bin 0 */
 					<7 7 7 7 7 7 7 7>,
@@ -893,11 +930,17 @@
 
 					/* Speed-bin 3 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<7 7 7 7 7 7 7 7>,
 
 					/* Speed-bin 4 */
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+					<7 7 7 7 7 7 7 7>,
+
+					/* Speed-bin 4 */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					<7 7 7 7 7 7 7 7>;
 
 				qcom,cpr-corner-fmax-map =
@@ -912,11 +955,17 @@
 
 					/* Speed-bin 3 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<2 3 4 6 7>,
 
 					/* Speed-bin 4 */
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+					<2 3 4 6 7>,
+
+					/* Speed-bin 4 */
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					<2 3 4 6 7>;
 
 				qcom,cpr-voltage-ceiling =
@@ -942,13 +991,19 @@
 					<300000000  1113600000 1401600000
 					 1747200000 1804800000 2150400000
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					 2208000000>,
 
 					/* Speed bin 4 */
 					<300000000  1113600000 1401600000
 					 1747200000 1958400000 2150400000
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					 2208000000>;
 
 				qcom,allow-voltage-interpolation;

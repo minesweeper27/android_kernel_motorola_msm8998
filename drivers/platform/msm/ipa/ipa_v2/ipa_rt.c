@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1200,6 +1204,7 @@ int __ipa_del_rt_rule(u32 rule_hdl)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (!strcmp(entry->tbl->name, IPA_DFLT_RT_TBL_NAME)) {
 		IPADBG("Deleting rule from default rt table idx=%u\n",
 			entry->tbl->idx);
@@ -1208,6 +1213,8 @@ int __ipa_del_rt_rule(u32 rule_hdl)
 			return -EINVAL;
 		}
 	}
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* Adding check to confirm still
 	 * header entry present in header table or not
 	 */
@@ -1227,6 +1234,18 @@ int __ipa_del_rt_rule(u32 rule_hdl)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	if (!strcmp(entry->tbl->name, IPA_DFLT_RT_TBL_NAME)) {
+		IPADBG("Deleting rule from default rt table idx=%u\n",
+			entry->tbl->idx);
+		if (entry->tbl->rule_cnt == 1) {
+			IPAERR_RL("Default tbl last rule cannot be deleted\n");
+			return -EINVAL;
+		}
+	}
+
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (entry->hdr)
 		__ipa_release_hdr(entry->hdr->id);
 	else if (entry->proc_ctx)
@@ -1402,6 +1421,7 @@ int ipa2_reset_rt(enum ipa_ip_type ip, bool user_only)
 			 */
 			if (tbl->idx == apps_start_idx && tbl->rule_cnt == 1)
 				continue;
+<<<<<<< HEAD
 			if (!user_only ||
 				rule->ipacm_installed) {
 				list_del(&rule->link);
@@ -1439,6 +1459,40 @@ int ipa2_reset_rt(enum ipa_ip_type ip, bool user_only)
 				/* remove the handle from the database */
 				ipa_id_remove(id);
 			}
+=======
+
+			list_del(&rule->link);
+			if (rule->hdr) {
+				hdr_entry = ipa_id_find(rule->rule.hdr_hdl);
+				if (!hdr_entry ||
+					hdr_entry->cookie != IPA_HDR_COOKIE) {
+					IPAERR_RL("Header already deleted\n");
+					return -EINVAL;
+				}
+			} else if (rule->proc_ctx) {
+				hdr_proc_entry =
+					ipa_id_find(
+						rule->rule.hdr_proc_ctx_hdl);
+				if (!hdr_proc_entry ||
+					hdr_proc_entry->cookie !=
+					IPA_PROC_HDR_COOKIE) {
+					IPAERR_RL(
+						"Proc entry already deleted\n");
+					return -EINVAL;
+				}
+			}
+			tbl->rule_cnt--;
+			if (rule->hdr)
+				__ipa_release_hdr(rule->hdr->id);
+			else if (rule->proc_ctx)
+				__ipa_release_hdr_proc_ctx(rule->proc_ctx->id);
+			rule->cookie = 0;
+			id = rule->id;
+			kmem_cache_free(ipa_ctx->rt_rule_cache, rule);
+
+			/* remove the handle from the database */
+			ipa_id_remove(id);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		if (ipa_id_find(tbl->id) == NULL) {

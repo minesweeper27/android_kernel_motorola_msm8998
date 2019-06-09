@@ -1,4 +1,5 @@
-/* Copyright (c) 2012,2014-2015 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012, 2014-2015, 2018 The Linux Foundation. All rights
+ * reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,10 +19,15 @@
 #include <linux/spinlock.h>
 #include <linux/debugfs.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <net/cnss_prealloc.h>
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #ifdef	CONFIG_WCNSS_SKB_PRE_ALLOC
+=======
+#include <net/cnss_prealloc.h>
+#ifdef CONFIG_WCNSS_SKB_PRE_ALLOC
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #include <linux/skbuff.h>
 #endif
 
@@ -184,12 +190,17 @@ void *wcnss_prealloc_get(size_t size)
 	spin_unlock_irqrestore(&alloc_lock, flags);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	pr_err("wcnss: %s: prealloc not available for size: %zu\n",
 	       __func__, size);
 =======
 	pr_err("wcnss: %s: prealloc not available for size: %d\n",
 			__func__, size);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+	pr_err("wcnss: %s: prealloc not available for size: %zu\n",
+	       __func__, size);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	return NULL;
 }

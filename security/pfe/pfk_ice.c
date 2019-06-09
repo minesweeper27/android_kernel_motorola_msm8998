@@ -142,6 +142,7 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 	desc.args[4] = tzbuflen_salt;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	ret = qcom_ice_setup_ice_hw((const char *)s_type, true);
 =======
 	ret = qcom_ice_setup_ice_hw((const char *)storage_type, true);
@@ -149,11 +150,18 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 
 	if (ret) {
 		pr_err("%s: could not enable clocks: %d\n", __func__, ret);
+=======
+	ret = qcom_ice_setup_ice_hw((const char *)s_type, true);
+
+	if (ret) {
+		pr_err("%s: could not enable clocks: 0x%x\n", __func__, ret);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto out;
 	}
 
 	ret = scm_call2(smc_id, &desc);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 	ret = qcom_ice_setup_ice_hw((const char *)storage_type, false);
@@ -177,6 +185,20 @@ int qti_pfk_ice_set_key(uint32_t index, uint8_t *key, uint8_t *salt,
 		if (ret1)
 			pr_err("%s:Invalidate key Error: %d\n", __func__,
 						ret1);
+=======
+	pr_debug(" %s , ret = %d\n", __func__, ret);
+
+	if (ret) {
+		pr_err("%s: Error: 0x%x\n", __func__, ret);
+		if (ret == -EBUSY) {
+			goto out;
+		} else {
+			smc_id = TZ_ES_INVALIDATE_ICE_KEY_ID;
+			desc.arginfo = TZ_ES_INVALIDATE_ICE_KEY_PARAM_ID;
+			desc.args[0] = index;
+			scm_call2(smc_id, &desc);
+		}
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	ret = qcom_ice_setup_ice_hw((const char *)s_type, false);
@@ -220,6 +242,7 @@ int qti_pfk_ice_invalidate_key(uint32_t index, char *storage_type)
 	ret = scm_call2(smc_id, &desc);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (ret) {
 =======
 	ret = qcom_ice_setup_ice_hw((const char *)storage_type, false);
@@ -231,6 +254,12 @@ int qti_pfk_ice_invalidate_key(uint32_t index, char *storage_type)
 		qti_pfk_ice_stat_failure(storage_type, smc_id, ret);
 		if (qcom_ice_setup_ice_hw((const char *)storage_type, false))
 			pr_err("%s: could not disable clocks\n", __func__);
+=======
+	pr_debug(" %s , ret = %d\n", __func__, ret);
+	if (ret) {
+		pr_err("%s: Error: 0x%x\n", __func__, ret);
+		qcom_ice_setup_ice_hw((const char *)storage_type, false);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	} else {
 		ret = qcom_ice_setup_ice_hw((const char *)storage_type, false);
 	}

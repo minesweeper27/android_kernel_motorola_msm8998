@@ -968,6 +968,9 @@ static int smb138x_init_hw(struct smb138x *chip)
 	chg->dcp_icl_ua = chip->dt.usb_icl_ua;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* Disable OTG */
 	rc = smblib_masked_write(chg, CMD_OTG_REG, OTG_EN_BIT, 0);
 	if (rc < 0) {
@@ -982,8 +985,11 @@ static int smb138x_init_hw(struct smb138x *chip)
 		return rc;
 	}
 
+<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* configure to a fixed 700khz freq to avoid tdie errors */
 	rc = smblib_set_charge_param(chg, &chg->param.freq_buck, 700);
 	if (rc < 0) {

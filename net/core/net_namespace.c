@@ -262,10 +262,14 @@ struct net *get_net_ns_by_id(struct net *net, int id)
 	peer = idr_find(&net->netns_ids, id);
 	if (peer)
 <<<<<<< HEAD
+<<<<<<< HEAD
 		peer = maybe_get_net(peer);
 =======
                 peer = maybe_get_net(peer);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+=======
+                peer = maybe_get_net(peer);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	spin_unlock_irqrestore(&net->nsid_lock, flags);
 	rcu_read_unlock();
 

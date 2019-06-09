@@ -575,7 +575,11 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 	if (data->opcode == APR_BASIC_RSP_RESULT) {
 		if (data->payload_size < (2 * sizeof(uint32_t))) {
 			pr_err("%s: payload has invalid size[%d]\n", __func__,
+<<<<<<< HEAD
 			       data->payload_size);
+=======
+				data->payload_size);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			return -EINVAL;
 		}
 		/* status field check */
@@ -644,7 +648,11 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 		if (data->payload_size <
 		    (sizeof(uint32_t)*(READDONE_IDX_STATUS + 1))) {
 			pr_err("%s: Invalid payload size for READDONE[%d]\n",
+<<<<<<< HEAD
 			       __func__, data->payload_size);
+=======
+				__func__, data->payload_size);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			spin_unlock_irqrestore(&port->dsp_lock,
 					       dsp_flags);
 			return -EINVAL;
@@ -697,7 +705,11 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 		if (data->payload_size <
 		    (sizeof(uint32_t)*(WRITEDONE_IDX_STATUS + 1))) {
 			pr_err("%s: Invalid payload size for WRITEDONE[%d]\n",
+<<<<<<< HEAD
 			       __func__, data->payload_size);
+=======
+				__func__, data->payload_size);
+>>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			return -EINVAL;
 		}
 		if (payload[WRITEDONE_IDX_STATUS]) {
