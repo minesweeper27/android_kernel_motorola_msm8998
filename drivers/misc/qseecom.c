@@ -1846,14 +1846,10 @@ static int __qseecom_process_incomplete_cmd(struct qseecom_dev_handle *data,
 }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 static int __qseecom_process_reentrancy_blocked_on_listener(
 =======
 static int __qseecom_process_blocked_on_listener_legacy(
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-static int __qseecom_process_reentrancy_blocked_on_listener(
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				struct qseecom_command_scm_resp *resp,
 				struct qseecom_registered_app_list *ptr_app,
 				struct qseecom_dev_handle *data)
@@ -1863,7 +1859,6 @@ static int __qseecom_process_reentrancy_blocked_on_listener(
 	struct qseecom_continue_blocked_request_ireq ireq;
 	struct qseecom_command_scm_resp continue_resp;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	unsigned int session_id;
 	sigset_t new_sigset;
 	sigset_t old_sigset;
@@ -1871,13 +1866,7 @@ static int __qseecom_process_reentrancy_blocked_on_listener(
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	bool found_app = false;
-=======
-	unsigned int session_id;
-	sigset_t new_sigset;
-	sigset_t old_sigset;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	unsigned long flags;
-	bool found_app = false;
 
 	if (!resp || !data) {
 		pr_err("invalid resp or data pointer\n");
@@ -1909,9 +1898,6 @@ static int __qseecom_process_reentrancy_blocked_on_listener(
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	do {
 		session_id = resp->resp_type;
 		list_ptr = __qseecom_find_svc(resp->data);
@@ -1921,7 +1907,6 @@ static int __qseecom_process_reentrancy_blocked_on_listener(
 			goto exit;
 		}
 		ptr_app->blocked_on_listener_id = resp->data;
-<<<<<<< HEAD
 
 		pr_warn("Lsntr %d in_use %d, block session(%d) app(%d)\n",
 			resp->data, list_ptr->listener_in_use,
@@ -2093,75 +2078,12 @@ static int __qseecom_process_blocked_on_listener_smcinvoke(
 				app_id, session_id);
 			goto exit;
 		}
-=======
-
-		pr_warn("Lsntr %d in_use %d, block session(%d) app(%d)\n",
-			resp->data, list_ptr->listener_in_use,
-			session_id, data->client.app_id);
-
-		/* sleep until listener is available */
-		sigfillset(&new_sigset);
-		sigprocmask(SIG_SETMASK, &new_sigset, &old_sigset);
-
-		do {
-			qseecom.app_block_ref_cnt++;
-			ptr_app->app_blocked = true;
-			mutex_unlock(&app_access_lock);
-			wait_event_freezable(
-				list_ptr->listener_block_app_wq,
-				!list_ptr->listener_in_use);
-			mutex_lock(&app_access_lock);
-			ptr_app->app_blocked = false;
-			qseecom.app_block_ref_cnt--;
-		}  while (list_ptr->listener_in_use);
-
-		sigprocmask(SIG_SETMASK, &old_sigset, NULL);
-
-		ptr_app->blocked_on_listener_id = 0;
-		pr_warn("Lsntr %d is available, unblock session(%d) app(%d)\n",
-			resp->data, session_id, data->client.app_id);
-
-		/* notify TZ that listener is available */
-		ireq.qsee_cmd_id = QSEOS_CONTINUE_BLOCKED_REQ_COMMAND;
-
-		if (qseecom.smcinvoke_support)
-			ireq.app_or_session_id = session_id;
-		else
-			ireq.app_or_session_id = data->client.app_id;
-
-		ret = qseecom_scm_call(SCM_SVC_TZSCHEDULER, 1,
-					&ireq, sizeof(ireq),
-					&continue_resp, sizeof(continue_resp));
-		if (ret && qseecom.smcinvoke_support) {
-			/* retry with legacy cmd */
-			qseecom.smcinvoke_support = false;
-			ireq.app_or_session_id = data->client.app_id;
-			ret = qseecom_scm_call(SCM_SVC_TZSCHEDULER, 1,
-				&ireq, sizeof(ireq),
-				&continue_resp, sizeof(continue_resp));
-			qseecom.smcinvoke_support = true;
-			if (ret) {
-				pr_err("unblock app %d or session %d fail\n",
-					data->client.app_id, session_id);
-				goto exit;
-			}
-		}
-		resp->result = continue_resp.result;
-		resp->resp_type = continue_resp.resp_type;
-		resp->data = continue_resp.data;
-		pr_debug("unblock resp = %d\n", resp->result);
-	} while (resp->result == QSEOS_RESULT_BLOCKED_ON_LISTENER);
-
-	if (resp->result != QSEOS_RESULT_INCOMPLETE) {
-		pr_err("Unexpected unblock resp %d\n", resp->result);
-		ret = -EINVAL;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
+	resp->result = QSEOS_RESULT_INCOMPLETE;
 exit:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int __qseecom_process_reentrancy_blocked_on_listener(
 				struct qseecom_command_scm_resp *resp,
 				struct qseecom_registered_app_list *ptr_app,
@@ -2174,8 +2096,6 @@ static int __qseecom_process_reentrancy_blocked_on_listener(
 		return __qseecom_process_blocked_on_listener_smcinvoke(
 			resp, data->client.app_id);
 }
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int __qseecom_reentrancy_process_incomplete_cmd(
 					struct qseecom_dev_handle *data,
 					struct qseecom_command_scm_resp *resp)
@@ -8978,7 +8898,6 @@ static int qseecom_remove(struct platform_device *pdev)
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
 exit_free_kc_handle:
 	kzfree(kclient->handle);
@@ -8986,8 +8905,6 @@ exit_free_kclient:
 	kzfree(kclient);
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	spin_unlock_irqrestore(&qseecom.registered_kclient_list_lock, flags);
 
 	if (qseecom.qseos_version > QSEEE_VERSION_00)

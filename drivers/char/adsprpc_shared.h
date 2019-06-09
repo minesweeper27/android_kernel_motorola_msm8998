@@ -34,7 +34,6 @@
 #define FASTRPC_GLINK_GUID "fastrpcglink-apps-dsp"
 #define FASTRPC_SMD_GUID "fastrpcsmd-apps-dsp"
 #define DEVICE_NAME      "adsprpc-smd"
-#define DEVICE_NAME_SECURE "adsprpc-smd-secure"
 
 /* Set for buffers that have no virtual mapping in userspace */
 #define FASTRPC_ATTR_NOVA 0x1
@@ -173,14 +172,11 @@ struct fastrpc_ioctl_init_attrs {
 struct fastrpc_ioctl_munmap {
 	uintptr_t vaddrout;	/* address to unmap */
 	size_t size;		/* size */
-<<<<<<< HEAD
 };
 
 struct fastrpc_ioctl_munmap_64 {
 	uint64_t vaddrout;	/* address to unmap */
 	size_t size;		/* size */
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 struct fastrpc_ioctl_mmap {
@@ -206,17 +202,10 @@ struct fastrpc_ioctl_perf {			/* kernel performance data */
 	uintptr_t keys;
 };
 
-<<<<<<< HEAD
 #define FASTRPC_CONTROL_LATENCY (1)
 struct fastrpc_ctrl_latency {
 	uint32_t enable;		/* latency control enable */
 	uint32_t level;			/* level of control */
-=======
-#define FASTRPC_CONTROL_LATENCY	(1)
-struct fastrpc_ctrl_latency {
-	uint32_t enable;	/*!latency control enable*/
-	uint32_t level;		/*!level of control*/
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 #define FASTRPC_CONTROL_SMMU	(2)

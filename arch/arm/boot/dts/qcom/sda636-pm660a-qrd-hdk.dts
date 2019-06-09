@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,7 +20,6 @@
 #include "sda636.dtsi"
 #include "sdm636-qrd.dtsi"
 #include "msm-pm660a.dtsi"
-<<<<<<< HEAD
 <<<<<<< HEAD
 
 &i2c_2 {
@@ -162,8 +157,6 @@
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #include "sdm660-external-codec.dtsi"
 
 / {
@@ -171,16 +164,12 @@
 	compatible = "qcom,sda636-qrd", "qcom,sda636", "qcom,qrd";
 	qcom,board-id = <0x0016000b 0>;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	qcom,pmic-id = <0x0001001b 0x0001011a 0x0 0x0>,
 			<0x0001001b 0x0002001a 0x0 0x0>,
 			<0x0001001b 0x0202001a 0x0 0x0>;
 =======
 	qcom,pmic-id = <0x0001001b 0x0001011a 0x0 0x0>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	qcom,pmic-id = <0x0001001b 0x0001011a 0x0 0x0>;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 &pm660a_oledb {

@@ -145,15 +145,12 @@ struct qusb_phy {
 	int			tune2_efuse_num_of_bits;
 	int			tune2_efuse_correction;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	int			tune2_efuse_correction_host;
 #ifdef CONFIG_USB_PHY_TUNE_FACTORY_OVERRIDE
 	u32			tune_factory_override;
 #endif
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	bool			power_enabled;
 	bool			clocks_enabled;
@@ -442,11 +439,8 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 	u32 bit_mask = 1;
 	u8 reg_val;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	int temp_correction = 0;
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	pr_debug("%s(): num_of_bits:%d bit_pos:%d\n", __func__,
@@ -487,7 +481,6 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	reg_val = readb_relaxed(qphy->base + QUSB2PHY_PORT_TUNE2);
 	if (qphy->tune2_val) {
 		reg_val  &= 0x0f;
@@ -495,8 +488,6 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 	}
 
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* Update higher nibble of TUNE2 value for better rise/fall times */
 	if (qphy->tune2_efuse_correction && qphy->tune2_val) {
 		if (qphy->tune2_efuse_correction > 5 ||
@@ -514,10 +505,7 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 		reg_val |= (qphy->tune2_val << 4);
 	}
 
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	qphy->tune2_val = reg_val;
 }
 
@@ -628,10 +616,7 @@ static int qusb_phy_init(struct usb_phy *phy)
 	 */
 	if (qphy->tune2_efuse_reg && !tune2) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (!qphy->tune2_val)
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			qusb_phy_get_tune2_param(qphy);
@@ -1036,16 +1021,12 @@ static int qusb_phy_probe(struct platform_device *pdev)
 						"qcom,tune2-efuse-correction",
 						&qphy->tune2_efuse_correction);
 <<<<<<< HEAD
-<<<<<<< HEAD
 			of_property_read_u32(dev->of_node,
 						"qcom,tune2-efuse-correction-host",
 						&qphy->tune2_efuse_correction_host);
 =======
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			if (ret) {
 				dev_err(dev, "DT Value for tune2 efuse is invalid.\n");
 				return -EINVAL;

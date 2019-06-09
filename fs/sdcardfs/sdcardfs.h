@@ -206,10 +206,7 @@ struct sdcardfs_mount_options {
 	userid_t fs_user_id;
 	bool multiuser;
 	bool gid_derivation;
-<<<<<<< HEAD
 	bool default_normal;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	unsigned int reserved_mb;
 };
 

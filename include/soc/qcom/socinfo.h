@@ -97,13 +97,10 @@
 #define early_machine_is_sda660()	\
 	of_flat_dt_is_compatible(of_get_flat_dt_root(), "qcom,sda660")
 <<<<<<< HEAD
-<<<<<<< HEAD
 #define early_machine_is_sdm455()	\
 	of_flat_dt_is_compatible(of_get_flat_dt_root(), "qcom,sdm455")
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define early_machine_is_sdm636()	\
 	of_flat_dt_is_compatible(of_get_flat_dt_root(), "qcom,sdm636")
 #define early_machine_is_sda636()	\
@@ -155,12 +152,9 @@
 #define early_machine_is_sdm660()	0
 #define early_machine_is_sda660()	0
 <<<<<<< HEAD
-<<<<<<< HEAD
 #define early_machine_is_sdm455()	0
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define early_machine_is_sdm636()	0
 #define early_machine_is_sda636()	0
 #define early_machine_is_sdm658()	0

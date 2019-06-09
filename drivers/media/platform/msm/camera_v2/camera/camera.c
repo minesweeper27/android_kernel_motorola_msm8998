@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -379,25 +375,15 @@ static int camera_v4l2_s_fmt_vid_cap_mplane(struct file *filep, void *fh,
 			rc = -ENOMEM;
 			mutex_unlock(sp->vb2_q.lock);
 			goto done;
-<<<<<<< HEAD
 		}
-=======
-	}
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		memcpy(sp->vb2_q.drv_priv, pfmt->fmt.raw_data,
 			sizeof(struct msm_v4l2_format_data));
 		user_fmt = (struct msm_v4l2_format_data *)sp->vb2_q.drv_priv;
 
 		pr_debug("%s: num planes :%c\n", __func__,
 					user_fmt->num_planes);
-<<<<<<< HEAD
 		/*num_planes need to bound checked, otherwise for loop
 		can execute forever */
-=======
-		/* num_planes need to bound checked, otherwise for loop
-		 * can execute forever
-		 */
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (WARN_ON(user_fmt->num_planes > VIDEO_MAX_PLANES)) {
 			rc = -EINVAL;
 			mutex_unlock(sp->vb2_q.lock);
@@ -599,10 +585,10 @@ static int camera_v4l2_fh_release(struct file *filep)
 	if (sp) {
 		v4l2_fh_del(&sp->fh);
 		v4l2_fh_exit(&sp->fh);
-		mutex_destroy(&sp->lock);
-		kzfree(sp);
 	}
 
+	mutex_destroy(&sp->lock);
+	kzfree(sp);
 	return 0;
 }
 

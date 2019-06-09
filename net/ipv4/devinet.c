@@ -2196,11 +2196,8 @@ static struct devinet_sysctl_table {
 					      "promote_secondaries"),
 		DEVINET_SYSCTL_FLUSHING_ENTRY(ROUTE_LOCALNET,
 					      "route_localnet"),
-<<<<<<< HEAD
 		DEVINET_SYSCTL_FLUSHING_ENTRY(DROP_UNICAST_IN_L2_MULTICAST,
 					      "drop_unicast_in_l2_multicast"),
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		DEVINET_SYSCTL_RW_ENTRY(NF_IPV4_DEFRAG_SKIP,
 					"nf_ipv4_defrag_skip"),
 	},

@@ -1960,11 +1960,7 @@ static ssize_t sde_dbg_reg_base_offset_write(struct file *file,
 
 	buf[count] = 0;	/* end of string */
 
-<<<<<<< HEAD
 	if (sscanf(buf, "%x %x", &off, &cnt) != 2)
-=======
-	if (sscanf(buf, "%5x %x", &off, &cnt) != 2)
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EFAULT;
 
 	mutex_lock(&sde_dbg_base.mutex);
@@ -2137,11 +2133,7 @@ static ssize_t sde_dbg_reg_base_reg_read(struct file *file,
 
 	mutex_lock(&sde_dbg_base.mutex);
 	if (!dbg->buf) {
-<<<<<<< HEAD
 		char *hwbuf;
-=======
-		char *hwbuf, *hwbuf_cur;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		char dump_buf[64];
 		char __iomem *ioptr;
 		int cnt, tot;
@@ -2159,17 +2151,12 @@ static ssize_t sde_dbg_reg_base_reg_read(struct file *file,
 			return -ENOMEM;
 		}
 
-<<<<<<< HEAD
 		hwbuf = kzalloc(ROW_BYTES, GFP_KERNEL);
-=======
-		hwbuf = kzalloc(dbg->buf_len, GFP_KERNEL);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (!hwbuf) {
 			kfree(dbg->buf);
 			mutex_unlock(&sde_dbg_base.mutex);
 			return -ENOMEM;
 		}
-<<<<<<< HEAD
 
 		ioptr = dbg->base + dbg->off;
 		tot = 0;
@@ -2178,49 +2165,23 @@ static ssize_t sde_dbg_reg_base_reg_read(struct file *file,
 		for (cnt = dbg->cnt; cnt > 0; cnt -= ROW_BYTES) {
 			memcpy_fromio(hwbuf, ioptr, ROW_BYTES);
 			hex_dump_to_buffer(hwbuf,
-=======
-		hwbuf_cur = hwbuf;
-
-		ioptr = dbg->base + dbg->off;
-		tot = 0;
-
-		_sde_dbg_enable_power(true);
-
-		memcpy_fromio(hwbuf, ioptr, dbg->buf_len);
-
-		_sde_dbg_enable_power(false);
-
-		for (cnt = dbg->cnt; cnt > 0; cnt -= ROW_BYTES) {
-			hex_dump_to_buffer(hwbuf_cur,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					   min(cnt, ROW_BYTES),
 					   ROW_BYTES, GROUP_BYTES, dump_buf,
 					   sizeof(dump_buf), false);
 			len = scnprintf(dbg->buf + tot, dbg->buf_len - tot,
 					"0x%08x: %s\n",
-<<<<<<< HEAD
 					((int) (unsigned long) ioptr) -
 					((int) (unsigned long) dbg->base),
 					dump_buf);
 
 			ioptr += ROW_BYTES;
-=======
-					((int) (unsigned long) hwbuf_cur) -
-					((int) (unsigned long) dbg->base),
-					dump_buf);
-
-			hwbuf_cur += ROW_BYTES;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			tot += len;
 			if (tot >= dbg->buf_len)
 				break;
 		}
 
-<<<<<<< HEAD
 		_sde_dbg_enable_power(false);
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		dbg->buf_len = tot;
 		kfree(hwbuf);
 	}

@@ -184,13 +184,10 @@ ENTRY(cpu_do_switch_mm)
 	msr	ttbr1_el1, x2			// in TTBR1 (since TCR.A1 is set)
 	isb
 <<<<<<< HEAD
-<<<<<<< HEAD
 	msr	ttbr0_el1, x0			// now update TTBR0
 	isb
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	b	post_ttbr_update_workaround	// Back to C code...
 ENDPROC(cpu_do_switch_mm)
 

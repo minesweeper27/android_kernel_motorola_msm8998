@@ -947,7 +947,6 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 
 		if (total_len < sizeof(*cap) || total_len < cap->bLength) {
 			dev->bos->desc->bNumDeviceCaps = i;
-<<<<<<< HEAD
 			break;
 		}
 <<<<<<< HEAD
@@ -961,11 +960,6 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 =======
 		length = cap->bLength;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			break;
-		}
-		length = cap->bLength;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		total_len -= length;
 
 		if (cap->bDescriptorType != USB_DT_DEVICE_CAPABILITY) {

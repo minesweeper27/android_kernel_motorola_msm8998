@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -230,11 +226,7 @@ int ipa3_query_intf(struct ipa_ioc_query_intf *lookup)
 	int result = -EINVAL;
 
 	if (lookup == NULL) {
-<<<<<<< HEAD
 		IPAERR_RL("invalid param lookup is NULL\n");
-=======
-		IPAERR_RL("invalid param lookup=%p\n", lookup);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return result;
 	}
 

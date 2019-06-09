@@ -676,7 +676,6 @@ struct dentry *debugfs_rename(struct dentry *old_dir, struct dentry *old_dentry,
 	struct dentry *dentry = NULL, *trap;
 	struct name_snapshot old_name;
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 	if (IS_ERR(old_dir))
 		return old_dir;
@@ -686,8 +685,6 @@ struct dentry *debugfs_rename(struct dentry *old_dir, struct dentry *old_dentry,
 		return old_dentry;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	trap = lock_rename(new_dir, old_dir);
 	/* Source or destination directories don't exist? */

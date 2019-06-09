@@ -96,11 +96,7 @@ slow:
 	}
 	d_instantiate(dentry, inode);
 	dentry->d_flags |= DCACHE_RCUACCESS;
-<<<<<<< HEAD
 	dentry->d_fsdata = (void *)ns_ops;
-=======
-	dentry->d_fsdata = (void *)ns->ops;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	d = atomic_long_cmpxchg(&ns->stashed, 0, (unsigned long)dentry);
 	if (d) {
 		d_delete(dentry);	/* make sure ->d_prune() does nothing */

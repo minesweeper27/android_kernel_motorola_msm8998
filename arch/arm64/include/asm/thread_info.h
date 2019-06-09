@@ -103,14 +103,11 @@ static inline struct thread_info *current_thread_info(void)
 #endif
 
 #define init_stack		(init_thread_union.stack)
-<<<<<<< HEAD
 
 #define init_thread_info	(init_thread_union.thread_info)
 #endif
 
 #define init_stack		(init_thread_union.stack)
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 #define thread_saved_pc(tsk)	\
 	((unsigned long)(tsk->thread.cpu_context.pc))

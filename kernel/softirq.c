@@ -235,7 +235,6 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
 #endif
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 #define softirq_deferred_for_rt(pending)		\
 ({							\
 	__u32 deferred = 0;				\
@@ -248,8 +247,6 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
 
 asmlinkage __visible void __softirq_entry __do_softirq(void)
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define long_softirq_pending()	(local_softirq_pending() & LONG_SOFTIRQ_MASK)
 #define defer_for_rt()		(long_softirq_pending() && cpupri_check_rt())
 asmlinkage __visible void __do_softirq(void)

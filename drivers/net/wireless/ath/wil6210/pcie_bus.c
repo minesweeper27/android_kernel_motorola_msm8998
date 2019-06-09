@@ -287,6 +287,15 @@ static int wil_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	wil_set_capabilities(wil);
 	wil6210_clear_irq(wil);
 
+	wil->keep_radio_on_during_sleep =
+		wil->platform_ops.keep_radio_on_during_sleep &&
+		wil->platform_ops.keep_radio_on_during_sleep(
+			wil->platform_handle) &&
+		test_bit(WMI_FW_CAPABILITY_D3_SUSPEND, wil->fw_capabilities);
+
+	wil_info(wil, "keep_radio_on_during_sleep (%d)\n",
+		 wil->keep_radio_on_during_sleep);
+
 	/* FW should raise IRQ when ready */
 	rc = wil_if_pcie_enable(wil);
 	if (rc) {

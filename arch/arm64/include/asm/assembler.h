@@ -416,7 +416,6 @@ alternative_endif
 	mrs	\rd, sp_el0
 	.endm
 
-<<<<<<< HEAD
 /*
  * Check the MIDR_EL1 of the current CPU for a given model and a range of
  * variant/revision. See asm/cputype.h for the macros used below.
@@ -458,6 +457,4 @@ alternative_endif
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #endif	/* __ASM_ASSEMBLER_H */

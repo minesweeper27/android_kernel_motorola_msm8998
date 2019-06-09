@@ -155,7 +155,6 @@ ext4_read_inode_bitmap(struct super_block *sb, ext4_group_t block_group)
 	}
 
 	ext4_lock_group(sb, block_group);
-<<<<<<< HEAD
 	if (ext4_has_group_desc_csum(sb) &&
 	    (desc->bg_flags & cpu_to_le16(EXT4_BG_INODE_UNINIT))) {
 		if (block_group == 0) {
@@ -166,9 +165,6 @@ ext4_read_inode_bitmap(struct super_block *sb, ext4_group_t block_group)
 			err = -EFSCORRUPTED;
 			goto out;
 		}
-=======
-	if (desc->bg_flags & cpu_to_le16(EXT4_BG_INODE_UNINIT)) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		memset(bh->b_data, 0, (EXT4_INODES_PER_GROUP(sb) + 7) / 8);
 		ext4_mark_bitmap_end(EXT4_INODES_PER_GROUP(sb),
 				     sb->s_blocksize * 8, bh->b_data);

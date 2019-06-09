@@ -49,11 +49,7 @@
 #define IPAHAL_ERR_RL(fmt, args...) \
 	do { \
 		pr_err_ratelimited_ipa(IPAHAL_DRV_NAME " %s:%d " fmt, \
-<<<<<<< HEAD
 		__func__, __LINE__, ## args); \
-=======
-			__func__, __LINE__, ## args); \
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		IPA_IPC_LOGGING(ipa_get_ipc_logbuf(), \
 			IPAHAL_DRV_NAME " %s:%d " fmt, ## args); \
 		IPA_IPC_LOGGING(ipa_get_ipc_logbuf_low(), \

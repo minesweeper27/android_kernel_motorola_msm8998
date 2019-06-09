@@ -50,21 +50,15 @@ arm64-obj-$(CONFIG_ARM64_ACPI_PARKING_PROTOCOL)	+= acpi_parking_protocol.o
 arm64-obj-$(CONFIG_PARAVIRT)		+= paravirt.o
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
 obj-y					+= $(arm64-obj-y) vdso/
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 ifeq ($(CONFIG_KVM),y)
 arm64-obj-$(CONFIG_HARDEN_BRANCH_PREDICTOR)	+= bpi.o
 endif
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 obj-y					+= $(arm64-obj-y) vdso/ probes/
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5

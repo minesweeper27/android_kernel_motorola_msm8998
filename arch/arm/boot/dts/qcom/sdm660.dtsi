@@ -1268,7 +1268,6 @@
 		reg = <0x179c0000 0x4000>, <0x17916000 0x1000>,
 		      <0x17816000 0x1000>, <0x179d1000 0x1000>,
 <<<<<<< HEAD
-<<<<<<< HEAD
 		      <0x00784130 0x8>, <0x00784130 0x8>;
 		reg-names = "osm", "pwrcl_pll", "perfcl_pll",
 			    "apcs_common", "pwrcl_efuse",
@@ -1287,12 +1286,6 @@
 		qcom,acdextint1-val = <0x2cf9afe 0x2cf9afe>;
 		qcom,acdautoxfer-val = <0x00000015 0x00000015>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		      <0x00784130 0x8>, <0x00784130 0x8>;
-		reg-names = "osm", "pwrcl_pll", "perfcl_pll",
-			    "apcs_common", "pwrcl_efuse",
-			    "perfcl_efuse";
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 		vdd-pwrcl-supply = <&apc0_pwrcl_vreg>;
 		vdd-perfcl-supply = <&apc1_perfcl_vreg>;
@@ -1331,9 +1324,6 @@
 			<  1612800000 0x04040054 0x09430043 0x2 7 >;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		qcom,pwrcl-speedbin4-v0 =
 			<   300000000 0x0004000f 0x01200020 0x1 1 >,
 			<   633600000 0x05040021 0x03200020 0x1 2 >,
@@ -1344,11 +1334,8 @@
 			<  1747200000 0x0404005b 0x09480048 0x2 7 >,
 			<  1843200000 0x04040060 0x094c004c 0x3 8 >;
 
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		qcom,perfcl-speedbin0-v0 =
 			<   300000000 0x0004000f 0x01200020 0x1 1 >,
 			<  1113600000 0x0404003a 0x052e002e 0x1 2 >,
@@ -1375,9 +1362,6 @@
 			<  1804800000 0x0404005e 0x094b004b 0x2 5 >;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		qcom,perfcl-speedbin4-v0 =
 			<   300000000 0x0004000f 0x01200020 0x1 1 >,
 			<  1113600000 0x0404003a 0x052e002e 0x1 2 >,
@@ -1385,11 +1369,8 @@
 			<  1747200000 0x0404005b 0x09480048 0x2 4 >,
 			<  1958400000 0x04040066 0x0a510051 0x2 5 >;
 
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		qcom,up-timer = <1000 1000>;
 		qcom,down-timer = <1000 1000>;
 		qcom,set-ret-inactive;
@@ -2042,14 +2023,10 @@
 		vdd-1.3-rfa-supply = <&pm660_l6_pin_ctrl>;
 		vdd-3.3-ch0-supply = <&pm660_l19_pin_ctrl>;
 <<<<<<< HEAD
-<<<<<<< HEAD
 		qcom,vdd-0.8-cx-mx-config = <848000 848000>;
 =======
 		qcom,vdd-0.8-cx-mx-config = <525000 950000>;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		qcom,vdd-0.8-cx-mx-config = <848000 848000>;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		qcom,vdd-1.8-xo-config = <1750000 1900000>;
 		qcom,vdd-1.3-rfa-config = <1200000 1370000>;
 		qcom,vdd-3.3-ch0-config = <3200000 3400000>;

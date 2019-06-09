@@ -3085,7 +3085,6 @@ static void sdhci_data_irq(struct sdhci_host *host, u32 intmask)
 					"%s: Quirk ignoring intr: 0x%08x\n",
 						__func__, intmask);
 <<<<<<< HEAD
-<<<<<<< HEAD
 				return;
 			}
 			if (intmask & SDHCI_INT_DATA_TIMEOUT) {
@@ -3094,8 +3093,6 @@ static void sdhci_data_irq(struct sdhci_host *host, u32 intmask)
 				return;
 			}
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				return;
 			}
 			if (intmask & SDHCI_INT_DATA_TIMEOUT) {
@@ -3103,10 +3100,7 @@ static void sdhci_data_irq(struct sdhci_host *host, u32 intmask)
 				tasklet_schedule(&host->finish_tasklet);
 				return;
 			}
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		pr_err("%s: Got data interrupt 0x%08x even "

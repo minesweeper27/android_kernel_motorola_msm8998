@@ -2386,8 +2386,6 @@ static void __overlay_set_secure_transition_state(struct msm_fb_data_type *mfd)
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
-	mdp5_data->cache_null_commit = list_empty(&mdp5_data->pipes_used);
-
 	/*
 	 * Secure transition would be NONE in two conditions:
 	 * 1. All the features are already disabled and state remains
@@ -3319,8 +3317,9 @@ int mdss_mdp_overlay_vsync_ctrl(struct msm_fb_data_type *mfd, int en)
 		goto end;
 	}
 
-	if (!ctl->panel_data->panel_info.cont_splash_enabled &&
-	    !mdss_mdp_ctl_is_power_on(ctl)) {
+	if (!ctl->panel_data->panel_info.cont_splash_enabled
+		&& (!mdss_mdp_ctl_is_power_on(ctl) ||
+		mdss_panel_is_power_on_ulp(ctl->power_state))) {
 		pr_debug("fb%d vsync pending first update en=%d, ctl power state:%d\n",
 				mfd->index, en, ctl->power_state);
 		rc = -EPERM;
@@ -6613,7 +6612,6 @@ void mdss_mdp_footswitch_ctrl_handler(bool on)
 }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
 					 int retire_cnt)
 {
@@ -6626,20 +6624,12 @@ static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
 	if (!mdp5_data->ctl || !mdp5_data->ctl->ops.remove_vsync_handler)
 		return;
 
-=======
-static void mdss_mdp_signal_retire_fence(struct msm_fb_data_type *mfd,
-						int retire_cnt)
-{
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	__vsync_retire_signal(mfd, retire_cnt);
 	pr_debug("Signaled (%d) pending retire fence\n", retire_cnt);
 }
 
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 {
 	struct device *dev = mfd->fbi->dev;
@@ -6682,7 +6672,6 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 	mdp5_interface->configure_panel = mdss_mdp_update_panel_info;
 	mdp5_interface->input_event_handler = mdss_mdp_input_event_handler;
 	mdp5_interface->signal_retire_fence = mdss_mdp_signal_retire_fence;
-<<<<<<< HEAD
 
 	/*
 	 * Register footswitch control only for primary fb pm
@@ -6691,8 +6680,6 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 	if (mfd->panel_info->is_prim_panel)
 		mdp5_interface->footswitch_ctrl =
 			mdss_mdp_footswitch_ctrl_handler;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	/*
 	 * Register footswitch control only for primary fb pm

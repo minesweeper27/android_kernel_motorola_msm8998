@@ -11,7 +11,6 @@
 struct task_struct;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 /*
  * We don't use read_sysreg() as we want the compiler to cache the value where
  * possible.
@@ -28,11 +27,6 @@ static __always_inline struct task_struct *get_current(void)
 {
 	return (struct task_struct *)read_sysreg(sp_el0);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-static __always_inline struct task_struct *get_current(void)
-{
-	return (struct task_struct *)read_sysreg(sp_el0);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 #define current get_current()
 #else

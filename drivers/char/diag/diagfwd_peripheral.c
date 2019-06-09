@@ -317,7 +317,6 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 		return;
 	}
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 	session_info =
 		diag_md_session_get_peripheral(peripheral);
@@ -325,23 +324,15 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 	mutex_lock(&driver->md_session_lock);
 	session_info = diag_md_session_get_peripheral(peripheral);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	mutex_lock(&driver->md_session_lock);
-	session_info = diag_md_session_get_peripheral(peripheral);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (session_info)
 		hdlc_disabled = session_info->hdlc_disabled;
 	else
 		hdlc_disabled = driver->hdlc_disabled;
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 =======
 	mutex_unlock(&driver->md_session_lock);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (hdlc_disabled) {
 		/* The data is raw and and on APPS side HDLC is disabled */
 		if (!buf) {
@@ -382,15 +373,10 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 		}
 	}
 <<<<<<< HEAD
-<<<<<<< HEAD
 	mutex_unlock(&fwd_info->data_mutex);
 	mutex_unlock(&driver->hdlc_disable_mutex);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	mutex_unlock(&fwd_info->data_mutex);
-	mutex_unlock(&driver->hdlc_disable_mutex);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (write_len > 0) {
 		err = diag_mux_write(DIAG_LOCAL_PROC, write_buf, write_len,
@@ -398,7 +384,6 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 		if (err) {
 			pr_err_ratelimited("diag: In %s, unable to write to mux error: %d\n",
 					   __func__, err);
-<<<<<<< HEAD
 <<<<<<< HEAD
 			goto end_write;
 		}
@@ -411,17 +396,10 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 	mutex_unlock(&fwd_info->data_mutex);
 	mutex_unlock(&driver->hdlc_disable_mutex);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			goto end_write;
-		}
-	}
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	diagfwd_queue_read(fwd_info);
 	return;
 
 end:
-<<<<<<< HEAD
 <<<<<<< HEAD
 	mutex_unlock(&fwd_info->data_mutex);
 	mutex_unlock(&driver->hdlc_disable_mutex);
@@ -432,12 +410,6 @@ end_write:
 	mutex_unlock(&fwd_info->data_mutex);
 	mutex_unlock(&driver->hdlc_disable_mutex);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	mutex_unlock(&fwd_info->data_mutex);
-	mutex_unlock(&driver->hdlc_disable_mutex);
-end_write:
-	diag_ws_release();
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (buf) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
 		"Marking buffer as free p: %d, t: %d, buf_num: %d\n",
@@ -1171,7 +1143,16 @@ void diagfwd_close_transport(uint8_t transport, uint8_t peripheral)
 		dest_info->buf_ptr[i] = fwd_info->buf_ptr[i];
 	if (!check_channel_state(dest_info->ctxt))
 		diagfwd_late_open(dest_info);
-	diagfwd_cntl_open(dest_info);
+
+	/*
+	 *	Open control channel to update masks after buffers are
+	 *	initialized for peripherals that have transport other than
+	 *	GLINK. GLINK supported peripheral mask update will
+	 *	happen after glink buffers are initialized.
+	 */
+
+	if (dest_info->transport != TRANSPORT_GLINK)
+		diagfwd_cntl_open(dest_info);
 	init_fn(peripheral);
 	mutex_unlock(&driver->diagfwd_channel_mutex[peripheral]);
 	diagfwd_queue_read(&peripheral_info[TYPE_DATA][peripheral]);
@@ -1376,7 +1357,6 @@ int diagfwd_channel_open(struct diagfwd_info *fwd_info)
 
 	/*
 <<<<<<< HEAD
-<<<<<<< HEAD
 	 * Initialize buffers for glink supported
 	 * peripherals only.
 	 */
@@ -1386,20 +1366,13 @@ int diagfwd_channel_open(struct diagfwd_info *fwd_info)
 	 *	Initialize buffers for glink supported
 	 *	peripherals only. Open control channel to update
 	 *	masks after buffers are initialized.
-=======
-	 * Initialize buffers for glink supported
-	 * peripherals only.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	 */
-	if (fwd_info->transport == TRANSPORT_GLINK)
+	if (fwd_info->transport == TRANSPORT_GLINK) {
 		diagfwd_write_buffers_init(fwd_info);
-<<<<<<< HEAD
 		if (fwd_info->type == TYPE_CNTL)
 			diagfwd_cntl_open(fwd_info);
 	}
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (fwd_info && fwd_info->c_ops && fwd_info->c_ops->open)
 		fwd_info->c_ops->open(fwd_info);

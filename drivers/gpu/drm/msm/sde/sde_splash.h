@@ -130,15 +130,9 @@ int sde_splash_lk_stop_splash(struct msm_kms *kms,
  * withdraw data bus vote, disable MDP core power, send uevent to user
  * to recycle pipe etc.
  */
-<<<<<<< HEAD
 int sde_splash_free_resource(struct msm_kms *kms,
 			struct sde_power_handle *phandle,
 			int connector_type, void *display);
-=======
-int sde_splash_clean_up_free_resource(struct msm_kms *kms,
-				struct sde_power_handle *phandle,
-				int connector_type, void *display);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 /**
  * sde_splash_parse_memory_dt.
@@ -185,7 +179,6 @@ void sde_splash_destroy(struct sde_splash_info *sinfo,
  *
  * Get LK's status to check if it has been stopped.
  */
-<<<<<<< HEAD
 bool sde_splash_get_lk_complete_status(struct msm_kms *kms);
 
 /**
@@ -195,8 +188,4 @@ bool sde_splash_get_lk_complete_status(struct msm_kms *kms);
  */
 int sde_splash_setup_display_resource(struct sde_splash_info *sinfo,
 				void *disp, int connector_type);
-=======
-bool sde_splash_get_lk_complete_status(struct sde_splash_info *sinfo);
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #endif

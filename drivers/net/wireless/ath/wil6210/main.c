@@ -1104,15 +1104,12 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 			return rc;
 		}
 
-		wil_collect_fw_info(wil);
-
 		if (wil->ps_profile != WMI_PS_PROFILE_TYPE_DEFAULT)
 			wil_ps_update(wil, wil->ps_profile);
 
 		if (wil->tt_data_set)
 			wmi_set_tt_cfg(wil, &wil->tt_data);
 
-<<<<<<< HEAD
 		wil_collect_fw_info(wil);
 
 		if (wil->ps_profile != WMI_PS_PROFILE_TYPE_DEFAULT)
@@ -1125,8 +1122,6 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 			wmi_set_snr_thresh(wil, wil->snr_thresh.omni,
 					   wil->snr_thresh.direct);
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (wil->platform_ops.notify) {
 			rc = wil->platform_ops.notify(wil->platform_handle,
 						      WIL_PLATFORM_EVT_FW_RDY);

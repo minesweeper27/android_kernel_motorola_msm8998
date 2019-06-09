@@ -536,7 +536,6 @@ static void process_last_event_report(uint8_t *buf, uint32_t len,
 	event_size = ((header->event_last_id / 8) + 1);
 	if (event_size >= driver->event_mask_size) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 		DIAG_LOG(DIAG_DEBUG_CONTROL,
 			"diag: In %s, receiving event mask size more that Apps can handle\n",
 			 __func__);
@@ -544,10 +543,6 @@ static void process_last_event_report(uint8_t *buf, uint32_t len,
 		DIAG_LOG(DIAG_DEBUG_MASKS,
 		"diag: receiving event mask size more that Apps can handle\n");
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		DIAG_LOG(DIAG_DEBUG_MASKS,
-		"diag: receiving event mask size more that Apps can handle\n");
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		temp = krealloc(driver->event_mask->ptr, event_size,
 				GFP_KERNEL);
 		if (!temp) {
@@ -774,18 +769,12 @@ static void diag_build_time_mask_update(uint8_t *buf,
 
 	for (i = 0; i < driver->bt_msg_mask_tbl_count; i++, build_mask++) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (!build_mask->ptr) {
 			found = 1;
 			break;
 		}
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (build_mask->ssid_first != range->ssid_first)
 			continue;
 		found = 1;
@@ -806,13 +795,9 @@ static void diag_build_time_mask_update(uint8_t *buf,
 	if (found)
 		goto end;
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
 
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	new_size = (driver->bt_msg_mask_tbl_count + 1) *
 		   sizeof(struct diag_msg_mask_t);
 	DIAG_LOG(DIAG_DEBUG_MASKS,
@@ -1315,9 +1300,6 @@ void diag_map_pd_to_diagid(uint8_t pd, uint8_t *diag_id, int *peripheral)
 		*peripheral = PERIPHERAL_LPASS;
 		break;
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	case PERIPHERAL_WCNSS:
 		*diag_id = 0;
 		*peripheral = PERIPHERAL_WCNSS;
@@ -1330,11 +1312,8 @@ void diag_map_pd_to_diagid(uint8_t pd, uint8_t *diag_id, int *peripheral)
 		*diag_id = 0;
 		*peripheral = PERIPHERAL_WDSP;
 		break;
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	case PERIPHERAL_CDSP:
 		*diag_id = DIAG_ID_CDSP;
 		*peripheral = PERIPHERAL_CDSP;

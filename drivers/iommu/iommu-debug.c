@@ -1,13 +1,9 @@
 /*
 <<<<<<< HEAD
-<<<<<<< HEAD
  * Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
 =======
  * Copyright (c) 2015-2017,2019, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
- * Copyright (c) 2015-2017,2019, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1608,14 +1604,10 @@ static ssize_t iommu_debug_atos_read(struct file *file, char __user *ubuf,
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	buflen = min(count, strlen(buf));
 =======
 	buflen = min(count, strlen(buf)+1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	buflen = min(count, strlen(buf));
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (copy_to_user(ubuf, buf, buflen)) {
 		pr_err("Couldn't copy_to_user\n");
 		retval = -EFAULT;

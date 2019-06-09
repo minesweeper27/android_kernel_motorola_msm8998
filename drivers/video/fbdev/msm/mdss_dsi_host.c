@@ -1577,7 +1577,6 @@ static void mdss_dsi_wait4active_region(struct mdss_dsi_ctrl_pdata *ctrl)
 }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 int mdss_dsi_reg_status_check_dropbox(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	static bool dropbox_sent;
@@ -1607,8 +1606,6 @@ int mdss_dsi_reg_status_check_dropbox(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 /**
  * mdss_dsi_bta_status_check() - Check dsi panel status through bta check
  * @ctrl_pdata: pointer to the dsi controller structure

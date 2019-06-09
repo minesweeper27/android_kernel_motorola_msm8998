@@ -45,7 +45,6 @@
 #define SDE_ENCODER_FRAME_DONE_TIMEOUT	60
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* timeout in msecs */
 #define SDE_ENCODER_UNDERRUN_TIMEOUT	200
 /* underrun count threshold value */
@@ -55,8 +54,6 @@
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define MISR_BUFF_SIZE	256
 
 /*
@@ -629,7 +626,6 @@ static void sde_encoder_underrun_callback(struct drm_encoder *drm_enc,
 	atomic_inc(&phy_enc->underrun_cnt);
 	SDE_EVT32(DRMID(drm_enc), atomic_read(&phy_enc->underrun_cnt));
 
-<<<<<<< HEAD
 	/* schedule delayed work if it has not scheduled or executed earlier */
 	if ((!atomic_read(&sde_enc->last_underrun_ts)) &&
 		(!atomic_read(&sde_enc->underrun_cnt_dwork))) {
@@ -641,8 +637,6 @@ static void sde_encoder_underrun_callback(struct drm_encoder *drm_enc,
 	atomic_set(&sde_enc->last_underrun_ts, jiffies);
 	atomic_inc(&sde_enc->underrun_cnt_dwork);
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	trace_sde_encoder_underrun(DRMID(drm_enc),
 		atomic_read(&phy_enc->underrun_cnt));
 	SDE_DBG_CTRL("stop_ftrace");

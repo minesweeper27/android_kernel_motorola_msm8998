@@ -526,9 +526,6 @@ static int smblib_set_adapter_allowance(struct smb_charger *chg,
 	int rc = 0;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/* PM660 only support max. 9V */
 	if (chg->smb_version == PM660_SUBTYPE) {
 		switch (allowed_voltage) {
@@ -538,7 +535,6 @@ static int smblib_set_adapter_allowance(struct smb_charger *chg,
 			break;
 		case USBIN_ADAPTER_ALLOW_5V_OR_12V:
 		case USBIN_ADAPTER_ALLOW_5V_OR_9V_TO_12V:
-<<<<<<< HEAD
 			allowed_voltage = USBIN_ADAPTER_ALLOW_5V_OR_9V;
 			break;
 		case USBIN_ADAPTER_ALLOW_5V_TO_12V:
@@ -556,19 +552,10 @@ static int smblib_set_adapter_allowance(struct smb_charger *chg,
 		if (chg->smb_version == PM660_SUBTYPE) {
 			smblib_dbg(chg, PR_MISC, "voltage not supported=%d\n",
 					allowed_voltage);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			allowed_voltage = USBIN_ADAPTER_ALLOW_5V_OR_9V;
-			break;
-		case USBIN_ADAPTER_ALLOW_5V_TO_12V:
-			allowed_voltage = USBIN_ADAPTER_ALLOW_5V_TO_9V;
-			break;
 		}
-<<<<<<< HEAD
 		break;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	rc = smblib_write(chg, USBIN_ADAPTER_ALLOW_CFG_REG, allowed_voltage);
@@ -845,10 +832,7 @@ static void smblib_uusb_removal(struct smb_charger *chg)
 	vote(chg->pl_enable_votable_indirect, USBIN_I_VOTER, false, 0);
 	vote(chg->pl_enable_votable_indirect, USBIN_V_VOTER, false, 0);
 	vote(chg->usb_icl_votable, SW_QC3_VOTER, false, 0);
-<<<<<<< HEAD
 	vote(chg->usb_icl_votable, USBIN_USBIN_BOOST_VOTER, false, 0);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	vote(chg->hvdcp_hw_inov_dis_votable, OV_VOTER, false, 0);
 
 	cancel_delayed_work_sync(&chg->hvdcp_detect_work);
@@ -2523,7 +2507,6 @@ int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
 	return rc;
 }
 
-<<<<<<< HEAD
 #ifndef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 int smblib_get_cycle_count(struct smb_charger *chg,
 			   union power_supply_propval *val)
@@ -2539,8 +2522,6 @@ int smblib_get_cycle_count(struct smb_charger *chg,
 }
 #endif
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 /***********************
  * BATTERY PSY SETTERS *
  ***********************/
@@ -2714,12 +2695,9 @@ static int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val)
 	return rc;
 }
 <<<<<<< HEAD
-<<<<<<< HEAD
 #endif
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 int smblib_dp_dm(struct smb_charger *chg, int val)
 {
@@ -2967,28 +2945,6 @@ int smblib_get_prop_usb_online(struct smb_charger *chg,
 }
 
 int smblib_get_prop_usb_voltage_max(struct smb_charger *chg,
-<<<<<<< HEAD
-=======
-				    union power_supply_propval *val)
-{
-	switch (chg->real_charger_type) {
-	case POWER_SUPPLY_TYPE_USB_HVDCP:
-	case POWER_SUPPLY_TYPE_USB_PD:
-		if (chg->smb_version == PM660_SUBTYPE)
-			val->intval = MICRO_9V;
-		else
-			val->intval = MICRO_12V;
-		break;
-	default:
-		val->intval = MICRO_5V;
-		break;
-	}
-
-	return 0;
-}
-
-int smblib_get_prop_usb_voltage_now(struct smb_charger *chg,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				    union power_supply_propval *val)
 {
 	switch (chg->real_charger_type) {
@@ -3389,15 +3345,10 @@ static int smblib_handle_usb_current(struct smb_charger *chg,
 #endif
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 int smblib_set_prop_sdp_current_max(struct smb_charger *chg,
 =======
 static int smblib_handle_usb_current(struct smb_charger *chg,
 					int usb_current)
-=======
-int smblib_set_prop_sdp_current_max(struct smb_charger *chg,
-				    const union power_supply_propval *val)
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 {
 	int rc = 0, rp_ua, typec_mode;
 
@@ -3644,7 +3595,10 @@ static int __smblib_set_prop_pd_active(struct smb_charger *chg, bool pd_active)
 #endif
 =======
 
-	chg->pd_active = pd_active;
+	if (!get_effective_result(chg->pd_allowed_votable))
+		return -EINVAL;
+
+	chg->pd_active = val->intval;
 	if (chg->pd_active) {
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		vote(chg->apsd_disable_votable, PD_VOTER, true, 0);
@@ -4750,26 +4704,17 @@ static void smblib_handle_hvdcp_check_timeout(struct smb_charger *chg,
 			vote(chg->usb_icl_votable, DCP_VOTER,
 				chg->dcp_icl_ua != -EINVAL, chg->dcp_icl_ua);
 <<<<<<< HEAD
-<<<<<<< HEAD
 #ifdef QCOM_BASE
-=======
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		/*
 		 * if pd is not allowed, then set pd_active = false right here,
 		 * so that it starts the hvdcp engine
 		 */
-<<<<<<< HEAD
 		if (!get_effective_result(chg->pd_allowed_votable) &&
 				!chg->micro_usb_mode)
 			__smblib_set_prop_pd_active(chg, 0);
 #endif
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		if (!get_effective_result(chg->pd_allowed_votable))
-			__smblib_set_prop_pd_active(chg, 0);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	smblib_dbg(chg, PR_INTERRUPT, "IRQ: smblib_handle_hvdcp_check_timeout %s\n",
@@ -4843,10 +4788,7 @@ static void smblib_force_legacy_icl(struct smb_charger *chg, int pst)
 }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static void smblib_notify_extcon_props(struct smb_charger *chg)
 {
 	union power_supply_propval val;
@@ -4873,11 +4815,8 @@ static void smblib_notify_usb_host(struct smb_charger *chg, bool enable)
 	extcon_set_cable_state_(chg->extcon, EXTCON_USB_HOST, enable);
 }
 
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define HVDCP_DET_MS 2500
 static void smblib_handle_apsd_done(struct smb_charger *chg, bool rising)
 {
@@ -5384,10 +5323,7 @@ static void smblib_handle_typec_removal(struct smb_charger *chg)
 #ifdef QCOM_BASE
 	vote(chg->hvdcp_disable_votable_indirect, VBUS_CC_SHORT_VOTER, true, 0);
 	vote(chg->hvdcp_disable_votable_indirect, PD_INACTIVE_VOTER, true, 0);
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	vote(chg->hvdcp_hw_inov_dis_votable, OV_VOTER, false, 0);
 
 	/* reset power delivery voters */
@@ -5538,9 +5474,6 @@ unlock:
 	typec_sink_removal(chg);
 	smblib_update_usb_type(chg);
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (chg->use_extcon) {
 		if (chg->otg_present)
@@ -5549,7 +5482,6 @@ unlock:
 			smblib_notify_device_mode(chg, false);
 	}
 	chg->otg_present = false;
-<<<<<<< HEAD
 
 	chg->mmi.charging_limit_modes = CHARGING_LIMIT_OFF;
 	chg->mmi.hvdcp3_con = false;
@@ -5560,8 +5492,6 @@ unlock:
 			      msecs_to_jiffies(0));
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 
 static void smblib_handle_typec_insertion(struct smb_charger *chg)
@@ -6512,18 +6442,12 @@ static void smblib_legacy_detection_work(struct work_struct *work)
 
 	/* wait for the adapter to turn off VBUS */
 <<<<<<< HEAD
-<<<<<<< HEAD
 	msleep(1000);
 
 	smblib_dbg(chg, PR_MISC, "legacy workaround enabling typec\n");
 =======
 	msleep(500);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	msleep(1000);
-
-	smblib_dbg(chg, PR_MISC, "legacy workaround enabling typec\n");
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	rc = smblib_masked_write(chg,
 				TYPE_C_INTRPT_ENB_SOFTWARE_CTRL_REG,
@@ -6533,14 +6457,10 @@ static void smblib_legacy_detection_work(struct work_struct *work)
 
 	/* wait for type-c detection to complete */
 <<<<<<< HEAD
-<<<<<<< HEAD
 	msleep(400);
 =======
 	msleep(100);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	msleep(400);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	rc = smblib_read(chg, TYPE_C_STATUS_5_REG, &stat);
 	if (rc < 0) {
@@ -6553,15 +6473,10 @@ static void smblib_legacy_detection_work(struct work_struct *work)
 	legacy = stat & TYPEC_LEGACY_CABLE_STATUS_BIT;
 	rp_high = chg->typec_mode == POWER_SUPPLY_TYPEC_SOURCE_HIGH;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	smblib_dbg(chg, PR_MISC, "legacy workaround done legacy = %d rp_high = %d\n",
 			legacy, rp_high);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	smblib_dbg(chg, PR_MISC, "legacy workaround done legacy = %d rp_high = %d\n",
-			legacy, rp_high);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (!legacy || !rp_high)
 		vote(chg->hvdcp_disable_votable_indirect, VBUS_CC_SHORT_VOTER,
 								false, 0);

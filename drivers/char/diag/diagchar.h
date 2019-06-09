@@ -678,14 +678,10 @@ void diag_cmd_remove_reg_by_proc(int proc);
 int diag_cmd_chk_polling(struct diag_cmd_reg_entry_t *entry);
 int diag_mask_param(void);
 <<<<<<< HEAD
-<<<<<<< HEAD
 void diag_clear_masks(struct diag_md_session_t *info);
 =======
 void diag_clear_masks(int pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-void diag_clear_masks(int pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 uint8_t diag_mask_to_pd_value(uint32_t peripheral_mask);
 
 void diag_record_stats(int type, int flag);

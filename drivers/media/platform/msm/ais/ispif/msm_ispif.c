@@ -217,7 +217,6 @@ static long msm_ispif_cmd_ext(struct v4l2_subdev *sd,
 		(struct ispif_device *)v4l2_get_subdevdata(sd);
 	struct ispif_cfg_data_ext pcdata = {0};
 	struct msm_ispif_param_data_ext *params = NULL;
-<<<<<<< HEAD
 
 	if (is_compat_task()) {
 #ifdef CONFIG_COMPAT
@@ -232,21 +231,6 @@ static long msm_ispif_cmd_ext(struct v4l2_subdev *sd,
 		pcdata.size = pcdata32->size;
 		pcdata.data = compat_ptr(pcdata32->data);
 
-=======
-
-	if (is_compat_task()) {
-#ifdef CONFIG_COMPAT
-		struct ispif_cfg_data_ext_32 *pcdata32 =
-			(struct ispif_cfg_data_ext_32 *)arg;
-
-		if (pcdata32 == NULL) {
-			pr_err("Invalid params passed from user\n");
-			return -EINVAL;
-		}
-		pcdata.cfg_type  = pcdata32->cfg_type;
-		pcdata.size = pcdata32->size;
-		pcdata.data = compat_ptr(pcdata32->data);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #endif
 	} else {
 		struct ispif_cfg_data_ext *pcdata64 =

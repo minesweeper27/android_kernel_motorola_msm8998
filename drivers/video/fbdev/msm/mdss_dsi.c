@@ -4698,7 +4698,6 @@ int dsi_panel_device_register(struct platform_device *ctrl_pdev,
 	if (!pinfo->clk_rate) {
 		pr_err("%s: unable to calculate the DSI bit clock\n", __func__);
 		return -EINVAL;
-<<<<<<< HEAD
 	}
 
 	pinfo->mipi.dsi_pclk_rate = mdss_dsi_get_pclk_rate(pinfo,
@@ -4708,17 +4707,6 @@ int dsi_panel_device_register(struct platform_device *ctrl_pdev,
 		return -EINVAL;
 	}
 
-=======
-	}
-
-	pinfo->mipi.dsi_pclk_rate = mdss_dsi_get_pclk_rate(pinfo,
-		pinfo->clk_rate);
-	if (!pinfo->mipi.dsi_pclk_rate) {
-		pr_err("%s: unable to calculate the DSI pclk\n", __func__);
-		return -EINVAL;
-	}
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	ctrl_pdata->pclk_rate = mipi->dsi_pclk_rate;
 	clk_rate = pinfo->clk_rate;
 	do_div(clk_rate, 8U);

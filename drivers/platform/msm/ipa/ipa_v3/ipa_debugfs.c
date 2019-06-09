@@ -64,15 +64,12 @@ const char *ipa3_event_name[] = {
 	__stringify(IPA_QUOTA_REACH),
 	__stringify(IPA_SSR_BEFORE_SHUTDOWN),
 	__stringify(IPA_SSR_AFTER_POWERUP),
-<<<<<<< HEAD
 	__stringify(ADD_VLAN_IFACE),
 	__stringify(DEL_VLAN_IFACE),
 	__stringify(ADD_L2TP_VLAN_MAPPING),
 	__stringify(DEL_L2TP_VLAN_MAPPING),
 	__stringify(IPA_PER_CLIENT_STATS_CONNECT_EVENT),
 	__stringify(IPA_PER_CLIENT_STATS_DISCONNECT_EVENT),
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	__stringify(WLAN_FWR_SSR_BEFORE_SHUTDOWN),
 };
 

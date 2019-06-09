@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1501,7 +1497,6 @@ int mdss_dsi_clk_refresh(struct mdss_panel_data *pdata, bool update_phy)
 	if (!pinfo->clk_rate) {
 		pr_err("%s: unable to calculate the DSI bit clock\n", __func__);
 		return -EINVAL;
-<<<<<<< HEAD
 	}
 
 	pinfo->mipi.dsi_pclk_rate = mdss_dsi_get_pclk_rate(pinfo,
@@ -1511,17 +1506,6 @@ int mdss_dsi_clk_refresh(struct mdss_panel_data *pdata, bool update_phy)
 		return -EINVAL;
 	}
 
-=======
-	}
-
-	pinfo->mipi.dsi_pclk_rate = mdss_dsi_get_pclk_rate(pinfo,
-		pinfo->clk_rate);
-	if (!pinfo->mipi.dsi_pclk_rate) {
-		pr_err("%s: unable to calculate the DSI pclk\n", __func__);
-		return -EINVAL;
-	}
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	ctrl_pdata->refresh_clk_rate = false;
 	ctrl_pdata->pclk_rate = pdata->panel_info.mipi.dsi_pclk_rate;
 	ctrl_pdata->byte_clk_rate = pdata->panel_info.clk_rate / 8;
@@ -1840,12 +1824,9 @@ bool is_diff_frame_rate(struct mdss_panel_info *panel_info,
 static u8 mdss_dsi_get_lane_cnt(struct mdss_panel_info *panel_info)
 {
 	u8 lanes = 0;
-<<<<<<< HEAD
 
 	if (!panel_info)
 		return -EINVAL;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (!panel_info)
 		return -EINVAL;
@@ -1932,10 +1913,9 @@ u32 mdss_dsi_get_pclk_rate(struct mdss_panel_info *panel_info, u64 clk_rate)
 =======
 
 	if (panel_info->split_link_enabled)
-		pclk_rate = (u32) clk_rate *
+		dsi_pclk_rate = (u32) clk_rate *
 			panel_info->mipi.lanes_per_sublink;
 	else
-<<<<<<< HEAD
 		dsi_pclk_rate = (u32) clk_rate * lanes;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
@@ -1948,13 +1928,6 @@ u32 mdss_dsi_get_pclk_rate(struct mdss_panel_info *panel_info, u64 clk_rate)
 	if ((pclk_rate < 3300000) || (pclk_rate > 250000000))
 		pclk_rate = 35000000;
 
-=======
-		pclk_rate = (u32) clk_rate * lanes;
-
-	if ((pclk_rate < 3300000) || (pclk_rate > 250000000))
-		pclk_rate = 35000000;
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	return pclk_rate;
 }
 

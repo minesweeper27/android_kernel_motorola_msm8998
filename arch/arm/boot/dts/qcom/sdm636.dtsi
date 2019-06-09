@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -40,12 +36,9 @@
 	/delete-node/ qcom,turing@1a300000;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	/delete-node/ qcom,msm-cdsp-loader;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	/delete-node/ cti@7068000;
 	/delete-node/ turing_etm0;
 	funnel@6042000 {
@@ -53,24 +46,6 @@
 			/delete-node/ port@4;
 		};
 	};
-<<<<<<< HEAD
-=======
-};
-
-&soc {
-	/delete-node/ arm,smmu-turing_q6@5180000;
-	qcom,msm_fastrpc {
-		/delete-node/ qcom,msm_fastrpc_compute_cb5;
-		/delete-node/ qcom,msm_fastrpc_compute_cb6;
-		/delete-node/ qcom,msm_fastrpc_compute_cb7;
-		/delete-node/ qcom,msm_fastrpc_compute_cb8;
-		/delete-node/ qcom,msm_fastrpc_compute_cb9;
-		/delete-node/ qcom,msm_fastrpc_compute_cb10;
-		/delete-node/ qcom,msm_fastrpc_compute_cb11;
-		/delete-node/ qcom,msm_fastrpc_compute_cb12;
-		/delete-node/ qcom,msm_fastrpc_compute_cb13;
-	};
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	devfreq_memlat_4: qcom,arm-memlat-mon-4 {
 		qcom,core-dev-table =
@@ -90,7 +65,6 @@
 	};
 };
 
-<<<<<<< HEAD
 &soc {
 	/delete-node/ arm,smmu-turing_q6@5180000;
 	qcom,msm_fastrpc {
@@ -107,13 +81,10 @@
 };
 
 <<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 /* GPU overrides */
 &msm_gpu {
 		/* Update GPU chip ID*/
 		qcom,chipid = <0x05000900>;
-<<<<<<< HEAD
 =======
 &soc {
 	/delete-node/ qcom,turing@1a300000;
@@ -126,6 +97,4 @@
 		};
 	};
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };

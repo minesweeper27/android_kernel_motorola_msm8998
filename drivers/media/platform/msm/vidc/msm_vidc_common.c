@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -3231,13 +3227,9 @@ static int set_output_buffers(struct msm_vidc_inst *inst,
 	}
 	return rc;
 fail_set_buffers:
-	msm_comm_smem_free(inst, handle);
-<<<<<<< HEAD
-=======
-err_no_mem:
 	kfree(binfo);
 fail_kzalloc:
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+	msm_comm_smem_free(inst, handle);
 	return rc;
 }
 

@@ -27,13 +27,9 @@
 #include "dsi-panel-rm67195-amoled-fhd-cmd.dtsi"
 #include "dsi-panel-lgd-incell-sw49106-fhd-video.dtsi"
 <<<<<<< HEAD
-<<<<<<< HEAD
 #include "dsi-panel-hx8399c-fhd-plus-video.dtsi"
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-#include "dsi-panel-hx8399c-fhd-plus-video.dtsi"
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 &soc {
 	dsi_panel_pwr_supply: dsi_panel_pwr_supply {
@@ -353,9 +349,6 @@
 	qcom,mdss-dsi-t-clk-post = <0x0d>;
 	qcom,mdss-dsi-t-clk-pre = <0x30>;
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 &dsi_hx8399c_truly_vid {
@@ -377,9 +370,6 @@
 	qcom,mdss-dsi-pan-enable-dynamic-fps;
 	qcom,mdss-dsi-pan-fps-update =
 		"dfps_immediate_porch_mode_vfp";
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };

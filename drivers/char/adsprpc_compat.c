@@ -2,10 +2,7 @@
  /*
 =======
 /*
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -45,14 +42,11 @@
 		_IOWR('R', 10, struct compat_fastrpc_ioctl_init_attrs)
 #define COMPAT_FASTRPC_IOCTL_CONTROL \
 		_IOWR('R', 12, struct compat_fastrpc_ioctl_control)
-<<<<<<< HEAD
 #define COMPAT_FASTRPC_IOCTL_MMAP_64 \
 		_IOWR('R', 14, struct compat_fastrpc_ioctl_mmap_64)
 #define COMPAT_FASTRPC_IOCTL_MUNMAP_64 \
 		_IOWR('R', 15, struct compat_fastrpc_ioctl_munmap_64)
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 struct compat_remote_buf {
 	compat_uptr_t pv;	/* buffer pointer */
@@ -100,14 +94,11 @@ struct compat_fastrpc_ioctl_mmap_64 {
 struct compat_fastrpc_ioctl_munmap {
 	compat_uptr_t vaddrout;	/* address to unmap */
 	compat_size_t size;	/* size */
-<<<<<<< HEAD
 };
 
 struct compat_fastrpc_ioctl_munmap_64 {
 	compat_u64 vaddrout;	/* address to unmap */
 	compat_size_t size;	/* size */
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 struct compat_fastrpc_ioctl_init {
@@ -133,7 +124,6 @@ struct compat_fastrpc_ioctl_perf {	/* kernel performance data */
 };
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 #define FASTRPC_CONTROL_LATENCY		(1)
 struct compat_fastrpc_ctrl_latency {
 	compat_uint_t enable;	/* latency control enable */
@@ -142,8 +132,6 @@ struct compat_fastrpc_ctrl_latency {
 
 #define FASTRPC_CONTROL_SMMU		(2)
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 #define FASTRPC_CONTROL_LATENCY (1)
 struct compat_fastrpc_ctrl_latency {
 	compat_uint_t enable;
@@ -151,10 +139,7 @@ struct compat_fastrpc_ctrl_latency {
 };
 
 #define FASTRPC_CONTROL_SMMU (2)
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 struct compat_fastrpc_ctrl_smmu {
 	compat_uint_t sharedcb;
 };
@@ -337,7 +322,6 @@ static int compat_get_fastrpc_ioctl_munmap(
 {
 	compat_uptr_t p;
 	compat_size_t s;
-<<<<<<< HEAD
 	int err;
 
 	err = get_user(p, &unmap32->vaddrout);
@@ -354,8 +338,6 @@ static int compat_get_fastrpc_ioctl_munmap_64(
 {
 	compat_u64 p;
 	compat_size_t s;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	int err;
 
 	err = get_user(p, &unmap32->vaddrout);

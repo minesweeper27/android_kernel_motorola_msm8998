@@ -64,13 +64,6 @@
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	};
 
-	laserled0: qcom,laserled@0 {
-		cell-index = <0>;
-		reg = <0x0>;
-		compatible = "qcom,laser-led";
-		qcom,cci-master = <1>;
-	};
-
 	actuator1: qcom,actuator@1 {
 		cell-index = <1>;
 		reg = <0x1>;

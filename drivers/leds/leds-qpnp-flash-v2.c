@@ -660,7 +660,6 @@ static int qpnp_flash_led_init_settings(struct qpnp_flash_led *led)
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
 	if (led->fnode[LED3].strobe_sel == LPG_STROBE) {
 		rc = qpnp_flash_led_masked_write(led,
@@ -676,8 +675,6 @@ static int qpnp_flash_led_init_settings(struct qpnp_flash_led *led)
 			return rc;
 	}
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	return 0;
 }
 

@@ -22,10 +22,7 @@
 #include <linux/fs_struct.h>
 #include <linux/ratelimit.h>
 #include <linux/sched.h>
-<<<<<<< HEAD
 #include <linux/xattr.h>
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 const struct cred *override_fsids(struct sdcardfs_sb_info *sbi,
 		struct sdcardfs_inode_data *data)
@@ -616,7 +613,6 @@ static int sdcardfs_permission_default(struct inode *inode, int mask)
 	if (IS_POSIXACL(inode))
 		pr_warn("%s: This may be undefined behavior...\n", __func__);
 	err = generic_permission(&tmp, mask);
-<<<<<<< HEAD
 	return err;
 }
 
@@ -677,8 +673,6 @@ static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int ma
 	if (IS_POSIXACL(inode))
 		pr_warn("%s: This may be undefined behavior...\n", __func__);
 	err = generic_permission(&tmp, mask);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	return err;
 }
 
@@ -869,10 +863,7 @@ static int sdcardfs_getattr(struct vfsmount *mnt, struct dentry *dentry,
 		goto out;
 	sdcardfs_copy_and_fix_attrs(d_inode(dentry),
 			      d_inode(lower_path.dentry));
-<<<<<<< HEAD
 	fsstack_copy_inode_size(d_inode(dentry), d_inode(lower_path.dentry));
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	err = sdcardfs_fillattr(mnt, d_inode(dentry), &lower_stat, stat);
 out:
 	sdcardfs_put_lower_path(dentry, &lower_path);

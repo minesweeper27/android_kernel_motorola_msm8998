@@ -519,14 +519,10 @@ static ssize_t rpmstats_show(struct kobject *kobj,
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	ret = snprintf(buf, prvdata->len, "%s", prvdata->buf);
 =======
 	ret = snprintf(buf, prvdata->len, prvdata->buf);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	ret = snprintf(buf, prvdata->len, "%s", prvdata->buf);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	iounmap(prvdata->reg_base);
 ioremap_fail:
 	kfree(prvdata);

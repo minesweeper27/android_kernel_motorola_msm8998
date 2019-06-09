@@ -149,12 +149,14 @@ static struct binder_buffer *binder_alloc_prepare_to_free_locked(
 		else {
 			/*
 			 * Guard against user threads attempting to
-			 * free the buffer when in use by kernel or
-			 * after it's already been freed.
+			 * free the buffer twice
 			 */
-			if (!buffer->allow_user_free)
-				return ERR_PTR(-EPERM);
-			buffer->allow_user_free = 0;
+			if (buffer->free_in_progress) {
+				pr_err("%d:%d FREE_BUFFER u%016llx user freed buffer twice\n",
+				       alloc->pid, current->pid, (u64)user_ptr);
+				return NULL;
+			}
+			buffer->free_in_progress = 1;
 			return buffer;
 		}
 	}
@@ -444,13 +446,6 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 	if (ret)
 		return ERR_PTR(ret);
 
-<<<<<<< HEAD
-=======
-	rb_erase(best_fit, &alloc->free_buffers);
-	buffer->free = 0;
-	buffer->allow_user_free = 0;
-	binder_insert_allocated_buffer_locked(alloc, buffer);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (buffer_size != size) {
 		struct binder_buffer *new_buffer;
 

@@ -300,13 +300,9 @@ struct fg_dt_props {
 	int	esr_pulse_thresh_ma;
 	int	esr_meas_curr_ma;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	int	ki_coeff_full_soc_dischg;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	int	ki_coeff_full_soc_dischg;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	int	jeita_thresholds[NUM_JEITA_LEVELS];
 	int	ki_coeff_soc[KI_COEFF_SOC_LEVELS];
 	int	ki_coeff_med_dischg[KI_COEFF_SOC_LEVELS];
@@ -454,6 +450,7 @@ struct fg_chip {
 	int			batt_id_ohms;
 	int			ki_coeff_full_soc;
 	int			charge_status;
+	int			prev_charge_status;
 	int			charge_done;
 	int			charge_type;
 	int			online_status;

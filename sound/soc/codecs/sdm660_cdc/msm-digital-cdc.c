@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2017, 2019 The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -91,11 +87,8 @@ static int msm_digcdc_clock_control(bool flag)
 	if (flag) {
 		mutex_lock(&pdata->cdc_int_mclk0_mutex);
 		if (atomic_read(&pdata->int_mclk0_enabled) == false) {
-<<<<<<< HEAD
 			if (msm_dig_cdc->regmap->cache_only == true)
 				return ret;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			if (pdata->native_clk_set)
 				pdata->digital_cdc_core_clk.clk_freq_in_hz =
 							NATIVE_MCLK_RATE;
@@ -1267,48 +1260,35 @@ static void sdm660_tx_mute_update_callback(struct work_struct *work)
 	codec = dig_cdc->codec;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	for (i = 0; i < NUM_DECIMATORS; i++) {
 		if (dig_cdc->dec_active[i])
 			decimator = i + 1;
 		if (decimator && decimator <= NUM_DECIMATORS) {
-<<<<<<< HEAD
 =======
 	for (i = 0; i < (NUM_DECIMATORS - 1); i++) {
 		if (dig_cdc->dec_active[i])
 			decimator = i + 1;
 		if (decimator && decimator < NUM_DECIMATORS) {
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			/* unmute decimators corresponding to Tx DAI's*/
 			tx_vol_ctl_reg =
 				MSM89XX_CDC_CORE_TX1_VOL_CTL_CFG +
 					32 * (decimator - 1);
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			if (decimator == DEC_SVA)
 				tx_vol_ctl_reg =
 					MSM89XX_CDC_CORE_TX5_VOL_CTL_CFG;
 
 			snd_soc_update_bits(codec, tx_vol_ctl_reg,
-<<<<<<< HEAD
 =======
 				snd_soc_update_bits(codec, tx_vol_ctl_reg,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					0x01, 0x00);
 		}
 		decimator = 0;
 	}
 }
 
-<<<<<<< HEAD
 <<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 static struct snd_soc_codec *sound_control_codec_ptr;
@@ -1361,8 +1341,6 @@ static struct kobject *sound_control_kobj;
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int msm_dig_cdc_soc_probe(struct snd_soc_codec *codec)
 {
 	struct msm_dig_priv *msm_dig_cdc = dev_get_drvdata(codec->dev);

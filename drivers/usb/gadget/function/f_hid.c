@@ -503,14 +503,10 @@ static void hidg_disable(struct usb_function *f)
 	struct f_hidg *hidg = func_to_hidg(f);
 	struct f_hidg_req_list *list, *next;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	unsigned long flags;
 =======
         unsigned long flags;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-        unsigned long flags;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	usb_ep_disable(hidg->in_ep);
 	usb_ep_disable(hidg->out_ep);

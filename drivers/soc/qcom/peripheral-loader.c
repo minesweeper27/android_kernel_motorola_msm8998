@@ -274,7 +274,6 @@ int pil_do_ramdump(struct pil_desc *desc,
 	int count = 0, ret;
 	struct ramdump_segment *ramdump_segs, *s;
 	void __iomem *offset;
-<<<<<<< HEAD
 
 	memcpy(&offset, &priv->minidump_ss, sizeof(priv->minidump_ss));
 	/*
@@ -287,20 +286,6 @@ int pil_do_ramdump(struct pil_desc *desc,
 		pr_debug("Dumping Minidump for %s\n", desc->name);
 		return pil_do_minidump(desc, minidump_dev);
 
-=======
-
-	memcpy(&offset, &priv->minidump_ss, sizeof(priv->minidump_ss));
-	/*
-	 * Collect minidump if smem base is initialized,
-	 * ssr cause is 0. No need to check encryption status
-	 */
-	if (priv->minidump_ss
-	&& (__raw_readl(priv->minidump_ss) != 0)
-	&& (readb_relaxed(offset + sizeof(u32) + 2 * sizeof(u8)) == 0)) {
-		pr_debug("Dumping Minidump for %s\n", desc->name);
-		return pil_do_minidump(desc, minidump_dev);
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 	pr_debug("Continuing with full SSR dump for %s\n", desc->name);
 	list_for_each_entry(seg, &priv->segs, list)

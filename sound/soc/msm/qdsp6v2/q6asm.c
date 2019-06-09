@@ -102,12 +102,9 @@ struct audio_session {
 	struct audio_client *ac;
 	spinlock_t session_lock;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	bool ignore;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 /* session id: 0 reserved */
 static struct audio_session session[ASM_ACTIVE_STREAMS_ALLOWED + 1];
@@ -619,7 +616,6 @@ static int q6asm_session_alloc(struct audio_client *ac)
 }
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 static void q6asm_session_set_ignore(int id)
 {
 	session[id].ignore = true;
@@ -703,8 +699,6 @@ static int q6asm_session_try_next(struct audio_client *ac)
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int q6asm_get_session_id_from_audio_client(struct audio_client *ac)
 {
 	int n;
@@ -1908,11 +1902,8 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 <<<<<<< HEAD
 	struct msm_adsp_event_data *pp_event_package = NULL;
 	uint32_t payload_size = 0;
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	unsigned long flags;
 	int session_id;
 
@@ -2208,7 +2199,6 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 			}
 			spin_lock_irqsave(&port->dsp_lock, dsp_flags);
 			buf_index = asm_token._token.buf_index;
-<<<<<<< HEAD
 			if (buf_index < 0 ||
 					buf_index >= port->max_buf_cnt) {
 <<<<<<< HEAD
@@ -2218,11 +2208,6 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 				pr_debug("%s: Invalid buffer index %u\n",
 				__func__, buf_index);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			if (buf_index < 0 || buf_index >= port->max_buf_cnt) {
-				pr_debug("%s: Invalid buffer index %u\n",
-					__func__, buf_index);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				spin_unlock_irqrestore(&port->dsp_lock,
 								dsp_flags);
 				spin_unlock_irqrestore(
@@ -2342,17 +2327,12 @@ static int32_t q6asm_callback(struct apr_client_data *data, void *priv)
 			buf_index = asm_token._token.buf_index;
 			if (buf_index < 0 || buf_index >= port->max_buf_cnt) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 				pr_err("%s: Invalid buffer index %u\n",
 					__func__, buf_index);
 =======
 				pr_debug("%s: Invalid buffer index %u\n",
 				__func__, buf_index);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-				pr_debug("%s: Invalid buffer index %u\n",
-					__func__, buf_index);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				spin_unlock_irqrestore(&port->dsp_lock,
 								dsp_flags);
 				spin_unlock_irqrestore(
@@ -5268,11 +5248,6 @@ int q6asm_enc_cfg_blk_pcm_native(struct audio_client *ac,
 		return -EINVAL;
 	}
 
-	if (channels > PCM_FORMAT_MAX_NUM_CHANNEL) {
-		pr_err("%s: Invalid channel count %d\n", __func__, channels);
-		return -EINVAL;
-	}
-
 	pr_debug("%s: Session %d, rate = %d, channels = %d\n", __func__,
 			 ac->session, rate, channels);
 
@@ -6195,7 +6170,6 @@ static int __q6asm_media_format_block_multi_ch_pcm(struct audio_client *ac,
 
 	pr_debug("%s: session[%d]rate[%d]ch[%d]\n", __func__, ac->session, rate,
 		channels);
-<<<<<<< HEAD
 
 	q6asm_add_hdr(ac, &fmt.hdr, sizeof(fmt), TRUE);
 	atomic_set(&ac->cmd_state, -1);
@@ -6269,8 +6243,6 @@ static int __q6asm_media_format_block_multi_ch_pcm_v3(struct audio_client *ac,
 	pr_debug("%s: session[%d]rate[%d]ch[%d]bps[%d]wordsize[%d]\n", __func__,
 		 ac->session, rate, channels,
 		 bits_per_sample, sample_word_size);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	memset(&fmt, 0, sizeof(fmt));
 	q6asm_add_hdr(ac, &fmt.hdr, sizeof(fmt), TRUE);
@@ -6417,16 +6389,10 @@ static int __q6asm_media_format_block_multi_ch_pcm_v5(struct audio_client *ac,
 	u8 *channel_mapping;
 	int rc;
 
-<<<<<<< HEAD
 	if (channels > PCM_FORMAT_MAX_NUM_CHANNEL_V2) {
 		pr_err("%s: Invalid channel count %d\n", __func__, channels);
 		rc = -EINVAL;
 		goto fail_cmd;
-=======
-	if (channels > PCM_FORMAT_MAX_NUM_CHANNEL) {
-		pr_err("%s: Invalid channel count %d\n", __func__, channels);
-		return -EINVAL;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 
 	pr_debug("%s: session[%d]rate[%d]ch[%d]bps[%d]wordsize[%d]\n", __func__,
@@ -8269,9 +8235,6 @@ int q6asm_audio_map_shm_fd(struct audio_client *ac, struct ion_client **client,
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	ret = msm_audio_ion_phys_assign("audio_shm_mem_client", client,
 					handle, fd,
 					&paddr, &pa_len, HLOS_TO_ADSP);

@@ -1721,14 +1721,10 @@ static int msm_isp_update_deliver_count(struct vfe_device *vfe_dev,
 		goto done;
 	} else {
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if ((done_buf->is_drop_reconfig == 1) &&
 			(stream_info->sw_ping_pong_bit == -1)) {
 			goto done;
 		}
-<<<<<<< HEAD
 		/*After wm reload, we get bufdone for ping buffer*/
 		if (stream_info->sw_ping_pong_bit == -1)
 			stream_info->sw_ping_pong_bit = 0;
@@ -1740,13 +1736,6 @@ static int msm_isp_update_deliver_count(struct vfe_device *vfe_dev,
 			stream_info->sw_ping_pong_bit = 0;
 		stream_info->undelivered_request_cnt--;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		/*After wm reload, we get bufdone for ping buffer*/
-		if (stream_info->sw_ping_pong_bit == -1)
-			stream_info->sw_ping_pong_bit = 0;
-		if (done_buf->is_drop_reconfig != 1)
-			stream_info->undelivered_request_cnt--;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (pingpong_bit != stream_info->sw_ping_pong_bit) {
 			pr_err("%s:%d ping pong bit actual %d sw %d\n",
 				__func__, __LINE__, pingpong_bit,
@@ -2596,12 +2585,6 @@ int msm_isp_ab_ib_update_lpm_mode(struct vfe_device *vfe_dev, void *arg)
 	ab_ib_vote = (struct msm_vfe_dual_lpm_mode *)arg;
 	if (!ab_ib_vote) {
 		pr_err("%s: ab_ib_vote is NULL !!!\n", __func__);
-		rc = -1;
-		return rc;
-	}
-	if (ab_ib_vote->num_src >= VFE_AXI_SRC_MAX) {
-		pr_err("%s: ab_ib_vote num_src is exceeding limit\n",
-			__func__);
 		rc = -1;
 		return rc;
 	}
@@ -3869,7 +3852,6 @@ static int msm_isp_request_frame(struct vfe_device *vfe_dev,
 			*/
 			rc = msm_isp_cfg_ping_pong_address(stream_info,
 <<<<<<< HEAD
-<<<<<<< HEAD
 				VFE_PONG_FLAG, NULL);
 		} else {
 			rc = msm_isp_cfg_ping_pong_address(
@@ -3880,12 +3862,6 @@ static int msm_isp_request_frame(struct vfe_device *vfe_dev,
 			rc = msm_isp_cfg_ping_pong_address(
 					stream_info, pingpong_status);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-				VFE_PONG_FLAG, NULL);
-		} else {
-			rc = msm_isp_cfg_ping_pong_address(
-					stream_info, pingpong_status, NULL);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 		if (rc) {
 			stream_info->undelivered_request_cnt--;

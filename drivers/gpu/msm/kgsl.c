@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -4501,14 +4497,10 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 		 val = _get_svm_area(private, entry, addr, len, flags);
 		 if (IS_ERR_VALUE(val))
 <<<<<<< HEAD
-<<<<<<< HEAD
 			KGSL_DRV_ERR_RATELIMIT(device,
 =======
 			KGSL_MEM_ERR(device,
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			KGSL_DRV_ERR_RATELIMIT(device,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				"_get_svm_area: pid %d mmap_base %lx addr %lx pgoff %lx len %ld failed error %d\n",
 				private->pid, current->mm->mmap_base, addr,
 				pgoff, len, (int) val);

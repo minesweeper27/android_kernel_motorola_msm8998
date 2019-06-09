@@ -408,7 +408,6 @@ static enum power_supply_property smb2_usb_props[] = {
 	POWER_SUPPLY_PROP_REAL_TYPE,
 	POWER_SUPPLY_PROP_PR_SWAP,
 <<<<<<< HEAD
-<<<<<<< HEAD
 	POWER_SUPPLY_PROP_PD_VOLTAGE_MAX,
 	POWER_SUPPLY_PROP_PD_VOLTAGE_MIN,
 	POWER_SUPPLY_PROP_SDP_CURRENT_MAX,
@@ -416,11 +415,6 @@ static enum power_supply_property smb2_usb_props[] = {
 	POWER_SUPPLY_PROP_NUM_SYSTEM_TEMP_LEVELS,
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	POWER_SUPPLY_PROP_PD_VOLTAGE_MAX,
-	POWER_SUPPLY_PROP_PD_VOLTAGE_MIN,
-	POWER_SUPPLY_PROP_SDP_CURRENT_MAX,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 #define SDP_CURRENT_UA			500000
@@ -463,13 +457,10 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 		else
 			val->intval = 1;
 		break;
-<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
 		val->intval = chg->voltage_min_uv;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		break;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
 		rc = smblib_get_prop_usb_voltage_max(chg, val);
 		break;
@@ -481,7 +472,6 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_MAX:
 		rc = smblib_get_prop_input_current_settled(chg, val);
-<<<<<<< HEAD
 		switch (chg->real_charger_type) {
 		case POWER_SUPPLY_TYPE_USB_CDP:
 		case POWER_SUPPLY_TYPE_USB_DCP:
@@ -495,8 +485,6 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 			val->intval = 0;
 			break;
 		}
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		break;
 	case POWER_SUPPLY_PROP_TYPE:
 		val->intval = POWER_SUPPLY_TYPE_USB_PD;
@@ -561,9 +549,6 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 		rc = smblib_get_prop_pr_swap_in_progress(chg, val);
 		break;
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	case POWER_SUPPLY_PROP_PD_VOLTAGE_MAX:
 		val->intval = chg->voltage_max_uv;
 		break;
@@ -574,7 +559,6 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 		val->intval = get_client_vote(chg->usb_icl_votable,
 					      USB_PSY_VOTER);
 		break;
-<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_SYSTEM_TEMP_LEVEL:
 		rc = smblib_get_prop_usb_system_temp_level(chg, val);
 		break;
@@ -583,8 +567,6 @@ static int smb2_usb_get_prop(struct power_supply *psy,
 		break;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	default:
 		pr_err("get prop %d is not supported in usb\n", psp);
 		rc = -EINVAL;
@@ -638,7 +620,6 @@ static int smb2_usb_set_prop(struct power_supply *psy,
 		rc = smblib_set_prop_pr_swap_in_progress(chg, val);
 		break;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_PD_VOLTAGE_MAX:
 #ifdef QCOM_BASE
 		rc = smblib_set_prop_pd_voltage_max(chg, val);
@@ -648,25 +629,15 @@ static int smb2_usb_set_prop(struct power_supply *psy,
 #ifdef QCOM_BASE
 		rc = smblib_set_prop_pd_voltage_min(chg, val);
 #endif
-=======
-	case POWER_SUPPLY_PROP_PD_VOLTAGE_MAX:
-		rc = smblib_set_prop_pd_voltage_max(chg, val);
-		break;
-	case POWER_SUPPLY_PROP_PD_VOLTAGE_MIN:
-		rc = smblib_set_prop_pd_voltage_min(chg, val);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		break;
 	case POWER_SUPPLY_PROP_SDP_CURRENT_MAX:
 		rc = smblib_set_prop_sdp_current_max(chg, val);
 		break;
-<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_SYSTEM_TEMP_LEVEL:
 		rc = smblib_set_prop_usb_system_temp_level(chg, val);
 		break;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	default:
 		pr_err("set prop %d is not supported\n", psp);
 		rc = -EINVAL;
@@ -725,15 +696,10 @@ static enum power_supply_property smb2_usb_port_props[] = {
 	POWER_SUPPLY_PROP_TYPE,
 	POWER_SUPPLY_PROP_ONLINE,
 <<<<<<< HEAD
-<<<<<<< HEAD
 	POWER_SUPPLY_PROP_VOLTAGE_MAX,
 	POWER_SUPPLY_PROP_CURRENT_MAX,
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	POWER_SUPPLY_PROP_VOLTAGE_MAX,
-	POWER_SUPPLY_PROP_CURRENT_MAX,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 static int smb2_usb_port_get_prop(struct power_supply *psy,
@@ -767,20 +733,14 @@ static int smb2_usb_port_get_prop(struct power_supply *psy,
 			val->intval = 0;
 		break;
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
 		val->intval = 5000000;
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_MAX:
 		rc = smblib_get_prop_input_current_settled(chg, val);
 		break;
-<<<<<<< HEAD
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	default:
 		pr_err_ratelimited("Get prop %d is not supported in pc_port\n",
 				psp);
@@ -1402,7 +1362,6 @@ static enum power_supply_property smb2_batt_props[] = {
 	POWER_SUPPLY_PROP_RERUN_AICL,
 	POWER_SUPPLY_PROP_DP_DM,
 	POWER_SUPPLY_PROP_CHARGE_COUNTER,
-<<<<<<< HEAD
 	POWER_SUPPLY_PROP_FCC_STEPPER_ENABLE,
 	POWER_SUPPLY_PROP_BATTERY_CHARGING_ENABLED,
 	POWER_SUPPLY_PROP_CHARGE_RATE,
@@ -1411,8 +1370,6 @@ static enum power_supply_property smb2_batt_props[] = {
 #ifndef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 	POWER_SUPPLY_PROP_CYCLE_COUNT,
 #endif
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 static int smb2_batt_get_prop(struct power_supply *psy,
@@ -1525,7 +1482,6 @@ static int smb2_batt_get_prop(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
 		rc = smblib_get_prop_batt_charge_counter(chg, val);
 		break;
-<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_FCC_STEPPER_ENABLE:
 		val->intval = chg->fcc_stepper_mode;
 		break;
@@ -1544,8 +1500,6 @@ static int smb2_batt_get_prop(struct power_supply *psy,
 		rc = smblib_get_cycle_count(chg, val);
 		break;
 #endif
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	default:
 		pr_err("batt power supply prop %d not supported\n", psp);
 		return -EINVAL;
@@ -2588,15 +2542,11 @@ static int smb2_chg_config_init(struct smb2 *chip)
 	case PM660_SUBTYPE:
 		chip->chg.smb_version = PM660_SUBTYPE;
 <<<<<<< HEAD
-<<<<<<< HEAD
 		chip->chg.wa_flags |= BOOST_BACK_WA | OTG_WA | OV_IRQ_WA_BIT
 				| TYPEC_PBS_WA_BIT;
 =======
 		chip->chg.wa_flags |= BOOST_BACK_WA | OTG_WA | OV_IRQ_WA_BIT;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		chip->chg.wa_flags |= BOOST_BACK_WA | OTG_WA | OV_IRQ_WA_BIT;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		chg->param.freq_buck = pm660_params.freq_buck;
 		chg->param.freq_boost = pm660_params.freq_boost;
 		chg->chg_freq.freq_5V		= 650;

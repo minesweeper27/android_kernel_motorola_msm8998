@@ -89,7 +89,6 @@ Optional properties:
 - qcom,cx-ipeak-vote: Boolean- Present if we need to set bit 5 of cxip_lm_vote_clear
 			 during modem shutdown
 - qcom,minidump-id: Unique id for each subsystem
-<<<<<<< HEAD
 
 One child node to represent the MBA image may be specified, when the MBA image
 needs to be loaded in a specifically carved out memory region.
@@ -97,8 +96,6 @@ needs to be loaded in a specifically carved out memory region.
 Required properties:
 - compatible: Must be "qcom,pil-mba-mem"
 - memory-region: A phandle that points to a reserved memory where the MBA image will be loaded.
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 One child node to represent the MBA image may be specified, when the MBA image
 needs to be loaded in a specifically carved out memory region.

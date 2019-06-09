@@ -2974,11 +2974,7 @@ static int ipa_fltrt_alloc_init_tbl_hdr(
 	obj = &ipahal_fltrt_objs[ipahal_ctx->hw_type];
 
 	if (!params) {
-<<<<<<< HEAD
 		IPAHAL_ERR_RL("Input error: params= NULL\n");
-=======
-		IPAHAL_ERR_RL("Input error: params=%p\n", params);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EINVAL;
 	}
 
@@ -3407,7 +3403,6 @@ int ipahal_flt_generate_equation(enum ipa_ip_type ipt,
 
 	if (ipt >= IPA_IP_MAX) {
 		IPAHAL_ERR_RL("Input err: Invalid ip type %d\n", ipt);
-<<<<<<< HEAD
 		return -EINVAL;
 	}
 
@@ -3418,14 +3413,6 @@ int ipahal_flt_generate_equation(enum ipa_ip_type ipt,
 
 	if (!eq_atrb) {
 		IPAHAL_ERR_RL("Input err: eq_atrb = NULL\n");
-=======
-		return -EINVAL;
-	}
-
-	if (!attrib || !eq_atrb) {
-		IPAHAL_ERR_RL("Input err: attrib=%p eq_atrb=%p\n",
-			attrib, eq_atrb);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EINVAL;
 	}
 

@@ -1381,14 +1381,10 @@ emsgsize:
 	    (skb_queue_len(queue) <= 1) &&
 	    (sk->sk_protocol == IPPROTO_UDP) &&
 <<<<<<< HEAD
-<<<<<<< HEAD
 	    (rt->dst.dev->features & NETIF_F_UFO) &&
 =======
 	    (rt->dst.dev->features & NETIF_F_UFO) && !dst_xfrm(&rt->dst) &&
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	    (rt->dst.dev->features & NETIF_F_UFO) && !dst_xfrm(&rt->dst) &&
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	    (sk->sk_type == SOCK_DGRAM) && !udp_get_no_check6_tx(sk))) {
 		err = ip6_ufo_append_data(sk, queue, getfrag, from, length,
 					  hh_len, fragheaderlen, exthdrlen,
@@ -1811,12 +1807,9 @@ struct sk_buff *ip6_make_skb(struct sock *sk,
 		return ERR_PTR(err);
 	}
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (dontfrag < 0)
 		dontfrag = inet6_sk(sk)->dontfrag;
 

@@ -258,7 +258,6 @@ static inline int sde_hw_ctl_get_bitmask_cdm(struct sde_hw_ctl *ctx,
 	return 0;
 }
 
-<<<<<<< HEAD
 static inline int sde_hw_ctl_get_splash_mixercfg(const u32 *resv_pipes,
 						u32 length)
 {
@@ -288,8 +287,6 @@ static inline int sde_hw_ctl_get_splash_mixercfg(const u32 *resv_pipes,
 	return mixercfg;
 }
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static u32 sde_hw_ctl_poll_reset_status(struct sde_hw_ctl *ctx, u32 count)
 {
 	struct sde_hw_blk_reg_map *c = &ctx->hw;
@@ -321,17 +318,10 @@ static int sde_hw_ctl_reset_control(struct sde_hw_ctl *ctx)
 	SDE_REG_WRITE(c, CTL_SW_RESET, 0x1);
 	if (sde_hw_ctl_poll_reset_status(ctx, SDE_REG_RESET_TIMEOUT_COUNT))
 		return -EINVAL;
-<<<<<<< HEAD
 
 	return 0;
 }
 
-=======
-
-	return 0;
-}
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int sde_hw_ctl_wait_reset_status(struct sde_hw_ctl *ctx)
 {
 	struct sde_hw_blk_reg_map *c = &ctx->hw;
@@ -359,7 +349,6 @@ static void sde_hw_ctl_clear_all_blendstages(struct sde_hw_ctl *ctx,
 
 	for (i = 0; i < ctx->mixer_count; i++) {
 		int mixer_id = ctx->mixer_hw_caps[i].id;
-<<<<<<< HEAD
 		u32 mixercfg = 0;
 
 		/*
@@ -375,10 +364,6 @@ static void sde_hw_ctl_clear_all_blendstages(struct sde_hw_ctl *ctx,
 		}
 
 		SDE_REG_WRITE(c, CTL_LAYER(mixer_id), mixercfg);
-=======
-
-		SDE_REG_WRITE(c, CTL_LAYER(mixer_id), 0);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		SDE_REG_WRITE(c, CTL_LAYER_EXT(mixer_id), 0);
 		SDE_REG_WRITE(c, CTL_LAYER_EXT2(mixer_id), 0);
 		SDE_REG_WRITE(c, CTL_LAYER_EXT3(mixer_id), 0);

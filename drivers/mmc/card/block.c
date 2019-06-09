@@ -3203,19 +3203,11 @@ static struct mmc_cmdq_req *mmc_blk_cmdq_rw_prep(
 static void mmc_blk_cmdq_requeue_rw_rq(struct mmc_queue *mq,
 				struct request *req)
 {
-<<<<<<< HEAD
 	struct request_queue *q = req->q;
 
 	spin_lock_irq(q->queue_lock);
 	blk_requeue_request(q, req);
 	spin_unlock_irq(q->queue_lock);
-=======
-	struct mmc_card *card = mq->card;
-	struct mmc_host *host = card->host;
-
-	blk_requeue_request(req->q, req);
-	mmc_put_card(host->card);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 
 static int mmc_blk_cmdq_issue_rw_rq(struct mmc_queue *mq, struct request *req)
@@ -4104,7 +4096,6 @@ static int mmc_blk_cmdq_issue_rq(struct mmc_queue *mq, struct request *req)
 			 * If issuing of the request fails with eitehr EBUSY or
 			 * EAGAIN error, re-queue the request.
 			 * This case would occur with ICE calls.
-<<<<<<< HEAD
 			 * For request which gets completed successfully or
 			 * errored out, we release host lock in completion or
 			 * error handling softirq context. But here the request
@@ -4115,11 +4106,6 @@ static int mmc_blk_cmdq_issue_rq(struct mmc_queue *mq, struct request *req)
 				mmc_blk_cmdq_requeue_rw_rq(mq, req);
 				mmc_put_card(host->card);
 			}
-=======
-			 */
-			if (ret == -EBUSY || ret == -EAGAIN)
-				mmc_blk_cmdq_requeue_rw_rq(mq, req);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 	}
 

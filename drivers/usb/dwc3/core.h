@@ -857,13 +857,9 @@ struct dwc3_scratchpad_array {
  * @imod_interval: set the interrupt moderation interval in 250ns
  *			increments or 0 to disable.
 <<<<<<< HEAD
-<<<<<<< HEAD
  * @create_reg_debugfs: create debugfs entry to allow dwc3 register dump
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
- * @create_reg_debugfs: create debugfs entry to allow dwc3 register dump
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  */
 struct dwc3 {
 	struct usb_ctrlrequest	*ctrl_req;

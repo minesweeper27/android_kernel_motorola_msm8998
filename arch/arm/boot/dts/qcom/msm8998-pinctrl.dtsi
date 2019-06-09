@@ -727,7 +727,6 @@
 					pins = "gpio37";
 					drive-strength = <2>;
 					bias-pull-up;
-<<<<<<< HEAD
 				};
 			};
 
@@ -741,8 +740,6 @@
 					pins = "gpio37";
 					drive-strength = <2>;
 					bias-pull-up;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				};
 			};
 
@@ -755,7 +752,7 @@
 				config {
 					pins = "gpio37";
 					drive-strength = <2>;
-					bias-pull-up;
+					bias-disable;
 				};
 			};
 		};
@@ -3436,18 +3433,6 @@
 				pins = "gpio86";
 				bias-pull-up;           /* pull up */
 				drive-strength = <2>;   /* 2 MA */
-			};
-		};
-
-		ir_int: ir_int {
-			mux {
-				pins = "gpio120";
-				function = "gpio";
-			};
-			config {
-				pins = "gpio120";
-				drive-strength = <6>;   /* 5 mA */
-				bias-pull-up;           /* NO PULL */
 			};
 		};
 	};

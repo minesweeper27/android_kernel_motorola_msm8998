@@ -762,11 +762,6 @@ struct msm_vfe_common_subdev {
 	struct msm_vfe_common_dev_data *common_data;
 };
 
-struct isp_proc {
-	uint32_t  kernel_sofid;
-	uint32_t  vfeid;
-};
-
 struct vfe_device {
 	/* Driver private data */
 	struct platform_device *pdev;
@@ -859,13 +854,9 @@ struct vfe_device {
 	/* total bandwidth per vfe */
 	uint64_t total_bandwidth;
 <<<<<<< HEAD
-<<<<<<< HEAD
 	struct isp_kstate *isp_page;
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	struct isp_proc *isp_page;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 struct vfe_parent_device {

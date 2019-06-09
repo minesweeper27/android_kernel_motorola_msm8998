@@ -762,13 +762,11 @@ void ipa_nat_free_mem_and_device(struct ipa_nat_mem *nat_ctx)
 
 	if (nat_ctx->is_sys_mem) {
 		IPADBG("freeing the dma memory\n");
-		if (nat_ctx->vaddr) {
-			dma_free_coherent(
-				ipa_ctx->pdev, nat_ctx->size,
-				nat_ctx->vaddr, nat_ctx->dma_handle);
-			nat_ctx->size = 0;
-			nat_ctx->vaddr = NULL;
-		}
+		dma_free_coherent(
+			 ipa_ctx->pdev, nat_ctx->size,
+			 nat_ctx->vaddr, nat_ctx->dma_handle);
+		nat_ctx->size = 0;
+		nat_ctx->vaddr = NULL;
 	}
 	nat_ctx->is_mapped = false;
 	nat_ctx->is_sys_mem = false;
@@ -803,14 +801,10 @@ int ipa2_nat_del_cmd(struct ipa_ioc_v4_nat_del *del)
 	}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	if (!ipa_ctx->nat_mem.public_ip_addr) {
 =======
 	if (ipa_ctx->nat_mem.public_ip_addr) {
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	if (!ipa_ctx->nat_mem.public_ip_addr) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		IPAERR_RL("Public IP addr not assigned and trying to delete\n");
 		return -EPERM;
 	}

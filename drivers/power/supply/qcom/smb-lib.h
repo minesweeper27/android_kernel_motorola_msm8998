@@ -78,16 +78,12 @@ enum print_reason {
 #define USBIN_I_VOTER			"USBIN_I_VOTER"
 #define WEAK_CHARGER_VOTER		"WEAK_CHARGER_VOTER"
 <<<<<<< HEAD
-<<<<<<< HEAD
 #define WBC_VOTER			"WBC_VOTER"
 #define OV_VOTER			"OV_VOTER"
 #define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 =======
 #define OV_VOTER			"OV_VOTER"
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-#define OV_VOTER			"OV_VOTER"
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 #define VCONN_MAX_ATTEMPTS	3
 #define OTG_MAX_ATTEMPTS	3
@@ -117,12 +113,9 @@ enum {
 	OTG_WA				= BIT(4),
 	OV_IRQ_WA_BIT			= BIT(5),
 <<<<<<< HEAD
-<<<<<<< HEAD
 	TYPEC_PBS_WA_BIT		= BIT(6),
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 enum smb_irq_index {
@@ -527,7 +520,6 @@ struct smb_charger {
 	u8			float_cfg;
 	bool			use_extcon;
 	bool			otg_present;
-<<<<<<< HEAD
 	bool			fcc_stepper_mode;
 	bool			is_audio_adapter;
 =======
@@ -535,8 +527,6 @@ struct smb_charger {
 	int			usb_icl_change_irq_enabled;
 	u8			float_cfg;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	/* workaround flag */
 	u32			wa_flags;
@@ -665,15 +655,10 @@ int smblib_get_prop_batt_current_now(struct smb_charger *chg,
 int smblib_get_prop_batt_temp(struct smb_charger *chg,
 				union power_supply_propval *val);
 <<<<<<< HEAD
-<<<<<<< HEAD
 int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
 				union power_supply_propval *val);
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
-				union power_supply_propval *val);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 int smblib_set_prop_input_suspend(struct smb_charger *chg,
 				const union power_supply_propval *val);
 int smblib_set_prop_batt_capacity(struct smb_charger *chg,

@@ -461,7 +461,6 @@ enum ipa_ssr_event {
 	IPA_SSR_EVENT_MAX
 };
 
-<<<<<<< HEAD
 enum ipa_vlan_l2tp_event {
 	ADD_VLAN_IFACE = IPA_SSR_EVENT_MAX,
 	DEL_VLAN_IFACE,
@@ -478,19 +477,12 @@ enum ipa_per_client_stats_event {
 
 enum ipa_wlan_fw_ssr_event {
 	WLAN_FWR_SSR_BEFORE_SHUTDOWN = IPA_PER_CLIENT_STATS_EVENT_MAX,
-=======
-enum ipa_wlan_fw_ssr_event {
-	WLAN_FWR_SSR_BEFORE_SHUTDOWN = IPA_SSR_EVENT_MAX,
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	IPA_WLAN_FW_SSR_EVENT_MAX,
 #define IPA_WLAN_FW_SSR_EVENT_MAX IPA_WLAN_FW_SSR_EVENT_MAX
 };
 
 #define IPA_EVENT_MAX_NUM ((int)IPA_WLAN_FW_SSR_EVENT_MAX)
-<<<<<<< HEAD
 #define IPA_EVENT_MAX ((int)IPA_EVENT_MAX_NUM)
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 /**
  * enum ipa_rm_resource_name - IPA RM clients identification names

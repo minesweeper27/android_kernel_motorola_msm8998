@@ -6615,7 +6615,6 @@ static int find_new_capacity(struct energy_env *eenv,
 	unsigned long util = group_max_util(eenv);
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	/* default is max_cap if we don't find a match */
 =======
 	 /* default is max_cap if we don't find a match */
@@ -6624,13 +6623,6 @@ static int find_new_capacity(struct energy_env *eenv,
 
 	for (idx = 0; idx < sge->nr_cap_states; idx++) {
 		if (sge->cap_states[idx].cap >= util) {
-=======
-	 /* default is max_cap if we don't find a match */
-	eenv->cap_idx = max_idx;
-
-	for (idx = 0; idx < sge->nr_cap_states; idx++) {
-		if (sge->cap_states[idx].cap >= util)
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			eenv->cap_idx = idx;
 			break;
 		}

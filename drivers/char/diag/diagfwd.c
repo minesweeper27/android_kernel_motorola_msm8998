@@ -1,14 +1,10 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 /* Copyright (c) 2008-2016, The Linux Foundation. All rights reserved.
 /* Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -58,11 +54,7 @@
 #define STM_RSP_SUPPORTED_INDEX		7
 #define STM_RSP_STATUS_INDEX		8
 #define STM_RSP_NUM_BYTES		9
-<<<<<<< HEAD
 #define RETRY_MAX_COUNT			1000
-=======
-#define RETRY_MAX_COUNT		1000
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 static int timestamp_switch;
 module_param(timestamp_switch, int, 0644);
@@ -282,11 +274,17 @@ static void pack_rsp_and_send(unsigned char *buf, int len,
 				diag_md_session_get_peripheral(APPS_DATA);
 
 	if (info && info->peripheral_mask) {
-		for (i = 0; i < NUM_MD_SESSIONS; i++) {
-			if (info->peripheral_mask & (1 << i))
-				break;
+		if (info->peripheral_mask == DIAG_CON_ALL ||
+			(info->peripheral_mask & (1 << APPS_DATA)) ||
+			(info->peripheral_mask & (1 << PERIPHERAL_MODEM))) {
+			rsp_ctxt = SET_BUF_CTXT(APPS_DATA, TYPE_CMD, 1);
+		} else {
+			for (i = 0; i <= NUM_PERIPHERALS; i++) {
+				if (info->peripheral_mask & (1 << i))
+					break;
+			}
+			rsp_ctxt = SET_BUF_CTXT(i, TYPE_CMD, 1);
 		}
-		rsp_ctxt = SET_BUF_CTXT(i, TYPE_CMD, TYPE_CMD);
 	} else
 		rsp_ctxt = driver->rsp_buf_ctxt;
 	mutex_unlock(&driver->md_session_lock);
@@ -370,11 +368,17 @@ static void encode_rsp_and_send(unsigned char *buf, int len,
 				diag_md_session_get_peripheral(APPS_DATA);
 
 	if (info && info->peripheral_mask) {
-		for (i = 0; i < NUM_MD_SESSIONS; i++) {
-			if (info->peripheral_mask & (1 << i))
-				break;
+		if (info->peripheral_mask == DIAG_CON_ALL ||
+			(info->peripheral_mask & (1 << APPS_DATA)) ||
+			(info->peripheral_mask & (1 << PERIPHERAL_MODEM))) {
+			rsp_ctxt = SET_BUF_CTXT(APPS_DATA, TYPE_CMD, 1);
+		} else {
+			for (i = 0; i <= NUM_PERIPHERALS; i++) {
+				if (info->peripheral_mask & (1 << i))
+					break;
+			}
+			rsp_ctxt = SET_BUF_CTXT(i, TYPE_CMD, 1);
 		}
-		rsp_ctxt = SET_BUF_CTXT(i, TYPE_CMD, TYPE_CMD);
 	} else
 		rsp_ctxt = driver->rsp_buf_ctxt;
 	mutex_unlock(&driver->md_session_lock);
@@ -526,14 +530,10 @@ void diag_update_md_clients(unsigned int type)
 					driver->client_map[j].pid ==
 					driver->md_session_map[i]->pid) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 					if (!(driver->data_ready[j] & type)) {
 =======
 					if (!(driver->data_ready[i] & type)) {
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-					if (!(driver->data_ready[j] & type)) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 						driver->data_ready[j] |= type;
 						atomic_inc(
 						&driver->data_ready_notif[j]);
@@ -1038,10 +1038,7 @@ int diag_process_apps_pkt(unsigned char *buf, int len, int pid)
 =======
 				driver->logging_mask)
 				diag_send_error_rsp(buf, len, pid);
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			else
 				write_len = diag_send_data(reg_item, buf, len);
 		}
@@ -1499,14 +1496,10 @@ static void diag_hdlc_start_recovery(unsigned char *buf, int len,
 		driver->incoming_pkt.processing = 0;
 		mutex_unlock(&driver->hdlc_recovery_mutex);
 <<<<<<< HEAD
-<<<<<<< HEAD
 		diag_process_non_hdlc_pkt(start_ptr, len - i, info);
 =======
 		diag_process_non_hdlc_pkt(start_ptr, len - i, pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		diag_process_non_hdlc_pkt(start_ptr, len - i, pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 }
 
@@ -1567,14 +1560,10 @@ void diag_process_non_hdlc_pkt(unsigned char *buf, int len, int pid)
 						CONTROL_CHAR) {
 			mutex_unlock(&driver->hdlc_recovery_mutex);
 <<<<<<< HEAD
-<<<<<<< HEAD
 			diag_hdlc_start_recovery(buf, len, info);
 =======
 			diag_hdlc_start_recovery(buf, len, pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			diag_hdlc_start_recovery(buf, len, pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			mutex_lock(&driver->hdlc_recovery_mutex);
 		}
 		err = diag_process_apps_pkt(data_ptr,
@@ -1610,14 +1599,10 @@ start:
 			       __func__, pkt_len);
 			mutex_unlock(&driver->hdlc_recovery_mutex);
 <<<<<<< HEAD
-<<<<<<< HEAD
 			diag_hdlc_start_recovery(buf, len, info);
 =======
 			diag_hdlc_start_recovery(buf, len, pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			diag_hdlc_start_recovery(buf, len, pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			break;
 		}
 		if ((pkt_len + header_len) > (len - read_bytes)) {
@@ -1635,28 +1620,20 @@ start:
 						CONTROL_CHAR) {
 			mutex_unlock(&driver->hdlc_recovery_mutex);
 <<<<<<< HEAD
-<<<<<<< HEAD
 			diag_hdlc_start_recovery(buf, len, info);
 =======
 			diag_hdlc_start_recovery(buf, len, pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			diag_hdlc_start_recovery(buf, len, pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			mutex_lock(&driver->hdlc_recovery_mutex);
 		}
 		else
 			hdlc_reset = 0;
 		err = diag_process_apps_pkt(data_ptr,
 <<<<<<< HEAD
-<<<<<<< HEAD
 					    actual_pkt->length, info);
 =======
 					    actual_pkt->length, pid);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-					    actual_pkt->length, pid);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (err) {
 			mutex_unlock(&driver->hdlc_recovery_mutex);
 			break;
@@ -1716,18 +1693,11 @@ static int diagfwd_mux_write_done(unsigned char *buf, int len, int buf_ctxt,
 		}
 		break;
 	case TYPE_CMD:
-		if (peripheral >= 0 && peripheral < NUM_PERIPHERALS &&
-			num != TYPE_CMD) {
-			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-			"Marking buffer as free after write done p: %d, t: %d, buf_num: %d\n",
-			peripheral, type, num);
+		if (peripheral >= 0 && peripheral < NUM_PERIPHERALS) {
 			diagfwd_write_done(peripheral, type, num);
-		} else if (peripheral == APPS_DATA ||
-			(peripheral >= 0 && peripheral < NUM_PERIPHERALS &&
-			num == TYPE_CMD)) {
-			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
-			"Marking APPS response buffer free after write done for p: %d, t: %d, buf_num: %d\n",
-			peripheral, type, num);
+		}
+		if (peripheral == APPS_DATA ||
+				ctxt == DIAG_MEMORY_DEVICE_MODE) {
 			spin_lock_irqsave(&driver->rsp_buf_busy_lock, flags);
 			driver->rsp_buf_busy = 0;
 			driver->encoded_rsp_len = 0;

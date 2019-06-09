@@ -279,15 +279,11 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
 		name->name = p->name;
 	} else {
 <<<<<<< HEAD
-<<<<<<< HEAD
 		memcpy(name->inline_name, dentry->d_iname,
 		       dentry->d_name.len + 1);
 =======
 		memcpy(name->inline_name, dentry->d_iname, DNAME_INLINE_LEN);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		memcpy(name->inline_name, dentry->d_iname, DNAME_INLINE_LEN);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		spin_unlock(&dentry->d_lock);
 		name->name = name->inline_name;
 	}

@@ -1105,9 +1105,6 @@ CSID_TG:
 	pr_err("%s probe succeeded", slave_info->sensor_name);
 
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	s_ctrl->bypass_video_node_creation =
 		slave_info->bypass_video_node_creation;
 

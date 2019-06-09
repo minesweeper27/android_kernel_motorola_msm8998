@@ -416,11 +416,6 @@ static ssize_t dwc3_mode_write(struct file *file,
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
-	if (atomic_read(&dwc->in_lpm)) {
-		dev_err(dwc->dev, "USB device is powered off\n");
-		return count;
-	}
-
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;
 
@@ -514,11 +509,6 @@ static ssize_t dwc3_testmode_write(struct file *file,
 	}
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-
-	if (atomic_read(&dwc->in_lpm)) {
-		seq_puts(s, "USB device is powered off\n");
-		return count;
-	}
 
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;
@@ -639,11 +629,6 @@ static ssize_t dwc3_link_state_write(struct file *file,
 	}
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-
-	if (atomic_read(&dwc->in_lpm)) {
-		seq_puts(s, "USB device is powered off\n");
-		return count;
-	}
 
 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
 		return -EFAULT;

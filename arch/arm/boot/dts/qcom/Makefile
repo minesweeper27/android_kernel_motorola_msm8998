@@ -300,8 +300,6 @@ dtb-$(CONFIG_ARCH_SDM660) += sdm660-sim.dtb \
 	sdm660-pm660a-headset-jacktype-no-rcm.dtb \
 	sdm660-usbc-audio-mtp.dtb \
 	sdm660-usbc-audio-rcm.dtb \
-	sdm660-fhd-cdp.dtb \
-	sdm660-pm660a-fhd-cdp.dtb \
 	sdm658-mtp.dtb \
 	sdm658-cdp.dtb \
 	sdm658-rcm.dtb \
@@ -349,14 +347,10 @@ dtb-$(CONFIG_ARCH_SDM660) += sdm660-sim.dtb \
 	sda636-pm660a-mtp.dtb \
 	sda636-pm660a-qrd-hdk.dtb \
 <<<<<<< HEAD
-<<<<<<< HEAD
 	sda658-pm660a-rcm.dtb
 =======
 	sda636-pm660a-rcm.dtb
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	sda636-pm660a-rcm.dtb
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 dtb-$(CONFIG_ARCH_SDM630) += sdm630-rumi.dtb \
 	sdm630-pm660a-rumi.dtb \

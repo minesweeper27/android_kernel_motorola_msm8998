@@ -342,14 +342,10 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	if (hdr_entry->cookie != IPA_HDR_COOKIE) {
 		IPAERR_RL("Invalid header cookie %u\n", hdr_entry->cookie);
 <<<<<<< HEAD
-<<<<<<< HEAD
 		WARN_ON_RATELIMIT_IPA(1);
 =======
 		WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		WARN_ON_RATELIMIT_IPA(1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EINVAL;
 	}
 	IPADBG("Associated header is name=%s is_hdr_proc_ctx=%d\n",
@@ -383,14 +379,10 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	} else {
 		IPAERR_RL("unexpected needed len %d\n", needed_len);
 <<<<<<< HEAD
-<<<<<<< HEAD
 		WARN_ON_RATELIMIT_IPA(1);
 =======
 		WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		WARN_ON_RATELIMIT_IPA(1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto bad_len;
 	}
 
@@ -446,17 +438,12 @@ static int __ipa_add_hdr_proc_ctx(struct ipa_hdr_proc_ctx_add *proc_ctx,
 	id = ipa3_id_alloc(entry);
 	if (id < 0) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 		IPAERR_RL("failed to alloc id\n");
 		WARN_ON_RATELIMIT_IPA(1);
 =======
 		IPAERR("failed to alloc id\n");
 		WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		IPAERR_RL("failed to alloc id\n");
-		WARN_ON_RATELIMIT_IPA(1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto ipa_insert_failed;
 	}
 	entry->id = id;
@@ -604,17 +591,12 @@ static int __ipa_add_hdr(struct ipa_hdr_add *hdr, bool user)
 	id = ipa3_id_alloc(entry);
 	if (id < 0) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 		IPAERR_RL("failed to alloc id\n");
 		WARN_ON_RATELIMIT_IPA(1);
 =======
 		IPAERR("failed to alloc id\n");
 		WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		IPAERR_RL("failed to alloc id\n");
-		WARN_ON_RATELIMIT_IPA(1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		goto ipa_insert_failed;
 	}
 	entry->id = id;
@@ -1086,14 +1068,10 @@ int ipa3_reset_hdr(bool user_only)
 					IPAERR("default header is proc ctx\n");
 					mutex_unlock(&ipa3_ctx->lock);
 <<<<<<< HEAD
-<<<<<<< HEAD
 					WARN_ON_RATELIMIT_IPA(1);
 =======
 					WARN_ON(1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-					WARN_ON_RATELIMIT_IPA(1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 					return -EFAULT;
 				}
 				IPADBG("skip default header\n");

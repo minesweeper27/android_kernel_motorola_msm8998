@@ -1721,16 +1721,12 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 			__dev_remove_pack(&po->prot_hook);
 			po->fanout = match;
 <<<<<<< HEAD
-<<<<<<< HEAD
 			po->rollover = rollover;
 			rollover = NULL;
 			atomic_inc(&match->sk_ref);
 =======
 			refcount_set(&match->sk_ref, refcount_read(&match->sk_ref) + 1);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			refcount_set(&match->sk_ref, refcount_read(&match->sk_ref) + 1);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			__fanout_link(sk, po);
 			err = 0;
 		}
@@ -1738,14 +1734,10 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 	spin_unlock(&po->bind_lock);
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	if (err && !atomic_read(&match->sk_ref)) {
 =======
 	if (err && !refcount_read(&match->sk_ref)) {
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	if (err && !refcount_read(&match->sk_ref)) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		list_del(&match->list);
 		kfree(match);
 	}
@@ -1779,7 +1771,7 @@ static struct packet_fanout *fanout_release(struct sock *sk)
 		po->fanout = NULL;
 <<<<<<< HEAD
 
-		if (refcount_dec_and_test(&f->sk_ref))
+		if (atomic_dec_and_test(&f->sk_ref))
 			list_del(&f->list);
 		else
 			f = NULL;

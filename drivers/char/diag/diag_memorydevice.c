@@ -1,12 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
 =======
 /* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -166,21 +162,15 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 		return -EINVAL;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 	session_info =
 		diag_md_session_get_peripheral(peripheral);
 	if (!session_info)
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	mutex_lock(&driver->md_session_lock);
 	session_info = diag_md_session_get_peripheral(peripheral);
 	if (!session_info) {
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EIO;
 	}
 	pid = session_info->pid;
@@ -188,14 +178,10 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 
 	ch = &diag_md[id];
 <<<<<<< HEAD
-<<<<<<< HEAD
 	if (!ch || !ch->md_info_inited)
 =======
 	if (!ch)
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	if (!ch)
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		return -EINVAL;
 
 	spin_lock_irqsave(&ch->lock, flags);

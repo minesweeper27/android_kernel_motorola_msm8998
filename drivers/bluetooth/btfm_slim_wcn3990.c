@@ -120,21 +120,6 @@ int btfm_slim_chrk_enable_port(struct btfmslim *btfmslim, uint8_t port_num,
 		if (ret) {
 			BTFMSLIM_ERR("failed to write (%d) reg 0x%x",
 					ret, reg);
-<<<<<<< HEAD
-=======
-			goto error;
-		}
-	} else if (port_num == CHRK_SB_PGD_PORT_TX_SCO) {
-		/* SCO Tx */
-		reg_val = 0x1 << CHRK_SB_PGD_PORT_TX_SCO;
-		reg = CHRK_SB_PGD_TX_PORTn_MULTI_CHNL_0(port_num);
-		BTFMSLIM_DBG("writing reg_val (%d) to reg(%x)",
-				reg_val, reg);
-		ret = btfm_slim_write(btfmslim, reg, 1, &reg_val, IFD);
-		if (ret) {
-			BTFMSLIM_ERR("failed to write (%d) reg 0x%x",
-					ret, reg);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			goto error;
 		}
 <<<<<<< HEAD
@@ -172,9 +157,6 @@ enable_disable_rxport:
 	if (enable)
 		en = CHRK_SB_PGD_PORT_ENABLE;
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	else
 		en = CHRK_SB_PGD_PORT_DISABLE;
 
@@ -188,7 +170,6 @@ enable_disable_rxport:
 	if (enable && port_num == CHRK_SB_PGD_PORT_TX_SCO)
 		BTFMSLIM_INFO("programming SCO Tx with reg_val %d to reg 0x%x",
 				reg_val, reg);
-<<<<<<< HEAD
 =======
 	else
 		en = CHRK_SB_PGD_PORT_DISABLE;
@@ -198,8 +179,6 @@ enable_disable_rxport:
 	else
 		reg_val = enable ? en | CHRK_SB_PGD_PORT_WM_LB : en;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	ret = btfm_slim_write(btfmslim, reg, 1, &reg_val, IFD);
 	if (ret)

@@ -719,14 +719,10 @@ void msm_isp47_preprocess_camif_irq(struct vfe_device *vfe_dev,
 	uint32_t irq_status0)
 {
 <<<<<<< HEAD
-<<<<<<< HEAD
 	if (irq_status0 & BIT(3))
 =======
 	if (irq_status0 & BIT(1))
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	if (irq_status0 & BIT(3))
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = false;
 	if (irq_status0 & BIT(0))
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = true;

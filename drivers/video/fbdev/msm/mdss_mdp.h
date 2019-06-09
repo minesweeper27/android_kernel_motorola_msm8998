@@ -997,15 +997,10 @@ struct mdss_overlay_private {
 
 	u8 secure_transition_state;
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 	bool cache_null_commit; /* Cache if preceding commit was NULL */
 =======
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-
-	bool cache_null_commit; /* Cache if preceding commit was NULL */
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 };
 
 struct mdss_mdp_set_ot_params {

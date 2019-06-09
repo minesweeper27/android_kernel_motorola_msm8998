@@ -465,7 +465,6 @@ out:
 EXPORT_SYMBOL(mmc_clk_update_freq);
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 {
 	int err = 0;
@@ -473,18 +472,10 @@ int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 		return -EINVAL;
 =======
 void mmc_recovery_fallback_lower_speed(struct mmc_host *host)
-=======
-int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 {
-	int err = 0;
 	if (!host->card)
-<<<<<<< HEAD
 		return;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		return -EINVAL;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	if (host->sdr104_wa && mmc_card_sd(host->card) &&
 	    (host->ios.timing == MMC_TIMING_UHS_SDR104) &&
@@ -492,7 +483,6 @@ int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 		pr_err("%s: %s: blocked SDR104, lower the bus-speed (SDR50 / DDR50)\n",
 			mmc_hostname(host), __func__);
 		mmc_host_clear_sdr104(host);
-<<<<<<< HEAD
 <<<<<<< HEAD
 		err = mmc_hw_reset(host);
 		host->card->sdr104_blocked = true;
@@ -507,23 +497,9 @@ int mmc_recovery_fallback_lower_speed(struct mmc_host *host)
 	return err;
 =======
 		mmc_hw_reset(host);
-=======
-		err = mmc_hw_reset(host);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		host->card->sdr104_blocked = true;
-	} else {
-		/* If sdr104_wa is not present, just return status */
-		err = host->bus_ops->alive(host);
 	}
-<<<<<<< HEAD
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-	if (err)
-		pr_err("%s: %s: Fallback to lower speed mode failed with err=%d\n",
-			mmc_hostname(host), __func__, err);
-
-	return err;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 }
 
 static int mmc_devfreq_set_target(struct device *dev,
@@ -592,14 +568,10 @@ static int mmc_devfreq_set_target(struct device *dev,
 		pr_err("%s: clock scale to %lu failed with error %d\n",
 			mmc_hostname(host), *freq, err);
 <<<<<<< HEAD
-<<<<<<< HEAD
 		err = mmc_recovery_fallback_lower_speed(host);
 =======
 		mmc_recovery_fallback_lower_speed(host);
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-		err = mmc_recovery_fallback_lower_speed(host);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	} else {
 		pr_debug("%s: clock change to %lu finished successfully (%s)\n",
 			mmc_hostname(host), *freq, current->comm);
@@ -1215,7 +1187,6 @@ static int mmc_start_request(struct mmc_host *host, struct mmc_request *mrq)
 	return 0;
 }
 
-<<<<<<< HEAD
 static int mmc_cmdq_check_retune(struct mmc_host *host)
 {
 	bool cmdq_mode;
@@ -1256,8 +1227,6 @@ halt_failed:
 	return err;
 }
 
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 static int mmc_start_cmdq_request(struct mmc_host *host,
 				   struct mmc_request *mrq)
 {
@@ -1284,10 +1253,7 @@ static int mmc_start_cmdq_request(struct mmc_host *host,
 	}
 
 	mmc_host_clk_hold(host);
-<<<<<<< HEAD
 	mmc_cmdq_check_retune(host);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (likely(host->cmdq_ops->request)) {
 		ret = host->cmdq_ops->request(host, mrq);
 	} else {
@@ -4265,15 +4231,11 @@ int _mmc_detect_card_removed(struct mmc_host *host)
 	if (ret) {
 		if (host->ops->get_cd && host->ops->get_cd(host)) {
 <<<<<<< HEAD
-<<<<<<< HEAD
 			ret = mmc_recovery_fallback_lower_speed(host);
 =======
 			mmc_recovery_fallback_lower_speed(host);
 			ret = 0;
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-			ret = mmc_recovery_fallback_lower_speed(host);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		} else {
 			mmc_card_set_removed(host->card);
 			if (host->card->sdr104_blocked) {
@@ -4785,17 +4747,12 @@ int mmc_pm_notify(struct notifier_block *notify_block,
 
 		spin_lock_irqsave(&host->lock, flags);
 		host->rescan_disable = 0;
-<<<<<<< HEAD
 		if (mmc_card_is_removable(host))
 			present = !!mmc_gpio_get_cd(host);
 
 		if (mmc_bus_manual_resume(host) &&
 				!host->ignore_bus_resume_flags &&
 				present) {
-=======
-		if (mmc_bus_manual_resume(host) &&
-				!host->ignore_bus_resume_flags) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 			spin_unlock_irqrestore(&host->lock, flags);
 			break;
 		}

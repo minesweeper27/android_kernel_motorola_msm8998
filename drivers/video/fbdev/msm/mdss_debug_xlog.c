@@ -1101,12 +1101,9 @@ static ssize_t mdss_xlog_dump_read(struct file *file, char __user *buff,
 		}
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 		if (copy_to_user(buff, xlog_buf, len)) {
 			mutex_unlock(&mdss_dbg_xlog.xlog_lock);
 =======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		if (copy_to_user(buff, xlog_buf, len))
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			return -EFAULT;

@@ -412,7 +412,7 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 	struct msm_ois_set_info_t *set_info)
 {
 	struct reg_settings_ois_t *settings = NULL;
-	int32_t rc = 0, i = 0;
+	int32_t rc = 0;
 	struct msm_camera_cci_client *cci_client = NULL;
 	CDBG("Enter\n");
 
@@ -455,7 +455,6 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 			set_info->ois_params.setting_size,
 			settings);
 
-<<<<<<< HEAD
 		if (copy_to_user((void *)set_info->ois_params.settings,
 			settings,
 			set_info->ois_params.setting_size *
@@ -463,17 +462,6 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 			kfree(settings);
 			pr_err("Error copying\n");
 			return -EFAULT;
-=======
-		for (i = 0; i < set_info->ois_params.setting_size; i++) {
-			if (set_info->ois_params.settings[i].i2c_operation
-				== MSM_OIS_READ) {
-				set_info->ois_params.settings[i].reg_data =
-					settings[i].reg_data;
-				CDBG("ois_data at addr 0x%x is 0x%x",
-				set_info->ois_params.settings[i].reg_addr,
-				set_info->ois_params.settings[i].reg_data);
-			}
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 		}
 
 		kfree(settings);

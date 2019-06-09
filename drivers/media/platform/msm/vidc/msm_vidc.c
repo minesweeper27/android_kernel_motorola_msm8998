@@ -534,14 +534,10 @@ static inline void save_v4l2_buffer(struct v4l2_buffer *b,
 		if (b->m.planes[i].length)
 			binfo->device_addr[i] = binfo->handle[i]->device_addr +
 <<<<<<< HEAD
-<<<<<<< HEAD
 				binfo->buff_off[i];
 =======
 						binfo->buff_off[i];
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
-				binfo->buff_off[i];
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	}
 }
 
@@ -1191,7 +1187,6 @@ int msm_vidc_enum_framesizes(void *instance, struct v4l2_frmsizeenum *fsize)
 	codec = get_hal_codec(fsize->pixel_format);
 	if (codec == HAL_UNUSED_CODEC)
 		return -EINVAL;
-<<<<<<< HEAD
 
 	for (i = 0; i < VIDC_MAX_SESSIONS; i++) {
 		if (inst->core->capabilities[i].codec == codec) {
@@ -1200,16 +1195,6 @@ int msm_vidc_enum_framesizes(void *instance, struct v4l2_frmsizeenum *fsize)
 		}
 	}
 
-=======
-
-	for (i = 0; i < VIDC_MAX_SESSIONS; i++) {
-		if (inst->core->capabilities[i].codec == codec) {
-			capability = &inst->core->capabilities[i];
-			break;
-		}
-	}
-
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 	if (capability) {
 		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
 		fsize->stepwise.min_width = capability->width.min;
