@@ -869,11 +869,8 @@
 		reg = <0x1fe5040 0x28>;
 	};
 
-<<<<<<< HEAD
 	pm660_bcl: qcom,bcl {
-=======
 	qcom,bcl {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		compatible = "qcom,bcl";
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;

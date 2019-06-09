@@ -767,7 +767,6 @@
 					qcom,bus-max = <0>;
 				};
 			};
-<<<<<<< HEAD
 
 			qcom,gpu-pwrlevels-6 {
 				#address-cells = <1>;
@@ -831,8 +830,6 @@
 					qcom,bus-max = <0>;
 				};
 			};
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		};
 	};
 

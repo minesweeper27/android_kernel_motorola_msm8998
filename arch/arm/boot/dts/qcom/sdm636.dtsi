@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2017, The Linux Foundation. All rights reserved.
 >>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
 /* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
 >>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
  *
@@ -39,13 +35,8 @@
 &soc {
 	/delete-node/ qcom,turing@1a300000;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	/delete-node/ qcom,msm-cdsp-loader;
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	/delete-node/ cti@7068000;
 	/delete-node/ turing_etm0;
 	funnel@6042000 {
@@ -53,8 +44,6 @@
 			/delete-node/ port@4;
 		};
 	};
-<<<<<<< HEAD
-=======
 };
 
 &soc {
@@ -70,7 +59,6 @@
 		/delete-node/ qcom,msm_fastrpc_compute_cb12;
 		/delete-node/ qcom,msm_fastrpc_compute_cb13;
 	};
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 
 	devfreq_memlat_4: qcom,arm-memlat-mon-4 {
 		qcom,core-dev-table =

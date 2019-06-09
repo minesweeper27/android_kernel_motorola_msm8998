@@ -92,11 +92,8 @@
 			};
 		};
 
-<<<<<<< HEAD
 		smb1381_charger: qcom,smb1381-charger@1000 {
-=======
 		smb138x_parallel_slave: qcom,smb138x-parallel-slave@1000 {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			compatible = "qcom,smb138x-parallel-slave";
 			qcom,pmic-revid = <&smb138x_revid>;
 			reg = <0x1000 0x700>;
@@ -272,7 +269,6 @@
 };
 
 &pm660_gpios {
-<<<<<<< HEAD
 	/* GPIO 11 for home key */
 	gpio@ca00 {
 		status = "ok";
@@ -283,8 +279,6 @@
 		qcom,out-strength = <1>;
 	};
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* GPIO 4 (NFC_CLK_REQ) */
 	gpio@c300 {
 		qcom,mode = <0>;
@@ -393,32 +387,23 @@
 		qcom,afe-power-on-delay-us = <1000>;
 		qcom,afe-power-off-delay-us = <6>;
 	};
-<<<<<<< HEAD
-=======
 
 	qcom,msm-ssc-sensors {
 		compatible = "qcom,msm-ssc-sensors";
 	};
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 &qusb_phy0 {
 	qcom,qusb-phy-init-seq = <0xf8 0x80
-<<<<<<< HEAD
-<<<<<<< HEAD
 				0x83 0x84
 				0x83 0x88
 				0xc3 0x8c
-=======
 				0x80 0x84
 				0x83 0x88
 				0xc7 0x8c
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
 				0x83 0x84
 				0x83 0x88
 				0xc3 0x8c
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
 				0x30 0x08
 				0x79 0x0c
 				0x21 0x10

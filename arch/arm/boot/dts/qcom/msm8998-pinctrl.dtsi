@@ -727,7 +727,7 @@
 					pins = "gpio37";
 					drive-strength = <2>;
 					bias-pull-up;
-<<<<<<< HEAD
+
 				};
 			};
 
@@ -741,8 +741,7 @@
 					pins = "gpio37";
 					drive-strength = <2>;
 					bias-pull-up;
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 				};
 			};
 
@@ -1097,7 +1096,7 @@
 			};
 		};
 
-<<<<<<< HEAD
+
 		cam_sensor_depth_default: cam_sensor_depth_default {
 			mux {
 				pins = "gpio28","gpio23","gpio7";
@@ -1178,8 +1177,6 @@
 			};
 		};
 
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		cam_sensor_mclk0_active: cam_sensor_mclk0_active {
 			/* MCLK0 */
 			mux {

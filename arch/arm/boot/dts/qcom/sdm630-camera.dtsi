@@ -534,11 +534,8 @@
 			"camss_vfe_vbif_axi_clk",
 			"camss_csi_vfe_clk";
 		qcom,clock-rates = <0 0 0 0 0 0 404000000 0 0 0 0 0 0
-<<<<<<< HEAD
 					0 0 0 0 0 0 576000000 0 0 0 0 0 0
-=======
 					0 0 0 0 0 0 480000000 0 0 0 0 0 0
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					0 0 0 0 0 0 576000000 0 0 0 0 0 0>;
 		status = "ok";
 		qos-entries = <8>;
@@ -619,11 +616,8 @@
 			"camss_vfe_vbif_axi_clk",
 			"camss_csi_vfe_clk";
 		qcom,clock-rates = <0 0 0 0 0 0 404000000 0 0 0 0 0 0
-<<<<<<< HEAD
 					0 0 0 0 0 0 576000000 0 0 0 0 0 0
-=======
 					0 0 0 0 0 0 480000000 0 0 0 0 0 0
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					0 0 0 0 0 0 576000000 0 0 0 0 0 0>;
 		status = "ok";
 		qos-entries = <8>;

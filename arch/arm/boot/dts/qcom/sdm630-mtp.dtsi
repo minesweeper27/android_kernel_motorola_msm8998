@@ -56,7 +56,6 @@
 		qcom,master-en = <1>;
 		status = "okay";
 	};
-<<<<<<< HEAD
 
 	/* GPIO 11 for Home Key */
 	gpio@ca00 {
@@ -67,8 +66,6 @@
 		qcom,src-sel = <0>;
 		qcom,out-strength = <1>;
 	};
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 &i2c_6 { /* BLSP1 QUP6 (NFC) */
