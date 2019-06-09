@@ -47,7 +47,7 @@
 /*
  * The default maximum commit age, in seconds.
  */
-#define JBD2_DEFAULT_MAX_COMMIT_AGE 5
+#define JBD2_DEFAULT_MAX_COMMIT_AGE 60
 
 #ifdef CONFIG_JBD2_DEBUG
 /*
@@ -872,7 +872,7 @@ struct journal_s
 	 * j_checkpoint_mutex.  [j_checkpoint_mutex]
 	 */
 	struct buffer_head	*j_chkpt_bhs[JBD2_NR_BATCH];
-	
+
 	/*
 	 * Journal head: identifies the first unused block in the journal.
 	 * [j_state_lock]
