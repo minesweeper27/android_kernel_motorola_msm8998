@@ -1,16 +1,13 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 /* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
-=======
+
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
-=======
+
+
 /* Copyright (c) 2008-2019, The Linux Foundation. All rights reserved.
->>>>>>> 8d4fe02141038456fa03e43b51c835d3ae37d29a
+
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -337,33 +334,33 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 	int err = 0;
 	int header_len = sizeof(struct diag_ctrl_msg_mask);
 	int temp_len = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	uint8_t *buf = NULL, upd = 0;
 	uint8_t *temp = NULL;
-=======
+
 	uint8_t *buf = NULL, *temp = NULL;
 	uint8_t upd = 0;
 	uint8_t msg_mask_tbl_count_local = 0;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	uint8_t *buf = NULL, *temp = NULL;
 	uint8_t upd = 0;
 	uint8_t msg_mask_tbl_count_local = 0;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	uint32_t mask_size = 0;
 	struct diag_mask_info *mask_info = NULL;
 	struct diag_msg_mask_t *mask = NULL;
 	struct diag_ctrl_msg_mask header;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	uint8_t msg_mask_tbl_count_local;
-=======
+
 	struct diag_md_session_t *md_session_info = NULL;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	struct diag_md_session_t *md_session_info = NULL;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 
 	if (peripheral >= NUM_PERIPHERALS)
 		return;
@@ -377,12 +374,12 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 
 	if (driver->md_session_mask != 0) {
 		if (driver->md_session_mask & MD_PERIPHERAL_MASK(peripheral)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 			if (driver->md_session_map[peripheral])
-=======
+
 			if (driver->md_session_map[peripheral]) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 				mask_info =
 				driver->md_session_map[peripheral]->msg_mask;
 				md_session_info =
@@ -394,8 +391,8 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 			if (upd && driver->md_session_map[upd]) {
 				mask_info =
 				driver->md_session_map[upd]->msg_mask;
-<<<<<<< HEAD
-=======
+
+
 			if (driver->md_session_map[peripheral]) {
 				mask_info =
 				driver->md_session_map[peripheral]->msg_mask;
@@ -410,12 +407,12 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 				driver->md_session_map[upd]->msg_mask;
 				md_session_info = driver->md_session_map[upd];
 			}
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 				md_session_info =
 				driver->md_session_map[upd];
 			}
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		} else {
 			DIAG_LOG(DIAG_DEBUG_MASKS,
 			"asking for mask update with unknown session mask\n");
@@ -434,20 +431,20 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 		return;
 	}
 	buf = mask_info->update_buf;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	msg_mask_tbl_count_local = driver->msg_mask_tbl_count;
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 	if (md_session_info)
 		msg_mask_tbl_count_local = md_session_info->msg_mask_tbl_count;
 	else
 		msg_mask_tbl_count_local = driver->msg_mask_tbl_count;
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 	mutex_unlock(&driver->msg_mask_lock);
 	mutex_lock(&mask_info->lock);
 	switch (mask_info->status) {
@@ -466,16 +463,16 @@ static void diag_send_msg_mask_update(uint8_t peripheral, int first, int last)
 	}
 
 	for (i = 0; i < msg_mask_tbl_count_local; i++, mask++) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 		if (!mask->ptr)
 			continue;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 		if (!mask->ptr)
 			continue;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		mutex_lock(&driver->msg_mask_lock);
 		if (((mask->ssid_first > first) ||
 			(mask->ssid_last_tools < last)) && first != ALL_SSID) {
@@ -660,35 +657,35 @@ static int diag_cmd_get_ssid_range(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
 	if (!diag_apps_responds()) {
 		mutex_unlock(&driver->md_session_lock);
 		return 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	mutex_lock(&driver->msg_mask_lock);
-=======
+
 	}
 	mutex_lock(&driver->msg_mask_lock);
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 		driver->msg_mask_tbl_count;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	}
 	mutex_lock(&driver->msg_mask_lock);
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 		driver->msg_mask_tbl_count;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	rsp.cmd_code = DIAG_CMD_MSG_CONFIG;
 	rsp.sub_cmd = DIAG_CMD_OP_GET_SSID_RANGE;
 	rsp.status = MSG_STATUS_SUCCESS;
@@ -709,14 +706,14 @@ static int diag_cmd_get_ssid_range(unsigned char *src_buf, int src_len,
 		write_len += sizeof(ssid_range);
 	}
 	mutex_unlock(&driver->msg_mask_lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	return write_len;
 }
 
@@ -749,16 +746,16 @@ static int diag_cmd_get_build_mask(unsigned char *src_buf, int src_len,
 	rsp.padding = 0;
 	build_mask = (struct diag_msg_mask_t *)msg_bt_mask.ptr;
 	for (i = 0; i < driver->bt_msg_mask_tbl_count; i++, build_mask++) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 		if (!build_mask->ptr)
 			continue;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 		if (!build_mask->ptr)
 			continue;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		if (build_mask->ssid_first != req->ssid_first)
 			continue;
 		num_entries = req->ssid_last - req->ssid_first + 1;
@@ -806,47 +803,47 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 		       __func__, src_buf, src_len, dest_buf, dest_len,
 		       mask_info);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!diag_apps_responds())
-=======
-=======
+
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
 	if (!diag_apps_responds()) {
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 		return 0;
 	}
 
 	mutex_lock(&driver->msg_mask_lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 			driver->msg_mask_tbl_count;
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 			driver->msg_mask_tbl_count;
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	req = (struct diag_build_mask_req_t *)src_buf;
 	rsp.cmd_code = DIAG_CMD_MSG_CONFIG;
 	rsp.sub_cmd = DIAG_CMD_OP_GET_MSG_MASK;
@@ -859,24 +856,24 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 		return -EINVAL;
 	}
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
 	for (i = 0; i < msg_mask_tbl_count; i++, mask++) {
 		if (!mask->ptr)
 			continue;
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 		if ((req->ssid_first < mask->ssid_first) ||
 		    (req->ssid_first > mask->ssid_last_tools)) {
 			continue;
@@ -893,14 +890,14 @@ static int diag_cmd_get_msg_mask(unsigned char *src_buf, int src_len,
 	memcpy(dest_buf, &rsp, sizeof(rsp));
 	write_len += sizeof(rsp);
 	mutex_unlock(&driver->msg_mask_lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	return write_len;
 }
 
@@ -938,14 +935,14 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
@@ -958,15 +955,15 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 		return -EINVAL;
 	}
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
 		if (i < (driver->msg_mask_tbl_count - 1)) {
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
@@ -976,10 +973,10 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 		if (!mask->ptr)
 			continue;
 		if (i < (msg_mask_tbl_count - 1)) {
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 			mask_next = mask;
 			mask_next++;
 		} else
@@ -1018,14 +1015,14 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 				mutex_unlock(&mask->lock);
 				mutex_unlock(&driver->msg_mask_lock);
 				mutex_unlock(&mask_info->lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 				mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 				mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 				return -ENOMEM;
 			}
 			mask->ptr = temp;
@@ -1046,14 +1043,14 @@ static int diag_cmd_set_msg_mask(unsigned char *src_buf, int src_len,
 	}
 	mutex_unlock(&driver->msg_mask_lock);
 	mutex_unlock(&mask_info->lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	if (diag_check_update(APPS_DATA))
 		diag_update_userspace_clients(MSG_MASKS_TYPE);
 
@@ -1115,14 +1112,14 @@ static int diag_cmd_set_all_msg_mask(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
@@ -1137,22 +1134,22 @@ static int diag_cmd_set_all_msg_mask(unsigned char *src_buf, int src_len,
 			__func__, mask->ptr);
 		mutex_unlock(&driver->msg_mask_lock);
 		mutex_unlock(&mask_info->lock);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 		return -EINVAL;
 	}
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 			driver->msg_mask_tbl_count;
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 	mask_info->status = (req->rt_mask) ? DIAG_CTRL_MASK_ALL_ENABLED :
 					   DIAG_CTRL_MASK_ALL_DISABLED;
 	for (i = 0; i < msg_mask_tbl_count; i++, mask++) {
@@ -1248,7 +1245,7 @@ static int diag_cmd_update_event_mask(unsigned char *src_buf, int src_len,
 		       __func__, src_buf, src_len, dest_buf, dest_len,
 		       mask_info);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
@@ -1257,15 +1254,15 @@ static int diag_cmd_update_event_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
+
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		return -EINVAL;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
@@ -1274,7 +1271,7 @@ static int diag_cmd_update_event_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	req = (struct diag_event_mask_config_t *)src_buf;
 	mask_len = EVENT_COUNT_TO_BYTES(req->num_bits);
 	if (mask_len <= 0 || mask_len > event_mask.mask_len) {
@@ -1341,14 +1338,14 @@ static int diag_cmd_toggle_events(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
@@ -1417,14 +1414,14 @@ static int diag_cmd_get_log_mask(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
@@ -1451,14 +1448,14 @@ static int diag_cmd_get_log_mask(unsigned char *src_buf, int src_len,
 	if (!log_item->ptr) {
 		pr_err("diag: Invalid input in %s, mask: %pK\n",
 			__func__, log_item);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		return -EINVAL;
 	}
 	for (i = 0; i < MAX_EQUIP_ID; i++, log_item++) {
@@ -1576,14 +1573,14 @@ static int diag_cmd_set_log_mask(unsigned char *src_buf, int src_len,
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
 		return -EINVAL;
 	}
 
@@ -1593,14 +1590,14 @@ static int diag_cmd_set_log_mask(unsigned char *src_buf, int src_len,
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
 			__func__, mask->ptr);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		return -EINVAL;
 	}
 	if (req->equip_id >= MAX_EQUIP_ID) {
@@ -1724,7 +1721,7 @@ static int diag_cmd_disable_log_mask(unsigned char *src_buf, int src_len,
 		       __func__, src_buf, src_len, dest_buf, dest_len,
 		       mask_info);
 		mutex_unlock(&driver->md_session_lock);
-<<<<<<< HEAD
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
@@ -1733,15 +1730,15 @@ static int diag_cmd_disable_log_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
+
 	if (!mask_info->ptr) {
 		pr_err("diag: In %s, invalid input mask_info->ptr: %pK\n",
 			__func__, mask_info->ptr);
 		return -EINVAL;
 	}
-=======
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
+
 		return -EINVAL;
 	}
 	if (!mask_info->ptr) {
@@ -1750,19 +1747,19 @@ static int diag_cmd_disable_log_mask(unsigned char *src_buf, int src_len,
 		mutex_unlock(&driver->md_session_lock);
 		return -EINVAL;
 	}
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	mask = (struct diag_log_mask_t *)mask_info->ptr;
 	if (!mask->ptr) {
 		pr_err("diag: Invalid input in %s, mask->ptr: %pK\n",
 			__func__, mask->ptr);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 		mutex_unlock(&driver->md_session_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		return -EINVAL;
 	}
 	for (i = 0; i < MAX_EQUIP_ID; i++, mask++) {
@@ -1861,17 +1858,17 @@ static int diag_create_build_time_mask(void)
 	mutex_lock(&driver->msg_mask_lock);
 	driver->bt_msg_mask_tbl_count = MSG_MASK_TBL_CNT;
 	build_mask = (struct diag_msg_mask_t *)msg_bt_mask.ptr;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	for (i = 0; i < driver->bt_msg_mask_tbl_count; i++, build_mask++) {
-=======
+
 	for (i = 0; (i < driver->bt_msg_mask_tbl_count) && build_mask;
 			i++, build_mask++) {
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
+
+
 	for (i = 0; (i < driver->bt_msg_mask_tbl_count) && build_mask;
 			i++, build_mask++) {
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 		range.ssid_first = msg_mask_tbl[i].ssid_first;
 		range.ssid_last = msg_mask_tbl[i].ssid_last;
 		err = diag_create_msg_mask_table_entry(build_mask, &range);
@@ -2159,22 +2156,22 @@ int diag_msg_mask_copy(struct diag_md_session_t *new_session,
 	if (!src || !dest)
 		return -EINVAL;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	err = __diag_mask_init(dest, MSG_MASK_SIZE, APPS_BUF_SIZE);
 	if (err)
 		return err;
 	mutex_lock(&dest->lock);
 	mutex_lock(&driver->msg_mask_lock);
-=======
+
 	mutex_init(&dest->lock);
 	mutex_lock(&dest->lock);
 	mutex_lock(&driver->msg_mask_lock);
-=======
+
 	mutex_init(&dest->lock);
 	mutex_lock(&dest->lock);
 	mutex_lock(&driver->msg_mask_lock);
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
 	new_session->msg_mask_tbl_count =
 		driver->msg_mask_tbl_count;
 	err = __diag_mask_init(dest,
@@ -2185,10 +2182,10 @@ int diag_msg_mask_copy(struct diag_md_session_t *new_session,
 		mutex_unlock(&dest->lock);
 		return err;
 	}
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 	src_mask = (struct diag_msg_mask_t *)src->ptr;
 	dest_mask = (struct diag_msg_mask_t *)dest->ptr;
 
@@ -2229,20 +2226,20 @@ void diag_msg_mask_free(struct diag_mask_info *mask_info,
 		mutex_unlock(&mask_info->lock);
 		return;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 	msg_mask_tbl_count = (session_info) ?
 		session_info->msg_mask_tbl_count :
 		driver->msg_mask_tbl_count;
 	for (i = 0; i < msg_mask_tbl_count; i++, mask++) {
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 		kfree(mask->ptr);
 		mask->ptr = NULL;
 	}
@@ -2437,21 +2434,21 @@ int diag_copy_to_user_msg_mask(char __user *buf, size_t count,
 		mutex_unlock(&mask_info->lock);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 	for (i = 0; i < driver->msg_mask_tbl_count; i++, mask++) {
-=======
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
 	msg_mask_tbl_count = (info) ? info->msg_mask_tbl_count :
 			driver->msg_mask_tbl_count;
 	for (i = 0; i < msg_mask_tbl_count; i++, mask++) {
 		if (!mask->ptr)
 			continue;
-<<<<<<< HEAD
->>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
-=======
->>>>>>> 0af5ed8c34e4f03393148a7339cd0fe8a9710a0c
+
+
+
+
 		ptr = mask_info->update_buf;
 		len = 0;
 		mutex_lock(&mask->lock);
