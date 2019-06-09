@@ -8950,6 +8950,22 @@ void sched_offline_group(struct task_group *tg)
 static void sched_change_group(struct task_struct *tsk, int type)
 {
 	struct task_group *tg;
+<<<<<<< HEAD
+=======
+	int queued, running;
+	unsigned long flags;
+	struct rq *rq;
+
+	rq = task_rq_lock(tsk, &flags);
+
+	running = task_current(rq, tsk);
+	queued = task_on_rq_queued(tsk);
+
+	if (queued)
+		dequeue_task(rq, tsk, DEQUEUE_SAVE | DEQUEUE_MOVE);
+	if (unlikely(running))
+		put_prev_task(rq, tsk);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/*
 	 * All callers are synchronized by task_rq_lock(); we do not use RCU

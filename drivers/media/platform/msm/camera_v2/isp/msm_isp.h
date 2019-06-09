@@ -789,7 +789,10 @@ struct vfe_device {
 	size_t num_norm_clk;
 	bool hvx_clk_state;
 	enum cam_ahb_clk_vote ahb_vote;
+<<<<<<< HEAD
 	enum cam_ahb_clk_vote user_requested_ahb_vote;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	struct cx_ipeak_client *vfe_cx_ipeak;
 
 	/* Sync variables*/
@@ -799,8 +802,12 @@ struct vfe_device {
 	struct mutex core_mutex;
 	spinlock_t shared_data_lock;
 	spinlock_t reg_update_lock;
+<<<<<<< HEAD
 	spinlock_t reset_completion_lock;
 	spinlock_t halt_completion_lock;
+=======
+	spinlock_t completion_lock;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* Tasklet info */
 	atomic_t irq_cnt;
@@ -846,7 +853,10 @@ struct vfe_device {
 	uint32_t recovery_irq1_mask;
 	/* total bandwidth per vfe */
 	uint64_t total_bandwidth;
+<<<<<<< HEAD
 	struct isp_kstate *isp_page;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 struct vfe_parent_device {

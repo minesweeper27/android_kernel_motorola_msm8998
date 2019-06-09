@@ -364,7 +364,10 @@ static int lpm_cpu_callback(struct notifier_block *cpu_nb,
 }
 
 #ifdef CONFIG_ARM_PSCI
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int __init set_cpuidle_ops(void)
 {
 	int ret = 0, cpu;
@@ -378,7 +381,10 @@ static int __init set_cpuidle_ops(void)
 exit:
 	return ret;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #endif
 
 static enum hrtimer_restart lpm_hrtimer_cb(struct hrtimer *h)
@@ -708,7 +714,11 @@ static int cpu_power_select(struct cpuidle_device *dev,
 	if (!cpu)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if ((sleep_disabled && !cpu_isolated(dev->cpu)) || sleep_us  < 0)
+=======
+	if (sleep_disabled && !cpu_isolated(dev->cpu))
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		return 0;
 
 	idx_restrict = cpu->nlevels + 1;

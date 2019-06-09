@@ -30,6 +30,7 @@
 #define BO_PINNED   0x2000
 
 static struct msm_gem_submit *submit_create(struct drm_device *dev,
+<<<<<<< HEAD
 		struct msm_gem_address_space *aspace,
 		uint32_t nr_bos, uint32_t nr_cmds,
 		struct msm_gpu_submitqueue *queue)
@@ -37,6 +38,12 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
 	struct msm_gem_submit *submit;
 	uint64_t sz = sizeof(*submit) + ((u64)nr_bos * sizeof(submit->bos[0])) +
 		((u64)nr_cmds * sizeof(submit->cmd[0]));
+=======
+		struct msm_gpu *gpu, uint32_t nr)
+{
+	struct msm_gem_submit *submit;
+	uint64_t sz = sizeof(*submit) + (nr * sizeof(submit->bos[0]));
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (sz > SIZE_MAX)
 		return NULL;

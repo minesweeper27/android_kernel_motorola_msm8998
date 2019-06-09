@@ -427,8 +427,13 @@ static struct sock *dccp_v6_request_recv_sock(const struct sock *sk,
 		newnp->ipv6_mc_list = NULL;
 		newnp->ipv6_ac_list = NULL;
 		newnp->ipv6_fl_list = NULL;
+<<<<<<< HEAD
 		newnp->mcast_oif   = inet_iif(skb);
 		newnp->mcast_hops  = ip_hdr(skb)->ttl;
+=======
+		newnp->mcast_oif   = inet6_iif(skb);
+		newnp->mcast_hops  = ipv6_hdr(skb)->hop_limit;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 		/*
 		 * No need to charge this sock to the relevant IPv6 refcnt debug socks count

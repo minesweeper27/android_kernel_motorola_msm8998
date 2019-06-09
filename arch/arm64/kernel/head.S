@@ -691,7 +691,12 @@ ENDPROC(__secondary_switched)
  * Checks if the selected granule size is supported by the CPU.
  * If it isn't, park the CPU
  */
+<<<<<<< HEAD
 ENTRY(__enable_mmu)
+=======
+	.section	".idmap.text", "ax"
+__enable_mmu:
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mrs	x22, sctlr_el1			// preserve old SCTLR_EL1 value
 	mrs	x1, ID_AA64MMFR0_EL1
 	ubfx	x2, x1, #ID_AA64MMFR0_TGRAN_SHIFT, 4

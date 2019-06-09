@@ -191,6 +191,7 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 };
 
+<<<<<<< HEAD
 &dsi_hx8399c_truly_vid {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 	qcom,mdss-dsi-bl-min-level = <1>;
@@ -198,6 +199,8 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 };
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 &mdss_dp_ctrl {
 	pinctrl-names = "mdss_dp_active", "mdss_dp_sleep";
 	pinctrl-0 = <&mdss_dp_aux_active &mdss_dp_usbplug_cc_active>;

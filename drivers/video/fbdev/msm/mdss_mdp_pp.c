@@ -698,7 +698,7 @@ int mdss_mdp_csc_setup_data(u32 block, u32 blk_idx, struct mdp_csc_cfg *data)
 		lv_shift = CSC_8BIT_LV_SHIFT;
 		/*
 		 * CSC is used on VIG pipes and currently VIG pipes do not
-		 * support multirect so always use RECT0.
+		 * support multirect so always use RECT0
 		 */
 		pipe = mdss_mdp_pipe_search(mdata, BIT(blk_idx),
 				MDSS_MDP_PIPE_RECT0);
@@ -2867,6 +2867,7 @@ int mdss_mdp_pp_setup_locked(struct mdss_mdp_ctl *ctl,
 		}
 	}
 
+<<<<<<< HEAD
 	if (info->pp_program_mask & PP_NORMAL_PROGRAM_MASK) {
 		mdss_pp_res->pp_disp_flags[disp_num] &=
 				~PP_EARLY_PROGRAM_DIRTY_MASK;
@@ -2876,6 +2877,12 @@ int mdss_mdp_pp_setup_locked(struct mdss_mdp_ctl *ctl,
 		if (disp_num < MDSS_BLOCK_DISP_NUM) {
 			mdss_pp_res->pp_disp_flags[disp_num] &=
 				~PP_DEFERRED_PROGRAM_DIRTY_MASK;
+=======
+	if (info->pp_program_mask & PP_DEFER_PROGRAM_MASK) {
+		/* clear dirty flag */
+		if (disp_num < MDSS_BLOCK_DISP_NUM) {
+			mdss_pp_res->pp_disp_flags[disp_num] = 0;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			if (disp_num < mdata->nad_cfgs)
 				mdata->ad_cfgs[disp_num].reg_sts = 0;
 		}

@@ -87,8 +87,13 @@
 	qcom,platform-te-gpio = <&tlmm 10 0>;
 	qcom,platform-enable-gpio = <&tlmm 52 0>;
 	qcom,platform-reset-gpio = <&tlmm 94 0>;
+<<<<<<< HEAD
 	qcom,platform-avdd-en-gpio = <&pmi8998_gpios 1 0>;
 	qcom,platform-avdd-en-gpio-invert;
+=======
+	qcom,platform-bklight-en-gpio = <&pmi8998_gpios 1 0>;
+	qcom,platform-bklight-en-gpio-invert;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 &mdss_dsi1 {
@@ -99,8 +104,13 @@
 	qcom,platform-te-gpio = <&tlmm 10 0>;
 	qcom,platform-enable-gpio = <&tlmm 52 0>;
 	qcom,platform-reset-gpio = <&tlmm 94 0>;
+<<<<<<< HEAD
 	qcom,platform-avdd-en-gpio = <&pmi8998_gpios 1 0>;
 	qcom,platform-avdd-en-gpio-invert;
+=======
+	qcom,platform-bklight-en-gpio = <&pmi8998_gpios 1 0>;
+	qcom,platform-bklight-en-gpio-invert;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 &pmi8998_wled {
@@ -114,7 +124,11 @@
 };
 
 &pmi8998_gpios {
+<<<<<<< HEAD
 	/* GPIO 1 for AVDD power enable */
+=======
+	/* GPIO 1 for WLED power enable */
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	gpio@c000 {
 		qcom,mode = <1>;
 		qcom,output-type = <0>;

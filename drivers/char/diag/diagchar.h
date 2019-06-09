@@ -1,4 +1,4 @@
-/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -442,6 +442,7 @@ struct diag_md_session_t {
 	int pid;
 	int peripheral_mask;
 	uint8_t hdlc_disabled;
+	uint8_t msg_mask_tbl_count;
 	struct timer_list hdlc_reset_timer;
 	struct diag_mask_info *msg_mask;
 	struct diag_mask_info *log_mask;
@@ -676,7 +677,11 @@ void diag_cmd_remove_reg_by_pid(int pid);
 void diag_cmd_remove_reg_by_proc(int proc);
 int diag_cmd_chk_polling(struct diag_cmd_reg_entry_t *entry);
 int diag_mask_param(void);
+<<<<<<< HEAD
 void diag_clear_masks(struct diag_md_session_t *info);
+=======
+void diag_clear_masks(int pid);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 uint8_t diag_mask_to_pd_value(uint32_t peripheral_mask);
 
 void diag_record_stats(int type, int flag);

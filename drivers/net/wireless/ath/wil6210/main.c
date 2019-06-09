@@ -582,9 +582,12 @@ int wil_priv_init(struct wil6210_priv *wil)
 
 	wil->wakeup_trigger = WMI_WAKEUP_TRIGGER_UCAST |
 			      WMI_WAKEUP_TRIGGER_BCAST;
+<<<<<<< HEAD
 	memset(&wil->suspend_stats, 0, sizeof(wil->suspend_stats));
 	wil->suspend_stats.min_suspend_time = ULONG_MAX;
 	wil->vring_idle_trsh = 16;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	return 0;
 
@@ -952,6 +955,7 @@ int wil_ps_update(struct wil6210_priv *wil, enum wmi_ps_profile_type ps_profile)
 	return rc;
 }
 
+<<<<<<< HEAD
 static void wil_pre_fw_config(struct wil6210_priv *wil)
 {
 	/* Mark FW as loaded from host */
@@ -975,6 +979,8 @@ static void wil_pre_fw_config(struct wil6210_priv *wil)
 	}
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /*
  * We reset all the structures, and we reset the UMAC.
  * After calling this routine, you're expected to reload
@@ -1097,6 +1103,12 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 			wil_err(wil, "wmi_echo failed, rc %d\n", rc);
 			return rc;
 		}
+
+		if (wil->ps_profile != WMI_PS_PROFILE_TYPE_DEFAULT)
+			wil_ps_update(wil, wil->ps_profile);
+
+		if (wil->tt_data_set)
+			wmi_set_tt_cfg(wil, &wil->tt_data);
 
 		wil_collect_fw_info(wil);
 

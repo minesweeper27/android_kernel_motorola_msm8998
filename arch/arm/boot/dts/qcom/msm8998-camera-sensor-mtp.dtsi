@@ -52,6 +52,7 @@
 		qcom,cam-vreg-min-voltage = <2800000>;
 		qcom,cam-vreg-max-voltage = <2800000>;
 		qcom,cam-vreg-op-mode = <0>;
+<<<<<<< HEAD
 	};
 
 	laserled0: qcom,laserled@0 {
@@ -59,6 +60,8 @@
 		reg = <0x0>;
 		compatible = "qcom,laser-led";
 		qcom,cci-master = <1>;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	};
 
 	actuator1: qcom,actuator@1 {
@@ -401,6 +404,10 @@
 		qcom,sensor-position = <1>;
 		qcom,sensor-mode = <0>;
 		qcom,cci-master = <1>;
+<<<<<<< HEAD
+=======
+		status = "ok";
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		clocks = <&clock_mmss clk_mclk3_clk_src>,
 			<&clock_mmss clk_mmss_camss_mclk3_clk>;
 		clock-names = "cam_src_clk", "cam_clk";

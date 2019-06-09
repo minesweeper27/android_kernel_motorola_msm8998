@@ -32,7 +32,10 @@
 #include <linux/hugetlb.h>
 #include <linux/memblock.h>
 #include <linux/bootmem.h>
+<<<<<<< HEAD
 #include <linux/rmap.h>
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include <linux/compaction.h>
 
 #include <asm/tlbflush.h>

@@ -14,7 +14,7 @@
 #include <linux/regmap.h>
 #include "msm-cdc-common.h"
 #include "sdm660-cdc-registers.h"
-
+#include "msm-cdc-common.h"
 /*
  * Default register reset values that are common across different versions
  * are defined here. If a register reset value is changed based on version

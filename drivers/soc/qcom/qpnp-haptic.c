@@ -361,7 +361,10 @@ struct qpnp_hap {
 	u32				init_drive_period_code;
 	u32				timeout_ms;
 	u32				time_required_to_generate_back_emf_us;
+<<<<<<< HEAD
 	u32				vmax_default_mv;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	u32				vmax_mv;
 	u32				ilim_ma;
 	u32				sc_deb_cycles;
@@ -1779,6 +1782,7 @@ static ssize_t qpnp_hap_vmax_store(struct device *dev,
 	struct timed_output_dev *timed_dev = dev_get_drvdata(dev);
 	struct qpnp_hap *hap = container_of(timed_dev, struct qpnp_hap,
 					 timed_dev);
+<<<<<<< HEAD
 	int vmax_mv, rc;
 
 	rc = kstrtoint(buf, 10, &vmax_mv);
@@ -1815,6 +1819,18 @@ static ssize_t qpnp_hap_vmax_min(struct device *dev,
 	return scnprintf(buf, PAGE_SIZE, "%d\n", QPNP_HAP_VMAX_MIN_MV);
 }
 
+=======
+	int data, rc;
+
+	rc = kstrtoint(buf, 10, &data);
+	if (rc)
+		return rc;
+
+	hap->vmax_mv = data;
+	return count;
+}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /* sysfs attributes */
 static struct device_attribute qpnp_hap_attrs[] = {
 	__ATTR(wf_s0, 0664, qpnp_hap_wf_s0_show, qpnp_hap_wf_s0_store),
@@ -1846,10 +1862,13 @@ static struct device_attribute qpnp_hap_attrs[] = {
 		qpnp_hap_override_auto_mode_show,
 		qpnp_hap_override_auto_mode_store),
 	__ATTR(vmax_mv, 0664, qpnp_hap_vmax_show, qpnp_hap_vmax_store),
+<<<<<<< HEAD
 	__ATTR(vtg_level, 0664, qpnp_hap_vmax_show, qpnp_hap_vmax_store),
 	__ATTR(vtg_default, 0444, qpnp_hap_vmax_default, NULL),
 	__ATTR(vtg_max, 0444, qpnp_hap_vmax_max, NULL),
 	__ATTR(vtg_min, 0444, qpnp_hap_vmax_min, NULL),
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static int calculate_lra_code(struct qpnp_hap *hap)
@@ -1859,6 +1878,7 @@ static int calculate_lra_code(struct qpnp_hap *hap)
 	u8 start_variation = AUTO_RES_ERROR_MAX, i;
 	u8 neg_idx = 0, pos_idx = ADJUSTED_LRA_PLAY_RATE_CODE_ARRSIZE - 1;
 	int rc = 0;
+<<<<<<< HEAD
 
 	rc = qpnp_hap_read_reg(hap, QPNP_HAP_RATE_CFG1_REG(hap->base),
 			&lra_drive_period_code_lo);
@@ -1867,6 +1887,16 @@ static int calculate_lra_code(struct qpnp_hap *hap)
 		return rc;
 	}
 
+=======
+
+	rc = qpnp_hap_read_reg(hap, QPNP_HAP_RATE_CFG1_REG(hap->base),
+			&lra_drive_period_code_lo);
+	if (rc) {
+		pr_err("Error while reading RATE_CFG1 register\n");
+		return rc;
+	}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	rc = qpnp_hap_read_reg(hap, QPNP_HAP_RATE_CFG2_REG(hap->base),
 			&lra_drive_period_code_hi);
 	if (rc) {
@@ -1930,8 +1960,12 @@ static int qpnp_hap_auto_res_enable(struct qpnp_hap *hap, int enable)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	if (!hap->lra_hw_auto_resonance && !hap->correct_lra_drive_freq
 		&& !auto_res_mode_qwd) {
+=======
+	if (!hap->correct_lra_drive_freq && !auto_res_mode_qwd) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		pr_debug("correct_lra_drive_freq: %d auto_res_mode_qwd: %d\n",
 			hap->correct_lra_drive_freq, auto_res_mode_qwd);
 		return 0;
@@ -2054,6 +2088,7 @@ static bool is_sw_lra_auto_resonance_control(struct qpnp_hap *hap)
 {
 	if (hap->act_type != QPNP_HAP_LRA)
 		return false;
+<<<<<<< HEAD
 
 	if (hap->lra_hw_auto_resonance)
 		return false;
@@ -2064,6 +2099,18 @@ static bool is_sw_lra_auto_resonance_control(struct qpnp_hap *hap)
 	if (hap->auto_mode && hap->play_mode == QPNP_HAP_BUFFER)
 		return false;
 
+=======
+
+	if (hap->lra_hw_auto_resonance)
+		return false;
+
+	if (!hap->correct_lra_drive_freq)
+		return false;
+
+	if (hap->auto_mode && hap->play_mode == QPNP_HAP_BUFFER)
+		return false;
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return true;
 }
 
@@ -2084,9 +2131,12 @@ static int qpnp_hap_set(struct qpnp_hap *hap, bool on)
 	} else if (hap->play_mode == QPNP_HAP_BUFFER ||
 			hap->play_mode == QPNP_HAP_DIRECT) {
 		if (on) {
+<<<<<<< HEAD
 			if (hap->module_en == on )
 				return 0;
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			rc = qpnp_hap_auto_res_enable(hap, 0);
 			if (rc < 0)
 				return rc;
@@ -2180,7 +2230,11 @@ static int qpnp_hap_auto_mode_config(struct qpnp_hap *hap, int time_ms)
 			ares_cfg.calibrate_at_eop = -EINVAL;
 		}
 
+<<<<<<< HEAD
 		vmax_mv = hap->vmax_mv;
+=======
+		vmax_mv = QPNP_HAP_VMAX_MAX_MV;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		rc = qpnp_hap_vmax_config(hap, vmax_mv, true);
 		if (rc < 0)
 			return rc;
@@ -2266,8 +2320,11 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 {
 	struct qpnp_hap *hap = container_of(dev, struct qpnp_hap,
 					 timed_dev);
+<<<<<<< HEAD
 	bool state = !!time_ms;
 	ktime_t rem;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int rc;
 
 	if (time_ms < 0)
@@ -2275,6 +2332,7 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 
 	mutex_lock(&hap->lock);
 
+<<<<<<< HEAD
 	if (hap->state == state) {
 		if (state) {
 			rem = hrtimer_get_remaining(&hap->hap_timer);
@@ -2292,6 +2350,22 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		mutex_unlock(&hap->lock);
 		return;
 	}
+=======
+	if (time_ms == 0) {
+		/* disable haptics */
+		hrtimer_cancel(&hap->hap_timer);
+		hap->state = 0;
+		schedule_work(&hap->work);
+		mutex_unlock(&hap->lock);
+		return;
+	}
+
+	if (time_ms < 10)
+		time_ms = 10;
+
+	if (is_sw_lra_auto_resonance_control(hap))
+		hrtimer_cancel(&hap->auto_res_err_poll_timer);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	hap->state = state;
 	if (!hap->state) {
@@ -2300,6 +2374,7 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		if (time_ms < 10)
 			time_ms = 10;
 
+<<<<<<< HEAD
 		if (hap->auto_mode) {
 			rc = qpnp_hap_auto_mode_config(hap, time_ms);
 			if (rc < 0) {
@@ -2318,6 +2393,23 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 				HRTIMER_MODE_REL);
 	}
 
+=======
+	if (hap->auto_mode) {
+		rc = qpnp_hap_auto_mode_config(hap, time_ms);
+		if (rc < 0) {
+			pr_err("Unable to do auto mode config\n");
+			mutex_unlock(&hap->lock);
+			return;
+		}
+	}
+
+	time_ms = (time_ms > hap->timeout_ms ? hap->timeout_ms : time_ms);
+	hap->play_time_ms = time_ms;
+	hap->state = 1;
+	hrtimer_start(&hap->hap_timer,
+		ktime_set(time_ms / 1000, (time_ms % 1000) * 1000000),
+		HRTIMER_MODE_REL);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mutex_unlock(&hap->lock);
 	schedule_work(&hap->work);
 }

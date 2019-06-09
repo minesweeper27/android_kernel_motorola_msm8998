@@ -176,6 +176,15 @@ static int audio_ext_lpass_mclk_prepare(struct clk_hw *hw)
 	struct pinctrl_info *pnctrl_info = &audio_lpass_mclk->pnctrl_info;
 	int ret;
 
+	lpass_mclk.enable = 1;
+	ret = afe_set_lpass_clock_v2(AFE_PORT_ID_PRIMARY_MI2S_RX,
+				&lpass_mclk);
+	if (ret < 0) {
+		pr_err("%s afe_set_digital_codec_core_clock failed\n",
+			__func__);
+		return ret;
+	}
+
 	if (pnctrl_info->pinctrl) {
 		ret = pinctrl_select_state(pnctrl_info->pinctrl,
 				pnctrl_info->active);
@@ -186,6 +195,7 @@ static int audio_ext_lpass_mclk_prepare(struct clk_hw *hw)
 		}
 	}
 
+<<<<<<< HEAD
 	lpass_mclk.enable = 1;
 	ret = afe_set_lpass_clock_v2(AFE_PORT_ID_PRIMARY_MI2S_RX,
 				&lpass_mclk);
@@ -195,6 +205,8 @@ static int audio_ext_lpass_mclk_prepare(struct clk_hw *hw)
 		return ret;
 	}
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (pnctrl_info->base)
 		iowrite32(1, pnctrl_info->base);
 	return 0;
@@ -215,6 +227,9 @@ static void audio_ext_lpass_mclk_unprepare(struct clk_hw *hw)
 			return;
 		}
 	}
+
+	if (pnctrl_info->base)
+		iowrite32(0, pnctrl_info->base);
 
 	lpass_mclk.enable = 0;
 	ret = afe_set_lpass_clock_v2(AFE_PORT_ID_PRIMARY_MI2S_RX,

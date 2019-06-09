@@ -636,7 +636,11 @@ static void ipa3_wan_msg_free_cb(void *buff, u32 len, u32 type)
 }
 
 static int ipa3_send_wan_msg(unsigned long usr_param, uint8_t msg_type,
+<<<<<<< HEAD
 								bool is_cache)
+=======
+							bool is_cache)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	int retval;
 	struct ipa_wan_msg *wan_msg;
@@ -689,6 +693,7 @@ static int ipa3_send_wan_msg(unsigned long usr_param, uint8_t msg_type,
 	return 0;
 }
 
+<<<<<<< HEAD
 static void ipa3_vlan_l2tp_msg_free_cb(void *buff, u32 len, u32 type)
 {
 	if (!buff) {
@@ -774,6 +779,8 @@ static int ipa3_send_vlan_l2tp_msg(unsigned long usr_param, uint8_t msg_type)
 	return 0;
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static long ipa3_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
 	int retval = 0;
@@ -2581,6 +2588,36 @@ static int ipa3_q6_set_ex_path_to_apps(void)
 			desc[num_descs].len = cmd_pyld->len;
 			num_descs++;
 		}
+
+		/* disable statuses for modem producers */
+		if (IPA_CLIENT_IS_Q6_PROD(client_idx)) {
+			ipa_assert_on(num_descs >= ipa3_ctx->ipa_num_pipes);
+
+			reg_write.skip_pipeline_clear = false;
+			reg_write.pipeline_clear_options =
+				IPAHAL_HPS_CLEAR;
+			reg_write.offset =
+				ipahal_get_reg_n_ofst(IPA_ENDP_STATUS_n,
+					ep_idx);
+			reg_write.value = 0;
+			reg_write.value_mask = ~0;
+			cmd_pyld = ipahal_construct_imm_cmd(
+				IPA_IMM_CMD_REGISTER_WRITE, &reg_write, false);
+			if (!cmd_pyld) {
+				IPAERR("fail construct register_write cmd\n");
+				ipa_assert();
+				return -EFAULT;
+			}
+
+			desc[num_descs].opcode = ipahal_imm_cmd_get_opcode(
+				IPA_IMM_CMD_REGISTER_WRITE);
+			desc[num_descs].type = IPA_IMM_CMD_DESC;
+			desc[num_descs].callback = ipa3_destroy_imm;
+			desc[num_descs].user1 = cmd_pyld;
+			desc[num_descs].pyld = cmd_pyld->data;
+			desc[num_descs].len = cmd_pyld->len;
+			num_descs++;
+		}
 	}
 
 	/* Will wait 500msecs for IPA tag process completion */
@@ -4260,6 +4297,7 @@ static int ipa3_post_init(const struct ipa3_plat_drv_res *resource_p,
 	struct gsi_per_props gsi_props;
 	struct ipa3_uc_hdlrs uc_hdlrs = { 0 };
 
+<<<<<<< HEAD
 	if (ipa3_ctx == NULL) {
 		IPADBG("IPA driver haven't initialized\n");
 		return -ENXIO;
@@ -4268,6 +4306,8 @@ static int ipa3_post_init(const struct ipa3_plat_drv_res *resource_p,
 	/* Prevent consequent calls from trying to load the FW again. */
 	if (ipa3_ctx->ipa_initialization_complete)
 		return 0;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* move proxy vote for modem on ipa3_post_init */
 	IPA_ACTIVE_CLIENTS_INC_SPECIAL("PROXY_CLK_VOTE");
 
@@ -4949,8 +4989,13 @@ static int ipa3_pre_init(const struct ipa3_plat_drv_res *resource_p,
 
 	mutex_init(&ipa3_ctx->lock);
 	mutex_init(&ipa3_ctx->nat_mem.lock);
+<<<<<<< HEAD
 	mutex_init(&ipa3_ctx->q6_proxy_clk_vote_mutex);
 	mutex_init(&ipa3_ctx->ipa_cne_evt_lock);
+=======
+	mutex_init(&ipa3_ctx->ipa_cne_evt_lock);
+	mutex_init(&ipa3_ctx->q6_proxy_clk_vote_mutex);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	ipa3_ctx->q6_proxy_clk_vote_cnt = 0;
 
 	idr_init(&ipa3_ctx->ipa_idr);
@@ -5054,6 +5099,7 @@ static int ipa3_pre_init(const struct ipa3_plat_drv_res *resource_p,
 		}
 	}
 
+<<<<<<< HEAD
 	cdev_init(&ipa3_ctx->cdev, &ipa3_drv_fops);
 	ipa3_ctx->cdev.owner = THIS_MODULE;
 	ipa3_ctx->cdev.ops = &ipa3_drv_fops;  /* from LDD3 */
@@ -5067,6 +5113,8 @@ static int ipa3_pre_init(const struct ipa3_plat_drv_res *resource_p,
 	IPADBG("ipa cdev added successful. major:%d minor:%d\n",
 			MAJOR(ipa3_ctx->dev_num),
 			MINOR(ipa3_ctx->dev_num));
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* proxy vote for motem is added in ipa3_post_init() phase */
 	IPA_ACTIVE_CLIENTS_DEC_SIMPLE();
 	return 0;

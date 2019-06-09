@@ -1,4 +1,8 @@
+<<<<<<< HEAD
  /*
+=======
+/*
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -119,6 +123,7 @@ struct compat_fastrpc_ioctl_perf {	/* kernel performance data */
 	compat_uptr_t keys;
 };
 
+<<<<<<< HEAD
 #define FASTRPC_CONTROL_LATENCY		(1)
 struct compat_fastrpc_ctrl_latency {
 	compat_uint_t enable;	/* latency control enable */
@@ -126,6 +131,15 @@ struct compat_fastrpc_ctrl_latency {
 };
 
 #define FASTRPC_CONTROL_SMMU		(2)
+=======
+#define FASTRPC_CONTROL_LATENCY (1)
+struct compat_fastrpc_ctrl_latency {
+	compat_uint_t enable;
+	compat_uint_t level;
+};
+
+#define FASTRPC_CONTROL_SMMU (2)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 struct compat_fastrpc_ctrl_smmu {
 	compat_uint_t sharedcb;
 };

@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2017 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2018 The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -67,27 +67,37 @@ enum print_reason {
 #define SW_QC3_VOTER			"SW_QC3_VOTER"
 #define AICL_RERUN_VOTER		"AICL_RERUN_VOTER"
 #define LEGACY_UNKNOWN_VOTER		"LEGACY_UNKNOWN_VOTER"
+<<<<<<< HEAD
 #define ICL_LIMIT_VOTER		"ICL_LIMIT_VOTER"
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define CC2_WA_VOTER			"CC2_WA_VOTER"
 #define QNOVO_VOTER			"QNOVO_VOTER"
 #define BATT_PROFILE_VOTER		"BATT_PROFILE_VOTER"
 #define OTG_DELAY_VOTER			"OTG_DELAY_VOTER"
 #define USBIN_I_VOTER			"USBIN_I_VOTER"
 #define WEAK_CHARGER_VOTER		"WEAK_CHARGER_VOTER"
+<<<<<<< HEAD
 #define WBC_VOTER			"WBC_VOTER"
 #define OV_VOTER			"OV_VOTER"
 #define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
+=======
+#define OV_VOTER			"OV_VOTER"
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #define VCONN_MAX_ATTEMPTS	3
 #define OTG_MAX_ATTEMPTS	3
 #define BOOST_BACK_STORM_COUNT	3
 #define WEAK_CHG_STORM_COUNT	8
+<<<<<<< HEAD
 #define HEARTBEAT_VOTER			"HEARTBEAT_VOTER"
 #define EB_VOTER			"EB_VOTER"
 #define WIRELESS_VOTER			"WIRELESS_VOTER"
 #define DEMO_VOTER			"DEMO_VOTER"
 #define OTG_VOTER			"OTG_VOTER"
 #define MMI_VOTER			"MMI_VOTER"
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 enum smb_mode {
 	PARALLEL_MASTER = 0,
@@ -102,7 +112,10 @@ enum {
 	QC_AUTH_INTERRUPT_WA_BIT	= BIT(3),
 	OTG_WA				= BIT(4),
 	OV_IRQ_WA_BIT			= BIT(5),
+<<<<<<< HEAD
 	TYPEC_PBS_WA_BIT		= BIT(6),
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 enum smb_irq_index {
@@ -406,7 +419,10 @@ struct smb_charger {
 	struct mutex		ps_change_lock;
 	struct mutex		otg_oc_lock;
 	struct mutex		vconn_oc_lock;
+<<<<<<< HEAD
 	struct mutex		micnrs_oc_lock;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* power supplies */
 	struct power_supply		*batt_psy;
@@ -498,6 +514,7 @@ struct smb_charger {
 	int			fake_input_current_limited;
 	bool			pr_swap_in_progress;
 	int			typec_mode;
+<<<<<<< HEAD
 	int			usb_icl_change_irq_enabled;
 	u32			jeita_status;
 	u8			float_cfg;
@@ -505,12 +522,20 @@ struct smb_charger {
 	bool			otg_present;
 	bool			fcc_stepper_mode;
 	bool			is_audio_adapter;
+=======
+	u32			jeita_status;
+	int			usb_icl_change_irq_enabled;
+	u8			float_cfg;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* workaround flag */
 	u32			wa_flags;
 	bool			cc2_detach_wa_active;
 	bool			typec_en_dis_active;
+<<<<<<< HEAD
 	bool			try_sink_active;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int			boost_current_ua;
 	int			temp_speed_reading_count;
 
@@ -629,8 +654,11 @@ int smblib_get_prop_batt_current_now(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_get_prop_batt_temp(struct smb_charger *chg,
 				union power_supply_propval *val);
+<<<<<<< HEAD
 int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
 				union power_supply_propval *val);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 int smblib_set_prop_input_suspend(struct smb_charger *chg,
 				const union power_supply_propval *val);
 int smblib_set_prop_batt_capacity(struct smb_charger *chg,
@@ -722,7 +750,10 @@ int smblib_get_prop_pr_swap_in_progress(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_set_prop_pr_swap_in_progress(struct smb_charger *chg,
 				const union power_supply_propval *val);
+<<<<<<< HEAD
 void smblib_usb_typec_change(struct smb_charger *chg);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #ifndef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 int smblib_get_cycle_count(struct smb_charger *chg,

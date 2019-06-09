@@ -166,6 +166,8 @@ void __iomem *wmi_buffer_block(struct wil6210_priv *wil, __le32 ptr_, u32 size)
 		return NULL;
 	if (size && ((off + size > wil->bar_size) || (off + size < off)))
 		return NULL;
+	if (size && ((off + size > WIL6210_MEM_SIZE) || (off + size < off)))
+		return NULL;
 
 	return wil->csr + off;
 }
@@ -1426,12 +1428,21 @@ int wmi_set_ie(struct wil6210_priv *wil, u8 type, u16 ie_len, const void *ie)
 	int rc;
 	u16 len = sizeof(struct wmi_set_appie_cmd) + ie_len;
 	struct wmi_set_appie_cmd *cmd;
+<<<<<<< HEAD
 
 	if (len < ie_len) {
 		rc = -EINVAL;
 		goto out;
 	}
 
+=======
+
+	if (len < ie_len) {
+		rc = -EINVAL;
+		goto out;
+	}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	cmd = kzalloc(len, GFP_KERNEL);
 	if (!cmd) {
 		rc = -ENOMEM;
@@ -2169,6 +2180,7 @@ out:
 	spin_unlock_irqrestore(&wil->wmi_ev_lock, flags);
 	return rc;
 }
+<<<<<<< HEAD
 
 int wmi_set_snr_thresh(struct wil6210_priv *wil, short omni, short direct)
 {
@@ -2198,3 +2210,5 @@ int wmi_set_snr_thresh(struct wil6210_priv *wil, short omni, short direct)
 
 	return 0;
 }
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5

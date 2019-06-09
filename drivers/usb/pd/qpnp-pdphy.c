@@ -119,6 +119,7 @@ struct usb_pdphy {
 	int tx_status;
 	u8 frame_filter_val;
 	bool in_test_data_mode;
+	bool rx_busy;
 
 	enum data_role data_role;
 	enum power_role power_role;
@@ -501,7 +502,11 @@ int pd_phy_write(u16 hdr, const u8 *data, size_t data_len, enum pd_sop_type sop)
 	}
 
 	ret = pdphy_reg_read(pdphy, &val, USB_PDPHY_RX_ACKNOWLEDGE, 1);
+<<<<<<< HEAD
 	if (ret || val) {
+=======
+	if (ret || val || pdphy->rx_busy) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		dev_err(pdphy->dev, "%s: RX message pending\n", __func__);
 		return -EBUSY;
 	}
@@ -709,6 +714,18 @@ static int pd_phy_bist_mode(u8 bist_mode)
 }
 
 static irqreturn_t pdphy_msg_rx_irq(int irq, void *data)
+<<<<<<< HEAD
+=======
+{
+	struct usb_pdphy *pdphy = data;
+
+	pdphy->rx_busy = true;
+
+	return IRQ_WAKE_THREAD;
+}
+
+static irqreturn_t pdphy_msg_rx_irq_thread(int irq, void *data)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	u8 size, rx_status, frame_type;
 	u8 buf[32];
@@ -764,6 +781,7 @@ static irqreturn_t pdphy_msg_rx_irq(int irq, void *data)
 		false);
 	pdphy->rx_bytes += size + 1;
 done:
+	pdphy->rx_busy = false;
 	return IRQ_HANDLED;
 }
 
@@ -865,7 +883,11 @@ static int pdphy_probe(struct platform_device *pdev)
 
 	ret = pdphy_request_irq(pdphy, pdev->dev.of_node,
 		&pdphy->msg_rx_irq, "msg-rx", pdphy_msg_rx_irq,
+<<<<<<< HEAD
 		NULL, (IRQF_TRIGGER_RISING | IRQF_ONESHOT));
+=======
+		pdphy_msg_rx_irq_thread, (IRQF_TRIGGER_RISING | IRQF_ONESHOT));
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (ret < 0)
 		return ret;
 

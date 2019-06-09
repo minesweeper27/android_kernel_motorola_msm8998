@@ -958,9 +958,13 @@ static inline irqreturn_t msm_spi_qup_irq(int irq, void *dev_id)
 	}
 
 	op = readl_relaxed(dd->base + SPI_OPERATIONAL);
+<<<<<<< HEAD
 	slv = readl_relaxed(dd->base + SPI_SLAVE_IRQ_STATUS);
 	writel_relaxed(op, dd->base + SPI_OPERATIONAL);
 	writel_relaxed(slv, dd->base + SPI_SLAVE_IRQ_STATUS);
+=======
+	writel_relaxed(op, dd->base + SPI_OPERATIONAL);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/*
 	 * Ensure service flag was cleared before further
 	 * processing of interrupt.
@@ -1249,10 +1253,14 @@ msm_spi_use_dma(struct msm_spi *dd, struct spi_transfer *tr, u8 bpw)
 static void
 msm_spi_set_transfer_mode(struct msm_spi *dd, u8 bpw, u32 read_count)
 {
+<<<<<<< HEAD
 	if (dd->pdata->is_slv_ctrl) {
 		dd->tx_mode = SPI_BAM_MODE;
 		dd->rx_mode = SPI_BAM_MODE;
 	} else if (msm_spi_use_dma(dd, dd->cur_transfer, bpw)) {
+=======
+	if (msm_spi_use_dma(dd, dd->cur_transfer, bpw)) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		dd->tx_mode = SPI_BAM_MODE;
 		dd->rx_mode = SPI_BAM_MODE;
 	} else {

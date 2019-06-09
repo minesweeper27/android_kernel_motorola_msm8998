@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2009-2019, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2009-2018, The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and

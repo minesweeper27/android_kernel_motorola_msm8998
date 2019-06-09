@@ -2009,6 +2009,7 @@ enum nl80211_commands {
  *	u32 attribute with an &enum nl80211_timeout_reason value. This is used,
  *	e.g., with %NL80211_CMD_CONNECT event.
  *
+<<<<<<< HEAD
  * @NL80211_ATTR_FILS_ERP_USERNAME: EAP Re-authentication Protocol (ERP)
  *	username part of NAI used to refer keys rRK and rIK. This is used with
  *	%NL80211_CMD_CONNECT.
@@ -2034,6 +2035,8 @@ enum nl80211_commands {
  * @NL80211_ATTR_PMK: PMK for the PMKSA identified by %NL80211_ATTR_PMKID.
  *	This is used with @NL80211_CMD_SET_PMKSA.
  *
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  * @NUM_NL80211_ATTR: total number of nl80211_attrs available
  * @NL80211_ATTR_MAX: highest attribute number currently defined
  * @__NL80211_ATTR_AFTER_LAST: internal use
@@ -2445,6 +2448,7 @@ enum nl80211_attrs {
 
 	NL80211_ATTR_TIMEOUT_REASON,
 
+<<<<<<< HEAD
 	NL80211_ATTR_FILS_ERP_USERNAME,
 	NL80211_ATTR_FILS_ERP_REALM,
 	NL80211_ATTR_FILS_ERP_NEXT_SEQ_NUM,
@@ -2453,6 +2457,8 @@ enum nl80211_attrs {
 
 	NL80211_ATTR_PMK,
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* add attributes here, update the policy in nl80211.c */
 
 	__NL80211_ATTR_AFTER_LAST,

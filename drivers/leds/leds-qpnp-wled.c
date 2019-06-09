@@ -120,11 +120,14 @@
 #define QPNP_WLED_ILIM_FAULT_BIT	BIT(0)
 #define QPNP_WLED_OVP_FAULT_BIT		BIT(1)
 #define QPNP_WLED_SC_FAULT_BIT		BIT(2)
+<<<<<<< HEAD
 #define QPNP_WLED_OVP_FLT_RT_STS_BIT	BIT(1)
 
 /* QPNP_WLED_SOFTSTART_RAMP_DLY */
 #define SOFTSTART_OVERWRITE_BIT		BIT(7)
 #define SOFTSTART_RAMP_DELAY_MASK	GENMASK(2, 0)
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /* sink registers */
 #define QPNP_WLED_CURR_SINK_REG(b)	(b + 0x46)
@@ -719,6 +722,30 @@ static int qpnp_wled_psm_config(struct qpnp_wled *wled, bool enable)
 	return 0;
 }
 
+static int qpnp_wled_psm_config(struct qpnp_wled *wled, bool enable)
+{
+	int rc;
+
+	if (!wled->lcd_psm_ctrl)
+		return 0;
+
+	rc = qpnp_wled_masked_write_reg(wled,
+			QPNP_WLED_EN_PSM_REG(wled->ctrl_base),
+			QPNP_WLED_EN_PSM_BIT,
+			enable ? QPNP_WLED_EN_PSM_BIT : 0);
+	if (rc < 0)
+		return rc;
+
+	rc = qpnp_wled_masked_write_reg(wled,
+			QPNP_WLED_PSM_CTRL_REG(wled->ctrl_base),
+			QPNP_WLED_PSM_OVERWRITE_BIT,
+			enable ? QPNP_WLED_PSM_OVERWRITE_BIT : 0);
+	if (rc < 0)
+		return rc;
+
+	return 0;
+}
+
 static int qpnp_wled_module_en(struct qpnp_wled *wled,
 				u16 base_addr, bool state)
 {
@@ -741,8 +768,12 @@ static int qpnp_wled_module_en(struct qpnp_wled *wled,
 	 * OVP interrupt disabled when the module is disabled.
 	 */
 	if (state) {
+<<<<<<< HEAD
 		usleep_range(QPNP_WLED_SOFT_START_DLY_US,
 				QPNP_WLED_SOFT_START_DLY_US + 1000);
+=======
+		usleep_range(10000, 11000);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		rc = qpnp_wled_psm_config(wled, false);
 		if (rc < 0)
 			return rc;
@@ -1526,6 +1557,7 @@ static irqreturn_t qpnp_wled_ovp_irq_handler(int irq, void *_wled)
 	if (fault_sts & (QPNP_WLED_OVP_FAULT_BIT | QPNP_WLED_ILIM_FAULT_BIT))
 		pr_err("WLED OVP fault detected, int_sts=%x fault_sts= %x\n",
 			int_sts, fault_sts);
+<<<<<<< HEAD
 
 	if (fault_sts & QPNP_WLED_OVP_FAULT_BIT) {
 		if (wled->auto_calib_enabled && !wled->auto_calib_done) {
@@ -1563,6 +1595,8 @@ static irqreturn_t qpnp_wled_ovp_irq_handler(int irq, void *_wled)
 		}
 	}
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return IRQ_HANDLED;
 }
 
@@ -2183,6 +2217,7 @@ static int qpnp_wled_config(struct qpnp_wled *wled)
 				wled->ovp_irq, rc);
 			return rc;
 		}
+<<<<<<< HEAD
 		rc = qpnp_wled_read_reg(wled,
 				QPNP_WLED_MODULE_EN_REG(wled->ctrl_base), &reg);
 		/* disable the OVP irq only if the module is not enabled */
@@ -2190,6 +2225,10 @@ static int qpnp_wled_config(struct qpnp_wled *wled)
 			disable_irq(wled->ovp_irq);
 			wled->ovp_irq_disabled = true;
 		}
+=======
+		disable_irq(wled->ovp_irq);
+		wled->ovp_irq_disabled = true;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	if (wled->sc_irq >= 0) {
@@ -2626,12 +2665,15 @@ static int qpnp_wled_parse_dt(struct qpnp_wled *wled)
 
 	wled->lcd_psm_ctrl = of_property_read_bool(pdev->dev.of_node,
 				"qcom,lcd-psm-ctrl");
+<<<<<<< HEAD
 
 	wled->auto_calib_enabled = of_property_read_bool(pdev->dev.of_node,
 					"qcom,auto-calibration-enable");
 	wled->sdm660l_ovp_disable = of_property_read_bool(pdev->dev.of_node,
 					"en-sdm660l-ovp-disable");
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 

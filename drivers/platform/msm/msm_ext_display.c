@@ -39,8 +39,11 @@ struct msm_ext_disp {
 	struct list_head display_list;
 	struct mutex lock;
 	struct completion hpd_comp;
+<<<<<<< HEAD:drivers/platform/msm/msm_ext_display.c
 	bool update_audio;
 	u32 flags;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5:drivers/video/fbdev/msm/msm_ext_display.c
 };
 
 static int msm_ext_disp_get_intf_data(struct msm_ext_disp *ext_disp,

@@ -19,7 +19,10 @@
 #include <linux/kasan.h>
 #include <linux/kthread.h>
 #include <linux/freezer.h>
+<<<<<<< HEAD
 #include <linux/page_owner.h>
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include "internal.h"
 
 #ifdef CONFIG_COMPACTION
@@ -853,7 +856,11 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 					locked = false;
 				}
 
+<<<<<<< HEAD
 				if (!isolate_movable_page(page, isolate_mode))
+=======
+				if (isolate_movable_page(page, isolate_mode))
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					goto isolate_success;
 			}
 

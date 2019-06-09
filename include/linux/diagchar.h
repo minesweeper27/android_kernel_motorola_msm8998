@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -67,7 +71,10 @@
 #define DIAG_IOCTL_REGISTER_CALLBACK	37
 #define DIAG_IOCTL_HDLC_TOGGLE	38
 #define DIAG_IOCTL_QUERY_PD_LOGGING	39
+<<<<<<< HEAD
 #define DIAG_IOCTL_MD_SUPPORT_LIST 41
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /* PC Tools IDs */
 #define APQ8060_TOOLS_ID	4062
@@ -145,11 +152,19 @@ the appropriate macros. */
 
 /* This needs to be modified manually now, when we add
  a new RANGE of SSIDs to the msg_mask_tbl */
+<<<<<<< HEAD
 #define MSG_MASK_TBL_CNT		26
 #define APPS_EVENT_LAST_ID		0xC85
 
 #define MSG_SSID_0			0
 #define MSG_SSID_0_LAST			129
+=======
+#define MSG_MASK_TBL_CNT		25
+#define APPS_EVENT_LAST_ID		0x0B3F
+
+#define MSG_SSID_0			0
+#define MSG_SSID_0_LAST			121
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define MSG_SSID_1			500
 #define MSG_SSID_1_LAST			506
 #define MSG_SSID_2			1000
@@ -161,7 +176,11 @@ the appropriate macros. */
 #define MSG_SSID_5			4000
 #define MSG_SSID_5_LAST			4010
 #define MSG_SSID_6			4500
+<<<<<<< HEAD
 #define MSG_SSID_6_LAST			4584
+=======
+#define MSG_SSID_6_LAST			4583
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define MSG_SSID_7			4600
 #define MSG_SSID_7_LAST			4616
 #define MSG_SSID_8			5000
@@ -343,10 +362,13 @@ static const uint32_t msg_bld_masks_0[] = {
 	MSG_LVL_HIGH,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+<<<<<<< HEAD
 	MSG_LVL_HIGH,
 	MSG_LVL_LOW,
 	MSG_LVL_MED,
 	MSG_LVL_MED,
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	MSG_LVL_HIGH
 };
 
@@ -902,7 +924,11 @@ static const uint32_t msg_bld_masks_25[] = {
 /* LOG CODES */
 static const uint32_t log_code_last_tbl[] = {
 	0x0,	/* EQUIP ID 0 */
+<<<<<<< HEAD
 	0x1C7B,	/* EQUIP ID 1 */
+=======
+	0x1A11,	/* EQUIP ID 1 */
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	0x0,	/* EQUIP ID 2 */
 	0x0,	/* EQUIP ID 3 */
 	0x4910,	/* EQUIP ID 4 */

@@ -40,14 +40,20 @@
 #define ICL_CHANGE_VOTER		"ICL_CHANGE_VOTER"
 #define PL_INDIRECT_VOTER		"PL_INDIRECT_VOTER"
 #define USBIN_I_VOTER			"USBIN_I_VOTER"
+<<<<<<< HEAD
 #define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 struct pl_data {
 	int			pl_mode;
 	int			slave_pct;
 	int			taper_pct;
 	int			slave_fcc_ua;
+<<<<<<< HEAD
 	int			main_fcc_ua;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int			restricted_current;
 	bool			restricted_charging_enabled;
 	struct votable		*fcc_votable;
@@ -496,6 +502,7 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 	if (!chip->main_psy)
 		return 0;
 
+<<<<<<< HEAD
 	if (!chip->batt_psy) {
 		chip->batt_psy = power_supply_get_by_name("battery");
 		if (!chip->batt_psy)
@@ -517,6 +524,8 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 		cancel_delayed_work_sync(&chip->fcc_step_update_work);
 
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (chip->pl_mode == POWER_SUPPLY_PL_NONE
 	    || get_effective_result_locked(chip->pl_disable_votable)) {
 		if (chip->fcc_step_update) {
@@ -534,6 +543,7 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 		if (rc < 0)
 			pr_err("Couldn't set main fcc, rc=%d\n", rc);
 
+<<<<<<< HEAD
 		return rc;
 	}
 
@@ -599,6 +609,60 @@ static int pl_fcc_vote_callback(struct votable *votable, void *data,
 						rc);
 					return rc;
 				}
+=======
+	if (chip->pl_mode != POWER_SUPPLY_PL_NONE) {
+		split_fcc(chip, total_fcc_ua, &master_fcc_ua, &slave_fcc_ua);
+
+		/*
+		 * If there is an increase in slave share
+		 * (Also handles parallel enable case)
+		 *	Set Main ICL then slave FCC
+		 * else
+		 * (Also handles parallel disable case)
+		 *	Set slave ICL then main FCC.
+		 */
+		if (slave_fcc_ua > chip->slave_fcc_ua) {
+			pval.intval = master_fcc_ua;
+			rc = power_supply_set_property(chip->main_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Could not set main fcc, rc=%d\n", rc);
+				return rc;
+			}
+
+			pval.intval = slave_fcc_ua;
+			rc = power_supply_set_property(chip->pl_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Couldn't set parallel fcc, rc=%d\n",
+						rc);
+				return rc;
+			}
+
+			chip->slave_fcc_ua = slave_fcc_ua;
+		} else {
+			pval.intval = slave_fcc_ua;
+			rc = power_supply_set_property(chip->pl_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Couldn't set parallel fcc, rc=%d\n",
+						rc);
+				return rc;
+			}
+
+			chip->slave_fcc_ua = slave_fcc_ua;
+
+			pval.intval = master_fcc_ua;
+			rc = power_supply_set_property(chip->main_psy,
+				POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT_MAX,
+				&pval);
+			if (rc < 0) {
+				pr_err("Could not set main fcc, rc=%d\n", rc);
+				return rc;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			}
 		}
 	}
@@ -882,13 +946,20 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 	}
 
 	/* rerun AICL if new ICL is above settled ICL */
+<<<<<<< HEAD
 	if (icl_ua != INT_MAX && icl_ua > pval.intval)
+=======
+	if (icl_ua > pval.intval)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		rerun_aicl = true;
 
 	if (rerun_aicl) {
 		/* set a lower ICL */
 		pval.intval = max(pval.intval - ICL_STEP_UA, ICL_STEP_UA);
+<<<<<<< HEAD
 		pr_debug("****initial step icl setting %d\n", pval.intval);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		power_supply_set_property(chip->main_psy,
 				POWER_SUPPLY_PROP_CURRENT_MAX,
 				&pval);
@@ -896,7 +967,10 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 
 	/* set the effective ICL */
 	pval.intval = icl_ua;
+<<<<<<< HEAD
 	pr_debug("****final icl setting %d\n", pval.intval);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	power_supply_set_property(chip->main_psy,
 			POWER_SUPPLY_PROP_CURRENT_MAX,
 			&pval);
@@ -1173,6 +1247,7 @@ static void handle_settled_icl_change(struct pl_data *chip)
 	int total_current_ua;
 
 	total_current_ua = get_effective_result_locked(chip->usb_icl_votable);
+<<<<<<< HEAD
 
 	/*
 	 * call aicl split only when USBIN_USBIN and enabled
@@ -1205,6 +1280,40 @@ static void handle_settled_icl_change(struct pl_data *chip)
 		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, true, 0);
 
 
+=======
+
+	/*
+	 * call aicl split only when USBIN_USBIN and enabled
+	 * and if aicl changed
+	 */
+	rc = power_supply_get_property(chip->main_psy,
+			       POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED,
+			       &pval);
+	if (rc < 0) {
+		pr_err("Couldn't get aicl settled value rc=%d\n", rc);
+		return;
+	}
+	main_settled_ua = pval.intval;
+
+	rc = power_supply_get_property(chip->batt_psy,
+			       POWER_SUPPLY_PROP_INPUT_CURRENT_LIMITED,
+			       &pval);
+	if (rc < 0) {
+		pr_err("Couldn't get aicl settled value rc=%d\n", rc);
+		return;
+	}
+	main_limited = pval.intval;
+
+	if ((main_limited && (main_settled_ua + chip->pl_settled_ua) < 1400000)
+			|| (main_settled_ua == 0)
+			|| ((total_current_ua >= 0) &&
+				(total_current_ua <= 1400000)))
+		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, false, 0);
+	else
+		vote(chip->pl_enable_votable_indirect, USBIN_I_VOTER, true, 0);
+
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (get_effective_result(chip->pl_disable_votable))
 		return;
 
@@ -1263,6 +1372,7 @@ static void status_change_work(struct work_struct *work)
 {
 	struct pl_data *chip = container_of(work,
 			struct pl_data, status_change_work.work);
+<<<<<<< HEAD
 
 	if (!chip->main_psy && is_main_available(chip)) {
 		/*
@@ -1275,6 +1385,20 @@ static void status_change_work(struct work_struct *work)
 		rerun_election(chip->fv_votable);
 	}
 
+=======
+
+	if (!chip->main_psy && is_main_available(chip)) {
+		/*
+		 * re-run election for FCC/FV/ICL once main_psy
+		 * is available to ensure all votes are reflected
+		 * on hardware
+		 */
+		rerun_election(chip->usb_icl_votable);
+		rerun_election(chip->fcc_votable);
+		rerun_election(chip->fv_votable);
+	}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (!chip->main_psy)
 		return;
 
@@ -1459,8 +1583,11 @@ void qcom_batt_deinit(void)
 	cancel_delayed_work_sync(&chip->status_change_work);
 	cancel_delayed_work_sync(&chip->pl_taper_work);
 	cancel_work_sync(&chip->pl_disable_forever_work);
+<<<<<<< HEAD
 	cancel_delayed_work_sync(&chip->pl_awake_work);
 	cancel_delayed_work_sync(&chip->fcc_step_update_work);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	power_supply_unreg_notifier(&chip->nb);
 	destroy_votable(chip->pl_enable_votable_indirect);

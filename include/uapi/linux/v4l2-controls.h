@@ -1218,6 +1218,7 @@ enum v4l2_mpeg_vidc_video_venc_iframesize_type {
 #define V4L2_CID_MPEG_VIDC_VIDEO_B_FRAME_QP \
 		(V4L2_CID_MPEG_MSM_VIDC_BASE + 101)
 
+<<<<<<< HEAD
 #define V4L2_CID_MPEG_VIDC_VIDEO_AU_DELIMITER \
 		(V4L2_CID_MPEG_MSM_VIDC_BASE + 102)
 enum v4l2_mpeg_vidc_video_au_delimiter {
@@ -1232,6 +1233,8 @@ enum v4l2_mpeg_vidc_video_venc_send_skipped_frame {
 	V4L2_MPEG_VIDC_VIDEO_SEND_SKIPPED_FRAME_ENABLE = 1
 };
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /*  Camera class control IDs */
 

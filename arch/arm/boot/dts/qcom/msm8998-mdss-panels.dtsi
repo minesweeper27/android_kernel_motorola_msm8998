@@ -90,10 +90,13 @@
 	qcom,mdss-dsi-t-clk-pre = <0x25>;
 	qcom,mdss-dsi-tx-eot-append;
 	qcom,esd-check-enabled;
+<<<<<<< HEAD
 	qcom,mdss-dsi-min-refresh-rate = <55>;
 	qcom,mdss-dsi-max-refresh-rate = <60>;
 	qcom,mdss-dsi-pan-enable-dynamic-fps;
 	qcom,mdss-dsi-pan-fps-update = "dfps_immediate_porch_mode_vfp";
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	qcom,mdss-dsi-panel-status-check-mode = "reg_read";
 	qcom,mdss-dsi-panel-status-command = [06 01 00 01 00 00 01 0a];
 	qcom,mdss-dsi-panel-status-command-state = "dsi_hs_mode";

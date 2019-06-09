@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2017, 2019 The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,7 +29,10 @@
 #include <sound/q6common.h>
 #include <sound/audio_cal_utils.h>
 #include <sound/asound.h>
+<<<<<<< HEAD
 #include <sound/q6core.h>
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include "msm-dts-srs-tm-config.h"
 #include <sound/adsp_err.h>
 
@@ -292,6 +299,7 @@ static int adm_get_next_available_copp(int port_idx)
 	return idx;
 }
 
+<<<<<<< HEAD
 static int adm_get_svc_version(uint32_t service_id)
 {
 	int ret = 0;
@@ -324,6 +332,8 @@ done:
 	kfree(ver_info);
 	return ret;
 }
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 int srs_trumedia_open(int port_id, int copp_idx, __s32 srs_tech_id,
 		      void *srs_params)
 {
@@ -1432,8 +1442,12 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 			pr_debug("%s: APR_BASIC_RSP_RESULT id 0x%x\n",
 				__func__, payload[0]);
 			if (!((client_id != ADM_CLIENT_ID_SOURCE_TRACKING) &&
+<<<<<<< HEAD
 			     ((payload[0] == ADM_CMD_SET_PP_PARAMS_V5) ||
 			      (payload[0] == ADM_CMD_SET_PP_PARAMS_V6)))) {
+=======
+			      (payload[0] == ADM_CMD_SET_PP_PARAMS_V5))) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				if (data->payload_size <
 						(2 * sizeof(uint32_t))) {
 					pr_err("%s: Invalid payload size %d\n",
@@ -1563,8 +1577,12 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 
 		switch (data->opcode) {
 		case ADM_CMDRSP_DEVICE_OPEN_V5:
+<<<<<<< HEAD
 		case ADM_CMDRSP_DEVICE_OPEN_V6:
 		case ADM_CMDRSP_DEVICE_OPEN_V8: {
+=======
+		case ADM_CMDRSP_DEVICE_OPEN_V6: {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			struct adm_cmd_rsp_device_open_v5 *open = NULL;
 
 			if (data->payload_size <
@@ -1630,6 +1648,7 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 		case ADM_CMDRSP_GET_PP_TOPO_MODULE_LIST_V2:
 			pr_debug("%s: ADM_CMDRSP_GET_PP_TOPO_MODULE_LIST\n",
 				 __func__);
+<<<<<<< HEAD
 			if (data->payload_size >= (2 * sizeof(uint32_t))) {
 				num_modules = payload[1];
 				pr_debug("%s: Num modules %d\n", __func__,
@@ -1652,6 +1671,37 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 			} else {
 				pr_err("%s: Invalid payload size %d\n",
 					__func__, data->payload_size);
+=======
+			if (payload[0] != 0) {
+				pr_err("%s: ADM_CMDRSP_GET_PP_TOPO_MODULE_LIST",
+					 __func__);
+				pr_err(":err = 0x%x\n", payload[0]);
+			} else if (data->payload_size >=
+				   (2 * sizeof(uint32_t))) {
+				if (payload[1] >
+					   ((ADM_GET_TOPO_MODULE_LIST_LENGTH /
+					   sizeof(uint32_t)) - 1)) {
+					pr_err("%s: ADM_CMDRSP_GET_PP_TOPO_MODULE_LIST",
+						 __func__);
+					pr_err(":size = %d\n", payload[1]);
+				} else {
+					idx = ADM_GET_TOPO_MODULE_LIST_LENGTH *
+						copp_idx;
+					pr_debug("%s:Num modules payload[1] %d\n",
+						 __func__, payload[1]);
+					adm_module_topo_list[idx] = payload[1];
+					for (i = 1; i <= payload[1]; i++) {
+						adm_module_topo_list[idx+i] =
+							payload[1+i];
+						pr_debug("%s:payload[%d] = %x\n",
+							 __func__, (i+1),
+							 payload[1+i]);
+					}
+				}
+			} else {
+				pr_err("%s: Invalid payload size %d\n",
+				       __func__, data->payload_size);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			}
 			atomic_set(&this_adm.copp.stat[port_idx][copp_idx],
 				   payload[0]);
@@ -2999,6 +3049,80 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 		(uint32_t)this_adm.outband_memmap.size);
 		}
 	}
+<<<<<<< HEAD
+=======
+		open.hdr.hdr_field = APR_HDR_FIELD(APR_MSG_TYPE_SEQ_CMD,
+						   APR_HDR_LEN(APR_HDR_SIZE),
+						   APR_PKT_VER);
+		open.hdr.pkt_size = sizeof(open);
+		open.hdr.src_svc = APR_SVC_ADM;
+		open.hdr.src_domain = APR_DOMAIN_APPS;
+		open.hdr.src_port = tmp_port;
+		open.hdr.dest_svc = APR_SVC_ADM;
+		open.hdr.dest_domain = APR_DOMAIN_ADSP;
+		open.hdr.dest_port = tmp_port;
+		open.hdr.token = port_idx << 16 | copp_idx;
+		open.hdr.opcode = ADM_CMD_DEVICE_OPEN_V5;
+		open.flags = flags;
+		open.mode_of_operation = path;
+		open.endpoint_id_1 = tmp_port;
+		open.endpoint_id_2 = 0xFFFF;
+
+		if (this_adm.ec_ref_rx && (path != 1)) {
+			open.endpoint_id_2 = this_adm.ec_ref_rx;
+			this_adm.ec_ref_rx = -1;
+		}
+
+		open.topology_id = topology;
+
+		open.dev_num_channel = channel_mode & 0x00FF;
+		open.bit_width = bit_width;
+		WARN_ON((perf_mode == ULTRA_LOW_LATENCY_PCM_MODE) &&
+			(rate != ULL_SUPPORTED_SAMPLE_RATE));
+		open.sample_rate  = rate;
+
+		ret = adm_arrange_mch_map(&open, path, channel_mode);
+
+		if (ret)
+			return ret;
+
+		pr_debug("%s: port_id=0x%x rate=%d topology_id=0x%X\n",
+			__func__, open.endpoint_id_1, open.sample_rate,
+			open.topology_id);
+
+		atomic_set(&this_adm.copp.stat[port_idx][copp_idx], -1);
+
+		if ((this_adm.num_ec_ref_rx_chans != 0) && (path != 1) &&
+			(open.endpoint_id_2 != 0xFFFF)) {
+			memcpy(&open_v6, &open,
+				sizeof(struct adm_cmd_device_open_v5));
+			open_v6.hdr.opcode = ADM_CMD_DEVICE_OPEN_V6;
+			open_v6.hdr.pkt_size = sizeof(open_v6);
+			open_v6.dev_num_channel_eid2 =
+				this_adm.num_ec_ref_rx_chans;
+			this_adm.num_ec_ref_rx_chans = 0;
+
+			if (this_adm.ec_ref_rx_bit_width != 0) {
+				open_v6.bit_width_eid2 =
+					this_adm.ec_ref_rx_bit_width;
+				this_adm.ec_ref_rx_bit_width = 0;
+			} else {
+				open_v6.bit_width_eid2 = bit_width;
+			}
+
+			if (this_adm.ec_ref_rx_sampling_rate != 0) {
+				open_v6.sample_rate_eid2 =
+					this_adm.ec_ref_rx_sampling_rate;
+				this_adm.ec_ref_rx_sampling_rate = 0;
+			} else {
+				open_v6.sample_rate_eid2 = rate;
+			}
+
+			pr_debug("%s: eid2_channels=%d eid2_bit_width=%d eid2_rate=%d\n",
+				__func__, open_v6.dev_num_channel_eid2,
+				open_v6.bit_width_eid2,
+				open_v6.sample_rate_eid2);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 		if (adm_get_svc_version(APR_SVC_ADM) >=
 			ADSP_ADM_API_VERSION_V3) {

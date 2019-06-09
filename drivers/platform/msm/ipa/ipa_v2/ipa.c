@@ -554,7 +554,11 @@ static void ipa_wan_msg_free_cb(void *buff, u32 len, u32 type)
 }
 
 static int ipa_send_wan_msg(unsigned long usr_param, uint8_t msg_type,
+<<<<<<< HEAD
 	bool is_cache)
+=======
+							bool is_cache)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	int retval;
 	struct ipa_wan_msg *wan_msg;

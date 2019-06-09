@@ -869,10 +869,21 @@ void cfg80211_process_wdev_events(struct wireless_dev *wdev)
 		wdev_lock(wdev);
 		switch (ev->type) {
 		case EVENT_CONNECT_RESULT:
+<<<<<<< HEAD
 			__cfg80211_connect_result(
 				wdev->netdev,
 				&ev->cr,
 				ev->cr.status == WLAN_STATUS_SUCCESS);
+=======
+			bssid = ev->cr.bssid;
+			__cfg80211_connect_result(
+				wdev->netdev, bssid,
+				ev->cr.req_ie, ev->cr.req_ie_len,
+				ev->cr.resp_ie, ev->cr.resp_ie_len,
+				ev->cr.status,
+				ev->cr.status == WLAN_STATUS_SUCCESS,
+				ev->cr.bss, ev->cr.timeout_reason);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			break;
 		case EVENT_ROAMED:
 			__cfg80211_roamed(wdev, ev->rm.bss, ev->rm.req_ie,

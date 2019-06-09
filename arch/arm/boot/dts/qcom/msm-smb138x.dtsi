@@ -129,7 +129,11 @@
 	};
 };
 
+<<<<<<< HEAD
 &smb1381_charger {
+=======
+&smb138x_parallel_slave {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	smb138x_vbus: qcom,smb138x-vbus {
 		status = "disabled";
 		regulator-name = "smb138x-vbus";

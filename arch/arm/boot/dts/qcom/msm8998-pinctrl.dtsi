@@ -742,6 +742,19 @@
 					bias-pull-up;
 				};
 			};
+
+			pcie0_wake_sleep: pcie0_wake_sleep {
+				mux {
+					pins = "gpio37";
+					function = "gpio";
+				};
+
+				config {
+					pins = "gpio37";
+					drive-strength = <2>;
+					bias-disable;
+				};
+			};
 		};
 
 		hph_en0_ctrl {
@@ -1081,6 +1094,7 @@
 			};
 		};
 
+<<<<<<< HEAD
 		cam_sensor_depth_default: cam_sensor_depth_default {
 			mux {
 				pins = "gpio28","gpio23","gpio7";
@@ -1161,6 +1175,8 @@
 			};
 		};
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		cam_sensor_mclk0_active: cam_sensor_mclk0_active {
 			/* MCLK0 */
 			mux {
@@ -2200,16 +2216,28 @@
 		led_enable: led_enable {
 			mux {
 				pins = "gpio21";
-				drive_strength = <16>;
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio21";
+				drive_strength = <2>;
 				output-high;
+				bias-disable;
 			};
 		};
 
 		led_disable: led_disable {
 			mux {
 				pins = "gpio21";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio21";
 				drive_strength = <2>;
 				output-low;
+				bias-disable;
 			};
 		};
 

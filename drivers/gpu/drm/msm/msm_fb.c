@@ -57,9 +57,12 @@ static void msm_framebuffer_destroy(struct drm_framebuffer *fb)
 		return;
 	}
 
+<<<<<<< HEAD
 	msm_fb = to_msm_framebuffer(fb);
 	n = drm_format_num_planes(fb->pixel_format);
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	DBG("destroy: FB ID: %d (%pK)", fb->base.id, fb);
 
 	drm_framebuffer_cleanup(fb);

@@ -465,8 +465,11 @@ struct mdss_dsi_ctrl_pdata {
 	int bklt_en_gpio;
 	bool bklt_en_gpio_invert;
 	bool bklt_en_gpio_state;
+<<<<<<< HEAD
 	int avdd_en_gpio;
 	bool avdd_en_gpio_invert;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int lcd_mode_sel_gpio;
 	int bklt_ctrl;	/* backlight ctrl */
 	enum dsi_ctrl_op_mode bklt_dcs_op_mode; /* backlight dcs ctrl mode */
@@ -725,6 +728,7 @@ int mdss_dsi_phy_pll_reset_status(struct mdss_dsi_ctrl_pdata *ctrl);
 int mdss_dsi_check_panel_status(struct mdss_dsi_ctrl_pdata *ctrl, void *arg);
 
 void mdss_dsi_debug_bus_init(struct mdss_dsi_data *sdata);
+<<<<<<< HEAD
 int mdss_dsi_panel_ioctl_handler(struct mdss_panel_data *pdata,
 					u32 cmd, void *arg);
 int mdss_panel_parse_panel_config_dt(struct mdss_dsi_ctrl_pdata *ctrl_pdata);
@@ -735,6 +739,8 @@ int mdss_dsi_pinctrl_set_state(struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 u32 mdss_dsi_panel_forced_tx_mode_get(struct mdss_panel_info *pinfo);
 void mdss_dsi_panel_forced_tx_mode_set(struct mdss_panel_info *pinfo,
 				bool enable);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 static inline const char *__mdss_dsi_pm_name(enum dsi_pm_type module)
 {

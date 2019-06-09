@@ -570,9 +570,12 @@ static struct msm_soc_info cpu_of_id[] = {
 	[345] = {MSM_CPU_636, "SDM636"},
 	[346] = {MSM_CPU_636, "SDA636"},
 
+<<<<<<< HEAD
 	/* 455 ID */
 	[385] = {MSM_CPU_455, "SDM455"},
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/* Uninitialized IDs are not known to run Linux.
 	   MSM_CPU_UNKNOWN is set to 0 to ensure these IDs are
 	   considered as unknown CPU. */
@@ -1311,6 +1314,14 @@ static void * __init setup_dummy_socinfo(void)
 	} else if (early_machine_is_apq8098()) {
 		dummy_socinfo.id = 319;
 		strlcpy(dummy_socinfo.build_id, "apq8098 - ",
+			sizeof(dummy_socinfo.build_id));
+	} else if (early_machine_is_sdm636()) {
+		dummy_socinfo.id = 345;
+		strlcpy(dummy_socinfo.build_id, "sdm636 - ",
+			sizeof(dummy_socinfo.build_id));
+	} else if (early_machine_is_sda636()) {
+		dummy_socinfo.id = 346;
+		strlcpy(dummy_socinfo.build_id, "sda636 - ",
 			sizeof(dummy_socinfo.build_id));
 	}
 

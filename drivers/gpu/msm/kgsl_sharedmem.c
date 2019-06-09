@@ -663,6 +663,7 @@ static int kgsl_do_cache_op(struct page *page, void *addr,
 	default:
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 
 	if (page != NULL) {
 		unsigned long pfn = page_to_pfn(page) + offset / PAGE_SIZE;
@@ -678,6 +679,23 @@ static int kgsl_do_cache_op(struct page *page, void *addr,
 			do {
 				unsigned int len = size;
 
+=======
+
+	if (page != NULL) {
+		unsigned long pfn = page_to_pfn(page) + offset / PAGE_SIZE;
+		/*
+		 *  page_address() returns the kernel virtual address of page.
+		 *  For high memory kernel virtual address exists only if page
+		 *  has been mapped. So use a version of kmap rather than
+		 *  page_address() for high memory.
+		 */
+		if (PageHighMem(page)) {
+			offset &= ~PAGE_MASK;
+
+			do {
+				unsigned int len = size;
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				if (len + offset > PAGE_SIZE)
 					len = PAGE_SIZE - offset;
 

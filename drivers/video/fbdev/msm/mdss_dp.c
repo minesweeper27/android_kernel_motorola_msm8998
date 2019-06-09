@@ -68,7 +68,10 @@ static int mdss_dp_process_phy_test_pattern_request(
 		struct mdss_dp_drv_pdata *dp);
 static int mdss_dp_send_audio_notification(
 	struct mdss_dp_drv_pdata *dp, int val);
+<<<<<<< HEAD
 static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 static inline void mdss_dp_reset_sink_count(struct mdss_dp_drv_pdata *dp)
 {
@@ -1158,11 +1161,14 @@ static void dp_audio_teardown_done(struct platform_device *pdev)
 		return;
 	}
 
+<<<<<<< HEAD
 	if (!dp->power_on) {
 		pr_err("DP is already power off\n");
 		return;
 	}
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mdss_dp_audio_enable(&dp->ctrl_io, false);
 	/* Make sure the DP audio engine is disabled */
 	wmb();
@@ -1732,6 +1738,7 @@ int mdss_dp_on(struct mdss_panel_data *pdata)
 	dp_drv = container_of(pdata, struct mdss_dp_drv_pdata,
 			panel_data);
 
+<<<<<<< HEAD
 	mutex_lock(&dp_drv->attention_lock);
 	hpd = dp_drv->cable_connected;
 	mutex_unlock(&dp_drv->attention_lock);
@@ -1748,6 +1755,8 @@ int mdss_dp_on(struct mdss_panel_data *pdata)
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/*
 	 * If the link already active, then nothing needs to be done here.
 	 * However, it is possible that the the power_on flag could be
@@ -1772,18 +1781,27 @@ int mdss_dp_on(struct mdss_panel_data *pdata)
 	 * init/deinit during unrelated resume/suspend events,
 	 * add host initialization call before DP power-on.
 	 */
+<<<<<<< HEAD
 	if (!dp_drv->dp_initialized) {
 		rc = mdss_dp_host_init(pdata);
 		if (rc < 0)
 			return rc;
 	}
+=======
+	if (!dp_drv->dp_initialized)
+		mdss_dp_host_init(pdata);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	return mdss_dp_on_hpd(dp_drv);
 }
 
 static bool mdss_dp_is_ds_bridge(struct mdss_dp_drv_pdata *dp)
 {
+<<<<<<< HEAD
 	return dp->dpcd.downstream_port.dsp_present;
+=======
+	return dp->dpcd.downstream_port.dfp_present;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static bool mdss_dp_is_ds_bridge_sink_count_zero(struct mdss_dp_drv_pdata *dp)
@@ -2152,12 +2170,15 @@ static int mdss_dp_notify_clients(struct mdss_dp_drv_pdata *dp,
 			goto invalid_request;
 		if (dp->hpd_notification_status == NOTIFY_DISCONNECT_IRQ_HPD) {
 			/*
+<<<<<<< HEAD
 			 * Just in case if NOTIFY_DISCONNECT_IRQ_HPD is timedout
 			 */
 			if (dp->power_on)
 				mdss_dp_state_ctrl(&dp->ctrl_io, ST_PUSH_IDLE);
 
 			/*
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			 * user modules already turned off. Need to explicitly
 			 * turn off DP core here.
 			 */
@@ -2230,10 +2251,13 @@ static int mdss_dp_process_hpd_high(struct mdss_dp_drv_pdata *dp)
 	ret = mdss_dp_dpcd_cap_read(dp);
 	if (ret || !mdss_dp_aux_is_link_rate_valid(dp->dpcd.max_link_rate) ||
 		!mdss_dp_aux_is_lane_count_valid(dp->dpcd.max_lane_count)) {
+<<<<<<< HEAD
 		if ((ret == -ENODEV) || (ret == EDP_AUX_ERR_TOUT)) {
 			pr_err("DPCD read timedout, skip connect notification\n");
 			goto end;
 		}
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		/*
 		 * If there is an error in parsing DPCD or if DPCD reports
 		 * unsupported link parameters then set the default link
@@ -2262,9 +2286,12 @@ static int mdss_dp_process_hpd_high(struct mdss_dp_drv_pdata *dp)
 read_edid:
 	ret = mdss_dp_edid_read(dp);
 	if (ret) {
+<<<<<<< HEAD
 		if (ret == -ENODEV)
 			goto end;
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		pr_err("edid read error, setting default resolution\n");
 		goto notify;
 	}
@@ -3042,6 +3069,7 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 	/* wait until link training is completed */
 	mutex_lock(&dp_drv->train_mutex);
 
+<<<<<<< HEAD
 	if (!dp_drv->power_on) {
 		pr_err("DP Controller not powered on\n");
 		mutex_unlock(&dp_drv->train_mutex);
@@ -3056,6 +3084,8 @@ static void mdss_dp_mainlink_push_idle(struct mdss_panel_data *pdata)
 		if (mdss_dp_aux_send_psm_request(dp_drv, true))
 			pr_err("Failed to enter low power mode\n");
 	}
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	reinit_completion(&dp_drv->idle_comp);
 	mdss_dp_state_ctrl(&dp_drv->ctrl_io, ST_PUSH_IDLE);
 	if (!wait_for_completion_timeout(&dp_drv->idle_comp,
@@ -3176,10 +3206,13 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 			pr_err("DP Controller not powered on\n");
 			break;
 		}
+<<<<<<< HEAD
 		if (!atomic_read(&dp->notification_pending)) {
 			pr_debug("blank when cable is connected\n");
 			kthread_park(dp->ev_thread);
 		}
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		if (dp_is_hdcp_enabled(dp)) {
 			dp->hdcp_status = HDCP_STATE_INACTIVE;
 
@@ -3219,10 +3252,15 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 		 * when you connect DP sink while the
 		 * device is in suspend state.
 		 */
+<<<<<<< HEAD
 		if ((!dp->power_on) && (dp->dp_initialized)) {
 			rc = mdss_dp_host_deinit(dp);
 			kthread_park(dp->ev_thread);
 		}
+=======
+		if ((!dp->power_on) && (dp->dp_initialized))
+			rc = mdss_dp_host_deinit(dp);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 		/*
 		 * For DP suspend/resume use case, CHECK_PARAMS is
@@ -3234,11 +3272,16 @@ static int mdss_dp_event_handler(struct mdss_panel_data *pdata,
 			dp->suspend_vic = dp->vic;
 		break;
 	case MDSS_EVENT_RESUME:
+<<<<<<< HEAD
 		if (dp->suspend_vic != HDMI_VFRMT_UNKNOWN) {
 			dp_init_panel_info(dp, dp->suspend_vic);
 			mdss_dp_reset_sw_state(dp);
 			kthread_unpark(dp->ev_thread);
 		}
+=======
+		if (dp->suspend_vic != HDMI_VFRMT_UNKNOWN)
+			dp_init_panel_info(dp, dp->suspend_vic);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		break;
 	default:
 		pr_debug("unhandled event=%d\n", event);
@@ -3582,6 +3625,7 @@ static void mdss_dp_reset_event_list(struct mdss_dp_drv_pdata *dp)
 
 static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp)
 {
+<<<<<<< HEAD
 	int ret = 0;
 
 	pr_debug("enter\n");
@@ -3609,6 +3653,11 @@ static void mdss_dp_reset_sw_state(struct mdss_dp_drv_pdata *dp)
 
 	atomic_set(&dp->notification_pending, 0);
 	/* complete any waiting completions */
+=======
+	pr_debug("enter\n");
+	mdss_dp_reset_event_list(dp);
+	atomic_set(&dp->notification_pending, 0);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	complete_all(&dp->notification_comp);
 }
 

@@ -106,7 +106,12 @@ static int msm_digcdc_clock_control(bool flag)
 				 * Avoid access to lpass register
 				 * as clock enable failed during SSR.
 				 */
+<<<<<<< HEAD
 				msm_dig_cdc->regmap->cache_only = true;
+=======
+				if (ret == -ENODEV)
+					msm_dig_cdc->regmap->cache_only = true;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				return ret;
 			}
 			pr_debug("enabled digital codec core clk\n");
@@ -1254,25 +1259,37 @@ static void sdm660_tx_mute_update_callback(struct work_struct *work)
 	dig_cdc = tx_mute_dwork->dig_cdc;
 	codec = dig_cdc->codec;
 
+<<<<<<< HEAD
 	for (i = 0; i < NUM_DECIMATORS; i++) {
 		if (dig_cdc->dec_active[i])
 			decimator = i + 1;
 		if (decimator && decimator <= NUM_DECIMATORS) {
+=======
+	for (i = 0; i < (NUM_DECIMATORS - 1); i++) {
+		if (dig_cdc->dec_active[i])
+			decimator = i + 1;
+		if (decimator && decimator < NUM_DECIMATORS) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			/* unmute decimators corresponding to Tx DAI's*/
 			tx_vol_ctl_reg =
 				MSM89XX_CDC_CORE_TX1_VOL_CTL_CFG +
 					32 * (decimator - 1);
+<<<<<<< HEAD
 			if (decimator == DEC_SVA)
 				tx_vol_ctl_reg =
 					MSM89XX_CDC_CORE_TX5_VOL_CTL_CFG;
 
 			snd_soc_update_bits(codec, tx_vol_ctl_reg,
+=======
+				snd_soc_update_bits(codec, tx_vol_ctl_reg,
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 					0x01, 0x00);
 		}
 		decimator = 0;
 	}
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 static struct snd_soc_codec *sound_control_codec_ptr;
 
@@ -1322,12 +1339,15 @@ static struct attribute_group sound_control_attr_group = {
 static struct kobject *sound_control_kobj;
 #endif
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int msm_dig_cdc_soc_probe(struct snd_soc_codec *codec)
 {
 	struct msm_dig_priv *msm_dig_cdc = dev_get_drvdata(codec->dev);
 	struct snd_soc_dapm_context *dapm = snd_soc_codec_get_dapm(codec);
 	int i, ret;
 
+<<<<<<< HEAD
 /*zhiguang.su@MultiMedia.AudioDrv, 2017-03-27, add for debug*/
 pr_err("%s enter\n", __func__);
 
@@ -1335,6 +1355,8 @@ pr_err("%s enter\n", __func__);
 		    sound_control_codec_ptr = codec;
 #endif
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	msm_dig_cdc->codec = codec;
 
 	snd_soc_add_codec_controls(codec, compander_kcontrols,
@@ -2233,10 +2255,13 @@ static int msm_dig_suspend(struct device *dev)
 		pr_debug("%s:digcodec not initialized, return\n", __func__);
 		return 0;
 	}
+<<<<<<< HEAD
 	if (!registered_digcodec->component.card) {
 		pr_debug("%s:component not initialized, return\n", __func__);
 		return 0;
 	}
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	pdata = snd_soc_card_get_drvdata(registered_digcodec->component.card);
 	if (!pdata) {
 		pr_debug("%s:card not initialized, return\n", __func__);

@@ -845,7 +845,10 @@ struct dwc3_scratchpad_array {
  * @bh: tasklet which handles the interrupt
  * @irq_cnt: total irq count
  * @last_irq_cnt: last irq count
+<<<<<<< HEAD
  * @err_cnt: total error count
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  * @bh_completion_time: time taken for taklet completion
  * @bh_handled_evt_cnt: no. of events handled by tasklet per interrupt
  * @bh_dbg_index: index for capturing bh_completion_time and bh_handled_evt_cnt
@@ -853,7 +856,10 @@ struct dwc3_scratchpad_array {
  * @vbus_draw: current to be drawn from USB
  * @imod_interval: set the interrupt moderation interval in 250ns
  *			increments or 0 to disable.
+<<<<<<< HEAD
  * @create_reg_debugfs: create debugfs entry to allow dwc3 register dump
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  */
 struct dwc3 {
 	struct usb_ctrlrequest	*ctrl_req;
@@ -1037,7 +1043,10 @@ struct dwc3 {
 	int			irq;
 	unsigned long		irq_cnt;
 	unsigned long		last_irq_cnt;
+<<<<<<< HEAD
 	unsigned long		err_cnt;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	unsigned long		ep_cmd_timeout_cnt;
 	unsigned                bh_completion_time[MAX_INTR_STATS];
 	unsigned                bh_handled_evt_cnt[MAX_INTR_STATS];

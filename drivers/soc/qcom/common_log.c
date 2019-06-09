@@ -257,6 +257,7 @@ static void __init register_kernel_sections(void)
 	}
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_QCOM_MINIDUMP
 void dump_stack_minidump(u64 sp)
 {
@@ -285,6 +286,10 @@ void dump_stack_minidump(u64 sp)
 
 static void __init async_common_log_init(void *data, async_cookie_t cookie)
 {
+=======
+static int __init msm_common_log_init(void)
+{
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	register_kernel_sections();
 	common_log_register_log_buf();
 	register_misc_dump();

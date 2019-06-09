@@ -121,9 +121,15 @@
 
 &qusb_phy0 {
 	qcom,qusb-phy-init-seq = <0xf8 0x80
+<<<<<<< HEAD
 				0x83 0x84
 				0x83 0x88
 				0xc3 0x8c
+=======
+				0x80 0x84
+				0x83 0x88
+				0xc7 0x8c
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				0x30 0x08
 				0x79 0x0c
 				0x21 0x10
@@ -244,6 +250,7 @@
 	qcom,battery-data = <&qrd_batterydata>;
 	qcom,fg-jeita-thresholds = <0 5 55 55>;
 	qcom,battery-thermal-coefficients = [9d 50 ff];
+<<<<<<< HEAD
 };
 
 &pm660_haptics {
@@ -263,6 +270,22 @@
 	};
 };
 
+=======
+};
+
+&i2c_2 {
+	status = "ok";
+	smb1351_charger: smb1351-charger@1d {
+		compatible = "qcom,smb1351-charger";
+		reg = <0x1d>;
+		qcom,parallel-charger;
+		qcom,float-voltage-mv = <4400>;
+		qcom,recharge-mv = <100>;
+		qcom,parallel-en-pin-polarity = <1>;
+	};
+};
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /delete-node/ &tasha_hph_en0;
 /delete-node/ &tasha_hph_en1;
 

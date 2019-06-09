@@ -1449,7 +1449,10 @@ enqueue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 		rt_se->timeout = 0;
 
 	enqueue_rt_entity(rt_se, flags);
+<<<<<<< HEAD
 	walt_inc_cumulative_runnable_avg(rq, p);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	inc_hmp_sched_stats_rt(rq, p);
 
 	if (!task_current(rq, p) && p->nr_cpus_allowed > 1)
@@ -1489,7 +1492,10 @@ static void dequeue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 
 	update_curr_rt(rq);
 	dequeue_rt_entity(rt_se, flags);
+<<<<<<< HEAD
 	walt_dec_cumulative_runnable_avg(rq, p);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	dec_hmp_sched_stats_rt(rq, p);
 
 	dequeue_pushable_task(rq, p);
@@ -1574,6 +1580,7 @@ task_may_not_preempt(struct task_struct *task, int cpu)
 			 __IRQ_STAT(cpu, __softirq_pending);
 	struct task_struct *cpu_ksoftirqd = per_cpu(ksoftirqd, cpu);
 
+<<<<<<< HEAD
 	return ((softirqs & LONG_SOFTIRQ_MASK) &&
 		(task == cpu_ksoftirqd ||
 		 task_thread_info(task)->preempt_count & SOFTIRQ_MASK));
@@ -1603,6 +1610,12 @@ static void schedtune_dequeue_rt(struct rq *rq, struct task_struct *p)
 	rt_se->schedtune_enqueued = false;
 	schedtune_dequeue_task(p, task_cpu(p));
 	cpufreq_update_this_cpu(rq, SCHED_CPUFREQ_RT);
+=======
+	return (((softirqs & LONG_SOFTIRQ_MASK) &&
+		(task == cpu_ksoftirqd ||
+		 task_thread_info(task)->preempt_count & SOFTIRQ_MASK)) ||
+		task->flags & PF_LONG_PREEMPT_DISABLE_HINT);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static int
@@ -1612,8 +1625,11 @@ select_task_rq_rt(struct task_struct *p, int cpu, int sd_flag, int flags,
 	struct task_struct *curr;
 	struct rq *rq;
 	bool may_not_preempt;
+<<<<<<< HEAD
 	int target;
 	int sync = flags & WF_SYNC;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #ifdef CONFIG_SCHED_HMP
 	return select_task_rq_rt_hmp(p, cpu, sd_flag, flags);
@@ -1631,6 +1647,7 @@ select_task_rq_rt(struct task_struct *p, int cpu, int sd_flag, int flags,
 	may_not_preempt = task_may_not_preempt(curr, cpu);
 	target = find_lowest_rq(p, sync);
 	/*
+<<<<<<< HEAD
 	 * Possible race. Don't bother moving it if the
 	 * destination CPU is not running a lower priority task.
 	 */
@@ -1650,6 +1667,56 @@ out:
 		raw_spin_lock_irqsave(&prq->lock, fl);
 		schedtune_dequeue_rt(prq, p);
 		raw_spin_unlock_irqrestore(&prq->lock, fl);
+=======
+	 * If the current task on @p's runqueue is a softirq task,
+	 * it may run without preemption for a time that is
+	 * ill-suited for a waiting RT task. Therefore, try to
+	 * wake this RT task on another runqueue.
+	 *
+	 * Also, if the current task on @p's runqueue is an RT task, then
+	 * it may run without preemption for a time that is
+	 * ill-suited for a waiting RT task. Therefore, try to
+	 * wake this RT task on another runqueue.
+	 *
+	 * Also, if the current task on @p's runqueue is an RT task, then
+	 * try to see if we can wake this RT task up on another
+	 * runqueue. Otherwise simply start this RT task
+	 * on its current runqueue.
+	 *
+	 * We want to avoid overloading runqueues. If the woken
+	 * task is a higher priority, then it will stay on this CPU
+	 * and the lower prio task should be moved to another CPU.
+	 * Even though this will probably make the lower prio task
+	 * lose its cache, we do not want to bounce a higher task
+	 * around just because it gave up its CPU, perhaps for a
+	 * lock?
+	 *
+	 * For equal prio tasks, we just let the scheduler sort it out.
+	 *
+	 * Otherwise, just let it ride on the affined RQ and the
+	 * post-schedule router will push the preempted task away
+	 *
+	 * This test is optimistic, if we get it wrong the load-balancer
+	 * will have to sort it out.
+	 */
+	may_not_preempt = task_may_not_preempt(curr, cpu);
+	if (may_not_preempt ||
+	    (unlikely(rt_task(curr)) &&
+	    (curr->nr_cpus_allowed < 2 ||
+	     curr->prio <= p->prio))) {
+		int target = find_lowest_rq(p);
+
+		/*
+		 * If cpu is non-preemptible, prefer remote cpu
+		 * even if it's running a higher-prio task.
+		 * Otherwise: Don't bother moving it if the
+		 * destination CPU is not running a lower priority task.
+		 */
+		if (target != -1 &&
+		   (may_not_preempt ||
+		    p->prio < cpu_rq(target)->rt.highest_prio.curr))
+			cpu = target;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 	return cpu;

@@ -454,6 +454,7 @@
 			reg = <0 0x85800000 0 0x3700000>;
 		};
 
+<<<<<<< HEAD
 		pil_ipa_gpu_mem: pil_ipa_gpu_region@95600000 {
 			compatible = "removed-dma-pool";
 			no-map;
@@ -470,6 +471,24 @@
 			compatible = "removed-dma-pool";
 			no-map;
 			reg = <0 0x94500000 0 0x200000>;
+=======
+		pil_ipa_gpu_mem: pil_ipa_gpu_region@95200000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x95200000 0 0x100000>;
+		};
+
+		pil_slpi_mem: pil_slpi_region@94300000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x94300000 0 0xf00000>;
+		};
+
+		pil_mba_mem: pil_mba_region@94100000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x94100000 0 0x200000>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		};
 
 		pil_video_mem: pil_video_region@94000000 {
@@ -3221,7 +3240,11 @@
 		reg = <0x780000 0x1000>;
 		qcom,low-hyst-temp = <100>;
 		qcom,high-hyst-temp = <100>;
+<<<<<<< HEAD
 		qcom,polling-interval = <100>;
+=======
+		qcom,polling-interval = <50>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 		ea0: ea0 {
 			sensor = <&sensor_information1>;

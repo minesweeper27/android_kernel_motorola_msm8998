@@ -2558,6 +2558,7 @@ static struct snd_soc_dai_link ext_disp_be_dai_link[] = {
 	},
 };
 
+<<<<<<< HEAD
 static struct snd_soc_dai_link msm_ext_madera_dai_links[
 ARRAY_SIZE(msm_ext_common_fe_dai) +
 ARRAY_SIZE(msm_ext_madera_fe_dai) +
@@ -2568,6 +2569,8 @@ ARRAY_SIZE(msm_auxpcm_be_dai_links) +
 ARRAY_SIZE(msm_wcn_be_dai_links) +
 ARRAY_SIZE(msm_hdmi_dba_dai_links)];
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static struct snd_soc_dai_link msm_ext_tasha_dai_links[
 ARRAY_SIZE(msm_ext_common_fe_dai) +
 ARRAY_SIZE(msm_ext_tasha_fe_dai) +

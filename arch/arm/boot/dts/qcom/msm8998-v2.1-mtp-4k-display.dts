@@ -14,7 +14,10 @@
 /dts-v1/;
 
 #include "msm8998-v2.1.dtsi"
+<<<<<<< HEAD
 #include "msm8998-mdss-panels.dtsi"
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include "msm8998-mtp.dtsi"
 
 / {

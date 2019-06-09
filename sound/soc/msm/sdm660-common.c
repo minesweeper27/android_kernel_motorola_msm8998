@@ -135,6 +135,10 @@ static struct dev_config tdm_tx_cfg[TDM_INTERFACE_MAX][TDM_PORT_MAX] = {
 static struct dev_config ext_disp_rx_cfg[] = {
 	[DP_RX_IDX] =   {SAMPLING_RATE_48KHZ, SNDRV_PCM_FORMAT_S16_LE, 2},
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static struct dev_config usb_rx_cfg = {
 	.sample_rate = SAMPLING_RATE_48KHZ,
 	.bit_format = SNDRV_PCM_FORMAT_S16_LE,
@@ -746,7 +750,10 @@ static int mi2s_get_format_value(int format)
 	return value;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int tdm_rx_format_get(struct snd_kcontrol *kcontrol,
 			     struct snd_ctl_elem_value *ucontrol)
 {
@@ -1935,7 +1942,10 @@ const struct snd_kcontrol_new msm_common_snd_controls[] = {
 	SOC_ENUM_EXT("Display Port RX SampleRate", ext_disp_rx_sample_rate,
 			ext_disp_rx_sample_rate_get,
 			ext_disp_rx_sample_rate_put),
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	SOC_ENUM_EXT("PRI_TDM_RX_0 SampleRate", tdm_rx_sample_rate,
 			tdm_rx_sample_rate_get,
 			tdm_rx_sample_rate_put),
@@ -3140,10 +3150,15 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 					"qcom,cdc-dmic-gpios", 0);
 		pdata->ext_spk_gpio_p = of_parse_phandle(pdev->dev.of_node,
 					"qcom,cdc-ext-spk-gpios", 0);
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 		pdata->tert_mi2s_gpio_p = of_parse_phandle(pdev->dev.of_node,
 					"qcom,tert-mi2s-gpios", 0);
 #endif
+=======
+		pdata->tert_mi2s_gpio_p = of_parse_phandle(pdev->dev.of_node,
+					"qcom,tert-mi2s-gpios", 0);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 
 #ifndef CONFIG_SND_SOC_MADERA
@@ -3211,6 +3226,7 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 			ret);
 		goto err;
 	}
+
 	if (pdata->snd_card_val != INT_SND_CARD)
 		msm_ext_register_audio_notifier(pdev);
 

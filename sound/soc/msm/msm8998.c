@@ -2681,8 +2681,84 @@ static int msm_mi2s_tx_ch_put(struct snd_kcontrol *kcontrol,
 	return 1;
 }
 
+<<<<<<< HEAD
 static int mods_format_get(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
+=======
+static int msm_mi2s_rx_format_get(struct snd_kcontrol *kcontrol,
+				struct snd_ctl_elem_value *ucontrol)
+{
+	int idx = mi2s_get_port_idx(kcontrol);
+
+	if (idx < 0)
+		return idx;
+
+	ucontrol->value.enumerated.item[0] =
+		mi2s_get_format_value(mi2s_rx_cfg[idx].bit_format);
+
+	pr_debug("%s: idx[%d]_rx_format = %d, item = %d\n", __func__,
+		idx, mi2s_rx_cfg[idx].bit_format,
+		ucontrol->value.enumerated.item[0]);
+
+	return 0;
+}
+
+static int msm_mi2s_rx_format_put(struct snd_kcontrol *kcontrol,
+				struct snd_ctl_elem_value *ucontrol)
+{
+	int idx = mi2s_get_port_idx(kcontrol);
+
+	if (idx < 0)
+		return idx;
+
+	mi2s_rx_cfg[idx].bit_format =
+		mi2s_get_format(ucontrol->value.enumerated.item[0]);
+
+	pr_debug("%s: idx[%d]_rx_format = %d, item = %d\n", __func__,
+		  idx, mi2s_rx_cfg[idx].bit_format,
+		  ucontrol->value.enumerated.item[0]);
+
+	return 0;
+}
+
+static int msm_mi2s_tx_format_get(struct snd_kcontrol *kcontrol,
+				struct snd_ctl_elem_value *ucontrol)
+{
+	int idx = mi2s_get_port_idx(kcontrol);
+
+	if (idx < 0)
+		return idx;
+
+	ucontrol->value.enumerated.item[0] =
+		mi2s_get_format_value(mi2s_tx_cfg[idx].bit_format);
+
+	pr_debug("%s: idx[%d]_tx_format = %d, item = %d\n", __func__,
+		idx, mi2s_tx_cfg[idx].bit_format,
+		ucontrol->value.enumerated.item[0]);
+
+	return 0;
+}
+
+static int msm_mi2s_tx_format_put(struct snd_kcontrol *kcontrol,
+				struct snd_ctl_elem_value *ucontrol)
+{
+	int idx = mi2s_get_port_idx(kcontrol);
+
+	if (idx < 0)
+		return idx;
+
+	mi2s_tx_cfg[idx].bit_format =
+		mi2s_get_format(ucontrol->value.enumerated.item[0]);
+
+	pr_debug("%s: idx[%d]_tx_format = %d, item = %d\n", __func__,
+		  idx, mi2s_tx_cfg[idx].bit_format,
+		  ucontrol->value.enumerated.item[0]);
+
+	return 0;
+}
+
+static int msm_hifi_ctrl(struct snd_soc_codec *codec)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	/*if the schematic changes, this will need to go in device tree*/
 	int idx = TERT_MI2S;
@@ -3060,8 +3136,11 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 			msm_mi2s_tx_format_get, msm_mi2s_tx_format_put),
 	SOC_ENUM_EXT("TERT_MI2S_RX Format", mi2s_rx_format,
 			msm_mi2s_rx_format_get, msm_mi2s_rx_format_put),
+<<<<<<< HEAD
 	SOC_ENUM_EXT("MODS_MI2S Format", mi2s_rx_format,
 			mods_format_get, mods_format_put),
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	SOC_ENUM_EXT("TERT_MI2S_TX Format", mi2s_tx_format,
 			msm_mi2s_tx_format_get, msm_mi2s_tx_format_put),
 	SOC_ENUM_EXT("QUAT_MI2S_RX Format", mi2s_rx_format,
@@ -4190,9 +4269,12 @@ static int msm_snd_hw_params(struct snd_pcm_substream *substream,
 		/* For <codec>_tx2 case */
 		else if (dai_link->be_id == MSM_BACKEND_DAI_SLIMBUS_1_TX)
 			user_set_tx_ch = slim_tx_cfg[1].channels;
+<<<<<<< HEAD
 		/* For <codec>_tx3 case */
 		else if (dai_link->be_id == MSM_BACKEND_DAI_SLIMBUS_3_TX)
 			user_set_tx_ch = slim_tx_cfg[3].channels;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		else if (dai_link->be_id == MSM_BACKEND_DAI_SLIMBUS_4_TX)
 			user_set_tx_ch = msm_vi_feed_tx_ch;
 		else
@@ -4954,7 +5036,10 @@ static void msm_mi2s_snd_shutdown(struct snd_pcm_substream *substream)
 		if (ret < 0)
 			pr_err("%s:clock disable failed for MI2S (%d); ret=%d\n",
 				__func__, index, ret);
+<<<<<<< HEAD
 		msm_mi2s_path_enable(false);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 	mutex_unlock(&mi2s_intf_conf[index].lock);
 
@@ -6760,6 +6845,25 @@ static struct snd_soc_dai_link msm_madera_be_dai_links[] = {
 		.ignore_pmdown_time = 1,
 		.ignore_suspend = 1,
 	},
+<<<<<<< HEAD
+=======
+	/* Slimbus VI Recording */
+	{
+		.name = LPASS_BE_SLIMBUS_TX_VI,
+		.stream_name = "Slimbus4 Capture",
+		.cpu_dai_name = "msm-dai-q6-dev.16393",
+		.platform_name = "msm-pcm-routing",
+		.codec_name = "tasha_codec",
+		.codec_dai_name = "tasha_vifeedback",
+		.be_id = MSM_BACKEND_DAI_SLIMBUS_4_TX,
+		.be_hw_params_fixup = msm_be_hw_params_fixup,
+		.ops = &msm_be_ops,
+		.ignore_suspend = 1,
+		.no_pcm = 1,
+		.dpcm_capture = 1,
+		.ignore_pmdown_time = 1,
+	},
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct snd_soc_dai_link msm_tavil_be_dai_links[] = {
@@ -6932,6 +7036,25 @@ static struct snd_soc_dai_link msm_tavil_be_dai_links[] = {
 		.ignore_pmdown_time = 1,
 		.ignore_suspend = 1,
 	},
+<<<<<<< HEAD
+=======
+	/* Slimbus VI Recording */
+	{
+		.name = LPASS_BE_SLIMBUS_TX_VI,
+		.stream_name = "Slimbus4 Capture",
+		.cpu_dai_name = "msm-dai-q6-dev.16393",
+		.platform_name = "msm-pcm-routing",
+		.codec_name = "tavil_codec",
+		.codec_dai_name = "tavil_vifeedback",
+		.be_id = MSM_BACKEND_DAI_SLIMBUS_4_TX,
+		.be_hw_params_fixup = msm_be_hw_params_fixup,
+		.ops = &msm_be_ops,
+		.ignore_suspend = 1,
+		.no_pcm = 1,
+		.dpcm_capture = 1,
+		.ignore_pmdown_time = 1,
+	},
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 static struct snd_soc_dai_link msm_wcn_be_dai_links[] = {

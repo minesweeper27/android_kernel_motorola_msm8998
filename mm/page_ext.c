@@ -103,6 +103,10 @@ struct page_ext *lookup_page_ext(struct page *page)
 	struct page_ext *base;
 
 	base = NODE_DATA(page_to_nid(page))->node_page_ext;
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_DEBUG_VM) || defined(CONFIG_PAGE_POISONING)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/*
 	 * The sanity checks the page allocator does upon freeing a
 	 * page can reach here before the page_ext arrays are
@@ -178,6 +182,10 @@ struct page_ext *lookup_page_ext(struct page *page)
 {
 	unsigned long pfn = page_to_pfn(page);
 	struct mem_section *section = __pfn_to_section(pfn);
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_DEBUG_VM) || defined(CONFIG_PAGE_POISONING)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	/*
 	 * The sanity checks the page allocator does upon freeing a
 	 * page can reach here before the page_ext arrays are

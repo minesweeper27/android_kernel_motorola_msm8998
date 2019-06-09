@@ -74,6 +74,16 @@ struct thread_info {
 	.addr_limit	= KERNEL_DS,					\
 }
 
+<<<<<<< HEAD
+=======
+#define init_thread_info	(init_thread_union.thread_info)
+
+/*
+ * how to get the current stack pointer from C
+ */
+register unsigned long current_stack_pointer asm ("sp");
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /*
  * how to get the thread information struct from C
  */
@@ -90,6 +100,9 @@ static inline struct thread_info *current_thread_info(void)
 
 	return (struct thread_info *)sp_el0;
 }
+#endif
+
+#define init_stack		(init_thread_union.stack)
 
 #define init_thread_info	(init_thread_union.thread_info)
 #endif

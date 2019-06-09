@@ -1452,6 +1452,7 @@ static inline bool free_pages_prezeroed(void)
 		page_poisoning_enabled();
 }
 
+<<<<<<< HEAD
 inline void post_alloc_hook(struct page *page, unsigned int order,
 				gfp_t gfp_flags)
 {
@@ -1465,6 +1466,8 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
 	set_page_owner(page, order, gfp_flags);
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
                                                                int alloc_flags)
 {
@@ -1478,6 +1481,14 @@ static int prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
 
 	post_alloc_hook(page, order, gfp_flags);
 
+<<<<<<< HEAD
+=======
+	kasan_alloc_pages(page, order);
+	arch_alloc_page(page, order);
+	kernel_map_pages(page, 1 << order, 1);
+	kernel_poison_pages(page, 1 << order, 1);
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (!free_pages_prezeroed() && (gfp_flags & __GFP_ZERO))
 		for (i = 0; i < (1 << order); i++)
 			clear_highpage(page + i);

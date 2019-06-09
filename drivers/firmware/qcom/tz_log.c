@@ -68,6 +68,11 @@
  * TZ 3.X version info
  */
 #define QSEE_VERSION_TZ_3_X 0x800000
+
+#define TZBSP_AES_256_ENCRYPTED_KEY_SIZE 256
+#define TZBSP_NONCE_LEN 12
+#define TZBSP_TAG_LEN 16
+
 /*
  * TZ 4.X version info
  */
@@ -146,6 +151,14 @@ struct tzdbg_int_t {
 	 */
 	uint8_t int_desc[TZBSP_MAX_INT_DESC];
 	uint64_t int_count[TZBSP_MAX_CPU_COUNT]; /* # of times seen per CPU */
+};
+
+/* warm boot reason for cores */
+struct tzbsp_diag_wakeup_info_t {
+	/* Wake source info : APCS_GICC_HPPIR */
+	uint32_t HPPIR;
+	/* Wake source info : APCS_GICC_AHPPIR */
+	uint32_t AHPPIR;
 };
 
 /*

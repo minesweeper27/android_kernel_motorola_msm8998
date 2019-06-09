@@ -1504,7 +1504,10 @@ mtp_function_bind(struct usb_configuration *c, struct usb_function *f)
 	}
 
 	fi_mtp->func_inst.f = &dev->function;
+<<<<<<< HEAD
 	fi_mtp->is_bound = true;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	DBG(cdev, "%s speed %s: IN/%s, OUT/%s\n",
 		gadget_is_superspeed(c->cdev->gadget) ? "super" :
 		(gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full"),
@@ -1520,7 +1523,10 @@ mtp_function_unbind(struct usb_configuration *c, struct usb_function *f)
 	struct usb_request *req;
 	int i;
 	fi_mtp = container_of(f->fi, struct mtp_instance, func_inst);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	mtp_string_defs[INTERFACE_STRING_INDEX].id = 0;
 	mutex_lock(&dev->read_mutex);
 	while ((req = mtp_req_get(dev, &dev->tx_idle)))
@@ -1535,7 +1541,10 @@ mtp_function_unbind(struct usb_configuration *c, struct usb_function *f)
 	kfree(f->os_desc_table);
 	f->os_desc_n = 0;
 	fi_mtp->func_inst.f = NULL;
+<<<<<<< HEAD
 	fi_mtp->is_bound = false;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static int mtp_function_set_alt(struct usb_function *f,

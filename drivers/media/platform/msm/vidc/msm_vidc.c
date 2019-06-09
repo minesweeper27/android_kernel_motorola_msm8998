@@ -533,7 +533,11 @@ static inline void save_v4l2_buffer(struct v4l2_buffer *b,
 		i = EXTRADATA_IDX(b->length);
 		if (b->m.planes[i].length)
 			binfo->device_addr[i] = binfo->handle[i]->device_addr +
+<<<<<<< HEAD
 				binfo->buff_off[i];
+=======
+						binfo->buff_off[i];
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	}
 }
 
@@ -796,8 +800,12 @@ int output_buffer_cache_invalidate(struct msm_vidc_inst *inst,
 
 				if (inst->session_type == MSM_VIDC_ENCODER &&
 					!i)
+<<<<<<< HEAD
 					size = b->m.planes[i].bytesused +
 						b->m.planes[i].data_offset;
+=======
+					size = b->m.planes[i].bytesused;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				else
 					size = -1;
 
@@ -1031,8 +1039,12 @@ int msm_vidc_qbuf(void *instance, struct v4l2_buffer *b)
 		if (binfo->handle[i] &&
 			(b->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)) {
 			if (inst->session_type == MSM_VIDC_DECODER && !i)
+<<<<<<< HEAD
 				size = b->m.planes[i].bytesused +
 						b->m.planes[i].data_offset;
+=======
+				size = b->m.planes[i].bytesused;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			else
 				size = -1;
 			rc = msm_comm_smem_cache_operations(inst,

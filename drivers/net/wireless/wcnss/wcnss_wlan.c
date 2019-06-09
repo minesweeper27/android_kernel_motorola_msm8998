@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -203,6 +207,10 @@ static DEFINE_SPINLOCK(reg_spinlock);
 #define WCNSS_MAX_BUILD_VER_LEN		256
 #define WCNSS_MAX_CMD_LEN		(128)
 #define WCNSS_MIN_CMD_LEN		(3)
+<<<<<<< HEAD
+=======
+#define WCNSS_MIN_SERIAL_LEN		(6)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define WCNSS_CMD_INFO_LEN		2
 
 /* control messages from userspace */
@@ -468,10 +476,14 @@ static ssize_t wcnss_wlan_macaddr_store(struct device *dev,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	for (index = 0; index < WLAN_MAC_ADDR_SIZE; index++) {
 		memcpy(&penv->wlan_nv_macAddr[index],
 		       (char *)&macAddr[index], sizeof(char));
 	}
+=======
+	memcpy(penv->wlan_nv_macAddr, macAddr, sizeof(penv->wlan_nv_macAddr));
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	pr_info("%s: Write MAC Addr: %pM\n", __func__, penv->wlan_nv_macAddr);
 	return count;
@@ -2633,6 +2645,21 @@ static ssize_t wcnss_ctrl_write(struct file *fp, const char __user
 		pr_err("%s: Failed to copy ctrl data\n", __func__);
 		goto exit;
 	}
+<<<<<<< HEAD
+=======
+
+	cmd = buf[0] << 8 | buf[1];
+	switch (cmd) {
+	case WCNSS_USR_SERIAL_NUM:
+		if (count < WCNSS_MIN_SERIAL_LEN) {
+			pr_err("%s: Invalid serial number\n", __func__);
+			rc = -EINVAL;
+			goto exit;
+		}
+		penv->serial_number = buf[2] << 24 | buf[3] << 16
+			| buf[4] << 8 | buf[5];
+		break;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	cmd = buf[0] << 8 | buf[1];
 	switch (cmd) {

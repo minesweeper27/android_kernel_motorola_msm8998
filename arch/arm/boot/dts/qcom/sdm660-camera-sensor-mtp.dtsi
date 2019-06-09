@@ -40,6 +40,7 @@
 		vin-supply = <&pm660l_bob>;
 	};
 
+<<<<<<< HEAD
 	cam_actuator_regulator: cam_actuator_fixed_regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "cam_actuator_regulator";
@@ -50,6 +51,8 @@
 		vin-supply = <&pm660l_bob>;
 	};
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	cam_dvdd_gpio_regulator: cam_dvdd_fixed_regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "cam_dvdd_gpio_regulator";
@@ -408,6 +411,10 @@
 		qcom,sensor-position = <1>;
 		qcom,sensor-mode = <0>;
 		qcom,cci-master = <1>;
+<<<<<<< HEAD
+=======
+		status = "ok";
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		clocks = <&clock_mmss MCLK3_CLK_SRC>,
 			<&clock_mmss MMSS_CAMSS_MCLK3_CLK>;
 		clock-names = "cam_src_clk", "cam_clk";

@@ -1992,7 +1992,11 @@ static const struct export_operations f2fs_export_ops = {
 	.get_parent = f2fs_get_parent,
 };
 
+<<<<<<< HEAD
 static loff_t max_file_blocks(void)
+=======
+loff_t max_file_size(unsigned bits)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	loff_t result = 0;
 	loff_t leaf_count = ADDRS_PER_BLOCK;
@@ -2194,6 +2198,7 @@ static int sanity_check_raw_super(struct f2fs_sb_info *sbi,
 		return 1;
 	}
 
+<<<<<<< HEAD
 	segment_count = le32_to_cpu(raw_super->segment_count);
 	segs_per_sec = le32_to_cpu(raw_super->segs_per_sec);
 	secs_per_zone = le32_to_cpu(raw_super->secs_per_zone);
@@ -2276,6 +2281,14 @@ static int sanity_check_raw_super(struct f2fs_sb_info *sbi,
 	if (sanity_check_area_boundary(sbi, bh))
 		return 1;
 
+=======
+	if (le32_to_cpu(raw_super->segment_count) > F2FS_MAX_SEGMENT) {
+		f2fs_msg(sb, KERN_INFO,
+			"Invalid segment count (%u)",
+			le32_to_cpu(raw_super->segment_count));
+		return 1;
+	}
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return 0;
 }
 
@@ -2284,6 +2297,7 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 	unsigned int total, fsmeta;
 	struct f2fs_super_block *raw_super = F2FS_RAW_SUPER(sbi);
 	struct f2fs_checkpoint *ckpt = F2FS_CKPT(sbi);
+<<<<<<< HEAD
 	unsigned int ovp_segments, reserved_segments;
 	unsigned int main_segs, blocks_per_seg;
 	unsigned int sit_segs, nat_segs;
@@ -2294,6 +2308,10 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 =======
 	int i, j;
 >>>>>>> aeddee1fe580d366780b0e47262c46ff6982e758
+=======
+	unsigned int main_segs, blocks_per_seg;
+	int i;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	total = le32_to_cpu(raw_super->segment_count);
 	fsmeta = le32_to_cpu(raw_super->segment_count_ckpt);
@@ -2307,6 +2325,7 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 	if (unlikely(fsmeta >= total))
 		return 1;
 
+<<<<<<< HEAD
 	ovp_segments = le32_to_cpu(ckpt->overprov_segment_count);
 	reserved_segments = le32_to_cpu(ckpt->rsvd_segment_count);
 
@@ -2318,10 +2337,14 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 	}
 
 	main_segs = le32_to_cpu(raw_super->segment_count_main);
+=======
+	main_segs = le32_to_cpu(sbi->raw_super->segment_count_main);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	blocks_per_seg = sbi->blocks_per_seg;
 
 	for (i = 0; i < NR_CURSEG_NODE_TYPE; i++) {
 		if (le32_to_cpu(ckpt->cur_node_segno[i]) >= main_segs ||
+<<<<<<< HEAD
 			le16_to_cpu(ckpt->cur_node_blkoff[i]) >= blocks_per_seg)
 			return 1;
 		for (j = i + 1; j < NR_CURSEG_NODE_TYPE; j++) {
@@ -2333,10 +2356,15 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 					le32_to_cpu(ckpt->cur_node_segno[i]));
 				return 1;
 			}
+=======
+		    le16_to_cpu(ckpt->cur_node_blkoff[i]) >= blocks_per_seg) {
+			return 1;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 	}
 	for (i = 0; i < NR_CURSEG_DATA_TYPE; i++) {
 		if (le32_to_cpu(ckpt->cur_data_segno[i]) >= main_segs ||
+<<<<<<< HEAD
 			le16_to_cpu(ckpt->cur_data_blkoff[i]) >= blocks_per_seg)
 			return 1;
 		for (j = i + 1; j < NR_CURSEG_DATA_TYPE; j++) {
@@ -2374,6 +2402,12 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 			sit_bitmap_size, nat_bitmap_size);
 		return 1;
 	}
+=======
+		    le16_to_cpu(ckpt->cur_data_blkoff[i]) >= blocks_per_seg) {
+			return 1;
+		}
+	}
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (unlikely(f2fs_cp_error(sbi))) {
 		f2fs_msg(sbi->sb, KERN_ERR, "A bug case: need to run fsck");

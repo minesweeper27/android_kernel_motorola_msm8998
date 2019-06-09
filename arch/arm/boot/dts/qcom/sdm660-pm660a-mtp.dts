@@ -31,6 +31,10 @@
 	hw-config = "single_dsi";
 };
 
+&mdss_dsi {
+	hw-config = "single_dsi";
+};
+
 &mdss_dsi0 {
 	qcom,dsi-pref-prim-pan = <&dsi_rm67195_amoled_fhd_cmd>;
 	oledb-supply = <&pm660a_oledb>;

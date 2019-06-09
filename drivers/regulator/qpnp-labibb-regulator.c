@@ -605,9 +605,12 @@ struct qpnp_labibb {
 	struct mutex			bus_mutex;
 	enum qpnp_labibb_mode		mode;
 	struct work_struct		lab_vreg_ok_work;
+<<<<<<< HEAD
 	struct delayed_work		sc_err_recovery_work;
 	struct hrtimer			sc_err_check_timer;
 	int				sc_err_count;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	bool				standalone;
 	bool				ttw_en;
 	bool				in_ttw_mode;
@@ -2171,7 +2174,11 @@ static void qpnp_lab_vreg_notifier_work(struct work_struct *work)
 			return;
 		}
 
+<<<<<<< HEAD
 		if (val & LAB_STATUS1_VREG_OK_BIT) {
+=======
+		if (val & LAB_STATUS1_VREG_OK) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			raw_notifier_call_chain(&labibb_notifier,
 						LAB_VREG_OK, NULL);
 			break;
@@ -2204,6 +2211,7 @@ static void qpnp_lab_vreg_notifier_work(struct work_struct *work)
 	}
 }
 
+<<<<<<< HEAD
 static int qpnp_lab_enable_standalone(struct qpnp_labibb *labibb)
 {
 	int rc;
@@ -2272,6 +2280,8 @@ static int qpnp_ibb_enable_standalone(struct qpnp_labibb *labibb)
 	return 0;
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static int qpnp_labibb_regulator_enable(struct qpnp_labibb *labibb)
 {
 	int rc;
@@ -3538,6 +3548,11 @@ static int qpnp_ibb_regulator_enable(struct regulator_dev *rdev)
 		pr_info("Short circuit detected: disabled LAB/IBB rails\n");
 		return 0;
 	}
+<<<<<<< HEAD
+=======
+
+	if (!labibb->ibb_vreg.vreg_enabled && !labibb->swire_control) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	if (!labibb->ibb_vreg.vreg_enabled && !labibb->swire_control) {
 		if (!labibb->standalone)
@@ -4165,11 +4180,14 @@ static int qpnp_labibb_regulator_probe(struct platform_device *pdev)
 	}
 
 	INIT_WORK(&labibb->lab_vreg_ok_work, qpnp_lab_vreg_notifier_work);
+<<<<<<< HEAD
 	INIT_DELAYED_WORK(&labibb->sc_err_recovery_work,
 			labibb_sc_err_recovery_work);
 	hrtimer_init(&labibb->sc_err_check_timer,
 			CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	labibb->sc_err_check_timer.function = labibb_check_sc_err_count;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	dev_set_drvdata(&pdev->dev, labibb);
 	pr_info("LAB/IBB registered successfully, lab_vreg enable=%d ibb_vreg enable=%d swire_control=%d\n",
 						labibb->lab_vreg.vreg_enabled,

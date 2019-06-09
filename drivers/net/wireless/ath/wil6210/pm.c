@@ -86,9 +86,13 @@ static int wil_resume_keep_radio_on(struct wil6210_priv *wil)
 	/* Send WMI resume request to the device */
 	rc = wmi_resume(wil);
 	if (rc) {
+<<<<<<< HEAD
 		wil_err(wil, "device failed to resume (%d)\n", rc);
 		if (no_fw_recovery)
 			goto out;
+=======
+		wil_err(wil, "device failed to resume (%d), resetting\n", rc);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		rc = wil_down(wil);
 		if (rc) {
 			wil_err(wil, "wil_down failed (%d)\n", rc);
@@ -301,9 +305,12 @@ int wil_suspend(struct wil6210_priv *wil, bool is_runtime)
 	wil_dbg_pm(wil, "suspend: %s => %d\n",
 		   is_runtime ? "runtime" : "system", rc);
 
+<<<<<<< HEAD
 	if (!rc)
 		wil->suspend_stats.suspend_start_time = ktime_get();
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	return rc;
 }
 
@@ -313,7 +320,10 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 	struct net_device *ndev = wil_to_ndev(wil);
 	bool keep_radio_on = ndev->flags & IFF_UP &&
 			     wil->keep_radio_on_during_sleep;
+<<<<<<< HEAD
 	unsigned long long suspend_time_usec = 0;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	wil_dbg_pm(wil, "resume: %s\n", is_runtime ? "runtime" : "system");
 
@@ -330,6 +340,7 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 		rc = wil_resume_keep_radio_on(wil);
 	else
 		rc = wil_resume_radio_off(wil);
+<<<<<<< HEAD
 
 	if (rc)
 		goto out;
@@ -342,6 +353,8 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 		wil->suspend_stats.min_suspend_time = suspend_time_usec;
 	if (suspend_time_usec > wil->suspend_stats.max_suspend_time)
 		wil->suspend_stats.max_suspend_time = suspend_time_usec;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 out:
 	wil_dbg_pm(wil, "resume: %s => %d, suspend time %lld usec\n",

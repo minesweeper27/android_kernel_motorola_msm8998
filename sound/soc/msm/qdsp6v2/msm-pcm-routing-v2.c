@@ -125,7 +125,11 @@ static const char * const lsm_port_text[] = {
 	SLIMBUS_0_TX_TEXT, SLIMBUS_1_TX_TEXT, SLIMBUS_2_TX_TEXT,
 	SLIMBUS_3_TX_TEXT, SLIMBUS_4_TX_TEXT, SLIMBUS_5_TX_TEXT,
 	TERT_MI2S_TX_TEXT, QUAT_MI2S_TX_TEXT, ADM_LSM_TX_TEXT,
+<<<<<<< HEAD
 	INT3_MI2S_TX_TEXT, QUAT_TDM_TX_0_TEXT
+=======
+	INT3_MI2S_TX_TEXT
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 struct msm_pcm_route_bdai_pp_params {
@@ -17030,6 +17034,10 @@ static int msm_routing_probe(struct snd_soc_platform *platform)
 		msm_routing_be_dai_name_table_mixer_controls,
 		ARRAY_SIZE(msm_routing_be_dai_name_table_mixer_controls));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	snd_soc_add_platform_controls(platform, msm_source_tracking_controls,
 				ARRAY_SIZE(msm_source_tracking_controls));
 	snd_soc_add_platform_controls(platform, adm_channel_config_controls,

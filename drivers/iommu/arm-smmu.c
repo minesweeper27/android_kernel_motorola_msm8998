@@ -3239,11 +3239,14 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
 			& (1 << DOMAIN_ATTR_PAGE_TABLE_FORCE_COHERENT));
 		ret = 0;
 		break;
+<<<<<<< HEAD
 	case DOMAIN_ATTR_ENABLE_TTBR1:
 		*((int *)data) = !!(smmu_domain->attributes
 					& (1 << DOMAIN_ATTR_ENABLE_TTBR1));
 		ret = 0;
 		break;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	case DOMAIN_ATTR_CB_STALL_DISABLE:
 		*((int *)data) = !!(smmu_domain->attributes
 			& (1 << DOMAIN_ATTR_CB_STALL_DISABLE));
@@ -3392,12 +3395,15 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
 		ret = 0;
 		break;
 	}
+<<<<<<< HEAD
 	case DOMAIN_ATTR_ENABLE_TTBR1:
 		if (*((int *)data))
 			smmu_domain->attributes |=
 				1 << DOMAIN_ATTR_ENABLE_TTBR1;
 		ret = 0;
 		break;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	case DOMAIN_ATTR_GEOMETRY: {
 		struct iommu_domain_geometry *geometry =
 				(struct iommu_domain_geometry *)data;

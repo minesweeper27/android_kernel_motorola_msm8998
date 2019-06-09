@@ -132,6 +132,7 @@ static void btfm_slim_dai_shutdown(struct snd_pcm_substream *substream,
 
 	btfm_slim_disable_ch(btfmslim, ch, rxport, grp, nchan);
 	btfm_slim_hw_deinit(btfmslim);
+<<<<<<< HEAD
 }
 
 static int btfm_slim_dai_hw_params(struct snd_pcm_substream *substream,
@@ -145,6 +146,21 @@ static int btfm_slim_dai_hw_params(struct snd_pcm_substream *substream,
 	return 0;
 }
 
+=======
+}
+
+static int btfm_slim_dai_hw_params(struct snd_pcm_substream *substream,
+			    struct snd_pcm_hw_params *params,
+			    struct snd_soc_dai *dai)
+{
+	BTFMSLIM_DBG("dai->name = %s DAI-ID %x rate %d num_ch %d",
+		dai->name, dai->id, params_rate(params),
+		params_channels(params));
+
+	return 0;
+}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 int btfm_slim_dai_prepare(struct snd_pcm_substream *substream,
 	struct snd_soc_dai *dai)
 {

@@ -16,10 +16,13 @@
 #ifndef __ASM_MMU_H
 #define __ASM_MMU_H
 
+<<<<<<< HEAD
 #define USER_ASID_FLAG	(UL(1) << 48)
 #define TTBR_ASID_MASK	(UL(0xffff) << 48)
 
 #ifndef __ASSEMBLY__
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #include <linux/smp.h>
 
 #include <asm/cpufeature.h>
@@ -37,12 +40,15 @@ typedef struct {
  */
 #define ASID(mm)	((mm)->context.id.counter & 0xffff)
 
+<<<<<<< HEAD
 static inline bool arm64_kernel_unmapped_at_el0(void)
 {
 	return IS_ENABLED(CONFIG_UNMAP_KERNEL_AT_EL0) &&
 	       cpus_have_cap(ARM64_UNMAP_KERNEL_AT_EL0);
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 typedef void (*bp_hardening_cb_t)(void);
 
 struct bp_hardening_data {

@@ -52,9 +52,12 @@ static int i2c_msm_xfer_wait_for_completion(struct i2c_msm_ctrl *ctrl,
 static int  i2c_msm_pm_resume(struct device *dev);
 static void i2c_msm_pm_suspend(struct device *dev);
 static void i2c_msm_clk_path_init(struct i2c_msm_ctrl *ctrl);
+<<<<<<< HEAD
 static struct pinctrl_state *
 	i2c_msm_rsrcs_gpio_get_state(struct i2c_msm_ctrl *ctrl,
 					const char *name);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static void i2c_msm_pm_pinctrl_state(struct i2c_msm_ctrl *ctrl,
 						bool runtime_active);
 
@@ -1292,7 +1295,11 @@ static int i2c_msm_dma_xfer_process(struct i2c_msm_ctrl *ctrl)
 					sg_rx_itr - sg_rx, rx->dir,
 					(SPS_IOVEC_FLAG_EOT |
 							SPS_IOVEC_FLAG_NWD));
+<<<<<<< HEAD
 	if (IS_ERR_OR_NULL(dma_desc_rx)) {
+=======
+	if (dma_desc_rx < 0) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		dev_err(ctrl->dev,
 			"error dmaengine_prep_slave_sg rx:%ld\n",
 						PTR_ERR(dma_desc_rx));
@@ -1315,8 +1322,12 @@ static int i2c_msm_dma_xfer_process(struct i2c_msm_ctrl *ctrl)
 
 	ret = i2c_msm_xfer_wait_for_completion(ctrl, &ctrl->xfer.complete);
 	if (!ret && ctrl->xfer.rx_cnt)
+<<<<<<< HEAD
 		ret = i2c_msm_xfer_wait_for_completion(ctrl,
 						&ctrl->xfer.rx_complete);
+=======
+		i2c_msm_xfer_wait_for_completion(ctrl, &ctrl->xfer.rx_complete);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 dma_xfer_end:
 	/* free scatter-gather lists */
@@ -2234,6 +2245,7 @@ static int i2c_msm_pm_clk_enable(struct i2c_msm_ctrl *ctrl)
 			"error on clk_enable(iface_clk):%d\n", ret);
 		i2c_msm_pm_clk_unprepare(ctrl);
 		return ret;
+<<<<<<< HEAD
 	}
 	ret = clk_enable(ctrl->rsrcs.core_clk);
 	if (ret) {
@@ -2250,6 +2262,24 @@ static int i2c_msm_pm_xfer_start(struct i2c_msm_ctrl *ctrl)
 	int ret;
 	mutex_lock(&ctrl->xfer.mtx);
 
+=======
+	}
+	ret = clk_enable(ctrl->rsrcs.core_clk);
+	if (ret) {
+		clk_disable(ctrl->rsrcs.iface_clk);
+		i2c_msm_pm_clk_unprepare(ctrl);
+		dev_err(ctrl->dev,
+			"error clk_enable(core_clk):%d\n", ret);
+	}
+	return ret;
+}
+
+static int i2c_msm_pm_xfer_start(struct i2c_msm_ctrl *ctrl)
+{
+	int ret;
+	mutex_lock(&ctrl->xfer.mtx);
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	i2c_msm_pm_pinctrl_state(ctrl, true);
 	pm_runtime_get_sync(ctrl->dev);
 	/*

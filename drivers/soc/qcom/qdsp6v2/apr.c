@@ -916,11 +916,19 @@ static int apr_notifier_service_cb(struct notifier_block *this,
 		 * recovery notifications during initial boot
 		 * up since everything is expected to be down.
 		 */
+<<<<<<< HEAD
 		if (cb_data->domain == AUDIO_NOTIFIER_MODEM_DOMAIN) {
 			if (is_initial_modem_boot) {
 				is_initial_modem_boot = false;
 				break;
 			}
+=======
+		if (is_initial_boot) {
+			is_initial_boot = false;
+			break;
+		}
+		if (cb_data->domain == AUDIO_NOTIFIER_MODEM_DOMAIN)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			apr_modem_down(opcode);
 		} else {
 			if (is_initial_adsp_boot) {

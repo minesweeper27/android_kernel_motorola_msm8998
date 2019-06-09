@@ -182,6 +182,7 @@ extern void sched_update_nr_prod(int cpu, long delta, bool inc);
 extern void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg,
 				     unsigned int *max_nr,
 				     unsigned int *big_max_nr);
+<<<<<<< HEAD
 extern u64 sched_get_cpu_last_busy_time(int cpu);
 
 #ifdef CONFIG_SMP
@@ -199,6 +200,8 @@ static inline int sched_set_wake_up_idle(struct task_struct *p,
 	return 0;
 }
 #endif /* CONFIG_SMP */
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 extern void calc_global_load(unsigned long ticks);
 
@@ -1533,10 +1536,13 @@ struct sched_rt_entity {
 	unsigned int time_slice;
 	unsigned short on_rq;
 	unsigned short on_list;
+<<<<<<< HEAD
 
 	/* Accesses for these must be guarded by rq->lock of the task's rq */
 	bool schedtune_enqueued;
 	struct hrtimer schedtune_timer;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	struct sched_rt_entity *back;
 #ifdef CONFIG_RT_GROUP_SCHED
@@ -2414,6 +2420,8 @@ extern void thread_group_cputime_adjusted(struct task_struct *p, cputime_t *ut, 
 #define PF_MUTEX_TESTER	0x20000000	/* Thread belongs to the rt mutex tester */
 #define PF_FREEZER_SKIP	0x40000000	/* Freezer should not count it as freezable */
 #define PF_SUSPEND_TASK 0x80000000      /* this thread called freeze_processes and should not be frozen */
+/* Thread may disable preemption for long time */
+#define PF_LONG_PREEMPT_DISABLE_HINT 0x10000000
 
 /*
  * Only the _current_ task can read/write to tsk->flags, but other
@@ -2693,6 +2701,14 @@ static inline void set_wake_up_idle(bool enabled)
 		current->flags |= PF_WAKE_UP_IDLE;
 	else
 		current->flags &= ~PF_WAKE_UP_IDLE;
+}
+
+static inline void set_long_preempt_disable_hint(bool enabled)
+{
+	if (enabled)
+		current->flags |= PF_LONG_PREEMPT_DISABLE_HINT;
+	else
+		current->flags &= ~PF_LONG_PREEMPT_DISABLE_HINT;
 }
 
 /*

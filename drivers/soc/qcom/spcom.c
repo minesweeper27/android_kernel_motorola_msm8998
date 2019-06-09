@@ -53,9 +53,6 @@
 /* Uncomment the line below to test spcom against modem rather than SP */
 /* #define SPCOM_TEST_HLOS_WITH_MODEM 1 */
 
-/* Uncomment the line below to enable debug messages */
-/* #define DEBUG 1 */
-
 #define pr_fmt(fmt)	"spcom [%s]: " fmt, __func__
 
 #include <linux/kernel.h>	/* min() */
@@ -492,6 +489,7 @@ static void spcom_notify_state(void *handle, const void *priv, unsigned event)
 		}
 
 		ch->glink_state = event;
+<<<<<<< HEAD
 
 		if (!handle) {
 			pr_err("inavlid glink_handle, ch [%s].\n", ch->name);
@@ -499,6 +497,21 @@ static void spcom_notify_state(void *handle, const void *priv, unsigned event)
 			return;
 		}
 
+		/* signal before unlock mutex & before calling glink */
+		complete_all(&ch->connect);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
+
+		/*
+		 * Prepare default rx buffer.
+		 * glink_queue_rx_intent() can be called only AFTER connected.
+		 * We do it here, ASAP, to allow rx data.
+		 */
+
+<<<<<<< HEAD
+		pr_debug("call glink_queue_rx_intent() ch [%s].\n", ch->name);
+		ret = glink_queue_rx_intent(handle, ch, ch->rx_buf_size);
+=======
 		/* signal before unlock mutex & before calling glink */
 		complete_all(&ch->connect);
 
@@ -509,7 +522,9 @@ static void spcom_notify_state(void *handle, const void *priv, unsigned event)
 		 */
 
 		pr_debug("call glink_queue_rx_intent() ch [%s].\n", ch->name);
-		ret = glink_queue_rx_intent(handle, ch, ch->rx_buf_size);
+		ret = glink_queue_rx_intent(ch->glink_handle,
+					    ch, ch->rx_buf_size);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		if (ret) {
 			pr_err("glink_queue_rx_intent() err [%d]\n", ret);
 		} else {
@@ -775,7 +790,11 @@ static int spcom_open(struct spcom_channel *ch, unsigned int timeout_msec)
 	/* init channel context after successful open */
 	ch->glink_handle = handle;
 	ch->ref_count++;
+<<<<<<< HEAD
 	ch->pid = pid;
+=======
+	ch->pid = current_pid();
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	ch->txn_id = INITIAL_TXN_ID;
 
 	mutex_unlock(&ch->lock);
@@ -2409,7 +2428,11 @@ static ssize_t spcom_device_read(struct file *filp, char __user *user_buff,
 	if (buf == NULL)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	ret = spcom_handle_read(ch, buf, buf_size);
+=======
+	ret = spcom_handle_read(ch, buf, size);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (ret < 0) {
 		pr_err("read error [%d].\n", ret);
 		kfree(buf);
@@ -2492,6 +2515,7 @@ static unsigned int spcom_device_poll(struct file *filp,
 		done = (spcom_dev->link_state == GLINK_LINK_STATE_UP);
 		break;
 	case SPCOM_POLL_CH_CONNECT:
+<<<<<<< HEAD
 		/*
 		 * ch is not expected to be NULL since user must call open()
 		 * to get FD before it can call poll().
@@ -2500,6 +2524,11 @@ static unsigned int spcom_device_poll(struct file *filp,
 		if (ch == NULL) {
 			pr_err("invalid ch pointer, file [%s].\n", name);
 			return POLLERR;
+=======
+		if (ch == NULL) {
+			pr_err("invalid ch pointer, file [%s].\n", name);
+			return -EINVAL;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 		pr_debug("ch [%s] SPCOM_POLL_CH_CONNECT.\n", name);
 		if (wait) {
@@ -2800,7 +2829,11 @@ static int __init spcom_init(void)
 {
 	int ret;
 
+<<<<<<< HEAD
 	pr_info("spcom driver version 1.2 23-Aug-2017.\n");
+=======
+	pr_info("spcom driver version 1.1 17-July-2017.\n");
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	ret = platform_driver_register(&spcom_driver);
 	if (ret)

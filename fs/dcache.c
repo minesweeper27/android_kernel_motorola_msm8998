@@ -278,8 +278,12 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
 		spin_unlock(&dentry->d_lock);
 		name->name = p->name;
 	} else {
+<<<<<<< HEAD
 		memcpy(name->inline_name, dentry->d_iname,
 		       dentry->d_name.len + 1);
+=======
+		memcpy(name->inline_name, dentry->d_iname, DNAME_INLINE_LEN);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		spin_unlock(&dentry->d_lock);
 		name->name = name->inline_name;
 	}
@@ -1158,8 +1162,15 @@ void shrink_dcache_sb(struct super_block *sb)
 	do {
 		LIST_HEAD(dispose);
 
+<<<<<<< HEAD
 		list_lru_walk(&sb->s_dentry_lru,
 			dentry_lru_isolate_shrink, &dispose, 1024);
+=======
+		freed = list_lru_walk(&sb->s_dentry_lru,
+			dentry_lru_isolate_shrink, &dispose, 1024);
+
+		this_cpu_sub(nr_dentry_unused, freed);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		shrink_dentry_list(&dispose);
 		cond_resched();
 	} while (list_lru_count(&sb->s_dentry_lru) > 0);

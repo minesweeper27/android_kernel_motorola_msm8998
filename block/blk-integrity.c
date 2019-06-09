@@ -436,6 +436,24 @@ void blk_integrity_unregister(struct gendisk *disk)
 }
 EXPORT_SYMBOL(blk_integrity_unregister);
 
+<<<<<<< HEAD
+=======
+void blk_integrity_revalidate(struct gendisk *disk)
+{
+	struct blk_integrity *bi = &disk->queue->integrity;
+
+	if (!(disk->flags & GENHD_FL_UP))
+		return;
+
+	if (bi->profile)
+		disk->queue->backing_dev_info->capabilities |=
+			BDI_CAP_STABLE_WRITES;
+	else
+		disk->queue->backing_dev_info->capabilities &=
+			~BDI_CAP_STABLE_WRITES;
+}
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 void blk_integrity_add(struct gendisk *disk)
 {
 	if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,

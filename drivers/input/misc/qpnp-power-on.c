@@ -916,9 +916,12 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 	u32 key_status;
 	uint pon_rt_sts;
 	u64 elapsed_us;
+<<<<<<< HEAD
 	struct timeval timestamp;
 	struct tm tm;
 	char buff[255];
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	cfg = qpnp_get_cfg(pon, pon_type);
 	if (!cfg)

@@ -2936,6 +2936,7 @@ static int mmc_reset(struct mmc_host *host)
 			mmc_hostname(host), __func__, ret);
 		return ret;
 	}
+<<<<<<< HEAD
 
 	ret = mmc_resume_clk_scaling(host);
 	if (ret)
@@ -3026,6 +3027,31 @@ enable_pm:
 
 	mmc_put_card(host->card);
 	return ret;
+=======
+
+	ret = mmc_resume_clk_scaling(host);
+	if (ret)
+		pr_err("%s: %s: fail to resume clock scaling (%d)\n",
+			mmc_hostname(host), __func__, ret);
+
+	return ret;
+}
+
+static int mmc_shutdown(struct mmc_host *host)
+{
+	struct mmc_card *card = host->card;
+
+	/*
+	 * Exit clock scaling so that it doesn't kick in after
+	 * power off notification is sent
+	 */
+	if (host->caps2 & MMC_CAP2_CLK_SCALE)
+		mmc_exit_clk_scaling(card->host);
+	/* send power off notification */
+	if (mmc_card_mmc(card))
+		mmc_send_pon(card);
+	return 0;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static const struct mmc_bus_ops mmc_ops = {
@@ -3039,8 +3065,11 @@ static const struct mmc_bus_ops mmc_ops = {
 	.change_bus_speed = mmc_change_bus_speed,
 	.reset = mmc_reset,
 	.shutdown = mmc_shutdown,
+<<<<<<< HEAD
 	.pre_hibernate = mmc_pre_hibernate,
 	.post_hibernate = mmc_post_hibernate
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 };
 
 /*

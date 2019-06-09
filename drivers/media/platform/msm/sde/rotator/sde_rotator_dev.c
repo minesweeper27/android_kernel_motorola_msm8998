@@ -466,8 +466,13 @@ static void sde_rotator_stop_streaming(struct vb2_queue *q)
 		sde_rotator_cancel_all_requests(rot_dev->mgr, ctx->private);
 		sde_rot_mgr_unlock(rot_dev->mgr);
 		mutex_unlock(q->lock);
+<<<<<<< HEAD
 		flush_kthread_work(&ctx->submit_work);
 		flush_kthread_work(&ctx->retire_work);
+=======
+		cancel_work_sync(&ctx->submit_work);
+		cancel_work_sync(&ctx->retire_work);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		mutex_lock(q->lock);
 	}
 
@@ -1855,6 +1860,7 @@ static long sde_rotator_private_ioctl(struct file *file, void *fh,
 					ctx->session_id);
 				return ret;
 			}
+<<<<<<< HEAD
 
 			/*
 			 * Loose any reference to sync fence once we pass
@@ -1875,6 +1881,9 @@ static long sde_rotator_private_ioctl(struct file *file, void *fh,
 			 * Invalidate descriptor cache.
 			 */
 			vbinfo->fd = -1;
+=======
+			vbinfo->fence = NULL;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		}
 
 		fence->fd = vbinfo->fd;

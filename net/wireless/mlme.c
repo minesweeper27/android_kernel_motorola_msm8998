@@ -53,7 +53,14 @@ void cfg80211_rx_assoc_resp(struct net_device *dev, struct cfg80211_bss *bss,
 
 	nl80211_send_rx_assoc(rdev, dev, buf, len, GFP_KERNEL, uapsd_queues);
 	/* update current_bss etc., consumes the bss reference */
+<<<<<<< HEAD
 	__cfg80211_connect_result(dev, &cr, cr.status == WLAN_STATUS_SUCCESS);
+=======
+	__cfg80211_connect_result(dev, mgmt->bssid, NULL, 0, ie, len - ieoffs,
+				  status_code,
+				  status_code == WLAN_STATUS_SUCCESS, bss,
+				  NL80211_TIMEOUT_UNSPECIFIED);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 EXPORT_SYMBOL(cfg80211_rx_assoc_resp);
 

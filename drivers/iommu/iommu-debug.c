@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2017,2019, The Linux Foundation. All rights reserved.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -168,7 +172,10 @@ struct iommu_debug_device {
 	size_t len;
 	struct list_head list;
 	struct mutex clk_lock;
+<<<<<<< HEAD
 	struct mutex dev_lock;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	unsigned int clk_count;
 };
 
@@ -1596,7 +1603,11 @@ static ssize_t iommu_debug_atos_read(struct file *file, char __user *ubuf,
 		snprintf(buf, 100, "%pa\n", &phys);
 	}
 
+<<<<<<< HEAD
 	buflen = min(count, strlen(buf));
+=======
+	buflen = min(count, strlen(buf)+1);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	if (copy_to_user(ubuf, buf, buflen)) {
 		pr_err("Couldn't copy_to_user\n");
 		retval = -EFAULT;
@@ -2132,7 +2143,10 @@ static int snarf_iommu_devices(struct device *dev, const char *name)
 	if (!ddev)
 		return -ENODEV;
 	mutex_init(&ddev->clk_lock);
+<<<<<<< HEAD
 	mutex_init(&ddev->dev_lock);
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	ddev->dev = dev;
 	dir = debugfs_create_dir(name, debugfs_tests_dir);
 	if (!dir) {

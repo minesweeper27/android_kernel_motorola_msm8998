@@ -73,6 +73,7 @@ struct wiphy;
 #define CFG80211_REPORT_BETTER_BSS_IN_SCHED_SCAN 1
 #define CFG80211_CONNECT_TIMEOUT 1
 #define CFG80211_CONNECT_TIMEOUT_REASON_CODE 1
+<<<<<<< HEAD
 
 /* Indicate backport support for the new connect done api */
 #define CFG80211_CONNECT_DONE 1
@@ -84,6 +85,8 @@ struct wiphy;
 
 /* Indicate backport support for processing user cell base hint */
 #define CFG80211_USER_HINT_CELL_BASE_SELF_MANAGED 1
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /*
  * wireless hardware capability structures
@@ -4959,6 +4962,7 @@ void cfg80211_connect_done(struct net_device *dev,
  *	failure is due to a timeout and not due to explicit rejection by the AP.
  *	This value is ignored in other cases (@status >= 0).
  *
+<<<<<<< HEAD
  * It should be called by the underlying driver once execution of the connection
  * request from connect() has been completed. This is similar to
  * cfg80211_connect_result(), but with the option of identifying the exact bss
@@ -4987,6 +4991,18 @@ cfg80211_connect_bss(struct net_device *dev, const u8 *bssid,
 
 	cfg80211_connect_done(dev, &params, gfp);
 }
+=======
+ * It should be called by the underlying driver whenever connect() has
+ * succeeded. This is similar to cfg80211_connect_result(), but with the
+ * option of identifying the exact bss entry for the connection. Only one of
+ * these functions should be called.
+ */
+void cfg80211_connect_bss(struct net_device *dev, const u8 *bssid,
+			  struct cfg80211_bss *bss, const u8 *req_ie,
+			  size_t req_ie_len, const u8 *resp_ie,
+			  size_t resp_ie_len, int status, gfp_t gfp,
+			  enum nl80211_timeout_reason timeout_reason);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /**
  * cfg80211_connect_result - notify cfg80211 of connection result
@@ -5033,9 +5049,13 @@ cfg80211_connect_result(struct net_device *dev, const u8 *bssid,
  * in a sequence where no explicit authentication/association rejection was
  * received from the AP. This could happen, e.g., due to not being able to send
  * out the Authentication or Association Request frame or timing out while
+<<<<<<< HEAD
  * waiting for the response. Only one of the functions among
  * cfg80211_connect_bss(), cfg80211_connect_result(),
  * cfg80211_connect_timeout(), and cfg80211_connect_done() should be called.
+=======
+ * waiting for the response.
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
  */
 static inline void
 cfg80211_connect_timeout(struct net_device *dev, const u8 *bssid,

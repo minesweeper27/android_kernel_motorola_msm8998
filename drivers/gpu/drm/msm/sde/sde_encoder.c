@@ -44,6 +44,7 @@
 /* timeout in frames waiting for frame done */
 #define SDE_ENCODER_FRAME_DONE_TIMEOUT	60
 
+<<<<<<< HEAD
 /* timeout in msecs */
 #define SDE_ENCODER_UNDERRUN_TIMEOUT	200
 /* underrun count threshold value */
@@ -51,6 +52,8 @@
 /* 3 vsync time period in msec, report underrun  */
 #define SDE_ENCODER_UNDERRUN_DELTA	50
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #define MISR_BUFF_SIZE	256
 
 /*

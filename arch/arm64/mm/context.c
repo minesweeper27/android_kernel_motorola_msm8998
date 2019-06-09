@@ -191,6 +191,7 @@ void check_and_switch_context(struct mm_struct *mm, unsigned int cpu)
 	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
 
 switch_mm_fastpath:
+<<<<<<< HEAD
 
 	arm64_apply_bp_hardening();
 
@@ -200,6 +201,19 @@ switch_mm_fastpath:
 	 */
 	if (!system_uses_ttbr0_pan())
 		cpu_switch_mm(mm->pgd, mm);
+}
+
+/* Errata workaround post TTBRx_EL1 update. */
+asmlinkage void post_ttbr_update_workaround(void)
+{
+	asm(ALTERNATIVE("nop; nop; nop",
+			"ic iallu; dsb nsh; isb",
+			ARM64_WORKAROUND_CAVIUM_27456,
+			CONFIG_CAVIUM_ERRATUM_27456));
+=======
+	arm64_apply_bp_hardening();
+	cpu_switch_mm(mm->pgd, mm);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 /* Errata workaround post TTBRx_EL1 update. */

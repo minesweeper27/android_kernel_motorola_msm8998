@@ -49,7 +49,11 @@ static struct gsi_inst_status {
 /* Deregister misc device and free instance structures */
 static void gsi_inst_clean(struct gsi_opts *opts);
 
+<<<<<<< HEAD
 static void gsi_rndis_ipa_reset_trigger(struct gsi_data_port *d_port);
+=======
+static void gsi_rndis_ipa_reset_trigger(struct f_gsi *rndis);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 static void ipa_disconnect_handler(struct gsi_data_port *d_port);
 static int gsi_ctrl_send_notification(struct f_gsi *gsi);
 static int gsi_alloc_trb_buffer(struct f_gsi *gsi);
@@ -3195,11 +3199,14 @@ static int gsi_set_inst_name(struct usb_function_instance *fi,
 	}
 	mutex_unlock(&inst_status[prot_id].gsi_lock);
 
+<<<<<<< HEAD
 	if (prot_id == IPA_USB_RNDIS)
 		config_group_init_type_name(&opts->func_inst.group,
 				opts->func_inst.group.cg_item.ci_name,
 				&gsi_func_rndis_type);
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	gsi = gsi_function_init(prot_id);
 	if (IS_ERR(gsi))
 		return PTR_ERR(gsi);

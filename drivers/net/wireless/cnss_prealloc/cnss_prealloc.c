@@ -17,7 +17,10 @@
 #include <linux/wcnss_wlan.h>
 #include <linux/spinlock.h>
 #include <linux/debugfs.h>
+<<<<<<< HEAD
 #include <net/cnss_prealloc.h>
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 #ifdef	CONFIG_WCNSS_SKB_PRE_ALLOC
 #include <linux/skbuff.h>
 #endif
@@ -180,8 +183,13 @@ void *wcnss_prealloc_get(size_t size)
 	}
 	spin_unlock_irqrestore(&alloc_lock, flags);
 
+<<<<<<< HEAD
 	pr_err("wcnss: %s: prealloc not available for size: %zu\n",
 	       __func__, size);
+=======
+	pr_err("wcnss: %s: prealloc not available for size: %d\n",
+			__func__, size);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	return NULL;
 }
@@ -246,6 +254,61 @@ int wcnss_pre_alloc_reset(void)
 	return n;
 }
 EXPORT_SYMBOL(wcnss_pre_alloc_reset);
+
+int prealloc_memory_stats_show(struct seq_file *fp, void *data)
+{
+	int i = 0;
+	int used_slots = 0, free_slots = 0;
+	unsigned int tsize = 0, tused = 0, size = 0;
+
+	seq_puts(fp, "\nSlot_Size(Kb)\t\t[Used : Free]\n");
+	for (i = 0; i < ARRAY_SIZE(wcnss_allocs); i++) {
+		tsize += wcnss_allocs[i].size;
+		if (size != wcnss_allocs[i].size) {
+			if (size) {
+				seq_printf(
+					fp, "[%d : %d]\n",
+					used_slots, free_slots);
+			}
+
+			size = wcnss_allocs[i].size;
+			used_slots = 0;
+			free_slots = 0;
+			seq_printf(fp, "%d Kb\t\t\t", size / 1024);
+		}
+
+		if (wcnss_allocs[i].occupied) {
+			tused += wcnss_allocs[i].size;
+			++used_slots;
+		} else {
+			++free_slots;
+		}
+	}
+	seq_printf(fp, "[%d : %d]\n", used_slots, free_slots);
+
+	/* Convert byte to Kb */
+	if (tsize)
+		tsize = tsize / 1024;
+	if (tused)
+		tused = tused / 1024;
+	seq_printf(fp, "\nMemory Status:\nTotal Memory: %dKb\n", tsize);
+	seq_printf(fp, "Used: %dKb\nFree: %dKb\n", tused, tsize - tused);
+
+	return 0;
+}
+
+int prealloc_memory_stats_open(struct inode *inode, struct file *file)
+{
+	return single_open(file, prealloc_memory_stats_show, NULL);
+}
+
+static const struct file_operations prealloc_memory_stats_fops = {
+	.owner = THIS_MODULE,
+	.open = prealloc_memory_stats_open,
+	.read = seq_read,
+	.llseek = seq_lseek,
+	.release = single_release,
+};
 
 int prealloc_memory_stats_show(struct seq_file *fp, void *data)
 {

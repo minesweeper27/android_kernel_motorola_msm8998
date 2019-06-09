@@ -552,6 +552,15 @@ static void usb_qdss_disconnect_work(struct work_struct *work)
 		if (status)
 			pr_err("%s: uninit_data error\n", __func__);
 
+<<<<<<< HEAD
+=======
+		if (qdss->ch.notify)
+			qdss->ch.notify(qdss->ch.priv,
+				USB_QDSS_DISCONNECT,
+				NULL,
+				NULL);
+
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		status = set_qdss_data_connection(qdss, 0);
 		if (status)
 			pr_err("qdss_disconnect error");
@@ -608,10 +617,13 @@ static void usb_qdss_connect_work(struct work_struct *work)
 	}
 
 	pr_debug("usb_qdss_connect_work\n");
+<<<<<<< HEAD
 
 	if (!strcmp(qdss->ch.name, USB_QDSS_CH_MDM))
 		goto notify;
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	status = set_qdss_data_connection(qdss, 1);
 	if (status) {
 		pr_err("set_qdss_data_connection error(%d)", status);
@@ -634,6 +646,18 @@ notify:
 	if (qdss->ch.notify)
 		qdss->ch.notify(qdss->ch.priv, USB_QDSS_CONNECT,
 						NULL, &qdss->ch);
+<<<<<<< HEAD
+=======
+	spin_lock_irqsave(&qdss->lock, flags);
+	req = qdss->endless_req;
+	spin_unlock_irqrestore(&qdss->lock, flags);
+	if (!req)
+		return;
+
+	status = usb_ep_queue(qdss->port.data, req, GFP_ATOMIC);
+	if (status)
+		pr_err("%s: usb_ep_queue error (%d)\n", __func__, status);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 static int qdss_set_alt(struct usb_function *f, unsigned intf, unsigned alt)

@@ -612,6 +612,7 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 					   data->payload_size))
 			return 0;
 
+<<<<<<< HEAD
 		if (data->opcode == AFE_PORT_CMDRSP_GET_PARAM_V3)
 			param_id_pos = 4;
 		else
@@ -620,12 +621,21 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 		if (data->payload_size >= param_id_pos * sizeof(uint32_t))
 			param_id = payload[param_id_pos - 1];
 		else {
+=======
+		if (data->payload_size < 3 * sizeof(uint32_t)) {
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			pr_err("%s: Error: size %d is less than expected\n",
 				__func__, data->payload_size);
 			return -EINVAL;
 		}
+<<<<<<< HEAD
 		if (param_id == AFE_PARAM_ID_DEV_TIMING_STATS) {
 			av_dev_drift_afe_cb_handler(data->opcode, data->payload,
+=======
+
+		if (payload[2] == AFE_PARAM_ID_DEV_TIMING_STATS) {
+			av_dev_drift_afe_cb_handler(data->payload,
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 						    data->payload_size);
 #if defined (CONFIG_SND_SOC_TAS2560)
 		} else if (payload[1] == AFE_TAS2560_ALGO_MODULE_RX ||
@@ -645,7 +655,11 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 			atomic_set(&this_afe.state, 0);
 #endif
 		} else {
+<<<<<<< HEAD
 			if (sp_make_afe_callback(data->opcode, data->payload,
+=======
+			if (sp_make_afe_callback(data->payload,
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 						 data->payload_size))
 				return -EINVAL;
 		}
@@ -5282,6 +5296,7 @@ static int afe_sidetone(u16 tx_port_id, u16 rx_port_id, bool enable)
 	mid = st_cal_info->mid;
 	mutex_unlock(&this_afe.cal_data[cal_index]->lock);
 
+<<<<<<< HEAD
 	packed_param_size =
 		sizeof(param_hdr) * 2 + sizeof(gain_data) + sizeof(cfg_data);
 	packed_param_data = kzalloc(packed_param_size, GFP_KERNEL);
@@ -5323,6 +5338,19 @@ static int afe_sidetone(u16 tx_port_id, u16 rx_port_id, bool enable)
 		goto done;
 	}
 	packed_param_size += single_param_size;
+=======
+	cmd_sidetone.cfg_pdata.module_id = AFE_MODULE_LOOPBACK;
+	cmd_sidetone.cfg_pdata.param_id = AFE_PARAM_ID_LOOPBACK_CONFIG;
+	/*
+	 * size of actual payload only
+	 */
+	cmd_sidetone.cfg_pdata.param_size = sizeof(struct loopback_cfg_data);
+	cmd_sidetone.cfg_data.loopback_cfg_minor_version =
+					AFE_API_VERSION_LOOPBACK_CONFIG;
+	cmd_sidetone.cfg_data.dst_port_id = rx_port_id;
+	cmd_sidetone.cfg_data.routing_mode = LB_MODE_SIDETONE;
+	cmd_sidetone.cfg_data.enable = enable;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	pr_debug("%s rx(0x%x) tx(0x%x) enable(%d) mid(0x%x) gain(%d) sidetone_enable(%d)\n",
 		  __func__, rx_port_id, tx_port_id,

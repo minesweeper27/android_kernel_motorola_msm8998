@@ -175,7 +175,11 @@ static int mdss_mdp_splash_iommu_attach(struct msm_fb_data_type *mfd)
 
 	ret = mdss_smmu_set_attribute(MDSS_IOMMU_DOMAIN_UNSECURE, EARLY_MAP, 1);
 	if (ret) {
+<<<<<<< HEAD
 		pr_err("mdss set attribute failed for early map\n");
+=======
+		pr_debug("mdss set attribute failed for early map\n");
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		goto end;
 	}
 
@@ -198,9 +202,12 @@ static int mdss_mdp_splash_iommu_attach(struct msm_fb_data_type *mfd)
 	}
 
 	ret = mdss_smmu_set_attribute(MDSS_IOMMU_DOMAIN_UNSECURE, EARLY_MAP, 0);
+<<<<<<< HEAD
 	if (ret)
 		pr_err("mdss reset attribute failed for early map\n");
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 end:
 	mdata->handoff_pending = true;
 

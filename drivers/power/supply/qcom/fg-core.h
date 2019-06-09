@@ -50,7 +50,11 @@
 #define SRAM_READ		"fg_sram_read"
 #define SRAM_WRITE		"fg_sram_write"
 #define PROFILE_LOAD		"fg_profile_load"
+<<<<<<< HEAD
 #define TTF_PRIMING		"fg_ttf_priming"
+=======
+#define DELTA_SOC		"fg_delta_soc"
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 /* Delta BSOC irq votable reasons */
 #define DELTA_BSOC_IRQ_VOTER	"fg_delta_bsoc_irq"
@@ -226,23 +230,29 @@ enum slope_limit_status {
 	SLOPE_LIMIT_NUM_COEFFS,
 };
 
+<<<<<<< HEAD
 enum esr_filter_status {
 	ROOM_TEMP = 1,
 	LOW_TEMP,
 	RELAX_TEMP,
 };
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 enum esr_timer_config {
 	TIMER_RETRY = 0,
 	TIMER_MAX,
 	NUM_ESR_TIMERS,
 };
 
+<<<<<<< HEAD
 enum ttf_mode {
 	TTF_MODE_NORMAL = 0,
 	TTF_MODE_QNOVO,
 };
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /* DT parameters for FG device */
 struct fg_dt_props {
 	bool	force_load_profile;
@@ -265,7 +275,10 @@ struct fg_dt_props {
 	int	esr_timer_asleep[NUM_ESR_TIMERS];
 	int	rconn_mohms;
 	int	esr_clamp_mohms;
+<<<<<<< HEAD
 	bool	cl_feedback;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int	cl_start_soc;
 	int	cl_max_temp;
 	int	cl_min_temp;
@@ -286,7 +299,10 @@ struct fg_dt_props {
 	int	slope_limit_temp;
 	int	esr_pulse_thresh_ma;
 	int	esr_meas_curr_ma;
+<<<<<<< HEAD
 	int	ki_coeff_full_soc_dischg;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int	jeita_thresholds[NUM_JEITA_LEVELS];
 	int	ki_coeff_soc[KI_COEFF_SOC_LEVELS];
 	int	ki_coeff_med_dischg[KI_COEFF_SOC_LEVELS];
@@ -421,7 +437,10 @@ struct fg_chip {
 	struct mutex		bus_lock;
 	struct mutex		sram_rw_lock;
 	struct mutex		charge_full_lock;
+<<<<<<< HEAD
 	struct mutex		qnovo_esr_ctrl_lock;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	spinlock_t		suspend_lock;
 	u32			batt_soc_base;
 	u32			batt_info_base;
@@ -441,8 +460,11 @@ struct fg_chip {
 	int			maint_soc;
 	int			delta_soc;
 	int			last_msoc;
+<<<<<<< HEAD
 	int			last_recharge_volt_mv;
 	int			delta_temp_irq_count;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	int			esr_timer_charging_default[NUM_ESR_TIMERS];
 	enum slope_limit_status	slope_limit_sts;
 	enum esr_filter_status	esr_flt_sts;
@@ -458,7 +480,10 @@ struct fg_chip {
 	bool			esr_flt_cold_temp_en;
 	bool			slope_limit_en;
 	bool			use_ima_single_mode;
+<<<<<<< HEAD
 	bool			qnovo_enable;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	bool			suspended;
 	struct completion	soc_update;
 	struct completion	soc_ready;

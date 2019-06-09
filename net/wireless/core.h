@@ -208,7 +208,20 @@ struct cfg80211_event {
 	enum cfg80211_event_type type;
 
 	union {
+<<<<<<< HEAD
 		struct cfg80211_connect_resp_params cr;
+=======
+		struct {
+			u8 bssid[ETH_ALEN];
+			const u8 *req_ie;
+			const u8 *resp_ie;
+			size_t req_ie_len;
+			size_t resp_ie_len;
+			struct cfg80211_bss *bss;
+			int status; /* -1 = failed; 0..65535 = status code */
+			enum nl80211_timeout_reason timeout_reason;
+		} cr;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		struct {
 			const u8 *req_ie;
 			const u8 *resp_ie;
@@ -364,9 +377,18 @@ int cfg80211_connect(struct cfg80211_registered_device *rdev,
 		     struct cfg80211_connect_params *connect,
 		     struct cfg80211_cached_keys *connkeys,
 		     const u8 *prev_bssid);
+<<<<<<< HEAD
 void __cfg80211_connect_result(struct net_device *dev,
 			       struct cfg80211_connect_resp_params *params,
 			       bool wextev);
+=======
+void __cfg80211_connect_result(struct net_device *dev, const u8 *bssid,
+			       const u8 *req_ie, size_t req_ie_len,
+			       const u8 *resp_ie, size_t resp_ie_len,
+			       int status, bool wextev,
+			       struct cfg80211_bss *bss,
+			       enum nl80211_timeout_reason timeout_reason);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 void __cfg80211_disconnected(struct net_device *dev, const u8 *ie,
 			     size_t ie_len, u16 reason, bool from_ap);
 int cfg80211_disconnect(struct cfg80211_registered_device *rdev,

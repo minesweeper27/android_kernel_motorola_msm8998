@@ -606,8 +606,11 @@ struct mmc_host {
 #endif
 
 	bool sdr104_wa;
+<<<<<<< HEAD
 	atomic_t rpmb_req_pending;
 	struct mutex		rpmb_req_mutex;
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	unsigned long		private[0] ____cacheline_aligned;
 };
 
@@ -839,11 +842,14 @@ static inline bool mmc_card_hs400(struct mmc_card *card)
 	return card->host->ios.timing == MMC_TIMING_MMC_HS400;
 }
 
+<<<<<<< HEAD
 static inline bool mmc_card_hs400es(struct mmc_card *card)
 {
 	return card->host->ios.enhanced_strobe;
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 void mmc_retune_enable(struct mmc_host *host);
 void mmc_retune_disable(struct mmc_host *host);
 void mmc_retune_timer_stop(struct mmc_host *host);

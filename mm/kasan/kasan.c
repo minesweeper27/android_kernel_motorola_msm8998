@@ -73,7 +73,11 @@ void kasan_unpoison_shadow(const void *address, size_t size)
 	}
 }
 
+<<<<<<< HEAD
 static void __kasan_unpoison_stack(struct task_struct *task, const void *sp)
+=======
+static void __kasan_unpoison_stack(struct task_struct *task, void *sp)
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 {
 	void *base = task_stack_page(task);
 	size_t size = sp - base;
@@ -88,6 +92,7 @@ void kasan_unpoison_task_stack(struct task_struct *task)
 }
 
 /* Unpoison the stack for the current task beyond a watermark sp value. */
+<<<<<<< HEAD
 asmlinkage void kasan_unpoison_task_stack_below(const void *watermark)
 {
 	/*
@@ -113,6 +118,11 @@ void kasan_unpoison_stack_above_sp_to(const void *watermark)
 	if (WARN_ON(sp > watermark))
 		return;
 	kasan_unpoison_shadow(sp, size);
+=======
+asmlinkage void kasan_unpoison_remaining_stack(void *sp)
+{
+	__kasan_unpoison_stack(current, sp);
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 }
 
 /*

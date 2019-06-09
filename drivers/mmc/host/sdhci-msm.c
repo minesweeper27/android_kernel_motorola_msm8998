@@ -2012,6 +2012,8 @@ struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev,
 
 	pdata->sdr104_wa = of_property_read_bool(np, "qcom,sdr104-wa");
 
+	pdata->sdr104_wa = of_property_read_bool(np, "qcom,sdr104-wa");
+
 	return pdata;
 out:
 	return NULL;
@@ -4666,6 +4668,7 @@ static int sdhci_msm_probe(struct platform_device *pdev)
 		msm_host->mmc->caps2 |= MMC_CAP2_NONHOTPLUG;
 
 	msm_host->mmc->sdr104_wa = msm_host->pdata->sdr104_wa;
+<<<<<<< HEAD
         if (mmc_host_uhs(msm_host->mmc)) {
                 sdhci_caps = readl_relaxed(host->ioaddr + SDHCI_CAPABILITIES_1);
 
@@ -4684,6 +4687,8 @@ static int sdhci_msm_probe(struct platform_device *pdev)
                 sdhci_caps |= ((host_version & 0xFF) << 24);
                 sdhci_writel(host, sdhci_caps, CORE_VENDOR_SPEC_CAPABILITIES1);
         }
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 	/* Initialize ICE if present */
 	if (msm_host->ice.pdev) {

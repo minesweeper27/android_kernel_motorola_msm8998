@@ -183,8 +183,11 @@ ENTRY(cpu_do_switch_mm)
 	bfi	x2, x1, #48, #16		// set the ASID
 	msr	ttbr1_el1, x2			// in TTBR1 (since TCR.A1 is set)
 	isb
+<<<<<<< HEAD
 	msr	ttbr0_el1, x0			// now update TTBR0
 	isb
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 	b	post_ttbr_update_workaround	// Back to C code...
 ENDPROC(cpu_do_switch_mm)
 

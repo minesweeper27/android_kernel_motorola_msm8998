@@ -1283,11 +1283,14 @@ static inline bool is_max_capacity_cpu(int cpu)
 	return cpu_max_possible_capacity(cpu) == max_possible_capacity;
 }
 
+<<<<<<< HEAD
 static inline bool is_min_capacity_cpu(int cpu)
 {
 	return cpu_max_possible_capacity(cpu) == min_max_possible_capacity;
 }
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 /*
  * 'load' is in reference to "best cpu" at its best frequency.
  * Scale that in reference to a given cpu, accounting for how bad it is
@@ -2031,7 +2034,10 @@ static const u32 prio_to_wmult[40] = {
 #define DEQUEUE_SLEEP		0x01
 #define DEQUEUE_SAVE		0x02 /* matches ENQUEUE_RESTORE */
 #define DEQUEUE_MOVE		0x04 /* matches ENQUEUE_MOVE */
+<<<<<<< HEAD
 #define DEQUEUE_IDLE		0x80 /* The last dequeue before IDLE */
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 #define ENQUEUE_WAKEUP		0x01
 #define ENQUEUE_RESTORE		0x02
