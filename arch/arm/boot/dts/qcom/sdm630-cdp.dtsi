@@ -78,7 +78,10 @@
 		clock-names = "ref_clk";
 	};
 };
+<<<<<<< HEAD
+=======
 
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 &soc {
 	qcom,msm-ssc-sensors {
 		compatible = "qcom,msm-ssc-sensors";

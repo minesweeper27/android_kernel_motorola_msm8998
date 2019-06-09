@@ -687,12 +687,15 @@
 				regulator-max-microvolt = <8>;
 
 				qcom,cpr-fuse-corners = <3>;
+<<<<<<< HEAD
 				qcom,cpr-fuse-combos = <32>;
 				qcom,cpr-speed-bins = <4>;
 				qcom,cpr-speed-bin-corners = <8 8 8 8>;
+=======
 				qcom,cpr-fuse-combos = <24>;
 				qcom,cpr-speed-bins = <3>;
 				qcom,cpr-speed-bin-corners = <8 8 8>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				qcom,cpr-corners = <8>;
 				qcom,cpr-corner-fmax-map = <2 4 8>;
 
@@ -786,12 +789,15 @@
 				regulator-max-microvolt = <11>;
 
 				qcom,cpr-fuse-corners = <5>;
+<<<<<<< HEAD
 				qcom,cpr-fuse-combos = <32>;
 				qcom,cpr-speed-bins = <4>;
 				qcom,cpr-speed-bin-corners = <10 10 11 10>;
+=======
 				qcom,cpr-fuse-combos = <24>;
 				qcom,cpr-speed-bins = <3>;
 				qcom,cpr-speed-bin-corners = <10 10 11>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 				qcom,cpr-corners =
 					/* Speed bin 0 */
 					<10 10 10 10 10 10 10 10>,
@@ -813,11 +819,14 @@
 					<2 4 6 9 10>,
 
 					/* Speed bin 2 */
+<<<<<<< HEAD
 					<2 4 6 9 11>,
 
 					/* Speed bin 3 */
 					<2 4 6 9 10>;
+=======
 					<2 4 6 9 11>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 				qcom,cpr-voltage-ceiling =
 					/* Speed bin 0 */
@@ -833,13 +842,16 @@
 					/* Speed bin 2 */
 					<724000  724000  724000  788000
 					 868000  868000  988000  988000
+<<<<<<< HEAD
 					 988000 1140000 1140000>,
 
 					/* Speed bin 3 */
 					<724000  724000  724000  788000
 					 868000  868000  988000  988000
 					 988000 1068000>;
+=======
 					 988000 1140000 1140000>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 				qcom,cpr-voltage-floor =
 					/* Speed bin 0 */
@@ -879,6 +891,7 @@
 					<300000000   787200000 1113600000
 					 1344000000 1516800000 1670400000
 					 1881600000 2016000000 2150400000
+<<<<<<< HEAD
 					 2380800000 2515200000>,
 
 					/* Speed bin 3 */
@@ -886,7 +899,9 @@
 					 1344000000 1516800000 1670400000
 					 1881600000 2016000000 2150400000
 					 2208000000>;
+=======
 					 2380800000 2515200000>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 
 				qcom,allow-voltage-interpolation;
 				qcom,allow-quotient-interpolation;
@@ -930,13 +945,16 @@
 					/* Speed bin 2 */
 					<40000  40000  40000  40000
 					 40000  40000  40000  66000
+<<<<<<< HEAD
 					 66000  40000  40000>,
 
 					/* Speed bin 3 */
 					<40000  40000  40000  40000
 					 40000  40000  40000  66000
 					 66000  40000>;
+=======
 					 66000  40000  40000>;
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 			};
 		};
 	};

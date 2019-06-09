@@ -132,9 +132,12 @@
 
 		qcom,gpu-speed-bin = <0x41a0 0x1fe00000 21>;
 
+<<<<<<< HEAD
 		/* Enable midframe sampling */
 		qcom,enable-midframe-timer;
 
+=======
+>>>>>>> 60ffa7db0a10f534eff503cd5da991a331da21a5
 		/* GPU Mempools */
 		qcom,gpu-mempools {
 			#address-cells= <1>;
