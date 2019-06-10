@@ -49,11 +49,7 @@ CONFIG_FB_MSM_MDSS_KCAL_CTRL=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
 CONFIG_CROSS_COMPILE=""
 # CONFIG_COMPILE_TEST is not set
-<<<<<<< HEAD
-CONFIG_LOCALVERSION="-DexK_r8.0_beta-v2_evert-seba_3567"
-=======
-CONFIG_LOCALVERSION="-DeluxeK_pie_r7.3_evert-seba_3567"
->>>>>>> parent of df355e18439e... Revert "Revert "Merge tag 'LA.UM.7.2.r2-00800-8x98.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into dexk5.1""
+CONFIG_LOCALVERSION="-DexK_r8.0_beta-v3_evert-seba_3567"
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
