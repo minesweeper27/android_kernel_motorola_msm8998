@@ -20,7 +20,7 @@
 		status = "okay";
 		pm660_s4: regulator-s4 {
 			regulator-min-microvolt = <1805000>;
-			regulator-max-microvolt = <2140000>;
+			regulator-max-microvolt = <2040000>;
 			status = "okay";
 		};
 	};
@@ -659,7 +659,7 @@
 		qcom,cpr-voltage-settling-time = <1760>;
 		qcom,cpr-reset-step-quot-loop-en;
 
-		qcom,apm-threshold-voltage = <875000>;
+		qcom,apm-threshold-voltage = <872000>;
 		qcom,apm-crossover-voltage = <872000>;
 		qcom,apm-hysteresis-voltage = <20000>;
 		qcom,voltage-step = <4000>;
@@ -699,13 +699,12 @@
 
 				qcom,cpr-voltage-floor =
 					<588000   588000   596000   652000
-					 712000   744000   784000   844000
-           844000>;
+					 712000   744000   784000   844000>;
 
 				qcom,corner-frequencies =
 					<300000000  614400000  883200000
 					1094400000 1382400000 1536000000
-					1728000000 1843200000 2150400000>;
+					1728000000 1843200000>;
 
 				qcom,allow-voltage-interpolation;
 				qcom,allow-quotient-interpolation;
@@ -727,7 +726,7 @@
 
 				qcom,cpr-floor-to-ceiling-max-range =
 					<32000  32000  32000  40000  44000
-					 40000  40000  40000  40000>;
+					 40000  40000  40000>;
 			};
 		};
 	};
@@ -756,7 +755,7 @@
 		qcom,cpr-voltage-settling-time = <1760>;
 		qcom,cpr-reset-step-quot-loop-en;
 
-		qcom,apm-threshold-voltage = <875000>;
+		qcom,apm-threshold-voltage = <872000>;
 		qcom,apm-crossover-voltage = <872000>;
 		qcom,apm-hysteresis-voltage = <20000>;
 		qcom,voltage-step = <4000>;
