@@ -49,15 +49,7 @@ CONFIG_FB_MSM_MDSS_KCAL_CTRL=y
 CONFIG_INIT_ENV_ARG_LIMIT=32
 CONFIG_CROSS_COMPILE=""
 # CONFIG_COMPILE_TEST is not set
-<<<<<<< HEAD
-<<<<<<< HEAD
 CONFIG_LOCALVERSION="-DexK_r8.0_beta-v5.2_evert-seba_3567"
-=======
-CONFIG_LOCALVERSION="-DexK_r8.0_beta-v3_evert-seba_3567"
->>>>>>> parent of 4e21ebea04aa... oc gpu to 827 and 750
-=======
-CONFIG_LOCALVERSION="-DexK_r8.0_beta-v1_evert-seba_3567"
->>>>>>> parent of 02500f34f7cd... e
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
