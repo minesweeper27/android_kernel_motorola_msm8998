@@ -71,6 +71,7 @@ config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
 	  the frequency statically to the highest frequency supported by
 	  the CPU.
 
+
 config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	bool "powersave"
 	select CPU_FREQ_GOV_POWERSAVE
@@ -449,6 +450,13 @@ config CPUFREQ_DT
 
 	  If in doubt, say N.
 
+
+config ALUCARD_HOTPLUG
+	bool "Enable alucard-hotplug cpu hotplug driver"
+    default n
+	help
+	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs.
+
 if X86
 source "drivers/cpufreq/Kconfig.x86"
 endif
@@ -529,6 +537,7 @@ config SPARC_US2E_CPUFREQ
 
 	  If in doubt, say N.
 endif
+
 
 config CPU_INPUT_BOOST
 	bool "CPU Input Boost"
