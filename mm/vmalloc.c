@@ -629,7 +629,7 @@ static unsigned long lazy_max_pages(void)
 	log = fls(num_online_cpus());
 
 	return log * (1UL * CONFIG_VMAP_LAZY_PURGING_FACTOR *
-					1024 * 1024 / PAGE_SIZE);
+					4096 * 4096 / PAGE_SIZE);
 }
 
 static atomic_t vmap_lazy_nr = ATOMIC_INIT(0);
@@ -766,14 +766,14 @@ static struct vmap_area *find_vmap_area(unsigned long addr)
  * instead (we just need a rough idea)
  */
 #if BITS_PER_LONG == 32
-#define VMALLOC_SPACE		(128UL*1024*1024)
+#define VMALLOC_SPACE		(128UL*4096*4096)
 #else
-#define VMALLOC_SPACE		(128UL*1024*1024*1024)
+#define VMALLOC_SPACE		(128UL*4096*4096*4096)
 #endif
 
 #define VMALLOC_PAGES		(VMALLOC_SPACE / PAGE_SIZE)
 #define VMAP_MAX_ALLOC		BITS_PER_LONG	/* 256K with 4K pages */
-#define VMAP_BBMAP_BITS_MAX	1024	/* 4MB with 4K pages */
+#define VMAP_BBMAP_BITS_MAX	4096	/* 4MB with 4K pages */
 #define VMAP_BBMAP_BITS_MIN	(VMAP_MAX_ALLOC*2)
 #define VMAP_MIN(x, y)		((x) < (y) ? (x) : (y)) /* can't use min() */
 #define VMAP_MAX(x, y)		((x) > (y) ? (x) : (y)) /* can't use max() */
@@ -2804,4 +2804,3 @@ static int __init proc_vmalloc_init(void)
 module_init(proc_vmalloc_init);
 
 #endif
-

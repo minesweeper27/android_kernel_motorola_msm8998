@@ -144,6 +144,8 @@ static const struct bin_table bin_kern_table[] = {
 };
 
 static const struct bin_table bin_vm_table[] = {
+	/* Additional LZ tweaks */
+	{ CTL_INT,	VM_MAX_READAHEAD,		"max_readahead" },
 	{ CTL_INT,	VM_OVERCOMMIT_MEMORY,		"overcommit_memory" },
 	{ CTL_INT,	VM_PAGE_CLUSTER,		"page-cluster" },
 	{ CTL_INT,	VM_DIRTY_BACKGROUND,		"dirty_background_ratio" },
@@ -1003,7 +1005,7 @@ static ssize_t bin_intvec(struct file *file,
 			value = simple_strtoul(str, &str, 10);
 			while (isspace(*str))
 				str++;
-			
+
 			result = -EFAULT;
 			if (put_user(value, vec + i))
 				goto out_kfree;
@@ -1074,7 +1076,7 @@ static ssize_t bin_ulongvec(struct file *file,
 			value = simple_strtoul(str, &str, 10);
 			while (isspace(*str))
 				str++;
-			
+
 			result = -EFAULT;
 			if (put_user(value, vec + i))
 				goto out_kfree;

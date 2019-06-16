@@ -980,6 +980,8 @@ static int fuse_bdi_init(struct fuse_conn *fc, struct super_block *sb)
 	if (err)
 		return err;
 
+		sb->s_bdi->ra_pages = (VM_MAX_READAHEAD * 4096) / PAGE_SIZE;
+
 	/*
 	 * For a single fuse filesystem use max 1% of dirty +
 	 * writeback threshold.
