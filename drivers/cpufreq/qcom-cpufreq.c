@@ -32,7 +32,7 @@
 
 static DEFINE_MUTEX(l2bw_lock);
 
-static unsigned long arg_cpu_max_c1 = 2892000;
+static unsigned long arg_cpu_max_c1 = 2592000;
 
 static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1)
 {
@@ -49,7 +49,7 @@ static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1)
 }
 __setup("cpu_max_c1=", cpufreq_read_cpu_max_c1);
 
-static unsigned long arg_cpu_max_c2 = 2350000;
+static unsigned long arg_cpu_max_c2 = 2112000;
 
 static int __init cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 {
@@ -394,7 +394,7 @@ static struct cpufreq_frequency_table *cpufreq_parse_dt(struct device *dev,
 		if (j > 0 && f <= ftbl[j - 1].frequency)
 			continue;
 
-		
+
 		//Custom max freq
 		if ((cpu < 4 && f > arg_cpu_max_c1) ||
 				(cpu >= 4 && f > arg_cpu_max_c2)) {
