@@ -965,10 +965,17 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
 		retval = cpulist_parse(buf, trialcs->cpus_requested);
 		if (retval < 0)
 			return retval;
+<<<<<<< HEAD
         }
 
         if (!cpumask_subset(trialcs->cpus_requested, cpu_present_mask))
 	        return -EINVAL;
+=======
+	}
+
+	if (!cpumask_subset(trialcs->cpus_requested, cpu_present_mask))
+		return -EINVAL;
+>>>>>>> eeb8b2fc2242... ANDROID: kernel: cgroup: cpuset: Clear cpus_requested for empty buf
 
 	cpumask_and(trialcs->cpus_allowed, trialcs->cpus_requested, cpu_active_mask);
 
