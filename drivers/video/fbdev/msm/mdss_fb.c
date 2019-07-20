@@ -46,10 +46,14 @@
 #include <linux/file.h>
 #include <linux/kthread.h>
 #include <linux/dma-buf.h>
+<<<<<<< HEAD
 #include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
 #include <linux/cpu_input_boost.h>
 #include <linux/adrenokgsl_state.h>
+=======
+#include <linux/devfreq_boost.h>
+>>>>>>> d99c16a3195d... msm: mdss: Boost DDR bus when committing a new frame
 #include <sync.h>
 #include <sw_sync.h>
 
@@ -5470,11 +5474,15 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = mdss_fb_mode_switch(mfd, dsi_mode);
 		break;
 	case MSMFB_ATOMIC_COMMIT:
+<<<<<<< HEAD
 		cpu_input_boost_kick();
 		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
 		if (is_adrenokgsl_on()) {
 			cpu_input_boost_kick();
 		}
+=======
+		devfreq_boost_kick(DEVFREQ_MSM_CPUBW);
+>>>>>>> d99c16a3195d... msm: mdss: Boost DDR bus when committing a new frame
 		ret = mdss_fb_atomic_commit_ioctl(info, argp, file);
 		break;
 
