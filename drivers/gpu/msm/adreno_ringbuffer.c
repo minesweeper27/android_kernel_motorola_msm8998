@@ -784,7 +784,11 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	struct kgsl_memobj_node *ib;
 	unsigned int numibs = 0;
 	unsigned int *link;
+<<<<<<< HEAD
         unsigned int link_onstack[SZ_256] __aligned(sizeof(long));
+=======
+	unsigned int link_onstack[SZ_256] __aligned(sizeof(long));
+>>>>>>> 25f746aba837... msm: kgsl: Avoid dynamically allocating small command buffers
 	unsigned int *cmds;
 	struct kgsl_context *context;
 	struct adreno_context *drawctxt;
