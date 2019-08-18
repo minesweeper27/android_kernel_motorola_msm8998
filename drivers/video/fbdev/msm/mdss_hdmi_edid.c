@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2010-2017, 2019, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -203,6 +203,7 @@ static int hdmi_edid_reset_parser(struct hdmi_edid_ctrl *edid_ctrl)
 
 	/* reset resolution related sink data */
 	memset(&edid_ctrl->sink_data, 0, sizeof(edid_ctrl->sink_data));
+	memset(&edid_ctrl->sink_caps, 0, sizeof(edid_ctrl->sink_caps));
 
 	/* reset audio related data */
 	memset(edid_ctrl->audio_data_block, 0,
@@ -2415,7 +2416,6 @@ int hdmi_edid_parser(void *input)
 	u16 ieee_reg_id;
 	int status = 0;
 	u32 i = 0;
-	u32 cea_idx = 1;
 	struct hdmi_edid_ctrl *edid_ctrl = (struct hdmi_edid_ctrl *)input;
 
 	if (!edid_ctrl) {
@@ -2442,7 +2442,7 @@ int hdmi_edid_parser(void *input)
 
 	/* EDID_CEA_EXTENSION_FLAG[0x7E] - CEC extension byte */
 	num_of_cea_blocks = edid_buf[EDID_BLOCK_SIZE - 2];
-	DEV_DBG("%s: No. of CEA/Extended EDID blocks is  [%u]\n", __func__,
+	DEV_DBG("%s: No. of CEA blocks is  [%u]\n", __func__,
 		num_of_cea_blocks);
 
 	/* Find out any CEA extension blocks following block 0 */
@@ -2461,53 +2461,30 @@ int hdmi_edid_parser(void *input)
 		num_of_cea_blocks = MAX_EDID_BLOCKS - 1;
 	}
 
-	if (edid_buf[EDID_BLOCK_SIZE] == 0xF0) {
-		DEV_DBG("%s: Extended EDID Block Map found\n", __func__);
-		edid_buf += EDID_BLOCK_SIZE;
-		cea_idx++;
+	/* check for valid CEA block */
+	if (edid_buf[EDID_BLOCK_SIZE] != 2) {
+		DEV_ERR("%s: Invalid CEA block\n", __func__);
+		num_of_cea_blocks = 0;
+		goto bail;
 	}
 
-	for (i = cea_idx; i <= num_of_cea_blocks; i++) {
+	/* goto to CEA extension edid block */
+	edid_buf += EDID_BLOCK_SIZE;
 
-		/* check for valid CEA block */
-		if (edid_buf[EDID_BLOCK_SIZE] != 2) {
-			DEV_ERR("%s: Not a CEA block\n", __func__);
-			edid_buf += EDID_BLOCK_SIZE;
-			continue;
-		}
+	ieee_reg_id = hdmi_edid_extract_ieee_reg_id(edid_ctrl, edid_buf);
+	DEV_DBG("%s: ieee_reg_id = 0x%08x\n", __func__, ieee_reg_id);
+	if (ieee_reg_id == EDID_IEEE_REG_ID)
+		edid_ctrl->sink_mode = SINK_MODE_HDMI;
+	else
+		edid_ctrl->sink_mode = SINK_MODE_DVI;
 
-		/* goto to CEA extension edid block */
-		edid_buf += EDID_BLOCK_SIZE;
-
-		ieee_reg_id = hdmi_edid_extract_ieee_reg_id(edid_ctrl,
-				edid_buf);
-		DEV_DBG("%s: ieee_reg_id = 0x%08x\n", __func__, ieee_reg_id);
-		if (ieee_reg_id == EDID_IEEE_REG_ID)
-			edid_ctrl->sink_mode = SINK_MODE_HDMI;
-		else
-			edid_ctrl->sink_mode = SINK_MODE_DVI;
-
-
-		/* goto to CEA extension edid block */
-		edid_buf += EDID_BLOCK_SIZE;
-
-		ieee_reg_id = hdmi_edid_extract_ieee_reg_id(edid_ctrl,
-				edid_buf);
-		DEV_DBG("%s: ieee_reg_id = 0x%08x\n", __func__, ieee_reg_id);
-		if (ieee_reg_id == EDID_IEEE_REG_ID)
-			edid_ctrl->sink_mode = SINK_MODE_HDMI;
-		else
-			edid_ctrl->sink_mode = SINK_MODE_DVI;
-
->>>>>>> 0060498a5b8219dec8c2e3f5cfb0aec8708ccece
-		hdmi_edid_extract_sink_caps(edid_ctrl, edid_buf);
-		hdmi_edid_extract_latency_fields(edid_ctrl, edid_buf);
-		hdmi_edid_extract_dc(edid_ctrl, edid_buf);
-		hdmi_edid_extract_speaker_allocation_data(edid_ctrl, edid_buf);
-		hdmi_edid_extract_audio_data_blocks(edid_ctrl, edid_buf);
-		hdmi_edid_extract_3d_present(edid_ctrl, edid_buf);
-		hdmi_edid_extract_extended_data_blocks(edid_ctrl, edid_buf);
-	}
+	hdmi_edid_extract_sink_caps(edid_ctrl, edid_buf);
+	hdmi_edid_extract_latency_fields(edid_ctrl, edid_buf);
+	hdmi_edid_extract_dc(edid_ctrl, edid_buf);
+	hdmi_edid_extract_speaker_allocation_data(edid_ctrl, edid_buf);
+	hdmi_edid_extract_audio_data_blocks(edid_ctrl, edid_buf);
+	hdmi_edid_extract_3d_present(edid_ctrl, edid_buf);
+	hdmi_edid_extract_extended_data_blocks(edid_ctrl, edid_buf);
 
 bail:
 	for (i = 1; i <= num_of_cea_blocks; i++) {

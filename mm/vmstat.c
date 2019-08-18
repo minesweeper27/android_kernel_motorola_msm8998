@@ -1383,7 +1383,7 @@ static const struct file_operations proc_vmstat_file_operations = {
 #ifdef CONFIG_SMP
 static struct workqueue_struct *vmstat_wq;
 static DEFINE_PER_CPU(struct delayed_work, vmstat_work);
-int sysctl_stat_interval __read_mostly = 10 * HZ;
+int sysctl_stat_interval __read_mostly = HZ;
 static cpumask_var_t cpu_stat_off;
 
 static void vmstat_update(struct work_struct *w)
@@ -1484,18 +1484,10 @@ static void vmstat_shepherd(struct work_struct *w)
 
 	get_online_cpus();
 	/* Check processors whose vmstat worker threads have been disabled */
-
-	for_each_cpu(cpu, cpu_stat_off)
-		if (!cpu_isolated(cpu) && need_update(cpu) &&
-			cpumask_test_and_clear_cpu(cpu, cpu_stat_off))
-
-			queue_delayed_work_on(cpu, vmstat_wq,
-				&per_cpu(vmstat_work, cpu), 0);
-
 	for_each_cpu(cpu, cpu_stat_off) {
 		struct delayed_work *dw = &per_cpu(vmstat_work, cpu);
 
-		if (need_update(cpu)) {
+		if (!cpu_isolated(cpu) && need_update(cpu)) {
 			if (cpumask_test_and_clear_cpu(cpu, cpu_stat_off))
 				queue_delayed_work_on(cpu, vmstat_wq, dw, 0);
 		} else {

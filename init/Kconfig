@@ -38,28 +38,6 @@ config THREAD_INFO_IN_TASK
 
 menu "General setup"
 
-config ZEN_INTERACTIVE
-	bool "Tune kernel for interactivity"
-	default y
-	help
-	  Tunes the kernel for responsiveness at the cost of throughput and power usage.
-
-	  --- VM ---
-	    Mem dirty before bg writeback..:  10 %  -> 128 MiB
-	    Mem dirty before sync writeback:  20 %  -> 256 MiB
-
-	  --- CPU Scheduler ---
-	    Scheduling latency.............:   6    ->   3    ms
-	    Minimal granularity............:   0.75 ->   0.3  ms
-	    Wakeup granularity.............:   1    ->   0.5  ms
-	    CPU migration cost.............:   0.5  ->   0.25 ms
-	    Bandwidth slice size...........:   5    ->   3    ms
-
-	  --- CPU Frequency Scaling ---
-	    Ondemand down scaling factor...:   1    ->  10
-
-
-
 config BROKEN
 	bool
 
@@ -1377,15 +1355,6 @@ config SCHED_TUNE
 
 	  If unsure, say N.
 
-config DYNAMIC_STUNE_BOOST
-	bool "Dynamic SchedTune boosting support"
-	depends on SCHED_TUNE
-	help
-	  This option extends the SchedTune framework and provides APIs to
-	  activate and reset SchedTune boosting from anywhere in the kernel.
-
-	  If unsure, say N.
-
 config DEFAULT_USE_ENERGY_AWARE
 	bool "Default to enabling the Energy Aware Scheduler feature"
 	default n
@@ -1878,41 +1847,17 @@ config SLUB_DEBUG
 	  SLUB sysfs support. /sys/slab will not exist and there will be
 	  no support for cache validation etc.
 
-choice
-	prompt "Address Space Layout Randomization"
-	default CONFIG_ASLR_FULL
+config COMPAT_BRK
+	bool "Disable heap randomization"
+	default y
 	help
-	  Configure Address Space Layout Randomization (ASLR) modes to
-	  be preconfigured upon boot. It can be overridden during
-	  runtime in /proc/sys/kernel/randomize_va_space.
+	  Randomizing heap placement makes heap exploits harder, but it
+	  also breaks ancient binaries (including anything libc5 based).
+	  This option changes the bootup default to heap randomization
+	  disabled, and can be overridden at runtime by setting
+	  /proc/sys/kernel/randomize_va_space to 2.
 
-config ASLR_FULL
-	bool "Full ASLR randomization"
-	help
-	  Randomize addresses of the stack, the VDSO page, SMEM regions,
-	  and the data segment.
-
-	  This is usually a safe choice for modern systems (post 2000s).
-
-config ASLR_PARTIAL
-	bool "Partial ASLR randomization"
-	help
-	  Randomize addresses of the stack, the VDSO page, and SMEM
-	  regions, The data segment is not randomized.
-
-	  This option is usually selected for ancient systems (pre-2000)
-	  for userspace software compatibility.
-
-config ASLR_NONE
-	bool "Disable ASLR randomization"
-	help
-	  Do not randomize the address space of critical objects in the
-	  kernel.
-
-	  This exposes vulnerabilities in the kernel, and should
-	  almost never be used on production systems.
-
-endchoice
+	  On non-ancient distros (post-2000 ones) N is usually a safe choice.
 
 choice
 	prompt "Choose SLAB allocator"

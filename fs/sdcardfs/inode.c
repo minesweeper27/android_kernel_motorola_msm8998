@@ -21,8 +21,8 @@
 #include "sdcardfs.h"
 #include <linux/fs_struct.h>
 #include <linux/ratelimit.h>
-#include <linux/sched.h>
 #include <linux/xattr.h>
+#include <linux/sched.h>
 
 const struct cred *override_fsids(struct sdcardfs_sb_info *sbi,
 		struct sdcardfs_inode_data *data)
@@ -1017,6 +1017,8 @@ const struct inode_operations sdcardfs_dir_iops = {
 	.setattr	= sdcardfs_setattr_wrn,
 	.setattr2	= sdcardfs_setattr,
 	.getattr	= sdcardfs_getattr,
+	.setxattr	= sdcardfs_setxattr,
+	.getxattr	= sdcardfs_getxattr,
 };
 
 const struct inode_operations sdcardfs_main_iops = {

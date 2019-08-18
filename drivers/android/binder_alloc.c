@@ -151,7 +151,7 @@ static struct binder_buffer *binder_alloc_prepare_to_free_locked(
 			 * Guard against user threads attempting to
 			 * free the buffer when in use by kernel or
 			 * after it's already been freed.
-			 */
+			*/
 			if (!buffer->allow_user_free)
 				return ERR_PTR(-EPERM);
 			buffer->allow_user_free = 0;
@@ -926,8 +926,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
 	page_addr = (uintptr_t)alloc->buffer + index * PAGE_SIZE;
 
 	mm = alloc->vma_vm_mm;
-	/* Same as mmget_not_zero() in later kernel versions */
-	if (!atomic_inc_not_zero(&alloc->vma_vm_mm->mm_users))
+	if (!atomic_inc_not_zero(&mm->mm_users))
 		goto err_mmget;
 	if (!down_write_trylock(&mm->mmap_sem))
 		goto err_down_write_mmap_sem_failed;

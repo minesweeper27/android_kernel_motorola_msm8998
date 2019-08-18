@@ -63,29 +63,20 @@
  * After a CPU has dirtied this many pages, balance_dirty_pages_ratelimited
  * will look to see if it needs to force writeback or throttling.
  */
-static long ratelimit_pages = 256;
+static long ratelimit_pages = 32;
 
 /* The following parameters are exported via /proc/sys/vm */
 
 /*
  * Start background writeback (via writeback threads) at this percentage
  */
-
-#ifdef CONFIG_ZEN_INTERACTIVE
-int dirty_background_ratio;
-#else
-int dirty_background_ratio = 40;
-#endif
+int dirty_background_ratio = 10;
 
 /*
  * dirty_background_bytes starts at 0 (disabled) so that it is a function of
  * dirty_background_ratio * the amount of dirtyable memory
  */
-#ifdef CONFIG_ZEN_INTERACTIVE
-unsigned long dirty_background_bytes = 128 * 1024 * 1024;
-#else
 unsigned long dirty_background_bytes;
-#endif
 
 /*
  * free highmem will not be subtracted from the total free memory
@@ -96,33 +87,25 @@ int vm_highmem_is_dirtyable;
 /*
  * The generator of dirty data starts writeback at this percentage
  */
-#ifdef CONFIG_ZEN_INTERACTIVE
-int vm_dirty_ratio;
-#else
-int vm_dirty_ratio = 80;
-#endif
+int vm_dirty_ratio = 20;
 
 /*
  * vm_dirty_bytes starts at 0 (disabled) so that it is a function of
  * vm_dirty_ratio * the amount of dirtyable memory
  */
-#ifdef CONFIG_ZEN_INTERACTIVE
-unsigned long vm_dirty_bytes = 256 * 1024 * 1024;
-#else
 unsigned long vm_dirty_bytes;
-#endif
 
 /*
  * The interval between `kupdate'-style writebacks
  */
-unsigned int dirty_writeback_interval; /* centiseconds */
+unsigned int dirty_writeback_interval = 5 * 100; /* centiseconds */
 
 EXPORT_SYMBOL_GPL(dirty_writeback_interval);
 
 /*
  * The longest time for which data is allowed to remain dirty
  */
-unsigned int dirty_expire_interval = 80 * 100; /* centiseconds */
+unsigned int dirty_expire_interval = 30 * 100; /* centiseconds */
 
 /*
  * Flag that makes the machine dump writes/reads and block dirtyings.

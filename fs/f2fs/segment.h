@@ -1,9 +1,12 @@
-// SPDX-License-Identifier: GPL-2.0
 /*
  * fs/f2fs/segment.h
  *
  * Copyright (c) 2012 Samsung Electronics Co., Ltd.
  *             http://www.samsung.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
  */
 #include <linux/blkdev.h>
 #include <linux/backing-dev.h>
@@ -82,11 +85,7 @@
 	(GET_SEGOFF_FROM_SEG0(sbi, blk_addr) & ((sbi)->blocks_per_seg - 1))
 
 #define GET_SEGNO(sbi, blk_addr)					\
-<<<<<<< HEAD
-	((!__is_valid_data_blkaddr(blk_addr)) ?			\
-=======
-	((((blk_addr) == NULL_ADDR) || ((blk_addr) == NEW_ADDR)) ?	\
->>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
+	((!is_valid_blkaddr(blk_addr)) ?			\
 	NULL_SEGNO : GET_L2R_SEGNO(FREE_I(sbi),			\
 		GET_SEGNO_FROM_SEG0(sbi, blk_addr)))
 #define BLKS_PER_SEC(sbi)					\
@@ -216,7 +215,7 @@ struct segment_allocation {
 #define IS_DUMMY_WRITTEN_PAGE(page)			\
 		(page_private(page) == (unsigned long)DUMMY_WRITTEN_PAGE)
 
-#define MAX_SKIP_GC_COUNT			16
+#define MAX_SKIP_ATOMIC_COUNT			16
 
 struct inmem_pages {
 	struct list_head list;
@@ -337,16 +336,10 @@ static inline unsigned int get_valid_blocks(struct f2fs_sb_info *sbi,
 	 * In order to get # of valid blocks in a section instantly from many
 	 * segments, f2fs manages two counting structures separately.
 	 */
-	if (use_section && __is_large_section(sbi))
+	if (use_section && sbi->segs_per_sec > 1)
 		return get_sec_entry(sbi, segno)->valid_blocks;
 	else
 		return get_seg_entry(sbi, segno)->valid_blocks;
-}
-
-static inline unsigned int get_ckpt_valid_blocks(struct f2fs_sb_info *sbi,
-				unsigned int segno)
-{
-	return get_seg_entry(sbi, segno)->ckpt_valid_blocks;
 }
 
 static inline void seg_info_from_raw_sit(struct seg_entry *se,
@@ -586,15 +579,6 @@ static inline bool has_not_enough_free_secs(struct f2fs_sb_info *sbi,
 		reserved_sections(sbi) + needed);
 }
 
-static inline int f2fs_is_checkpoint_ready(struct f2fs_sb_info *sbi)
-{
-	if (likely(!is_sbi_flag_set(sbi, SBI_CP_DISABLED)))
-		return 0;
-	if (likely(!has_not_enough_free_secs(sbi, 0, 0)))
-		return 0;
-	return -ENOSPC;
-}
-
 static inline bool excess_prefree_segs(struct f2fs_sb_info *sbi)
 {
 	return prefree_segments(sbi) > SM_I(sbi)->rec_prefree_segments;
@@ -660,17 +644,10 @@ static inline void check_seg_range(struct f2fs_sb_info *sbi, unsigned int segno)
 	f2fs_bug_on(sbi, segno > TOTAL_SEGS(sbi) - 1);
 }
 
-static inline void verify_fio_blkaddr(struct f2fs_io_info *fio)
+static inline void verify_block_addr(struct f2fs_io_info *fio, block_t blk_addr)
 {
 	struct f2fs_sb_info *sbi = fio->sbi;
 
-<<<<<<< HEAD
-	if (__is_valid_data_blkaddr(fio->old_blkaddr))
-		verify_blkaddr(sbi, fio->old_blkaddr, __is_meta_io(fio) ?
-					META_GENERIC : DATA_GENERIC);
-	verify_blkaddr(sbi, fio->new_blkaddr, __is_meta_io(fio) ?
-					META_GENERIC : DATA_GENERIC_ENHANCE);
-=======
 	if (PAGE_TYPE_OF_BIO(fio->type) == META &&
 				(!is_read_io(fio->op) || fio->is_meta))
 		BUG_ON(blk_addr < SEG0_BLKADDR(sbi) ||
@@ -678,7 +655,6 @@ static inline void verify_fio_blkaddr(struct f2fs_io_info *fio)
 	else
 		BUG_ON(blk_addr < MAIN_BLKADDR(sbi) ||
 				blk_addr >= MAX_BLKADDR(sbi));
->>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 }
 
 /*
@@ -879,7 +855,7 @@ static inline void wake_up_discard_thread(struct f2fs_sb_info *sbi, bool force)
 		}
 	}
 	mutex_unlock(&dcc->cmd_lock);
-	if (!wakeup || !is_idle(sbi, DISCARD_TIME))
+	if (!wakeup)
 		return;
 wake_up:
 	dcc->discard_wake = 1;

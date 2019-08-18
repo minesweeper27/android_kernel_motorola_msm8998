@@ -40,14 +40,7 @@ extern unsigned int sysctl_sched_min_granularity;
 extern unsigned int sysctl_sched_wakeup_granularity;
 extern unsigned int sysctl_sched_child_runs_first;
 extern unsigned int sysctl_sched_sync_hint_enable;
-extern unsigned int sysctl_sched_initial_task_util;
 extern unsigned int sysctl_sched_cstate_aware;
-#ifdef CONFIG_SCHED_WALT
-extern unsigned int sysctl_sched_use_walt_cpu_util;
-extern unsigned int sysctl_sched_use_walt_task_util;
-extern unsigned int sysctl_sched_walt_init_task_load_pct;
-extern unsigned int sysctl_sched_walt_cpu_high_irqload;
-#endif
 
 #ifdef CONFIG_SCHED_HMP
 
@@ -65,7 +58,7 @@ extern unsigned int sysctl_sched_window_stats_policy;
 extern unsigned int sysctl_sched_ravg_hist_size;
 extern unsigned int sysctl_sched_cpu_high_irqload;
 extern unsigned int sysctl_sched_init_task_load_pct;
-extern unsigned int sysctl_sched_spill_nr_run;
+extern __read_mostly unsigned int sysctl_sched_spill_nr_run;
 extern unsigned int sysctl_sched_spill_load_pct;
 extern unsigned int sysctl_sched_upmigrate_pct;
 extern unsigned int sysctl_sched_downmigrate_pct;

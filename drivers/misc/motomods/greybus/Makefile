@@ -141,6 +141,8 @@ ccflags-y := -Wall
 # needed for trace events
 ccflags-y += -I$(src)
 
+$(warning CURRENT KERNEL VER : $(KERNELVERSION))
+
 all: module
 
 module:

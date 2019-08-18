@@ -1188,7 +1188,7 @@ static int mdss_mdp_cmd_wait4readptr(struct mdss_mdp_cmd_ctx *ctx)
 {
 	int rc = 0;
 
-	rc = wait_event_interruptible_timeout(ctx->rdptr_waitq,
+	rc = wait_event_timeout(ctx->rdptr_waitq,
 			atomic_read(&ctx->rdptr_cnt) == 0,
 			KOFF_TIMEOUT);
 	if (rc <= 0) {
@@ -2061,7 +2061,7 @@ static int __mdss_mdp_wait4pingpong(struct mdss_mdp_cmd_ctx *ctx)
 	s64 time;
 
 	do {
-		rc = wait_event_interruptible_timeout(ctx->pp_waitq,
+		rc = wait_event_timeout(ctx->pp_waitq,
 				atomic_read(&ctx->koff_cnt) == 0,
 				KOFF_TIMEOUT);
 		time = ktime_to_ms(ktime_get());
@@ -2162,6 +2162,12 @@ static int mdss_mdp_cmd_wait4pingpong(struct mdss_mdp_ctl *ctl, void *arg)
 			mdss_fb_report_panel_dead(ctl->mfd);
 		} else if (ctx->pp_timeout_report_cnt == 0) {
 			MDSS_XLOG(0xbad);
+			MDSS_XLOG_TOUT_HANDLER_MMI("mdp",
+				"dsi0_ctrl", "dsi0_phy",
+				"dsi1_ctrl", "dsi1_phy");
+			mdss_dropbox_report_event_ratelimit(
+				MDSS_DROPBOX_MSG_PP_TO, 1,
+				&mdss_dropbox_global_rl);
 		} else if (ctx->pp_timeout_report_cnt == MAX_RECOVERY_TRIALS) {
 			MDSS_XLOG(0xbad2);
 			MDSS_XLOG_TOUT_HANDLER("mdp", "dsi0_ctrl", "dsi0_phy",
@@ -3920,3 +3926,4 @@ int mdss_mdp_cmd_start(struct mdss_mdp_ctl *ctl)
 
 	return 0;
 }
+

@@ -667,7 +667,7 @@ int blk_queue_enter(struct request_queue *q, gfp_t gfp)
 		if (!gfpflags_allow_blocking(gfp))
 			return -EBUSY;
 
-		wait_event_interruptible(q->mq_freeze_wq,
+		wait_event(q->mq_freeze_wq,
 			   !atomic_read(&q->mq_freeze_depth) ||
 			   blk_queue_dying(q));
 		if (blk_queue_dying(q))
@@ -879,7 +879,6 @@ blk_init_allocated_queue(struct request_queue *q, request_fn_proc *rfn,
 
 fail:
 	blk_free_flush_queue(q->fq);
-	q->fq = NULL;
 	return NULL;
 }
 EXPORT_SYMBOL(blk_init_allocated_queue);

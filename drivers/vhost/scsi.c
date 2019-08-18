@@ -1277,7 +1277,7 @@ vhost_scsi_set_endpoint(struct vhost_scsi *vs,
 			vq = &vs->vqs[i].vq;
 			mutex_lock(&vq->mutex);
 			vq->private_data = vs_tpg;
-			vhost_vq_init_access(vq);
+			vhost_init_used(vq);
 			mutex_unlock(&vq->mutex);
 		}
 		ret = 0;

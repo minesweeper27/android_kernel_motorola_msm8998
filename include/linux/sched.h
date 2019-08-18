@@ -378,7 +378,7 @@ extern int lockdep_tasklist_lock_is_held(void);
 extern void sched_init(void);
 extern void sched_init_smp(void);
 extern asmlinkage void schedule_tail(struct task_struct *prev);
-extern void init_idle(struct task_struct *idle, int cpu);
+extern void init_idle(struct task_struct *idle, int cpu, bool hotplug);
 extern void init_idle_bootup_task(struct task_struct *idle);
 
 extern cpumask_var_t cpu_isolated_map;
@@ -1668,15 +1668,6 @@ struct task_struct {
 	const struct sched_class *sched_class;
 	struct sched_entity se;
 	struct sched_rt_entity rt;
-#ifdef CONFIG_SCHED_WALT
-	struct ravg ravg;
-	/*
-	 * 'init_load_pct' represents the initial task load assigned to children
-	 * of this task
-	 */
-	u32 init_load_pct;
-    u64 last_sleep_ts;
-#endif
 #ifdef CONFIG_SCHED_HMP
 	struct ravg ravg;
 	/*
@@ -1819,6 +1810,8 @@ struct task_struct {
 #ifdef CONFIG_CPU_FREQ_TIMES
 	u64 *time_in_state;
 	unsigned int max_state;
+	u64 *concurrent_active_time;
+	u64 *concurrent_policy_time;
 #endif
 	struct prev_cputime prev_cputime;
 #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
@@ -3739,18 +3732,5 @@ void cpufreq_add_update_util_hook(int cpu, struct update_util_data *data,
                                     unsigned int flags));
 void cpufreq_remove_update_util_hook(int cpu);
 #endif /* CONFIG_CPU_FREQ */
-
-#ifdef CONFIG_DYNAMIC_STUNE_BOOST
-int do_stune_boost(char *st_name, int boost, int *slot);
-int do_stune_sched_boost(char *st_name, int *slot);
-int reset_stune_boost(char *st_name, int slot);
-int do_prefer_idle(char *st_name, u64 prefer_idle);
-
-static inline int do_prefer_idle(char *st_name, u64 prefer_idle)
-{
-	return 0;
-}
-#endif /* CONFIG_DYNAMIC_STUNE_BOOST */
-
 
 #endif

@@ -406,13 +406,8 @@
 		};
 
 		cont_splash_mem: splash_region@9d400000 {
-			reg = <0x0 0x9d400000 0x0 0x23ff000>;
+			reg = <0x0 0x9d400000 0x0 0x02400000>;
 			label = "cont_splash_mem";
-		};
-
-		dfps_data_mem: dfps_data_mem@0x9f7ff000 {
-		       reg = <0 0x9f7ff000 0 0x00001000>;
-		       label = "dfps_data_mem";
 		};
 	};
 
@@ -788,10 +783,10 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
 		qcom,poll-ms = <100>;
-		qcom,therm-reset-temp = <90>;
-		qcom,core-limit-temp = <60>;
+		qcom,therm-reset-temp = <115>;
+		qcom,core-limit-temp = <70>;
 		qcom,core-temp-hysteresis = <10>;
-		qcom,hotplug-temp = <80>;
+		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
 		qcom,online-hotplug-core;
 		qcom,synchronous-cluster-id = <0 1>;
@@ -843,7 +838,7 @@
 			qcom,high-threshold-uamp = <4200000>;
 			qcom,vph-high-threshold-uv = <3500000>;
 			qcom,vph-low-threshold-uv = <3300000>;
-			qcom,soc-low-threshold = <5>;
+			qcom,soc-low-threshold = <10>;
 		};
 	};
 
@@ -1218,17 +1213,11 @@
 		mincpubw-cpufreq {
 			target-dev = <&mincpubw>;
 			cpu-to-dev-map-0 =
-        < 230000 381 >,
-			  < 300000 381 >,
-				< 633600 572 >,
 				< 787200 762 >,
 				< 1344000 1571 >,
 				< 1881600 2929 >,
 				< 2380800 3879 >;
 			cpu-to-dev-map-4 =
-        < 230000 381 >,
-        < 300000 381 >,
-				< 633600 572 >,
 				< 614400 762 >,
 				< 1536000 1571 >,
 				< 1728000 3879 >;
@@ -1244,9 +1233,6 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
-      <  230000 >,
-		  <  300000 >,
-			<  633600 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1260,10 +1246,7 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
-      <  230000 >,
-		  <  300000 >,
 			<  614400 >,
-			<  633600 >,
 			<  883200 >,
 			< 1094400 >,
 			< 1382400 >,

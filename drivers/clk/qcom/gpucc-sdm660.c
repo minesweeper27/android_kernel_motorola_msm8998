@@ -566,3 +566,4 @@ static void __exit gpu_660_exit(void)
 	platform_driver_unregister(&gpu_660_driver);
 }
 module_exit(gpu_660_exit);
+
