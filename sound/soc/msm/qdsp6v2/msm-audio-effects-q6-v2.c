@@ -666,10 +666,11 @@ int msm_audio_effects_reverb_handler(struct audio_client *ac,
 		default:
 			pr_err_ratelimited("%s: Invalid command to set config\n",
 					   __func__);
-
+<<<<<<< HEAD
 			continue;
-
+=======
 			break;
+>>>>>>> 41a4118fa56cc92d9a860ecb3f0ce89aaefb55f8
 		}
 		if (rc)
 			goto invalid_config;
@@ -811,11 +812,11 @@ int msm_audio_effects_bass_boost_handler(struct audio_client *ac,
 		default:
 			pr_err_ratelimited("%s: Invalid command to set config\n",
 					   __func__);
-
+<<<<<<< HEAD
 			continue;
-
+=======
 			break;
-
+>>>>>>> 41a4118fa56cc92d9a860ecb3f0ce89aaefb55f8
 		}
 		if (rc)
 			goto invalid_config;
@@ -929,7 +930,7 @@ int msm_audio_effects_pbe_handler(struct audio_client *ac,
 		default:
 			pr_err_ratelimited("%s: Invalid command to set config\n",
 					   __func__);
-
+<<<<<<< HEAD
 			continue;
 		}
 		if (rc)
@@ -941,9 +942,9 @@ int msm_audio_effects_pbe_handler(struct audio_client *ac,
 			pr_err("%s: Failed to pack params, error %d\n",
 			       __func__, rc);
 			goto invalid_config;
-
+=======
 			break;
-
+>>>>>>> 41a4118fa56cc92d9a860ecb3f0ce89aaefb55f8
 		}
 
 		updt_params += packed_data_size;
@@ -1175,7 +1176,7 @@ int msm_audio_effects_popless_eq_handler(struct audio_client *ac,
 		default:
 			pr_err_ratelimited("%s: Invalid command to set config\n",
 					   __func__);
-
+<<<<<<< HEAD
 			continue;
 		}
 		if (rc)
@@ -1187,9 +1188,9 @@ int msm_audio_effects_popless_eq_handler(struct audio_client *ac,
 			pr_err("%s: Failed to pack params, error %d\n",
 			       __func__, rc);
 			goto invalid_config;
-
+=======
 			break;
-
+>>>>>>> 41a4118fa56cc92d9a860ecb3f0ce89aaefb55f8
 		}
 
 		updt_params += packed_data_size;
