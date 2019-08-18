@@ -146,6 +146,8 @@ static int __init vdso_init(void)
 
 		vdso_pagelist[i + 1] = pfn_to_page(pfn + i);
 
+		vdso_pagelist[i + 1] = virt_to_page(vdso_start + i * PAGE_SIZE);
+
 	/* Populate the special mapping structures */
 	vdso_spec[0] = (struct vm_special_mapping) {
 		.name	= "[vvar]",
