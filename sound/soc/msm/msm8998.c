@@ -5780,6 +5780,396 @@ static int msm_tdm_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 		break;
 	case AFE_PORT_ID_QUATERNARY_TDM_RX:
 		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_QUAT][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_QUATERNARY_TDM_RX_1:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_QUAT][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_1:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_2:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_3:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_4:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_5:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_6:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_RX_7:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_PRI][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_PRI][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_PRI][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_1:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_2:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_3:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_4:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_5:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_6:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_PRIMARY_TDM_TX_7:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_PRI][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_PRI][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_PRI][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_1:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_2:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_3:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_4:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_5:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_6:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_RX_7:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_SEC][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_SEC][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_SEC][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_1:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_2:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_3:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_4:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_5:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_6:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_SECONDARY_TDM_TX_7:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_SEC][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_SEC][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_SEC][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_1:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_2:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_3:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_4:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_5:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_6:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_RX_7:
+		channels->min = channels->max =
+				tdm_rx_cfg[TDM_TERT][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_rx_cfg[TDM_TERT][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_rx_cfg[TDM_TERT][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_0].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_0].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_0].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_1:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_1].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_1].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_1].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_2:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_2].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_2].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_2].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_3:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_3].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_3].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_3].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_4:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_4].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_4].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_4].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_5:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_5].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_5].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_5].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_6:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_6].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_6].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_6].sample_rate;
+		break;
+	case AFE_PORT_ID_TERTIARY_TDM_TX_7:
+		channels->min = channels->max =
+				tdm_tx_cfg[TDM_TERT][TDM_7].channels;
+		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				tdm_tx_cfg[TDM_TERT][TDM_7].bit_format);
+		rate->min = rate->max =
+				tdm_tx_cfg[TDM_TERT][TDM_7].sample_rate;
+		break;
+	case AFE_PORT_ID_QUATERNARY_TDM_RX:
+		channels->min = channels->max =
 				tdm_rx_cfg[TDM_QUAT][TDM_0].channels;
 		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
 			       tdm_rx_cfg[TDM_QUAT][TDM_0].bit_format);
@@ -5790,6 +6180,7 @@ static int msm_tdm_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 		channels->min = channels->max =
 				tdm_rx_cfg[TDM_QUAT][TDM_1].channels;
 		param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+>>>>>>> 0060498a5b8219dec8c2e3f5cfb0aec8708ccece
 				tdm_rx_cfg[TDM_QUAT][TDM_1].bit_format);
 		rate->min = rate->max =
 				tdm_rx_cfg[TDM_QUAT][TDM_1].sample_rate;

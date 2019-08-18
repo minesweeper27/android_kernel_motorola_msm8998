@@ -2487,6 +2487,19 @@ int hdmi_edid_parser(void *input)
 		else
 			edid_ctrl->sink_mode = SINK_MODE_DVI;
 
+
+		/* goto to CEA extension edid block */
+		edid_buf += EDID_BLOCK_SIZE;
+
+		ieee_reg_id = hdmi_edid_extract_ieee_reg_id(edid_ctrl,
+				edid_buf);
+		DEV_DBG("%s: ieee_reg_id = 0x%08x\n", __func__, ieee_reg_id);
+		if (ieee_reg_id == EDID_IEEE_REG_ID)
+			edid_ctrl->sink_mode = SINK_MODE_HDMI;
+		else
+			edid_ctrl->sink_mode = SINK_MODE_DVI;
+
+>>>>>>> 0060498a5b8219dec8c2e3f5cfb0aec8708ccece
 		hdmi_edid_extract_sink_caps(edid_ctrl, edid_buf);
 		hdmi_edid_extract_latency_fields(edid_ctrl, edid_buf);
 		hdmi_edid_extract_dc(edid_ctrl, edid_buf);
