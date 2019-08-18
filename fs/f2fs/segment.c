@@ -2296,7 +2296,11 @@ bool f2fs_is_checkpointed_data(struct f2fs_sb_info *sbi, block_t blkaddr)
 	struct seg_entry *se;
 	bool is_cp = false;
 
+<<<<<<< HEAD
 	if (!__is_valid_data_blkaddr(blkaddr))
+=======
+	if (blkaddr == NEW_ADDR || blkaddr == NULL_ADDR)
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 		return true;
 
 	down_read(&sit_i->sentry_lock);
@@ -3415,10 +3419,14 @@ void f2fs_wait_on_block_writeback(struct inode *inode, block_t blkaddr)
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct page *cpage;
 
+<<<<<<< HEAD
 	if (!f2fs_post_read_required(inode))
 		return;
 
 	if (!__is_valid_data_blkaddr(blkaddr))
+=======
+	if (blkaddr == NEW_ADDR || blkaddr == NULL_ADDR)
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 		return;
 
 	cpage = find_lock_page(META_MAPPING(sbi), blkaddr);
@@ -4148,6 +4156,7 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 				total_node_blocks += se->valid_blocks;
 
 			/* build discard map only one time */
+<<<<<<< HEAD
 			if (is_set_ckpt_flags(sbi, CP_TRIMMED_FLAG)) {
 				memset(se->discard_map, 0xff,
 					SIT_VBLOCK_MAP_SIZE);
@@ -4158,6 +4167,20 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 				sbi->discard_blks +=
 					sbi->blocks_per_seg -
 					se->valid_blocks;
+=======
+			if (f2fs_discard_en(sbi)) {
+				if (is_set_ckpt_flags(sbi, CP_TRIMMED_FLAG)) {
+					memset(se->discard_map, 0xff,
+						SIT_VBLOCK_MAP_SIZE);
+				} else {
+					memcpy(se->discard_map,
+						se->cur_valid_map,
+						SIT_VBLOCK_MAP_SIZE);
+					sbi->discard_blks +=
+						sbi->blocks_per_seg -
+						se->valid_blocks;
+				}
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 			}
 
 			if (__is_large_section(sbi))
@@ -4172,6 +4195,7 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 		unsigned int old_valid_blocks;
 
 		start = le32_to_cpu(segno_in_journal(journal, i));
+<<<<<<< HEAD
 		if (start >= MAIN_SEGS(sbi)) {
 			f2fs_msg(sbi->sb, KERN_ERR,
 					"Wrong journal entry on segno %u",
@@ -4181,6 +4205,8 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 			break;
 		}
 
+=======
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 		se = &sit_i->sentries[start];
 		sit = sit_in_journal(journal, i);
 
@@ -4195,6 +4221,7 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 		if (IS_NODESEG(se->type))
 			total_node_blocks += se->valid_blocks;
 
+<<<<<<< HEAD
 		if (is_set_ckpt_flags(sbi, CP_TRIMMED_FLAG)) {
 			memset(se->discard_map, 0xff, SIT_VBLOCK_MAP_SIZE);
 		} else {
@@ -4202,6 +4229,18 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 						SIT_VBLOCK_MAP_SIZE);
 			sbi->discard_blks += old_valid_blocks;
 			sbi->discard_blks -= se->valid_blocks;
+=======
+		if (f2fs_discard_en(sbi)) {
+			if (is_set_ckpt_flags(sbi, CP_TRIMMED_FLAG)) {
+				memset(se->discard_map, 0xff,
+							SIT_VBLOCK_MAP_SIZE);
+			} else {
+				memcpy(se->discard_map, se->cur_valid_map,
+							SIT_VBLOCK_MAP_SIZE);
+				sbi->discard_blks += old_valid_blocks -
+							se->valid_blocks;
+			}
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 		}
 
 		if (__is_large_section(sbi)) {
@@ -4212,6 +4251,7 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 		}
 	}
 	up_read(&curseg->journal_rwsem);
+<<<<<<< HEAD
 
 	if (!err && total_node_blocks != valid_node_count(sbi)) {
 		f2fs_msg(sbi->sb, KERN_ERR,
@@ -4221,6 +4261,8 @@ static int build_sit_entries(struct f2fs_sb_info *sbi)
 		err = -EINVAL;
 	}
 
+=======
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 	return err;
 }
 

@@ -66,16 +66,21 @@ static void __get_inode_rdev(struct inode *inode, struct f2fs_inode *ri)
 	}
 }
 
-static int __written_first_block(struct f2fs_sb_info *sbi,
-					struct f2fs_inode *ri)
+static bool __written_first_block(struct f2fs_inode *ri)
 {
 	block_t addr = le32_to_cpu(ri->i_addr[offset_in_addr(ri)]);
 
+<<<<<<< HEAD
 	if (!__is_valid_data_blkaddr(addr))
 		return 1;
 	if (!f2fs_is_valid_blkaddr(sbi, addr, DATA_GENERIC_ENHANCE))
 		return -EFAULT;
 	return 0;
+=======
+	if (addr != NEW_ADDR && addr != NULL_ADDR)
+		return true;
+	return false;
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 }
 
 static void __set_inode_rdev(struct inode *inode, struct f2fs_inode *ri)
@@ -193,6 +198,7 @@ void f2fs_inode_chksum_set(struct f2fs_sb_info *sbi, struct page *page)
 	ri->i_inode_checksum = cpu_to_le32(f2fs_inode_chksum(sbi, page));
 }
 
+<<<<<<< HEAD
 static bool sanity_check_inode(struct inode *inode, struct page *node_page)
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
@@ -303,6 +309,8 @@ static bool sanity_check_inode(struct inode *inode, struct page *node_page)
 	return true;
 }
 
+=======
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 static int do_read_inode(struct inode *inode)
 {
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
@@ -310,7 +318,10 @@ static int do_read_inode(struct inode *inode)
 	struct page *node_page;
 	struct f2fs_inode *ri;
 	projid_t i_projid;
+<<<<<<< HEAD
 	int err;
+=======
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 
 	/* Check if ino is within scope */
 	if (f2fs_check_nid_range(sbi, inode->i_ino))
@@ -372,11 +383,6 @@ static int do_read_inode(struct inode *inode)
 		fi->i_inline_xattr_size = 0;
 	}
 
-	if (!sanity_check_inode(inode, node_page)) {
-		f2fs_put_page(node_page, 1);
-		return -EINVAL;
-	}
-
 	/* check data exist */
 	if (f2fs_has_inline_data(inode) && !f2fs_exist_data(inode))
 		__recover_inline_status(inode, node_page);
@@ -390,6 +396,7 @@ static int do_read_inode(struct inode *inode)
 	/* get rdev by using inline_info */
 	__get_inode_rdev(inode, ri);
 
+<<<<<<< HEAD
 	if (S_ISREG(inode->i_mode)) {
 		err = __written_first_block(sbi, ri);
 		if (err < 0) {
@@ -399,6 +406,10 @@ static int do_read_inode(struct inode *inode)
 		if (!err)
 			set_inode_flag(inode, FI_FIRST_BLOCK_WRITTEN);
 	}
+=======
+	if (__written_first_block(ri))
+		set_inode_flag(inode, FI_FIRST_BLOCK_WRITTEN);
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 
 	if (!f2fs_need_inode_block_update(sbi, inode->i_ino))
 		fi->last_disk_size = inode->i_size;

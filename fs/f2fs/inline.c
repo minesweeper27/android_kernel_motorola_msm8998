@@ -147,6 +147,7 @@ int f2fs_convert_inline_page(struct dnode_of_data *dn, struct page *page)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
 	err = f2fs_get_node_info(fio.sbi, dn->nid, &ni);
 	if (err) {
 		f2fs_put_dnode(dn);
@@ -165,6 +166,8 @@ int f2fs_convert_inline_page(struct dnode_of_data *dn, struct page *page)
 		return -EINVAL;
 	}
 
+=======
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 	f2fs_bug_on(F2FS_P_SB(page), PageWriteback(page));
 
 	f2fs_do_read_inline_data(page, dn->inode_page);
@@ -398,6 +401,7 @@ static int f2fs_move_inline_dirents(struct inode *dir, struct page *ipage,
 	if (err)
 		goto out;
 
+<<<<<<< HEAD
 	if (unlikely(dn.data_blkaddr != NEW_ADDR)) {
 		f2fs_put_dnode(&dn);
 		set_sbi_flag(F2FS_P_SB(page), SBI_NEED_FSCK);
@@ -410,6 +414,10 @@ static int f2fs_move_inline_dirents(struct inode *dir, struct page *ipage,
 	}
 
 	f2fs_wait_on_page_writeback(page, DATA, true, true);
+=======
+	f2fs_wait_on_page_writeback(page, DATA, true);
+	zero_user_segment(page, MAX_INLINE_DATA(dir), PAGE_SIZE);
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 
 	dentry_blk = page_address(page);
 
@@ -496,8 +504,13 @@ static int f2fs_add_inline_entries(struct inode *dir, void *inline_dentry)
 	return 0;
 punch_dentry_pages:
 	truncate_inode_pages(&dir->i_data, 0);
+<<<<<<< HEAD
 	f2fs_truncate_blocks(dir, 0, false);
 	f2fs_remove_dirty_inode(dir);
+=======
+	truncate_blocks(dir, 0, false);
+	remove_dirty_inode(dir);
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 	return err;
 }
 
@@ -515,7 +528,11 @@ static int f2fs_move_rehashed_dirents(struct inode *dir, struct page *ipage,
 	}
 
 	memcpy(backup_dentry, inline_dentry, MAX_INLINE_DATA(dir));
+<<<<<<< HEAD
 	f2fs_truncate_inline_inode(dir, ipage, 0);
+=======
+	truncate_inline_inode(dir, ipage, 0);
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 
 	unlock_page(ipage);
 
@@ -527,6 +544,7 @@ static int f2fs_move_rehashed_dirents(struct inode *dir, struct page *ipage,
 
 	stat_dec_inline_dir(dir);
 	clear_inode_flag(dir, FI_INLINE_DENTRY);
+<<<<<<< HEAD
 
 	/*
 	 * should retrieve reserved space which was used to keep
@@ -541,6 +559,12 @@ static int f2fs_move_rehashed_dirents(struct inode *dir, struct page *ipage,
 recover:
 	lock_page(ipage);
 	f2fs_wait_on_page_writeback(ipage, NODE, true, true);
+=======
+	kfree(backup_dentry);
+	return 0;
+recover:
+	lock_page(ipage);
+>>>>>>> 271b54383bbae084bb064c3e68b542116534a4fe
 	memcpy(inline_dentry, backup_dentry, MAX_INLINE_DATA(dir));
 	f2fs_i_depth_write(dir, 0);
 	f2fs_i_size_write(dir, MAX_INLINE_DATA(dir));

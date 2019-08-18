@@ -1,4 +1,8 @@
 /* Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
+/* Copyright (c) 2012-2017,2019, The Linux Foundation. All rights reserved.
+=======
+>>>>>>> parent of fef9231e7123... Merge tag 'LA.UM.6.1.c25-03400-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into dexk5.1
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and

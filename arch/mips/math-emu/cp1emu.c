@@ -843,6 +843,12 @@ do {									\
 
 #define DITOREG(di, x)							\
 do {									\
+
+	unsigned int fpr, i;						\
+
+	unsigned fpr, i;						\
+
+
 	unsigned int fpr, i;						\
 	fpr = (x) & ~(cop1_64bit(xcp) ^ 1);				\
 	set_fpr64(&ctx->fpr[fpr], 0, di);				\
