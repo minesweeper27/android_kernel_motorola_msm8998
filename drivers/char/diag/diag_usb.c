@@ -330,7 +330,6 @@ static void diag_usb_write_done(struct diag_usb_info *ch,
 	}
 	DIAG_LOG(DIAG_DEBUG_MUX, "full write_done, ctxt: %d\n",
 		 ctxt);
-	spin_lock_irqsave(&ch->write_lock, flags);
 	list_del(&entry->track);
 	ctxt = entry->ctxt;
 	buf = entry->buf;
