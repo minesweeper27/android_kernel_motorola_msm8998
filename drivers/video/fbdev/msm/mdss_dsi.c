@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -34,8 +34,6 @@
 #include "mdss_debug.h"
 #include "mdss_dsi_phy.h"
 #include "mdss_dba_utils.h"
-#include "mdss_livedisplay.h"
-
 
 #define CMDLINE_DSI_CTL_NUM_STRING_LEN 2
 
@@ -943,7 +941,8 @@ static ssize_t mdss_dsi_cmd_write(struct file *file, const char __user *p,
 static int mdss_dsi_cmd_flush(struct file *file, fl_owner_t id)
 {
 	struct buf_data *pcmds = file->private_data;
-	int blen, len, i;
+	unsigned int len;
+	int blen, i;
 	char *buf, *bufp, *bp;
 	struct dsi_ctrl_hdr *dchdr;
 
@@ -986,7 +985,7 @@ static int mdss_dsi_cmd_flush(struct file *file, fl_owner_t id)
 	while (len >= sizeof(*dchdr)) {
 		dchdr = (struct dsi_ctrl_hdr *)bp;
 		dchdr->dlen = ntohs(dchdr->dlen);
-		if (dchdr->dlen > len || dchdr->dlen < 0) {
+		if (dchdr->dlen > (len - sizeof(*dchdr)) || dchdr->dlen < 0) {
 			pr_err("%s: dtsi cmd=%x error, len=%d\n",
 				__func__, dchdr->dtype, dchdr->dlen);
 			kfree(buf);
@@ -3151,9 +3150,6 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 				pr_err("unable to change bitclk error-%d\n",
 					rc);
 		}
-		break;
-	case MDSS_EVENT_UPDATE_LIVEDISPLAY:
-		rc = mdss_livedisplay_update(ctrl_pdata, (int)(unsigned long) arg);
 		break;
 	default:
 		pr_debug("%s: unhandled event=%d\n", __func__, event);
