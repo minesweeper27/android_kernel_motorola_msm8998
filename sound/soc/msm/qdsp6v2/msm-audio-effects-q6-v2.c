@@ -1,4 +1,4 @@
-/* Copyright (c) 2013-2017, 2019 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,14 +11,10 @@
  */
 
 #include <linux/slab.h>
-#include <linux/ratelimit.h>
 #include <sound/apr_audio-v2.h>
 #include <sound/q6asm-v2.h>
 #include <sound/compress_params.h>
 #include <sound/msm-audio-effects-q6-v2.h>
-#ifdef CONFIG_AINUR_DTS_HW
-#include <sound/msm-dts-eagle.h>
-#endif
 #include <sound/devdep_params.h>
 #include <sound/q6common.h>
 
@@ -27,8 +23,7 @@
 #define GET_NEXT(ptr, upper_limit, rc)                                  \
 ({                                                                      \
 	if (((ptr) + 1) > (upper_limit)) {                              \
-		pr_err_ratelimited("%s: param list out of boundary\n",  \
-				   __func__);				\
+		pr_err("%s: param list out of boundary\n", __func__);   \
 		(rc) = -EINVAL;                                         \
 	}                                                               \
 	((rc) == 0) ? *(ptr)++ :  -EINVAL;                              \
@@ -37,8 +32,7 @@
 #define CHECK_PARAM_LEN(len, max_len, tag, rc)                          \
 do {                                                                    \
 	if ((len) > (max_len)) {                                        \
-		pr_err_ratelimited("%s: params length overflows\n",	\
-				   (tag));				\
+		pr_err("%s: params length overflows\n", (tag));         \
 		(rc) = -EINVAL;                                         \
 	}                                                               \
 } while (0)
@@ -55,31 +49,7 @@ bool msm_audio_effects_is_effmodule_supp_in_top(int effect_module,
 	case EQ_MODULE:
 		switch (topology) {
 		case ASM_STREAM_POSTPROC_TOPO_ID_SA_PLUS:
-#ifdef CONFIG_AINUR_DTS_HW
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_PLUS:
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_MASTER:
-#endif
 			return true;
-		default:
-			return false;
-		}
-#ifdef CONFIG_AINUR_DTS_HW
-	case DTS_EAGLE_MODULE:
-		switch (topology) {
-		case ASM_STREAM_POSTPROC_TOPO_ID_DTS_HPX:
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_PLUS:
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_MASTER:
-			return true;
-		default:
-			return false;
-		}
-	case SOFT_VOLUME2_MODULE:
-	case DTS_EAGLE_MODULE_ENABLE:
-		switch (topology) {
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_PLUS:
-		case ASM_STREAM_POSTPROC_TOPO_ID_HPX_MASTER:
-			return true;
-#endif
 		default:
 			return false;
 		}
@@ -264,8 +234,7 @@ int msm_audio_effects_virtualizer_handler(struct audio_client *ac,
 			param_data = (u8 *) &virtualizer->gain_adjust;
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command to set config\n",
-					   __func__);
+			pr_err("%s: Invalid command to set config\n", __func__);
 			continue;
 		}
 		if (rc)
@@ -282,11 +251,7 @@ int msm_audio_effects_virtualizer_handler(struct audio_client *ac,
 		updt_params += packed_data_size;
 		params_length += packed_data_size;
 	}
-#ifdef CONFIG_AINUR_DTS_HW
-	if (params_length && !msm_dts_eagle_is_hpx_on() && (rc == 0))
-#else
 	if (params_length && (rc == 0))
-#endif	
 		q6asm_set_pp_params(ac, NULL, params, params_length);
 	else
 		pr_debug("%s: did not send pp params\n", __func__);
@@ -691,8 +656,7 @@ int msm_audio_effects_reverb_handler(struct audio_client *ac,
 			param_data = (u8 *) &reverb->density;
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command to set config\n",
-					   __func__);
+			pr_err("%s: Invalid command to set config\n", __func__);
 			continue;
 		}
 		if (rc)
@@ -833,8 +797,7 @@ int msm_audio_effects_bass_boost_handler(struct audio_client *ac,
 			param_data = (u8 *) &bass_boost->strength;
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command to set config\n",
-					   __func__);
+			pr_err("%s: Invalid command to set config\n", __func__);
 			continue;
 		}
 		if (rc)
@@ -851,11 +814,7 @@ int msm_audio_effects_bass_boost_handler(struct audio_client *ac,
 		updt_params += packed_data_size;
 		params_length += packed_data_size;
 	}
-#ifdef CONFIG_AINUR_DTS_HW
-	if (params_length && !msm_dts_eagle_is_hpx_on() && (rc == 0))
-#else
 	if (params_length && (rc == 0))
-#endif	
 		q6asm_set_pp_params(ac, NULL, params, params_length);
 	else
 		pr_debug("%s: did not send pp params\n", __func__);
@@ -951,8 +910,7 @@ int msm_audio_effects_pbe_handler(struct audio_client *ac,
 			param_data = (u8 *) values;
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command to set config\n",
-					   __func__);
+			pr_err("%s: Invalid command to set config\n", __func__);
 			continue;
 		}
 		if (rc)
@@ -969,11 +927,7 @@ int msm_audio_effects_pbe_handler(struct audio_client *ac,
 		updt_params += packed_data_size;
 		params_length += packed_data_size;
 	}
-#ifdef CONFIG_AINUR_DTS_HW
-	if (params_length && !msm_dts_eagle_is_hpx_on() && (rc == 0))
-#else
 	if (params_length && (rc == 0))
-#endif	
 		q6asm_set_pp_params(ac, NULL, params, params_length);
 invalid_config:
 	kfree(params);
@@ -1197,8 +1151,7 @@ int msm_audio_effects_popless_eq_handler(struct audio_client *ac,
 			param_data = (u8 *) &eq->freq_millihertz;
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command to set config\n",
-					   __func__);
+			pr_err("%s: Invalid command to set config\n", __func__);
 			continue;
 		}
 		if (rc)
@@ -1215,11 +1168,7 @@ int msm_audio_effects_popless_eq_handler(struct audio_client *ac,
 		updt_params += packed_data_size;
 		params_length += packed_data_size;
 	}
-#ifdef CONFIG_AINUR_DTS_HW
-	if (params_length && !msm_dts_eagle_is_hpx_on() && (rc == 0))
-#else
 	if (params_length && (rc == 0))
-#endif	
 		q6asm_set_pp_params(ac, NULL, params, params_length);
 	else
 		pr_debug("%s: did not send pp params\n", __func__);
@@ -1321,7 +1270,7 @@ static int __msm_audio_effects_volume_handler(struct audio_client *ac,
 					"VOLUME/VOLUME2_GAIN_MASTER", rc);
 			break;
 		default:
-			pr_err_ratelimited("%s: Invalid command id: %d to set config\n",
+			pr_err("%s: Invalid command id: %d to set config\n",
 				__func__, command_id);
 			continue;
 		}
