@@ -798,6 +798,13 @@ static int snd_compr_drain(struct snd_compr_stream *stream)
 	}
 	mutex_unlock(&stream->device->lock);
 
+		return -EPERM;
+	case SNDRV_PCM_STATE_XRUN:
+		return -EPIPE;
+	default:
+		break;
+	}
+
 	retval = stream->ops->trigger(stream, SND_COMPR_TRIGGER_DRAIN);
 	mutex_lock(&stream->device->lock);
 	if (!retval) {
@@ -846,10 +853,14 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
 		return -EPERM;
 	case SNDRV_PCM_STATE_XRUN:
 		mutex_unlock(&stream->device->lock);
+
+		return -EPERM;
+	case SNDRV_PCM_STATE_XRUN:
 		return -EPIPE;
 	default:
 		break;
 	}
+	
 	mutex_unlock(&stream->device->lock);
 
 	/* stream can be drained only when next track has been signalled */
