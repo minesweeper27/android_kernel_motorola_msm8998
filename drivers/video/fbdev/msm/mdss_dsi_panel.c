@@ -1372,6 +1372,17 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 		mdss_dba_utils_video_off(pinfo->dba_data);
 		mdss_dba_utils_hdcp_enable(pinfo->dba_data, false);
 	}
+<<<<<<< HEAD
+=======
+	
+	display_on = false;
+	sched_set_boost(0);
+
+
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
+#endif
+>>>>>>> 1cbc756aa85f... sched,camera_v2: boost scheduler to prefer BIG cores when camera in use - Part 2
 
 end:
 	pr_debug("%s:-\n", __func__);
