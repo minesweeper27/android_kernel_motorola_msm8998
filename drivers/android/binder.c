@@ -8,6 +8,16 @@
  * License version 2, as published by the Free Software Foundation, and
  * may be copied, distributed, and modified under those terms.
  *
+ * This program is/* binder.c
+ *
+ * Android IPC Subsystem
+ *
+ * Copyright (C) 2007-2008 Google, Inc.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -137,8 +147,7 @@ enum {
 	BINDER_DEBUG_PRIORITY_CAP           = 1U << 13,
 	BINDER_DEBUG_SPINLOCKS              = 1U << 14,
 };
-static uint32_t binder_debug_mask = BINDER_DEBUG_USER_ERROR |
-	BINDER_DEBUG_FAILED_TRANSACTION | BINDER_DEBUG_DEAD_TRANSACTION;
+static uint32_t binder_debug_mask = 0;
 module_param_named(debug_mask, binder_debug_mask, uint, 0644);
 
 static char *binder_devices_param = CONFIG_ANDROID_BINDER_DEVICES;
@@ -578,8 +587,7 @@ enum {
 	BINDER_LOOPER_STATE_EXITED      = 0x04,
 	BINDER_LOOPER_STATE_INVALID     = 0x08,
 	BINDER_LOOPER_STATE_WAITING     = 0x10,
-	BINDER_LOOPER_STATE_NEED_RETURN = 0x20,
-	BINDER_LOOPER_STATE_POLL	= 0x40,
+	BINDER_LOOPER_STATE_POLL        = 0x20,
 };
 
 /**
@@ -4612,17 +4620,6 @@ static int binder_thread_release(struct binder_proc *proc,
 	binder_inner_proc_unlock(thread->proc);
 
 	/*
-	 * If this thread used poll, make sure we remove the waitqueue
-	 * from any epoll data structures holding it with POLLFREE.
-	 * waitqueue_active() is safe to use here because we're holding
-	 * the global lock.
-	 */
-	if ((thread->looper & BINDER_LOOPER_STATE_POLL) &&
-	    waitqueue_active(&thread->wait)) {
-		wake_up_poll(&thread->wait, POLLHUP | POLLFREE);
-	}
-
-	/*
 	 * This is needed to avoid races between wake_up_poll() above and
 	 * and ep_remove_waitqueue() called for other reasons (eg the epoll file
 	 * descriptor being closed); ep_remove_waitqueue() holds an RCU read
@@ -4652,11 +4649,6 @@ static unsigned int binder_poll(struct file *filp,
 	binder_inner_proc_lock(thread->proc);
 	thread->looper |= BINDER_LOOPER_STATE_POLL;
 	wait_for_proc_work = binder_available_for_proc_work_ilocked(thread);
-
-	thread->looper |= BINDER_LOOPER_STATE_POLL;
-
-	wait_for_proc_work = thread->transaction_stack == NULL &&
-		list_empty(&thread->todo) && thread->return_error == BR_OK;
 
 	binder_inner_proc_unlock(thread->proc);
 
