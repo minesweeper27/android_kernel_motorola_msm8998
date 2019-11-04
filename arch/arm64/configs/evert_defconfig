@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 4.4.190 Kernel Configuration
+# Linux/arm64 4.4.198 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -54,8 +54,10 @@ CONFIG_ARM_ARCH_TIMER_VCT_ACCESS=y
 CONFIG_CPU_BOOST=y
 CONFIG_RCU_BOOST=y
 
-# prepare dexk for q 
+# prepare dexk for q
 CONFIG_OVERLAY_FS=y
+CONFIG_SDCARD_FS_PARTIAL_RELATIME=y
+CONFIG_SDCARD_FS_DIR_WRITER=y
 
 #
 # General setup
@@ -4964,8 +4966,6 @@ CONFIG_MISC_FILESYSTEMS=y
 CONFIG_ECRYPT_FS=y
 CONFIG_ECRYPT_FS_MESSAGING=y
 CONFIG_SDCARD_FS=y
-CONFIG_SDCARD_FS_PARTIAL_RELATIME="/%s/Download:com.motorola.mya"
-CONFIG_SDCARD_FS_DIR_WRITER="/%s/%s"
 # CONFIG_MULTISPACE_FEATURE_ENABLED is not set
 # CONFIG_ESD_FS is not set
 # CONFIG_HFS_FS is not set
