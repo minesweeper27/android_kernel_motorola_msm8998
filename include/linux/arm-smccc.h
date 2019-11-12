@@ -14,12 +14,9 @@
 #ifndef __LINUX_ARM_SMCCC_H
 #define __LINUX_ARM_SMCCC_H
 
-<<<<<<< HEAD
 #include <linux/linkage.h>
 #include <linux/types.h>
-=======
 #include <uapi/linux/const.h>
->>>>>>> 1a9ca978227942104bede71adac731486e5b5566
 
 /*
  * This file provides common defines for ARM SMC Calling Convention as
@@ -27,13 +24,10 @@
  * http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
  */
 
-<<<<<<< HEAD
 #define ARM_SMCCC_STD_CALL		0
 #define ARM_SMCCC_FAST_CALL		1
-=======
 #define ARM_SMCCC_STD_CALL	        _AC(0,U)
 #define ARM_SMCCC_FAST_CALL	        _AC(1,U)
->>>>>>> 1a9ca978227942104bede71adac731486e5b5566
 #define ARM_SMCCC_TYPE_SHIFT		31
 
 #define ARM_SMCCC_SMC_32		0
@@ -69,8 +63,6 @@
 #define ARM_SMCCC_OWNER_TRUSTED_OS	50
 #define ARM_SMCCC_OWNER_TRUSTED_OS_END	63
 
-<<<<<<< HEAD
-=======
 #define ARM_SMCCC_VERSION_1_0		0x10000
 #define ARM_SMCCC_VERSION_1_1		0x10001
 
@@ -94,7 +86,6 @@
 #include <linux/linkage.h>
 #include <linux/types.h>
 
->>>>>>> 1a9ca978227942104bede71adac731486e5b5566
 /**
  * struct arm_smccc_res - Result from SMC/HVC call
  * @a0-a3 result values from registers 0 to 3
@@ -136,7 +127,6 @@ asmlinkage void arm_smccc_hvc(unsigned long a0, unsigned long a1,
 			unsigned long a5, unsigned long a6, unsigned long a7,
 			struct arm_smccc_res *res);
 
-<<<<<<< HEAD
 
 static inline unsigned long __invoke_psci_fn_hvc(unsigned long function_id,
 			unsigned long arg0, unsigned long arg1,
@@ -158,7 +148,6 @@ static inline unsigned long __invoke_psci_fn_smc(unsigned long function_id,
 	return res.a0;
 }
 
-=======
 /* SMCCC v1.1 implementation madness follows */
 #ifdef CONFIG_ARM64
 
@@ -316,5 +305,4 @@ static inline unsigned long __invoke_psci_fn_smc(unsigned long function_id,
 #define SMCCC_RET_NOT_REQUIRED			-2
 
 #endif /*__ASSEMBLY__*/
->>>>>>> 1a9ca978227942104bede71adac731486e5b5566
 #endif /*__LINUX_ARM_SMCCC_H*/
