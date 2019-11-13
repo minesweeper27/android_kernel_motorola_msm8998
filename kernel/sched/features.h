@@ -41,12 +41,6 @@ SCHED_FEAT(DOUBLE_TICK, false)
 SCHED_FEAT(LB_BIAS, true)
 
 /*
- * skip buddy i.e task called yield() is always skipped and the
- * next entity is selected to run irrespective of the vruntime
- */
-SCHED_FEAT(STRICT_SKIP_BUDDY, true)
-
-/*
  * Decrement CPU capacity based on time not spent running tasks
  */
 SCHED_FEAT(NONTASK_CAPACITY, true)
