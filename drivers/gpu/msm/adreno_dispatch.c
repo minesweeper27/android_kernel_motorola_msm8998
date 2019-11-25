@@ -2844,6 +2844,17 @@ int adreno_dispatcher_init(struct adreno_device *adreno_dev)
 	plist_head_init(&dispatcher->pending);
 	spin_lock_init(&dispatcher->plist_lock);
 
+<<<<<<< HEAD
+=======
+       init_waitqueue_head(&dispatcher->cmd_waitq);
+	dispatcher->send_cmds = (atomic_t)ATOMIC_INIT(0);
+	dispatcher->thread = kthread_run_perf_critical(adreno_dispatcher_thread,
+						       adreno_dev,
+						       "adreno_dispatch");
+	if (IS_ERR(dispatcher->thread))
+		return PTR_ERR(dispatcher->thread);
+
+>>>>>>> 2088f2cd0021... msm: kgsl: Mark dispatcher thread as performance-critical
 	ret = kobject_init_and_add(&dispatcher->kobj, &ktype_dispatcher,
 		&device->dev->kobj, "dispatch");
 
