@@ -2747,6 +2747,8 @@ static int __qseecom_unload_app(struct qseecom_dev_handle *data,
 				app_id, resp.result);
 		ret = -EFAULT;
 		break;
+=======
+>>>>>>> 996e1d81c9db9411b7657ee9a98822c8490ce5bb
 	}
 	return ret;
 }
