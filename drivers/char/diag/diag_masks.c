@@ -1089,6 +1089,12 @@ static int diag_cmd_get_log_mask(unsigned char *src_buf, int src_len,
 	mask_info = (!info) ? &log_mask : info->log_mask;
 	if (!src_buf || !dest_buf || src_len <= 0 || dest_len <= 0 ||
 	    !mask_info) {
+<<<<<<< HEAD
+=======
+
+	if (!src_buf || !dest_buf || dest_len <= 0 || !mask_info ||
+		src_len < sizeof(struct diag_log_config_get_req_t)) {
+>>>>>>> parent of d90c25dfbadb... Merge tag 'LA.UM.6.2.r1-12700-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
 		pr_err("diag: Invalid input in %s, src_buf: %pK, src_len: %d, dest_buf: %pK, dest_len: %d, mask_info: %pK\n",
 		       __func__, src_buf, src_len, dest_buf, dest_len,
 		       mask_info);
