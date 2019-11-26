@@ -2580,10 +2580,13 @@ static int __qseecom_unload_app(struct qseecom_dev_handle *data,
 				app_id, resp.result);
 		ret = -EFAULT;
 		break;
+<<<<<<< HEAD
 
 =======
 		data->client.ihandle = NULL;
 >>>>>>> parent of 909514547863... Merge tag 'LA.UM.7.2.r1-07700-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
+=======
+>>>>>>> parent of eb4aaf8ab324... Merge tag 'LA.UM.7.2.c6-02600-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
 	}
 	return ret;
 }
