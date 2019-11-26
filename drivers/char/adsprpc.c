@@ -1403,6 +1403,10 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 
 		if (rpra && lrpra && rpra[i].buf.len &&
 			ctx->overps[oix]->mstart) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 01fb46e605eb... improve latencys
 			if (map && map->handle)
 				msm_ion_do_cache_op(ctx->fl->apps->client,
 					map->handle,
@@ -1424,6 +1428,10 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		rpra[inh + i].buf.len = lrpra[inh + i].buf.len =
 				ctx->lpra[inh + i].buf.len;
 		rpra[inh + i].h = lrpra[inh + i].h = ctx->lpra[inh + i].h;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 01fb46e605eb... improve latencys
 	}
 
  bail:

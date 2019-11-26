@@ -2416,7 +2416,10 @@ int hdmi_edid_parser(void *input)
 	u16 ieee_reg_id;
 	int status = 0;
 	u32 i = 0;
+<<<<<<< HEAD
 	u32 cea_idx = 1;
+=======
+>>>>>>> 01fb46e605eb... improve latencys
 	struct hdmi_edid_ctrl *edid_ctrl = (struct hdmi_edid_ctrl *)input;
 
 	if (!edid_ctrl) {
@@ -2480,6 +2483,7 @@ int hdmi_edid_parser(void *input)
 		/* goto to CEA extension edid block */
 		edid_buf += EDID_BLOCK_SIZE;
 
+<<<<<<< HEAD
 		ieee_reg_id = hdmi_edid_extract_ieee_reg_id(edid_ctrl,
 				edid_buf);
 		DEV_DBG("%s: ieee_reg_id = 0x%08x\n", __func__, ieee_reg_id);
@@ -2497,6 +2501,8 @@ int hdmi_edid_parser(void *input)
 		hdmi_edid_extract_extended_data_blocks(edid_ctrl, edid_buf);
 	}
 
+=======
+>>>>>>> 01fb46e605eb... improve latencys
 bail:
 	for (i = 1; i <= num_of_cea_blocks; i++) {
 		DEV_DBG("%s: === HDMI EDID BLOCK %d ===\n", __func__, i);
