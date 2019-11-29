@@ -68,6 +68,12 @@ CONFIG_FB_MSM_MDSS_KCAL_CTRL=y
 CONFIG_KLAPSE=y
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+CONFIG_HOMEBUTTON=y
+
+#enable polly
+>>>>>>> 930a2d63e63f... implement home button support for moto actions
 CONFIG_LLVM_POLLY=y
 CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
 CONFIG_VMSTAT_INTERVAL=20
