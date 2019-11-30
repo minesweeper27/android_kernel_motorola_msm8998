@@ -30,6 +30,7 @@ $(warning LSE atomics not supported by binutils)
   endif
 endif
 
+<<<<<<< HEAD
 ifeq ($(CONFIG_COMPAT_VDSO), y)
   CROSS_COMPILE_ARM32 ?= $(CONFIG_CROSS_COMPILE_ARM32:"%"=%)
 
@@ -58,6 +59,10 @@ ifeq ($(CONFIG_COMPAT_VDSO), y)
     vdso32 := -DCONFIG_VDSO32=1
   endif
 endif
+=======
+# Optimize for CPU
+KBUILD_CFLAGS	+= $(call cc-option,-march=armv8-a+crypto+crc,) $(call cc-option,-mcpu=cortex-a73+crypto+crc,)
+>>>>>>> 44c77d6c4806... introduce new patch for low latency
 
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= $(call clang-ifversion, -ge, 0600, -mgeneral-regs-only, -mno-implicit-float)
