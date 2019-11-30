@@ -1,7 +1,11 @@
 #
 # Automatically generated file; DO NOT EDIT.
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Linux/arm64 4.4.206 Kernel Configuration
+=======
+# Linux/arm64 4.4.205 Kernel Configuration
+>>>>>>> 38deb15e08c1... new pack for low latency
 =======
 # Linux/arm64 4.4.205 Kernel Configuration
 >>>>>>> 38deb15e08c1... new pack for low latency
@@ -67,6 +71,9 @@ CONFIG_INPUT_BOOST_FREQ_PERF=1401600
 =======
 CONFIG_MAX_BOOST_FREQ_LP=1804800
 CONFIG_MAX_BOOST_FREQ_PERF=2204800
+<<<<<<< HEAD
+>>>>>>> 38deb15e08c1... new pack for low latency
+=======
 >>>>>>> 38deb15e08c1... new pack for low latency
 CONFIG_REMOVE_INPUT_BOOST_FREQ_LP=0
 CONFIG_REMOVE_INPUT_BOOST_FREQ_PERF=0
@@ -87,6 +94,7 @@ CONFIG_LLVM_POLLY=y
 CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
 CONFIG_VMSTAT_INTERVAL=20
 <<<<<<< HEAD
+<<<<<<< HEAD
 BOEFFLA_WL_BLOCKER=y
 <<<<<<< HEAD
 CONFIG_HOMEBUTTON=y
@@ -94,6 +102,9 @@ CONFIG_LITTLE_CPU_MASK=15
 CONFIG_BIG_CPU_MASK=240
 # CONFIG_DEBUG_KERNEL is not set
 =======
+>>>>>>> 38deb15e08c1... new pack for low latency
+=======
+BOEFFLA_WL_BLOCKER=y
 >>>>>>> 38deb15e08c1... new pack for low latency
 
 
@@ -233,6 +244,7 @@ CONFIG_CROSS_COMPILE=""
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 CONFIG_LOCALVERSION="-DexK-Q_r50-Evert-SeBa3567-"
 =======
 CONFIG_LOCALVERSION="-DexK-Q_r21-evert-seba_3567"
@@ -246,6 +258,9 @@ CONFIG_LOCALVERSION="-DexK-Q_r24.1-evert-seba_3567"
 =======
 CONFIG_LOCALVERSION="-DexK-Q_r25.3-seba_3567"
 >>>>>>> efdf92197549... add polly clang and update to 62hz display
+=======
+CONFIG_LOCALVERSION="-DexK-Q_r33-GAMING-EDITION-SeBa-_-3567"
+>>>>>>> 38deb15e08c1... new pack for low latency
 =======
 CONFIG_LOCALVERSION="-DexK-Q_r33-GAMING-EDITION-SeBa-_-3567"
 >>>>>>> 38deb15e08c1... new pack for low latency
