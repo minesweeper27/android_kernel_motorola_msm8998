@@ -29,4 +29,8 @@ obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
 
+<<<<<<< HEAD
 obj-$(CONFIG_HOMEBUTTON)	+= homebutton.o
+=======
+obj-$(CONFIG_HOMEBUTTON)	+= homebutton.o 
+>>>>>>> 38deb15e08c1... new pack for low latency
