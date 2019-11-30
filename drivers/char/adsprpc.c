@@ -1332,11 +1332,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 	/* copy non ion buffers */
 	PERF(ctx->fl->profile, ctx->fl->perf.copy,
 	rlen = copylen - metalen;
-<<<<<<< HEAD
-	for (oix = 0; rpra && lrpra && oix < inbufs + outbufs; ++oix) {
-=======
 	for (oix = 0; rpra && oix < inbufs + outbufs; ++oix) {
->>>>>>> parent of d90c25dfbadb... Merge tag 'LA.UM.6.2.r1-12700-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
 		int i = ctx->overps[oix]->raix;
 		struct fastrpc_mmap *map = ctx->maps[i];
 		size_t mlen;
@@ -1387,13 +1383,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		if (map && (map->attr & FASTRPC_ATTR_COHERENT))
 			continue;
 
-<<<<<<< HEAD
-		if (rpra && lrpra && rpra[i].buf.len &&
-			ctx->overps[oix]->mstart) {
-
-=======
 		if (rpra && rpra[i].buf.len && ctx->overps[oix]->mstart) {
->>>>>>> parent of d90c25dfbadb... Merge tag 'LA.UM.6.2.r1-12700-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
 			if (map && map->handle)
 				msm_ion_do_cache_op(ctx->fl->apps->client,
 					map->handle,
@@ -1409,20 +1399,10 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 	PERF_END);
 
 	inh = inbufs + outbufs;
-<<<<<<< HEAD
-	for (i = 0; rpra && lrpra && i < REMOTE_SCALARS_INHANDLES(sc); i++) {
-		rpra[inh + i].buf.pv = lrpra[inh + i].buf.pv =
-				ptr_to_uint64(ctx->lpra[inh + i].buf.pv);
-		rpra[inh + i].buf.len = lrpra[inh + i].buf.len =
-				ctx->lpra[inh + i].buf.len;
-		rpra[inh + i].h = lrpra[inh + i].h = ctx->lpra[inh + i].h;
-
-=======
 	for (i = 0; rpra && i < REMOTE_SCALARS_INHANDLES(sc); i++) {
 		rpra[inh + i].buf.pv = ptr_to_uint64(ctx->lpra[inh + i].buf.pv);
 		rpra[inh + i].buf.len = ctx->lpra[inh + i].buf.len;
 		rpra[inh + i].h = ctx->lpra[inh + i].h;
->>>>>>> parent of d90c25dfbadb... Merge tag 'LA.UM.6.2.r1-12700-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into r25-Q
 	}
 
  bail:
