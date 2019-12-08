@@ -261,6 +261,7 @@ CONFIG_CROSS_COMPILE=""
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 CONFIG_LOCALVERSION="-DexK-Q_r50-Evert-SeBa3567-"
 =======
 CONFIG_LOCALVERSION="-DexK-Q_r21-evert-seba_3567"
@@ -283,6 +284,9 @@ CONFIG_LOCALVERSION="-DexK-Q_r33-GAMING-EDITION-SeBa-_-3567"
 =======
 CONFIG_LOCALVERSION="-DexK-Q_r33-GAMING-EDITION-SeBa-_-3567"
 >>>>>>> 38deb15e08c1... new pack for low latency
+=======
+CONFIG_LOCALVERSION="-DexK-Q_r41-SeBa-_-3567"
+>>>>>>> 6ebe9b6f9ada... revert display oc
 # CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_DEFAULT_HOSTNAME="(none)"
 CONFIG_SWAP=y
