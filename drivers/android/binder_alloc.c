@@ -51,22 +51,6 @@ module_param_named(debug_mask, binder_alloc_debug_mask,
 			pr_info(x); \
 	} while (0)
 
-static struct kmem_cache *binder_buffer_pool;
-
-int binder_buffer_pool_create(void)
-{
-	binder_buffer_pool = KMEM_CACHE(binder_buffer, SLAB_HWCACHE_ALIGN);
-	if (!binder_buffer_pool)
-		return -ENOMEM;
-
-	return 0;
-}
-
-void binder_buffer_pool_destroy(void)
-{
-	kmem_cache_destroy(binder_buffer_pool);
-}
-
 static struct binder_buffer *binder_buffer_next(struct binder_buffer *buffer)
 {
 	return list_entry(buffer->entry.next, struct binder_buffer, entry);
@@ -167,7 +151,7 @@ static struct binder_buffer *binder_alloc_prepare_to_free_locked(
 			 * Guard against user threads attempting to
 			 * free the buffer when in use by kernel or
 			 * after it's already been freed.
-			 */
+			*/
 			if (!buffer->allow_user_free)
 				return ERR_PTR(-EPERM);
 			buffer->allow_user_free = 0;
@@ -234,7 +218,12 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 		mm = alloc->vma_vm_mm;
 
 	if (mm) {
-		down_write(&mm->mmap_sem);
+		down_read(&mm->mmap_sem);
+                if (!mmget_still_valid(mm)) {
+			if (allocate == 0)
+				goto free_range;
+			goto err_no_vma;
+		}
 		vma = alloc->vma;
 	}
 
@@ -303,7 +292,7 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 		/* vm_insert_page does not seem to increment the refcount */
 	}
 	if (mm) {
-		up_write(&mm->mmap_sem);
+		up_read(&mm->mmap_sem);
 		mmput(mm);
 	}
 	return 0;
@@ -336,17 +325,18 @@ err_page_ptr_cleared:
 	}
 err_no_vma:
 	if (mm) {
-		up_write(&mm->mmap_sem);
+		up_read(&mm->mmap_sem);
 		mmput(mm);
 	}
 	return vma ? -ENOMEM : -ESRCH;
 }
 
-struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
-						  size_t data_size,
-						  size_t offsets_size,
-						  size_t extra_buffers_size,
-						  int is_async)
+static struct binder_buffer *binder_alloc_new_buf_locked(
+				struct binder_alloc *alloc,
+				size_t data_size,
+				size_t offsets_size,
+				size_t extra_buffers_size,
+				int is_async)
 {
 	struct rb_node *n = alloc->free_buffers.rb_node;
 	struct binder_buffer *buffer;
@@ -462,7 +452,7 @@ struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
 	if (buffer_size != size) {
 		struct binder_buffer *new_buffer;
 
-		new_buffer = kmem_cache_zalloc(binder_buffer_pool, GFP_KERNEL);
+		new_buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
 		if (!new_buffer) {
 			pr_err("%s: %d failed to alloc new buffer struct\n",
 			       __func__, alloc->pid);
@@ -583,7 +573,7 @@ static void binder_delete_free_buffer(struct binder_alloc *alloc,
 					 buffer_start_page(buffer) + PAGE_SIZE);
 	}
 	list_del(&buffer->entry);
-	kmem_cache_free(binder_buffer_pool, buffer);
+	kfree(buffer);
 }
 
 static void binder_free_buf_locked(struct binder_alloc *alloc,
@@ -684,7 +674,7 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 		goto err_already_mapped;
 	}
 
-	area = get_vm_area(vma->vm_end - vma->vm_start, VM_IOREMAP);
+	area = get_vm_area(vma->vm_end - vma->vm_start, VM_ALLOC);
 	if (area == NULL) {
 		ret = -ENOMEM;
 		failure_string = "get_vm_area";
@@ -716,7 +706,7 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 	}
 	alloc->buffer_size = vma->vm_end - vma->vm_start;
 
-	buffer = kmem_cache_zalloc(binder_buffer_pool, GFP_KERNEL);
+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
 	if (!buffer) {
 		ret = -ENOMEM;
 		failure_string = "alloc buffer struct";
@@ -779,7 +769,7 @@ void binder_alloc_deferred_release(struct binder_alloc *alloc)
 
 		list_del(&buffer->entry);
 		WARN_ON_ONCE(!list_empty(&alloc->buffers));
-		kmem_cache_free(binder_buffer_pool, buffer);
+		kfree(buffer);
 	}
 
 	page_count = 0;
@@ -1021,8 +1011,14 @@ void binder_alloc_init(struct binder_alloc *alloc)
 	INIT_LIST_HEAD(&alloc->buffers);
 }
 
-void binder_alloc_shrinker_init(void)
+int binder_alloc_shrinker_init(void)
 {
-	list_lru_init(&binder_alloc_lru);
-	register_shrinker(&binder_shrinker);
+	int ret = list_lru_init(&binder_alloc_lru);
+
+	if (ret == 0) {
+		ret = register_shrinker(&binder_shrinker);
+		if (ret)
+			list_lru_destroy(&binder_alloc_lru);
+	}
+	return ret;
 }
