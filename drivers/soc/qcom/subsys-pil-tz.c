@@ -1,4 +1,4 @@
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2014-2017, 2019, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -583,7 +583,11 @@ static void pil_remove_proxy_vote(struct pil_desc *pil)
 
 static int pil_init_image_trusted(struct pil_desc *pil,
 		const u8 *metadata, size_t size,
+<<<<<<< HEAD
 		phys_addr_t addr, size_t sz)
+=======
+		 phys_addr_t addr, size_t sz)
+>>>>>>> 4610475c7c1f... Merge tag 'LA.UM.8.2.r1-05100-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 {
 	struct pil_tz_data *d = desc_to_data(pil);
 	struct pas_init_image_req {

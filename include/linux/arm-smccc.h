@@ -14,6 +14,8 @@
 #ifndef __LINUX_ARM_SMCCC_H
 #define __LINUX_ARM_SMCCC_H
 
+#include <linux/linkage.h>
+#include <linux/types.h>
 #include <uapi/linux/const.h>
 
 /*
@@ -123,6 +125,10 @@ asmlinkage void arm_smccc_hvc(unsigned long a0, unsigned long a1,
 			unsigned long a5, unsigned long a6, unsigned long a7,
 			struct arm_smccc_res *res);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4610475c7c1f... Merge tag 'LA.UM.8.2.r1-05100-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 static inline unsigned long __invoke_psci_fn_hvc(unsigned long function_id,
 			unsigned long arg0, unsigned long arg1,
 			unsigned long arg2)
