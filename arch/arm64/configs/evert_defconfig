@@ -157,6 +157,7 @@ CONFIG_ARCH_HAS_FAST_MULTIPLIER=y
 =======
 # CONFIG_DEBUG_KERNEL is not set
 
+<<<<<<< HEAD
 # enable f2fs
 >>>>>>> afe9b00795cc... low latency patch
 CONFIG_F2FS_FS=y
@@ -171,6 +172,8 @@ CONFIG_F2FS_STAT_FS=n
 CONFIG_F2FS_FS_XATTR=y
 CONFIG_F2FS_FS_POSIX_ACL=y
 CONFIG_F2FS_FAULT_INJECTION=n
+=======
+>>>>>>> 293bf6c7f78e... cache ds improve defconfig evert improve
 
 # simple low memory killers
 # CONFIG_ANDROID_LOW_MEMORY_KILLER is not set
