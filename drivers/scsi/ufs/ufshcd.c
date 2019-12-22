@@ -5992,7 +5992,7 @@ static void ufshcd_exception_event_handler(struct work_struct *work)
 
 out:
 	ufshcd_scsi_unblock_requests(hba);
-        /*
+	/*
 	 * pm_runtime_get_noresume is called while scheduling
 	 * eeh_work to avoid suspend racing with exception work.
 	 * Hence decrement usage counter using pm_runtime_put_noidle
@@ -6307,7 +6307,7 @@ static void ufshcd_rls_handler(struct work_struct *work)
 	hba = container_of(work, struct ufs_hba, rls_work);
 	ufshcd_scsi_block_requests(hba);
 	pm_runtime_get_sync(hba->dev);
-        down_write(&hba->lock);
+	down_write(&hba->lock);
 	ret = ufshcd_wait_for_doorbell_clr(hba, U64_MAX);
 	if (ret) {
 		dev_err(hba->dev,
@@ -6341,7 +6341,7 @@ static void ufshcd_rls_handler(struct work_struct *work)
 		hba->restore_needed = false;
 
 out:
-        up_write(&hba->lock);
+	up_write(&hba->lock);
 	ufshcd_scsi_unblock_requests(hba);
 	pm_runtime_put_sync(hba->dev);
 }

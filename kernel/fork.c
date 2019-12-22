@@ -79,10 +79,6 @@
 #include <linux/sysctl.h>
 #include <linux/kcov.h>
 #include <linux/cpufreq_times.h>
-#include <linux/cpu_input_boost.h>
-#include <linux/devfreq_boost.h>
-#include <linux/cpufreq.h>
-#include <linux/simple_lmk.h>
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -369,6 +365,9 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
 	err = kaiser_map_thread_stack(tsk->stack);
 	if (err)
 		goto free_stack;
+
+	tsk->flags &= ~PF_SU;
+
 #ifdef CONFIG_SECCOMP
 	/*
 	 * We must handle setting up seccomp filters once we're under
@@ -729,7 +728,6 @@ static inline void __mmput(struct mm_struct *mm)
 	}
 	if (mm->binfmt)
 		module_put(mm->binfmt->module);
-        simple_lmk_mm_freed(mm);
 	mmdrop(mm);
 }
 
@@ -1789,12 +1787,6 @@ long _do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
-
-        /* Boost CPU to the max for 50 ms when userspace launches an app */
-	if (task_is_zygote(current)) {
-		cpu_input_boost_kick_max(50);
-		devfreq_boost_kick_max(DEVFREQ_MSM_CPUBW, 50);
-	}
 
 	/*
 	 * Determine whether and which event to report to ptracer.  When

@@ -14,7 +14,6 @@
 #include <linux/llist.h>
 #include <linux/kthread.h>
 
-
 /*
  * Lock subclasses for tty locks
  *
@@ -241,7 +240,7 @@ struct tty_port {
 						   based drain is needed else
 						   set to size of fifo */
 	struct kref		kref;		/* Ref counter */
-        struct kthread_worker   worker;         /* worker thread */
+	struct kthread_worker   worker;         /* worker thread */
 	struct task_struct      *worker_thread; /* worker thread */
 };
 

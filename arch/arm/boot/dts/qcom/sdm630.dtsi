@@ -34,7 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
+		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
 	};
 
 	psci {
@@ -50,7 +50,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x100>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile0>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -80,7 +79,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x101>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile1>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -104,7 +102,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x102>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile2>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -128,7 +125,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x103>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile3>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -405,7 +401,7 @@
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
-			size = <0x0 0x2000000>;
+			size = <0x0 0x8000000>;
 			linux,cma-default;
 		};
 
@@ -791,11 +787,11 @@
 	qcom,msm-thermal {
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
-		qcom,poll-ms = <1000>;
-		qcom,therm-reset-temp = <90>;
-		qcom,core-limit-temp = <60>;
+		qcom,poll-ms = <100>;
+		qcom,therm-reset-temp = <115>;
+		qcom,core-limit-temp = <70>;
 		qcom,core-temp-hysteresis = <10>;
-		qcom,hotplug-temp = <80>;
+		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
 		qcom,online-hotplug-core;
 		qcom,synchronous-cluster-id = <0 1>;
@@ -1242,7 +1238,6 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
-		    <  300000 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1256,7 +1251,6 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
-		    <  300000 >,
 			<  614400 >,
 			<  883200 >,
 			< 1094400 >,

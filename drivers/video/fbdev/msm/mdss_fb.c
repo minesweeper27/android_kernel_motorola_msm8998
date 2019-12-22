@@ -46,8 +46,6 @@
 #include <linux/file.h>
 #include <linux/kthread.h>
 #include <linux/dma-buf.h>
-#include <linux/cpu_input_boost.h>
-#include <linux/adrenokgsl_state.h>
 #include <sync.h>
 #include <sw_sync.h>
 
@@ -59,10 +57,6 @@
 #include "mdss_mdp.h"
 
 #include "mdss_livedisplay.h"
-
-#ifdef CONFIG_KLAPSE
-#include <linux/klapse.h>
-#endif
 
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
@@ -330,10 +324,6 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 		mutex_unlock(&mfd->bl_lock);
 	}
 	mfd->bl_level_usr = bl_lvl;
-
-#ifdef CONFIG_KLAPSE
-	set_rgb_slider(bl_lvl);
-#endif
 }
 
 static enum led_brightness mdss_fb_get_bl_brightness(
@@ -2185,7 +2175,7 @@ static int mdss_fb_start_disp_thread(struct msm_fb_data_type *mfd)
 	mdss_fb_get_split(mfd);
 
 	atomic_set(&mfd->commits_pending, 0);
-	mfd->disp_thread = kthread_run(__mdss_fb_display_thread,
+	mfd->disp_thread = kthread_run_perf_critical(__mdss_fb_display_thread,
 				mfd, "mdss_fb%d", mfd->index);
 
 	if (IS_ERR(mfd->disp_thread)) {
@@ -5457,9 +5447,6 @@ int mdss_fb_do_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = mdss_fb_mode_switch(mfd, dsi_mode);
 		break;
 	case MSMFB_ATOMIC_COMMIT:
-                if (is_adrenokgsl_on()) {
-			cpu_input_boost_kick();
-		}
 		ret = mdss_fb_atomic_commit_ioctl(info, argp, file);
 		break;
 

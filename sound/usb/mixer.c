@@ -1,4 +1,3 @@
- 
 /*
  *   (Tentative) USB Audio Driver for ALSA
  *

@@ -229,7 +229,6 @@ isolate_migratepages_range(struct compact_control *cc,
 int find_suitable_fallback(struct free_area *area, unsigned int current_order,
 			   int migratetype, bool only_stealable,
 			   int start_order, bool *can_steal);
-
 #endif
 
 /*

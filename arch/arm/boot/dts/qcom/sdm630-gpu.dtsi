@@ -65,10 +65,10 @@
 
 		qcom,chipid = <0x05000800>;
 
-		qcom,initial-pwrlevel = <5>;
+		qcom,initial-pwrlevel = <6>;
 
 		/* <HZ/12> */
-		qcom,idle-timeout = <60>;
+		qcom,idle-timeout = <64>;
 
 		qcom,highest-bank-bit = <14>;
 
@@ -84,9 +84,6 @@
 
 		clock-names = "core_clk", "iface_clk", "rbbmtimer_clk",
 			"mem_clk", "alt_mem_iface_clk", "rbcpr_clk";
-
-                /* To disable GPU wake up on touch event */
-		qcom,disable-wake-on-touch;
 
 		/* Bus Scale Settings */
 		qcom,gpubw-dev = <&gpubw>;

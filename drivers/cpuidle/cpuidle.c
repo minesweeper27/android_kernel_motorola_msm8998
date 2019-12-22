@@ -100,7 +100,17 @@ static int find_deepest_state(struct cpuidle_driver *drv,
 	return ret;
 }
 
-#ifdef CONFIG_SUSPEND
+/* Set the current cpu to use the deepest idle state, override governors */
+void cpuidle_use_deepest_state(bool enable)
+{
+	struct cpuidle_device *dev;
+
+	preempt_disable();
+	dev = cpuidle_get_device();
+	dev->use_deepest_state = enable;
+	preempt_enable();
+}
+
 /**
  * cpuidle_find_deepest_state - Find the deepest available idle state.
  * @drv: cpuidle driver for the given CPU.
@@ -112,6 +122,7 @@ int cpuidle_find_deepest_state(struct cpuidle_driver *drv,
 	return find_deepest_state(drv, dev, UINT_MAX, 0, false);
 }
 
+#ifdef CONFIG_SUSPEND
 static void enter_freeze_proper(struct cpuidle_driver *drv,
 				struct cpuidle_device *dev, int index)
 {
@@ -176,7 +187,7 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 
 	struct cpuidle_state *target_state = &drv->states[index];
 	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
-	u64 time_start, time_end;
+	ktime_t time_start, time_end;
 	s64 diff;
 
 	/*
@@ -199,15 +210,15 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	sched_idle_set_state(target_state, index);
 
 	trace_cpu_idle_rcuidle(index, dev->cpu);
-	time_start = local_clock();
+	time_start = ktime_get();
 
 	stop_critical_timings();
-        cpuidle_set_idle_cpu(dev->cpu);
+	cpuidle_set_idle_cpu(dev->cpu);
 	entered_state = target_state->enter(dev, drv, index);
-        cpuidle_clear_idle_cpu(dev->cpu);
+	cpuidle_clear_idle_cpu(dev->cpu);
 	start_critical_timings();
 
-	time_end = local_clock();
+	time_end = ktime_get();
 	trace_cpu_idle_rcuidle(PWR_EVENT_EXIT, dev->cpu);
 
 	/* The cpu is no longer idle or about to enter idle. */
@@ -223,11 +234,7 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	if (!cpuidle_state_is_coupled(drv, index))
 		local_irq_enable();
 
-	/*
-	 * local_clock() returns the time in nanosecond, let's shift
-	 * by 10 (divide by 1024) to have microsecond based time.
-	 */
-	diff = (time_end - time_start) >> 10;
+	diff = ktime_to_us(ktime_sub(time_end, time_start));
 	if (diff > INT_MAX)
 		diff = INT_MAX;
 
@@ -663,7 +670,7 @@ static int cpuidle_latency_notify(struct notifier_block *b,
 	if (!cpumask_empty(&update_mask)) {
 		unsigned long idle_cpus = atomic_read(&idle_cpu_mask);
 
-	cpumask_and(&update_mask, &update_mask, to_cpumask(&idle_cpus));
+		cpumask_and(&update_mask, &update_mask, to_cpumask(&idle_cpus));
 		cpumask_andnot(&update_mask, &update_mask, cpu_isolated_mask);
 
 		/* Notifier is called with preemption disabled */

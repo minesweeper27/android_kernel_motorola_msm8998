@@ -1,7 +1,5 @@
 /*
- * Author: andip71, 01.09.2017
- *
- * Version 1.1.0
+ * Copyright (C) 2014 Google, Inc.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -14,10 +12,9 @@
  *
  */
 
-#define BOEFFLA_WL_BLOCKER_VERSION	"1.1.0"
+#ifndef _FIQ_WATCHDOG_H_
+#define _FIQ_WATCHDOG_H_
 
-#define LIST_WL_DEFAULT			"qcom_rx_wakelock;wlan;wlan_wow_wl;wlan_extscan_wl;netmgr_wl;NETLINK;wlan_ipa;wlan_pno_wl;wcnss_filter_lock"
+void fiq_watchdog_triggered(const struct pt_regs *regs, void *svc_sp);
 
-#define LENGTH_LIST_WL			255
-#define LENGTH_LIST_WL_DEFAULT		107
-#define LENGTH_LIST_WL_SEARCH		LENGTH_LIST_WL + LENGTH_LIST_WL_DEFAULT + 5
+#endif

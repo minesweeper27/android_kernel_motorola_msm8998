@@ -1,4 +1,3 @@
-
 /*
  *  compress_core.c - compress offload core
  *

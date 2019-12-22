@@ -151,7 +151,7 @@ static DECLARE_WORK(wake_presspwr_work, wake_presspwr);
 static void wake_pwrtrigger(void) {
 	pwrtrigger_time[1] = pwrtrigger_time[0];
 	pwrtrigger_time[0] = ktime_to_ms(ktime_get());
-
+	
 	if (pwrtrigger_time[0] - pwrtrigger_time[1] < TRIGGER_TIMEOUT)
 		return;
 
@@ -331,7 +331,7 @@ static void detect_sweep2wake_v(int x, int y, bool st)
 			}
 		}
 	}
-
+	
 }
 
 static void detect_sweep2wake_h(int x, int y, bool st, bool scr_suspended)
@@ -451,7 +451,7 @@ static void wg_input_event(struct input_handle *handle, unsigned int type,
 	if (is_suspended() && code == ABS_MT_POSITION_X) {
 		value -= 5000;
 	}
-
+	
 #if WG_DEBUG
 	pr_info("wg: code: %s|%u, val: %i\n",
 		((code==ABS_MT_POSITION_X) ? "X" :
@@ -594,7 +594,7 @@ static ssize_t sweep2sleep_dump(struct device *dev,
 	sscanf(buf, "%d ", &s2s_switch);
 	if (s2s_switch < 0 || s2s_switch > 3)
 		s2s_switch = 0;				
-
+				
 	return count;
 }
 
@@ -617,13 +617,13 @@ static ssize_t doubletap2wake_dump(struct device *dev,
 	sscanf(buf, "%d ", &dt2w_switch);
 	if (dt2w_switch < 0 || dt2w_switch > 1)
 		dt2w_switch = 0;
-
+		
 	return count;
 }
 
 static DEVICE_ATTR(doubletap2wake, (S_IWUSR|S_IRUGO),
 	doubletap2wake_show, doubletap2wake_dump);
-
+	
 #if (WAKE_GESTURES_ENABLED)
 static ssize_t wake_gestures_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
@@ -708,21 +708,21 @@ static int __init wake_gestures_init(void)
 		return -EFAULT;
 	}
 	INIT_WORK(&s2w_input_work, s2w_input_callback);
-
+		
 	dt2w_input_wq = create_workqueue("dt2wiwq");
 	if (!dt2w_input_wq) {
 		pr_err("%s: Failed to create dt2wiwq workqueue\n", __func__);
 		return -EFAULT;
 	}
 	INIT_WORK(&dt2w_input_work, dt2w_input_callback);
-
+		
 #if (WAKE_GESTURES_ENABLED)
 	gesture_dev = input_allocate_device();
 	if (!gesture_dev) {
 		pr_err("Failed to allocate gesture_dev\n");
 		goto err_alloc_dev;
 	}
-
+	
 	gesture_dev->name = "wake_gesture";
 	gesture_dev->phys = "wake_gesture/input0";
 	input_set_capability(gesture_dev, EV_REL, WAKE_GESTURE);
@@ -790,3 +790,4 @@ static void __exit wake_gestures_exit(void)
 
 module_init(wake_gestures_init);
 module_exit(wake_gestures_exit);
+

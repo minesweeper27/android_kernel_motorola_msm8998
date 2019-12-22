@@ -620,7 +620,7 @@ static void msm_gpio_dbg_show(struct seq_file *s, struct gpio_chip *chip)
 	unsigned i;
 
 	for (i = 0; i < chip->ngpio; i++, gpio++) {
-                /* Bypass GPIO pins owned by TZ */
+		/* Bypass GPIO pins owned by TZ */
 		switch (gpio)
 			case 81 ... 84: continue;
 
@@ -912,8 +912,8 @@ static int msm_gpio_irq_set_wake(struct irq_data *d, unsigned int on)
 
 static struct irq_chip msm_gpio_irq_chip = {
 	.name           = "msmgpio",
-        .flags          = IRQCHIP_MASK_ON_SUSPEND,
-        .irq_enable     = msm_gpio_irq_enable,
+	.flags          = IRQCHIP_MASK_ON_SUSPEND,
+	.irq_enable     = msm_gpio_irq_enable,
 	.irq_mask       = msm_gpio_irq_mask,
 	.irq_unmask     = msm_gpio_irq_unmask,
 	.irq_ack        = msm_gpio_irq_ack,
@@ -1017,7 +1017,7 @@ static int msm_gpio_init(struct msm_pinctrl *pctrl)
 	ret = gpiochip_irqchip_add(chip,
 				   &msm_gpio_irq_chip,
 				   0,
-				   handle_edge_irq,
+				   handle_fasteoi_irq,
 				   IRQ_TYPE_NONE);
 	if (ret) {
 		dev_err(pctrl->dev, "Failed to add irqchip to gpiochip\n");

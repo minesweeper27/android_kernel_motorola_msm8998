@@ -1383,7 +1383,7 @@ static const struct file_operations proc_vmstat_file_operations = {
 #ifdef CONFIG_SMP
 static struct workqueue_struct *vmstat_wq;
 static DEFINE_PER_CPU(struct delayed_work, vmstat_work);
-int sysctl_stat_interval __read_mostly = CONFIG_VMSTAT_INTERVAL * HZ;
+int sysctl_stat_interval __read_mostly = HZ;
 static cpumask_var_t cpu_stat_off;
 
 static void vmstat_update(struct work_struct *w)
@@ -1445,7 +1445,7 @@ static bool need_update(int cpu)
 
 void quiet_vmstat(void)
 {
-	if (unlikely(system_state != SYSTEM_RUNNING))
+	if (system_state != SYSTEM_RUNNING)
 		return;
 
 	/*
@@ -1455,7 +1455,7 @@ void quiet_vmstat(void)
 	if (cpumask_test_and_set_cpu(smp_processor_id(), cpu_stat_off))
 		return;
 
-	if (likely(!need_update(smp_processor_id())))
+	if (!need_update(smp_processor_id()))
 		return;
 
 	/*

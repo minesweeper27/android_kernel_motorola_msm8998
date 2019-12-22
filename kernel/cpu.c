@@ -458,10 +458,10 @@ out_release:
 
 int cpu_down(unsigned int cpu)
 {
-        struct cpumask newmask;
+	struct cpumask newmask;
 	int err;
 
-        cpumask_andnot(&newmask, cpu_online_mask, cpumask_of(cpu));
+	cpumask_andnot(&newmask, cpu_online_mask, cpumask_of(cpu));
 
 	/* One big cluster CPU and one little cluster CPU must remain online */
 	if (!cpumask_intersects(&newmask, cpu_perf_mask) ||
@@ -650,7 +650,7 @@ int disable_nonboot_cpus(void)
 	int cpu, first_cpu, error = 0;
 
 	cpu_maps_update_begin();
-        unaffine_perf_irqs();
+	unaffine_perf_irqs();
 	first_cpu = cpumask_first(cpu_online_mask);
 	/*
 	 * We take down all of the non-boot CPUs in one shot to avoid races
@@ -658,7 +658,7 @@ int disable_nonboot_cpus(void)
 	 */
 	cpumask_clear(frozen_cpus);
 
-	pr_info("Disabling non-boot CPUs ...\n");
+	pr_debug("Disabling non-boot CPUs ...\n");
 	for_each_online_cpu(cpu) {
 		if (cpu == first_cpu)
 			continue;
@@ -708,7 +708,7 @@ void enable_nonboot_cpus(void)
 	if (cpumask_empty(frozen_cpus))
 		goto out;
 
-	pr_info("Enabling non-boot CPUs ...\n");
+	pr_debug("Enabling non-boot CPUs ...\n");
 
 	arch_enable_nonboot_cpus_begin();
 
@@ -717,7 +717,7 @@ void enable_nonboot_cpus(void)
 		error = _cpu_up(cpu, 1);
 		trace_suspend_resume(TPS("CPU_ON"), cpu, false);
 		if (!error) {
-			pr_info("CPU%d is up\n", cpu);
+			pr_debug("CPU%d is up\n", cpu);
 			cpu_device = get_cpu_device(cpu);
 			if (!cpu_device)
 				pr_err("%s: failed to get cpu%d device\n",
@@ -732,7 +732,7 @@ void enable_nonboot_cpus(void)
 	arch_enable_nonboot_cpus_end();
 
 	cpumask_clear(frozen_cpus);
-        reaffine_perf_irqs();
+	reaffine_perf_irqs();
 out:
 	cpu_maps_update_done();
 }

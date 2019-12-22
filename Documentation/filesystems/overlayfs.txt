@@ -82,9 +82,6 @@ Only the lists of names from directories are merged.  Other content
 such as metadata and extended attributes are reported for the upper
 directory only.  These attributes of the lower directory are hidden.
 
-whiteouts and opaque directories
---------------------------------
-
 credentials
 -----------
 
@@ -107,6 +104,9 @@ cache.  The uneven security model where cache, upperdir and workdir
 are opened at privilege, but accessed without creating a form of
 privilege escalation, should only be used with strict understanding
 of the side effects and of the security policies.
+
+whiteouts and opaque directories
+--------------------------------
 
 In order to support rm and rmdir without changing the lower
 filesystem, an overlay filesystem needs to record in the upper filesystem

@@ -30,7 +30,6 @@
 #include <linux/security.h>
 #include <linux/compat.h>
 #include <linux/ctype.h>
-#include <linux/adrenokgsl_state.h>
 
 #include "kgsl.h"
 #include "kgsl_debugfs.h"
@@ -78,13 +77,6 @@ struct kgsl_dma_buf_meta {
 	struct dma_buf *dmabuf;
 	struct sg_table *table;
 };
-
-bool adrenokgsl_on = false;
-
-bool is_adrenokgsl_on()
-{
-	return adrenokgsl_on;
-}
 
 static inline struct kgsl_pagetable *_get_memdesc_pagetable(
 		struct kgsl_pagetable *pt, struct kgsl_mem_entry *entry)
@@ -767,7 +759,6 @@ static int kgsl_suspend_device(struct kgsl_device *device, pm_message_t state)
 	if (status == 0)
 		device->ftbl->suspend_device(device, state);
 	mutex_unlock(&device->mutex);
-        adrenokgsl_on = false;
 
 	return status;
 }
@@ -797,7 +788,6 @@ static int kgsl_resume_device(struct kgsl_device *device)
 	}
 
 	mutex_unlock(&device->mutex);
-        adrenokgsl_on = true;
 	return 0;
 }
 
@@ -4775,7 +4765,8 @@ int kgsl_device_platform_probe(struct kgsl_device *device)
 	}
 
 	status = devm_request_irq(device->dev, device->pwrctrl.interrupt_num,
-				  kgsl_irq_handler, IRQF_TRIGGER_HIGH,
+				  kgsl_irq_handler,
+				  IRQF_TRIGGER_HIGH | IRQF_PERF_CRITICAL,
 				  device->name, device);
 	if (status) {
 		KGSL_DRV_ERR(device, "request_irq(%d) failed: %d\n",
@@ -4925,7 +4916,7 @@ static void kgsl_core_exit(void)
 static int __init kgsl_core_init(void)
 {
 	int result = 0;
-	struct sched_param param = { .sched_priority = 16 };
+	struct sched_param param = { .sched_priority = 2 };
 
 	/* alloc major and minor device numbers */
 	result = alloc_chrdev_region(&kgsl_driver.major, 0, KGSL_DEVICE_MAX,
@@ -4987,7 +4978,7 @@ static int __init kgsl_core_init(void)
 	INIT_LIST_HEAD(&kgsl_driver.pagetable_list);
 
 	kgsl_driver.workqueue = alloc_workqueue("kgsl-workqueue",
-		WQ_HIGHPRI | WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
+		WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
 
 	kgsl_driver.mem_workqueue = alloc_workqueue("kgsl-mementry",
 		WQ_UNBOUND | WQ_MEM_RECLAIM, 0);

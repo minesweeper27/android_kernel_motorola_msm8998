@@ -62,6 +62,8 @@
  *                interrupt handler after suspending interrupts. For system
  *                wakeup devices users need to implement wakeup detection in
  *                their interrupt handlers.
+ * IRQF_PERF_CRITICAL - Interrupt is critical to the overall performance of the
+ * 		  system and should be processed on a fast CPU.
  */
 #define IRQF_SHARED		0x00000080
 #define IRQF_PROBE_SHARED	0x00000100

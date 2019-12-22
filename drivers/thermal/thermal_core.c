@@ -384,6 +384,8 @@ static __ref int sensor_sysfs_notify(void *data)
 {
 	int ret = 0;
 	struct sensor_info *sensor = (struct sensor_info *)data;
+	struct sched_param param = { .sched_priority = MAX_RT_PRIO-1 };
+	sched_setscheduler(current, SCHED_RR, &param);
 
 	set_current_state(TASK_INTERRUPTIBLE);
 	while (!kthread_should_stop()) {
@@ -823,7 +825,7 @@ static void thermal_zone_device_set_polling(struct workqueue_struct *queue,
 		mod_delayed_work(queue, &tz->poll_queue,
 				 msecs_to_jiffies(delay));
 	else
-		cancel_delayed_work(&tz->poll_queue);
+		cancel_delayed_work_sync(&tz->poll_queue);
 }
 
 static void monitor_thermal_zone(struct thermal_zone_device *tz)
