@@ -38,6 +38,7 @@
 		interrupt-parent = <&tlmm>;
 		novatek,irq-gpio = <&tlmm 67 0x2001>;
 		novatek,reset-gpio = <&tlmm 66 0x00>;
+		novatek,usb_charger;
 		pinctrl-names = "active";
 		pinctrl-0 = <&nova_tp_rst_default>;
 	};
@@ -81,15 +82,15 @@
 			0x8054 0x02103010 /*ph0*/
 			0x8058 0x20600C00
 			0x805c 0x0
-			0x8064 0x00900000 /*5mm th*/
+			0x8064 0x006E0000 /*5mm th*/
 			0x806C 0xB5009300
 			0x8070 0x00010000
 			0x8074 0x02103110 /*ph1*/
-			0x8084 0x00BB0000 /*5mm th*/
+			0x8084 0x006D0000 /*5mm th*/
 			0x808C 0x0021001D
 			0x8090 0x00020000
 			0x8094 0x02103810 /*ph2*/
-			0x80A4 0x00C60000 /*5mm th*/
+			0x80A4 0x003F0000 /*5mm th*/
 			0x80AC 0x0021001D
 			0x80B0 0x00020000
 			0x80B4 0x0010FF00
@@ -105,6 +106,7 @@
 		reg = <0x5B>;
 		reset-gpio = <&pm660_gpios 11 0>;
 		irq-gpio = <&tlmm 70 0>;
+		haptic-context-gpio = <&tlmm 8 0>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&haptic_irq_default>;
 		status = "okay";
@@ -154,12 +156,14 @@
 
 &red_led {
 	linux,name = "charging";
+	qcom,duty-pcts = [ 00 0E 1C 2A 38 46 54 64 ];
+	qcom,start-idx = <0>;
+	qcom,pause-lo = <500>;
+	qcom,pause-hi = <500>;
+	qcom,ramp-step-ms = <50>;
+	qcom,lut-flags = <31>; /* loop, ramp up, reverse, pause hi, pause lo */
+	qcom,use-blink;
 	/delete-property/ linux,default-trigger;
-	qcom,ramp-step-ms = <100>;
-	qcom,idx-len = <42>;
-	qcom,duty-pcts =
-		[00 05 0a 0f 14 19 1e 23 28 2d 32 37 3c 41 46 4b 50 55 5a 5f 64
-		64 5f 5a 55 50 4b 46 41 3c 37 32 2d 28 23 1e 19 14 0f 0a 05 00];
 };
 
 /delete-node/ &green_led;
@@ -215,7 +219,7 @@
 					<0 4200 582 0 0 0 0>,
 					<10 4200 2000 4400 582 0 0>,
 					<15 4200 4000 4400 2000 0 0>,
-					<45 4250 5500 4360 4000 4410 2000>,
+					<45 4250 5500 4360 4000 4400 2000>,
 					<60 4200 4000 0 0 0 0>;
 		mmi,mmi-thermal-zones =
 					<9000000 3000000>,
@@ -375,7 +379,6 @@
 &pm660_charger {
 	qcom,dc-icl-ua = <1100000>;
 	qcom,fcc-max-ua = <5000000>;
-	qcom,vfloat-comp-uv = <10000>;
 	qcom,iterm-ma = <200>;
 
 	qcom,mmi-temp-zones = <0 4200 582 0>,
@@ -408,5 +411,13 @@
 	qcom,bcl-charger-mitigate-enable;
 	qcom,ibat-monitor {
 		qcom,soc-low-threshold = <5>;
+	};
+};
+
+&spmi_bus {
+	qcom,pm660l@2 {
+		qcom,power-on@800 {
+			/delete-property/ qcom,shipmode;
+		};
 	};
 };

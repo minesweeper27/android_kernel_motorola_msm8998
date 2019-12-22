@@ -292,7 +292,7 @@
 					dev = "/dev/block/platform/soc/1da4000.ufshc/by-name/oem";
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait,slotselect";
+					fsmgr_flags = "wait,slotselect,verify";
 					status = "ok";
 				};
 			};
@@ -390,7 +390,7 @@
 			alloc-ranges = <0 0x00000000 0 0xffffffff>;
 			reusable;
 			alignment = <0 0x400000>;
-			size = <0 0x8000000>;
+			size = <0 0x2000000>;
 			linux,cma-default;
 		};
 
@@ -1745,7 +1745,7 @@
 
 		/* PM QoS */
 		qcom,pm-qos-cpu-groups = <0x0F 0xF0>;
-		qcom,pm-qos-cpu-group-latency-us = <100 100>;
+		qcom,pm-qos-cpu-group-latency-us = <70 70>;
 		qcom,pm-qos-default-cpu = <0>;
 
 		pinctrl-names = "dev-reset-assert", "dev-reset-deassert";

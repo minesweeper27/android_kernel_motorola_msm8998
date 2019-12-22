@@ -56,8 +56,6 @@
 #include "mdss_smmu.h"
 #include "mdss_mdp.h"
 
-#include "mdss_livedisplay.h"
-
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
 #else
@@ -1038,6 +1036,14 @@ static ssize_t panel_supplier_show(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%s\n", pinfo->panel_supplier);
 }
 
+static ssize_t panel_vendor_id_show(struct device *dev,
+				struct device_attribute *attr, char *buf)
+{
+	struct mdss_panel_info *pinfo = get_panel_info(dev);
+
+	return snprintf(buf, PAGE_SIZE, "%s\n", pinfo->panel_vendor_id);
+}
+
 static ssize_t panel_man_id_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -1074,6 +1080,8 @@ static DEVICE_ATTR(panel_supplier, S_IRUGO,
 					panel_supplier_show, NULL);
 static DEVICE_ATTR(controller_drv_ver, S_IRUGO,
 					panel_controller_drv_ver_show, NULL);
+static DEVICE_ATTR(panel_vendor_id, S_IRUGO,
+					panel_vendor_id_show, NULL);
 static struct attribute *panel_id_attrs[] = {
 	&dev_attr_panel_name.attr,
 	&dev_attr_panel_ver.attr,
@@ -1081,6 +1089,7 @@ static struct attribute *panel_id_attrs[] = {
 	&dev_attr_man_id.attr,
 	&dev_attr_controller_ver.attr,
 	&dev_attr_controller_drv_ver.attr,
+	&dev_attr_panel_vendor_id.attr,
 	NULL,
 };
 
@@ -1303,7 +1312,7 @@ static int mdss_fb_create_sysfs(struct msm_fb_data_type *mfd)
 		pr_err("panel parameter sysfs creation failed, rc=%d\n", rc);
 
 err:
-	return mdss_livedisplay_create_sysfs(mfd);
+	return rc;
 }
 
 static void mdss_fb_remove_sysfs(struct msm_fb_data_type *mfd)
@@ -2175,7 +2184,7 @@ static int mdss_fb_start_disp_thread(struct msm_fb_data_type *mfd)
 	mdss_fb_get_split(mfd);
 
 	atomic_set(&mfd->commits_pending, 0);
-	mfd->disp_thread = kthread_run_perf_critical(__mdss_fb_display_thread,
+	mfd->disp_thread = kthread_run(__mdss_fb_display_thread,
 				mfd, "mdss_fb%d", mfd->index);
 
 	if (IS_ERR(mfd->disp_thread)) {

@@ -1446,9 +1446,6 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 		if (ut[i].mode >= XFRM_MODE_MAX)
 			return -EINVAL;
 
-		if (ut[i].mode >= XFRM_MODE_MAX)
-			return -EINVAL;
-
 		prev_family = ut[i].family;
 
 		switch (ut[i].family) {
@@ -1462,8 +1459,20 @@ static int validate_tmpl(int nr, struct xfrm_user_tmpl *ut, u16 family)
 			return -EINVAL;
 		}
 
-		if (!xfrm_id_proto_valid(ut[i].id.proto))
+		switch (ut[i].id.proto) {
+		case IPPROTO_AH:
+		case IPPROTO_ESP:
+		case IPPROTO_COMP:
+#if IS_ENABLED(CONFIG_IPV6)
+		case IPPROTO_ROUTING:
+		case IPPROTO_DSTOPTS:
+#endif
+		case IPSEC_PROTO_ANY:
+			break;
+		default:
 			return -EINVAL;
+		}
+
 	}
 
 	return 0;

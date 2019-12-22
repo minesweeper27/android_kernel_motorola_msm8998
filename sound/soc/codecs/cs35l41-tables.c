@@ -600,6 +600,16 @@ bool cs35l41_readable_reg(struct device *dev, unsigned int reg)
 	}
 }
 
+bool cs35l41_precious_reg(struct device *dev, unsigned int reg)
+{
+	switch (reg) {
+	case CS35L41_OTP_MEM0 ... CS35L41_OTP_MEM31:
+		return true;
+	default:
+		return false;
+	}
+}
+
 bool cs35l41_volatile_reg(struct device *dev, unsigned int reg)
 {
 	switch (reg) {
@@ -607,6 +617,8 @@ bool cs35l41_volatile_reg(struct device *dev, unsigned int reg)
 	case CS35L41_SFT_RESET:
 	case CS35L41_FABID:
 	case CS35L41_REVID:
+	case CS35L41_PWR_CTRL1:
+	case CS35L41_DTEMP_EN:
 	case CS35L41_IRQ1_STATUS:
 	case CS35L41_IRQ1_STATUS1:
 	case CS35L41_IRQ1_STATUS2:
