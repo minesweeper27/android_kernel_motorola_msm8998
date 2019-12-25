@@ -753,6 +753,9 @@ void dmaengine_get(void)
 	if (dmaengine_ref_count == 1)
 		dma_channel_rebalance();
 	mutex_unlock(&dma_list_mutex);
+
+        if (!chancnt)
+		kfree(idr_ref);
 }
 EXPORT_SYMBOL(dmaengine_get);
 
