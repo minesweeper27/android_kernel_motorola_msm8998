@@ -422,7 +422,8 @@ extern bool hrtimer_active(const struct hrtimer *timer);
 /*
  * Helper function to check, whether the timer is on one of the queues
  */
-static inline int hrtimer_is_queued(struct hrtimer *timer)
+ static inline int hrtimer_is_queued(struct hrtimer *timer)
+
 {
 	return timer->state & HRTIMER_STATE_ENQUEUED;
 }
