@@ -1537,6 +1537,11 @@ static ssize_t cnss_fs_ready_store(struct device *dev,
 	switch (plat_priv->device_id) {
 	case QCA6290_EMULATION_DEVICE_ID:
 	case QCA6290_DEVICE_ID:
+	case QCN7605_DEVICE_ID:
+	case QCN7605_COMPOSITE_DEVICE_ID:
+	case QCN7605_STANDALONE_DEVICE_ID:
+	case QCN7605_VER20_STANDALONE_DEVICE_ID:
+	case QCN7605_VER20_COMPOSITE_DEVICE_ID:
 		break;
 	default:
 		cnss_pr_err("Not supported for device ID 0x%lx\n",
