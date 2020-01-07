@@ -1096,4 +1096,3 @@ config BOOTINFO
 config STATE_NOTIFIER
     bool "State Notifier"
 
-source "drivers/soc/qcom/memshare/Kconfig"
