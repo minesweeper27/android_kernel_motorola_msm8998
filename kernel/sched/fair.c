@@ -3615,9 +3615,9 @@ void _inc_hmp_sched_stats_fair(struct rq *rq,
 	inc_nr_big_task(&rq->hmp_stats, p);
 }
 
-
 #endif	/* CONFIG_CFS_BANDWIDTH */
 
+<<<<<<< HEAD
 u32 sched_get_wake_up_idle(struct task_struct *p)
 {
 	return 0;
@@ -3646,6 +3646,8 @@ static const u32 runnable_avg_yN_inv[] = {
 	0x85aac367, 0x82cd8698,
 };
 
+=======
+>>>>>>> parent of 4505bd1ecd77... sched: Add stub functions for wake_up_idle API
 /*
  * Reset balance_interval at all sched_domain levels of given cpu, so that it
  * honors kick.

@@ -2671,10 +2671,6 @@ static inline void sched_set_cluster_dstate(const cpumask_t *cluster_cpus,
 }
 #endif /* CONFIG_SCHED_HMP */
 
-extern u32 sched_get_wake_up_idle(struct task_struct *p);
-extern int sched_set_wake_up_idle(struct task_struct *p, int wake_up_idle);
-
-
 #ifdef CONFIG_NO_HZ_COMMON
 void calc_load_enter_idle(void);
 void calc_load_exit_idle(void);
