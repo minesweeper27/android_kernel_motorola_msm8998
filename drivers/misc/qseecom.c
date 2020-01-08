@@ -3929,10 +3929,7 @@ static int __qseecom_update_cmd_buf_64(void *msg, bool cleanup,
 		sg = sg_ptr->sgl;
 		if (sg_ptr->nents == 1) {
 			uint64_t *update_64bit;
-
-			if (__boundary_checks_offset_64(req, lstnr_resp,
-							data, i))
-
+			if (__boundary_checks_offset(req, lstnr_resp, data, i))
 				goto err;
 				/* 64bit app uses 64bit address */
 			update_64bit = (uint64_t *) field;
