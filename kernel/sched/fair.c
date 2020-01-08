@@ -3001,11 +3001,7 @@ struct cpu_select_env *env, struct cluster_cpu_stats *stats)
 	int i;
 	struct cpumask search_cpus;
 
-<<<<<<< HEAD
         extern int num_clusters;
-=======
-	extern int num_clusters;
->>>>>>> 828015c02ac4... core_ctl: Consider high irq loaded CPU as busy
 
 	while (!bitmap_empty(env->backup_list, num_clusters)) {
 		next = next_candidate(env->backup_list, 0, num_clusters);
@@ -3030,11 +3026,7 @@ next_best_cluster(struct sched_cluster *cluster, struct cpu_select_env *env,
 {
 	struct sched_cluster *next = NULL;
 
-<<<<<<< HEAD
         extern int num_clusters;
-=======
-	extern int num_clusters;
->>>>>>> 828015c02ac4... core_ctl: Consider high irq loaded CPU as busy
 
 	__clear_bit(cluster->id, env->candidate_list);
 
