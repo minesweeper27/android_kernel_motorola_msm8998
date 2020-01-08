@@ -186,6 +186,8 @@ bool f2fs_need_SSR(struct f2fs_sb_info *sbi)
 
 void f2fs_register_inmem_page(struct inode *inode, struct page *page)
 {
+	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+	struct f2fs_inode_info *fi = F2FS_I(inode);
 	struct inmem_pages *new;
 
 	f2fs_trace_pid(page);
@@ -200,11 +202,15 @@ void f2fs_register_inmem_page(struct inode *inode, struct page *page)
 	INIT_LIST_HEAD(&new->list);
 
 	/* increase reference count with clean state */
+	mutex_lock(&fi->inmem_lock);
 	get_page(page);
-	mutex_lock(&F2FS_I(inode)->inmem_lock);
-	list_add_tail(&new->list, &F2FS_I(inode)->inmem_pages);
+	list_add_tail(&new->list, &fi->inmem_pages);
+	spin_lock(&sbi->inode_lock[ATOMIC_FILE]);
+	if (list_empty(&fi->inmem_ilist))
+		list_add_tail(&fi->inmem_ilist, &sbi->inode_list[ATOMIC_FILE]);
+	spin_unlock(&sbi->inode_lock[ATOMIC_FILE]);
 	inc_page_count(F2FS_I_SB(inode), F2FS_INMEM_PAGES);
-	mutex_unlock(&F2FS_I(inode)->inmem_lock);
+	mutex_unlock(&fi->inmem_lock);
 
 	trace_f2fs_register_inmem_page(page, INMEM);
 }
@@ -305,7 +311,6 @@ void f2fs_drop_inmem_pages(struct inode *inode)
 	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
 	struct f2fs_inode_info *fi = F2FS_I(inode);
 
-<<<<<<< HEAD
 	mutex_lock(&fi->inmem_lock);
 	__revoke_inmem_pages(inode, &fi->inmem_pages, true, false);
 	spin_lock(&sbi->inode_lock[ATOMIC_FILE]);
@@ -313,23 +318,10 @@ void f2fs_drop_inmem_pages(struct inode *inode)
 		list_del_init(&fi->inmem_ilist);
 	spin_unlock(&sbi->inode_lock[ATOMIC_FILE]);
 	mutex_unlock(&fi->inmem_lock);
-=======
-	while (!list_empty(&fi->inmem_pages)) {
-		mutex_lock(&fi->inmem_lock);
-		__revoke_inmem_pages(inode, &fi->inmem_pages,
-						true, false, true);
-		mutex_unlock(&fi->inmem_lock);
-	}
->>>>>>> 24cdbff807dd... Merge CAF/LA.UM.8.2.r1-05100
 
 	clear_inode_flag(inode, FI_ATOMIC_FILE);
 	fi->i_gc_failures[GC_FAILURE_ATOMIC] = 0;
 	stat_dec_atomic_write(inode);
-
-	spin_lock(&sbi->inode_lock[ATOMIC_FILE]);
-	if (!list_empty(&fi->inmem_ilist))
-		list_del_init(&fi->inmem_ilist);
-	spin_unlock(&sbi->inode_lock[ATOMIC_FILE]);
 }
 
 void f2fs_drop_inmem_page(struct inode *inode, struct page *page)
@@ -453,6 +445,11 @@ int f2fs_commit_inmem_pages(struct inode *inode)
 
 	mutex_lock(&fi->inmem_lock);
 	err = __f2fs_commit_inmem_pages(inode);
+
+	spin_lock(&sbi->inode_lock[ATOMIC_FILE]);
+	if (!list_empty(&fi->inmem_ilist))
+		list_del_init(&fi->inmem_ilist);
+	spin_unlock(&sbi->inode_lock[ATOMIC_FILE]);
 	mutex_unlock(&fi->inmem_lock);
 
 	clear_inode_flag(inode, FI_ATOMIC_COMMIT);
@@ -3973,7 +3970,6 @@ static int sanity_check_curseg(struct f2fs_sb_info *sbi)
 			if (!f2fs_test_bit(blkofs, se->cur_valid_map))
 				continue;
 out:
-<<<<<<< HEAD
 			f2fs_msg(sbi->sb, KERN_ERR,
 				"Current segment's next free block offset is "
 				"inconsistent with bitmap, logtype:%u, "
@@ -3981,15 +3977,6 @@ out:
 				i, curseg->segno, curseg->alloc_type,
 				curseg->next_blkoff, blkofs);
 			return -EINVAL;
-=======
-			f2fs_err(sbi,
-				 "Current segment's next free block offset is "
-				 "inconsistent with bitmap, logtype:%u, "
-				 "segno:%u, type:%u, next_blkoff:%u, blkofs:%u",
-				 i, curseg->segno, curseg->alloc_type,
-				 curseg->next_blkoff, blkofs);
-			return -EFSCORRUPTED;
->>>>>>> 24cdbff807dd... Merge CAF/LA.UM.8.2.r1-05100
 		}
 	}
 	return 0;
