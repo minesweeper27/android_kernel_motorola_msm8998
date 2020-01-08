@@ -767,11 +767,7 @@ static int kgsl_suspend_device(struct kgsl_device *device, pm_message_t state)
 	if (status == 0)
 		device->ftbl->suspend_device(device, state);
 	mutex_unlock(&device->mutex);
-<<<<<<< HEAD
-        adrenokgsl_on = false;
-=======
 	adrenokgsl_on = false;
->>>>>>> 2b3a3b9dc513... kgsl: add an api to query adreno kgsl resume/suspend states
 
 	return status;
 }
@@ -801,11 +797,7 @@ static int kgsl_resume_device(struct kgsl_device *device)
 	}
 
 	mutex_unlock(&device->mutex);
-<<<<<<< HEAD
-        adrenokgsl_on = true;
-=======
 	adrenokgsl_on = true;
->>>>>>> 2b3a3b9dc513... kgsl: add an api to query adreno kgsl resume/suspend states
 	return 0;
 }
 
