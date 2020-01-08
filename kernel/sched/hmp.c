@@ -3659,11 +3659,7 @@ void fixup_busy_time(struct task_struct *p, int new_cpu)
 
 	migrate_top_tasks(p, src_rq, dest_rq);
 
-<<<<<<< HEAD
         if (!same_freq_domain(new_cpu, task_cpu(p))) {
-=======
-	if (!same_freq_domain(new_cpu, task_cpu(p))) {
->>>>>>> adcc78f1698a... sched: cpufreq: HMP load reporting changes
 		cpufreq_update_util(dest_rq, SCHED_CPUFREQ_INTERCLUSTER_MIG);
 		cpufreq_update_util(src_rq, SCHED_CPUFREQ_INTERCLUSTER_MIG);
 	}
