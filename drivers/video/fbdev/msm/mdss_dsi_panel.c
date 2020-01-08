@@ -43,7 +43,6 @@
 #include <linux/powersuspend.h>
 #endif
 
->>>>>>> 689576f51c83... kernel/power/powersuspend: new PM kernel driver for Android w/o early_suspend
 #define DT_CMD_HDR 6
 #define DEFAULT_MDP_TRANSFER_TIME 14000
 #define DCS_CMD_GET_POWER_MODE 0x0A
