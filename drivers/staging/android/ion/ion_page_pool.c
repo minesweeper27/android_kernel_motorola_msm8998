@@ -96,7 +96,6 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
 	}
 
 	list_del(&page->lru);
-
 	mod_zone_page_state(page_zone(page), NR_INDIRECTLY_RECLAIMABLE_BYTES,
 			    -(1 << (PAGE_SHIFT + pool->order)));
 
@@ -203,7 +202,7 @@ int ion_page_pool_shrink(struct ion_page_pool *pool, gfp_t gfp_mask,
 		freed += (1 << pool->order);
 	}
 
-	return ion_page_pool_total(pool, high);
+	return freed;
 }
 
 struct ion_page_pool *ion_page_pool_create(struct device *dev, gfp_t gfp_mask,
