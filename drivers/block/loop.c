@@ -76,7 +76,6 @@
 #include <linux/miscdevice.h>
 #include <linux/falloc.h>
 #include <linux/uio.h>
-#include <linux/android_version.h>
 #include "loop.h"
 
 #include <asm/uaccess.h>
@@ -511,10 +510,14 @@ static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
 	return 0;
 }
 
-static int do_req_filebacked(struct loop_device *lo, struct request *rq)
+
+static inline int lo_rw_simple(struct loop_device *lo,
+		struct request *rq, loff_t pos, bool rw)
 {
 	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
-	loff_t pos = ((loff_t) blk_rq_pos(rq) << 9) + lo->lo_offset;
+
+	if (cmd->use_aio)
+		return lo_rw_aio(lo, cmd, pos, rw);
 
 	/*
 	 * lo_write_simple and lo_read_simple should have been covered
@@ -525,30 +528,37 @@ static int do_req_filebacked(struct loop_device *lo, struct request *rq)
 	 * of the req at one time. And direct read IO doesn't need to
 	 * run flush_dcache_page().
 	 */
-	switch (req_op(rq)) {
-	case REQ_OP_FLUSH:
-		return lo_req_flush(lo, rq);
-	case REQ_OP_DISCARD:
-		return lo_discard(lo, rq, pos);
-	case REQ_OP_WRITE:
-		if (lo->transfer)
-			return lo_write_transfer(lo, rq, pos);
-		else if (cmd->use_aio)
-			return lo_rw_aio(lo, cmd, pos, WRITE);
+	if (rw == WRITE)
+		return lo_write_simple(lo, rq, pos);
+	else
+		return lo_read_simple(lo, rq, pos);
+}
+
+static int do_req_filebacked(struct loop_device *lo, struct request *rq)
+{
+	loff_t pos;
+	int ret;
+
+	pos = ((loff_t) blk_rq_pos(rq) << 9) + lo->lo_offset;
+
+	if (rq->cmd_flags & REQ_WRITE) {
+		if (rq->cmd_flags & REQ_FLUSH)
+			ret = lo_req_flush(lo, rq);
+		else if (rq->cmd_flags & REQ_DISCARD)
+			ret = lo_discard(lo, rq, pos);
+		else if (lo->transfer)
+			ret = lo_write_transfer(lo, rq, pos);
 		else
-			return lo_write_simple(lo, rq, pos);
-	case REQ_OP_READ:
+			ret = lo_rw_simple(lo, rq, pos, WRITE);
+
+	} else {
 		if (lo->transfer)
-			return lo_read_transfer(lo, rq, pos);
-		else if (cmd->use_aio)
-			return lo_rw_aio(lo, cmd, pos, READ);
+			ret = lo_read_transfer(lo, rq, pos);
 		else
-			return lo_read_simple(lo, rq, pos);
-	default:
-		WARN_ON_ONCE(1);
-		return -EIO;
-		break;
+			ret = lo_rw_simple(lo, rq, pos, READ);
 	}
+
+	return ret;
 }
 
 struct switch_request {
@@ -2074,7 +2084,7 @@ static int __init loop_init(void)
 		nr = max_loop;
 		range = max_loop << part_shift;
 	} else {
-		nr = (get_android_version() <= 9) ? 8 : 16;
+		nr = CONFIG_BLK_DEV_LOOP_MIN_COUNT;
 		range = 1UL << MINORBITS;
 	}
 
