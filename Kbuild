@@ -5,6 +5,7 @@
 # 2) Generate timeconst.h
 # 3) Generate asm-offsets.h (may need bounds.h and timeconst.h)
 # 4) Check for missing system calls
+<<<<<<< HEAD
 # We can build either as part of a standalone Kernel build or as
 # an external module.  Determine which mechanism is being used
 ifeq ($(MODNAME),)
@@ -922,6 +923,8 @@ WMI_CLEAN_FILES := $(WMI_OBJ_DIR)/*.o \
 
 ########### FWLOG ###########
 FWLOG_DIR := core/utils/fwlog
+=======
+>>>>>>> parent of 804e3d8eeac3... Merge tag 'LA.UM.7.2.r1-07200-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0 into Q-70
 
 # 1) Generate bounds.h
 
@@ -955,6 +958,7 @@ endef
 $(obj)/$(timeconst-file): kernel/time/timeconst.bc FORCE
 	$(call filechk,gentimeconst)
 
+<<<<<<< HEAD
 # 3) Generate asm-offsets.h
 #
 
@@ -1929,6 +1933,11 @@ endif
 ifeq ($(CONFIG_DYNAMIC_DEBUG),y)
 CDEFINES += -DFEATURE_MULTICAST_HOST_FW_MSGS
 endif
+=======
+#####
+# 3) Generate asm-offsets.h
+#
+>>>>>>> parent of 804e3d8eeac3... Merge tag 'LA.UM.7.2.r1-07200-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0 into Q-70
 
 offsets-file := include/generated/asm-offsets.h
 
