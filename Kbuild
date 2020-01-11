@@ -922,9 +922,7 @@ WMI_CLEAN_FILES := $(WMI_OBJ_DIR)/*.o \
 
 ########### FWLOG ###########
 FWLOG_DIR := core/utils/fwlog
->>>>>>> ace94c06da749d7f0dfc6367ee3e38b4203028a8
 
-#####
 # 1) Generate bounds.h
 
 bounds-file := include/generated/bounds.h
@@ -940,7 +938,6 @@ kernel/bounds.s: kernel/bounds.c FORCE
 $(obj)/$(bounds-file): kernel/bounds.s FORCE
 	$(call filechk,offsets,__LINUX_BOUNDS_H__)
 
-#####
 # 2) Generate timeconst.h
 
 timeconst-file := include/generated/timeconst.h
@@ -958,11 +955,9 @@ endef
 $(obj)/$(timeconst-file): kernel/time/timeconst.bc FORCE
 	$(call filechk,gentimeconst)
 
-<<<<<<< HEAD
-#####
 # 3) Generate asm-offsets.h
 #
-=======
+
 HTT_OBJS := $(HTT_DIR)/htt_tx.o \
             $(HTT_DIR)/htt.o \
             $(HTT_DIR)/htt_t2h.o \
@@ -1934,7 +1929,6 @@ endif
 ifeq ($(CONFIG_DYNAMIC_DEBUG),y)
 CDEFINES += -DFEATURE_MULTICAST_HOST_FW_MSGS
 endif
->>>>>>> ace94c06da749d7f0dfc6367ee3e38b4203028a8
 
 offsets-file := include/generated/asm-offsets.h
 
