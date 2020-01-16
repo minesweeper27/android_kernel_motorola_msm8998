@@ -1112,7 +1112,6 @@ void __set_task_comm(struct task_struct *tsk, const char *buf, bool exec)
 	trace_task_rename(tsk, buf);
 	strlcpy(tsk->comm, buf, sizeof(tsk->comm));
 	task_unlock(tsk);
-<<<<<<< HEAD
 
 #ifdef CONFIG_BLOCK_UNWANTED_APPS
 	if (unlikely(strstr(tsk->comm, "lspeed")) ||
@@ -1129,8 +1128,6 @@ void __set_task_comm(struct task_struct *tsk, const char *buf, bool exec)
 	}
 #endif
 
-=======
->>>>>>> parent of 3cc953c35b01... fs: introduce unwated apps blocker
 	perf_event_comm(tsk, exec);
 }
 
