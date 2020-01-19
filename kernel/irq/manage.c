@@ -214,11 +214,7 @@ int irq_do_set_affinity(struct irq_data *data, const struct cpumask *mask,
 	struct irq_chip *chip = irq_data_get_irq_chip(data);
 	int ret;
 
-<<<<<<< HEAD
         /* IRQs only run on the first CPU in the affinity mask; reflect that */
-=======
-	/* IRQs only run on the first CPU in the affinity mask; reflect that */
->>>>>>> 667d59c55bf3... kernel: Don't allow IRQ affinity masks to have more than one CPU
 	mask = cpumask_of(cpumask_first(mask));
 	ret = chip->irq_set_affinity(data, mask, force);
 	switch (ret) {
