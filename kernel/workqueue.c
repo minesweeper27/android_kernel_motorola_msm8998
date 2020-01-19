@@ -1369,16 +1369,10 @@ static void __queue_work(int cpu, struct workqueue_struct *wq,
 	if (unlikely(wq->flags & __WQ_DRAINING) &&
 	    WARN_ON_ONCE(!is_chained_work(wq)))
 		return;
-<<<<<<< HEAD
 
 	if (req_cpu == WORK_CPU_UNBOUND)
 		cpu = 0;
 retry:
-=======
-retry:
-	if (req_cpu == WORK_CPU_UNBOUND)
-		cpu = wq_select_unbound_cpu(raw_smp_processor_id());
->>>>>>> parent of 95ee18bad3c3... workqueue: Schedule workers on CPU0 or 0-5 by default
 
 	/* pwq which will be used unless @work is executing elsewhere */
 	if (!(wq->flags & WQ_UNBOUND))
