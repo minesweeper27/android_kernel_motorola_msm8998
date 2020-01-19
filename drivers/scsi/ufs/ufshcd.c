@@ -5992,11 +5992,7 @@ static void ufshcd_exception_event_handler(struct work_struct *work)
 
 out:
 	ufshcd_scsi_unblock_requests(hba);
-<<<<<<< HEAD
         /*
-=======
-	/*
->>>>>>> fc8d87f81e7d... scsi: ufs: Avoid deadlock in suspend and eeh_work
 	 * pm_runtime_get_noresume is called while scheduling
 	 * eeh_work to avoid suspend racing with exception work.
 	 * Hence decrement usage counter using pm_runtime_put_noidle
