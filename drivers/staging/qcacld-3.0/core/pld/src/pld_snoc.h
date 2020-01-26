@@ -21,7 +21,6 @@
 
 #ifdef CONFIG_PLD_SNOC_ICNSS
 #include <soc/qcom/icnss.h>
-#include <soc/qcom/icnss.c>
 #endif
 #include "pld_internal.h"
 
