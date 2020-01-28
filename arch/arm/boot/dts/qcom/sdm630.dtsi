@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -34,7 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
+		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
 	};
 
 	psci {
@@ -50,7 +50,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x100>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile0>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -80,7 +79,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x101>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile1>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -104,7 +102,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x102>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile2>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -128,7 +125,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x103>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile3>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -313,7 +309,7 @@
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/oem";
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait,slotselect";
+					fsmgr_flags = "wait,slotselect,verify";
 					status = "ok";
 				};
 			};
@@ -622,7 +618,7 @@
 			compatible = "qcom,memshare-peripheral";
 			qcom,peripheral-size = <0x0>;
 			qcom,client-id = <1>;
-			qcom,allocate-boot-time;
+			qcom,allocate-on-request;
 			label = "modem";
 		};
 	};
@@ -744,23 +740,6 @@
 			qcom,sensor-type = "llm";
 			qcom,sensor-name = "limits_sensor-01";
 		};
-		sensor_information20: qcom,sensor-information-20 {
-			qcom,sensor-type = "adc";
-			qcom,sensor-name = "front_temp";
-			qcom,scaling-factor = <1000>;
-		};
-		sensor_information21: qcom,sensor-information-21 {
-			qcom,sensor-type = "adc";
-			qcom,sensor-name = "back_temp";
-			qcom,scaling-factor = <1000>;
-		};
-	};
-
-	sys_temp_support {
-		compatible = "mmi,sys-temp";
-		mmi,temperature-names = "front_temp",
-					"back_temp";
-		status = "ok";
 	};
 
 	mitigation_profile0: qcom,limit_info-0 {
@@ -791,11 +770,11 @@
 	qcom,msm-thermal {
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
-		qcom,poll-ms = <1000>;
-		qcom,therm-reset-temp = <90>;
-		qcom,core-limit-temp = <60>;
+		qcom,poll-ms = <100>;
+		qcom,therm-reset-temp = <115>;
+		qcom,core-limit-temp = <70>;
 		qcom,core-temp-hysteresis = <10>;
-		qcom,hotplug-temp = <80>;
+		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
 		qcom,online-hotplug-core;
 		qcom,synchronous-cluster-id = <0 1>;
@@ -836,7 +815,7 @@
 		interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
 	};
 
-	pm660_bcl: qcom,bcl {
+	qcom,bcl {
 		compatible = "qcom,bcl";
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;
@@ -1073,8 +1052,7 @@
 			< 465000000 4>,  /* SVS_L1 */
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
-			< 648000000 7>,  /* TURBO  */
-			< 700000000 7>,  /* TURBO  */
+			< 700000000 7>,  /* TURBO */
 			< 775000000 7>;  /* TURBO  */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
@@ -1242,7 +1220,6 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
-		    <  300000 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1256,7 +1233,6 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
-		    <  300000 >,
 			<  614400 >,
 			<  883200 >,
 			< 1094400 >,
