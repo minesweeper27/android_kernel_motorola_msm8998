@@ -34,7 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
+		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
 	};
 
 	psci {
@@ -50,6 +50,7 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x100>;
+                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile0>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -79,6 +80,7 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x101>;
+                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile1>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -101,6 +103,7 @@
 		CPU2: cpu@102 {
 			device_type = "cpu";
 			compatible = "arm,armv8";
+                        clock-frequency = <2208000000>;
 			reg = <0x0 0x102>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile2>;
@@ -125,6 +128,7 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x103>;
+                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile3>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -740,6 +744,23 @@
 			qcom,sensor-type = "llm";
 			qcom,sensor-name = "limits_sensor-01";
 		};
+                sensor_information20: qcom,sensor-information-20 {
+			qcom,sensor-type = "adc";
+			qcom,sensor-name = "front_temp";
+			qcom,scaling-factor = <1000>;
+		};
+		sensor_information21: qcom,sensor-information-21 {
+			qcom,sensor-type = "adc";
+			qcom,sensor-name = "back_temp";
+			qcom,scaling-factor = <1000>;
+		};
+	};
+
+	sys_temp_support {
+		compatible = "mmi,sys-temp";
+		mmi,temperature-names = "front_temp",
+					"back_temp";
+		status = "ok";
 	};
 
 	mitigation_profile0: qcom,limit_info-0 {
@@ -771,8 +792,8 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
 		qcom,poll-ms = <100>;
-		qcom,therm-reset-temp = <115>;
-		qcom,core-limit-temp = <70>;
+		qcom,therm-reset-temp = <90>;
+		qcom,core-limit-temp = <60>;
 		qcom,core-temp-hysteresis = <10>;
 		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
@@ -1220,6 +1241,7 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
+                        <  300000 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1233,6 +1255,7 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
+                        <  300000 >,
 			<  614400 >,
 			<  883200 >,
 			< 1094400 >,
