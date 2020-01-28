@@ -48,8 +48,6 @@
 
 #define MAX_SUPPORTED_INSTANCES 16
 
-<<<<<<< HEAD
-=======
 #ifndef CONFIG_DEBUG_KERNEL
 int msm_vidc_debug = 0;
 EXPORT_SYMBOL(msm_vidc_debug);
@@ -72,7 +70,6 @@ bool msm_vidc_bitrate_clock_scaling = true;
 bool msm_vidc_debug_timeout = false;
 #endif
 
->>>>>>> b913c2c1f312... treewide: Remove tracing and debug drivers
 const char *const mpeg_video_vidc_extradata[] = {
 	"Extradata none",
 	"Extradata MB Quantization",
