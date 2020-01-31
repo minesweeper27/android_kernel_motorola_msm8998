@@ -158,7 +158,7 @@ static int tas2560_mute(struct snd_soc_dai *dai, int mute)
 	struct tas2560_priv *pTAS2560 = snd_soc_codec_get_drvdata(codec);
 
 	mutex_lock(&pTAS2560->codec_lock);
-	dev_info(pTAS2560->dev, "%s, %d\n", __func__, mute);
+	dev_dbg(pTAS2560->dev, "%s, %d\n", __func__, mute);
 	tas2560_enable(pTAS2560, !mute);
 	mutex_unlock(&pTAS2560->codec_lock);
 	return 0;
@@ -475,14 +475,12 @@ static struct snd_soc_codec_driver soc_codec_driver_tas2560 = {
 	.write			= tas2560_codec_write,
 	.suspend		= tas2560_codec_suspend,
 	.resume			= tas2560_codec_resume,
-	.component_driver = {
 	.controls		= tas2560_snd_controls,
 	.num_controls		= ARRAY_SIZE(tas2560_snd_controls),
 	.dapm_widgets		= tas2560_dapm_widgets,
 	.num_dapm_widgets	= ARRAY_SIZE(tas2560_dapm_widgets),
 	.dapm_routes		= tas2560_audio_map,
 	.num_dapm_routes	= ARRAY_SIZE(tas2560_audio_map),
-	},
 };
 
 int tas2560_register_codec(struct tas2560_priv *pTAS2560)
