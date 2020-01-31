@@ -91,9 +91,6 @@
 /* useful channel number */
 #define USE_CHANNEL_NUM 3
 
-/* channel number need to debug */
-#define DEBUG_CHANNEL_NUM 4
-
 /* default settings */
 /* Channel enable: CS0:1,CS1:2,CS2:4,COMB:8
  * Defines the Active scan period :
@@ -117,12 +114,6 @@
 #define DUMMY_USE_CHANNEL	0x1
 #define DUMMY_SCAN_PERIOD	0x2
 #define DUMMY_RAW_DATA_CHANNEL	0x00
-
-/* Cap sensor report key, including cs0, cs1, cs2 and comb */
-#define KEY_CAP_CS0             0x270
-#define KEY_CAP_CS1             0x271
-#define KEY_CAP_CS2             0x272
-#define KEY_CAP_COMB            0x272
 
 /**************************************
 * define platform data
@@ -261,6 +252,8 @@ static struct smtc_reg_data sx9310_i2c_reg_setup[] = {
 		.val = 0x27,
 	},
 };
+
+
 
 static struct _buttonInfo psmtcButtons[] = {
 	{
