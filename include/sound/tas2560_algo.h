@@ -23,7 +23,7 @@
 #define _TAS2560_ALGO_H
 
 #include <linux/types.h>
-#include <sound/apr_audio-v2.h>
+#include <dsp/apr_audio-v2.h>
 #include <linux/delay.h>
 #include <sound/soc.h>
 
@@ -42,8 +42,8 @@
 #define TAS2560_ALGO_GET_PARAM		1
 #define TAS2560_ALGO_SET_PARAM		0
 #define TAS2560_ALGO_PAYLOAD_SIZE	14
-#define TAS2560_ALGO_RX_PORT_ID		0x1004 /*Quinary Port-Rx*/
-#define TAS2560_ALGO_TX_PORT_ID		0x1005 /*Quinary Port-Tx*/
+#define TAS2560_ALGO_RX_PORT_ID		0x1016 /*Quinary Port-Rx*/
+#define TAS2560_ALGO_TX_PORT_ID		0x1017 /*Quinary Port-Tx*/
 /*I2C Slave addresses, 0x98 is used in Mono-Case*/
 #define SLAVE1		0x98
 #define SLAVE2		0x9A
@@ -106,14 +106,26 @@
 /*Set Profile(Music(0),Ringtone(1)...etc)*/
 #define TAS2560_ALGO_PROFILE			3819
 
+#define AFE_PARAM_ID_TAS2560_SPEAKER_ID		3820
 
 struct afe_tas2560_algo_params_t {
 	uint32_t  payload[TAS2560_ALGO_PAYLOAD_SIZE];
+} __packed;
+
+struct afe_tas2560_algo_set_config_t {
+	struct apr_hdr hdr;
+	struct afe_port_cmd_set_param_v2 param;
+	struct afe_port_param_data_v2 data;
+} __packed;
+
+struct afe_tas2560_algo_get_config_t {
+	struct apr_hdr hdr;
+	struct afe_port_cmd_get_param_v2 param;
+	struct afe_port_param_data_v2 data;
 } __packed;
 
 int tas2560_algo_routing_init(struct snd_soc_pcm_runtime *rtd);
 
 int afe_tas2560_algo_ctrl(u8 *data, u32 param_id,
 	u32 module_id, u8 dir, u8 size);
-
 #endif
