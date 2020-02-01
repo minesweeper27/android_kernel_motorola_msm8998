@@ -303,7 +303,7 @@ struct dwc3_msm {
 	struct mutex suspend_resume_mutex;
 
 	enum usb_device_speed override_usb_speed;
-<<<<<<< HEAD
+
 	bool			ext_typec_switch;
 	bool                    ss_compliance;
 	struct gpio		mod_switch_gpio;
@@ -317,10 +317,8 @@ struct dwc3_msm {
 	bool			ext_enabled; /* Greybus control of mod intf */
 	struct work_struct	ext_usb_work;
 	bool			ext_usb_run;
-=======
 
 	bool core_init_failed;
->>>>>>> 5c9735a114db... Merge tag 'LA.UM.8.2.r1-04800-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 };
 
 static struct dwc3_msm *the_chip;
@@ -4304,8 +4302,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 	if (on) {
 		dev_dbg(mdwc->dev, "%s: turn on host\n", __func__);
 
-<<<<<<< HEAD
-=======
 		pm_runtime_get_sync(mdwc->dev);
 		if (mdwc->core_init_failed) {
 			dev_err(mdwc->dev, "%s: Core init failed\n", __func__);
@@ -4313,7 +4309,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 			return -EAGAIN;
 		}
 
->>>>>>> 5c9735a114db... Merge tag 'LA.UM.8.2.r1-04800-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 		mdwc->hs_phy->flags |= PHY_HOST_MODE;
 		pm_runtime_get_sync(mdwc->dev);
 		if (dwc->maximum_speed == USB_SPEED_SUPER) {
