@@ -583,11 +583,7 @@ static void pil_remove_proxy_vote(struct pil_desc *pil)
 
 static int pil_init_image_trusted(struct pil_desc *pil,
 		const u8 *metadata, size_t size,
-<<<<<<< HEAD
-		phys_addr_t addr, size_t sz)
-=======
 		 phys_addr_t addr, size_t sz)
->>>>>>> 4610475c7c1f... Merge tag 'LA.UM.8.2.r1-05100-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 {
 	struct pil_tz_data *d = desc_to_data(pil);
 	struct pas_init_image_req {

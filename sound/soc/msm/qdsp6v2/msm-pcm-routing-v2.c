@@ -4924,30 +4924,19 @@ static const struct snd_kcontrol_new tertiary_mi2s_rx_mixer_controls[] = {
 	MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
 	MSM_FRONTEND_DAI_MULTIMEDIA5, 1, 0, msm_routing_get_audio_mixer,
 	msm_routing_put_audio_mixer),
-<<<<<<< HEAD
 	SOC_SINGLE_EXT("MultiMedia6", MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
 	MSM_FRONTEND_DAI_MULTIMEDIA6, 1, 0, msm_routing_get_audio_mixer,
 	msm_routing_put_audio_mixer),
-	SOC_SINGLE_EXT("MultiMedia7", MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
-=======
 	SOC_DOUBLE_EXT("MultiMedia7", SND_SOC_NOPM,
 	MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
->>>>>>> 4610475c7c1f... Merge tag 'LA.UM.8.2.r1-05100-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 	MSM_FRONTEND_DAI_MULTIMEDIA7, 1, 0, msm_routing_get_audio_mixer,
 	msm_routing_put_audio_mixer),
 	SOC_DOUBLE_EXT("MultiMedia8", SND_SOC_NOPM,
 	MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
 	MSM_FRONTEND_DAI_MULTIMEDIA8, 1, 0, msm_routing_get_audio_mixer,
 	msm_routing_put_audio_mixer),
-<<<<<<< HEAD
-	SOC_SINGLE_EXT("MultiMedia9", MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
-	MSM_FRONTEND_DAI_MULTIMEDIA9, 1, 0, msm_routing_get_audio_mixer,
-	msm_routing_put_audio_mixer),
-	SOC_SINGLE_EXT("MultiMedia10", MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
-=======
 	SOC_DOUBLE_EXT("MultiMedia10", SND_SOC_NOPM,
 	MSM_BACKEND_DAI_TERTIARY_MI2S_RX,
->>>>>>> 4610475c7c1f... Merge tag 'LA.UM.8.2.r1-05100-sdm660.0' of https://source.codeaurora.org/quic/la/kernel/msm-4.4 into HEAD
 	MSM_FRONTEND_DAI_MULTIMEDIA10, 1, 0, msm_routing_get_audio_mixer,
 	msm_routing_put_audio_mixer),
 	SOC_DOUBLE_EXT("MultiMedia11", SND_SOC_NOPM,
