@@ -28,11 +28,6 @@ obj-$(CONFIG_INPUT_MISC)	+= misc/
 obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
-<<<<<<< HEAD
 obj-$(CONFIG_HOMEBUTTON)	+= homebutton.o
-=======
-obj-y   += sensors/bmi160/
-obj-y				+= fingerprint/
 
 subdir-ccflags-y := -O3
->>>>>>> e5d58a34822c... input: use -O3 for all input sources
