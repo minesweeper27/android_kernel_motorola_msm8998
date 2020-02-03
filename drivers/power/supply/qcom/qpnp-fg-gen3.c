@@ -22,6 +22,12 @@
 #include <linux/qpnp/qpnp-revid.h>
 #include "fg-core.h"
 #include "fg-reg.h"
+<<<<<<< HEAD
+=======
+#include <linux/charging_state.h>
+#include <linux/swap.h>
+#include <linux/adrenokgsl_state.h>
+>>>>>>> 58140f6eae6d... AGNi memory monitor: dynamic swappiness for zram v1.2
 
 #define FG_GEN3_DEV_NAME	"qcom,fg-gen3"
 
@@ -840,8 +846,25 @@ static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 	else if (*msoc == 0)
 		*msoc = 0;
 	else
+<<<<<<< HEAD
 		*msoc = DIV_ROUND_CLOSEST((*msoc - 1) * (FULL_CAPACITY - 2),
 				FULL_SOC_RAW - 2) + 1;
+=======
+		*msoc = DIV_ROUND_CLOSEST(*msoc * FULL_CAPACITY,
+				FULL_SOC_RAW);
+
+	if (*msoc >= FULL_CAPACITY)
+		*msoc = FULL_CAPACITY;
+
+	agni_memprobe();
+	adreno_load();
+
+	if (*msoc <= LOW_CAPACITY)
+		low_batt_swap_stall = true;
+	else
+		low_batt_swap_stall = false;
+#endif
+>>>>>>> 58140f6eae6d... AGNi memory monitor: dynamic swappiness for zram v1.2
 	return 0;
 }
 
