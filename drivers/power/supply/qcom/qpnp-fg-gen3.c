@@ -850,8 +850,8 @@ static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 	if (*msoc >= FULL_CAPACITY)
 		*msoc = FULL_CAPACITY;
 
-	agni_memprobe();
 	adreno_load();
+	agni_memprobe();
 
 	if (*msoc <= LOW_CAPACITY)
 		low_batt_swap_stall = true;
