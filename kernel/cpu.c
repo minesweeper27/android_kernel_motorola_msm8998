@@ -24,6 +24,7 @@
 #include <linux/tick.h>
 #include <linux/irq.h>
 #include <trace/events/power.h>
+#include <asm-generic/processor.h>
 
 #include <trace/events/sched.h>
 
@@ -430,7 +431,7 @@ static int _cpu_down(unsigned int cpu, int tasks_frozen)
 	 * Wait for the stop thread to go away.
 	 */
 	while (!per_cpu(cpu_dead_idle, cpu))
-		cpu_relax();
+		cpu_read_relax();
 	smp_mb(); /* Read from cpu_dead_idle before __cpu_die(). */
 	per_cpu(cpu_dead_idle, cpu) = false;
 

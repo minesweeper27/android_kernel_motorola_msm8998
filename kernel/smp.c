@@ -14,7 +14,11 @@
 #include <linux/smp.h>
 #include <linux/cpu.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
 #include <linux/suspend.h>
+=======
+#include <asm-generic/processor.h>
+>>>>>>> 15a7b57cef1d... Powersaving shet
 
 #include "smpboot.h"
 
@@ -112,7 +116,7 @@ void __init call_function_init(void)
 static void csd_lock_wait(struct call_single_data *csd)
 {
 	while (smp_load_acquire(&csd->flags) & CSD_FLAG_LOCK)
-		cpu_relax();
+		cpu_read_relax();
 }
 
 static void csd_lock(struct call_single_data *csd)
