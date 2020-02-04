@@ -823,7 +823,19 @@ static int fg_get_msoc_raw(struct fg_chip *chip, int *val)
 }
 
 #define FULL_CAPACITY	100
+<<<<<<< HEAD
 #define FULL_SOC_RAW	255
+=======
+#define HIGH_CAPACITY	80
+#define LOW_CAPACITY	25
+#define FULL_SOC_RAW	255
+#if defined(CONFIG_KERNEL_CUSTOM_D2S) || defined(CONFIG_KERNEL_CUSTOM_F7A)
+#define FULL_SOC_REPORT_THR 250
+#endif
+bool low_batt_swap_stall = false;
+bool batt_swap_push = false;
+
+>>>>>>> 0f9e62db6670... AGNi memory monitor: dynamic swappiness for zram v1.4
 static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 {
 	int rc;
@@ -850,14 +862,20 @@ static int fg_get_msoc(struct fg_chip *chip, int *msoc)
 	if (*msoc >= FULL_CAPACITY)
 		*msoc = FULL_CAPACITY;
 
-	adreno_load();
-	agni_memprobe();
+	if (*msoc >= HIGH_CAPACITY)
+		batt_swap_push = true;
+	else
+		batt_swap_push = false;
 
 	if (*msoc <= LOW_CAPACITY)
 		low_batt_swap_stall = true;
 	else
 		low_batt_swap_stall = false;
 #endif
+<<<<<<< HEAD
+=======
+	agni_memprobe();
+>>>>>>> 0f9e62db6670... AGNi memory monitor: dynamic swappiness for zram v1.4
 
 	return 0;
 }
