@@ -206,8 +206,8 @@ struct ion_heap {
 	struct task_struct *task;
 
 	int (*debug_show)(struct ion_heap *heap, struct seq_file *, void *);
-	atomic_long_t total_allocated;
-	atomic_long_t total_handles;
+	atomic_t total_allocated;
+	atomic_t total_handles;
 };
 
 /**

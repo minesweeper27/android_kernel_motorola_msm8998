@@ -23,8 +23,11 @@
 #include <linux/slab.h>
 #include <linux/swap.h>
 #include <linux/vmalloc.h>
+<<<<<<< HEAD
 #include <linux/vmstat.h>
 #include <linux/mmzone.h>
+=======
+>>>>>>> efbf25f2bc88... ion: fetch from wahoo
 #include "ion_priv.h"
 
 static void *ion_page_pool_alloc_pages(struct ion_page_pool *pool)
@@ -42,6 +45,8 @@ static void *ion_page_pool_alloc_pages(struct ion_page_pool *pool)
 			goto error_free_pages;
 
 	ion_page_pool_alloc_set_cache_policy(pool, page);
+	mod_zone_page_state(page_zone(page), NR_ION_HEAP, 1 << pool->order);
+	mm_event_count(MM_KERN_ALLOC, 1 << pool->order);
 
 	return page;
 error_free_pages:
@@ -54,6 +59,7 @@ static void ion_page_pool_free_pages(struct ion_page_pool *pool,
 {
 	ion_page_pool_free_set_cache_policy(pool, page);
 	__free_pages(page, pool->order);
+	mod_zone_page_state(page_zone(page), NR_ION_HEAP, -(1 << pool->order));
 }
 
 static int ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
@@ -61,7 +67,10 @@ static int ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
 	int page_count = 1 << pool->order;
 
 	mutex_lock(&pool->mutex);
+<<<<<<< HEAD
 
+=======
+>>>>>>> efbf25f2bc88... ion: fetch from wahoo
 	if (PageHighMem(page)) {
 		list_add_tail(&page->lru, &pool->high_items);
 		pool->high_count++;
@@ -69,6 +78,7 @@ static int ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
 		list_add_tail(&page->lru, &pool->low_items);
 		pool->low_count++;
 	}
+<<<<<<< HEAD
 
 	mod_zone_page_state(page_zone(page), NR_INDIRECTLY_RECLAIMABLE_BYTES,
 			    (1 << (PAGE_SHIFT + pool->order)));
@@ -76,6 +86,8 @@ static int ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
 	mod_zone_page_state(page_zone(page), NR_FILE_PAGES, page_count);
 	mod_zone_page_state(page_zone(page), NR_INACTIVE_FILE, page_count);
 
+=======
+>>>>>>> efbf25f2bc88... ion: fetch from wahoo
 	mutex_unlock(&pool->mutex);
 	return 0;
 }
@@ -96,12 +108,15 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
 	}
 
 	list_del(&page->lru);
+<<<<<<< HEAD
 	mod_zone_page_state(page_zone(page), NR_INDIRECTLY_RECLAIMABLE_BYTES,
 			    -(1 << (PAGE_SHIFT + pool->order)));
 
 	mod_zone_page_state(page_zone(page), NR_INACTIVE_FILE, -page_count);
 	mod_zone_page_state(page_zone(page), NR_FILE_PAGES, -page_count);
 
+=======
+>>>>>>> efbf25f2bc88... ion: fetch from wahoo
 	return page;
 }
 
@@ -202,7 +217,11 @@ int ion_page_pool_shrink(struct ion_page_pool *pool, gfp_t gfp_mask,
 		freed += (1 << pool->order);
 	}
 
+<<<<<<< HEAD
 	return freed;
+=======
+	return ion_page_pool_total(pool, high);
+>>>>>>> efbf25f2bc88... ion: fetch from wahoo
 }
 
 struct ion_page_pool *ion_page_pool_create(struct device *dev, gfp_t gfp_mask,
