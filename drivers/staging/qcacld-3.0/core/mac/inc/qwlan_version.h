@@ -32,9 +32,16 @@
 #define QWLAN_VERSION_MAJOR            5
 #define QWLAN_VERSION_MINOR            2
 #define QWLAN_VERSION_PATCH            03
+<<<<<<< HEAD
 #define QWLAN_VERSION_EXTRA            "O"
 #define QWLAN_VERSION_BUILD            13
 
 #define QWLAN_VERSIONSTR               "5.2.03.13O"
+=======
+#define QWLAN_VERSION_EXTRA            "B"
+#define QWLAN_VERSION_BUILD            18
+
+#define QWLAN_VERSIONSTR               "5.2.03.18B"
+>>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 
 #endif /* QWLAN_VERSION_H */

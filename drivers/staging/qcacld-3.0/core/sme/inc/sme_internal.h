@@ -38,6 +38,7 @@
 #include "sme_power_save.h"
 #include "nan_api.h"
 #include "wmi_unified.h"
+#include "wmi_unified_param.h"
 
 struct wmi_twt_enable_complete_event_param;
 /*--------------------------------------------------------------------------
@@ -322,6 +323,18 @@ typedef struct tagSmeStruct {
 						  void *context,
 						  wmi_mws_coex_cmd_id cmd_id);
 #endif /* WLAN_MWS_INFO_DEBUGFS */
+<<<<<<< HEAD
+=======
+
+#ifdef WLAN_BCN_RECV_FEATURE
+	beacon_report_cb beacon_report_cb;
+	beacon_pause_cb beacon_pause_cb;
+#endif
+#ifdef FEATURE_OEM_DATA
+	void (*oem_data_event_handler_cb)
+			(const struct oem_data *oem_event_data);
+#endif
+>>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 } tSmeStruct, *tpSmeStruct;
 
 #endif /* #if !defined( __SMEINTERNAL_H ) */

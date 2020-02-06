@@ -42,6 +42,11 @@
  * @twt_requestor: TWT requestor capability
  * @twt_responder: TWT responder capability
  * @bcn_reception_stats: Beacon Reception stats capability
+<<<<<<< HEAD
+=======
+ * @akm_service_bitmap: bitmap of FT akm supported by firmware
+ * @is_adaptive_11r_roam_supported: Adaptive 11r target capability
+>>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
  */
 struct wma_tgt_services {
 	uint32_t sta_power_save;
@@ -73,6 +78,11 @@ struct wma_tgt_services {
 	bool twt_requestor;
 	bool twt_responder;
 	bool bcn_reception_stats;
+<<<<<<< HEAD
+=======
+	uint32_t akm_service_bitmap;
+	bool is_adaptive_11r_roam_supported;
+>>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 };
 
 /**
