@@ -50,7 +50,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x100>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile0>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -80,7 +79,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x101>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile1>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -103,7 +101,6 @@
 		CPU2: cpu@102 {
 			device_type = "cpu";
 			compatible = "arm,armv8";
-                        clock-frequency = <2208000000>;
 			reg = <0x0 0x102>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile2>;
@@ -128,7 +125,6 @@
 			device_type = "cpu";
 			compatible = "arm,armv8";
 			reg = <0x0 0x103>;
-                        clock-frequency = <2208000000>;
 			enable-method = "psci";
 			qcom,limits-info = <&mitigation_profile3>;
 			qcom,lmh-dcvs = <&lmh_dcvs1>;
@@ -409,9 +405,9 @@
 			linux,cma-default;
 		};
 
-		cont_splash_mem: splash_region@9d400000 {
+		cont_splash_mem: cont_splash_region@9d400000 {
 			reg = <0x0 0x9d400000 0x0 0x23ff000>;
-			label = "cont_splash_mem";
+			label = "cont_splash_region";
 		};
 
 		dfps_data_mem: dfps_data_mem@0x9f7ff000 {
@@ -1073,8 +1069,8 @@
 			< 465000000 4>,  /* SVS_L1 */
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
-			< 700000000 7>,  /* TURBO */
-			< 775000000 7>;  /* TURBO  */
+			< 648000000 7>,  /* TURBO  */
+			< 700000000 7>,  /* TURBO  */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
 	};
@@ -1551,6 +1547,7 @@
 		qcom,irq-mask = <0x200>;
 		interrupts = <0 157 1>;
 		label = "lpass";
+                cpu-affinity = <1 2>;
 		qcom,qos-config = <&glink_qos_adsp>;
 		qcom,ramp-time = <0xaf>;
 	};
