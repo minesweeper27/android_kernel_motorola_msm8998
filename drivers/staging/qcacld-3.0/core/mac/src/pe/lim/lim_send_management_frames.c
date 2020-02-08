@@ -1624,86 +1624,6 @@ static QDF_STATUS lim_assoc_tx_complete_cnf(void *context,
 	return QDF_STATUS_SUCCESS;
 }
 
-#ifdef WLAN_ADAPTIVE_11R
-/**
- * lim_fill_adaptive_11r_ie() - Populate the Vendor secific adaptive 11r
- * IE to association request frame
- * @pe_session: pointer to PE session
- * @ie_buf: buffer to which Adaptive 11r IE will be copied
- * @ie_len: length of the Adaptive 11r Vendor specific IE
- *
- * Return QDF_STATUS
- */
-static QDF_STATUS lim_fill_adaptive_11r_ie(tpPESession pe_session,
-					   uint8_t **ie_buf, uint8_t *ie_len)
-{
-	uint8_t *buf = NULL, *adaptive_11r_ie = NULL;
-
-	if (!pe_session->is_adaptive_11r_connection)
-		return QDF_STATUS_SUCCESS;
-
-	/*
-	 * Vendor specific Adaptive 11r IE to be advertised in Assoc
-	 * req:
-	 * Type     0xDD
-	 * Length   0x0B
-	 * OUI      0x00 0x00 0x0F
-	 * Type     0x22
-	 * subtype  0x00
-	 * Version  0x01
-	 * Length   0x04
-	 * Data     0x00 00 00 01(0th bit is 1 means adaptive 11r is
-	 * supported)
-	 */
-	adaptive_11r_ie = qdf_mem_malloc(ADAPTIVE_11R_STA_IE_LEN + 2);
-	if (!adaptive_11r_ie)
-		return QDF_STATUS_E_FAILURE;
-
-	/* Fill the Vendor IE Type (0xDD) */
-	buf = adaptive_11r_ie;
-	*buf = IE_EID_VENDOR;
-	buf++;
-
-	/* Fill the Vendor IE length (0x0B) */
-	*buf = ADAPTIVE_11R_STA_IE_LEN;
-	buf++;
-
-	/*
-	 * Fill the Adaptive 11r Vendor specific OUI(0x00 0x00 0x0F 0x22)
-	 */
-	qdf_mem_copy(buf, ADAPTIVE_11R_STA_OUI, ADAPTIVE_11R_OUI_LEN);
-	buf += ADAPTIVE_11R_OUI_LEN;
-
-	/* Fill Adaptive 11r Vendor specific Subtype (0x00) */
-	*buf = ADAPTIVE_11R_OUI_SUBTYPE;
-	buf++;
-
-	/* Fill Adaptive 11r Version (0x01) */
-	*buf = ADAPTIVE_11R_OUI_VERSION;
-	buf++;
-
-	/* Fill Adaptive 11r IE Data length (0x04) */
-	*buf = ADAPTIVE_11R_DATA_LEN;
-	buf++;
-
-	/* Fill Adaptive 11r IE Data (0x00 0x00 0x00 0x01) */
-	qdf_mem_copy(buf, ADAPTIVE_11R_OUI_DATA, ADAPTIVE_11R_DATA_LEN);
-
-	*ie_len = ADAPTIVE_11R_STA_IE_LEN + 2;
-	*ie_buf = adaptive_11r_ie;
-
-	return QDF_STATUS_SUCCESS;
-}
-
-#else
-static inline
-QDF_STATUS lim_fill_adaptive_11r_ie(tpPESession pe_session,
-				    uint8_t **ie_buf, uint8_t *ie_len)
-{
-	return QDF_STATUS_SUCCESS;
-}
-#endif
-
 /**
  * lim_send_assoc_req_mgmt_frame() - Send association request
  * @mac_ctx: Handle to MAC context
@@ -1746,13 +1666,8 @@ lim_send_assoc_req_mgmt_frame(tpAniSirGlobal mac_ctx,
 	uint32_t bcn_ie_len = 0;
 	uint32_t aes_block_size_len = 0;
 	enum rateid min_rid = RATEID_DEFAULT;
-<<<<<<< HEAD
 	uint8_t *mbo_ie = NULL;
 	uint8_t mbo_ie_len = 0;
-=======
-	uint8_t *mbo_ie = NULL, *vendor_ies = NULL, *adaptive_11r_ie = NULL;
-	uint8_t mbo_ie_len = 0, adaptive_11r_ie_len = 0;
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 
 	if (NULL == pe_session) {
 		pe_err("pe_session is NULL");
@@ -2091,13 +2006,6 @@ lim_send_assoc_req_mgmt_frame(tpAniSirGlobal mac_ctx,
 		pe_debug("Stripped MBO IE of length %d", mbo_ie_len);
 	}
 
-	qdf_status = lim_fill_adaptive_11r_ie(pe_session, &adaptive_11r_ie,
-					      &adaptive_11r_ie_len);
-	if (QDF_IS_STATUS_ERROR(qdf_status)) {
-		pe_err("Failed to fill adaptive 11r IE");
-		goto end;
-	}
-
 	/*
 	 * Do unpack to populate the add_ie buffer to frm structure
 	 * before packing the frm structure. In this way, the IE ordering
@@ -2124,11 +2032,7 @@ lim_send_assoc_req_mgmt_frame(tpAniSirGlobal mac_ctx,
 	}
 
 	bytes = payload + sizeof(tSirMacMgmtHdr) +
-<<<<<<< HEAD
 			aes_block_size_len + mbo_ie_len;
-=======
-			aes_block_size_len + mbo_ie_len + vendor_ie_len + adaptive_11r_ie_len;
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 
 	qdf_status = cds_packet_alloc((uint16_t) bytes, (void **)&frame,
 				(void **)&packet);
@@ -2173,15 +2077,7 @@ lim_send_assoc_req_mgmt_frame(tpAniSirGlobal mac_ctx,
 		     mbo_ie, mbo_ie_len);
 	payload = payload + mbo_ie_len;
 
-	/*
-	 * Copy the Vendor specific Adaptive 11r IE to end of the
-	 * assoc request frame
-	 */
-	qdf_mem_copy(frame + sizeof(tSirMacMgmtHdr) + payload,
-		     adaptive_11r_ie, adaptive_11r_ie_len);
-	payload = payload + adaptive_11r_ie_len;
-
-	if (pe_session->assocReq) {
+	if (pe_session->assocReq != NULL) {
 		qdf_mem_free(pe_session->assocReq);
 		pe_session->assocReq = NULL;
 		pe_session->assocReqLen = 0;
@@ -2253,7 +2149,6 @@ free_mbo_ie:
 
 end:
 	/* Free up buffer allocated for mlm_assoc_req */
-	qdf_mem_free(adaptive_11r_ie);
 	qdf_mem_free(mlm_assoc_req);
 	mlm_assoc_req = NULL;
 	qdf_mem_free(frm);

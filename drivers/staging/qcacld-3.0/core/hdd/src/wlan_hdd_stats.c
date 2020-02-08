@@ -4359,36 +4359,6 @@ static void hdd_fill_fcs_and_mpdu_count(struct hdd_adapter *adapter,
 #endif
 
 /**
- * hdd_check_and_update_nss() - Check and update NSS as per DBS capability
- * @hdd_ctx: HDD Context pointer
- * @tx_nss: pointer to variable storing the tx_nss
- * @rx_nss: pointer to variable storing the rx_nss
- *
- * The parameters include the NSS obtained from the FW or static NSS. This NSS
- * could be invalid in the case the current HW mode is DBS where the connection
- * are 1x1. Rectify these NSS values as per the current HW mode.
- *
- * Return: none
- */
-static void hdd_check_and_update_nss(struct hdd_context *hdd_ctx,
-				     uint8_t *tx_nss, uint8_t *rx_nss)
-{
-	if ((*tx_nss > 1) &&
-	    policy_mgr_is_current_hwmode_dbs(hdd_ctx->psoc) &&
-	    !policy_mgr_is_hw_dbs_2x2_capable(hdd_ctx->psoc)) {
-		hdd_debug("Hw mode is DBS, Reduce tx nss(%d) to 1", *tx_nss);
-		(*tx_nss)--;
-	}
-
-	if ((*rx_nss > 1) &&
-	    policy_mgr_is_current_hwmode_dbs(hdd_ctx->psoc) &&
-	    !policy_mgr_is_hw_dbs_2x2_capable(hdd_ctx->psoc)) {
-		hdd_debug("Hw mode is DBS, Reduce tx nss(%d) to 1", *rx_nss);
-		(*rx_nss)--;
-	}
-}
-
-/**
  * wlan_hdd_get_sta_stats() - get aggregate STA stats
  * @wiphy: wireless phy
  * @adapter: STA adapter to get stats for
@@ -4488,7 +4458,21 @@ static int wlan_hdd_get_sta_stats(struct wiphy *wiphy,
 		tx_nss = adapter->hdd_stats.class_a_stat.tx_nss;
 		rx_nss = adapter->hdd_stats.class_a_stat.rx_nss;
 
-		hdd_check_and_update_nss(hdd_ctx, &tx_nss, &rx_nss);
+		if ((tx_nss > 1) &&
+		    policy_mgr_is_current_hwmode_dbs(hdd_ctx->psoc) &&
+		    !policy_mgr_is_hw_dbs_2x2_capable(hdd_ctx->psoc)) {
+			hdd_debug("Hw mode is DBS, Reduce nss(%d) to 1",
+				  tx_nss);
+			tx_nss--;
+		}
+
+		if ((rx_nss > 1) &&
+		    policy_mgr_is_current_hwmode_dbs(hdd_ctx->psoc) &&
+		    !policy_mgr_is_hw_dbs_2x2_capable(hdd_ctx->psoc)) {
+			hdd_debug("Hw mode is DBS, Reduce nss(%d) to 1",
+				  rx_nss);
+			rx_nss--;
+		}
 
 		if (eHDD_LINK_SPEED_REPORT_ACTUAL == pCfg->reportMaxLinkSpeed) {
 			/* Get current rate flags if report actual */
@@ -4527,18 +4511,8 @@ static int wlan_hdd_get_sta_stats(struct wiphy *wiphy,
 	hdd_set_rate_bw(&sinfo->txrate, HDD_RATE_BW_20);
 
 	if (eHDD_LINK_SPEED_REPORT_ACTUAL != pCfg->reportMaxLinkSpeed) {
-		bool tx_rate_calc, rx_rate_calc;
-		uint8_t tx_nss_max, rx_nss_max;
-
-		/*
-		 * Take static NSS for reporting max rates. NSS from the FW
-		 * is not reliable as it changes as per the environment
-		 * quality.
-		 */
-		tx_nss_max = wlan_vdev_mlme_get_nss(adapter->vdev);
-		rx_nss_max = wlan_vdev_mlme_get_nss(adapter->vdev);
-
-		hdd_check_and_update_nss(hdd_ctx, &tx_nss_max, &rx_nss_max);
+		bool tx_rate_calc;
+		bool rx_rate_calc;
 
 		tx_rate_calc = hdd_report_max_rate(mac_handle, pCfg,
 						   &sinfo->txrate,
@@ -4546,11 +4520,7 @@ static int wlan_hdd_get_sta_stats(struct wiphy *wiphy,
 						   tx_rate_flags,
 						   tx_mcs_index,
 						   my_tx_rate,
-<<<<<<< HEAD
 						   tx_nss);
-=======
-						   tx_nss_max);
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 
 		rx_rate_calc = hdd_report_max_rate(mac_handle, pCfg,
 						   &sinfo->rxrate,
@@ -4558,11 +4528,7 @@ static int wlan_hdd_get_sta_stats(struct wiphy *wiphy,
 						   rx_rate_flags,
 						   rx_mcs_index,
 						   my_rx_rate,
-<<<<<<< HEAD
 						   rx_nss);
-=======
-						   rx_nss_max);
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 
 		if (!tx_rate_calc || !rx_rate_calc)
 			/* Keep GUI happy */

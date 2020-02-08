@@ -33,9 +33,6 @@
 #define CSR_INVALID_SCANRESULT_HANDLE       (NULL)
 #define CSR_NUM_WLM_LATENCY_LEVEL   4
 
-#define CFG_PMKID_MODES_OKC                        (0x1)
-#define CFG_PMKID_MODES_PMKSA_CACHING              (0x2)
-
 typedef enum {
 	/* never used */
 	eCSR_AUTH_TYPE_NONE,
@@ -918,7 +915,6 @@ typedef struct tagCsrRoamHTProfile {
 	uint8_t apChanWidth;
 } tCsrRoamHTProfile;
 #endif
-
 typedef struct tagCsrRoamConnectedProfile {
 	tSirMacSSid SSID;
 	bool handoffPermitted;
@@ -933,12 +929,6 @@ typedef struct tagCsrRoamConnectedProfile {
 	tCsrEncryptionList EncryptionInfo;
 	eCsrEncryptionType mcEncryptionType;
 	tCsrEncryptionList mcEncryptionInfo;
-<<<<<<< HEAD
-=======
-	/* group management cipher suite used for 11w */
-	tAniEdType mgmt_encryption_type;
-	uint8_t country_code[WNI_CFG_COUNTRY_CODE_LEN];
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 	uint32_t vht_channel_width;
 	tCsrKeys Keys;
 	/*
@@ -1215,13 +1205,6 @@ typedef struct tagCsrConfigParam {
 	uint32_t roam_preauth_retry_count;
 	uint32_t roam_preauth_no_ack_timeout;
 	bool isRoamOffloadEnabled;
-	bool enable_disconnect_roam_offload;
-	bool enable_idle_roam;
-	uint32_t idle_roam_rssi_delta;
-	uint32_t idle_roam_inactive_time;
-	uint32_t idle_data_packet_count;
-	uint32_t idle_roam_band;
-	int32_t idle_roam_min_rssi;
 #endif
 	bool obssEnabled;
 	uint8_t conc_custom_rule1;
@@ -1317,11 +1300,9 @@ typedef struct tagCsrConfigParam {
 	uint8_t oce_feature_bitmap;
 	struct csr_mbo_thresholds mbo_thresholds;
 	uint32_t btm_offload_config;
-	uint32_t pmkid_modes;
 	uint32_t btm_solicited_timeout;
 	uint32_t btm_max_attempt_cnt;
 	uint32_t btm_sticky_time;
-	uint32_t btm_trig_min_candidate_score;
 	uint32_t offload_11k_enable_bitmask;
 	bool wep_tkip_in_he;
 	struct csr_neighbor_report_offload_params neighbor_report_offload;
@@ -1332,19 +1313,6 @@ typedef struct tagCsrConfigParam {
 	bool enable_bss_load_roam_trigger;
 	uint32_t bss_load_threshold;
 	uint32_t bss_load_sample_time;
-	int32_t bss_load_trigger_rssi_threshold_5ghz;
-	int32_t bss_load_trigger_rssi_threshold_24ghz;
-	uint32_t roam_scan_inactivity_time;
-	uint32_t roam_inactive_data_packet_count;
-	uint32_t roam_scan_period_after_inactivity;
-	int32_t disconnect_roam_min_rssi;
-	int32_t bmiss_roam_min_rssi;
-	uint32_t btm_roam_score_delta;
-	uint32_t idle_roam_score_delta;
-#ifdef WLAN_ADAPTIVE_11R
-	bool enable_adaptive_11r;
-#endif
-	bool enable_pending_list_req;
 } tCsrConfigParam;
 
 /* Tush */
@@ -1739,52 +1707,10 @@ typedef QDF_STATUS (*csr_session_close_cb)(uint8_t session_id);
 #ifdef WLAN_FEATURE_SAE
 #define CSR_IS_AUTH_TYPE_SAE(auth_type) \
 	(eCSR_AUTH_TYPE_SAE == auth_type)
-<<<<<<< HEAD
 #else
 #define CSR_IS_AUTH_TYPE_SAE(auth_type) (false)
 #endif
 
-=======
-
-#define CSR_IS_AKM_FT_SAE(auth_type) \
-	(eCSR_AUTH_TYPE_FT_SAE == (auth_type))
-
-#define CSR_IS_FW_FT_SAE_SUPPORTED(fw_akm_bitmap) \
-	(((fw_akm_bitmap) & (1 << AKM_FT_SAE)) ? true : false)
-
-#define CSR_IS_FW_SAE_ROAM_SUPPORTED(fw_akm_bitmap) \
-	(((fw_akm_bitmap) & (1 << AKM_SAE)) ? true : false)
-
-#else
-#define CSR_IS_AUTH_TYPE_SAE(auth_type) (false)
-
-#define CSR_IS_AKM_FT_SAE(auth_type) (false)
-
-#define CSR_IS_FW_FT_SAE_SUPPORTED(fw_akm_bitmap) (false)
-#define CSR_IS_FW_SAE_ROAM_SUPPORTED(fw_akm_bitmap) (false)
-#endif
-
-#define CSR_IS_FW_OWE_ROAM_SUPPORTED(fw_akm_bitmap) \
-	(((fw_akm_bitmap) & (1 << AKM_OWE)) ? true : false)
-
-#define CSR_IS_AKM_FT_SUITEB_SHA384(auth_type) \
-	(eCSR_AUTH_TYPE_FT_SUITEB_EAP_SHA384 == (auth_type))
-
-#define CSR_IS_AKM_FILS(auth_type) \
-	((eCSR_AUTH_TYPE_FILS_SHA256 == auth_type) || \
-	 (eCSR_AUTH_TYPE_FILS_SHA384 == auth_type))
-
-#define CSR_IS_AKM_FT_FILS(auth_type) \
-	((eCSR_AUTH_TYPE_FT_FILS_SHA256 == (auth_type)) || \
-	 (eCSR_AUTH_TYPE_FT_FILS_SHA384 == (auth_type)))
-
-#define CSR_IS_FW_FT_SUITEB_SUPPORTED(fw_akm_bitmap) \
-	(((fw_akm_bitmap) & (1 << AKM_FT_SUITEB_SHA384))  ? true : false)
-
-#define CSR_IS_FW_FT_FILS_SUPPORTED(fw_akm_bitmap) \
-	(((fw_akm_bitmap) & (1 << AKM_FT_FILS))  ? true : false)
-
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 QDF_STATUS csr_set_channels(tpAniSirGlobal pMac, tCsrConfigParam *pParam);
 
 /* enum to string conversion for debug output */
@@ -1860,24 +1786,4 @@ csr_get_channel_status(tpAniSirGlobal mac, uint32_t channel_id);
  * Return: none
  */
 void csr_clear_channel_status(tpAniSirGlobal mac);
-
-typedef void (*csr_ani_callback)(int8_t *ani, void *context);
-
-#ifdef WLAN_FEATURE_11W
-/**
- * csr_update_pmf_cap_from_connected_profile() - Update pmf cap from profile
- * @profile: connected profile
- * @filter: scan filter
- *
- * Return: None
- */
-void
-csr_update_pmf_cap_from_connected_profile(tCsrRoamConnectedProfile *profile,
-					  struct scan_filter *filter);
-#else
-static inline void
-csr_update_pmf_cap_from_connected_profile(tCsrRoamConnectedProfile *profile,
-					  struct scan_filter *filter)
-{}
-#endif
 #endif

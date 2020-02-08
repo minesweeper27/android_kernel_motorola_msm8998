@@ -813,14 +813,6 @@ struct mgmt_beacon_probe_filter {
 	uint8_t sap_channel[SIR_MAX_SUPPORTED_BSS];
 };
 
-#ifdef FEATURE_ANI_LEVEL_REQUEST
-struct ani_level_params {
-	void (*ani_level_cb)(struct wmi_host_ani_level_event *ani, uint8_t num,
-			     void *context);
-	void *context;
-};
-#endif
-
 /* ------------------------------------------------------------------- */
 /* / MAC Sirius parameter structure */
 typedef struct sAniSirGlobal {
@@ -895,14 +887,6 @@ typedef struct sAniSirGlobal {
 	bool bcn_reception_stats;
 	/* Beacon stats enabled/disabled from ini */
 	bool enable_beacon_reception_stats;
-<<<<<<< HEAD
-=======
-	uint32_t akm_service_bitmap;
-	bool is_adaptive_11r_roam_supported;
-#ifdef FEATURE_ANI_LEVEL_REQUEST
-	struct ani_level_params ani_params;
-#endif
->>>>>>> 8dbda7cb9a17... Merge qcacld-3.0 tag 'LA.UM.8.2.r1-05700-sdm660.0' of https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0
 } tAniSirGlobal;
 
 #ifdef FEATURE_WLAN_TDLS
