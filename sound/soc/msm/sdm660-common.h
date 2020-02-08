@@ -17,13 +17,8 @@
 #include <sound/q6afe-v2.h>
 #include "../codecs/wcd-mbhc-v2.h"
 
-<<<<<<< HEAD
 #define DEFAULT_MCLK_RATE 24576000
 #define NATIVE_MCLK_RATE 24576000
-=======
-#define DEFAULT_MCLK_RATE 11289600
-#define NATIVE_MCLK_RATE 11289600
->>>>>>> 95a349402bf2... Audio Regulator OC [sdm_660]
 
 #define SAMPLING_RATE_8KHZ      8000
 #define SAMPLING_RATE_11P025KHZ 11025
