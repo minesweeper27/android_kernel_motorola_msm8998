@@ -58,11 +58,10 @@ arm64-obj-$(CONFIG_HARDEN_BRANCH_PREDICTOR)	+= bpi.o
 endif
 
 obj-y					+= $(arm64-obj-y) vdso/ probes/
-<<<<<<< HEAD
+
 obj-$(CONFIG_VDSO32)			+= vdso32/
-=======
 obj-y += mako_hotplug.o
->>>>>>> 0e41d990c8c2... Introducing mako hotplug
+
 obj-m					+= $(arm64-obj-m)
 head-y					:= head.o
 extra-y					+= $(head-y) vmlinux.lds
