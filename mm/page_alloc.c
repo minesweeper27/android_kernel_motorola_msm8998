@@ -62,6 +62,7 @@
 #include <linux/sched/rt.h>
 #include <linux/page_owner.h>
 #include <linux/kthread.h>
+#include <linux/cpu_input_boost.h>
 
 #include <asm/sections.h>
 #include <asm/tlbflush.h>
