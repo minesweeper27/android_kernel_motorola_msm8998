@@ -3287,6 +3287,9 @@ retry:
 	if (gfp_mask & __GFP_NORETRY)
 		goto noretry;
 
+        /* Boost when memory is low so allocation latency doesn't get too bad */
+        cpu_input_boost_kick_max(250);
+
 	/* Keep reclaiming pages as long as there is reasonable progress */
 	pages_reclaimed += did_some_progress;
 	if ((did_some_progress && order <= PAGE_ALLOC_COSTLY_ORDER) ||
