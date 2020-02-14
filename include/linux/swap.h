@@ -379,12 +379,8 @@ static inline int mem_cgroup_swappiness(struct mem_cgroup *mem)
 {
 	if (triggerswapping)
 		vm_swappiness = agni_swappiness;
-<<<<<<< HEAD
-	}
-=======
 	else
 		vm_swappiness = low_batt_swappiness;
->>>>>>> 0f9e62db6670... AGNi memory monitor: dynamic swappiness for zram v1.4
 
 	return vm_swappiness;
 }
