@@ -48,11 +48,7 @@
 #include <linux/dma-buf.h>
 #include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
-<<<<<<< HEAD
-
-=======
 #include <linux/cpu_input_boost.h>
->>>>>>> 577fc87338a2... msm: mdss: Boost CPU when committing a new frame
 #include <sync.h>
 #include <sw_sync.h>
 
