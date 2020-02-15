@@ -36,9 +36,13 @@ static const int cfq_target_latency = HZ * 3/10; /* 300 ms */
 static const int cfq_hist_divisor = 4;
 
 /*
- * offset from end of service tree
+ * offset from end of queue service tree for idle class
  */
-#define CFQ_IDLE_DELAY		(HZ / 5)
+#define CFQ_IDLE_DELAY		(NSEC_PER_SEC / 5)
+/* offset from end of group service tree under time slice mode */
+#define CFQ_SLICE_MODE_GROUP_DELAY (NSEC_PER_SEC / 5)
+/* offset from end of group service under IOPS mode */
+#define CFQ_IOPS_MODE_GROUP_DELAY (HZ / 5)
 
 /*
  * below this threshold, we consider thinktime immediate
@@ -141,7 +145,7 @@ struct cfq_queue {
 
 	/* io prio of this group */
 	unsigned short ioprio, org_ioprio;
-	unsigned short ioprio_class;
+	unsigned short ioprio_class, org_ioprio_class;
 
 	pid_t pid;
 
@@ -983,15 +987,6 @@ static inline u64 max_vdisktime(u64 min_vdisktime, u64 vdisktime)
 	return min_vdisktime;
 }
 
-static inline u64 min_vdisktime(u64 min_vdisktime, u64 vdisktime)
-{
-	s64 delta = (s64)(vdisktime - min_vdisktime);
-	if (delta < 0)
-		min_vdisktime = vdisktime;
-
-	return min_vdisktime;
-}
-
 static void update_min_vdisktime(struct cfq_rb_root *st)
 {
 	struct cfq_group *cfqg;
@@ -1364,6 +1359,14 @@ cfq_group_service_tree_add(struct cfq_rb_root *st, struct cfq_group *cfqg)
 	cfqg->vfraction = max_t(unsigned, vfr, 1);
 }
 
+static inline u64 cfq_get_cfqg_vdisktime_delay(struct cfq_data *cfqd)
+{
+	if (!iops_mode(cfqd))
+		return CFQ_SLICE_MODE_GROUP_DELAY;
+	else
+		return CFQ_IOPS_MODE_GROUP_DELAY;
+}
+
 static void
 cfq_group_notify_queue_add(struct cfq_data *cfqd, struct cfq_group *cfqg)
 {
@@ -1383,7 +1386,8 @@ cfq_group_notify_queue_add(struct cfq_data *cfqd, struct cfq_group *cfqg)
 	n = rb_last(&st->rb);
 	if (n) {
 		__cfqg = rb_entry_cfqg(n);
-		cfqg->vdisktime = __cfqg->vdisktime + CFQ_IDLE_DELAY;
+		cfqg->vdisktime = __cfqg->vdisktime +
+			cfq_get_cfqg_vdisktime_delay(cfqd);
 	} else
 		cfqg->vdisktime = st->min_vdisktime;
 	cfq_group_service_tree_add(st, cfqg);
@@ -2593,7 +2597,7 @@ static int cfq_merge(struct request_queue *q, struct request **req,
 	struct request *__rq;
 
 	__rq = cfq_find_rq_fmerge(cfqd, bio);
-	if (__rq && elv_rq_merge_ok(__rq, bio)) {
+	if (__rq && elv_bio_merge_ok(__rq, bio)) {
 		*req = __rq;
 		return ELEVATOR_FRONT_MERGE;
 	}
@@ -2800,9 +2804,11 @@ static struct cfq_queue *cfq_get_next_queue_forced(struct cfq_data *cfqd)
 	if (!cfqg)
 		return NULL;
 
-	for_each_cfqg_st(cfqg, i, j, st)
-		if ((cfqq = cfq_rb_first(st)) != NULL)
+	for_each_cfqg_st(cfqg, i, j, st) {
+		cfqq = cfq_rb_first(st);
+		if (cfqq)
 			return cfqq;
+	}
 	return NULL;
 }
 
@@ -3745,6 +3751,7 @@ static void cfq_init_prio_data(struct cfq_queue *cfqq, struct cfq_io_cq *cic)
 	 * elevate the priority of this queue
 	 */
 	cfqq->org_ioprio = cfqq->ioprio;
+	cfqq->org_ioprio_class = cfqq->ioprio_class;
 	cfq_clear_cfqq_prio_changed(cfqq);
 }
 
@@ -3893,6 +3900,8 @@ cfq_get_queue(struct cfq_data *cfqd, bool is_sync, struct cfq_io_cq *cic,
 		goto out;
 	}
 
+	/* cfq_init_cfqq() assumes cfqq->ioprio_class is initialized. */
+	cfqq->ioprio_class = IOPRIO_CLASS_NONE;
 	cfq_init_cfqq(cfqd, cfqq, current->pid, is_sync);
 	cfq_init_prio_data(cfqq, cic);
 	cfq_link_cfqq_cfqg(cfqq, cfqg);
@@ -4309,15 +4318,8 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
 		if (cfq_should_wait_busy(cfqd, cfqq)) {
 			unsigned long extend_sl = cfqd->cfq_slice_idle;
 			if (!cfqd->cfq_slice_idle)
-<<<<<<< HEAD
-
-				extend_sl = get_group_idle(cfqd);
-			cfqq->slice_end = now + extend_sl;
-
-=======
 				extend_sl = get_group_idle(cfqd);
 			cfqq->slice_end = jiffies + extend_sl;
->>>>>>> 309bf660d4ff... block: implement upated cfq iosched
 			cfq_mark_cfqq_wait_busy(cfqq);
 			cfq_log_cfqq(cfqd, cfqq, "will busy wait");
 		}
@@ -4340,6 +4342,24 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
 
 	if (!cfqd->rq_in_driver)
 		cfq_schedule_dispatch(cfqd);
+}
+
+static void cfqq_boost_on_prio(struct cfq_queue *cfqq, int rw)
+{
+	/*
+	 * If REQ_PRIO is set, boost class and prio level, if it's below
+	 * BE/NORM. If prio is not set, restore the potentially boosted
+	 * class/prio level.
+	 */
+	if (!(rw & REQ_PRIO)) {
+		cfqq->ioprio_class = cfqq->org_ioprio_class;
+		cfqq->ioprio = cfqq->org_ioprio;
+	} else {
+		if (cfq_class_idle(cfqq))
+			cfqq->ioprio_class = IOPRIO_CLASS_BE;
+		if (cfqq->ioprio > IOPRIO_NORM)
+			cfqq->ioprio = IOPRIO_NORM;
+	}
 }
 
 static inline int __cfq_may_queue(struct cfq_queue *cfqq)
@@ -4372,6 +4392,7 @@ static int cfq_may_queue(struct request_queue *q, int rw)
 	cfqq = cic_to_cfqq(cic, rw_is_sync(rw));
 	if (cfqq) {
 		cfq_init_prio_data(cfqq, cic);
+		cfqq_boost_on_prio(cfqq, rw);
 
 		return __cfq_may_queue(cfqq);
 	}
@@ -4797,11 +4818,7 @@ static struct elevator_type iosched_cfq = {
 		.elevator_merge_fn = 		cfq_merge,
 		.elevator_merged_fn =		cfq_merged_request,
 		.elevator_merge_req_fn =	cfq_merged_requests,
-<<<<<<< HEAD
-		.elevator_allow_merge_fn =	cfq_allow_merge,
-=======
 		.elevator_allow_rq_merge_fn =	cfq_allow_merge,
->>>>>>> 309bf660d4ff... block: implement upated cfq iosched
 		.elevator_bio_merged_fn =	cfq_bio_merged,
 		.elevator_dispatch_fn =		cfq_dispatch_requests,
 		.elevator_add_req_fn =		cfq_insert_request,
