@@ -722,11 +722,8 @@ post_fail:
 command_ack_q_fail:
 	msm_destroy_session(pvdev->vdev->num);
 session_fail:
-<<<<<<< HEAD
-=======
 	sched_set_boost(0);
 	msm_pm_qos_update_request(CAMERA_ENABLE_PC_LATENCY);
->>>>>>> 4ae9dad15ee8... sched,camera_v2: boost scheduler to prefer BIG cores when camera in use
 	pm_relax(&pvdev->vdev->dev);
 stream_fail:
 	camera_v4l2_vb2_q_release(filep);
