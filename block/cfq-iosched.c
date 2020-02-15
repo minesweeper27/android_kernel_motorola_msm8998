@@ -4256,6 +4256,7 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
 			unsigned long extend_sl = cfqd->cfq_slice_idle;
 			if (!cfqd->cfq_slice_idle)
 <<<<<<< HEAD
+<<<<<<< HEAD
 				extend_sl = get_group_idle(cfqd);
 			cfqq->slice_end = jiffies + extend_sl;
 =======
@@ -4276,6 +4277,10 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
 >>>>>>> parent of 43defb734509... fix merge
 =======
 >>>>>>> parent of 422fe06d84fa... Revert "Revert "block: various modifications""
+=======
+				extend_sl = cfqd->cfq_group_idle;
+			cfqq->slice_end = jiffies + extend_sl;
+>>>>>>> parent of a83141958667... Revert "Revert "fix merge""
 			cfq_mark_cfqq_wait_busy(cfqq);
 			cfq_log_cfqq(cfqd, cfqq, "will busy wait");
 		}
