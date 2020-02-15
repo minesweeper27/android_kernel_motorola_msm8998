@@ -4235,8 +4235,14 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
 		if (cfq_should_wait_busy(cfqd, cfqq)) {
 			unsigned long extend_sl = cfqd->cfq_slice_idle;
 			if (!cfqd->cfq_slice_idle)
+<<<<<<< HEAD
 				extend_sl = cfqd->cfq_group_idle;
 			cfqq->slice_end = jiffies + extend_sl;
+=======
+
+				extend_sl = get_group_idle(cfqd);
+			cfqq->slice_end = now + extend_sl;
+>>>>>>> parent of 39ef80fc640d... Revert "fix merge"
 			cfq_mark_cfqq_wait_busy(cfqq);
 			cfq_log_cfqq(cfqd, cfqq, "will busy wait");
 		}
