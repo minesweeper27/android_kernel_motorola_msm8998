@@ -1078,10 +1078,12 @@
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
 			< 648000000 7>,  /* TURBO  */
-			< 700000000 7>;  /* TURBO  */
+			< 700000000 7>,  /* TURBO  */
+			< 775000000 7>;  /* TURBO  */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
 	};
+
 
 	cpu_debug: syscon@1791101c {
 		compatible = "syscon";
