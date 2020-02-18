@@ -1383,11 +1383,8 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 		mdss_dba_utils_hdcp_enable(pinfo->dba_data, false);
 	}
 	
-<<<<<<< HEAD
 	sched_set_boost(0);
-=======
 	display_on = false;
->>>>>>> 4fc02a7b0732... display state api
 
 
 #ifdef CONFIG_POWERSUSPEND
