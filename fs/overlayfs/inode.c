@@ -144,11 +144,9 @@ int ovl_permission(struct inode *inode, int mask)
 	}
 
 	err = __inode_permission(realinode, mask);
-<<<<<<< HEAD
+
 	ovl_revert_creds(old_cred);
 
-=======
->>>>>>> 2cd93a390fff... Merge tag 'v4.4.214' of https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux into unified
 out_dput:
 	dput(alias);
 	return err;
