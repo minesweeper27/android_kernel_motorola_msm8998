@@ -1041,6 +1041,7 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 		case USB_PTM_CAP_TYPE:
 			dev->bos->ptm_cap =
 				(struct usb_ptm_cap_descriptor *)buffer;
+<<<<<<< HEAD
 			break;
 		case USB_CAP_TYPE_CONFIG_SUMMARY:
 			/* one such desc per configuration */
@@ -1050,6 +1051,8 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 
 			dev->bos->num_config_summary_desc++;
 			break;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		default:
 			break;
 		}

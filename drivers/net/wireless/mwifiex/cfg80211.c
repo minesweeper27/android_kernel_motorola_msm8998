@@ -3576,7 +3576,11 @@ static int mwifiex_cfg80211_get_channel(struct wiphy *wiphy,
 	struct ieee80211_channel *chan;
 	u8 second_chan_offset;
 	enum nl80211_channel_type chan_type;
+<<<<<<< HEAD
 	enum nl80211_band band;
+=======
+	enum ieee80211_band band;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int freq;
 	int ret = -ENODATA;
 

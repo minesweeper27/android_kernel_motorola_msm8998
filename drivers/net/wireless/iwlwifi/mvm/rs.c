@@ -2564,7 +2564,11 @@ static void rs_init_optimal_rate(struct iwl_mvm *mvm,
 		rate->type = lq_sta->is_vht ? LQ_VHT_MIMO2 : LQ_HT_MIMO2;
 	else if (lq_sta->max_siso_rate_idx != IWL_RATE_INVALID)
 		rate->type = lq_sta->is_vht ? LQ_VHT_SISO : LQ_HT_SISO;
+<<<<<<< HEAD
 	else if (lq_sta->band == NL80211_BAND_5GHZ)
+=======
+	else if (lq_sta->band == IEEE80211_BAND_5GHZ)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		rate->type = LQ_LEGACY_A;
 	else
 		rate->type = LQ_LEGACY_G;
@@ -2581,7 +2585,11 @@ static void rs_init_optimal_rate(struct iwl_mvm *mvm,
 	} else {
 		lq_sta->optimal_rate_mask = lq_sta->active_legacy_rate;
 
+<<<<<<< HEAD
 		if (lq_sta->band == NL80211_BAND_5GHZ) {
+=======
+		if (lq_sta->band == IEEE80211_BAND_5GHZ) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			lq_sta->optimal_rates = rs_optimal_rates_5ghz_legacy;
 			lq_sta->optimal_nentries =
 				ARRAY_SIZE(rs_optimal_rates_5ghz_legacy);

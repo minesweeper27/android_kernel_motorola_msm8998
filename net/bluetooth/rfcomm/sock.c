@@ -346,7 +346,11 @@ static int rfcomm_sock_bind(struct socket *sock, struct sockaddr *addr, int addr
 	len = min_t(unsigned int, sizeof(sa), addr_len);
 	memcpy(&sa, addr, len);
 
+<<<<<<< HEAD
 	BT_DBG("sk %pK %pMR", sk, &sa.rc_bdaddr);
+=======
+	BT_DBG("sk %p %pMR", sk, &sa.rc_bdaddr);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	lock_sock(sk);
 

@@ -118,8 +118,11 @@ struct thermal_zone_device_ops {
 	int (*set_trip_hyst) (struct thermal_zone_device *, int, int);
 	int (*get_crit_temp) (struct thermal_zone_device *, int *);
 	int (*set_emul_temp) (struct thermal_zone_device *, int);
+<<<<<<< HEAD
 	int (*activate_trip_type) (struct thermal_zone_device *, int,
 		enum thermal_trip_activation_mode);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int (*get_trend) (struct thermal_zone_device *, int,
 			  enum thermal_trend *);
 	int (*notify) (struct thermal_zone_device *, int,

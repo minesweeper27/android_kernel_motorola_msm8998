@@ -2010,6 +2010,7 @@ enum nl80211_commands {
  *	thus it must not specify the number of iterations, only the interval
  *	between scans. The scan plans are executed sequentially.
  *	Each scan plan is a nested attribute of &enum nl80211_sched_scan_plan.
+<<<<<<< HEAD
  * @NL80211_ATTR_PBSS: flag attribute. If set it means operate
  *	in a PBSS. Specified in %NL80211_CMD_CONNECT to request
  *	connecting to a PCP, and in %NL80211_CMD_START_AP to start
@@ -2161,6 +2162,8 @@ enum nl80211_commands {
  *	with %NL80211_CMD_CONNECT and %NL80211_CMD_START_AP request. The driver
  *	may offload authentication processing to user space if this capability
  *	is indicated in the respective requests from the user space.
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * @NUM_NL80211_ATTR: total number of nl80211_attrs available
  * @NL80211_ATTR_MAX: highest attribute number currently defined
@@ -2536,6 +2539,7 @@ enum nl80211_attrs {
 	NL80211_ATTR_MAX_SCAN_PLAN_ITERATIONS,
 	NL80211_ATTR_SCHED_SCAN_PLANS,
 
+<<<<<<< HEAD
 	NL80211_ATTR_PBSS,
 
 	NL80211_ATTR_BSS_SELECT,
@@ -2591,6 +2595,8 @@ enum nl80211_attrs {
 	NL80211_ATTR_EXTERNAL_AUTH_ACTION,
 	NL80211_ATTR_EXTERNAL_AUTH_SUPPORT,
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* add attributes here, update the policy in nl80211.c */
 
 	__NL80211_ATTR_AFTER_LAST,
@@ -5261,6 +5267,7 @@ enum nl80211_sched_scan_plan {
 		__NL80211_SCHED_SCAN_PLAN_AFTER_LAST - 1
 };
 
+<<<<<<< HEAD
 /**
  * struct nl80211_bss_select_rssi_adjust - RSSI adjustment parameters.
  *
@@ -5316,4 +5323,6 @@ enum nl80211_external_auth_action {
 	NL80211_EXTERNAL_AUTH_ABORT,
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* __LINUX_NL80211_H */

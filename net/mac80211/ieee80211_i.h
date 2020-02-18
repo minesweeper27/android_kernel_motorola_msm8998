@@ -903,6 +903,9 @@ struct ieee80211_sub_if_data {
 	bool rc_has_vht_mcs_mask[NUM_NL80211_BANDS];
 	u16 rc_rateidx_vht_mcs_mask[NUM_NL80211_BANDS][NL80211_VHT_NSS_MAX];
 
+	bool rc_has_vht_mcs_mask[IEEE80211_NUM_BANDS];
+	u16 rc_rateidx_vht_mcs_mask[IEEE80211_NUM_BANDS][NL80211_VHT_NSS_MAX];
+
 	union {
 		struct ieee80211_if_ap ap;
 		struct ieee80211_if_wds wds;
@@ -1709,10 +1712,17 @@ enum ieee80211_sta_rx_bandwidth ieee80211_sta_cur_vht_bw(struct sta_info *sta);
 void ieee80211_sta_set_rx_nss(struct sta_info *sta);
 u32 __ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
                                   struct sta_info *sta, u8 opmode,
+<<<<<<< HEAD
 				  enum nl80211_band band);
 void ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
 				 struct sta_info *sta, u8 opmode,
 				 enum nl80211_band band);
+=======
+				  enum ieee80211_band band);
+void ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
+				 struct sta_info *sta, u8 opmode,
+				 enum ieee80211_band band);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void ieee80211_apply_vhtcap_overrides(struct ieee80211_sub_if_data *sdata,
 				      struct ieee80211_sta_vht_cap *vht_cap);
 void ieee80211_get_vht_mask_from_cap(__le16 vht_cap,
@@ -1765,7 +1775,11 @@ static inline int __ieee80211_resume(struct ieee80211_hw *hw)
 
 /* utility functions/constants */
 extern const void *const mac80211_wiphy_privid; /* for wiphy privid */
+<<<<<<< HEAD
 int ieee80211_frame_duration(enum nl80211_band band, size_t len,
+=======
+int ieee80211_frame_duration(enum ieee80211_band band, size_t len,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			     int rate, int erp, int short_preamble,
 			     int shift);
 void ieee80211_set_wmm_default(struct ieee80211_sub_if_data *sdata,

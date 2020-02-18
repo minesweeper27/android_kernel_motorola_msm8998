@@ -776,12 +776,16 @@ int regcache_sync_block(struct regmap *map, void *block,
 			unsigned int block_base, unsigned int start,
 			unsigned int end)
 {
+<<<<<<< HEAD
 	if (regmap_can_raw_write(map) && map->can_multi_write)
 		return regcache_sync_block_raw_multi_reg(map, block,
 							 cache_present,
 							 block_base, start,
 							 end);
 	else if (regmap_can_raw_write(map) && !map->use_single_write)
+=======
+	if (regmap_can_raw_write(map) && !map->use_single_write)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return regcache_sync_block_raw(map, block, cache_present,
 					       block_base, start, end);
 	else

@@ -131,12 +131,21 @@ static const enum htt_t2h_msg_type htt_10_4_t2h_msg_types[] = {
 	[HTT_10_4_T2H_MSG_TYPE_AGGR_CONF] = HTT_T2H_MSG_TYPE_AGGR_CONF,
 	[HTT_10_4_T2H_MSG_TYPE_TX_FETCH_IND] =
 				HTT_T2H_MSG_TYPE_TX_FETCH_IND,
+<<<<<<< HEAD
 	[HTT_10_4_T2H_MSG_TYPE_TX_FETCH_CONFIRM] =
 				HTT_T2H_MSG_TYPE_TX_FETCH_CONFIRM,
 	[HTT_10_4_T2H_MSG_TYPE_STATS_NOUPLOAD] =
 				HTT_T2H_MSG_TYPE_STATS_NOUPLOAD,
 	[HTT_10_4_T2H_MSG_TYPE_TX_MODE_SWITCH_IND] =
 				HTT_T2H_MSG_TYPE_TX_MODE_SWITCH_IND,
+=======
+	[HTT_10_4_T2H_MSG_TYPE_TX_FETCH_CONF] =
+				HTT_T2H_MSG_TYPE_TX_FETCH_CONF,
+	[HTT_10_4_T2H_MSG_TYPE_STATS_NOUPLOAD] =
+				HTT_T2H_MSG_TYPE_STATS_NOUPLOAD,
+	[HTT_10_4_T2H_MSG_TYPE_TX_LOW_LATENCY_IND] =
+				HTT_T2H_MSG_TYPE_TX_LOW_LATENCY_IND,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int ath10k_htt_connect(struct ath10k_htt *htt)
@@ -183,7 +192,11 @@ int ath10k_htt_init(struct ath10k *ar)
 		8 + /* llc snap */
 		2; /* ip4 dscp or ip6 priority */
 
+<<<<<<< HEAD
 	switch (ar->running_fw->fw_file.htt_op_version) {
+=======
+	switch (ar->htt.op_version) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case ATH10K_FW_HTT_OP_VERSION_10_4:
 		ar->htt.t2h_msg_types = htt_10_4_t2h_msg_types;
 		ar->htt.t2h_msg_types_max = HTT_10_4_T2H_NUM_MSGS;

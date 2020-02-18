@@ -122,8 +122,12 @@ static inline bool should_drop_frame(struct sk_buff *skb, int present_fcs_len,
 	hdr = (void *)(skb->data + rtap_vendor_space);
 
 	if (status->flag & (RX_FLAG_FAILED_FCS_CRC |
+<<<<<<< HEAD
 			    RX_FLAG_FAILED_PLCP_CRC |
 			    RX_FLAG_ONLY_MONITOR))
+=======
+			    RX_FLAG_FAILED_PLCP_CRC))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return true;
 
 	if (unlikely(skb->len < 16 + present_fcs_len + rtap_vendor_space))
@@ -3496,7 +3500,10 @@ static bool ieee80211_prepare_and_rx_handle(struct ieee80211_rx_data *rx,
  * be called with rcu_read_lock protection.
  */
 static void __ieee80211_rx_handle_packet(struct ieee80211_hw *hw,
+<<<<<<< HEAD
 					 struct ieee80211_sta *pubsta,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					 struct sk_buff *skb,
 					 struct napi_struct *napi)
 {
@@ -3622,8 +3629,13 @@ static void __ieee80211_rx_handle_packet(struct ieee80211_hw *hw,
  * This is the receive path handler. It is called by a low level driver when an
  * 802.11 MPDU is received from the hardware.
  */
+<<<<<<< HEAD
 void ieee80211_rx_napi(struct ieee80211_hw *hw, struct ieee80211_sta *pubsta,
 		       struct sk_buff *skb, struct napi_struct *napi)
+=======
+void ieee80211_rx_napi(struct ieee80211_hw *hw, struct sk_buff *skb,
+		       struct napi_struct *napi)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct ieee80211_local *local = hw_to_local(hw);
 	struct ieee80211_rate *rate = NULL;
@@ -3722,8 +3734,12 @@ void ieee80211_rx_napi(struct ieee80211_hw *hw, struct ieee80211_sta *pubsta,
 	ieee80211_tpt_led_trig_rx(local,
 			((struct ieee80211_hdr *)skb->data)->frame_control,
 			skb->len);
+<<<<<<< HEAD
 
 	__ieee80211_rx_handle_packet(hw, pubsta, skb, napi);
+=======
+	__ieee80211_rx_handle_packet(hw, skb, napi);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	rcu_read_unlock();
 

@@ -11,6 +11,7 @@
 
 KASAN_SANITIZE := n
 
+<<<<<<< HEAD
 # Kernel does not boot with kcov instrumentation here.
 # One of the problems observed was insertion of __sanitizer_cov_trace_pc()
 # callback into middle of per-cpu data enabling code. Thus the callback observed
@@ -18,6 +19,8 @@ KASAN_SANITIZE := n
 # so boot code is not interesting anyway.
 KCOV_INSTRUMENT		:= n
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # If you want to preset the SVGA mode, uncomment the next line and
 # set SVGA_MODE to whatever number you want.
 # Set it to -DSVGA_MODE=NORMAL_VGA if you just want the EGA/VGA mode.

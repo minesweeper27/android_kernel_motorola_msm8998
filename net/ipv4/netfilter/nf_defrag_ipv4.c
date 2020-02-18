@@ -81,6 +81,7 @@ static unsigned int ipv4_conntrack_defrag(void *priv,
 #endif
 	/* Gather fragments. */
 	if (ip_is_fragment(ip_hdr(skb))) {
+<<<<<<< HEAD
 		enum ip_defrag_users user;
 
 		if (skb->dev &&
@@ -88,6 +89,10 @@ static unsigned int ipv4_conntrack_defrag(void *priv,
 			return NF_ACCEPT;
 
 		user = nf_ct_defrag_user(state->hook, skb);
+=======
+		enum ip_defrag_users user =
+			nf_ct_defrag_user(state->hook, skb);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (nf_ct_ipv4_gather_frags(state->net, skb, user))
 			return NF_STOLEN;

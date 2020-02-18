@@ -59,6 +59,7 @@ struct kasan_global {
 #endif
 };
 
+<<<<<<< HEAD
 /**
  * Structures to keep alloc and free tracks *
  */
@@ -90,12 +91,22 @@ struct kasan_alloc_meta *get_alloc_info(struct kmem_cache *cache,
 struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
 					const void *object);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
 {
 	return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET)
 		<< KASAN_SHADOW_SCALE_SHIFT);
 }
 
+<<<<<<< HEAD
+=======
+static inline bool kasan_report_enabled(void)
+{
+	return !current->kasan_depth;
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void kasan_report(unsigned long addr, size_t size,
 		bool is_write, unsigned long ip);
 void kasan_report_double_free(struct kmem_cache *cache, void *object,

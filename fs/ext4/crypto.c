@@ -395,6 +395,12 @@ int ext4_encrypted_zeroout(struct inode *inode, ext4_lblk_t lblk,
 	struct ext4_crypto_ctx	*ctx;
 	struct page		*ciphertext_page = NULL;
 	struct bio		*bio;
+<<<<<<< HEAD
+=======
+	ext4_lblk_t		lblk = le32_to_cpu(ex->ee_block);
+	ext4_fsblk_t		pblk = ext4_ext_pblock(ex);
+	unsigned int		len = ext4_ext_get_actual_len(ex);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int			ret, err = 0;
 
 #if 0

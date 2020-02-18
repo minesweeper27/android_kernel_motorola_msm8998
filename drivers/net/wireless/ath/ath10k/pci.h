@@ -219,6 +219,7 @@ struct ath10k_pci {
 	 * on MMIO read/write.
 	 */
 	bool pci_ps;
+<<<<<<< HEAD
 
 	/* Chip specific pci reset routine used to do a safe reset */
 	int (*pci_soft_reset)(struct ath10k *ar);
@@ -231,6 +232,8 @@ struct ath10k_pci {
 	 * this struct.
 	 */
 	struct ath10k_ahb ahb[0];
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static inline struct ath10k_pci *ath10k_pci_priv(struct ath10k *ar)
@@ -259,6 +262,7 @@ u32 ath10k_pci_read32(struct ath10k *ar, u32 offset);
 u32 ath10k_pci_soc_read32(struct ath10k *ar, u32 addr);
 u32 ath10k_pci_reg_read32(struct ath10k *ar, u32 addr);
 
+<<<<<<< HEAD
 int ath10k_pci_hif_tx_sg(struct ath10k *ar, u8 pipe_id,
 			 struct ath10k_hif_sg_item *items, int n_items);
 int ath10k_pci_hif_diag_read(struct ath10k *ar, u32 address, void *buf,
@@ -293,6 +297,8 @@ int ath10k_pci_wait_for_target_init(struct ath10k *ar);
 int ath10k_pci_setup_resource(struct ath10k *ar);
 void ath10k_pci_release_resource(struct ath10k *ar);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* QCA6174 is known to have Tx/Rx issues when SOC_WAKE register is poked too
  * frequently. To avoid this put SoC to sleep after a very conservative grace
  * period. Adjust with great care.

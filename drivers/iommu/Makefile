@@ -2,7 +2,10 @@ obj-$(CONFIG_IOMMU_API) += iommu.o
 obj-$(CONFIG_IOMMU_API) += iommu-traces.o
 obj-$(CONFIG_IOMMU_API) += iommu-sysfs.o
 obj-$(CONFIG_IOMMU_DMA) += dma-iommu.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOMMU_API) += msm_dma_iommu_mapping.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_IOMMU_IO_PGTABLE) += io-pgtable.o
 obj-$(CONFIG_IOMMU_IO_PGTABLE_LPAE) += io-pgtable-arm.o
 obj-$(CONFIG_IOMMU_IOVA) += iova.o

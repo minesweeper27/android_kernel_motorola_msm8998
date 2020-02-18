@@ -77,9 +77,12 @@ include config/utilities.mak
 # Define NO_AUXTRACE if you do not want AUX area tracing support
 #
 # Define NO_LIBBPF if you do not want BPF support
+<<<<<<< HEAD
 #
 # Define NO_CSTRACE if you do not want CoreSight trace decoding support
 #
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # As per kernel Makefile, avoid funny character set dependencies
 unexport LC_ALL

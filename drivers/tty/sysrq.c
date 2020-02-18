@@ -55,7 +55,11 @@
 static int __read_mostly sysrq_enabled = CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE;
 static bool __read_mostly sysrq_always_enabled;
 
+<<<<<<< HEAD
 bool sysrq_on(void)
+=======
+static bool sysrq_on(void)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	return sysrq_enabled || sysrq_always_enabled;
 }

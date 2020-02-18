@@ -37,7 +37,10 @@ enum iio_chan_type {
 	IIO_VELOCITY,
 	IIO_CONCENTRATION,
 	IIO_RESISTANCE,
+<<<<<<< HEAD
 	IIO_PROPRIETARY,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 enum iio_modifier {

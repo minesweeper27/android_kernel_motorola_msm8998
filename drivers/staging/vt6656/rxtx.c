@@ -808,7 +808,11 @@ int vnt_tx_packet(struct vnt_private *priv, struct sk_buff *skb)
 	}
 
 	if (current_rate > RATE_11M) {
+<<<<<<< HEAD
 		if (info->band == NL80211_BAND_5GHZ) {
+=======
+		if (info->band == IEEE80211_BAND_5GHZ) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			pkt_type = PK_TYPE_11A;
 		} else {
 			if (tx_rate->flags & IEEE80211_TX_RC_USE_CTS_PROTECT) {

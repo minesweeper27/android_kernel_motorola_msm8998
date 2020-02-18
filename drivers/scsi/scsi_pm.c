@@ -245,6 +245,7 @@ static int sdev_runtime_suspend(struct device *dev)
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 	struct scsi_device *sdev = to_scsi_device(dev);
 	int err = 0;
+<<<<<<< HEAD
 
 	if (!sdev->request_queue->dev) {
 		err = scsi_dev_type_suspend(dev, do_scsi_runtime_suspend);
@@ -253,6 +254,8 @@ static int sdev_runtime_suspend(struct device *dev)
 					round_jiffies_up_relative(HZ/10)));
 		return err;
 	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	err = blk_pre_runtime_suspend(sdev->request_queue);
 	if (err)

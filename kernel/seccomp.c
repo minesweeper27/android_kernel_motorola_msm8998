@@ -378,6 +378,7 @@ static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
 	sfilter = kzalloc(sizeof(*sfilter), GFP_KERNEL | __GFP_NOWARN);
 	if (!sfilter)
 		return ERR_PTR(-ENOMEM);
+<<<<<<< HEAD
 
 	ret = bpf_prog_create_from_user(&sfilter->prog, fprog,
 					seccomp_check_filter, save_orig);
@@ -388,6 +389,18 @@ static struct seccomp_filter *seccomp_prepare_filter(struct sock_fprog *fprog)
 
 	atomic_set(&sfilter->usage, 1);
 
+=======
+
+	ret = bpf_prog_create_from_user(&sfilter->prog, fprog,
+					seccomp_check_filter, save_orig);
+	if (ret < 0) {
+		kfree(sfilter);
+		return ERR_PTR(ret);
+	}
+
+	atomic_set(&sfilter->usage, 1);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return sfilter;
 }
 
@@ -690,6 +703,10 @@ int __secure_computing(const struct seccomp_data *sd)
 
 	this_syscall = sd ? sd->nr :
 		syscall_get_nr(current, task_pt_regs(current));
+
+	if (config_enabled(CONFIG_CHECKPOINT_RESTORE) &&
+	    unlikely(current->ptrace & PT_SUSPEND_SECCOMP))
+		return SECCOMP_PHASE1_OK;
 
 	switch (mode) {
 	case SECCOMP_MODE_STRICT:

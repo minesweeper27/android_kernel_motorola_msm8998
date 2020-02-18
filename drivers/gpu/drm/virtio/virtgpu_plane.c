@@ -68,6 +68,7 @@ static void virtio_gpu_plane_atomic_update(struct drm_plane *plane,
 	struct virtio_gpu_object *bo;
 	uint32_t handle;
 
+<<<<<<< HEAD
 	if (plane->state->fb) {
 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
 		bo = gem_to_virtio_gpu_obj(vgfb->obj);
@@ -79,6 +80,12 @@ static void virtio_gpu_plane_atomic_update(struct drm_plane *plane,
 				 cpu_to_le32(plane->state->crtc_h),
 				 plane->state->crtc_x, plane->state->crtc_y, NULL);
 		}
+=======
+	if (plane->fb) {
+		vgfb = to_virtio_gpu_framebuffer(plane->fb);
+		bo = gem_to_virtio_gpu_obj(vgfb->obj);
+		handle = bo->hw_res_handle;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} else {
 		handle = 0;
 	}
@@ -91,11 +98,14 @@ static void virtio_gpu_plane_atomic_update(struct drm_plane *plane,
 				   plane->state->crtc_h,
 				   plane->state->crtc_x,
 				   plane->state->crtc_y);
+<<<<<<< HEAD
 	virtio_gpu_cmd_resource_flush(vgdev, handle,
 				      plane->state->crtc_x,
 				      plane->state->crtc_y,
 				      plane->state->crtc_w,
 				      plane->state->crtc_h);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 

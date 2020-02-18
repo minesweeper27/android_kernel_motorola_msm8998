@@ -453,9 +453,12 @@ EXPORT_SYMBOL(kmem_cache_create);
 static int shutdown_cache(struct kmem_cache *s,
 		struct list_head *release, bool *need_rcu_barrier)
 {
+<<<<<<< HEAD
 	/* free asan quarantined objects */
 	kasan_cache_shutdown(s);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (__kmem_cache_shutdown(s) != 0)
 		return -EBUSY;
 
@@ -727,8 +730,13 @@ void kmem_cache_destroy(struct kmem_cache *s)
 		err = shutdown_cache(s, &release, &need_rcu_barrier);
 
 	if (err) {
+<<<<<<< HEAD
 		pr_err("kmem_cache_destroy %s: Slab cache still has objects\n",
 		       s->name);
+=======
+		pr_err("kmem_cache_destroy %s: "
+		       "Slab cache still has objects\n", s->name);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dump_stack();
 	}
 out_unlock:

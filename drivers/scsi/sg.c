@@ -441,9 +441,12 @@ sg_read(struct file *filp, char __user *buf, size_t count, loff_t * ppos)
 	if (retval)
 		return retval;
 
+<<<<<<< HEAD
 	if (unlikely(segment_eq(get_fs(), KERNEL_DS)))
 		return -EINVAL;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if ((!(sfp = (Sg_fd *) filp->private_data)) || (!(sdp = sfp->parentdp)))
 		return -ENXIO;
 	SCSI_LOG_TIMEOUT(3, sg_printk(KERN_INFO, sdp,
@@ -1055,7 +1058,11 @@ sg_ioctl(struct file *filp, unsigned int cmd_in, unsigned long arg)
 				mutex_unlock(&sfp->f_mutex);
 				return -EBUSY;
 			}
+<<<<<<< HEAD
 			mutex_lock(&sfp->parentdp->open_rel_lock);
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			sg_remove_scat(sfp, &sfp->reserve);
 			sg_build_reserve(sfp, val);
 			mutex_unlock(&sfp->parentdp->open_rel_lock);
@@ -2147,10 +2154,17 @@ sg_add_request(Sg_fd * sfp)
 	rp->parentfp = sfp;
 	rp->header.duration = jiffies_to_msecs(jiffies);
 	list_add_tail(&rp->entry, &sfp->rq_list);
+<<<<<<< HEAD
 	write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
 	return rp;
 out_unlock:
 	write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
+=======
+	write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
+	return rp;
+out_unlock:
+	write_unlock_irqrestore(&sfp->rq_list_lock, iflags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return NULL;
 }
 

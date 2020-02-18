@@ -101,6 +101,10 @@ config DEBUG_RODATA_TEST
 
 config DEBUG_WX
 	bool "Warn on W+X mappings at boot"
+<<<<<<< HEAD
+=======
+	depends on DEBUG_RODATA
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select X86_PTDUMP_CORE
 	---help---
 	  Generate a warning if any W+X mappings are found at boot.

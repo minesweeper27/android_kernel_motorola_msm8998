@@ -161,6 +161,7 @@ struct drm_msm_gem_new {
 	__u64 size;           /* in */
 	__u32 flags;          /* in, mask of MSM_BO_x */
 	__u32 handle;         /* out */
+<<<<<<< HEAD
 };
 
 struct drm_msm_gem_svm_new {
@@ -168,6 +169,8 @@ struct drm_msm_gem_svm_new {
 	__u64 size;           /* in, must be page-aligned */
 	__u32 flags;          /* in, mask of MSM_BO_x */
 	__u32 handle;         /* out */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define MSM_INFO_IOVA	0x01
@@ -176,8 +179,13 @@ struct drm_msm_gem_svm_new {
 
 struct drm_msm_gem_info {
 	__u32 handle;         /* in */
+<<<<<<< HEAD
 	__u32 flags;	      /* in - combination of MSM_INFO_* flags */
 	__u64 offset;         /* out, mmap() offset or iova */
+=======
+	__u32 pad;
+	__u64 offset;         /* out, offset to pass to mmap() */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define MSM_PREP_READ        0x01
@@ -213,11 +221,15 @@ struct drm_msm_gem_cpu_fini {
  */
 struct drm_msm_gem_submit_reloc {
 	__u32 submit_offset;  /* in, offset from submit_bo */
+<<<<<<< HEAD
 #ifdef __cplusplus
 	__u32 or_val;
 #else
 	__u32 or; /* in, value OR'd with result */
 #endif
+=======
+	__u32 or;             /* in, value OR'd with result */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__s32  shift;          /* in, amount of left shift (can be negative) */
 	__u32 reloc_idx;      /* in, index of reloc_bo buffer */
 	__u64 reloc_offset;   /* in, offset from start of reloc_bo */
@@ -244,7 +256,11 @@ struct drm_msm_gem_submit_cmd {
 	__u32 size;           /* in, cmdstream size */
 	__u32 pad;
 	__u32 nr_relocs;      /* in, number of submit_reloc's */
+<<<<<<< HEAD
 	__u64 relocs;         /* in, ptr to array of submit_reloc's */
+=======
+	__u64 __user relocs;  /* in, ptr to array of submit_reloc's */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* Each buffer referenced elsewhere in the cmdstream submit (ie. the
@@ -280,6 +296,7 @@ struct drm_msm_gem_submit_bo {
  * (context-restore), and IB buffers needed for per tile/bin draw cmds.
  */
 struct drm_msm_gem_submit {
+<<<<<<< HEAD
 	__u32 flags;          /* MSM_PIPE_x | MSM_SUBMIT_x */
 	__u32 fence;          /* out */
 	__u32 nr_bos;         /* in, number of submit_bo's */
@@ -302,6 +319,14 @@ struct drm_msm_gem_submit_profile_buffer {
 	__u64 ticks_queued;    /* out, GPU ticks at ringbuffer submission */
 	__u64 ticks_submitted; /* out, GPU ticks before cmdstream execution*/
 	__u64 ticks_retired;   /* out, GPU ticks after cmdstream execution */
+=======
+	__u32 pipe;           /* in, MSM_PIPE_x */
+	__u32 fence;          /* out */
+	__u32 nr_bos;         /* in, number of submit_bo's */
+	__u32 nr_cmds;        /* in, number of submit_cmd's */
+	__u64 __user bos;     /* in, ptr to array of submit_bo's */
+	__u64 __user cmds;    /* in, ptr to array of submit_cmd's */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* The normal way to synchronize with the GPU is just to CPU_PREP on

@@ -415,6 +415,7 @@ static int ovl_create_or_link(struct dentry *dentry, int mode, dev_t rdev,
 		err = -ENOMEM;
 		override_cred = prepare_creds();
 		if (override_cred) {
+<<<<<<< HEAD
 			const struct cred *our_cred;
 
 			our_cred = old_cred;
@@ -422,13 +423,21 @@ static int ovl_create_or_link(struct dentry *dentry, int mode, dev_t rdev,
 				our_cred = current_cred();
 			override_cred->fsuid = our_cred->fsuid;
 			override_cred->fsgid = our_cred->fsgid;
+=======
+			override_cred->fsuid = old_cred->fsuid;
+			override_cred->fsgid = old_cred->fsgid;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			put_cred(override_creds(override_cred));
 			put_cred(override_cred);
 
 			err = ovl_create_over_whiteout(dentry, inode, &stat,
 						       link, hardlink);
 		}
+<<<<<<< HEAD
 		ovl_revert_creds(old_cred);
+=======
+		revert_creds(old_cred);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	if (!err)
@@ -662,7 +671,11 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
 
 		err = ovl_remove_and_whiteout(dentry, is_dir);
 
+<<<<<<< HEAD
 		ovl_revert_creds(old_cred);
+=======
+		revert_creds(old_cred);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 out_drop_write:
 	ovl_drop_write(dentry);
@@ -901,7 +914,12 @@ out_dput_old:
 out_unlock:
 	unlock_rename(new_upperdir, old_upperdir);
 out_revert_creds:
+<<<<<<< HEAD
 	ovl_revert_creds(old_cred);
+=======
+	if (old_opaque || new_opaque)
+		revert_creds(old_cred);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out_drop_write:
 	ovl_drop_write(old);
 out:

@@ -2270,6 +2270,7 @@ int tcp_disconnect(struct sock *sk, int flags)
 	tp->window_clamp = 0;
 	tcp_set_ca_state(sk, TCP_CA_Open);
 	tcp_clear_retrans(tp);
+	tp->total_retrans = 0;
 	inet_csk_delack_init(sk);
 	/* Initialize rcv_mss to TCP_MIN_MSS to avoid division by 0
 	 * issue in __tcp_select_window()
@@ -2281,6 +2282,11 @@ int tcp_disconnect(struct sock *sk, int flags)
 	dst_release(sk->sk_rx_dst);
 	sk->sk_rx_dst = NULL;
 	tcp_saved_syn_free(tp);
+<<<<<<< HEAD
+=======
+	tp->segs_in = 0;
+	tp->segs_out = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	tp->bytes_acked = 0;
 	tp->bytes_received = 0;
 
@@ -2748,6 +2754,7 @@ void tcp_get_info(struct sock *sk, struct tcp_info *info)
 	rate64 = rate != ~0U ? rate : ~0ULL;
 	put_unaligned(rate64, &info->tcpi_max_pacing_rate);
 
+<<<<<<< HEAD
 	/* Expose reference count for socket */
 	if (sk->sk_socket) {
 		struct file *filep = sk->sk_socket->file;
@@ -2756,6 +2763,8 @@ void tcp_get_info(struct sock *sk, struct tcp_info *info)
 			info->tcpi_count = file_count(filep);
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	do {
 		start = u64_stats_fetch_begin_irq(&tp->syncp);
 		put_unaligned(tp->bytes_acked, &info->tcpi_bytes_acked);

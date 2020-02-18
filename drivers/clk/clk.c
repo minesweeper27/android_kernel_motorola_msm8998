@@ -24,7 +24,10 @@
 #include <linux/init.h>
 #include <linux/sched.h>
 #include <linux/clkdev.h>
+<<<<<<< HEAD
 #include <linux/regulator/consumer.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include "clk.h"
 
@@ -71,8 +74,11 @@ struct clk_core {
 	bool			orphan;
 	unsigned int		enable_count;
 	unsigned int		prepare_count;
+<<<<<<< HEAD
 	bool			need_handoff_enable;
 	bool			need_handoff_prepare;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned long		min_rate;
 	unsigned long		max_rate;
 	unsigned long		accuracy;
@@ -478,12 +484,21 @@ unsigned long clk_hw_get_flags(const struct clk_hw *hw)
 	return hw->core->flags;
 }
 EXPORT_SYMBOL_GPL(clk_hw_get_flags);
+<<<<<<< HEAD
 
 bool clk_hw_is_prepared(const struct clk_hw *hw)
 {
 	return clk_core_is_prepared(hw->core);
 }
 
+=======
+
+bool clk_hw_is_prepared(const struct clk_hw *hw)
+{
+	return clk_core_is_prepared(hw->core);
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 bool clk_hw_is_enabled(const struct clk_hw *hw)
 {
 	return clk_core_is_enabled(hw->core);
@@ -601,6 +616,7 @@ void clk_hw_set_rate_range(struct clk_hw *hw, unsigned long min_rate,
 }
 EXPORT_SYMBOL_GPL(clk_hw_set_rate_range);
 
+<<<<<<< HEAD
 /*
  * Aggregate the rate of all child nodes which are enabled and exclude the
  * child node which requests for clk_aggregate_rate.
@@ -621,6 +637,8 @@ unsigned long clk_aggregate_rate(struct clk_hw *hw,
 }
 EXPORT_SYMBOL_GPL(clk_aggregate_rate);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Helper for finding best parent to provide a given frequency. This can be used
  * directly as a determine_rate callback (e.g. for a mux), or from a more
@@ -3383,9 +3401,12 @@ struct clk *clk_register(struct device *dev, struct clk_hw *hw)
 	core->num_parents = hw->init->num_parents;
 	core->min_rate = 0;
 	core->max_rate = ULONG_MAX;
+<<<<<<< HEAD
 	core->vdd_class = hw->init->vdd_class;
 	core->rate_max = hw->init->rate_max;
 	core->num_rate_max = hw->init->num_rate_max;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	hw->core = core;
 
 	if (core->vdd_class) {
@@ -3958,10 +3979,15 @@ const char *of_clk_get_parent_name(struct device_node *np, int index)
 			else
 				clk_name = NULL;
 		} else {
+<<<<<<< HEAD
 #if defined(CONFIG_COMMON_CLK)
 			clk_name = __clk_get_name(clk);
 			clk_put(clk);
 #endif
+=======
+			clk_name = __clk_get_name(clk);
+			clk_put(clk);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 	}
 
@@ -3992,8 +4018,11 @@ int of_clk_parent_fill(struct device_node *np, const char **parents,
 }
 EXPORT_SYMBOL_GPL(of_clk_parent_fill);
 
+<<<<<<< HEAD
 #if defined(CONFIG_COMMON_CLK)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct clock_provider {
 	of_clk_init_cb_t clk_init_cb;
 	struct device_node *np;

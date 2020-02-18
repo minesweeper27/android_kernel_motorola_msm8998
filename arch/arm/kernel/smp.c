@@ -715,9 +715,12 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
 
 	if ((unsigned)ipinr < NR_IPI)
 		trace_ipi_exit_rcuidle(ipi_types[ipinr]);
+<<<<<<< HEAD
 
 	per_cpu(pending_ipi, cpu) = false;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	set_irq_regs(old_regs);
 }
 
@@ -832,7 +835,11 @@ static void raise_nmi(cpumask_t *mask)
 	if (cpumask_test_cpu(smp_processor_id(), mask) && irqs_disabled())
 		nmi_cpu_backtrace(NULL);
 
+<<<<<<< HEAD
 	smp_cross_call_common(mask, IPI_CPU_BACKTRACE);
+=======
+	smp_cross_call(mask, IPI_CPU_BACKTRACE);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void arch_trigger_all_cpu_backtrace(bool include_self)

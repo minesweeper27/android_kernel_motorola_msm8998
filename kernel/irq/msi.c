@@ -268,7 +268,11 @@ int msi_domain_alloc_irqs(struct irq_domain *domain, struct device *dev,
 	struct msi_domain_ops *ops = info->ops;
 	msi_alloc_info_t arg;
 	struct msi_desc *desc;
+<<<<<<< HEAD
 	int i, ret, virq = 0;
+=======
+	int i, ret, virq;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = ops->msi_check(domain, info, dev);
 	if (ret == 0)

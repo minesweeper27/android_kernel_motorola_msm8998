@@ -79,8 +79,12 @@ static int clk_branch_wait(const struct clk_branch *br, bool enabling,
 		bool (check_halt)(const struct clk_branch *, bool))
 {
 	bool voted = br->halt_check & BRANCH_VOTED;
+<<<<<<< HEAD
 	const struct clk_hw *hw = &br->clkr.hw;
 	const char *name = clk_hw_get_name(hw);
+=======
+	const char *name = clk_hw_get_name(&br->clkr.hw);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Skip checking halt bit if the clock is in hardware gated mode */
 	if (clk_branch_in_hwcg_mode(br))

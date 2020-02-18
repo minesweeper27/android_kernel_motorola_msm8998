@@ -2,9 +2,12 @@ config QCOM_GDSC
 	bool
 	select PM_GENERIC_DOMAINS if PM
 
+<<<<<<< HEAD
 config QCOM_RPMCC
 	bool
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config COMMON_CLK_QCOM
 	tristate "Support for Qualcomm's clock controllers"
 	depends on OF

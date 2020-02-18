@@ -304,10 +304,13 @@ static void dump_common_audit_data(struct audit_buffer *ab,
 				audit_log_format(ab, " opid=%d ocomm=", pid);
 				audit_log_untrustedstring(ab,
 				    memcpy(comm, tsk->comm, sizeof(comm)));
+<<<<<<< HEAD
 
 					audit_log_format(ab, " uid=%u",
 					from_kuid(&init_user_ns,
 						current_cred()->uid));
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			}
 		}
 		break;

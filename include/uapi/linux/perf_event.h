@@ -334,9 +334,13 @@ struct perf_event_attr {
 				comm_exec      :  1, /* flag comm events that are due to an exec */
 				use_clockid    :  1, /* use @clockid for time fields */
 				context_switch :  1, /* context switch data */
+<<<<<<< HEAD
 				constraint_duplicate : 1,
 
 				__reserved_1   : 36;
+=======
+				__reserved_1   : 37;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	union {
 		__u32		wakeup_events;	  /* wakeup every n events */

@@ -165,7 +165,10 @@ struct mmc_host_ops {
 
 	/* Prepare HS400 target operating frequency depending host driver */
 	int	(*prepare_hs400_tuning)(struct mmc_host *host, struct mmc_ios *ios);
+<<<<<<< HEAD
 	int	(*enhanced_strobe)(struct mmc_host *host);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int	(*select_drive_strength)(struct mmc_card *card,
 					 unsigned int max_dtr, int host_drv,
 					 int card_drv, int *drv_type);
@@ -448,6 +451,7 @@ struct mmc_host {
 #define MMC_CAP2_HSX00_1_2V	(MMC_CAP2_HS200_1_2V_SDR | MMC_CAP2_HS400_1_2V)
 #define MMC_CAP2_SDIO_IRQ_NOTHREAD (1 << 17)
 #define MMC_CAP2_NO_WRITE_PROTECT (1 << 18)	/* No physical write protect pin, assume that card is always read-write */
+<<<<<<< HEAD
 #define MMC_CAP2_PACKED_WR_CONTROL (1 << 19)	/* Allow write packing control */
 #define MMC_CAP2_CLK_SCALE	(1 << 20)	/* Allow dynamic clk scaling */
 /* Allows Asynchronous SDIO irq while card is in 4-bit mode */
@@ -460,20 +464,10 @@ struct mmc_host {
 #define MMC_CAP2_SLEEP_AWAKE	(1 << 28)	/* Use Sleep/Awake (CMD5) */
 /* use max discard ignoring max_busy_timeout parameter */
 #define MMC_CAP2_MAX_DISCARD_SIZE	(1 << 29)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	mmc_pm_flag_t		pm_caps;	/* supported pm features */
-
-#ifdef CONFIG_MMC_CLKGATE
-	int			clk_requests;	/* internal reference counter */
-	unsigned int		clk_delay;	/* number of MCI clk hold cycles */
-	bool			clk_gated;	/* clock gated */
-	struct delayed_work	clk_gate_work; /* delayed clock gate */
-	unsigned int		clk_old;	/* old clock value cache */
-	spinlock_t		clk_lock;	/* lock for clk fields */
-	struct mutex		clk_gate_mutex;	/* mutex for clock gating */
-	struct device_attribute clkgate_delay_attr;
-	unsigned long           clkgate_delay;
-#endif
 
 	/* host specific block data */
 	unsigned int		max_seg_size;	/* see blk_queue_max_segment_size */
@@ -765,6 +759,7 @@ static inline int mmc_host_packed_wr(struct mmc_host *host)
 	return host->caps2 & MMC_CAP2_PACKED_WR;
 }
 
+<<<<<<< HEAD
 static inline void mmc_host_set_halt(struct mmc_host *host)
 {
 	set_bit(CMDQ_STATE_HALT, &host->cmdq_ctx.curr_state);
@@ -815,6 +810,8 @@ static inline unsigned int mmc_host_clk_rate(struct mmc_host *host)
 }
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline int mmc_card_hs(struct mmc_card *card)
 {
 	return card->host->ios.timing == MMC_TIMING_SD_HS ||
@@ -842,6 +839,7 @@ static inline bool mmc_card_hs400(struct mmc_card *card)
 	return card->host->ios.timing == MMC_TIMING_MMC_HS400;
 }
 
+<<<<<<< HEAD
 static inline bool mmc_card_hs400es(struct mmc_card *card)
 {
 	return card->host->ios.enhanced_strobe;
@@ -849,6 +847,8 @@ static inline bool mmc_card_hs400es(struct mmc_card *card)
 
 void mmc_retune_enable(struct mmc_host *host);
 void mmc_retune_disable(struct mmc_host *host);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void mmc_retune_timer_stop(struct mmc_host *host);
 
 static inline void mmc_retune_needed(struct mmc_host *host)

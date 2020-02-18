@@ -18,7 +18,11 @@
 #ifndef _ARCH_ARM64_ASM_BUG_H
 #define _ARCH_ARM64_ASM_BUG_H
 
+<<<<<<< HEAD
 #include <asm/brk-imm.h>
+=======
+#include <asm/debug-monitors.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_DEBUG_BUGVERBOSE
 #define _BUGVERBOSE_LOCATION(file, line) __BUGVERBOSE_LOCATION(file, line)

@@ -41,6 +41,12 @@ static struct freq_attr *cpufreq_dt_attr[] = {
 	NULL,
 };
 
+static struct freq_attr *cpufreq_dt_attr[] = {
+	&cpufreq_freq_attr_scaling_available_freqs,
+	NULL,   /* Extra space for boost-attr if required */
+	NULL,
+};
+
 static int set_target(struct cpufreq_policy *policy, unsigned int index)
 {
 	struct private_data *priv = policy->driver_data;
@@ -149,9 +155,15 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 	struct device *cpu_dev;
 	struct clk *cpu_clk;
 	struct dev_pm_opp *suspend_opp;
+<<<<<<< HEAD
 	unsigned int transition_latency;
 	bool opp_v1 = false;
 	const char *name;
+=======
+	unsigned long min_uV = ~0, max_uV = 0;
+	unsigned int transition_latency;
+	bool need_update = false;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int ret;
 
 	cpu_dev = get_cpu_device(policy->cpu);
@@ -180,6 +192,7 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 			goto out_put_clk;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * OPP layer will be taking care of regulators now, but it needs to know
 	 * the name of the regulator first.
@@ -192,6 +205,19 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 				policy->cpu, ret);
 			goto out_put_clk;
 		}
+=======
+	/* Get OPP-sharing information from "operating-points-v2" bindings */
+	ret = dev_pm_opp_of_get_sharing_cpus(cpu_dev, policy->cpus);
+	if (ret) {
+		/*
+		 * operating-points-v2 not supported, fallback to old method of
+		 * finding shared-OPPs for backward compatibility.
+		 */
+		if (ret == -ENOENT)
+			need_update = true;
+		else
+			goto out_node_put;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/*
@@ -217,7 +243,14 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 		goto out_free_opp;
 	}
 
+<<<<<<< HEAD
 	if (opp_v1) {
+		struct cpufreq_dt_platform_data *pd = cpufreq_get_driver_data();
+
+		if (!pd || !pd->independent_clocks)
+			cpumask_setall(policy->cpus);
+=======
+	if (need_update) {
 		struct cpufreq_dt_platform_data *pd = cpufreq_get_driver_data();
 
 		if (!pd || !pd->independent_clocks)
@@ -231,7 +264,66 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 		if (ret)
 			dev_err(cpu_dev, "%s: failed to mark OPPs as shared: %d\n",
 				__func__, ret);
+
+		of_property_read_u32(np, "clock-latency", &transition_latency);
+	} else {
+		transition_latency = dev_pm_opp_get_max_clock_latency(cpu_dev);
 	}
+
+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+	if (!priv) {
+		ret = -ENOMEM;
+		goto out_free_opp;
+	}
+
+	of_property_read_u32(np, "voltage-tolerance", &priv->voltage_tolerance);
+
+	if (!transition_latency)
+		transition_latency = CPUFREQ_ETERNAL;
+
+	if (!IS_ERR(cpu_reg)) {
+		unsigned long opp_freq = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
+
+		/*
+		 * OPP tables are initialized only for policy->cpu, do it for
+		 * others as well.
+		 */
+<<<<<<< HEAD
+		ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
+		if (ret)
+			dev_err(cpu_dev, "%s: failed to mark OPPs as shared: %d\n",
+				__func__, ret);
+	}
+=======
+		while (1) {
+			struct dev_pm_opp *opp;
+			unsigned long opp_uV, tol_uV;
+
+			rcu_read_lock();
+			opp = dev_pm_opp_find_freq_ceil(cpu_dev, &opp_freq);
+			if (IS_ERR(opp)) {
+				rcu_read_unlock();
+				break;
+			}
+			opp_uV = dev_pm_opp_get_voltage(opp);
+			rcu_read_unlock();
+
+			tol_uV = opp_uV * priv->voltage_tolerance / 100;
+			if (regulator_is_supported_voltage(cpu_reg,
+							   opp_uV - tol_uV,
+							   opp_uV + tol_uV)) {
+				if (opp_uV < min_uV)
+					min_uV = opp_uV;
+				if (opp_uV > max_uV)
+					max_uV = opp_uV;
+			} else {
+				dev_pm_opp_disable(cpu_dev, opp_freq);
+			}
+
+			opp_freq++;
+		}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
 	if (!priv) {
@@ -273,9 +365,13 @@ static int cpufreq_init(struct cpufreq_policy *policy)
 		cpufreq_dt_attr[1] = &cpufreq_freq_attr_scaling_boost_freqs;
 	}
 
+<<<<<<< HEAD
 	transition_latency = dev_pm_opp_get_max_transition_latency(cpu_dev);
 	if (!transition_latency)
 		transition_latency = CPUFREQ_ETERNAL;
+=======
+	policy->cpuinfo.transition_latency = transition_latency;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	policy->cpuinfo.transition_latency = transition_latency;
 
@@ -294,9 +390,15 @@ out_free_priv:
 	kfree(priv);
 out_free_opp:
 	dev_pm_opp_of_cpumask_remove_table(policy->cpus);
+<<<<<<< HEAD
 	if (name)
 		dev_pm_opp_put_regulator(cpu_dev);
 out_put_clk:
+=======
+out_node_put:
+	of_node_put(np);
+out_put_reg_clk:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	clk_put(cpu_clk);
 
 	return ret;
@@ -309,9 +411,12 @@ static int cpufreq_exit(struct cpufreq_policy *policy)
 	cpufreq_cooling_unregister(priv->cdev);
 	dev_pm_opp_free_cpufreq_table(priv->cpu_dev, &policy->freq_table);
 	dev_pm_opp_of_cpumask_remove_table(policy->related_cpus);
+<<<<<<< HEAD
 	if (priv->reg_name)
 		dev_pm_opp_put_regulator(priv->cpu_dev);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	clk_put(policy->clk);
 	kfree(priv);
 

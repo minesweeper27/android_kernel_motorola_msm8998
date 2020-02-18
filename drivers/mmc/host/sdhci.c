@@ -59,7 +59,10 @@ static void sdhci_finish_data(struct sdhci_host *);
 
 static void sdhci_finish_command(struct sdhci_host *);
 static int sdhci_execute_tuning(struct mmc_host *mmc, u32 opcode);
+<<<<<<< HEAD
 static int sdhci_enhanced_strobe(struct mmc_host *mmc);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void sdhci_enable_preset_value(struct sdhci_host *host, bool enable);
 static int sdhci_pre_dma_transfer(struct sdhci_host *host,
 					struct mmc_data *data);
@@ -1355,8 +1358,12 @@ void sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
 
 	host->mmc->actual_clock = 0;
 
+<<<<<<< HEAD
 	if (host->clock)
 		sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+=======
+	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (host->quirks2 & SDHCI_QUIRK2_NEED_DELAY_AFTER_INT_CLK_RST)
 		mdelay(1);
 
@@ -1463,7 +1470,13 @@ clock_set:
 			return;
 		}
 		timeout--;
+<<<<<<< HEAD
 		udelay(1);
+=======
+		spin_unlock_irq(&host->lock);
+		usleep_range(900, 1100);
+		spin_lock_irq(&host->lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	clk |= SDHCI_CLOCK_CARD_EN;
@@ -1755,6 +1768,7 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 		return;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Firstly check card presence from cd-gpio.  The return could
 	 * be one of the following possibilities:
@@ -1771,6 +1785,10 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 			present = sdhci_readl(host, SDHCI_PRESENT_STATE) &
 					SDHCI_CARD_PRESENT;
 	}
+=======
+	/* Firstly check card presence */
+	present = mmc->ops->get_cd(mmc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	spin_lock_irqsave(&host->lock, flags);
 
@@ -1798,6 +1816,7 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 		host->mrq->cmd->error = -ENOMEDIUM;
 		tasklet_schedule(&host->finish_tasklet);
 	} else {
+<<<<<<< HEAD
 		if (host->ops->config_auto_tuning_cmd) {
 			if (sdhci_check_auto_tuning(host, mrq->cmd))
 				host->ops->config_auto_tuning_cmd(host, true,
@@ -1814,6 +1833,8 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 			spin_lock_irqsave(&host->lock, flags);
 		}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (mrq->sbc && !(host->flags & SDHCI_AUTO_CMD23))
 			sdhci_send_command(host, mrq->sbc);
 		else
@@ -2733,9 +2754,12 @@ static void sdhci_pre_req(struct mmc_host *mmc, struct mmc_request *mrq,
 
 	if (host->flags & SDHCI_REQ_USE_DMA)
 		sdhci_pre_dma_transfer(host, mrq->data);
+<<<<<<< HEAD
 
 	if (host->ops->pre_req)
 		host->ops->pre_req(host, mrq);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void sdhci_card_event(struct mmc_host *mmc)
@@ -2803,7 +2827,10 @@ static const struct mmc_host_ops sdhci_ops = {
 	.start_signal_voltage_switch	= sdhci_start_signal_voltage_switch,
 	.prepare_hs400_tuning		= sdhci_prepare_hs400_tuning,
 	.execute_tuning			= sdhci_execute_tuning,
+<<<<<<< HEAD
 	.enhanced_strobe		= sdhci_enhanced_strobe,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.select_drive_strength		= sdhci_select_drive_strength,
 	.card_event			= sdhci_card_event,
 	.card_busy	= sdhci_card_busy,
@@ -3662,10 +3689,13 @@ struct sdhci_host *sdhci_alloc_host(struct device *dev,
 	host->mmc = mmc;
 	host->mmc_host_ops = sdhci_ops;
 	mmc->ops = &host->mmc_host_ops;
+<<<<<<< HEAD
 
 	spin_lock_init(&host->lock);
 	ratelimit_state_init(&host->dbg_dump_rs, SDHCI_DBG_DUMP_RS_INTERVAL,
 			SDHCI_DBG_DUMP_RS_BURST);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return host;
 }
@@ -4176,8 +4206,12 @@ int sdhci_add_host(struct sdhci_host *host)
 
 	if ((host->quirks & SDHCI_QUIRK_BROKEN_CARD_DETECTION) &&
 	    !(mmc->caps & MMC_CAP_NONREMOVABLE) &&
+<<<<<<< HEAD
 	    (IS_ERR_VALUE(mmc_gpio_get_cd(host->mmc)) &&
 	    !(mmc->caps2 & MMC_CAP2_NONHOTPLUG)))
+=======
+	    IS_ERR_VALUE(mmc_gpio_get_cd(host->mmc)))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		mmc->caps |= MMC_CAP_NEEDS_POLL;
 
 	/* If there are external regulators, get them */
@@ -4412,8 +4446,11 @@ int sdhci_add_host(struct sdhci_host *host)
 
 	init_waitqueue_head(&host->buf_ready_int);
 
+<<<<<<< HEAD
 	host->flags |= SDHCI_HOST_IRQ_STATUS;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	sdhci_init(host, 0);
 
 	ret = request_threaded_irq(host->irq, sdhci_irq, sdhci_thread_irq,

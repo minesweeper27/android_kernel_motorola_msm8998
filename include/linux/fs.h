@@ -53,8 +53,11 @@ struct swap_info_struct;
 struct seq_file;
 struct workqueue_struct;
 struct iov_iter;
+<<<<<<< HEAD
 struct fscrypt_info;
 struct fscrypt_operations;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern void __init inode_init(void);
 extern void __init inode_init_early(void);
@@ -1379,8 +1382,11 @@ struct super_block {
 #endif
 	const struct xattr_handler **s_xattr;
 
+<<<<<<< HEAD
 	const struct fscrypt_operations	*s_cop;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct hlist_bl_head	s_anon;		/* anonymous dentries for (nfs) exporting */
 	struct list_head	s_mounts;	/* list of mounts; _not_ for fs use */
 	struct block_device	*s_bdev;
@@ -3144,7 +3150,10 @@ static inline bool dir_relax(struct inode *inode)
 extern bool path_noexec(const struct path *path);
 extern void inode_nohighmem(struct inode *inode);
 
+<<<<<<< HEAD
 int vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
 			     unsigned int flags);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* _LINUX_FS_H */

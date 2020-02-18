@@ -62,6 +62,7 @@
 	andi	\dest, \dest, MIPS_CONF3_MT
 	beqz	\dest, \nomt
 	 nop
+<<<<<<< HEAD
 	.endm
 
 	/*
@@ -93,6 +94,8 @@
 	PTR_LI	\dest, UNCAC_BASE
 	PTR_ADDU \dest, \dest, $1
 	.set	pop
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 .section .text.cps-vec
@@ -125,20 +128,72 @@ not_nmi:
 	li	t0, ST0_CU1 | ST0_CU0 | ST0_BEV | STATUS_BITDEPS
 	mtc0	t0, CP0_STATUS
 
+<<<<<<< HEAD
 	/* Skip cache & coherence setup if we're already coherent */
 	cmgcrb	v1
 	lw	s7, GCR_CL_COHERENCE_OFS(v1)
 	bnez	s7, 1f
+=======
+	/*
+	 * Clear the bits used to index the caches. Note that the architecture
+	 * dictates that writing to any of TagLo or TagHi selects 0 or 2 should
+	 * be valid for all MIPS32 CPUs, even those for which said writes are
+	 * unnecessary.
+	 */
+	mtc0	zero, CP0_TAGLO, 0
+	mtc0	zero, CP0_TAGHI, 0
+	mtc0	zero, CP0_TAGLO, 2
+	mtc0	zero, CP0_TAGHI, 2
+	ehb
+
+	/* Primary cache configuration is indicated by Config1 */
+	mfc0	v0, CP0_CONFIG, 1
+
+	/* Detect I-cache line size */
+	_EXT	t0, v0, MIPS_CONF1_IL_SHF, MIPS_CONF1_IL_SZ
+	beqz	t0, icache_done
+	 li	t1, 2
+	sllv	t0, t1, t0
+
+	/* Detect I-cache size */
+	_EXT	t1, v0, MIPS_CONF1_IS_SHF, MIPS_CONF1_IS_SZ
+	xori	t2, t1, 0x7
+	beqz	t2, 1f
+	 li	t3, 32
+	addiu	t1, t1, 1
+	sllv	t1, t3, t1
+1:	/* At this point t1 == I-cache sets per way */
+	_EXT	t2, v0, MIPS_CONF1_IA_SHF, MIPS_CONF1_IA_SZ
+	addiu	t2, t2, 1
+	mul	t1, t1, t0
+	mul	t1, t1, t2
+
+	li	a0, CKSEG0
+	PTR_ADD	a1, a0, t1
+1:	cache	Index_Store_Tag_I, 0(a0)
+	PTR_ADD	a0, a0, t0
+	bne	a0, a1, 1b
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	 nop
 
 	/* Initialize the L1 caches */
 	jal	mips_cps_cache_init
 	 nop
 
+<<<<<<< HEAD
 	/* Enter the coherent domain */
 	li	t0, 0xff
 	sw	t0, GCR_CL_COHERENCE_OFS(v1)
 	ehb
+=======
+	li	a0, CKSEG0
+	PTR_ADDU a1, a0, t1
+	PTR_SUBU a1, a1, t0
+1:	cache	Index_Store_Tag_D, 0(a0)
+	bne	a0, a1, 1b
+	 PTR_ADD a0, a0, t0
+dcache_done:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Set Kseg0 CCA to that in s0 */
 1:	mfc0	t0, CP0_CONFIG
@@ -148,6 +203,20 @@ not_nmi:
 	mtc0	t0, CP0_CONFIG
 	ehb
 
+<<<<<<< HEAD
+=======
+	/* Calculate an uncached address for the CM GCRs */
+	MFC0	v1, CP0_CMGCRBASE
+	PTR_SLL	v1, v1, 4
+	PTR_LI	t0, UNCAC_BASE
+	PTR_ADDU v1, v1, t0
+
+	/* Enter the coherent domain */
+	li	t0, 0xff
+	sw	t0, GCR_CL_COHERENCE_OFS(v1)
+	ehb
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Jump to kseg0 */
 	PTR_LA	t0, 1f
 	jr	t0
@@ -180,9 +249,15 @@ not_nmi:
 	 move	a0, v0
 
 	/* Off we go! */
+<<<<<<< HEAD
 1:	PTR_L	t1, VPEBOOTCFG_PC(v1)
 	PTR_L	gp, VPEBOOTCFG_GP(v1)
 	PTR_L	sp, VPEBOOTCFG_SP(v1)
+=======
+	PTR_L	t1, VPEBOOTCFG_PC(v0)
+	PTR_L	gp, VPEBOOTCFG_GP(v0)
+	PTR_L	sp, VPEBOOTCFG_SP(v0)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	jr	t1
 	 nop
 	END(mips_cps_core_entry)
@@ -224,6 +299,10 @@ LEAF(excep_intex)
 
 .org 0x480
 LEAF(excep_ejtag)
+<<<<<<< HEAD
+=======
+	DUMP_EXCEP("EJTAG")
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	PTR_LA	k0, ejtag_debug_handler
 	jr	k0
 	 nop
@@ -301,6 +380,7 @@ LEAF(mips_cps_core_init)
 	 nop
 	END(mips_cps_core_init)
 
+<<<<<<< HEAD
 /**
  * mips_cps_get_bootcfg() - retrieve boot configuration pointers
  *
@@ -308,6 +388,13 @@ LEAF(mips_cps_core_init)
  *          struct vpe_boot_config in v1, VPE ID in t9
  */
 LEAF(mips_cps_get_bootcfg)
+=======
+LEAF(mips_cps_boot_vpes)
+	/* Retrieve CM base address */
+	PTR_LA	t0, mips_cm_base
+	PTR_L	t0, 0(t0)
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Calculate a pointer to this cores struct core_boot_config */
 	cmgcrb	t0
 	lw	t0, GCR_CL_ID_OFS(t0)
@@ -315,6 +402,7 @@ LEAF(mips_cps_get_bootcfg)
 	mul	t0, t0, t1
 	PTR_LA	t1, mips_cps_core_bootcfg
 	PTR_L	t1, 0(t1)
+<<<<<<< HEAD
 	PTR_ADDU v0, t0, t1
 
 	/* Calculate this VPEs ID. If the core doesn't support MT use 0 */
@@ -330,6 +418,13 @@ LEAF(mips_cps_get_bootcfg)
 	mfc0	t9, $3, 1
 	andi	t9, t9, 0xff
 #elif defined(CONFIG_MIPS_MT_SMP)
+=======
+	PTR_ADDU t0, t0, t1
+
+	/* Calculate this VPEs ID. If the core doesn't support MT use 0 */
+	li	t9, 0
+#ifdef CONFIG_MIPS_MT_SMP
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	has_mt	ta2, 1f
 
 	/* Find the number of VPEs present in the core */
@@ -353,10 +448,22 @@ LEAF(mips_cps_get_bootcfg)
 
 1:	/* Calculate a pointer to this VPEs struct vpe_boot_config */
 	li	t1, VPEBOOTCFG_SIZE
+<<<<<<< HEAD
 	mul	v1, t9, t1
 	PTR_L	ta3, COREBOOTCFG_VPECONFIG(v0)
 	PTR_ADDU v1, v1, ta3
 
+=======
+	mul	v0, t9, t1
+	PTR_L	ta3, COREBOOTCFG_VPECONFIG(t0)
+	PTR_ADDU v0, v0, ta3
+
+#ifdef CONFIG_MIPS_MT_SMP
+
+	/* If the core doesn't support MT then return */
+	bnez	ta2, 1f
+	 nop
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	jr	ra
 	 nop
 	END(mips_cps_get_bootcfg)
@@ -404,6 +511,10 @@ LEAF(mips_cps_boot_vpes)
 	ehb
 
 	/* Loop through each VPE */
+<<<<<<< HEAD
+=======
+	PTR_L	ta2, COREBOOTCFG_VPEMASK(t0)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	move	t8, ta2
 	li	ta1, 0
 

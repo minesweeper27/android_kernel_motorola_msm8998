@@ -1440,6 +1440,7 @@ static struct ctl_table kern_table[] = {
 		.extra2		= &one,
 	},
 #endif
+<<<<<<< HEAD
 #if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
 	{
 		.procname	= "boot_reason",
@@ -1461,6 +1462,8 @@ static struct ctl_table kern_table[] = {
  * NOTE: do not add new entries to this table unless you have read
  * Documentation/sysctl/ctl_unnumbered.txt
  */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	{ }
 };
 

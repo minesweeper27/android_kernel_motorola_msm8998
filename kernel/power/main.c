@@ -287,7 +287,17 @@ static ssize_t pm_wakeup_irq_show(struct kobject *kobj,
 	return pm_wakeup_irq ? sprintf(buf, "%u\n", pm_wakeup_irq) : -ENODATA;
 }
 
+<<<<<<< HEAD
 power_attr_ro(pm_wakeup_irq);
+=======
+static ssize_t pm_wakeup_irq_store(struct kobject *kobj,
+					struct kobj_attribute *attr,
+					const char *buf, size_t n)
+{
+	return -EINVAL;
+}
+power_attr(pm_wakeup_irq);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #else /* !CONFIG_PM_SLEEP_DEBUG */
 static inline void pm_print_times_init(void) {}

@@ -737,7 +737,11 @@ static void tick_nohz_restart_sched_tick(struct tick_sched *ts, ktime_t now)
 	update_cpu_load_nohz();
 
 	calc_load_exit_idle();
+<<<<<<< HEAD
 	touch_softlockup_watchdog_sched();
+=======
+	touch_softlockup_watchdog();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * Cancel the scheduled timer and restore the tick
 	 */
@@ -911,6 +915,7 @@ ktime_t tick_nohz_get_sleep_length(void)
 	return ts->sleep_length;
 }
 
+<<<<<<< HEAD
 /**
  * tick_nohz_get_idle_calls - return the current idle calls counter value
  *
@@ -923,6 +928,8 @@ unsigned long tick_nohz_get_idle_calls(void)
 	return ts->idle_calls;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void tick_nohz_account_idle_ticks(struct tick_sched *ts)
 {
 #ifndef CONFIG_VIRT_CPU_ACCOUNTING_NATIVE

@@ -724,8 +724,12 @@ static int mbind_range(struct mm_struct *mm, unsigned long start,
 			((vmstart - vma->vm_start) >> PAGE_SHIFT);
 		prev = vma_merge(mm, prev, vmstart, vmend, vma->vm_flags,
 				 vma->anon_vma, vma->vm_file, pgoff,
+<<<<<<< HEAD
 				 new_pol, vma->vm_userfaultfd_ctx,
 				 vma_get_anon_name(vma));
+=======
+				 new_pol, vma->vm_userfaultfd_ctx);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (prev) {
 			vma = prev;
 			next = vma->vm_next;
@@ -2570,7 +2574,13 @@ static void __init check_numabalancing_enable(void)
 		set_numabalancing_state(numabalancing_override == 1);
 
 	if (num_online_nodes() > 1 && !numabalancing_override) {
+<<<<<<< HEAD
 		pr_info("%s automatic NUMA balancing. Configure with numa_balancing= or the kernel.numa_balancing sysctl\n",
+=======
+		pr_info("%s automatic NUMA balancing. "
+			"Configure with numa_balancing= or the "
+			"kernel.numa_balancing sysctl",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			numabalancing_default ? "Enabling" : "Disabling");
 		set_numabalancing_state(numabalancing_default);
 	}

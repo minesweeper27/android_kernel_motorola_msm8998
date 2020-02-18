@@ -248,6 +248,7 @@ static int rcu_gp_in_progress(struct rcu_state *rsp)
  */
 void rcu_sched_qs(void)
 {
+<<<<<<< HEAD
 	if (!__this_cpu_read(rcu_sched_data.cpu_no_qs.s))
 		return;
 	trace_rcu_grace_period(TPS("rcu_sched"),
@@ -259,6 +260,26 @@ void rcu_sched_qs(void)
 	__this_cpu_write(rcu_sched_data.cpu_no_qs.b.exp, false);
 	rcu_report_exp_rdp(&rcu_sched_state,
 			   this_cpu_ptr(&rcu_sched_data), true);
+=======
+	unsigned long flags;
+
+	if (__this_cpu_read(rcu_sched_data.cpu_no_qs.s)) {
+		trace_rcu_grace_period(TPS("rcu_sched"),
+				       __this_cpu_read(rcu_sched_data.gpnum),
+				       TPS("cpuqs"));
+		__this_cpu_write(rcu_sched_data.cpu_no_qs.b.norm, false);
+		if (!__this_cpu_read(rcu_sched_data.cpu_no_qs.b.exp))
+			return;
+		local_irq_save(flags);
+		if (__this_cpu_read(rcu_sched_data.cpu_no_qs.b.exp)) {
+			__this_cpu_write(rcu_sched_data.cpu_no_qs.b.exp, false);
+			rcu_report_exp_rdp(&rcu_sched_state,
+					   this_cpu_ptr(&rcu_sched_data),
+					   true);
+		}
+		local_irq_restore(flags);
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void rcu_bh_qs(void)
@@ -369,11 +390,16 @@ EXPORT_SYMBOL_GPL(rcu_note_context_switch);
  */
 void rcu_all_qs(void)
 {
+<<<<<<< HEAD
 	unsigned long flags;
 
 	barrier(); /* Avoid RCU read-side critical sections leaking down. */
 	if (unlikely(raw_cpu_read(rcu_sched_qs_mask))) {
 		local_irq_save(flags);
+=======
+	barrier(); /* Avoid RCU read-side critical sections leaking down. */
+	if (unlikely(raw_cpu_read(rcu_sched_qs_mask)))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		rcu_momentary_dyntick_idle();
 		local_irq_restore(flags);
 	}
@@ -3563,6 +3589,7 @@ static void __rcu_report_exp_rnp(struct rcu_state *rsp, struct rcu_node *rnp,
 		smp_mb__after_unlock_lock();
 		WARN_ON_ONCE(!(rnp->expmask & mask));
 		rnp->expmask &= ~mask;
+<<<<<<< HEAD
 	}
 }
 
@@ -3627,6 +3654,72 @@ static bool sync_exp_work_done(struct rcu_state *rsp, struct rcu_node *rnp,
 		atomic_long_inc(stat);
 		return true;
 	}
+=======
+	}
+}
+
+/*
+ * Report expedited quiescent state for specified node.  This is a
+ * lock-acquisition wrapper function for __rcu_report_exp_rnp().
+ *
+ * Caller must hold the root rcu_node's exp_funnel_mutex.
+ */
+static void __maybe_unused rcu_report_exp_rnp(struct rcu_state *rsp,
+					      struct rcu_node *rnp, bool wake)
+{
+	unsigned long flags;
+
+	raw_spin_lock_irqsave(&rnp->lock, flags);
+	smp_mb__after_unlock_lock();
+	__rcu_report_exp_rnp(rsp, rnp, wake, flags);
+}
+
+/*
+ * Report expedited quiescent state for multiple CPUs, all covered by the
+ * specified leaf rcu_node structure.  Caller must hold the root
+ * rcu_node's exp_funnel_mutex.
+ */
+static void rcu_report_exp_cpu_mult(struct rcu_state *rsp, struct rcu_node *rnp,
+				    unsigned long mask, bool wake)
+{
+	unsigned long flags;
+
+	raw_spin_lock_irqsave(&rnp->lock, flags);
+	smp_mb__after_unlock_lock();
+	if (!(rnp->expmask & mask)) {
+		raw_spin_unlock_irqrestore(&rnp->lock, flags);
+		return;
+	}
+	rnp->expmask &= ~mask;
+	__rcu_report_exp_rnp(rsp, rnp, wake, flags); /* Releases rnp->lock. */
+}
+
+/*
+ * Report expedited quiescent state for specified rcu_data (CPU).
+ * Caller must hold the root rcu_node's exp_funnel_mutex.
+ */
+static void rcu_report_exp_rdp(struct rcu_state *rsp, struct rcu_data *rdp,
+			       bool wake)
+{
+	rcu_report_exp_cpu_mult(rsp, rdp->mynode, rdp->grpmask, wake);
+}
+
+/* Common code for synchronize_{rcu,sched}_expedited() work-done checking. */
+static bool sync_exp_work_done(struct rcu_state *rsp, struct rcu_node *rnp,
+			       struct rcu_data *rdp,
+			       atomic_long_t *stat, unsigned long s)
+{
+	if (rcu_exp_gp_seq_done(rsp, s)) {
+		if (rnp)
+			mutex_unlock(&rnp->exp_funnel_mutex);
+		else if (rdp)
+			mutex_unlock(&rdp->exp_funnel_mutex);
+		/* Ensure test happens before caller kfree(). */
+		smp_mb__before_atomic(); /* ^^^ */
+		atomic_long_inc(stat);
+		return true;
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return false;
 }
 
@@ -3820,6 +3913,7 @@ static void synchronize_sched_expedited_wait(struct rcu_state *rsp)
 			wait_event(rsp->expedited_wq,
 				   sync_rcu_preempt_exp_done(rnp_root));
 			return;
+<<<<<<< HEAD
 		}
 		pr_err("INFO: %s detected expedited stalls on CPUs/tasks: {",
 		       rsp->name);
@@ -3849,6 +3943,37 @@ static void synchronize_sched_expedited_wait(struct rcu_state *rsp)
 				dump_cpu_task(cpu);
 			}
 		}
+=======
+		}
+		pr_err("INFO: %s detected expedited stalls on CPUs/tasks: {",
+		       rsp->name);
+		rcu_for_each_leaf_node(rsp, rnp) {
+			(void)rcu_print_task_exp_stall(rnp);
+			mask = 1;
+			for (cpu = rnp->grplo; cpu <= rnp->grphi; cpu++, mask <<= 1) {
+				struct rcu_data *rdp;
+
+				if (!(rnp->expmask & mask))
+					continue;
+				rdp = per_cpu_ptr(rsp->rda, cpu);
+				pr_cont(" %d-%c%c%c", cpu,
+					"O."[!!cpu_online(cpu)],
+					"o."[!!(rdp->grpmask & rnp->expmaskinit)],
+					"N."[!!(rdp->grpmask & rnp->expmaskinitnext)]);
+			}
+			mask <<= 1;
+		}
+		pr_cont(" } %lu jiffies s: %lu\n",
+			jiffies - jiffies_start, rsp->expedited_sequence);
+		rcu_for_each_leaf_node(rsp, rnp) {
+			mask = 1;
+			for (cpu = rnp->grplo; cpu <= rnp->grphi; cpu++, mask <<= 1) {
+				if (!(rnp->expmask & mask))
+					continue;
+				dump_cpu_task(cpu);
+			}
+		}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		jiffies_stall = 3 * rcu_jiffies_till_stall_check() + 3;
 	}
 }

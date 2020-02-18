@@ -175,6 +175,7 @@ config THERMAL_EMULATION
 	  because userland can easily disable the thermal policy by simply
 	  flooding this sysfs node with low temperature values.
 
+<<<<<<< HEAD
 config LIMITS_MONITOR
 	bool "LMH monitor driver"
 	depends on THERMAL
@@ -205,6 +206,8 @@ config THERMAL_MONITOR
 	  entity starts running in the userspace. Monitors TSENS temperature
 	  and limits the max frequency of the cores.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config HISI_THERMAL
 	tristate "Hisilicon thermal driver"
 	depends on (ARCH_HISI && CPU_THERMAL && OF) || COMPILE_TEST
@@ -213,6 +216,7 @@ config HISI_THERMAL
 	  thermal framework. cpufreq is used as the cooling device to throttle
 	  CPUs when the passive trip is crossed.
 
+<<<<<<< HEAD
 config THERMAL_TSENS8974
 	tristate "Qualcomm 8974 TSENS Temperature driver"
 	depends on THERMAL
@@ -223,6 +227,8 @@ config THERMAL_TSENS8974
 	  thermal userspace client when a threshold is reached. Warm/Cool
 	  temperature thresholds can be set independently for each sensor.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config IMX_THERMAL
 	tristate "Temperature sensor driver for Freescale i.MX SoCs"
 	depends on CPU_THERMAL
@@ -405,6 +411,7 @@ config INTEL_PCH_THERMAL
 	  Thermal reporting device will provide temperature reading,
 	  programmable trip points and other information.
 
+<<<<<<< HEAD
 config THERMAL_QPNP
 	tristate "Qualcomm Technologies, Inc. QPNP PMIC Temperature Alarm"
 	depends on OF && SPMI
@@ -450,6 +457,8 @@ config MMI_SYS_TEMP
 	  temperatures. These are meant to be populated by the a
 	  user space thermal management daemon.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 menu "Texas Instruments thermal drivers"
 depends on ARCH_HAS_BANDGAP || COMPILE_TEST
 source "drivers/thermal/ti-soc-thermal/Kconfig"
@@ -476,6 +485,7 @@ config QCOM_SPMI_TEMP_ALARM
 	  real time die temperature if an ADC is present or an estimate of the
 	  temperature based upon the over temperature stage value.
 
+<<<<<<< HEAD
 config GENERIC_ADC_THERMAL
 	tristate "Generic ADC based thermal sensor"
 	depends on IIO
@@ -486,4 +496,6 @@ config GENERIC_ADC_THERMAL
 	  to this driver. This driver reports the temperature by reading ADC
 	  channel and converts it to temperature based on lookup table.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif

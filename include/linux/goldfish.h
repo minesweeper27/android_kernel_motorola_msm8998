@@ -9,11 +9,17 @@
 static inline void gf_write_ptr(const void *ptr, void __iomem *portl,
 				void __iomem *porth)
 {
+<<<<<<< HEAD
 	const uintptr_t addr = (uintptr_t)ptr;
 
 	writel((u32)addr, portl);
 #ifdef CONFIG_64BIT
 	writel(addr >> 32, porth);
+=======
+	writel((u32)(unsigned long)ptr, portl);
+#ifdef CONFIG_64BIT
+	writel((unsigned long)ptr >> 32, porth);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 }
 

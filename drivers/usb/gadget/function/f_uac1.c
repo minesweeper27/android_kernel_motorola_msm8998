@@ -484,11 +484,63 @@ static int f_audio_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (intf == uac1->ac_intf) {
 		/* Control I/f has only 1 AltSetting - 0 */
 		if (alt) {
 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
 			return -EINVAL;
+=======
+	opts = container_of(f->fi, struct f_uac1_opts, func_inst);
+	req_buf_size = opts->req_buf_size;
+	req_count = opts->req_count;
+	audio_buf_size = opts->audio_buf_size;
+
+	if (intf == 1) {
+		if (alt == 1) {
+			err = config_ep_by_speed(cdev->gadget, f, out_ep);
+			if (err)
+				return err;
+
+			usb_ep_enable(out_ep);
+			audio->copy_buf = f_audio_buffer_alloc(audio_buf_size);
+			if (IS_ERR(audio->copy_buf))
+				return -ENOMEM;
+
+			/*
+			 * allocate a bunch of read buffers
+			 * and queue them all at once.
+			 */
+			for (i = 0; i < req_count && err == 0; i++) {
+				req = usb_ep_alloc_request(out_ep, GFP_ATOMIC);
+				if (req) {
+					req->buf = kzalloc(req_buf_size,
+							GFP_ATOMIC);
+					if (req->buf) {
+						req->length = req_buf_size;
+						req->context = audio;
+						req->complete =
+							f_audio_complete;
+						err = usb_ep_queue(out_ep,
+							req, GFP_ATOMIC);
+						if (err)
+							ERROR(cdev,
+							"%s queue req: %d\n",
+							out_ep->name, err);
+					} else
+						err = -ENOMEM;
+				} else
+					err = -ENOMEM;
+			}
+
+		} else {
+			struct f_audio_buf *copy_buf = audio->copy_buf;
+			if (copy_buf) {
+				list_add_tail(&copy_buf->list,
+						&audio->play_queue);
+				schedule_work(&audio->playback_work);
+			}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 		return 0;
 	}
@@ -668,6 +720,10 @@ static int f_audio_bind(struct usb_configuration *c, struct usb_function *f)
 err_card_register:
 	usb_free_all_descriptors(f);
 fail:
+<<<<<<< HEAD
+=======
+	gaudio_cleanup(&audio->card);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return status;
 }
 
@@ -690,10 +746,16 @@ static struct configfs_item_operations f_uac1_item_ops = {
 	.release	= f_uac1_attr_release,
 };
 
+<<<<<<< HEAD
 #define UAC1_ATTRIBUTE(name)						\
 static ssize_t f_uac1_opts_##name##_show(				\
 					  struct config_item *item,	\
 					  char *page)			\
+=======
+#define UAC1_INT_ATTRIBUTE(name)					\
+static ssize_t f_uac1_opts_##name##_show(struct config_item *item,	\
+					 char *page)			\
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {									\
 	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
 	int result;							\
@@ -705,8 +767,12 @@ static ssize_t f_uac1_opts_##name##_show(				\
 	return result;							\
 }									\
 									\
+<<<<<<< HEAD
 static ssize_t f_uac1_opts_##name##_store(				\
 					  struct config_item *item,	\
+=======
+static ssize_t f_uac1_opts_##name##_store(struct config_item *item,		\
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					  const char *page, size_t len)	\
 {									\
 	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
@@ -732,6 +798,56 @@ end:									\
 }									\
 									\
 CONFIGFS_ATTR(f_uac1_opts_, name)
+<<<<<<< HEAD
+=======
+
+UAC1_INT_ATTRIBUTE(req_buf_size);
+UAC1_INT_ATTRIBUTE(req_count);
+UAC1_INT_ATTRIBUTE(audio_buf_size);
+
+#define UAC1_STR_ATTRIBUTE(name)					\
+static ssize_t f_uac1_opts_##name##_show(struct config_item *item,	\
+					 char *page)			\
+{									\
+	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
+	int result;							\
+									\
+	mutex_lock(&opts->lock);					\
+	result = sprintf(page, "%s\n", opts->name);			\
+	mutex_unlock(&opts->lock);					\
+									\
+	return result;							\
+}									\
+									\
+static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+					  const char *page, size_t len)	\
+{									\
+	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
+	int ret = -EBUSY;						\
+	char *tmp;							\
+									\
+	mutex_lock(&opts->lock);					\
+	if (opts->refcnt)						\
+		goto end;						\
+									\
+	tmp = kstrndup(page, len, GFP_KERNEL);				\
+	if (tmp) {							\
+		ret = -ENOMEM;						\
+		goto end;						\
+	}								\
+	if (opts->name##_alloc)						\
+		kfree(opts->name);					\
+	opts->name##_alloc = true;					\
+	opts->name = tmp;						\
+	ret = len;							\
+									\
+end:									\
+	mutex_unlock(&opts->lock);					\
+	return ret;							\
+}									\
+									\
+CONFIGFS_ATTR(f_uac1_opts_, name)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 UAC1_ATTRIBUTE(c_chmask);
 UAC1_ATTRIBUTE(c_srate);
@@ -742,6 +858,7 @@ UAC1_ATTRIBUTE(p_ssize);
 UAC1_ATTRIBUTE(req_number);
 
 static struct configfs_attribute *f_uac1_attrs[] = {
+<<<<<<< HEAD
 	&f_uac1_opts_attr_c_chmask,
 	&f_uac1_opts_attr_c_srate,
 	&f_uac1_opts_attr_c_ssize,
@@ -749,6 +866,14 @@ static struct configfs_attribute *f_uac1_attrs[] = {
 	&f_uac1_opts_attr_p_srate,
 	&f_uac1_opts_attr_p_ssize,
 	&f_uac1_opts_attr_req_number,
+=======
+	&f_uac1_opts_attr_req_buf_size,
+	&f_uac1_opts_attr_req_count,
+	&f_uac1_opts_attr_audio_buf_size,
+	&f_uac1_opts_attr_fn_play,
+	&f_uac1_opts_attr_fn_cap,
+	&f_uac1_opts_attr_fn_cntl,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL,
 };
 

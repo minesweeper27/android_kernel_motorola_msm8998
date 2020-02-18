@@ -207,7 +207,11 @@ static struct usb_gadget_strings *midi_strings[] = {
 static inline struct usb_request *midi_alloc_ep_req(struct usb_ep *ep,
 						    unsigned length)
 {
+<<<<<<< HEAD
 	return alloc_ep_req(ep, length);
+=======
+	return alloc_ep_req(ep, length, length);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static const uint8_t f_midi_cin_length[] = {
@@ -774,6 +778,7 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
 	midi->out_ep = usb_ep_autoconfig(cdev->gadget, &bulk_out_desc);
 	if (!midi->out_ep)
 		goto fail;
+<<<<<<< HEAD
 
 	/* allocate temporary function list for ss */
 	midi_ss_function = kcalloc((MAX_PORTS * 4) + 11,
@@ -782,6 +787,8 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
 		status = -ENOMEM;
 		goto fail;
 	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* allocate temporary function list */
 	midi_function = kcalloc((MAX_PORTS * 4) + 9, sizeof(*midi_function),

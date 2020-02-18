@@ -904,8 +904,13 @@ int iwl_mvm_config_scan(struct iwl_mvm *mvm)
 	struct iwl_scan_config *scan_config;
 	struct ieee80211_supported_band *band;
 	int num_channels =
+<<<<<<< HEAD
 		mvm->nvm_data->bands[NL80211_BAND_2GHZ].n_channels +
 		mvm->nvm_data->bands[NL80211_BAND_5GHZ].n_channels;
+=======
+		mvm->nvm_data->bands[IEEE80211_BAND_2GHZ].n_channels +
+		mvm->nvm_data->bands[IEEE80211_BAND_5GHZ].n_channels;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int ret, i, j = 0, cmd_size;
 	struct iwl_host_cmd cmd = {
 		.id = iwl_cmd_id(SCAN_CFG_CMD, IWL_ALWAYS_LONG_GROUP, 0),

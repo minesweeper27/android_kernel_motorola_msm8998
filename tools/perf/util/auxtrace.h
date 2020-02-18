@@ -44,7 +44,10 @@ enum auxtrace_type {
 	PERF_AUXTRACE_UNKNOWN,
 	PERF_AUXTRACE_INTEL_PT,
 	PERF_AUXTRACE_INTEL_BTS,
+<<<<<<< HEAD
 	PERF_AUXTRACE_CS_ETM,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 enum itrace_period_type {
@@ -297,8 +300,12 @@ struct auxtrace_record {
 	int (*recording_options)(struct auxtrace_record *itr,
 				 struct perf_evlist *evlist,
 				 struct record_opts *opts);
+<<<<<<< HEAD
 	size_t (*info_priv_size)(struct auxtrace_record *itr,
 				 struct perf_evlist *evlist);
+=======
+	size_t (*info_priv_size)(struct auxtrace_record *itr);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int (*info_fill)(struct auxtrace_record *itr,
 			 struct perf_session *session,
 			 struct auxtrace_info_event *auxtrace_info,
@@ -434,8 +441,12 @@ int auxtrace_parse_snapshot_options(struct auxtrace_record *itr,
 int auxtrace_record__options(struct auxtrace_record *itr,
 			     struct perf_evlist *evlist,
 			     struct record_opts *opts);
+<<<<<<< HEAD
 size_t auxtrace_record__info_priv_size(struct auxtrace_record *itr,
 				       struct perf_evlist *evlist);
+=======
+size_t auxtrace_record__info_priv_size(struct auxtrace_record *itr);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int auxtrace_record__info_fill(struct auxtrace_record *itr,
 			       struct perf_session *session,
 			       struct auxtrace_info_event *auxtrace_info,

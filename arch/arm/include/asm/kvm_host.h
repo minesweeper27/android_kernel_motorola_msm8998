@@ -218,6 +218,7 @@ static inline void __cpu_init_stage2(void)
 {
 }
 
+<<<<<<< HEAD
 static inline void __cpu_reset_hyp_mode(phys_addr_t boot_pgd_ptr,
 					phys_addr_t phys_idmap_start)
 {
@@ -232,6 +233,8 @@ static inline int kvm_arch_dev_ioctl_check_extension(long ext)
 	return 0;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int kvm_perf_init(void);
 int kvm_perf_teardown(void);
 

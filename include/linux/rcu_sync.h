@@ -59,7 +59,10 @@ static inline bool rcu_sync_is_idle(struct rcu_sync *rsp)
 }
 
 extern void rcu_sync_init(struct rcu_sync *, enum rcu_sync_type);
+<<<<<<< HEAD
 extern void rcu_sync_enter_start(struct rcu_sync *);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern void rcu_sync_enter(struct rcu_sync *);
 extern void rcu_sync_exit(struct rcu_sync *);
 extern void rcu_sync_dtor(struct rcu_sync *);

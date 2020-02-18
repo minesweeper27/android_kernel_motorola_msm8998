@@ -746,6 +746,7 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc)
 	 */
 	fprop_fraction_percpu(&dom->completions, dtc->wb_completions,
 			      &numerator, &denominator);
+<<<<<<< HEAD
 
 	wb_thresh = (thresh * (100 - bdi_min_ratio)) / 100;
 	wb_thresh *= numerator;
@@ -757,6 +758,19 @@ static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc)
 	if (wb_thresh > (thresh * wb_max_ratio) / 100)
 		wb_thresh = thresh * wb_max_ratio / 100;
 
+=======
+
+	wb_thresh = (thresh * (100 - bdi_min_ratio)) / 100;
+	wb_thresh *= numerator;
+	do_div(wb_thresh, denominator);
+
+	wb_min_max_ratio(dtc->wb, &wb_min_ratio, &wb_max_ratio);
+
+	wb_thresh += (thresh * wb_min_ratio) / 100;
+	if (wb_thresh > (thresh * wb_max_ratio) / 100)
+		wb_thresh = thresh * wb_max_ratio / 100;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return wb_thresh;
 }
 
@@ -1994,11 +2008,19 @@ void laptop_mode_timer_fn(unsigned long data)
 	 * We want to write everything out, not just down to the dirty
 	 * threshold
 	 */
+<<<<<<< HEAD
 	if (!bdi_has_dirty_io(q->backing_dev_info))
 		return;
 
 	rcu_read_lock();
 	list_for_each_entry_rcu(wb, &q->backing_dev_info->wb_list, bdi_node)
+=======
+	if (!bdi_has_dirty_io(&q->backing_dev_info))
+		return;
+
+	rcu_read_lock();
+	list_for_each_entry_rcu(wb, &q->backing_dev_info.wb_list, bdi_node)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (wb_has_dirty_io(wb))
 			wb_start_writeback(wb, nr_pages, true,
 					   WB_REASON_LAPTOP_TIMER);

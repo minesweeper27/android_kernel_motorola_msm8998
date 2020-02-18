@@ -69,6 +69,7 @@ Required properties:
 Optional properties:
 - qcom,dsi-phy-regulator-ldo-mode: Boolean value indicating if the LDO mode PHY
   regulator is wanted.
+<<<<<<< HEAD
 - qcom,mdss-mdp-transfer-time-us:	Specifies the dsi transfer time for command mode
 					panels in microseconds. Driver uses this number to adjust
 					the clock rate according to the expected transfer time.
@@ -83,6 +84,8 @@ Optional properties:
 					If ping pong split is enabled, this time should not be higher
 					than two times the dsi link rate time.
 					If the property is not specified, then the default value is 14000 us.
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 Example:
 	mdss_dsi0: qcom,mdss_dsi@fd922800 {
@@ -119,8 +122,11 @@ Example:
 		qcom,master-dsi;
 		qcom,sync-dual-dsi;
 
+<<<<<<< HEAD
 		qcom,mdss-mdp-transfer-time-us = <12000>;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&mdss_dsi_active>;
 		pinctrl-1 = <&mdss_dsi_suspend>;

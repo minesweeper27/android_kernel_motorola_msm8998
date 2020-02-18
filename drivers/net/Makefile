@@ -70,4 +70,7 @@ obj-$(CONFIG_HYPERV_NET) += hyperv/
 obj-$(CONFIG_NTB_NETDEV) += ntb_netdev.o
 
 obj-$(CONFIG_FUJITSU_ES) += fjes/
+<<<<<<< HEAD
 obj-$(CONFIG_RMNET) += rmnet/
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

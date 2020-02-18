@@ -34,8 +34,11 @@ struct sleep_stack_data {
 	unsigned long		callee_saved_regs[NR_CALLEE_SAVED_REGS];
 };
 
+<<<<<<< HEAD
 extern unsigned long *sleep_save_stash;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int cpu_suspend(unsigned long arg, int (*fn)(unsigned long));
 extern void cpu_resume(void);
 int __cpu_suspend_enter(struct sleep_stack_data *state);

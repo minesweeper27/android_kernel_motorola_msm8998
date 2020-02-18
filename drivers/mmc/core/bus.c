@@ -169,6 +169,7 @@ static int mmc_bus_suspend(struct device *dev)
 	if (mmc_bus_needs_resume(host))
 		return 0;
 	ret = host->bus_ops->suspend(host);
+<<<<<<< HEAD
 
 	/*
 	 * bus_ops->suspend may fail due to some reason
@@ -182,6 +183,11 @@ static int mmc_bus_suspend(struct device *dev)
 	 */
 	if (ret)
 		pm_generic_resume(dev);
+=======
+	if (ret)
+		pm_generic_resume(dev);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 

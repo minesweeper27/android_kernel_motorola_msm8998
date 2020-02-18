@@ -592,7 +592,10 @@ void __bio_clone_fast(struct bio *bio, struct bio *bio_src)
 	bio->bi_rw = bio_src->bi_rw;
 	bio->bi_iter = bio_src->bi_iter;
 	bio->bi_io_vec = bio_src->bi_io_vec;
+<<<<<<< HEAD
 	bio->bi_dio_inode = bio_src->bi_dio_inode;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	bio_clone_blkcg_association(bio, bio_src);
 }
@@ -713,12 +716,21 @@ EXPORT_SYMBOL(bio_clone_bioset);
  *	@page: page to add
  *	@len: vec entry length
  *	@offset: vec entry offset
+<<<<<<< HEAD
  *
  *	Attempt to add a page to the bio_vec maplist. This can fail for a
  *	number of reasons, such as the bio being full or target block device
  *	limitations. The target block device must allow bio's up to PAGE_SIZE,
  *	so it is always possible to add a single page to an empty bio.
  *
+=======
+ *
+ *	Attempt to add a page to the bio_vec maplist. This can fail for a
+ *	number of reasons, such as the bio being full or target block device
+ *	limitations. The target block device must allow bio's up to PAGE_SIZE,
+ *	so it is always possible to add a single page to an empty bio.
+ *
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *	This should only be used by REQ_PC bios.
  */
 int bio_add_pc_page(struct request_queue *q, struct bio *bio, struct page
@@ -1788,10 +1800,15 @@ void bio_endio(struct bio *bio)
 			bio_put(bio);
 			bio = parent;
 		} else {
+<<<<<<< HEAD
 			if (bio->bi_end_io) {
 				blk_update_perf_stats(bio);
 				bio->bi_end_io(bio);
 			}
+=======
+			if (bio->bi_end_io)
+				bio->bi_end_io(bio);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			bio = NULL;
 		}
 	}

@@ -15,7 +15,10 @@ struct sock_diag_handler {
 	__u8 family;
 	int (*dump)(struct sk_buff *skb, struct nlmsghdr *nlh);
 	int (*get_info)(struct sk_buff *skb, struct sock *sk);
+<<<<<<< HEAD
 	int (*destroy)(struct sk_buff *skb, struct nlmsghdr *nlh);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int sock_diag_register(const struct sock_diag_handler *h);
@@ -75,5 +78,8 @@ bool sock_diag_has_destroy_listeners(const struct sock *sk)
 }
 void sock_diag_broadcast_destroy(struct sock *sk);
 
+<<<<<<< HEAD
 int sock_diag_destroy(struct sock *sk, int err);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

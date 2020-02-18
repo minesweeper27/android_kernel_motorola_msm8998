@@ -272,8 +272,15 @@ static void clocksource_watchdog(unsigned long data)
 	next_cpu = cpumask_next(raw_smp_processor_id(), cpu_online_mask);
 	if (next_cpu >= nr_cpu_ids)
 		next_cpu = cpumask_first(cpu_online_mask);
-	watchdog_timer.expires += WATCHDOG_INTERVAL;
-	add_timer_on(&watchdog_timer, next_cpu);
+
+	/*
+	 * Arm timer if not already pending: could race with concurrent
+	 * pair clocksource_stop_watchdog() clocksource_start_watchdog().
+	 */
+	if (!timer_pending(&watchdog_timer)) {
+		watchdog_timer.expires += WATCHDOG_INTERVAL;
+		add_timer_on(&watchdog_timer, next_cpu);
+	}
 out:
 	spin_unlock(&watchdog_lock);
 }
@@ -626,17 +633,29 @@ static void __clocksource_select(bool skipcur, bool force)
  */
 static void clocksource_select(bool force)
 {
+<<<<<<< HEAD
 	return __clocksource_select(false, force);
+=======
+	__clocksource_select(false);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void clocksource_select_fallback(void)
 {
+<<<<<<< HEAD
 	__clocksource_select(true, false);
 }
 
 #else /* !CONFIG_ARCH_USES_GETTIMEOFFSET */
 
 static inline void clocksource_select(bool force) { }
+=======
+	__clocksource_select(true);
+}
+
+#else /* !CONFIG_ARCH_USES_GETTIMEOFFSET */
+static inline void clocksource_select(void) { }
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void clocksource_select_fallback(void) { }
 
 #endif
@@ -785,7 +804,11 @@ int __clocksource_register_scale(struct clocksource *cs, u32 scale, u32 freq)
 	mutex_lock(&clocksource_mutex);
 	clocksource_enqueue(cs);
 	clocksource_enqueue_watchdog(cs);
+<<<<<<< HEAD
 	clocksource_select(false);
+=======
+	clocksource_select();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	clocksource_select_watchdog(false);
 	mutex_unlock(&clocksource_mutex);
 	return 0;
@@ -808,7 +831,11 @@ void clocksource_change_rating(struct clocksource *cs, int rating)
 {
 	mutex_lock(&clocksource_mutex);
 	__clocksource_change_rating(cs, rating);
+<<<<<<< HEAD
 	clocksource_select(false);
+=======
+	clocksource_select();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	clocksource_select_watchdog(false);
 	mutex_unlock(&clocksource_mutex);
 }

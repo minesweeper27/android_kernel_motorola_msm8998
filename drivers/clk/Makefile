@@ -84,4 +84,7 @@ endif
 obj-$(CONFIG_ARCH_ZX)			+= zte/
 obj-$(CONFIG_ARCH_ZYNQ)			+= zynq/
 obj-$(CONFIG_H8300)		+= h8300/
+<<<<<<< HEAD
 obj-$(CONFIG_ARCH_QCOM)		+= msm/
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

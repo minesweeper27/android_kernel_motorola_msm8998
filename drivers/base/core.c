@@ -717,8 +717,11 @@ void device_initialize(struct device *dev)
 #ifdef CONFIG_GENERIC_MSI_IRQ
 	INIT_LIST_HEAD(&dev->msi_list);
 #endif
+<<<<<<< HEAD
 	INIT_LIST_HEAD(&dev->iommu_map_list);
 	mutex_init(&dev->iommu_map_lock);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL_GPL(device_initialize);
 

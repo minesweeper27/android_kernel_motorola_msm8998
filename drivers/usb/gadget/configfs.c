@@ -92,6 +92,7 @@ struct gadget_info {
 	char qw_sign[OS_STRING_QW_SIGN_LEN];
 	spinlock_t spinlock;
 	bool unbind;
+<<<<<<< HEAD
 #ifdef CONFIG_USB_CONFIGFS_UEVENT
 	bool connected;
 	bool sw_connected;
@@ -99,6 +100,8 @@ struct gadget_info {
 	struct device *dev;
 #endif
 	bool secure;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static inline struct gadget_info *to_gadget_info(struct config_item *item)
@@ -1385,6 +1388,19 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
 		otg_desc[1] = NULL;
 	}
 
+	if (gadget_is_otg(gadget) && !otg_desc[0]) {
+		struct usb_descriptor_header *usb_desc;
+
+		usb_desc = usb_otg_descriptor_alloc(gadget);
+		if (!usb_desc) {
+			ret = -ENOMEM;
+			goto err_comp_cleanup;
+		}
+		usb_otg_descriptor_init(gadget, usb_desc);
+		otg_desc[0] = usb_desc;
+		otg_desc[1] = NULL;
+	}
+
 	/* Go through all configs, attach all functions */
 	list_for_each_entry(c, &gi->cdev.configs, list) {
 		struct config_usb_cfg *cfg;
@@ -1518,7 +1534,10 @@ static void configfs_composite_unbind(struct usb_gadget *gadget)
 	spin_unlock_irqrestore(&gi->spinlock, flags);
 }
 
+<<<<<<< HEAD
 #if !IS_ENABLED(CONFIG_USB_CONFIGFS_UEVENT)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int configfs_composite_setup(struct usb_gadget *gadget,
 		const struct usb_ctrlrequest *ctrl)
 {
@@ -1565,7 +1584,10 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
 	composite_disconnect(gadget);
 	spin_unlock_irqrestore(&gi->spinlock, flags);
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static void configfs_composite_suspend(struct usb_gadget *gadget)
 {
@@ -1587,6 +1609,31 @@ static void configfs_composite_suspend(struct usb_gadget *gadget)
 
 	composite_suspend(gadget);
 	spin_unlock_irqrestore(&gi->spinlock, flags);
+<<<<<<< HEAD
+=======
+}
+
+static void configfs_composite_resume(struct usb_gadget *gadget)
+{
+	struct usb_composite_dev *cdev;
+	struct gadget_info *gi;
+	unsigned long flags;
+
+	cdev = get_gadget_data(gadget);
+	if (!cdev)
+		return;
+
+	gi = container_of(cdev, struct gadget_info, cdev);
+	spin_lock_irqsave(&gi->spinlock, flags);
+	cdev = get_gadget_data(gadget);
+	if (!cdev || gi->unbind) {
+		spin_unlock_irqrestore(&gi->spinlock, flags);
+		return;
+	}
+
+	composite_resume(gadget);
+	spin_unlock_irqrestore(&gi->spinlock, flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void configfs_composite_resume(struct usb_gadget *gadget)
@@ -1695,6 +1742,7 @@ static void android_disconnect(struct usb_gadget *gadget)
 static const struct usb_gadget_driver configfs_driver_template = {
 	.bind           = configfs_composite_bind,
 	.unbind         = configfs_composite_unbind,
+<<<<<<< HEAD
 #ifdef CONFIG_USB_CONFIGFS_UEVENT
 	.setup          = android_setup,
 	.reset          = android_disconnect,
@@ -1704,6 +1752,13 @@ static const struct usb_gadget_driver configfs_driver_template = {
 	.reset          = configfs_composite_disconnect,
 	.disconnect     = configfs_composite_disconnect,
 #endif
+=======
+
+	.setup          = configfs_composite_setup,
+	.reset          = configfs_composite_disconnect,
+	.disconnect     = configfs_composite_disconnect,
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.suspend	= configfs_composite_suspend,
 	.resume		= configfs_composite_resume,
 
@@ -1895,6 +1950,7 @@ static struct config_group *gadgets_make(
 	gi->composite.resume = NULL;
 	gi->composite.max_speed = USB_SPEED_SUPER;
 
+	spin_lock_init(&gi->spinlock);
 	mutex_init(&gi->lock);
 	INIT_LIST_HEAD(&gi->string_list);
 	INIT_LIST_HEAD(&gi->available_func);
@@ -1913,11 +1969,14 @@ static struct config_group *gadgets_make(
 	if (!gi->composite.gadget_driver.function)
 		goto err;
 
+<<<<<<< HEAD
 	gadget_index++;
 	pr_debug("Creating gadget index %d\n", gadget_index);
 	if (android_device_create(gi) < 0)
 		goto err;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	config_group_init_type_name(&gi->group, name,
 				&gadget_root_type);
 	return &gi->group;
@@ -1963,7 +2022,10 @@ void unregister_gadget_item(struct config_item *item)
 {
 	struct gadget_info *gi = to_gadget_info(item);
 
+<<<<<<< HEAD
 	/* to protect race with gadget_dev_desc_UDC_store*/
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mutex_lock(&gi->lock);
 	unregister_gadget(gi);
 	mutex_unlock(&gi->lock);

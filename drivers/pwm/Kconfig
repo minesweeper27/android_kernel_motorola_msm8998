@@ -309,6 +309,7 @@ config PWM_RCAR
 	  To compile this driver as a module, choose M here: the module
 	  will be called pwm-rcar.
 
+<<<<<<< HEAD
 config PWM_QPNP
 	tristate "Qualcomm Technologies, Inc. QPNP LPG/PWM support"
 	depends on SPMI
@@ -319,6 +320,8 @@ config PWM_QPNP
 	  with user generated patterns. They share a lookup table with size of
 	  64 entries.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config PWM_RENESAS_TPU
 	tristate "Renesas TPU PWM support"
 	depends on ARCH_SHMOBILE || COMPILE_TEST

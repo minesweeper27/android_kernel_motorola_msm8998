@@ -199,7 +199,10 @@ extern unsigned long total_vmalloc_size;
 #define VMALLOC_TOTAL total_vmalloc_size
 #else
 #define VMALLOC_TOTAL (VMALLOC_END - VMALLOC_START)
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #else
 #define VMALLOC_TOTAL 0UL
 #endif

@@ -17,10 +17,13 @@ config KASAN
 	  This feature consumes about 1/8 of available memory and brings about
 	  ~x3 performance slowdown.
 	  For better error detection enable CONFIG_STACKTRACE.
+<<<<<<< HEAD
 	  See KASAN_SANITIZE_ALL for selectively compiling files and directories
 	  with this compiler feature enabled.
 	  Currently CONFIG_KASAN doesn't work with CONFIG_DEBUG_SLAB
 	  (the resulting kernel does not boot).
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 choice
 	prompt "Instrumentation type"

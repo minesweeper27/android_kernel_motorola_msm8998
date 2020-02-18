@@ -67,8 +67,12 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
 enum {
 	VHOST_NET_FEATURES = VHOST_FEATURES |
 			 (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+<<<<<<< HEAD
 			 (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
 			 (1ULL << VIRTIO_F_IOMMU_PLATFORM)
+=======
+			 (1ULL << VIRTIO_NET_F_MRG_RXBUF)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 enum {
@@ -666,7 +670,11 @@ static void handle_rx(struct vhost_net *net)
 	mergeable = vhost_has_feature(vq, VIRTIO_NET_F_MRG_RXBUF);
 
 	do {
+<<<<<<< HEAD
 		sock_len = vhost_net_rx_peek_head_len(net, sock->sk);
+=======
+		sock_len = peek_head_len(sock->sk);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!sock_len)
 			break;
 		sock_len += sock_hlen;
@@ -748,8 +756,11 @@ static void handle_rx(struct vhost_net *net)
 		total_len += vhost_len;
 	} while (likely(!vhost_exceeds_weight(vq, ++recv_pkts, total_len)));
 
+<<<<<<< HEAD
 	vhost_net_enable_vq(net, vq);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out:
 	mutex_unlock(&vq->mutex);
 }
@@ -1072,7 +1083,11 @@ static long vhost_net_reset_owner(struct vhost_net *n)
 	vhost_net_stop(n, &tx_sock, &rx_sock);
 	vhost_net_flush(n);
 	vhost_dev_stop(&n->dev);
+<<<<<<< HEAD
 	vhost_dev_reset_owner(&n->dev, umem);
+=======
+	vhost_dev_reset_owner(&n->dev, memory);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	vhost_net_vq_reset(n);
 done:
 	mutex_unlock(&n->dev.mutex);

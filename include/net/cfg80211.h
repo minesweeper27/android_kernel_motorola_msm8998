@@ -1585,6 +1585,7 @@ struct cfg80211_sched_scan_plan {
 };
 
 /**
+<<<<<<< HEAD
  * struct cfg80211_bss_select_adjust - BSS selection with RSSI adjustment.
  *
  * @band: band of BSS which should match for RSSI level adjustment.
@@ -1596,6 +1597,8 @@ struct cfg80211_bss_select_adjust {
 };
 
 /**
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * struct cfg80211_sched_scan_request - scheduled scan request description
  *
  * @ssids: SSIDs to scan for (passed in the probe_reqs in active scans)
@@ -3311,6 +3314,7 @@ struct wiphy_vendor_command {
 	int (*dumpit)(struct wiphy *wiphy, struct wireless_dev *wdev,
 		      struct sk_buff *skb, const void *data, int data_len,
 		      unsigned long *storage);
+<<<<<<< HEAD
 };
 
 /**
@@ -3329,6 +3333,8 @@ struct wiphy_iftype_ext_capab {
 	const u8 *extended_capabilities;
 	const u8 *extended_capabilities_mask;
 	u8 extended_capabilities_len;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /**

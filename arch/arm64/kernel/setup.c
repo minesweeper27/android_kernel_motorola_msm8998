@@ -44,8 +44,11 @@
 #include <linux/of_platform.h>
 #include <linux/efi.h>
 #include <linux/psci.h>
+<<<<<<< HEAD
 #include <linux/dma-mapping.h>
 #include <linux/mm.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/acpi.h>
 #include <asm/fixmap.h>
@@ -64,6 +67,7 @@
 #include <asm/memblock.h>
 #include <asm/efi.h>
 #include <asm/xen/hypervisor.h>
+<<<<<<< HEAD
 #include <asm/mmu_context.h>
 
 unsigned int boot_reason;
@@ -71,6 +75,8 @@ EXPORT_SYMBOL(boot_reason);
 
 unsigned int cold_boot;
 EXPORT_SYMBOL(cold_boot);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 phys_addr_t __fdt_pointer __initdata;
 
@@ -184,6 +190,10 @@ static void __init smp_build_mpidr_hash(void)
 	 */
 	if (mpidr_hash_size() > 4 * num_possible_cpus())
 		pr_warn("Large number of MPIDR hash buckets detected\n");
+<<<<<<< HEAD
+=======
+	__flush_dcache_area(&mpidr_hash, sizeof(struct mpidr_hash));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void __init setup_machine_fdt(phys_addr_t dt_phys)
@@ -360,6 +370,7 @@ void __init setup_arch(char **cmdline_p)
 	cpu_read_bootcpu_ops();
 	smp_init_cpus();
 	smp_build_mpidr_hash();
+<<<<<<< HEAD
 
 #ifdef CONFIG_ARM64_SW_TTBR0_PAN
 	/*
@@ -373,6 +384,8 @@ void __init setup_arch(char **cmdline_p)
 	init_thread_info.ttbr0 = __pa_symbol(empty_zero_page);
 #endif
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_VT
 #if defined(CONFIG_VGA_CONSOLE)
@@ -415,6 +428,7 @@ static int __init topology_init(void)
 
 	return 0;
 }
+<<<<<<< HEAD
 postcore_initcall(topology_init);
 
 void arch_setup_pdev_archdata(struct platform_device *pdev)
@@ -451,3 +465,6 @@ static int __init register_kernel_offset_dumper(void)
 	return 0;
 }
 __initcall(register_kernel_offset_dumper);
+=======
+subsys_initcall(topology_init);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -309,9 +309,15 @@ static ssize_t f_hidg_read(struct file *file, char __user *buffer,
 			return ret;
 		}
 	} else {
+<<<<<<< HEAD
 		spin_lock_irqsave(&hidg->read_spinlock, flags);
 		list_add(&list->list, &hidg->completed_out_req);
 		spin_unlock_irqrestore(&hidg->read_spinlock, flags);
+=======
+		spin_lock_irqsave(&hidg->spinlock, flags);
+		list_add(&list->list, &hidg->completed_out_req);
+		spin_unlock_irqrestore(&hidg->spinlock, flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		wake_up(&hidg->read_queue);
 	}
@@ -618,12 +624,17 @@ static void hidg_disable(struct usb_function *f)
 	usb_ep_disable(hidg->in_ep);
 	usb_ep_disable(hidg->out_ep);
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&hidg->read_spinlock, flags);
+=======
+	spin_lock_irqsave(&hidg->spinlock, flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	list_for_each_entry_safe(list, next, &hidg->completed_out_req, list) {
 		free_ep_req(hidg->out_ep, list->req);
 		list_del(&list->list);
 		kfree(list);
 	}
+<<<<<<< HEAD
 	spin_unlock_irqrestore(&hidg->read_spinlock, flags);
 
 	spin_lock_irqsave(&hidg->write_spinlock, flags);
@@ -634,6 +645,9 @@ static void hidg_disable(struct usb_function *f)
 
 	hidg->req = NULL;
 	spin_unlock_irqrestore(&hidg->write_spinlock, flags);
+=======
+	spin_unlock_irqrestore(&hidg->spinlock, flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int hidg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
@@ -684,7 +698,11 @@ static int hidg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 		status = usb_ep_enable(hidg->out_ep);
 		if (status < 0) {
 			ERROR(cdev, "Enable OUT endpoint FAILED!\n");
+<<<<<<< HEAD
 			goto free_req_in;
+=======
+			goto fail;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 		hidg->out_ep->driver_data = hidg;
 
@@ -706,6 +724,10 @@ static int hidg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 					free_ep_req(hidg->out_ep, req);
 				}
 			} else {
+<<<<<<< HEAD
+=======
+				usb_ep_disable(hidg->out_ep);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				status = -ENOMEM;
 				goto disable_out_ep;
 			}
@@ -973,6 +995,7 @@ end:
 }
 
 CONFIGFS_ATTR(f_hid_opts_, report_desc);
+<<<<<<< HEAD
 
 static ssize_t f_hid_opts_dev_show(struct config_item *item, char *page)
 {
@@ -982,13 +1005,18 @@ static ssize_t f_hid_opts_dev_show(struct config_item *item, char *page)
 }
 
 CONFIGFS_ATTR_RO(f_hid_opts_, dev);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct configfs_attribute *hid_attrs[] = {
 	&f_hid_opts_attr_subclass,
 	&f_hid_opts_attr_protocol,
 	&f_hid_opts_attr_report_length,
 	&f_hid_opts_attr_report_desc,
+<<<<<<< HEAD
 	&f_hid_opts_attr_dev,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL,
 };
 

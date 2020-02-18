@@ -1591,6 +1591,7 @@ config RTC_DRV_MOXART
 	   This driver can also be built as a module. If so, the module
 	   will be called rtc-moxart
 
+<<<<<<< HEAD
 config RTC_DRV_QPNP
 	tristate "Qualcomm Technologies, Inc. QPNP PMIC RTC"
 	depends on SPMI
@@ -1600,6 +1601,8 @@ config RTC_DRV_QPNP
 	  to wake a mobile device up from suspend or to wake it up from power-
 	  off.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config RTC_DRV_MT6397
 	tristate "Mediatek Real Time Clock driver"
 	depends on MFD_MT6397 || COMPILE_TEST

@@ -19,9 +19,14 @@
 #include "wil6210.h"
 #include "fw.h"
 
+<<<<<<< HEAD
 MODULE_FIRMWARE(WIL_FW_NAME_DEFAULT);
 MODULE_FIRMWARE(WIL_FW_NAME_SPARROW_PLUS);
 MODULE_FIRMWARE(WIL_BOARD_FILE_NAME);
+=======
+MODULE_FIRMWARE(WIL_FW_NAME);
+MODULE_FIRMWARE(WIL_FW2_NAME);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static
 void wil_memset_toio_32(volatile void __iomem *dst, u32 val,

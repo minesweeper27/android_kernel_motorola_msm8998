@@ -97,6 +97,7 @@
 
 #include "../../lib/kstrtox.h"
 
+<<<<<<< HEAD
 struct task_kill_info {
 	struct task_struct *task;
 	struct work_struct work;
@@ -112,6 +113,8 @@ static void proc_kill_task(struct work_struct *work)
 	kfree(kinfo);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* NOTE:
  *	Implementing inode permission operations in /proc is almost
  *	certainly an error.  Permission checks need to happen during
@@ -2100,6 +2103,26 @@ static int dname_to_vma_addr(struct dentry *dentry,
 
 	len = _parse_integer(str, 16, &sval);
 	if (len & KSTRTOX_OVERFLOW)
+<<<<<<< HEAD
+=======
+		return -EINVAL;
+	if (sval != (unsigned long)sval)
+		return -EINVAL;
+	str += len;
+
+	if (*str != '-')
+		return -EINVAL;
+	str++;
+
+	len = _parse_integer(str, 16, &eval);
+	if (len & KSTRTOX_OVERFLOW)
+		return -EINVAL;
+	if (eval != (unsigned long)eval)
+		return -EINVAL;
+	str += len;
+
+	if (*str != '\0')
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -EINVAL;
 	if (sval != (unsigned long)sval)
 		return -EINVAL;
@@ -2118,6 +2141,9 @@ static int dname_to_vma_addr(struct dentry *dentry,
 
 	if (*str != '\0')
 		return -EINVAL;
+
+	*start = sval;
+	*end = eval;
 
 	*start = sval;
 	*end = eval;
@@ -2529,6 +2555,7 @@ static const struct file_operations proc_timers_operations = {
 	.llseek		= seq_lseek,
 	.release	= seq_release_private,
 };
+<<<<<<< HEAD
 
 static ssize_t timerslack_ns_write(struct file *file, const char __user *buf,
 					size_t count, loff_t *offset)
@@ -2615,6 +2642,8 @@ static const struct file_operations proc_pid_set_timerslack_ns_operations = {
 	.llseek		= seq_lseek,
 	.release	= single_release,
 };
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static int proc_pident_instantiate(struct inode *dir,
 	struct dentry *dentry, struct task_struct *task, const void *ptr)

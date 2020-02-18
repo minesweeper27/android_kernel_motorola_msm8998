@@ -21,6 +21,25 @@
 
 #include "zcomp.h"
 
+<<<<<<< HEAD
+=======
+/*-- Configurable parameters */
+
+/*
+ * Pages that compress to size greater than this are stored
+ * uncompressed in memory.
+ */
+static const size_t max_zpage_size = PAGE_SIZE / 4 * 3;
+
+/*
+ * NOTE: max_zpage_size must be less than or equal to:
+ *   ZS_MAX_ALLOC_SIZE. Otherwise, zs_malloc() would
+ * always return failure.
+ */
+
+/*-- End of configurable params */
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define SECTOR_SHIFT		9
 #define SECTORS_PER_PAGE_SHIFT	(PAGE_SHIFT - SECTOR_SHIFT)
 #define SECTORS_PER_PAGE	(1 << SECTORS_PER_PAGE_SHIFT)
@@ -100,11 +119,16 @@ struct zram {
 	 * we can store in a disk.
 	 */
 	u64 disksize;	/* bytes */
+<<<<<<< HEAD
 	char compressor[CRYPTO_MAX_ALG_NAME];
+=======
+	char compressor[10];
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * zram is claimed so open request will be failed
 	 */
 	bool claim; /* Protected by bdev->bd_mutex */
+<<<<<<< HEAD
 #ifdef CONFIG_ZRAM_WRITEBACK
 	struct file *backing_dev;
 	struct block_device *bdev;
@@ -116,5 +140,7 @@ struct zram {
 #ifdef CONFIG_ZRAM_MEMORY_TRACKING
 	struct dentry *debugfs_dir;
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 #endif

@@ -53,8 +53,11 @@ snd-soc-cs4271-spi-objs := cs4271-spi.o
 snd-soc-cs42xx8-objs := cs42xx8.o
 snd-soc-cs42xx8-i2c-objs := cs42xx8-i2c.o
 snd-soc-cs4349-objs := cs4349.o
+<<<<<<< HEAD
 snd-soc-cs47l35-objs := cs47l35.o
 snd-soc-cs47l90-objs := cs47l90.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 snd-soc-cx20442-objs := cx20442.o
 snd-soc-da7210-objs := da7210.o
 snd-soc-da7213-objs := da7213.o
@@ -84,7 +87,10 @@ snd-soc-max98925-objs := max98925.o
 snd-soc-max9850-objs := max9850.o
 snd-soc-mc13783-objs := mc13783.o
 snd-soc-ml26124-objs := ml26124.o
+<<<<<<< HEAD
 snd-soc-hdmi-codec-objs := hdmi.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 snd-soc-nau8825-objs := nau8825.o
 snd-soc-pcm1681-objs := pcm1681.o
 snd-soc-pcm1792a-codec-objs := pcm1792a.o
@@ -287,8 +293,11 @@ obj-$(CONFIG_SND_SOC_CS4271_SPI)	+= snd-soc-cs4271-spi.o
 obj-$(CONFIG_SND_SOC_CS42XX8)	+= snd-soc-cs42xx8.o
 obj-$(CONFIG_SND_SOC_CS42XX8_I2C) += snd-soc-cs42xx8-i2c.o
 obj-$(CONFIG_SND_SOC_CS4349)	+= snd-soc-cs4349.o
+<<<<<<< HEAD
 obj-$(CONFIG_SND_SOC_CS47L35)	+= snd-soc-cs47l35.o
 obj-$(CONFIG_SND_SOC_CS47L90)	+= snd-soc-cs47l90.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_SND_SOC_CX20442)	+= snd-soc-cx20442.o
 obj-$(CONFIG_SND_SOC_DA7210)	+= snd-soc-da7210.o
 obj-$(CONFIG_SND_SOC_DA7213)	+= snd-soc-da7213.o
@@ -318,7 +327,10 @@ obj-$(CONFIG_SND_SOC_MAX98925)	+= snd-soc-max98925.o
 obj-$(CONFIG_SND_SOC_MAX9850)	+= snd-soc-max9850.o
 obj-$(CONFIG_SND_SOC_MC13783)	+= snd-soc-mc13783.o
 obj-$(CONFIG_SND_SOC_ML26124)	+= snd-soc-ml26124.o
+<<<<<<< HEAD
 obj-$(CONFIG_SND_SOC_HDMI_CODEC) += snd-soc-hdmi-codec.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_SND_SOC_NAU8825)   += snd-soc-nau8825.o
 obj-$(CONFIG_SND_SOC_PCM1681)	+= snd-soc-pcm1681.o
 obj-$(CONFIG_SND_SOC_PCM1792A)	+= snd-soc-pcm1792a-codec.o

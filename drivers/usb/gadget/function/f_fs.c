@@ -755,8 +755,11 @@ static void ffs_user_copy_worker(struct work_struct *work)
 	int ret = io_data->req->status ? io_data->req->status :
 					 io_data->req->actual;
 	bool kiocb_has_eventfd = io_data->kiocb->ki_flags & IOCB_EVENTFD;
+<<<<<<< HEAD
 
 	ffs_log("enter: ret %d", ret);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (io_data->read && ret > 0) {
 		mm_segment_t oldfs = get_fs();
@@ -942,8 +945,12 @@ retry:
 
 		if (io_data->aio) {
 			req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC);
+<<<<<<< HEAD
 			if (unlikely(!req)) {
 				ret = -ENOMEM;
+=======
+			if (unlikely(!req))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				goto error_lock;
 			}
 
@@ -2065,11 +2072,14 @@ static int ffs_func_eps_enable(struct ffs_function *func)
 	spin_lock_irqsave(&func->ffs->eps_lock, flags);
 	do {
 		struct usb_endpoint_descriptor *ds;
+		struct usb_ss_ep_comp_descriptor *comp_desc = NULL;
+		int needs_comp_desc = false;
 		int desc_idx;
 
-		if (ffs->gadget->speed == USB_SPEED_SUPER)
+		if (ffs->gadget->speed == USB_SPEED_SUPER) {
 			desc_idx = 2;
-		else if (ffs->gadget->speed == USB_SPEED_HIGH)
+			needs_comp_desc = true;
+		} else if (ffs->gadget->speed == USB_SPEED_HIGH)
 			desc_idx = 1;
 		else
 			desc_idx = 0;
@@ -2087,6 +2097,7 @@ static int ffs_func_eps_enable(struct ffs_function *func)
 		ep->ep->driver_data = ep;
 		ep->ep->desc = ds;
 
+<<<<<<< HEAD
 		ret = config_ep_by_speed(func->gadget, &func->function, ep->ep);
 		if (ret) {
 			pr_err("%s(): config_ep_by_speed(%d) err for %s\n",
@@ -2100,6 +2111,15 @@ static int ffs_func_eps_enable(struct ffs_function *func)
 		 * only to allocate fifo size of max packet size.
 		 */
 		ep->ep->maxburst = 1;
+=======
+		if (needs_comp_desc) {
+			comp_desc = (struct usb_ss_ep_comp_descriptor *)(ds +
+					USB_DT_ENDPOINT_SIZE);
+			ep->ep->maxburst = comp_desc->bMaxBurst + 1;
+			ep->ep->comp_desc = comp_desc;
+		}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ret = usb_ep_enable(ep->ep);
 		if (likely(!ret)) {
 			epfile->ep = ep;
@@ -2743,8 +2763,11 @@ static int __ffs_data_got_strings(struct ffs_data *ffs,
 
 	ENTER();
 
+<<<<<<< HEAD
 	ffs_log("enter: len %zu", len);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (unlikely(len < 16 ||
 		     get_unaligned_le32(data) != FUNCTIONFS_STRINGS_MAGIC ||
 		     get_unaligned_le32(data + 4) != len))
@@ -3432,8 +3455,11 @@ static int ffs_func_bind(struct usb_configuration *c,
 	struct f_fs_opts *ffs_opts = ffs_do_functionfs_bind(f, c);
 	struct ffs_function *func = ffs_func_from_usb(f);
 	int ret;
+<<<<<<< HEAD
 
 	ffs_log("enter");
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (IS_ERR(ffs_opts))
 		return PTR_ERR(ffs_opts);
@@ -3442,8 +3468,11 @@ static int ffs_func_bind(struct usb_configuration *c,
 	if (ret && !--ffs_opts->refcnt)
 		functionfs_unbind(func->ffs);
 
+<<<<<<< HEAD
 	ffs_log("exit: ret %d", ret);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 
@@ -3577,8 +3606,11 @@ static int ffs_func_setup(struct usb_function *f,
 	__ffs_event_add(ffs, FUNCTIONFS_SETUP);
 	spin_unlock_irqrestore(&ffs->ev.waitq.lock, flags);
 
+<<<<<<< HEAD
 	ffs_log("exit");
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return creq->wLength == 0 ? USB_GADGET_DELAYED_STATUS : 0;
 }
 
@@ -4238,6 +4270,7 @@ static void ffs_closed(struct ffs_data *ffs)
 {
 	struct ffs_dev *ffs_obj;
 	struct f_fs_opts *opts;
+	struct config_item *ci;
 
 	ENTER();
 
@@ -4274,11 +4307,20 @@ static void ffs_closed(struct ffs_data *ffs)
 
 	ffs_dev_unlock();
 
+<<<<<<< HEAD
 	if (test_bit(FFS_FL_BOUND, &ffs->flags)) {
 		unregister_gadget_item(opts->
 			       func_inst.group.cg_item.ci_parent->ci_parent);
 		ffs_log("unreg gadget done");
 	}
+=======
+	ci = opts->func_inst.group.cg_item.ci_parent->ci_parent;
+	ffs_dev_unlock();
+
+	if (test_bit(FFS_FL_BOUND, &ffs->flags))
+		unregister_gadget_item(ci);
+	return;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 done:
 	ffs_log("exit");
 }

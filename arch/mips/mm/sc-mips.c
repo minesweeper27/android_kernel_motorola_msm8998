@@ -186,6 +186,13 @@ static int __init mips_sc_probe_cm3(void)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+void __weak platform_early_l2_init(void)
+{
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline int __init mips_sc_probe(void)
 {
 	struct cpuinfo_mips *c = &current_cpu_data;
@@ -195,6 +202,15 @@ static inline int __init mips_sc_probe(void)
 	/* Mark as not present until probe completed */
 	c->scache.flags |= MIPS_CACHE_NOT_PRESENT;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Do we need some platform specific probing before
+	 * we configure L2?
+	 */
+	platform_early_l2_init();
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (mips_cm_revision() >= CM_REV_CM3)
 		return mips_sc_probe_cm3();
 

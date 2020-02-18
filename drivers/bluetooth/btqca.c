@@ -27,9 +27,12 @@
 
 #define VERSION "0.1"
 
+<<<<<<< HEAD
 #define MAX_PATCH_FILE_SIZE (100*1024)
 #define MAX_NVM_FILE_SIZE   (10*1024)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int rome_patch_ver_req(struct hci_dev *hdev, u32 *rome_version)
 {
 	struct sk_buff *skb;
@@ -288,6 +291,7 @@ static int rome_download_firmware(struct hci_dev *hdev,
 				  struct rome_config *config)
 {
 	const struct firmware *fw;
+<<<<<<< HEAD
 	u32 type_len, length;
 	struct tlv_type_hdr *tlv;
 	int ret;
@@ -341,6 +345,29 @@ static int rome_download_firmware(struct hci_dev *hdev,
 
 exit:
 	release_firmware(fw);
+=======
+	int ret;
+
+	BT_INFO("%s: ROME Downloading %s", hdev->name, config->fwname);
+
+	ret = request_firmware(&fw, config->fwname, &hdev->dev);
+	if (ret) {
+		BT_ERR("%s: Failed to request file: %s (%d)", hdev->name,
+		       config->fwname, ret);
+		return ret;
+	}
+
+	rome_tlv_check_data(config, fw);
+
+	ret = rome_tlv_download_request(hdev, fw);
+	if (ret) {
+		BT_ERR("%s: Failed to download file: %s (%d)", hdev->name,
+		       config->fwname, ret);
+	}
+
+	release_firmware(fw);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 
@@ -351,9 +378,14 @@ int qca_set_bdaddr_rome(struct hci_dev *hdev, const bdaddr_t *bdaddr)
 	int err;
 
 	cmd[0] = EDL_NVM_ACCESS_SET_REQ_CMD;
+<<<<<<< HEAD
 	/* Set the TAG ID of 0x02 for NVM set and size of tag */
 	cmd[1] = 0x02;
 	cmd[2] = sizeof(bdaddr_t);
+=======
+	cmd[1] = 0x02; 			/* TAG ID */
+	cmd[2] = sizeof(bdaddr_t);	/* size */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	memcpy(cmd + 3, bdaddr, sizeof(bdaddr_t));
 	skb = __hci_cmd_sync_ev(hdev, EDL_NVM_ACCESS_OPCODE, sizeof(cmd), cmd,
 				HCI_VENDOR_PKT, HCI_INIT_TIMEOUT);

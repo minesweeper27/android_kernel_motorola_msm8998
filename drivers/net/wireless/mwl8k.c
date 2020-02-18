@@ -5042,7 +5042,11 @@ mwl8k_bss_info_changed_sta(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
 					idx--;
 
 				if (hw->conf.chandef.chan->band ==
+<<<<<<< HEAD
 				    NL80211_BAND_2GHZ)
+=======
+				    IEEE80211_BAND_2GHZ)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					rate = mwl8k_rates_24[idx].hw_value;
 				else
 					rate = mwl8k_rates_50[idx].hw_value;

@@ -53,8 +53,11 @@
  * blocks and still have efficient handling. */
 #define GETHER_MAX_ETH_FRAME_LEN 15412
 
+<<<<<<< HEAD
 static struct workqueue_struct	*uether_wq;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct eth_dev {
 	/* lock is held while accessing port_usb
 	 */
@@ -311,8 +314,35 @@ static void rx_complete(struct usb_ep *ep, struct usb_request *req)
 		} else {
 			skb_queue_tail(&dev->rx_frames, skb);
 		}
+<<<<<<< HEAD
 		if (!status)
 			queue = 1;
+=======
+		skb = NULL;
+
+		skb2 = skb_dequeue(&dev->rx_frames);
+		while (skb2) {
+			if (status < 0
+					|| ETH_HLEN > skb2->len
+					|| skb2->len > GETHER_MAX_ETH_FRAME_LEN) {
+				dev->net->stats.rx_errors++;
+				dev->net->stats.rx_length_errors++;
+				DBG(dev, "rx length %d\n", skb2->len);
+				dev_kfree_skb_any(skb2);
+				goto next_frame;
+			}
+			skb2->protocol = eth_type_trans(skb2, dev->net);
+			dev->net->stats.rx_packets++;
+			dev->net->stats.rx_bytes += skb2->len;
+
+			/* no buffer copies needed, unless hardware can't
+			 * use skb buffers.
+			 */
+			status = netif_rx(skb2);
+next_frame:
+			skb2 = skb_dequeue(&dev->rx_frames);
+		}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 
 	/* software-driven interface shutdown */
@@ -744,6 +774,7 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 
 	req->length = length;
 
+<<<<<<< HEAD
 	/* throttle high/super speed IRQ rate back slightly */
 	if (gadget_is_dualspeed(dev->gadget))
 		req->no_interrupt = (((dev->gadget->speed == USB_SPEED_HIGH ||
@@ -752,6 +783,8 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 			? ((atomic_read(&dev->tx_qlen) % dev->qmult) != 0)
 			: 0;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	retval = usb_ep_queue(in, req, GFP_ATOMIC);
 	switch (retval) {
 	default:
@@ -1347,12 +1380,15 @@ void gether_disconnect(struct gether *link)
 		spin_lock(&dev->req_lock);
 	}
 	spin_unlock(&dev->req_lock);
+<<<<<<< HEAD
 
 	spin_lock(&dev->rx_frames.lock);
 	while ((skb = __skb_dequeue(&dev->rx_frames)))
 		dev_kfree_skb_any(skb);
 	spin_unlock(&dev->rx_frames.lock);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	link->out_ep->desc = NULL;
 
 	/* finish forgetting about this USB link episode */

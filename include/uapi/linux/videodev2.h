@@ -648,6 +648,7 @@ struct v4l2_pix_format {
 #define V4L2_PIX_FMT_Y8I      v4l2_fourcc('Y', '8', 'I', ' ') /* Greyscale 8-bit L/R interleaved */
 #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
 #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
+<<<<<<< HEAD
 
 #define V4L2_PIX_FMT_SDE_ABGR_8888 \
 	v4l2_fourcc('R', 'A', '2', '4') /* 32-bit ABGR 8:8:8:8 */
@@ -721,6 +722,8 @@ struct v4l2_pix_format {
 	v4l2_fourcc('T', 'P', '1', '0') /* Y/CbCr 4:2:0 TP10 */
 #define V4L2_PIX_FMT_SDE_Y_CBCR_H2V2_P010 \
 	v4l2_fourcc('P', '0', '1', '0') /* Y/CbCr 4:2:0 P10 */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* SDR formats - used only for Software Defined Radio devices */
 #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
@@ -1004,6 +1007,7 @@ struct v4l2_buffer {
 #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
 /* mem2mem encoder/decoder */
 #define V4L2_BUF_FLAG_LAST			0x00100000
+<<<<<<< HEAD
 /* Vendor extensions */
 #define V4L2_QCOM_BUF_FLAG_CODECCONFIG		0x00020000
 #define V4L2_QCOM_BUF_FLAG_EOSEQ		0x00040000
@@ -1019,6 +1023,8 @@ struct v4l2_buffer {
 #define V4L2_MSM_BUF_FLAG_MBAFF			0x20000000
 #define V4L2_MSM_BUF_FLAG_DEFER			0x40000000
 #define V4L2_QCOM_BUF_FLAG_IDRFRAME		0x80000000
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /**
  * struct v4l2_exportbuffer - export of video buffer as DMABUF file descriptor

@@ -16,8 +16,16 @@
 
 #include <linux/linkage.h>
 
+<<<<<<< HEAD
 #include <asm/cache.h>
 #include <asm/uaccess.h>
+=======
+#include <asm/alternative.h>
+#include <asm/assembler.h>
+#include <asm/cache.h>
+#include <asm/cpufeature.h>
+#include <asm/sysreg.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * Copy to user space from a kernel buffer (alignment handled by the hardware)
@@ -34,7 +42,11 @@
 	.endm
 
 	.macro strb1 ptr, regB, val
+<<<<<<< HEAD
 	uao_user_alternative 9998f, strb, sttrb, \ptr, \regB, \val
+=======
+	USER(9998f, strb \ptr, [\regB], \val)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 	.macro ldrh1 ptr, regB, val
@@ -42,7 +54,11 @@
 	.endm
 
 	.macro strh1 ptr, regB, val
+<<<<<<< HEAD
 	uao_user_alternative 9998f, strh, sttrh, \ptr, \regB, \val
+=======
+	USER(9998f, strh \ptr, [\regB], \val)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 	.macro ldr1 ptr, regB, val
@@ -50,7 +66,11 @@
 	.endm
 
 	.macro str1 ptr, regB, val
+<<<<<<< HEAD
 	uao_user_alternative 9998f, str, sttr, \ptr, \regB, \val
+=======
+	USER(9998f, str \ptr, [\regB], \val)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 	.macro ldp1 ptr, regB, regC, val
@@ -58,6 +78,7 @@
 	.endm
 
 	.macro stp1 ptr, regB, regC, val
+<<<<<<< HEAD
 	uao_stp 9998f, \ptr, \regB, \regC, \val
 	.endm
 
@@ -67,6 +88,19 @@ ENTRY(__arch_copy_to_user)
 	add	end, x0, x2
 #include "copy_template.S"
 	uaccess_disable_not_uao x3, x4
+=======
+	USER(9998f, stp \ptr, \regB, [\regC], \val)
+	.endm
+
+end	.req	x5
+ENTRY(__copy_to_user)
+ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(0)), ARM64_HAS_PAN, \
+	    CONFIG_ARM64_PAN)
+	add	end, x0, x2
+#include "copy_template.S"
+ALTERNATIVE("nop", __stringify(SET_PSTATE_PAN(1)), ARM64_HAS_PAN, \
+	    CONFIG_ARM64_PAN)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mov	x0, #0
 	ret
 ENDPROC(__arch_copy_to_user)

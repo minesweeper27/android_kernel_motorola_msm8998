@@ -84,6 +84,7 @@ struct pstore_info {
 extern int pstore_register(struct pstore_info *);
 extern void pstore_unregister(struct pstore_info *);
 extern bool pstore_cannot_block_path(enum kmsg_dump_reason reason);
+<<<<<<< HEAD
 
 #ifdef CONFIG_PSTORE
 extern int pstore_annotate(const char *buf);
@@ -93,5 +94,7 @@ static inline int pstore_annotate(const char *buf)
 	return 0;
 }
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /*_LINUX_PSTORE_H*/

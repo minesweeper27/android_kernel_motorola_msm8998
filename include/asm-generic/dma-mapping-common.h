@@ -247,7 +247,11 @@ static inline void *dma_alloc_attrs(struct device *dev, size_t size,
 				       dma_addr_t *dma_handle, gfp_t flag,
 				       struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	const struct dma_map_ops *ops = get_dma_ops(dev);
+=======
+	struct dma_map_ops *ops = get_dma_ops(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	void *cpu_addr;
 
 	BUG_ON(!ops);
@@ -269,7 +273,11 @@ static inline void dma_free_attrs(struct device *dev, size_t size,
 				     void *cpu_addr, dma_addr_t dma_handle,
 				     struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	const struct dma_map_ops *ops = get_dma_ops(dev);
+=======
+	struct dma_map_ops *ops = get_dma_ops(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	BUG_ON(!ops);
 	WARN_ON(irqs_disabled());
@@ -328,6 +336,7 @@ static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
 #endif
 }
 
+<<<<<<< HEAD
 static inline void *dma_alloc_nonconsistent(struct device *dev, size_t size,
 					dma_addr_t *dma_handle, gfp_t flag)
 {
@@ -357,6 +366,12 @@ static inline int dma_mmap_nonconsistent(struct device *dev,
 static inline int dma_supported(struct device *dev, u64 mask)
 {
 	const struct dma_map_ops *ops = get_dma_ops(dev);
+=======
+#ifndef HAVE_ARCH_DMA_SUPPORTED
+static inline int dma_supported(struct device *dev, u64 mask)
+{
+	struct dma_map_ops *ops = get_dma_ops(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!ops)
 		return 0;
@@ -369,7 +384,11 @@ static inline int dma_supported(struct device *dev, u64 mask)
 #ifndef HAVE_ARCH_DMA_SET_MASK
 static inline int dma_set_mask(struct device *dev, u64 mask)
 {
+<<<<<<< HEAD
 	const struct dma_map_ops *ops = get_dma_ops(dev);
+=======
+	struct dma_map_ops *ops = get_dma_ops(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (ops->set_dma_mask)
 		return ops->set_dma_mask(dev, mask);

@@ -30,6 +30,7 @@
 #define ARM64_HAS_LSE_ATOMICS			5
 #define ARM64_WORKAROUND_CAVIUM_23154		6
 #define ARM64_WORKAROUND_834220			7
+<<<<<<< HEAD
 #define ARM64_HAS_NO_HW_PREFETCH		8
 #define ARM64_HAS_UAO				9
 #define ARM64_ALT_PAN_NOT_UAO			10
@@ -40,13 +41,22 @@
 #define ARM64_UNMAP_KERNEL_AT_EL0		14
 #define ARM64_HAS_32BIT_EL0			15
 #define ARM64_NCAPS				16
+=======
+#define ARM64_WORKAROUND_CAVIUM_27456		8
+#define ARM64_HAS_32BIT_EL0			9
+
+#define ARM64_NCAPS				10
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifndef __ASSEMBLY__
 
 #include <linux/kernel.h>
 
+<<<<<<< HEAD
 extern const char *machine_name;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* CPU feature register tracking */
 enum ftr_type {
 	FTR_EXACT,			/* Use a predefined safe value */
@@ -129,15 +139,25 @@ static inline void cpus_set_cap(unsigned int num)
 }
 
 static inline int __attribute_const__
+<<<<<<< HEAD
 cpuid_feature_extract_field_width(u64 features, int field, int width)
+=======
+cpuid_feature_extract_signed_field_width(u64 features, int field, int width)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	return (s64)(features << (64 - width - field)) >> (64 - width);
 }
 
 static inline int __attribute_const__
+<<<<<<< HEAD
 cpuid_feature_extract_field(u64 features, int field)
 {
 	return cpuid_feature_extract_field_width(features, field, 4);
+=======
+cpuid_feature_extract_signed_field(u64 features, int field)
+{
+	return cpuid_feature_extract_signed_field_width(features, field, 4);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline unsigned int __attribute_const__
@@ -157,17 +177,36 @@ static inline u64 arm64_ftr_mask(struct arm64_ftr_bits *ftrp)
 	return (u64)GENMASK(ftrp->shift + ftrp->width - 1, ftrp->shift);
 }
 
+<<<<<<< HEAD
 static inline s64 arm64_ftr_value(struct arm64_ftr_bits *ftrp, u64 val)
 {
 	return ftrp->sign ?
 		cpuid_feature_extract_field_width(val, ftrp->shift, ftrp->width) :
 		cpuid_feature_extract_unsigned_field_width(val, ftrp->shift, ftrp->width);
+=======
+static inline int __attribute_const__
+cpuid_feature_extract_field(u64 features, int field, bool sign)
+{
+	return (sign) ?
+		cpuid_feature_extract_signed_field(features, field) :
+		cpuid_feature_extract_unsigned_field(features, field);
+}
+
+static inline s64 arm64_ftr_value(struct arm64_ftr_bits *ftrp, u64 val)
+{
+	return (s64)cpuid_feature_extract_field(val, ftrp->shift, ftrp->sign);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline bool id_aa64mmfr0_mixed_endian_el0(u64 mmfr0)
 {
+<<<<<<< HEAD
 	return cpuid_feature_extract_field(mmfr0, ID_AA64MMFR0_BIGENDEL_SHIFT) == 0x1 ||
 		cpuid_feature_extract_field(mmfr0, ID_AA64MMFR0_BIGENDEL0_SHIFT) == 0x1;
+=======
+	return cpuid_feature_extract_unsigned_field(mmfr0, ID_AA64MMFR0_BIGENDEL_SHIFT) == 0x1 ||
+		cpuid_feature_extract_unsigned_field(mmfr0, ID_AA64MMFR0_BIGENDEL0_SHIFT) == 0x1;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void __init setup_cpu_features(void);
@@ -176,7 +215,10 @@ void update_cpu_capabilities(const struct arm64_cpu_capabilities *caps,
 			    const char *info);
 void enable_cpu_capabilities(const struct arm64_cpu_capabilities *caps);
 void check_local_cpu_errata(void);
+<<<<<<< HEAD
 void __init enable_errata_workarounds(void);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_HOTPLUG_CPU
 void verify_local_cpu_capabilities(void);
@@ -190,7 +232,11 @@ u64 read_system_reg(u32 id);
 
 static inline bool cpu_supports_mixed_endian_el0(void)
 {
+<<<<<<< HEAD
 	return id_aa64mmfr0_mixed_endian_el0(read_cpuid(SYS_ID_AA64MMFR0_EL1));
+=======
+	return id_aa64mmfr0_mixed_endian_el0(read_cpuid(ID_AA64MMFR0_EL1));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline bool system_supports_32bit_el0(void)
@@ -202,12 +248,15 @@ static inline bool system_supports_mixed_endian_el0(void)
 {
 	return id_aa64mmfr0_mixed_endian_el0(read_system_reg(SYS_ID_AA64MMFR0_EL1));
 }
+<<<<<<< HEAD
 
 static inline bool system_uses_ttbr0_pan(void)
 {
 	return IS_ENABLED(CONFIG_ARM64_SW_TTBR0_PAN) &&
 		!cpus_have_cap(ARM64_HAS_PAN);
 }
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /* __ASSEMBLY__ */
 

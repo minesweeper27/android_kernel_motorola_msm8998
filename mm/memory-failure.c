@@ -1016,7 +1016,11 @@ static int hwpoison_user_mappings(struct page *p, unsigned long pfn,
 	if (kill)
 		collect_procs(hpage, &tokill, flags & MF_ACTION_REQUIRED);
 
+<<<<<<< HEAD
 	ret = try_to_unmap(hpage, ttu, NULL);
+=======
+	ret = try_to_unmap(hpage, ttu);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret != SWAP_SUCCESS)
 		printk(KERN_ERR "MCE %#lx: failed to unmap page (mapcount=%d)\n",
 				pfn, page_mapcount(hpage));

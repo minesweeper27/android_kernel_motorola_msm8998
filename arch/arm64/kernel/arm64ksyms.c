@@ -26,7 +26,10 @@
 #include <linux/syscalls.h>
 #include <linux/uaccess.h>
 #include <linux/io.h>
+<<<<<<< HEAD
 #include <linux/kprobes.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/arm-smccc.h>
 
 #include <asm/cacheflush.h>
@@ -72,10 +75,13 @@ EXPORT_SYMBOL(test_and_change_bit);
 EXPORT_SYMBOL(_mcount);
 NOKPROBE_SYMBOL(_mcount);
 #endif
+<<<<<<< HEAD
 	/* caching functions */
 EXPORT_SYMBOL(__dma_inv_range);
 EXPORT_SYMBOL(__dma_clean_range);
 EXPORT_SYMBOL(__dma_flush_range);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* arm-smccc */
 EXPORT_SYMBOL(arm_smccc_smc);

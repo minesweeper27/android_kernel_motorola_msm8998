@@ -62,7 +62,11 @@ obj-$(CONFIG_FB_INTEL)          += video/fbdev/intelfb/
 
 obj-$(CONFIG_PARPORT)		+= parport/
 obj-$(CONFIG_NVM)		+= lightnvm/
+<<<<<<< HEAD
 obj-y				+= base/ block/ misc/ mfd/ nfc/ soc/
+=======
+obj-y				+= base/ block/ misc/ mfd/ nfc/
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_LIBNVDIMM)		+= nvdimm/
 obj-$(CONFIG_DMA_SHARED_BUFFER) += dma-buf/
 obj-$(CONFIG_NUBUS)		+= nubus/
@@ -179,9 +183,12 @@ obj-$(CONFIG_STM)		+= hwtracing/stm/
 obj-$(CONFIG_ANDROID)		+= android/
 obj-$(CONFIG_NVMEM)		+= nvmem/
 obj-$(CONFIG_FPGA)		+= fpga/
+<<<<<<< HEAD
 
 obj-$(CONFIG_BIF)		+= bif/
 
 obj-$(CONFIG_SENSORS_SSC)	+= sensors/
 obj-$(CONFIG_ESOC)              += esoc/
 obj-$(CONFIG_TEE)		+= tee/
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

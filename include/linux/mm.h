@@ -29,7 +29,10 @@ struct file_ra_state;
 struct user_struct;
 struct writeback_control;
 struct bdi_writeback;
+<<<<<<< HEAD
 struct super_block;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifndef CONFIG_NEED_MULTIPLE_NODES	/* Don't use mapnrs, do it properly */
 extern unsigned long max_mapnr;
@@ -1033,6 +1036,34 @@ static inline void clear_page_pfmemalloc(struct page *page)
 }
 
 /*
+ * Return true only if the page has been allocated with
+ * ALLOC_NO_WATERMARKS and the low watermark was not
+ * met implying that the system is under some pressure.
+ */
+static inline bool page_is_pfmemalloc(struct page *page)
+{
+	/*
+	 * Page index cannot be this large so this must be
+	 * a pfmemalloc page.
+	 */
+	return page->index == -1UL;
+}
+
+/*
+ * Only to be called by the page allocator on a freshly allocated
+ * page.
+ */
+static inline void set_page_pfmemalloc(struct page *page)
+{
+	page->index = -1UL;
+}
+
+static inline void clear_page_pfmemalloc(struct page *page)
+{
+	page->index = 0;
+}
+
+/*
  * Different kinds of faults, as returned by handle_mm_fault().
  * Used to decide whether a process gets delivered SIGBUS or
  * just gets major/minor fault counters bumped up.
@@ -1879,7 +1910,11 @@ extern int vma_adjust(struct vm_area_struct *vma, unsigned long start,
 extern struct vm_area_struct *vma_merge(struct mm_struct *,
 	struct vm_area_struct *prev, unsigned long addr, unsigned long end,
 	unsigned long vm_flags, struct anon_vma *, struct file *, pgoff_t,
+<<<<<<< HEAD
 	struct mempolicy *, struct vm_userfaultfd_ctx, const char __user *);
+=======
+	struct mempolicy *, struct vm_userfaultfd_ctx);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern struct anon_vma *find_mergeable_anon_vma(struct vm_area_struct *);
 extern int split_vma(struct mm_struct *,
 	struct vm_area_struct *, unsigned long addr, int new_below);

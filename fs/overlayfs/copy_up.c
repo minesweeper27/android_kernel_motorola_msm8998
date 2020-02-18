@@ -357,7 +357,11 @@ int ovl_copy_up_one(struct dentry *parent, struct dentry *dentry,
 	}
 out_unlock:
 	unlock_rename(workdir, upperdir);
+<<<<<<< HEAD
 	ovl_revert_creds(old_cred);
+=======
+	revert_creds(old_cred);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (link)
 		free_page((unsigned long) link);

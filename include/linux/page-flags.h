@@ -108,9 +108,12 @@ enum pageflags {
 	PG_young,
 	PG_idle,
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_ZCACHE
 	PG_was_active,
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__NR_PAGEFLAGS,
 
 	/* Filesystems */
@@ -354,10 +357,17 @@ PAGEFLAG_FALSE(HWPoison)
 #endif
 
 #if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
+<<<<<<< HEAD
 TESTPAGEFLAG(Young, young, PF_ANY)
 SETPAGEFLAG(Young, young, PF_ANY)
 TESTCLEARFLAG(Young, young, PF_ANY)
 PAGEFLAG(Idle, idle, PF_ANY)
+=======
+TESTPAGEFLAG(Young, young)
+SETPAGEFLAG(Young, young)
+TESTCLEARFLAG(Young, young)
+PAGEFLAG(Idle, idle)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 
 /*
@@ -471,7 +481,16 @@ static inline void set_page_writeback_keepwrite(struct page *page)
 	test_set_page_writeback_keepwrite(page);
 }
 
+<<<<<<< HEAD
 __PAGEFLAG(Head, head, PF_ANY) CLEARPAGEFLAG(Head, head, PF_ANY)
+=======
+__PAGEFLAG(Head, head) CLEARPAGEFLAG(Head, head)
+
+static inline int PageTail(struct page *page)
+{
+	return READ_ONCE(page->compound_head) & 1;
+}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline void set_compound_head(struct page *page, struct page *head)
 {
@@ -479,10 +498,30 @@ static inline void set_compound_head(struct page *page, struct page *head)
 }
 
 static inline void clear_compound_head(struct page *page)
+<<<<<<< HEAD
+{
+	WRITE_ONCE(page->compound_head, 0);
+}
+=======
 {
 	WRITE_ONCE(page->compound_head, 0);
 }
 
+static inline struct page *compound_head(struct page *page)
+{
+	unsigned long head = READ_ONCE(page->compound_head);
+
+	if (unlikely(head & 1))
+		return (struct page *) (head - 1);
+	return page;
+}
+
+static inline int PageCompound(struct page *page)
+{
+	return PageHead(page) || PageTail(page);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
+
+}
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 static inline void ClearPageCompound(struct page *page)
 {

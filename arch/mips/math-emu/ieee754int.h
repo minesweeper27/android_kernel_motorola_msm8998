@@ -74,6 +74,11 @@ static inline int ieee754_class_nan(int xc)
 			vc = IEEE754_CLASS_QNAN;			\
 		else							\
 			vc = IEEE754_CLASS_SNAN;			\
+<<<<<<< HEAD
+=======
+		else							\
+			vc = IEEE754_CLASS_QNAN;			\
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} else if (ve == SP_EMIN-1+SP_EBIAS) {				\
 		if (vm) {						\
 			ve = SP_EMIN;					\

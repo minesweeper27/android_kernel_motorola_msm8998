@@ -250,9 +250,14 @@ smb2_reconnect(__le16 smb2_command, struct cifs_tcon *tcon)
 	 */
 	mutex_lock(&tcon->ses->session_mutex);
 	rc = cifs_negotiate_protocol(0, tcon->ses);
-	if (!rc && tcon->ses->need_reconnect)
+	if (!rc && tcon->ses->need_reconnect) {
 		rc = cifs_setup_session(0, tcon->ses, nls_codepage);
-
+		if ((rc == -EACCES) && !tcon->retry) {
+			rc = -EHOSTDOWN;
+			mutex_unlock(&tcon->ses->session_mutex);
+			goto failed;
+		}
+	}
 	if (rc || !tcon->need_reconnect) {
 		mutex_unlock(&tcon->ses->session_mutex);
 		goto out;
@@ -286,6 +291,7 @@ out:
 	case SMB2_SET_INFO:
 		rc = -EAGAIN;
 	}
+failed:
 	unload_nls(nls_codepage);
 	return rc;
 }
@@ -1248,6 +1254,10 @@ create_reconnect_durable_v2_buf(struct cifs_fid *fid)
 	return buf;
 }
 
+<<<<<<< HEAD
+static int
+add_durable_v2_context(struct kvec *iov, unsigned int *num_iovec,
+=======
 static int
 add_durable_v2_context(struct kvec *iov, unsigned int *num_iovec,
 		    struct cifs_open_parms *oparms)
@@ -1271,11 +1281,36 @@ add_durable_v2_context(struct kvec *iov, unsigned int *num_iovec,
 
 static int
 add_durable_reconnect_v2_context(struct kvec *iov, unsigned int *num_iovec,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		    struct cifs_open_parms *oparms)
 {
 	struct smb2_create_req *req = iov[0].iov_base;
 	unsigned int num = *num_iovec;
 
+<<<<<<< HEAD
+	iov[num].iov_base = create_durable_v2_buf(oparms->fid);
+	if (iov[num].iov_base == NULL)
+		return -ENOMEM;
+	iov[num].iov_len = sizeof(struct create_durable_v2);
+	if (!req->CreateContextsOffset)
+		req->CreateContextsOffset =
+			cpu_to_le32(sizeof(struct smb2_create_req) - 4 +
+								iov[1].iov_len);
+	le32_add_cpu(&req->CreateContextsLength, sizeof(struct create_durable_v2));
+	inc_rfc1001_len(&req->hdr, sizeof(struct create_durable_v2));
+	*num_iovec = num + 1;
+	return 0;
+}
+
+static int
+add_durable_reconnect_v2_context(struct kvec *iov, unsigned int *num_iovec,
+		    struct cifs_open_parms *oparms)
+{
+	struct smb2_create_req *req = iov[0].iov_base;
+	unsigned int num = *num_iovec;
+
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* indicate that we don't need to relock the file */
 	oparms->reconnect = false;
 

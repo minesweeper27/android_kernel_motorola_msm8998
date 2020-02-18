@@ -35,6 +35,12 @@ static size_t f2fs_xattr_generic_list(const struct xattr_handler *handler,
 			return -EOPNOTSUPP;
 		break;
 	case F2FS_XATTR_INDEX_TRUSTED:
+<<<<<<< HEAD
+=======
+		if (!capable(CAP_SYS_ADMIN))
+			return -EPERM;
+		break;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case F2FS_XATTR_INDEX_SECURITY:
 		break;
 	default:
@@ -655,11 +661,17 @@ static int __f2fs_setxattr(struct inode *inode, int index,
 	if (size > MAX_VALUE_LEN(inode))
 		return -E2BIG;
 
+<<<<<<< HEAD
 	error = read_all_xattrs(inode, ipage, &base_addr);
 	if (error)
 		return error;
 
 	last_base_addr = (void *)base_addr + XATTR_SIZE(xnid, inode);
+=======
+	base_addr = read_all_xattrs(inode, ipage);
+	if (!base_addr)
+		goto exit;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* find entry with wanted name. */
 	here = __find_xattr(base_addr, last_base_addr, index, len, name);
@@ -753,9 +765,17 @@ static int __f2fs_setxattr(struct inode *inode, int index,
 	if (index == F2FS_XATTR_INDEX_ENCRYPTION &&
 			!strcmp(name, F2FS_XATTR_NAME_ENCRYPTION_CONTEXT))
 		f2fs_set_encrypted_inode(inode);
+<<<<<<< HEAD
 	f2fs_mark_inode_dirty_sync(inode, true);
 	if (!error && S_ISDIR(inode->i_mode))
 		set_sbi_flag(F2FS_I_SB(inode), SBI_NEED_CP);
+=======
+
+	if (ipage)
+		update_inode(inode, ipage);
+	else
+		update_inode_page(inode);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 exit:
 	kvfree(base_addr);
 	return error;

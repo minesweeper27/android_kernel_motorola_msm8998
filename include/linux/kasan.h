@@ -14,6 +14,18 @@ struct vm_struct;
 
 #include <asm/kasan.h>
 #include <asm/pgtable.h>
+<<<<<<< HEAD
+
+extern unsigned char kasan_zero_page[PAGE_SIZE];
+extern pte_t kasan_zero_pte[PTRS_PER_PTE];
+extern pmd_t kasan_zero_pmd[PTRS_PER_PMD];
+extern pud_t kasan_zero_pud[PTRS_PER_PUD];
+
+void kasan_populate_zero_shadow(const void *shadow_start,
+				const void *shadow_end);
+=======
+#include <linux/sched.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern unsigned char kasan_zero_page[PAGE_SIZE];
 extern pte_t kasan_zero_pte[PTRS_PER_PTE];

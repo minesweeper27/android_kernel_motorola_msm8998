@@ -38,6 +38,7 @@ static cpumask_t tlb_flush_pending;
 
 #define ASID_MASK		(~GENMASK(asid_bits - 1, 0))
 #define ASID_FIRST_VERSION	(1UL << asid_bits)
+<<<<<<< HEAD
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
 #define NUM_USER_ASIDS		(ASID_FIRST_VERSION >> 1)
@@ -49,6 +50,10 @@ static cpumask_t tlb_flush_pending;
 #define idx2asid(idx)		asid2idx(idx)
 #endif
 
+=======
+#define NUM_USER_ASIDS		ASID_FIRST_VERSION
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void flush_context(unsigned int cpu)
 {
 	int i;
@@ -74,6 +79,7 @@ static void flush_context(unsigned int cpu)
 		 */
 		if (asid == 0)
 			asid = per_cpu(reserved_asids, i);
+<<<<<<< HEAD
 		__set_bit(asid2idx(asid), asid_map);
 		per_cpu(reserved_asids, i) = asid;
 	}
@@ -209,11 +215,136 @@ asmlinkage void post_ttbr_update_workaround(void)
 			"ic iallu; dsb nsh; isb",
 			ARM64_WORKAROUND_CAVIUM_27456,
 			CONFIG_CAVIUM_ERRATUM_27456));
+=======
+		__set_bit(asid & ~ASID_MASK, asid_map);
+		per_cpu(reserved_asids, i) = asid;
+	}
+
+	/* Queue a TLB invalidate and flush the I-cache if necessary. */
+	cpumask_setall(&tlb_flush_pending);
+
+	if (icache_is_aivivt())
+		__flush_icache_all();
+}
+
+static bool check_update_reserved_asid(u64 asid, u64 newasid)
+{
+	int cpu;
+	bool hit = false;
+
+	/*
+	 * Iterate over the set of reserved ASIDs looking for a match.
+	 * If we find one, then we can update our mm to use newasid
+	 * (i.e. the same ASID in the current generation) but we can't
+	 * exit the loop early, since we need to ensure that all copies
+	 * of the old ASID are updated to reflect the mm. Failure to do
+	 * so could result in us missing the reserved ASID in a future
+	 * generation.
+	 */
+	for_each_possible_cpu(cpu) {
+		if (per_cpu(reserved_asids, cpu) == asid) {
+			hit = true;
+			per_cpu(reserved_asids, cpu) = newasid;
+		}
+	}
+
+	return hit;
+}
+
+static u64 new_context(struct mm_struct *mm, unsigned int cpu)
+{
+	static u32 cur_idx = 1;
+	u64 asid = atomic64_read(&mm->context.id);
+	u64 generation = atomic64_read(&asid_generation);
+
+	if (asid != 0) {
+		u64 newasid = generation | (asid & ~ASID_MASK);
+
+		/*
+		 * If our current ASID was active during a rollover, we
+		 * can continue to use it and this was just a false alarm.
+		 */
+		if (check_update_reserved_asid(asid, newasid))
+			return newasid;
+
+		/*
+		 * We had a valid ASID in a previous life, so try to re-use
+		 * it if possible.
+		 */
+		asid &= ~ASID_MASK;
+		if (!__test_and_set_bit(asid, asid_map))
+			return newasid;
+	}
+
+	/*
+	 * Allocate a free ASID. If we can't find one, take a note of the
+	 * currently active ASIDs and mark the TLBs as requiring flushes.
+	 * We always count from ASID #1, as we use ASID #0 when setting a
+	 * reserved TTBR0 for the init_mm.
+	 */
+	asid = find_next_zero_bit(asid_map, NUM_USER_ASIDS, cur_idx);
+	if (asid != NUM_USER_ASIDS)
+		goto set_asid;
+
+	/* We're out of ASIDs, so increment the global generation count */
+	generation = atomic64_add_return_relaxed(ASID_FIRST_VERSION,
+						 &asid_generation);
+	flush_context(cpu);
+
+	/* We have at least 1 ASID per CPU, so this will always succeed */
+	asid = find_next_zero_bit(asid_map, NUM_USER_ASIDS, 1);
+
+set_asid:
+	__set_bit(asid, asid_map);
+	cur_idx = asid;
+	return asid | generation;
+}
+
+void check_and_switch_context(struct mm_struct *mm, unsigned int cpu)
+{
+	unsigned long flags;
+	u64 asid;
+
+	asid = atomic64_read(&mm->context.id);
+
+	/*
+	 * The memory ordering here is subtle. We rely on the control
+	 * dependency between the generation read and the update of
+	 * active_asids to ensure that we are synchronised with a
+	 * parallel rollover (i.e. this pairs with the smp_wmb() in
+	 * flush_context).
+	 */
+	if (!((asid ^ atomic64_read(&asid_generation)) >> asid_bits)
+	    && atomic64_xchg_relaxed(&per_cpu(active_asids, cpu), asid))
+		goto switch_mm_fastpath;
+
+	raw_spin_lock_irqsave(&cpu_asid_lock, flags);
+	/* Check that our ASID belongs to the current generation. */
+	asid = atomic64_read(&mm->context.id);
+	if ((asid ^ atomic64_read(&asid_generation)) >> asid_bits) {
+		asid = new_context(mm, cpu);
+		atomic64_set(&mm->context.id, asid);
+	}
+
+	if (cpumask_test_and_clear_cpu(cpu, &tlb_flush_pending))
+		local_flush_tlb_all();
+
+	atomic64_set(&per_cpu(active_asids, cpu), asid);
+	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
+
+switch_mm_fastpath:
+	cpu_switch_mm(mm->pgd, mm);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int asids_init(void)
 {
+<<<<<<< HEAD
 	int fld = cpuid_feature_extract_field(read_cpuid(SYS_ID_AA64MMFR0_EL1), 4);
+=======
+	int fld = cpuid_feature_extract_unsigned_field(read_cpuid(ID_AA64MMFR0_EL1),
+						       ID_AA64MMFR0_ASID_SHIFT);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	switch (fld) {
 	default:

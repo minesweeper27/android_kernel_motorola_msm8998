@@ -69,6 +69,7 @@ SCHED_FEAT(RT_RUNTIME_SHARE, true)
 SCHED_FEAT(LB_MIN, false)
 SCHED_FEAT(ATTACH_AGE_LOAD, true)
 
+<<<<<<< HEAD
 /*
  * Energy aware scheduling. Use platform energy model to guide scheduling
  * decisions optimizing for energy efficiency.
@@ -78,3 +79,5 @@ SCHED_FEAT(ENERGY_AWARE, true)
 #else
 SCHED_FEAT(ENERGY_AWARE, false)
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

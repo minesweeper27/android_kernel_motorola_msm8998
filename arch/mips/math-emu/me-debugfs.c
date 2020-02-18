@@ -28,6 +28,7 @@ static int fpuemu_stat_get(void *data, u64 *val)
 }
 DEFINE_SIMPLE_ATTRIBUTE(fops_fpuemu_stat, fpuemu_stat_get, NULL, "%llu\n");
 
+<<<<<<< HEAD
 /*
  * Used to obtain names for a debugfs instruction counter, given field name
  * in fpuemustats structure. For example, for input "cmp_sueq_d", the output
@@ -194,6 +195,8 @@ static const struct file_operations fpuemustats_clear_fops = {
 	.release		= single_release,
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int __init debugfs_fpuemu(void)
 {
 	struct dentry *fpuemu_debugfs_base_dir;

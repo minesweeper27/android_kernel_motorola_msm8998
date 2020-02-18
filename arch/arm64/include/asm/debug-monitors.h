@@ -20,7 +20,10 @@
 
 #include <linux/errno.h>
 #include <linux/types.h>
+<<<<<<< HEAD
 #include <asm/brk-imm.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/esr.h>
 #include <asm/insn.h>
 #include <asm/ptrace.h>
@@ -46,6 +49,22 @@
  * Break point instruction encoding
  */
 #define BREAK_INSTR_SIZE		AARCH64_INSN_SIZE
+<<<<<<< HEAD
+=======
+
+/*
+ * #imm16 values used for BRK instruction generation
+ * Allowed values for kgbd are 0x400 - 0x7ff
+ * 0x100: for triggering a fault on purpose (reserved)
+ * 0x400: for dynamic BRK instruction
+ * 0x401: for compile time BRK instruction
+ * 0x800: kernel-mode BUG() and WARN() traps
+ */
+#define FAULT_BRK_IMM			0x100
+#define KGDB_DYN_DBG_BRK_IMM		0x400
+#define KGDB_COMPILED_DBG_BRK_IMM	0x401
+#define BUG_BRK_IMM			0x800
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * BRK instruction encoding

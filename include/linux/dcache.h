@@ -162,7 +162,10 @@ struct dentry_operations {
 	int (*d_manage)(struct dentry *, bool);
 	struct inode *(*d_select_inode)(struct dentry *, unsigned);
 	struct dentry *(*d_real)(struct dentry *, struct inode *);
+<<<<<<< HEAD
 	void (*d_canonical_path)(const struct path *, struct path *);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } ____cacheline_aligned;
 
 /*
@@ -229,7 +232,10 @@ struct dentry_operations {
 #define DCACHE_MAY_FREE			0x00800000
 #define DCACHE_FALLTHRU			0x01000000 /* Fall through to lower layer */
 #define DCACHE_OP_SELECT_INODE		0x02000000 /* Unioned entry: dcache op selects inode */
+<<<<<<< HEAD
 #define DCACHE_ENCRYPTED_WITH_KEY	0x04000000 /* dir is encrypted with a valid key */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define DCACHE_OP_REAL			0x08000000
 
 extern seqlock_t rename_lock;
@@ -238,6 +244,7 @@ extern seqlock_t rename_lock;
  * These are the low-level FS interfaces to the dcache..
  */
 extern void d_instantiate(struct dentry *, struct inode *);
+extern void d_instantiate_new(struct dentry *, struct inode *);
 extern struct dentry * d_instantiate_unique(struct dentry *, struct inode *);
 extern int d_instantiate_no_diralias(struct dentry *, struct inode *);
 extern void __d_drop(struct dentry *dentry);
@@ -624,8 +631,13 @@ static inline struct inode *d_real_inode(struct dentry *dentry)
 }
 
 struct name_snapshot {
+<<<<<<< HEAD
 	const unsigned char *name;
 	unsigned char inline_name[DNAME_INLINE_LEN];
+=======
+	const char *name;
+	char inline_name[DNAME_INLINE_LEN];
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
 void release_dentry_name_snapshot(struct name_snapshot *);

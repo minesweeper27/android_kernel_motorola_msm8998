@@ -126,12 +126,21 @@ EXPORT_SYMBOL(synchronize_irq);
 #ifdef CONFIG_SMP
 cpumask_var_t irq_default_affinity;
 
+<<<<<<< HEAD
 static bool __irq_can_set_affinity(struct irq_desc *desc)
 {
 	if (!desc || !irqd_can_balance(&desc->irq_data) ||
 	    !desc->irq_data.chip || !desc->irq_data.chip->irq_set_affinity)
 		return false;
 	return true;
+=======
+static int __irq_can_set_affinity(struct irq_desc *desc)
+{
+	if (!desc || !irqd_can_balance(&desc->irq_data) ||
+	    !desc->irq_data.chip || !desc->irq_data.chip->irq_set_affinity)
+		return 0;
+	return 1;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**
@@ -142,6 +151,7 @@ static bool __irq_can_set_affinity(struct irq_desc *desc)
 int irq_can_set_affinity(unsigned int irq)
 {
 	return __irq_can_set_affinity(irq_to_desc(irq));
+<<<<<<< HEAD
 }
 
 /**
@@ -157,6 +167,8 @@ bool irq_can_set_affinity_usr(unsigned int irq)
 
 	return __irq_can_set_affinity(desc) &&
 		!irqd_affinity_is_managed(&desc->irq_data);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**
@@ -1135,6 +1147,7 @@ setup_irq_thread(struct irqaction *new, unsigned int irq, bool secondary)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void add_desc_to_perf_list(struct irq_desc *desc)
 {
 	struct irq_desc_list *item;
@@ -1215,6 +1228,8 @@ void reaffine_perf_irqs(void)
 	raw_spin_unlock_irqrestore(&perf_irqs_lock, flags);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Internal function to register an irqaction - typically used to
  * allocate special interrupts that are part of the architecture.
@@ -1275,9 +1290,12 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 			if (ret)
 				goto out_thread;
 		}
+<<<<<<< HEAD
 
 		if (new->flags & IRQF_PERF_CRITICAL)
 			affine_one_perf_thread(new->thread);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	if (!alloc_cpumask_var(&mask, GFP_KERNEL)) {
@@ -1440,6 +1458,7 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 		}
 
 		/* Set default affinity mask once everything is setup */
+<<<<<<< HEAD
 		if (new->flags & IRQF_PERF_CRITICAL) {
 			add_desc_to_perf_list(desc);
 			irqd_set(&desc->irq_data, IRQD_AFFINITY_MANAGED);
@@ -1449,6 +1468,9 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
 		} else {
 			setup_affinity(desc, mask);
 		}
+=======
+		setup_affinity(desc, mask);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	} else if (new->flags & IRQF_TRIGGER_MASK) {
 		unsigned int nmsk = new->flags & IRQF_TRIGGER_MASK;

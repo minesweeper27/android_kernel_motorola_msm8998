@@ -1,5 +1,9 @@
 # CPUfreq core
+<<<<<<< HEAD
 obj-$(CONFIG_CPU_FREQ)			+= cpufreq.o freq_table.o cpufreq_governor_attr_set.o
+=======
+obj-$(CONFIG_CPU_FREQ)			+= cpufreq.o freq_table.o
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # CPUfreq stats
 obj-$(CONFIG_CPU_FREQ_STAT)             += cpufreq_stats.o
@@ -84,7 +88,11 @@ obj-$(CONFIG_ARM_TEGRA20_CPUFREQ)	+= tegra20-cpufreq.o
 obj-$(CONFIG_ARM_TEGRA124_CPUFREQ)	+= tegra124-cpufreq.o
 obj-$(CONFIG_ARM_VEXPRESS_SPC_CPUFREQ)	+= vexpress-spc-cpufreq.o
 obj-$(CONFIG_ACPI_CPPC_CPUFREQ) += cppc_cpufreq.o
+<<<<<<< HEAD
 obj-$(CONFIG_CPU_FREQ_MSM)              += qcom-cpufreq.o
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 ##################################################################################
 # PowerPC platform drivers

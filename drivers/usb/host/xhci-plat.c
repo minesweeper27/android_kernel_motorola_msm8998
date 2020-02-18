@@ -231,7 +231,13 @@ static int xhci_plat_probe(struct platform_device *pdev)
 		goto disable_clk;
 	}
 
+<<<<<<< HEAD
 	hcd_to_bus(xhci->shared_hcd)->skip_resume = true;
+=======
+	if ((node && of_property_read_bool(node, "usb3-lpm-capable")) ||
+			(pdata && pdata->usb3_lpm_capable))
+		xhci->quirks |= XHCI_LPM_SUPPORT;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	hcd->usb_phy = devm_usb_get_phy_by_phandle(&pdev->dev, "usb-phy", 0);
 	if (IS_ERR(hcd->usb_phy)) {
@@ -249,8 +255,11 @@ static int xhci_plat_probe(struct platform_device *pdev)
 	if (ret)
 		goto disable_usb_phy;
 
+<<<<<<< HEAD
 	device_wakeup_enable(&hcd->self.root_hub->dev);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
 		xhci->shared_hcd->can_do_streams = 1;
 
@@ -258,6 +267,7 @@ static int xhci_plat_probe(struct platform_device *pdev)
 	if (ret)
 		goto dealloc_usb2_hcd;
 
+<<<<<<< HEAD
 	device_wakeup_enable(&xhci->shared_hcd->self.root_hub->dev);
 
 	/* override imod interval if specified */
@@ -280,6 +290,8 @@ static int xhci_plat_probe(struct platform_device *pdev)
 	pm_runtime_mark_last_busy(&pdev->dev);
 	pm_runtime_put_autosuspend(&pdev->dev);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 
 
@@ -310,8 +322,13 @@ static int xhci_plat_remove(struct platform_device *dev)
 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
 	struct clk *clk = xhci->clk;
 
+<<<<<<< HEAD
 	device_remove_file(&dev->dev, &dev_attr_config_imod);
 	xhci->xhc_state |= XHCI_STATE_REMOVING;
+=======
+	xhci->xhc_state |= XHCI_STATE_REMOVING;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	usb_remove_hcd(xhci->shared_hcd);
 	usb_phy_shutdown(hcd->usb_phy);
 
@@ -321,9 +338,12 @@ static int xhci_plat_remove(struct platform_device *dev)
 	if (!IS_ERR(clk))
 		clk_disable_unprepare(clk);
 	usb_put_hcd(hcd);
+<<<<<<< HEAD
 
 	pm_runtime_set_suspended(&dev->dev);
 	pm_runtime_disable(&dev->dev);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

@@ -588,6 +588,7 @@ static inline int dvb_dmx_swfilter_payload(struct dvb_demux_feed *feed,
 
 	ret = feed->cb.ts(&buf[p], count, NULL, 0, &feed->feed.ts);
 
+<<<<<<< HEAD
 	/* Verify TS packet was copied successfully */
 	if (!ret) {
 		feed->pes_cont_err_counter += !ccok;
@@ -597,6 +598,9 @@ static inline int dvb_dmx_swfilter_payload(struct dvb_demux_feed *feed,
 	}
 
 	return ret;
+=======
+	return feed->cb.ts(&buf[p], count, NULL, 0, &feed->feed.ts);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int dvb_dmx_swfilter_sectionfilter(struct dvb_demux_feed *feed,
@@ -863,7 +867,31 @@ static int dvb_dmx_swfilter_section_one_packet(struct dvb_demux_feed *feed,
 int dvb_dmx_swfilter_section_packet(struct dvb_demux_feed *feed,
 	   const u8 *buf, int should_lock)
 {
+<<<<<<< HEAD
 	int ret;
+=======
+	switch (feed->type) {
+	case DMX_TYPE_TS:
+		if (!feed->feed.ts.is_filtering)
+			break;
+		if (feed->ts_type & TS_PACKET) {
+			if (feed->ts_type & TS_PAYLOAD_ONLY)
+				dvb_dmx_swfilter_payload(feed, buf);
+			else
+				feed->cb.ts(buf, 188, NULL, 0, &feed->feed.ts);
+		}
+		if (feed->ts_type & TS_DECODER)
+			if (feed->demux->write_to_decoder)
+				feed->demux->write_to_decoder(feed, buf, 188);
+		break;
+
+	case DMX_TYPE_SEC:
+		if (!feed->feed.sec.is_filtering)
+			break;
+		if (dvb_dmx_swfilter_section_packet(feed, buf) < 0)
+			feed->feed.sec.seclen = feed->feed.sec.secbufp = 0;
+		break;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!should_lock && !spin_is_locked(&feed->demux->lock)) {
 		pr_err("%s: demux spinlock should have been locked\n",
@@ -960,6 +988,7 @@ int dvb_demux_push_idx_event(struct dvb_demux_feed *feed,
 	if (!should_lock && !spin_is_locked(&feed->demux->lock))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (should_lock)
 		spin_lock(&feed->demux->lock);
 	ret = dvb_demux_save_idx_event(feed, idx_event, 1);
@@ -990,6 +1019,12 @@ static inline void dvb_dmx_notify_indexing(struct dvb_demux_feed *feed)
 			list_add_tail(&curr_entry->next,
 				&feed->rec_info->idx_info.free_list);
 		}
+=======
+		if (feed->pid == pid)
+			dvb_dmx_swfilter_packet_type(feed, buf);
+		else if (feed->pid == 0x2000)
+			feed->cb.ts(buf, 188, NULL, 0, &feed->feed.ts);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 
@@ -2411,7 +2446,11 @@ static int dmx_ts_feed_reuse_decoder_buffer(struct dmx_ts_feed *ts_feed,
 
 	ret = demux->reuse_decoder_buffer(feed, cookie);
 
+<<<<<<< HEAD
 	mutex_unlock(&demux->mutex);
+=======
+	demux->feed->cb.ts(buf, count, NULL, 0, &demux->feed->feed.ts);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ret;
 }

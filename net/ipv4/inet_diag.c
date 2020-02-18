@@ -835,7 +835,10 @@ void inet_diag_dump_icsk(struct inet_hashinfo *hashinfo, struct sk_buff *skb,
 	struct net *net = sock_net(skb->sk);
 	int i, num, s_i, s_num;
 	u32 idiag_states = r->idiag_states;
+<<<<<<< HEAD
 	bool net_admin = netlink_net_capable(cb->skb, CAP_NET_ADMIN);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (idiag_states & TCPF_SYN_RECV)
 		idiag_states |= TCPF_NEW_SYN_RECV;
@@ -877,8 +880,12 @@ void inet_diag_dump_icsk(struct inet_hashinfo *hashinfo, struct sk_buff *skb,
 				    cb->args[3] > 0)
 					goto next_listen;
 
+<<<<<<< HEAD
 				if (inet_csk_diag_dump(sk, skb, cb, r,
 						       bc, net_admin) < 0) {
+=======
+				if (inet_csk_diag_dump(sk, skb, cb, r, bc) < 0) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					spin_unlock_bh(&ilb->lock);
 					goto done;
 				}
@@ -1149,18 +1156,74 @@ int inet_diag_handler_get_info(struct sk_buff *skb, struct sock *sk)
 	return 0;
 }
 
+static
+int inet_diag_handler_get_info(struct sk_buff *skb, struct sock *sk)
+{
+	const struct inet_diag_handler *handler;
+	struct nlmsghdr *nlh;
+	struct nlattr *attr;
+	struct inet_diag_msg *r;
+	void *info = NULL;
+	int err = 0;
+
+	nlh = nlmsg_put(skb, 0, 0, SOCK_DIAG_BY_FAMILY, sizeof(*r), 0);
+	if (!nlh)
+		return -ENOMEM;
+
+	r = nlmsg_data(nlh);
+	memset(r, 0, sizeof(*r));
+	inet_diag_msg_common_fill(r, sk);
+	if (sk->sk_type == SOCK_DGRAM || sk->sk_type == SOCK_STREAM)
+		r->id.idiag_sport = inet_sk(sk)->inet_sport;
+	r->idiag_state = sk->sk_state;
+
+	if ((err = nla_put_u8(skb, INET_DIAG_PROTOCOL, sk->sk_protocol))) {
+		nlmsg_cancel(skb, nlh);
+		return err;
+	}
+
+	handler = inet_diag_lock_handler(sk->sk_protocol);
+	if (IS_ERR(handler)) {
+		inet_diag_unlock_handler(handler);
+		nlmsg_cancel(skb, nlh);
+		return PTR_ERR(handler);
+	}
+
+	attr = handler->idiag_info_size
+		? nla_reserve(skb, INET_DIAG_INFO, handler->idiag_info_size)
+		: NULL;
+	if (attr)
+		info = nla_data(attr);
+
+	handler->idiag_get_info(sk, r, info);
+	inet_diag_unlock_handler(handler);
+
+	nlmsg_end(skb, nlh);
+	return 0;
+}
+
 static const struct sock_diag_handler inet_diag_handler = {
 	.family = AF_INET,
+<<<<<<< HEAD
 	.dump = inet_diag_handler_cmd,
 	.get_info = inet_diag_handler_get_info,
 	.destroy = inet_diag_handler_cmd,
+=======
+	.dump = inet_diag_handler_dump,
+	.get_info = inet_diag_handler_get_info,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static const struct sock_diag_handler inet6_diag_handler = {
 	.family = AF_INET6,
+<<<<<<< HEAD
 	.dump = inet_diag_handler_cmd,
 	.get_info = inet_diag_handler_get_info,
 	.destroy = inet_diag_handler_cmd,
+=======
+	.dump = inet_diag_handler_dump,
+	.get_info = inet_diag_handler_get_info,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int inet_diag_register(const struct inet_diag_handler *h)

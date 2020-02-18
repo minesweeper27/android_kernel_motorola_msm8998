@@ -248,6 +248,14 @@ static void free_buf_for_compression(void)
 	big_oops_buf = NULL;
 }
 
+static void free_buf_for_compression(void)
+{
+	kfree(stream.workspace);
+	stream.workspace = NULL;
+	kfree(big_oops_buf);
+	big_oops_buf = NULL;
+}
+
 /*
  * Called when compression fails, since the printk buffer
  * would be fetched for compression calling it again when
@@ -377,6 +385,7 @@ static void pstore_unregister_kmsg(void)
 	kmsg_dump_unregister(&pstore_dumper);
 }
 
+<<<<<<< HEAD
 
 /* Export function to save device specific power up
  * data
@@ -423,6 +432,8 @@ int  pstore_annotate(const char *buf)
 EXPORT_SYMBOL_GPL(pstore_annotate);
 
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_PSTORE_CONSOLE
 static void pstore_console_write(struct console *con, const char *s, unsigned c)
 {

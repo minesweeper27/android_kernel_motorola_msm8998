@@ -30,7 +30,10 @@
 #include <asm/asm-offsets.h>
 #include <asm/cache.h>
 #include <asm/cputype.h>
+<<<<<<< HEAD
 #include <asm/elf.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/kernel-pgtable.h>
 #include <asm/kvm_arm.h>
 #include <asm/memory.h>
@@ -51,6 +54,12 @@
 #error TEXT_OFFSET must be less than 2MB
 #endif
 
+<<<<<<< HEAD
+=======
+#define KERNEL_START	_text
+#define KERNEL_END	_end
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Kernel startup entry point.
  * ---------------------------
@@ -99,6 +108,11 @@ _head:
 #endif
 
 #ifdef CONFIG_EFI
+<<<<<<< HEAD
+=======
+	.globl	__efistub_stext_offset
+	.set	__efistub_stext_offset, stext - efi_head
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.align 3
 pe_header:
 	.ascii	"PE"
@@ -121,8 +135,13 @@ optional_header:
 	.long	_end - efi_header_end		// SizeOfCode
 	.long	0				// SizeOfInitializedData
 	.long	0				// SizeOfUninitializedData
+<<<<<<< HEAD
 	.long	__efistub_entry - _head		// AddressOfEntryPoint
 	.long	efi_header_end - _head		// BaseOfCode
+=======
+	.long	__efistub_entry - efi_head	// AddressOfEntryPoint
+	.long	__efistub_stext_offset		// BaseOfCode
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extra_header_fields:
 	.quad	0				// ImageBase
@@ -139,7 +158,11 @@ extra_header_fields:
 	.long	_end - _head			// SizeOfImage
 
 	// Everything before the kernel image is considered part of the header
+<<<<<<< HEAD
 	.long	efi_header_end - _head		// SizeOfHeaders
+=======
+	.long	__efistub_stext_offset		// SizeOfHeaders
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.long	0				// CheckSum
 	.short	0xa				// Subsystem (EFI application)
 	.short	0				// DllCharacteristics
@@ -183,10 +206,17 @@ section_table:
 	.byte	0
 	.byte	0
 	.byte	0        		// end of 0 padding of section name
+<<<<<<< HEAD
 	.long	_end - efi_header_end	// VirtualSize
 	.long	efi_header_end - _head	// VirtualAddress
 	.long	_edata - efi_header_end	// SizeOfRawData
 	.long	efi_header_end - _head	// PointerToRawData
+=======
+	.long	_end - stext		// VirtualSize
+	.long	__efistub_stext_offset	// VirtualAddress
+	.long	_edata - stext		// SizeOfRawData
+	.long	__efistub_stext_offset	// PointerToRawData
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	.long	0		// PointerToRelocations (0 for executables)
 	.long	0		// PointerToLineNumbers (0 for executables)
@@ -334,7 +364,11 @@ __create_page_tables:
 	cmp	x0, x6
 	b.lo	1b
 
+<<<<<<< HEAD
 	mov	x7, SWAPPER_MM_MMUFLAGS
+=======
+	ldr	x7, =SWAPPER_MM_MMUFLAGS
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Create the identity mapping.
@@ -454,6 +488,7 @@ __primary_switched:
 #ifdef CONFIG_KASAN
 	bl	kasan_early_init
 #endif
+<<<<<<< HEAD
 #ifdef CONFIG_RANDOMIZE_BASE
 	tst	x23, ~(MIN_KIMG_ALIGN - 1)	// already running randomized?
 	b.ne	0f
@@ -466,6 +501,8 @@ __primary_switched:
 						// to __enable_mmu()
 0:
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	b	start_kernel
 ENDPROC(__primary_switched)
 
@@ -691,12 +728,22 @@ ENDPROC(__secondary_switched)
  * Checks if the selected granule size is supported by the CPU.
  * If it isn't, park the CPU
  */
+<<<<<<< HEAD
 ENTRY(__enable_mmu)
 	mrs	x22, sctlr_el1			// preserve old SCTLR_EL1 value
+=======
+	.section	".idmap.text", "ax"
+__enable_mmu:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mrs	x1, ID_AA64MMFR0_EL1
 	ubfx	x2, x1, #ID_AA64MMFR0_TGRAN_SHIFT, 4
 	cmp	x2, #ID_AA64MMFR0_TGRAN_SUPPORTED
 	b.ne	__no_granule_support
+<<<<<<< HEAD
+=======
+	ldr	x5, =vectors
+	msr	vbar_el1, x5
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	msr	ttbr0_el1, x25			// load TTBR0
 	msr	ttbr1_el1, x26			// load TTBR1
 	isb
@@ -710,6 +757,7 @@ ENTRY(__enable_mmu)
 	ic	iallu
 	dsb	nsh
 	isb
+<<<<<<< HEAD
 #ifdef CONFIG_RANDOMIZE_BASE
 	mov	x19, x0				// preserve new SCTLR_EL1 value
 	blr	x27
@@ -732,6 +780,8 @@ ENTRY(__enable_mmu)
 	dsb	nsh				// via old mapping
 	isb
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	br	x27
 ENDPROC(__enable_mmu)
 
@@ -739,6 +789,7 @@ __no_granule_support:
 	wfe
 	b __no_granule_support
 ENDPROC(__no_granule_support)
+<<<<<<< HEAD
 
 __primary_switch:
 #ifdef CONFIG_RELOCATABLE
@@ -774,3 +825,5 @@ __secondary_switch:
 	ldr	x8, =__secondary_switched
 	br	x8
 ENDPROC(__secondary_switch)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

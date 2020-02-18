@@ -8,6 +8,7 @@ http://github.com/freedreno/envytools/
 git clone https://github.com/freedreno/envytools.git
 
 The rules-ng-ng source files this header was generated from are:
+<<<<<<< HEAD
 - ./adreno.xml               (    431 bytes, from 2016-10-24 21:12:27)
 - ./freedreno_copyright.xml  (   1572 bytes, from 2016-10-24 21:12:27)
 - ./adreno/a2xx.xml          (  32901 bytes, from 2016-10-24 21:12:27)
@@ -19,6 +20,18 @@ The rules-ng-ng source files this header was generated from are:
 - ./adreno/ocmem.xml         (   1773 bytes, from 2016-10-24 21:12:27)
 
 Copyright (C) 2013-2016 by the following authors:
+=======
+- /home/robclark/src/freedreno/envytools/rnndb/adreno.xml               (    398 bytes, from 2015-09-24 17:25:31)
+- /home/robclark/src/freedreno/envytools/rnndb/freedreno_copyright.xml  (   1453 bytes, from 2015-05-20 20:03:07)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/a2xx.xml          (  32901 bytes, from 2015-05-20 20:03:14)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/adreno_common.xml (  10755 bytes, from 2015-09-14 20:46:55)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/adreno_pm4.xml    (  14968 bytes, from 2015-05-20 20:12:27)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/a3xx.xml          (  67771 bytes, from 2015-09-14 20:46:55)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/a4xx.xml          (  63970 bytes, from 2015-09-14 20:50:12)
+- /home/robclark/src/freedreno/envytools/rnndb/adreno/ocmem.xml         (   1773 bytes, from 2015-09-24 17:30:00)
+
+Copyright (C) 2013-2015 by the following authors:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 - Rob Clark <robdclark@gmail.com> (robclark)
 - Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
 
@@ -195,8 +208,11 @@ enum a3xx_tex_fmt {
 	TFMT_32_SINT = 92,
 	TFMT_32_32_SINT = 93,
 	TFMT_32_32_32_32_SINT = 95,
+<<<<<<< HEAD
 	TFMT_2_10_10_10_UINT = 96,
 	TFMT_10_10_10_2_UINT = 97,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	TFMT_ETC2_RG11_SNORM = 112,
 	TFMT_ETC2_RG11_UNORM = 113,
 	TFMT_ETC2_R11_SNORM = 114,

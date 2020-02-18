@@ -28,6 +28,15 @@ void wil_platform_modexit(void)
 	msm_11ad_modexit();
 }
 
+int __init wil_platform_modinit(void)
+{
+	return 0;
+}
+
+void wil_platform_modexit(void)
+{
+}
+
 /**
  * wil_platform_init() - wil6210 platform module init
  *
@@ -38,7 +47,11 @@ void wil_platform_modexit(void)
 void *wil_platform_init(struct device *dev, struct wil_platform_ops *ops,
 			const struct wil_platform_rops *rops, void *wil_handle)
 {
+<<<<<<< HEAD
 	void *handle;
+=======
+	void *handle = ops; /* to return some non-NULL for 'void' impl. */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!ops) {
 		dev_err(dev,

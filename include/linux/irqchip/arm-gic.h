@@ -100,11 +100,14 @@
 
 struct device_node;
 
+<<<<<<< HEAD
 extern struct irq_chip gic_arch_extn;
 
 void gic_set_irqchip_flags(unsigned long flags);
 void gic_init_bases(unsigned int, int, void __iomem *, void __iomem *,
 		    u32 offset, struct device_node *);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void gic_cascade_irq(unsigned int gic_nr, unsigned int irq);
 int gic_cpu_if_down(unsigned int gic_nr);
 

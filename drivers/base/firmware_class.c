@@ -168,6 +168,7 @@ struct fw_cache_entry {
 struct fw_name_devm {
 	unsigned long magic;
 	const char *name;
+<<<<<<< HEAD
 };
 
 struct fw_desc {
@@ -184,6 +185,8 @@ struct fw_desc {
 	struct module *module;
 	void *context;
 	void (*cont)(const struct firmware *fw, void *context);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define to_fwbuf(d) container_of(d, struct firmware_buf, ref)
@@ -1516,6 +1519,7 @@ static void request_firmware_work_func(struct work_struct *work)
 	kfree(desc);
 }
 
+<<<<<<< HEAD
 int
 _request_firmware_nowait(
 	struct module *module, bool uevent,
@@ -1565,6 +1569,11 @@ _request_firmware_nowait(
 	INIT_WORK(&desc->work, request_firmware_work_func);
 	schedule_work(&desc->work);
 	return 0;
+=======
+	module_put(fw_work->module);
+	kfree_const(fw_work->name);
+	kfree(fw_work);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**
@@ -1596,8 +1605,39 @@ request_firmware_nowait(
 	const char *name, struct device *device, gfp_t gfp, void *context,
 	void (*cont)(const struct firmware *fw, void *context))
 {
+<<<<<<< HEAD
 	return _request_firmware_nowait(module, uevent, name, device, gfp,
 				context, cont, false, 0, 0, NULL, NULL, NULL);
+=======
+	struct firmware_work *fw_work;
+
+	fw_work = kzalloc(sizeof(struct firmware_work), gfp);
+	if (!fw_work)
+		return -ENOMEM;
+
+	fw_work->module = module;
+	fw_work->name = kstrdup_const(name, gfp);
+	if (!fw_work->name) {
+		kfree(fw_work);
+		return -ENOMEM;
+	}
+	fw_work->device = device;
+	fw_work->context = context;
+	fw_work->cont = cont;
+	fw_work->opt_flags = FW_OPT_NOWAIT | FW_OPT_FALLBACK |
+		(uevent ? FW_OPT_UEVENT : FW_OPT_USERHELPER);
+
+	if (!try_module_get(module)) {
+		kfree_const(fw_work->name);
+		kfree(fw_work);
+		return -EFAULT;
+	}
+
+	get_device(fw_work->device);
+	INIT_WORK(&fw_work->work, request_firmware_work_func);
+	schedule_work(&fw_work->work);
+	return 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(request_firmware_nowait);
 

@@ -48,5 +48,17 @@
 #define SYSLOG_FROM_PROC             1
 
 int do_syslog(int type, char __user *buf, int count, int source);
+<<<<<<< HEAD
+=======
+
+#ifdef CONFIG_PRINTK
+int check_syslog_permissions(int type, int source);
+#else
+static inline int check_syslog_permissions(int type, int source)
+{
+	return 0;
+}
+#endif
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /* _LINUX_SYSLOG_H */

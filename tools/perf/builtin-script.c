@@ -427,6 +427,7 @@ static void print_sample_start(struct perf_sample *sample,
 			printf("%5lu.%09llu: ", secs, nsecs);
 		else
 			printf("%5lu.%06lu: ", secs, usecs);
+<<<<<<< HEAD
 	}
 }
 
@@ -461,6 +462,42 @@ static void print_sample_brstack(union perf_event *event __maybe_unused,
 	}
 }
 
+=======
+	}
+}
+
+static inline char
+mispred_str(struct branch_entry *br)
+{
+	if (!(br->flags.mispred  || br->flags.predicted))
+		return '-';
+
+	return br->flags.predicted ? 'P' : 'M';
+}
+
+static void print_sample_brstack(union perf_event *event __maybe_unused,
+			  struct perf_sample *sample,
+			  struct thread *thread __maybe_unused,
+			  struct perf_event_attr *attr __maybe_unused)
+{
+	struct branch_stack *br = sample->branch_stack;
+	u64 i;
+
+	if (!(br && br->nr))
+		return;
+
+	for (i = 0; i < br->nr; i++) {
+		printf(" 0x%"PRIx64"/0x%"PRIx64"/%c/%c/%c/%d ",
+			br->entries[i].from,
+			br->entries[i].to,
+			mispred_str( br->entries + i),
+			br->entries[i].flags.in_tx? 'X' : '-',
+			br->entries[i].flags.abort? 'A' : '-',
+			br->entries[i].flags.cycles);
+	}
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void print_sample_brstacksym(union perf_event *event __maybe_unused,
 			  struct perf_sample *sample,
 			  struct thread *thread __maybe_unused,

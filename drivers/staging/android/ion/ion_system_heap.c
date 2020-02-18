@@ -36,8 +36,14 @@ static gfp_t high_order_gfp_flags = (GFP_HIGHUSER | __GFP_NOWARN |
 				     & ~__GFP_RECLAIM;
 static gfp_t low_order_gfp_flags  = (GFP_HIGHUSER | __GFP_NOWARN);
 
+<<<<<<< HEAD
 #ifndef CONFIG_ALLOC_BUFFERS_IN_4K_CHUNKS
 #if defined(CONFIG_IOMMU_IO_PGTABLE_ARMV7S)
+=======
+static gfp_t high_order_gfp_flags = (GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN |
+				     __GFP_NORETRY) & ~__GFP_RECLAIM;
+static gfp_t low_order_gfp_flags  = (GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static const unsigned int orders[] = {8, 4, 0};
 #else
 static const unsigned int orders[] = {9, 4, 0};
@@ -524,6 +530,7 @@ void ion_system_heap_free(struct ion_buffer *buffer)
 	struct scatterlist *sg;
 	LIST_HEAD(pages);
 	int i;
+<<<<<<< HEAD
 	int vmid = get_secure_vmid(buffer->flags);
 	struct device *dev = heap->priv;
 
@@ -535,6 +542,16 @@ void ion_system_heap_free(struct ion_buffer *buffer)
 		if (ion_system_secure_heap_unassign_sg(table, vmid))
 			return;
 	}
+=======
+
+	/*
+	 *  uncached pages come from the page pools, zero them before returning
+	 *  for security purposes (other allocations are zerod at
+	 *  alloc time
+	 */
+	if (!cached && !(buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE))
+		ion_heap_buffer_zero(buffer);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	for_each_sg(table->sgl, sg, table->nents, i)
 		free_buffer_page(sys_heap, buffer, sg_page(sg),
@@ -622,14 +639,20 @@ static int ion_system_heap_shrink(struct ion_heap *heap, gfp_t gfp_mask,
 {
 	struct ion_system_heap *sys_heap;
 	int nr_total = 0;
+<<<<<<< HEAD
 	int i, j, nr_freed = 0;
 	int only_scan = 0;
 	struct ion_page_pool *pool;
+=======
+	int i, nr_freed;
+	int only_scan = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	sys_heap = container_of(heap, struct ion_system_heap, heap);
 
 	if (!nr_to_scan)
 		only_scan = 1;
+<<<<<<< HEAD
 
 	for (i = 0; i < num_orders; i++) {
 		nr_freed = 0;
@@ -645,6 +668,13 @@ static int ion_system_heap_shrink(struct ion_heap *heap, gfp_t gfp_mask,
 
 		pool = sys_heap->cached_pools[i];
 		nr_freed += ion_page_pool_shrink(pool, gfp_mask, nr_to_scan);
+=======
+
+	for (i = 0; i < num_orders; i++) {
+		struct ion_page_pool *pool = sys_heap->pools[i];
+
+		nr_freed = ion_page_pool_shrink(pool, gfp_mask, nr_to_scan);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		nr_total += nr_freed;
 
 		if (!only_scan) {

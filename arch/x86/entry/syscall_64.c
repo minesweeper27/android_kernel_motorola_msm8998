@@ -6,6 +6,7 @@
 #include <asm/asm-offsets.h>
 #include <asm/syscall.h>
 
+<<<<<<< HEAD
 #define __SYSCALL_64_QUAL_(sym) sym
 #define __SYSCALL_64_QUAL_ptregs(sym) ptregs_##sym
 
@@ -14,6 +15,21 @@
 #undef __SYSCALL_64
 
 #define __SYSCALL_64(nr, sym, qual) [nr] = __SYSCALL_64_QUAL_##qual(sym),
+=======
+#define __SYSCALL_COMMON(nr, sym, compat) __SYSCALL_64(nr, sym, compat)
+
+#ifdef CONFIG_X86_X32_ABI
+# define __SYSCALL_X32(nr, sym, compat) __SYSCALL_64(nr, sym, compat)
+#else
+# define __SYSCALL_X32(nr, sym, compat) /* nothing */
+#endif
+
+#define __SYSCALL_64(nr, sym, compat) extern asmlinkage long sym(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long) ;
+#include <asm/syscalls_64.h>
+#undef __SYSCALL_64
+
+#define __SYSCALL_64(nr, sym, compat) [nr] = sym,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern long sys_ni_syscall(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long);
 

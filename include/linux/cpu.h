@@ -252,7 +252,10 @@ extern struct bus_type cpu_subsys;
 extern void cpu_hotplug_begin(void);
 extern void cpu_hotplug_done(void);
 extern void get_online_cpus(void);
+<<<<<<< HEAD
 extern void cpu_hotplug_mutex_held(void);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern void put_online_cpus(void);
 extern void cpu_hotplug_disable(void);
 extern void cpu_hotplug_enable(void);
@@ -336,6 +339,7 @@ static inline bool cpu_mitigations_off(void)
 	return cpu_mitigations == CPU_MITIGATIONS_OFF;
 }
 
+<<<<<<< HEAD
 #define IDLE_START 1
 #define IDLE_END 2
 
@@ -343,4 +347,6 @@ void idle_notifier_register(struct notifier_block *n);
 void idle_notifier_unregister(struct notifier_block *n);
 void idle_notifier_call_chain(unsigned long val);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* _LINUX_CPU_H_ */

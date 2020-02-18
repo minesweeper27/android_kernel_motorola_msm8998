@@ -161,7 +161,11 @@ void bt_warn(const char *format, ...)
 	vaf.fmt = format;
 	vaf.va = &args;
 
+<<<<<<< HEAD
 	pr_warn("%pKV", &vaf);
+=======
+	pr_warn("%pV", &vaf);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	va_end(args);
 }
@@ -193,7 +197,11 @@ void bt_err_ratelimited(const char *format, ...)
 	vaf.fmt = format;
 	vaf.va = &args;
 
+<<<<<<< HEAD
 	pr_err_ratelimited("%pKV", &vaf);
+=======
+	pr_err_ratelimited("%pV", &vaf);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	va_end(args);
 }

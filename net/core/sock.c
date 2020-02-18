@@ -1440,10 +1440,14 @@ struct sock *sk_alloc(struct net *net, int family, gfp_t priority,
 }
 EXPORT_SYMBOL(sk_alloc);
 
+<<<<<<< HEAD
 /* Sockets having SOCK_RCU_FREE will call this function after one RCU
  * grace period. This is the case for UDP sockets and TCP listeners.
  */
 static void __sk_destruct(struct rcu_head *head)
+=======
+void sk_destruct(struct sock *sk)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct sock *sk = container_of(head, struct sock, sk_rcu);
 	struct sk_filter *filter;
@@ -1477,6 +1481,7 @@ static void __sk_destruct(struct rcu_head *head)
 	sk_prot_free(sk->sk_prot_creator, sk);
 }
 
+<<<<<<< HEAD
 void sk_destruct(struct sock *sk)
 {
 	if (sock_flag(sk, SOCK_RCU_FREE))
@@ -1485,6 +1490,8 @@ void sk_destruct(struct sock *sk)
 		__sk_destruct(&sk->sk_rcu);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void __sk_free(struct sock *sk)
 {
 	if (unlikely(sk->sk_net_refcnt && sock_diag_has_destroy_listeners(sk)))

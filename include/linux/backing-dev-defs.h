@@ -10,7 +10,10 @@
 #include <linux/flex_proportions.h>
 #include <linux/timer.h>
 #include <linux/workqueue.h>
+<<<<<<< HEAD
 #include <linux/kref.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct page;
 struct device;
@@ -137,13 +140,19 @@ struct bdi_writeback {
 struct backing_dev_info {
 	struct list_head bdi_list;
 	unsigned long ra_pages;	/* max readahead in PAGE_CACHE_SIZE units */
+<<<<<<< HEAD
 	unsigned long io_pages;	/* max allowed IO size */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned int capabilities; /* Device capabilities */
 	congested_fn *congested_fn; /* Function pointer if device is md/dm */
 	void *congested_data;	/* Pointer to aux data for congested func */
 
 	char *name;
+<<<<<<< HEAD
 	struct kref refcnt;	/* Reference counter for the structure */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	unsigned int min_ratio;
 	unsigned int max_ratio, max_prop_frac;

@@ -39,6 +39,7 @@
 
 #include "ufshcd.h"
 #include "ufshcd-pltfrm.h"
+<<<<<<< HEAD
 
 static int ufshcd_parse_reset_info(struct ufs_hba *hba)
 {
@@ -55,6 +56,8 @@ static int ufshcd_parse_reset_info(struct ufs_hba *hba)
 
 	return ret;
 }
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static int ufshcd_parse_clock_info(struct ufs_hba *hba)
 {
@@ -320,12 +323,20 @@ EXPORT_SYMBOL_GPL(ufshcd_pltfrm_shutdown);
 /**
  * ufshcd_pltfrm_init - probe routine of the driver
  * @pdev: pointer to Platform device handle
+<<<<<<< HEAD
  * @var: pointer to variant specific data
+=======
+ * @vops: pointer to variant ops
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Returns 0 on success, non-zero value on failure
  */
 int ufshcd_pltfrm_init(struct platform_device *pdev,
+<<<<<<< HEAD
 		       struct ufs_hba_variant *var)
+=======
+		       struct ufs_hba_variant_ops *vops)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct ufs_hba *hba;
 	void __iomem *mmio_base;
@@ -353,7 +364,11 @@ int ufshcd_pltfrm_init(struct platform_device *pdev,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	hba->var = var;
+=======
+	hba->vops = vops;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	err = ufshcd_parse_clock_info(hba);
 	if (err) {
@@ -398,7 +413,13 @@ int ufshcd_pltfrm_init(struct platform_device *pdev,
 	pm_runtime_set_active(&pdev->dev);
 	pm_runtime_enable(&pdev->dev);
 
+<<<<<<< HEAD
 	return 0;
+=======
+out_disable_rpm:
+	pm_runtime_disable(&pdev->dev);
+	pm_runtime_set_suspended(&pdev->dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 dealloc_host:
 	ufshcd_dealloc_host(hba);
 out:

@@ -376,6 +376,13 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
 	int i;
 
 	ret = 0;
+<<<<<<< HEAD
+=======
+	virt_dev = xhci->devs[slot_id];
+	if (!virt_dev)
+		return -ENODEV;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	cmd = xhci_alloc_command(xhci, false, true, GFP_NOIO);
 	if (!cmd) {
 		xhci_dbg(xhci, "Couldn't allocate command structure.\n");
@@ -1205,6 +1212,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 				temp = readl(port_array[wIndex]);
 				break;
 			}
+<<<<<<< HEAD
 
 			/*
 			 * For xHCI 1.1 according to section 4.19.1.2.4.1 a
@@ -1250,6 +1258,19 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 					 wIndex, link_state);
 				goto error;
 			}
+=======
+			/* Port must be enabled */
+			if (!(temp & PORT_PE)) {
+				retval = -ENODEV;
+				break;
+			}
+			/* Can't set port link state above '3' (U3) */
+			if (link_state > USB_SS_PORT_LS_U3) {
+				xhci_warn(xhci, "Cannot set port %d link state %d\n",
+					 wIndex, link_state);
+				goto error;
+			}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (link_state == USB_SS_PORT_LS_U3) {
 				slot_id = xhci_find_slot_id_by_port(hcd, xhci,
 						wIndex + 1);
@@ -1389,7 +1410,11 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
 				xhci_set_link_state(xhci, port_array, wIndex,
 							XDEV_RESUME);
 				spin_unlock_irqrestore(&xhci->lock, flags);
+<<<<<<< HEAD
 				usleep_range(21000, 21500);
+=======
+				msleep(USB_RESUME_TIMEOUT);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				spin_lock_irqsave(&xhci->lock, flags);
 				xhci_set_link_state(xhci, port_array, wIndex,
 							XDEV_U0);
@@ -1703,7 +1728,11 @@ int xhci_bus_resume(struct usb_hcd *hcd)
 
 	if (need_usb2_u3_exit) {
 		spin_unlock_irqrestore(&xhci->lock, flags);
+<<<<<<< HEAD
 		usleep_range(21000, 21500);
+=======
+		msleep(USB_RESUME_TIMEOUT);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		spin_lock_irqsave(&xhci->lock, flags);
 	}
 

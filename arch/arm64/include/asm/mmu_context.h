@@ -28,8 +28,11 @@
 #include <asm-generic/mm_hooks.h>
 #include <asm/cputype.h>
 #include <asm/pgtable.h>
+<<<<<<< HEAD
 #include <linux/msm_rtb.h>
 #include <asm/tlbflush.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_PID_IN_CONTEXTIDR
 static inline void contextidr_thread_switch(struct task_struct *next)
@@ -84,6 +87,7 @@ static inline bool __cpu_uses_extended_idmap(void)
 		unlikely(idmap_t0sz != TCR_T0SZ(VA_BITS)));
 }
 
+<<<<<<< HEAD
 /*
  * Set TCR.T0SZ to its default value (based on VA_BITS)
  */
@@ -106,6 +110,8 @@ static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
 #define cpu_set_default_tcr_t0sz()	__cpu_set_tcr_t0sz(TCR_T0SZ(VA_BITS))
 #define cpu_set_idmap_tcr_t0sz()	__cpu_set_tcr_t0sz(idmap_t0sz)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Remove the idmap from TTBR0_EL1 and install the pgd of the active mm.
  *
@@ -120,6 +126,7 @@ static inline void __cpu_set_tcr_t0sz(unsigned long t0sz)
  */
 static inline void cpu_uninstall_idmap(void)
 {
+<<<<<<< HEAD
 	struct mm_struct *mm = current->active_mm;
 
 	cpu_set_reserved_ttbr0();
@@ -156,6 +163,20 @@ static inline void cpu_replace_ttbr1(pgd_t *pgd)
 	cpu_install_idmap();
 	replace_phys(pgd_phys);
 	cpu_uninstall_idmap();
+=======
+	unsigned long tcr;
+
+	if (!__cpu_uses_extended_idmap())
+		return;
+
+	asm volatile (
+	"	mrs	%0, tcr_el1	;"
+	"	bfi	%0, %1, %2, %3	;"
+	"	msr	tcr_el1, %0	;"
+	"	isb"
+	: "=&r" (tcr)
+	: "r"(TCR_T0SZ(VA_BITS)), "I"(TCR_T0SZ_OFFSET), "I"(TCR_TxSZ_WIDTH));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*
@@ -171,6 +192,7 @@ static inline void cpu_replace_ttbr1(pgd_t *pgd)
 void check_and_switch_context(struct mm_struct *mm, unsigned int cpu);
 
 #define init_new_context(tsk,mm)	({ atomic64_set(&(mm)->context.id, 0); 0; })
+<<<<<<< HEAD
 
 #ifdef CONFIG_ARM64_SW_TTBR0_PAN
 static inline void update_saved_ttbr0(struct task_struct *tsk,
@@ -194,6 +216,8 @@ static inline void update_saved_ttbr0(struct task_struct *tsk,
 {
 }
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline void
 enter_lazy_tlb(struct mm_struct *mm, struct task_struct *tsk)
@@ -209,6 +233,9 @@ static inline void __switch_mm(struct mm_struct *next)
 {
 	unsigned int cpu = smp_processor_id();
 
+	if (prev == next)
+		return;
+
 	/*
 	 * init_mm.pgd does not contain any user mappings and it is always
 	 * active for kernel addresses in TTBR1. Just set the reserved TTBR0.
@@ -219,6 +246,7 @@ static inline void __switch_mm(struct mm_struct *next)
 	}
 
 	check_and_switch_context(next, cpu);
+<<<<<<< HEAD
 }
 
 static inline void
@@ -235,6 +263,8 @@ switch_mm(struct mm_struct *prev, struct mm_struct *next,
 	 * of another thread of the same process).
 	 */
 	update_saved_ttbr0(tsk, next);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #define deactivate_mm(tsk,mm)	do { } while (0)

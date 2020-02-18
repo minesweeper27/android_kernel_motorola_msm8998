@@ -71,6 +71,10 @@ const struct ath10k_hw_regs qca6174_regs = {
 };
 
 const struct ath10k_hw_regs qca99x0_regs = {
+<<<<<<< HEAD
+=======
+	.rtc_state_cold_reset_mask		= 0x00000400,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.rtc_soc_base_address			= 0x00080000,
 	.rtc_wmac_base_address			= 0x00000000,
 	.soc_core_base_address			= 0x00082000,
@@ -85,7 +89,11 @@ const struct ath10k_hw_regs qca99x0_regs = {
 	.ce7_base_address			= 0x0004bc00,
 	/* Note: qca99x0 supports upto 12 Copy Engines. Other than address of
 	 * CE0 and CE1 no other copy engine is directly referred in the code.
+<<<<<<< HEAD
 	 * It is not really necessary to assign address for newly supported
+=======
+	 * It is not really neccessary to assign address for newly supported
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	 * CEs in this address table.
 	 *	Copy Engine		Address
 	 *	CE8			0x0004c000
@@ -106,6 +114,7 @@ const struct ath10k_hw_regs qca99x0_regs = {
 	.pcie_intr_clr_address			= 0x00000010,
 };
 
+<<<<<<< HEAD
 const struct ath10k_hw_regs qca4019_regs = {
 	.rtc_soc_base_address                   = 0x00080000,
 	.soc_core_base_address                  = 0x00082000,
@@ -468,6 +477,9 @@ struct ath10k_hw_ce_regs qcax_ce_regs = {
 
 const struct ath10k_hw_values qca988x_values = {
 	.pdev_suspend_option		= WMI_PDEV_SUSPEND_AND_DISABLE_INTR,
+=======
+const struct ath10k_hw_values qca988x_values = {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.rtc_state_val_on		= 3,
 	.ce_count			= 8,
 	.msi_assign_ce_max		= 7,
@@ -477,7 +489,10 @@ const struct ath10k_hw_values qca988x_values = {
 };
 
 const struct ath10k_hw_values qca6174_values = {
+<<<<<<< HEAD
 	.pdev_suspend_option		= WMI_PDEV_SUSPEND_AND_DISABLE_INTR,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.rtc_state_val_on		= 3,
 	.ce_count			= 8,
 	.msi_assign_ce_max		= 7,
@@ -487,7 +502,10 @@ const struct ath10k_hw_values qca6174_values = {
 };
 
 const struct ath10k_hw_values qca99x0_values = {
+<<<<<<< HEAD
 	.pdev_suspend_option		= WMI_PDEV_SUSPEND_AND_DISABLE_INTR,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.rtc_state_val_on		= 7,
 	.ce_count			= 12,
 	.msi_assign_ce_max		= 12,
@@ -496,6 +514,7 @@ const struct ath10k_hw_values qca99x0_values = {
 	.ce_desc_meta_data_lsb		= 4,
 };
 
+<<<<<<< HEAD
 const struct ath10k_hw_values qca9888_values = {
 	.pdev_suspend_option		= WMI_PDEV_SUSPEND_AND_DISABLE_INTR,
 	.rtc_state_val_on		= 3,
@@ -583,16 +602,22 @@ struct ath10k_shadow_reg_address wcn3990_shadow_reg_address = {
 	.shadow_reg_address_23 = 0x0003007C
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void ath10k_hw_fill_survey_time(struct ath10k *ar, struct survey_info *survey,
 				u32 cc, u32 rcc, u32 cc_prev, u32 rcc_prev)
 {
 	u32 cc_fix = 0;
+<<<<<<< HEAD
 	u32 rcc_fix = 0;
 	enum ath10k_hw_cc_wraparound_type wraparound_type;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	survey->filled |= SURVEY_INFO_TIME |
 			  SURVEY_INFO_TIME_BUSY;
 
+<<<<<<< HEAD
 	wraparound_type = ar->hw_params.cc_wraparound_type;
 
 	if (cc < cc_prev || rcc < rcc_prev) {
@@ -617,10 +642,20 @@ void ath10k_hw_fill_survey_time(struct ath10k *ar, struct survey_info *survey,
 
 	cc -= cc_prev - cc_fix;
 	rcc -= rcc_prev - rcc_fix;
+=======
+	if (ar->hw_params.has_shifted_cc_wraparound && cc < cc_prev) {
+		cc_fix = 0x7fffffff;
+		survey->filled &= ~SURVEY_INFO_TIME_BUSY;
+	}
+
+	cc -= cc_prev - cc_fix;
+	rcc -= rcc_prev;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	survey->time = CCNT_TO_MSEC(ar, cc);
 	survey->time_busy = CCNT_TO_MSEC(ar, rcc);
 }
+<<<<<<< HEAD
 
 const struct ath10k_hw_ops qca988x_ops = {
 };
@@ -636,3 +671,5 @@ const struct ath10k_hw_ops qca99x0_ops = {
 };
 
 const struct ath10k_hw_ops wcn3990_ops = {0};
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -14,8 +14,11 @@
 #ifndef __LINUX_ARM_SMCCC_H
 #define __LINUX_ARM_SMCCC_H
 
+<<<<<<< HEAD
 #include <linux/linkage.h>
 #include <linux/types.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <uapi/linux/const.h>
 
 /*
@@ -125,6 +128,7 @@ asmlinkage void arm_smccc_hvc(unsigned long a0, unsigned long a1,
 			unsigned long a5, unsigned long a6, unsigned long a7,
 			struct arm_smccc_res *res);
 
+<<<<<<< HEAD
 
 static inline unsigned long __invoke_psci_fn_hvc(unsigned long function_id,
 			unsigned long arg0, unsigned long arg1,
@@ -146,6 +150,8 @@ static inline unsigned long __invoke_psci_fn_smc(unsigned long function_id,
 	return res.a0;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* SMCCC v1.1 implementation madness follows */
 #ifdef CONFIG_ARM64
 

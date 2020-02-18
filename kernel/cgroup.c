@@ -719,10 +719,17 @@ static void css_set_move_task(struct task_struct *task,
 
 	if (to_cset) {
 		/*
+<<<<<<< HEAD
 		 * We are synchronized through css_set_lock against
 		 * PF_EXITING setting such that we can't race against
 		 * cgroup_exit() disassociating the task from the
 		 * css_set.
+=======
+		 * We are synchronized through cgroup_threadgroup_rwsem
+		 * against PF_EXITING setting such that we can't race
+		 * against cgroup_exit() changing the css_set to
+		 * init_css_set and dropping the old one.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		 */
 		WARN_ON_ONCE(task->flags & PF_EXITING);
 
@@ -1470,6 +1477,7 @@ static int css_populate_dir(struct cgroup_subsys_state *css,
 			failed_cfts = cfts;
 			goto err;
 		}
+<<<<<<< HEAD
 	}
 	return 0;
 err:
@@ -1478,6 +1486,16 @@ err:
 			break;
 		cgroup_addrm_files(css, cgrp, cfts, false);
 	}
+=======
+	}
+	return 0;
+err:
+	list_for_each_entry(cfts, &css->ss->cfts, node) {
+		if (cfts == failed_cfts)
+			break;
+		cgroup_addrm_files(css, cgrp, cfts, false);
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 
@@ -2694,8 +2712,12 @@ static int cgroup_procs_write_permission(struct task_struct *task,
 	 */
 	if (!uid_eq(cred->euid, GLOBAL_ROOT_UID) &&
 	    !uid_eq(cred->euid, tcred->uid) &&
+<<<<<<< HEAD
 	    !uid_eq(cred->euid, tcred->suid) &&
 	    !ns_capable(tcred->user_ns, CAP_SYS_NICE))
+=======
+	    !uid_eq(cred->euid, tcred->suid))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ret = -EACCES;
 
 	if (!ret && cgroup_on_dfl(dst_cgrp)) {
@@ -2775,11 +2797,14 @@ static ssize_t __cgroup_procs_write(struct kernfs_open_file *of, char *buf,
 	ret = cgroup_procs_write_permission(tsk, cgrp, of);
 	if (!ret)
 		ret = cgroup_attach_task(cgrp, tsk, threadgroup);
+<<<<<<< HEAD
 
 	/* This covers boosting for app launches and app transitions */
 	if (!ret && !threadgroup && !strcmp(of->kn->parent->name, "top-app") &&
 	    task_is_zygote(tsk->parent))
 		cpu_input_boost_kick_max(1000);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	put_task_struct(tsk);
 	goto out_unlock_threadgroup;
@@ -5411,7 +5436,10 @@ int __init cgroup_init(void)
 
 	WARN_ON(sysfs_create_mount_point(fs_kobj, "cgroup"));
 	WARN_ON(register_filesystem(&cgroup_fs_type));
+<<<<<<< HEAD
 	WARN_ON(register_filesystem(&cgroup2_fs_type));
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	WARN_ON(!proc_create("cgroups", 0, NULL, &proc_cgroupstats_operations));
 
 	return 0;
@@ -5717,6 +5745,7 @@ void cgroup_exit(struct task_struct *tsk)
 	int i;
 
 	/*
+<<<<<<< HEAD
 	 * Avoid potential race with the migrate path.
 	 */
 	spin_lock_irq(&css_set_lock);
@@ -5727,12 +5756,26 @@ void cgroup_exit(struct task_struct *tsk)
 
 	if (!list_empty(&tsk->cg_list)) {
 		css_set_move_task(tsk, cset, NULL, false);
+=======
+	 * Unlink from @tsk from its css_set.  As migration path can't race
+	 * with us, we can check css_set and cg_list without synchronization.
+	 */
+	cset = task_css_set(tsk);
+
+	if (!list_empty(&tsk->cg_list)) {
+		spin_lock_irq(&css_set_lock);
+		css_set_move_task(tsk, cset, NULL, false);
+		spin_unlock_irq(&css_set_lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} else {
 		get_css_set(cset);
 	}
 
+<<<<<<< HEAD
 	spin_unlock_irq(&css_set_lock);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* see cgroup_post_fork() for details */
 	for_each_subsys_which(ss, i, &have_exit_callback)
 		ss->exit(tsk);

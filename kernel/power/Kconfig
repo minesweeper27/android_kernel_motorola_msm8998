@@ -29,6 +29,7 @@ config SUSPEND_SKIP_SYNC
 	  of suspend, or they are content with invoking sync() from
 	  user-space before invoking suspend.  Say Y if that's your case.
 
+<<<<<<< HEAD
 config WAKELOCK
 	bool "Android's method of preventing suspend"
 	default y
@@ -38,6 +39,8 @@ config WAKELOCK
 
 	  Say Y if you are running an android userspace.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config HIBERNATE_CALLBACKS
 	bool
 

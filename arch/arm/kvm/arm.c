@@ -171,8 +171,11 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
 	int r;
 	switch (ext) {
 	case KVM_CAP_IRQCHIP:
+<<<<<<< HEAD
 		r = vgic_present;
 		break;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case KVM_CAP_IOEVENTFD:
 	case KVM_CAP_DEVICE_CTRL:
 	case KVM_CAP_USER_MEMORY:
@@ -983,7 +986,10 @@ static void cpu_init_hyp_mode(void *dummy)
 	vector_ptr = (unsigned long)kvm_ksym_ref(__kvm_hyp_vector);
 
 	__cpu_init_hyp_mode(boot_pgd_ptr, pgd_ptr, hyp_stack_ptr, vector_ptr);
+<<<<<<< HEAD
 	__cpu_init_stage2();
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	kvm_arm_init_debug();
 }
@@ -1252,6 +1258,28 @@ static int init_hyp_mode(void)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	/*
+	 * Execute the init code on each CPU.
+	 */
+	on_each_cpu(cpu_init_hyp_mode, NULL, 1);
+
+	/*
+	 * Init HYP view of VGIC
+	 */
+	err = kvm_vgic_hyp_init();
+	if (err)
+		goto out_free_context;
+
+	/*
+	 * Init HYP architected timer support
+	 */
+	err = kvm_timer_hyp_init();
+	if (err)
+		goto out_free_context;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifndef CONFIG_HOTPLUG_CPU
 	free_boot_hyp_pgd();
 #endif

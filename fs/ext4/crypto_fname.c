@@ -54,6 +54,12 @@ static unsigned max_name_len(struct inode *inode)
 		EXT4_NAME_LEN;
 }
 
+static unsigned max_name_len(struct inode *inode)
+{
+	return S_ISLNK(inode->i_mode) ? inode->i_sb->s_blocksize :
+		EXT4_NAME_LEN;
+}
+
 /**
  * ext4_fname_encrypt() -
  *

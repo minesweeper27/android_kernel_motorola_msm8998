@@ -250,7 +250,10 @@ struct fscrypt_key {
 #define FS_EXTENT_FL			0x00080000 /* Extents */
 #define FS_DIRECTIO_FL			0x00100000 /* Use direct i/o */
 #define FS_NOCOW_FL			0x00800000 /* Do not cow file */
+<<<<<<< HEAD
 #define FS_INLINE_DATA_FL		0x10000000 /* Reserved for ext4 */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
 #define FS_RESERVED_FL			0x80000000 /* reserved for ext2 lib */
 

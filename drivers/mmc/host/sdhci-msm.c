@@ -827,11 +827,56 @@ static int msm_init_cm_dll(struct sdhci_host *host)
 		}
 	}
 
+<<<<<<< HEAD
 out:
 	/* Restore the correct PWRSAVE state */
 	if (prev_pwrsave ^ curr_pwrsave) {
 		u32 reg = readl_relaxed(host->ioaddr +
 			msm_host_offset->CORE_VENDOR_SPEC);
+=======
+	spin_unlock_irqrestore(&host->lock, flags);
+	return 0;
+}
+
+static int sdhci_msm_execute_tuning(struct sdhci_host *host, u32 opcode)
+{
+	int tuning_seq_cnt = 3;
+	u8 phase, tuned_phases[16], tuned_phase_cnt = 0;
+	int rc;
+	struct mmc_host *mmc = host->mmc;
+	struct mmc_ios ios = host->mmc->ios;
+
+	/*
+	 * Tuning is required for SDR104, HS200 and HS400 cards and
+	 * if clock frequency is greater than 100MHz in these modes.
+	 */
+	if (host->clock <= 100 * 1000 * 1000 ||
+	    !((ios.timing == MMC_TIMING_MMC_HS200) ||
+	      (ios.timing == MMC_TIMING_UHS_SDR104)))
+		return 0;
+
+retry:
+	/* First of all reset the tuning block */
+	rc = msm_init_cm_dll(host);
+	if (rc)
+		return rc;
+
+	phase = 0;
+	do {
+		/* Set the phase in delay line hw block */
+		rc = msm_config_cm_dll_phase(host, phase);
+		if (rc)
+			return rc;
+
+		rc = mmc_send_tuning(mmc, opcode, NULL);
+		if (!rc) {
+			/* Tuning is successful at this tuning point */
+			tuned_phases[tuned_phase_cnt++] = phase;
+			dev_dbg(mmc_dev(mmc), "%s: Found good phase = %d\n",
+				 mmc_hostname(mmc), phase);
+		}
+	} while (++phase < ARRAY_SIZE(tuned_phases));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (prev_pwrsave)
 			reg |= CORE_CLK_PWRSAVE;
@@ -927,7 +972,18 @@ static int sdhci_msm_cdclp533_calibration(struct sdhci_host *host)
 			CORE_CSR_CDC_CAL_TIMER_CFG0) | CORE_TIMER_ENA),
 			host->ioaddr + CORE_CSR_CDC_CAL_TIMER_CFG0);
 
+<<<<<<< HEAD
 	mb();
+=======
+	/* Vote for maximum clock rate for maximum performance */
+	ret = clk_set_rate(msm_host->clk, INT_MAX);
+	if (ret)
+		dev_warn(&pdev->dev, "core clock boost failed\n");
+
+	ret = clk_prepare_enable(msm_host->clk);
+	if (ret)
+		goto pclk_disable;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Poll on CALIBRATION_DONE field in CORE_CSR_CDC_STATUS0 to be 1 */
 	ret = readl_poll_timeout(host->ioaddr + CORE_CSR_CDC_STATUS0,

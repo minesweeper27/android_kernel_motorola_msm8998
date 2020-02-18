@@ -498,10 +498,17 @@ static int reg_query_builtin(const char *alpha2)
 			break;
 		}
 	}
+<<<<<<< HEAD
 
 	if (!regdom)
 		return -ENODATA;
 
+=======
+
+	if (!regdom)
+		return -ENODATA;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	request = kzalloc(sizeof(struct reg_regdb_apply_request), GFP_KERNEL);
 	if (!request)
 		return -ENOMEM;
@@ -591,6 +598,7 @@ static int call_crda(const char *alpha2)
 			alpha2[0], alpha2[1]);
 	else
 		pr_debug("Calling CRDA to update world regulatory domain\n");
+<<<<<<< HEAD
 
 	ret = kobject_uevent_env(&reg_pdev->dev.kobj, KOBJ_CHANGE, env);
 	if (ret)
@@ -608,6 +616,25 @@ static inline int call_crda(const char *alpha2)
 {
 	return -ENODATA;
 }
+=======
+
+	ret = kobject_uevent_env(&reg_pdev->dev.kobj, KOBJ_CHANGE, env);
+	if (ret)
+		return ret;
+
+	queue_delayed_work(system_power_efficient_wq,
+			   &crda_timeout, msecs_to_jiffies(3142));
+	return 0;
+}
+#else
+static inline void cancel_crda_timeout(void) {}
+static inline void cancel_crda_timeout_sync(void) {}
+static inline void reset_crda_timeouts(void) {}
+static inline int call_crda(const char *alpha2)
+{
+	return -ENODATA;
+}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_CFG80211_CRDA_SUPPORT */
 
 static bool reg_query_database(struct regulatory_request *request)

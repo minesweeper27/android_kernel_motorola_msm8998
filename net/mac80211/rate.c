@@ -177,7 +177,10 @@ ieee80211_rate_control_ops_get(const char *name)
 	if (!ops && (strlen(CONFIG_MAC80211_RC_DEFAULT) > 0))
 		/* try built-in one if specific alg requested but not found */
 		ops = ieee80211_try_rate_control_ops_get(CONFIG_MAC80211_RC_DEFAULT);
+<<<<<<< HEAD
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kernel_param_unlock(THIS_MODULE);
 
 	return ops;
@@ -440,6 +443,7 @@ static bool rate_idx_match_vht_mcs_mask(s8 *rate_idx, u16 *vht_mask)
 		}
 		rbit = 15;
 	}
+<<<<<<< HEAD
 
 	/* Try to find a higher rate that would be allowed */
 	ridx = (*rate_idx + 1) >> 4;
@@ -457,6 +461,25 @@ static bool rate_idx_match_vht_mcs_mask(s8 *rate_idx, u16 *vht_mask)
 	return false;
 }
 
+=======
+
+	/* Try to find a higher rate that would be allowed */
+	ridx = (*rate_idx + 1) >> 4;
+	rbit = (*rate_idx + 1) & 0xf;
+
+	for (i = ridx; i < NL80211_VHT_NSS_MAX; i++) {
+		for (j = rbit; j < 16; j++) {
+			if (vht_mask[i] & BIT(j)) {
+				*rate_idx = (i << 4) | j;
+				return true;
+			}
+		}
+		rbit = 0;
+	}
+	return false;
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void rate_idx_match_mask(s8 *rate_idx, u16 *rate_flags,
 				struct ieee80211_supported_band *sband,
 				enum nl80211_chan_width chan_width,

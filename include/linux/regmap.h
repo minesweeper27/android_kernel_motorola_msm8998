@@ -388,10 +388,14 @@ struct regmap *__regmap_init_ac97(struct snd_ac97 *ac97,
 				  const struct regmap_config *config,
 				  struct lock_class_key *lock_key,
 				  const char *lock_name);
+<<<<<<< HEAD
 struct regmap *__regmap_init_swr(struct swr_device *dev,
 				 const struct regmap_config *config,
 				 struct lock_class_key *lock_key,
 				 const char *lock_name);
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct regmap *__devm_regmap_init(struct device *dev,
 				  const struct regmap_bus *bus,
 				  void *bus_context,
@@ -424,10 +428,13 @@ struct regmap *__devm_regmap_init_ac97(struct snd_ac97 *ac97,
 				       const struct regmap_config *config,
 				       struct lock_class_key *lock_key,
 				       const char *lock_name);
+<<<<<<< HEAD
 struct regmap *__devm_regmap_init_swr(struct swr_device *dev,
 				      const struct regmap_config *config,
 				      struct lock_class_key *lock_key,
 				      const char *lock_name);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * Wrapper for regmap_init macros to include a unique lockdep key and name
@@ -562,6 +569,7 @@ int regmap_attach_dev(struct device *dev, struct regmap *map,
 bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
 
 /**
+<<<<<<< HEAD
  * regmap_init_swr(): Initialise register map
  *
  * @swr: Device that will be interacted with
@@ -574,6 +582,8 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
 	__regmap_lockdep_wrapper(__regmap_init_swr, #config,		\
 				swr, config)
 /**
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * devm_regmap_init(): Initialise managed register map
  *
  * @dev: Device that will be interacted with
@@ -687,6 +697,7 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
 #define devm_regmap_init_ac97(ac97, config)				\
 	__regmap_lockdep_wrapper(__devm_regmap_init_ac97, #config,	\
 				ac97, config)
+<<<<<<< HEAD
 
 /**
  * devm_regmap_init_swr(): Initialise managed register map
@@ -701,6 +712,8 @@ bool regmap_ac97_default_volatile(struct device *dev, unsigned int reg);
 #define devm_regmap_init_swr(swr, config)				\
 	__regmap_lockdep_wrapper(__devm_regmap_init_swr, #config,	\
 				swr, config)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 void regmap_exit(struct regmap *map);
 int regmap_reinit_cache(struct regmap *map,

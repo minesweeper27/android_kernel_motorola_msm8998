@@ -25,10 +25,13 @@ enum io_pgtable_fmt {
  * @tlb_sync:      Ensure any queued TLB invalidation has taken effect, and
  *                 any corresponding page table updates are visible to the
  *                 IOMMU.
+<<<<<<< HEAD
  * @alloc_pages_exact: Allocate page table memory (optional, defaults to
  *                     alloc_pages_exact)
  * @free_pages_exact:  Free page table memory (optional, defaults to
  *                     free_pages_exact)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Note that these can all be called in atomic context and must therefore
  * not block.
@@ -38,8 +41,11 @@ struct iommu_gather_ops {
 	void (*tlb_add_flush)(unsigned long iova, size_t size, bool leaf,
 			      void *cookie);
 	void (*tlb_sync)(void *cookie);
+<<<<<<< HEAD
 	void *(*alloc_pages_exact)(void *cookie, size_t size, gfp_t gfp_mask);
 	void (*free_pages_exact)(void *cookie, void *virt, size_t size);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /**
@@ -70,8 +76,11 @@ struct io_pgtable_cfg {
 	int				sep;
 	const struct iommu_gather_ops	*tlb;
 	struct device			*iommu_dev;
+<<<<<<< HEAD
 	dma_addr_t			iova_base;
 	dma_addr_t			iova_end;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Low-level data specific to the table format */
 	union {
@@ -186,6 +195,7 @@ struct io_pgtable_init_fns {
 	void (*free)(struct io_pgtable *iop);
 };
 
+<<<<<<< HEAD
 /**
  * io_pgtable_alloc_pages_exact - allocate an exact number physically-contiguous pages.
  * @size: the number of bytes to allocate
@@ -208,6 +218,8 @@ void *io_pgtable_alloc_pages_exact(struct io_pgtable_cfg *cfg, void *cookie,
 void io_pgtable_free_pages_exact(struct io_pgtable_cfg *cfg, void *cookie,
 				 void *virt, size_t size);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s1_init_fns;
 extern struct io_pgtable_init_fns io_pgtable_arm_32_lpae_s2_init_fns;
 extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns;

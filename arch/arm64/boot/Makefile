@@ -15,6 +15,7 @@
 #
 
 targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo
+<<<<<<< HEAD
 
 DTB_NAMES := $(subst $\",,$(CONFIG_BUILD_ARM64_APPENDED_DTB_IMAGE_NAMES))
 ifneq ($(DTB_NAMES),)
@@ -23,6 +24,8 @@ DTB_OBJS := $(addprefix $(obj)/dts/,$(DTB_LIST))
 else
 DTB_OBJS := $(shell find -L $(obj)/dts/ -name \*.dtb)
 endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 $(obj)/Image: vmlinux FORCE
 	$(call if_changed,objcopy)
@@ -30,9 +33,12 @@ $(obj)/Image: vmlinux FORCE
 $(obj)/Image.bz2: $(obj)/Image FORCE
 	$(call if_changed,bzip2)
 
+<<<<<<< HEAD
 $(obj)/Image-dtb: $(obj)/Image $(DTB_OBJS) FORCE
 	$(call if_changed,cat)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 $(obj)/Image.gz: $(obj)/Image FORCE
 	$(call if_changed,gzip)
 
@@ -45,9 +51,12 @@ $(obj)/Image.lzma: $(obj)/Image FORCE
 $(obj)/Image.lzo: $(obj)/Image FORCE
 	$(call if_changed,lzo)
 
+<<<<<<< HEAD
 $(obj)/Image.gz-dtb: $(obj)/Image.gz $(DTB_OBJS) FORCE
 	$(call if_changed,cat)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 install: $(obj)/Image
 	$(CONFIG_SHELL) $(srctree)/$(src)/install.sh $(KERNELRELEASE) \
 	$(obj)/Image System.map "$(INSTALL_PATH)"

@@ -169,8 +169,12 @@ void __iomem *msm_ioremap(struct platform_device *pdev, const char *name,
 	}
 
 	if (reglog)
+<<<<<<< HEAD
 		dev_dbg(&pdev->dev, "IO:region %s %pK %08lx\n",
 			dbgname, ptr, size);
+=======
+		printk(KERN_DEBUG "IO:region %s %p %08lx\n", dbgname, ptr, size);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ptr;
 }
@@ -183,7 +187,11 @@ void msm_iounmap(struct platform_device *pdev, void __iomem *addr)
 void msm_writel(u32 data, void __iomem *addr)
 {
 	if (reglog)
+<<<<<<< HEAD
 		pr_debug("IO:W %pK %08x\n", addr, data);
+=======
+		printk(KERN_DEBUG "IO:W %p %08x\n", addr, data);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	writel(data, addr);
 }
 
@@ -191,7 +199,11 @@ u32 msm_readl(const void __iomem *addr)
 {
 	u32 val = readl(addr);
 	if (reglog)
+<<<<<<< HEAD
 		pr_err("IO:R %pK %08x\n", addr, val);
+=======
+		printk(KERN_ERR "IO:R %p %08x\n", addr, val);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return val;
 }
 
@@ -201,7 +213,11 @@ struct vblank_event {
 	bool enable;
 };
 
+<<<<<<< HEAD
 static void vblank_ctrl_worker(struct kthread_work *work)
+=======
+static void vblank_ctrl_worker(struct work_struct *work)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct msm_vblank_ctrl *vbl_ctrl = container_of(work,
 						struct msm_vblank_ctrl, work);
@@ -210,16 +226,24 @@ static void vblank_ctrl_worker(struct kthread_work *work)
 	struct msm_kms *kms = priv->kms;
 	struct vblank_event *vbl_ev, *tmp;
 	unsigned long flags;
+<<<<<<< HEAD
 	LIST_HEAD(tmp_head);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	spin_lock_irqsave(&vbl_ctrl->lock, flags);
 	list_for_each_entry_safe(vbl_ev, tmp, &vbl_ctrl->event_list, node) {
 		list_del(&vbl_ev->node);
+<<<<<<< HEAD
 		list_add_tail(&vbl_ev->node, &tmp_head);
 	}
 	spin_unlock_irqrestore(&vbl_ctrl->lock, flags);
 
 	list_for_each_entry_safe(vbl_ev, tmp, &tmp_head, node) {
+=======
+		spin_unlock_irqrestore(&vbl_ctrl->lock, flags);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (vbl_ev->enable)
 			kms->funcs->enable_vblank(kms,
 						priv->crtcs[vbl_ev->crtc_id]);
@@ -228,7 +252,15 @@ static void vblank_ctrl_worker(struct kthread_work *work)
 						priv->crtcs[vbl_ev->crtc_id]);
 
 		kfree(vbl_ev);
+<<<<<<< HEAD
 	}
+=======
+
+		spin_lock_irqsave(&vbl_ctrl->lock, flags);
+	}
+
+	spin_unlock_irqrestore(&vbl_ctrl->lock, flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
@@ -249,7 +281,11 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
 	list_add_tail(&vbl_ev->node, &vbl_ctrl->event_list);
 	spin_unlock_irqrestore(&vbl_ctrl->lock, flags);
 
+<<<<<<< HEAD
 	queue_kthread_work(&priv->disp_thread[crtc_id].worker, &vbl_ctrl->work);
+=======
+	queue_work(priv->wq, &vbl_ctrl->work);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -266,17 +302,25 @@ static int msm_unload(struct drm_device *dev)
 	struct msm_gpu *gpu = priv->gpu;
 	struct msm_vblank_ctrl *vbl_ctrl = &priv->vblank_ctrl;
 	struct vblank_event *vbl_ev, *tmp;
+<<<<<<< HEAD
 	int i;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* We must cancel and cleanup any pending vblank enable/disable
 	 * work before drm_irq_uninstall() to avoid work re-enabling an
 	 * irq after uninstall has disabled it.
 	 */
+<<<<<<< HEAD
 	flush_kthread_work(&vbl_ctrl->work);
+=======
+	cancel_work_sync(&vbl_ctrl->work);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	list_for_each_entry_safe(vbl_ev, tmp, &vbl_ctrl->event_list, node) {
 		list_del(&vbl_ev->node);
 		kfree(vbl_ev);
 	}
+<<<<<<< HEAD
 
 	/* clean up display commit worker threads */
 	for (i = 0; i < priv->num_crtcs; i++) {
@@ -286,6 +330,8 @@ static int msm_unload(struct drm_device *dev)
 			priv->disp_thread[i].thread = NULL;
 		}
 	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	drm_kms_helper_poll_fini(dev);
 	drm_mode_config_cleanup(dev);
@@ -482,14 +528,20 @@ static int msm_load(struct drm_device *dev, unsigned long flags)
 	INIT_LIST_HEAD(&priv->inactive_list);
 	INIT_LIST_HEAD(&priv->fence_cbs);
 	INIT_LIST_HEAD(&priv->vblank_ctrl.event_list);
+<<<<<<< HEAD
 	init_kthread_work(&priv->vblank_ctrl.work, vblank_ctrl_worker);
 	spin_lock_init(&priv->vblank_ctrl.lock);
 	hash_init(priv->mn_hash);
 	mutex_init(&priv->mn_lock);
+=======
+	INIT_WORK(&priv->vblank_ctrl.work, vblank_ctrl_worker);
+	spin_lock_init(&priv->vblank_ctrl.lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	drm_mode_config_init(dev);
 
 	platform_set_drvdata(pdev, dev);
+<<<<<<< HEAD
 
 	ret = sde_power_resource_init(pdev, &priv->phandle);
 	if (ret) {
@@ -503,6 +555,8 @@ static int msm_load(struct drm_device *dev, unsigned long flags)
 		ret = -EINVAL;
 		goto fail;
 	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Bind all our sub-components: */
 	ret = msm_component_bind_all(dev->dev, dev);
@@ -513,6 +567,7 @@ static int msm_load(struct drm_device *dev, unsigned long flags)
 	if (ret)
 		goto fail;
 
+<<<<<<< HEAD
 	dbg_power_ctrl.handle = &priv->phandle;
 	dbg_power_ctrl.client = priv->pclient;
 	dbg_power_ctrl.enable_fn = msm_power_enable_wrapper;
@@ -523,6 +578,8 @@ static int msm_load(struct drm_device *dev, unsigned long flags)
 		goto fail;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (get_mdp_ver(pdev)) {
 	case KMS_MDP4:
 		kms = mdp4_kms_init(dev);
@@ -920,7 +977,11 @@ static int msm_enable_vblank(struct drm_device *dev, unsigned int pipe)
 	struct msm_kms *kms = priv->kms;
 	if (!kms)
 		return -ENXIO;
+<<<<<<< HEAD
 	DBG("dev=%pK, crtc=%u", dev, pipe);
+=======
+	DBG("dev=%p, crtc=%u", dev, pipe);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return vblank_ctrl_queue_work(priv, pipe, true);
 }
 
@@ -930,7 +991,11 @@ static void msm_disable_vblank(struct drm_device *dev, unsigned int pipe)
 	struct msm_kms *kms = priv->kms;
 	if (!kms)
 		return;
+<<<<<<< HEAD
 	DBG("dev=%pK, crtc=%u", dev, pipe);
+=======
+	DBG("dev=%p, crtc=%u", dev, pipe);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	vblank_ctrl_queue_work(priv, pipe, false);
 }
 
@@ -1262,6 +1327,7 @@ static int msm_ioctl_gem_new(struct drm_device *dev, void *data,
 			args->flags, &args->handle);
 }
 
+<<<<<<< HEAD
 static int msm_ioctl_gem_svm_new(struct drm_device *dev, void *data,
 		struct drm_file *file)
 {
@@ -1276,6 +1342,8 @@ static int msm_ioctl_gem_svm_new(struct drm_device *dev, void *data,
 			args->flags, &args->handle);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline ktime_t to_ktime(struct drm_msm_timespec timeout)
 {
 	return ktime_set(timeout.tv_sec, timeout.tv_nsec);
@@ -1380,14 +1448,19 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
 		struct drm_file *file)
 {
 	struct drm_msm_wait_fence *args = data;
+<<<<<<< HEAD
 	ktime_t timeout;
 
+=======
+	ktime_t timeout = to_ktime(args->timeout);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (args->pad) {
 		DRM_ERROR("invalid pad: %08x\n", args->pad);
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Special case - if the user passes a timeout of 0.0 just return the
 	 * current fence status (0 for retired, -EBUSY for active) with no
@@ -1915,6 +1988,9 @@ static int msm_ioctl_rmfb2(struct drm_device *dev, void *data,
 	drm_framebuffer_unreference(fb);
 
 	return 0;
+=======
+	return msm_wait_fence(dev, args->fence, &timeout, true);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static const struct drm_ioctl_desc msm_ioctls[] = {
@@ -1925,6 +2001,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
 	DRM_IOCTL_DEF_DRV(MSM_GEM_CPU_FINI, msm_ioctl_gem_cpu_fini, DRM_AUTH|DRM_RENDER_ALLOW),
 	DRM_IOCTL_DEF_DRV(MSM_GEM_SUBMIT,   msm_ioctl_gem_submit,   DRM_AUTH|DRM_RENDER_ALLOW),
 	DRM_IOCTL_DEF_DRV(MSM_WAIT_FENCE,   msm_ioctl_wait_fence,   DRM_AUTH|DRM_RENDER_ALLOW),
+<<<<<<< HEAD
 	DRM_IOCTL_DEF_DRV(SDE_WB_CONFIG, sde_wb_config, DRM_UNLOCKED|DRM_AUTH),
 	DRM_IOCTL_DEF_DRV(MSM_REGISTER_EVENT,  msm_ioctl_register_event,
 			  DRM_UNLOCKED|DRM_CONTROL_ALLOW),
@@ -1948,6 +2025,8 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
 			  DRM_AUTH|DRM_RENDER_ALLOW),
 	DRM_IOCTL_DEF_DRV(MSM_RMFB2, msm_ioctl_rmfb2,
 			  DRM_CONTROL_ALLOW|DRM_UNLOCKED),
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static const struct vm_operations_struct vm_ops = {

@@ -769,11 +769,14 @@ static long snd_pcm_ioctl_compat(struct file *file, unsigned int cmd, unsigned l
 	case SNDRV_PCM_IOCTL_CHANNEL_INFO_X32:
 		return snd_pcm_ioctl_channel_info_x32(substream, argp);
 #endif /* CONFIG_X86_X32 */
+<<<<<<< HEAD
 	default:
 		if (_IOC_TYPE(cmd) == 'C')
 			return snd_compressed_ioctl32(substream, cmd, argp);
 		else if (_IOC_TYPE(cmd) == 'U')
 			return snd_user_ioctl32(substream, cmd, argp);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	return -ENOIOCTLCMD;

@@ -62,7 +62,10 @@
 #include <linux/sched/rt.h>
 #include <linux/page_owner.h>
 #include <linux/kthread.h>
+<<<<<<< HEAD
 #include <linux/cpu_input_boost.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/sections.h>
 #include <asm/tlbflush.h>
@@ -226,6 +229,18 @@ static char * const zone_names[MAX_NR_ZONES] = {
 #ifdef CONFIG_ZONE_DEVICE
 	 "Device",
 #endif
+<<<<<<< HEAD
+=======
+};
+
+static void free_compound_page(struct page *page);
+compound_page_dtor * const compound_page_dtors[] = {
+	NULL,
+	free_compound_page,
+#ifdef CONFIG_HUGETLB_PAGE
+	free_huge_page,
+#endif
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static void free_compound_page(struct page *page);
@@ -1090,7 +1105,12 @@ static void __free_pages_ok(struct page *page, unsigned int order)
 	local_irq_restore(flags);
 }
 
+<<<<<<< HEAD
 static void __init __free_pages_boot_core(struct page *page, unsigned long pfn, unsigned int order)
+=======
+static void __init __free_pages_boot_core(struct page *page,
+					unsigned long pfn, unsigned int order)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	unsigned int nr_pages = 1 << order;
 	struct page *p = page;
@@ -1162,7 +1182,11 @@ static inline bool __meminit meminit_pfn_in_nid(unsigned long pfn, int node,
 #endif
 
 
+<<<<<<< HEAD
 void __free_pages_bootmem(struct page *page, unsigned long pfn,
+=======
+void __init __free_pages_bootmem(struct page *page, unsigned long pfn,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 							unsigned int order)
 {
 	if (early_page_uninitialised(pfn))
@@ -1484,7 +1508,11 @@ static int prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
 
 	post_alloc_hook(page, order, gfp_flags);
 
+<<<<<<< HEAD
 	if (!free_pages_prezeroed() && (gfp_flags & __GFP_ZERO))
+=======
+	if (gfp_flags & __GFP_ZERO)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		for (i = 0; i < (1 << order); i++)
 			clear_highpage(page + i);
 
@@ -1922,7 +1950,15 @@ static struct page *__rmqueue(struct zone *zone, unsigned int order,
 
 	page = __rmqueue_smallest(zone, order, migratetype);
 	if (unlikely(!page)) {
+<<<<<<< HEAD
 		page = __rmqueue_fallback(zone, order, migratetype);
+=======
+		if (migratetype == MIGRATE_MOVABLE)
+			page = __rmqueue_cma_fallback(zone, order);
+
+		if (!page)
+			page = __rmqueue_fallback(zone, order, migratetype);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	trace_mm_page_alloc_zone_locked(page, order, migratetype);
@@ -1959,6 +1995,7 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
 
 	spin_lock(&zone->lock);
 	for (i = 0; i < count; ++i) {
+<<<<<<< HEAD
 		struct page *page;
 
 		/*
@@ -1970,6 +2007,9 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
 			page = __rmqueue_cma(zone, order);
 		else
 			page = __rmqueue(zone, order, migratetype, 0);
+=======
+		struct page *page = __rmqueue(zone, order, migratetype, 0);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (unlikely(page == NULL))
 			break;
 
@@ -2265,6 +2305,7 @@ void free_hot_cold_page_list(struct list_head *list, bool cold)
 void split_page(struct page *page, unsigned int order)
 {
 	int i;
+	gfp_t gfp_mask;
 
 	VM_BUG_ON_PAGE(PageCompound(page), page);
 	VM_BUG_ON_PAGE(!page_count(page), page);
@@ -2278,9 +2319,18 @@ void split_page(struct page *page, unsigned int order)
 		split_page(virt_to_page(page[0].shadow), order);
 #endif
 
+<<<<<<< HEAD
 	for (i = 1; i < (1 << order); i++)
 		set_page_refcounted(page + i);
 	split_page_owner(page, order);
+=======
+	gfp_mask = get_page_owner_gfp(page);
+	set_page_owner(page, 0, gfp_mask);
+	for (i = 1; i < (1 << order); i++) {
+		set_page_refcounted(page + i);
+		set_page_owner(page + i, 0, gfp_mask);
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL_GPL(split_page);
 
@@ -2310,6 +2360,8 @@ int __isolate_free_page(struct page *page, unsigned int order)
 	zone->free_area[order].nr_free--;
 	rmv_page_order(page);
 
+	set_page_owner(page, order, __GFP_MOVABLE);
+
 	/* Set the pageblock if the isolated page is at least a pageblock */
 	if (order >= pageblock_order - 1) {
 		struct page *endpage = page + (1 << order) - 1;
@@ -2322,6 +2374,33 @@ int __isolate_free_page(struct page *page, unsigned int order)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+
+	return 1UL << order;
+}
+
+/*
+ * Similar to split_page except the page is already free. As this is only
+ * being used for migration, the migratetype of the block also changes.
+ * As this is called with interrupts disabled, the caller is responsible
+ * for calling arch_alloc_page() and kernel_map_page() after interrupts
+ * are enabled.
+ *
+ * Note: this is probably too low level an operation for use in drivers.
+ * Please consult with lkml before using this in your driver.
+ */
+int split_free_page(struct page *page)
+{
+	unsigned int order;
+	int nr_pages;
+
+	order = page_order(page);
+
+	nr_pages = __isolate_free_page(page, order);
+	if (!nr_pages)
+		return 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 1UL << order;
 }
@@ -2393,6 +2472,7 @@ struct page *buffered_rmqueue(struct zone *preferred_zone,
 			if (page)
 				trace_mm_page_alloc_zone_locked(page, order, migratetype);
 		}
+<<<<<<< HEAD
 		if (!page && migratetype == MIGRATE_MOVABLE &&
 				gfp_flags & __GFP_CMA)
 			page = __rmqueue_cma(zone, order);
@@ -2400,6 +2480,10 @@ struct page *buffered_rmqueue(struct zone *preferred_zone,
 		if (!page)
 			page = __rmqueue(zone, order, migratetype, gfp_flags);
 
+=======
+		if (!page)
+			page = __rmqueue(zone, order, migratetype, gfp_flags);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		spin_unlock(&zone->lock);
 		if (!page)
 			goto failed;
@@ -2559,6 +2643,7 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 			continue;
 
 		for (mt = 0; mt < MIGRATE_PCPTYPES; mt++) {
+<<<<<<< HEAD
 #ifdef CONFIG_CMA
 			/*
 			 * Note that this check is needed only
@@ -2567,6 +2652,8 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 			if (mt == MIGRATE_CMA)
 				continue;
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (!list_empty(&area->free_list[mt]))
 				return true;
 		}
@@ -3293,9 +3380,12 @@ retry:
 	if (gfp_mask & __GFP_NORETRY)
 		goto noretry;
 
+<<<<<<< HEAD
         /* Boost when memory is low so allocation latency doesn't get too bad */
         cpu_input_boost_kick_max(250);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Keep reclaiming pages as long as there is reasonable progress */
 	pages_reclaimed += did_some_progress;
 	if ((did_some_progress && order <= PAGE_ALLOC_COSTLY_ORDER) ||

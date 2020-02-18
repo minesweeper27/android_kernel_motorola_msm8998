@@ -213,7 +213,11 @@ bool emulate_vsyscall(struct pt_regs *regs, unsigned long address)
 	 */
 	regs->orig_ax = syscall_nr;
 	regs->ax = -ENOSYS;
+<<<<<<< HEAD
 	tmp = secure_computing(NULL);
+=======
+	tmp = secure_computing();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if ((!tmp && regs->orig_ax != syscall_nr) || regs->ip != address) {
 		warn_bad_vsyscall(KERN_DEBUG, regs,
 				  "seccomp tried to change syscall nr or ip");

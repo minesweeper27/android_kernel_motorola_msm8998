@@ -310,7 +310,11 @@ static void xhci_handle_stopped_cmd_ring(struct xhci_hcd *xhci,
 
 		i_cmd->status = COMP_CMD_STOP;
 
+<<<<<<< HEAD
 		xhci_dbg(xhci, "Turn aborted command %pK to no-op\n",
+=======
+		xhci_dbg(xhci, "Turn aborted command %p to no-op\n",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			 i_cmd->command_trb);
 		/* get cycle state from the original cmd trb */
 		cycle_state = le32_to_cpu(
@@ -362,12 +366,45 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
 	ret = xhci_handshake_check_state(xhci, &xhci->op_regs->cmd_ring,
 			CMD_RING_RUNNING, 0, 1000 * 1000);
 	if (ret < 0) {
+<<<<<<< HEAD
 		xhci_err(xhci,
 			 "Stop command ring failed, maybe the host is dead\n");
 		xhci->xhc_state |= XHCI_STATE_DYING;
 		xhci_quiesce(xhci);
 		xhci_halt(xhci);
 		return -ESHUTDOWN;
+=======
+		/* we are about to kill xhci, give it one more chance */
+		xhci_write_64(xhci, temp_64 | CMD_RING_ABORT,
+			      &xhci->op_regs->cmd_ring);
+		udelay(1000);
+		ret = xhci_handshake(&xhci->op_regs->cmd_ring,
+				     CMD_RING_RUNNING, 0, 3 * 1000 * 1000);
+		if (ret < 0) {
+			xhci_err(xhci, "Stopped the command ring failed, "
+				 "maybe the host is dead\n");
+			xhci->xhc_state |= XHCI_STATE_DYING;
+			xhci_quiesce(xhci);
+			xhci_halt(xhci);
+			return -ESHUTDOWN;
+		}
+	}
+	/*
+	 * Writing the CMD_RING_ABORT bit should cause a cmd completion event,
+	 * however on some host hw the CMD_RING_RUNNING bit is correctly cleared
+	 * but the completion event in never sent. Wait 2 secs (arbitrary
+	 * number) to handle those cases after negation of CMD_RING_RUNNING.
+	 */
+	spin_unlock_irqrestore(&xhci->lock, flags);
+	ret = wait_for_completion_timeout(&xhci->cmd_ring_stop_completion,
+					  msecs_to_jiffies(2000));
+	spin_lock_irqsave(&xhci->lock, flags);
+	if (!ret) {
+		xhci_dbg(xhci, "No stop event for abort, ring start fail?\n");
+		xhci_cleanup_command_queue(xhci);
+	} else {
+		xhci_handle_stopped_cmd_ring(xhci, xhci_next_queued_cmd(xhci));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	/*
 	 * Writing the CMD_RING_ABORT bit should cause a cmd completion event,
@@ -1299,6 +1336,7 @@ void xhci_handle_command_timeout(struct work_struct *work)
 		}
 
 		goto time_out_completed;
+<<<<<<< HEAD
 	}
 
 	/* host removed. Bail out */
@@ -1309,6 +1347,18 @@ void xhci_handle_command_timeout(struct work_struct *work)
 		goto time_out_completed;
 	}
 
+=======
+	}
+
+	/* host removed. Bail out */
+	if (xhci->xhc_state & XHCI_STATE_REMOVING) {
+		xhci_dbg(xhci, "host removed, ring start fail?\n");
+		xhci_cleanup_command_queue(xhci);
+
+		goto time_out_completed;
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* command timeout on stopped ring, ring can't be aborted */
 	xhci_dbg(xhci, "Command timeout on stopped ring\n");
 	xhci_handle_stopped_cmd_ring(xhci, xhci->current_cmd);

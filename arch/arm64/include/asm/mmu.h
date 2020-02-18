@@ -36,6 +36,7 @@ typedef struct {
  * atomic64_read.
  */
 #define ASID(mm)	((mm)->context.id.counter & 0xffff)
+<<<<<<< HEAD
 
 static inline bool arm64_kernel_unmapped_at_el0(void)
 {
@@ -79,6 +80,8 @@ static inline struct bp_hardening_data *arm64_get_bp_hardening_data(void)
 
 static inline void arm64_apply_bp_hardening(void)	{ }
 #endif	/* CONFIG_HARDEN_BRANCH_PREDICTOR */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern void paging_init(void);
 extern void __iomem *early_io_map(phys_addr_t phys, unsigned long virt);
@@ -87,6 +90,7 @@ extern void create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
 			       unsigned long virt, phys_addr_t size,
 			       pgprot_t prot);
 extern void *fixmap_remap_fdt(phys_addr_t dt_phys);
+<<<<<<< HEAD
 #ifdef CONFIG_MEMORY_HOTPLUG
 extern void hotplug_paging(phys_addr_t start, phys_addr_t size);
 #ifdef CONFIG_MEMORY_HOTREMOVE
@@ -94,6 +98,8 @@ extern void remove_pagetable(unsigned long start,
 	unsigned long end, bool direct);
 #endif
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif	/* !__ASSEMBLY__ */
 #endif

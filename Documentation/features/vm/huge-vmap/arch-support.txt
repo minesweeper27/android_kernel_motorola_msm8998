@@ -9,7 +9,11 @@
     |       alpha: | TODO |
     |         arc: | TODO |
     |         arm: | TODO |
+<<<<<<< HEAD
     |       arm64: |  ok  |
+=======
+    |       arm64: | TODO |
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
     |       avr32: | TODO |
     |    blackfin: | TODO |
     |         c6x: | TODO |

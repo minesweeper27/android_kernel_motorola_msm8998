@@ -414,7 +414,10 @@ EXPORT_SYMBOL(napi_alloc_frag);
  *
  *	%NULL is returned if there is no free memory.
  */
+<<<<<<< HEAD
 #ifndef CONFIG_DISABLE_NET_SKB_FRAG_CACHE
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
 				   gfp_t gfp_mask)
 {
@@ -426,6 +429,7 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
 
 	len += NET_SKB_PAD;
 
+<<<<<<< HEAD
 	if (IS_ENABLED(CONFIG_FORCE_ALLOC_FROM_DMA_ZONE))
 		gfp_mask |= GFP_DMA;
 
@@ -440,6 +444,19 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
 	len += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
 	len = SKB_DATA_ALIGN(len);
 
+=======
+	if ((len > SKB_WITH_OVERHEAD(PAGE_SIZE)) ||
+	    (gfp_mask & (__GFP_DIRECT_RECLAIM | GFP_DMA))) {
+		skb = __alloc_skb(len, gfp_mask, SKB_ALLOC_RX, NUMA_NO_NODE);
+		if (!skb)
+			goto skb_fail;
+		goto skb_success;
+	}
+
+	len += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+	len = SKB_DATA_ALIGN(len);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (sk_memalloc_socks())
 		gfp_mask |= __GFP_MEMALLOC;
 
@@ -453,6 +470,7 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int len,
 
 	if (unlikely(!data))
 		return NULL;
+<<<<<<< HEAD
 
 	skb = __build_skb(data, len);
 	if (unlikely(!skb)) {
@@ -484,6 +502,25 @@ struct sk_buff *__netdev_alloc_skb(struct net_device *dev,
 		skb_reserve(skb, NET_SKB_PAD);
 		skb->dev = dev;
 	}
+=======
+
+	skb = __build_skb(data, len);
+	if (unlikely(!skb)) {
+		skb_free_frag(data);
+		return NULL;
+	}
+
+	/* use OR instead of assignment to avoid clearing of bits in mask */
+	if (pfmemalloc)
+		skb->pfmemalloc = 1;
+	skb->head_frag = 1;
+
+skb_success:
+	skb_reserve(skb, NET_SKB_PAD);
+	skb->dev = dev;
+
+skb_fail:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return skb;
 }
 #endif
@@ -509,6 +546,7 @@ struct sk_buff *__napi_alloc_skb(struct napi_struct *napi, unsigned int len,
 	struct page_frag_cache *nc = this_cpu_ptr(&napi_alloc_cache);
 	struct sk_buff *skb;
 	void *data;
+<<<<<<< HEAD
 
 	len += NET_SKB_PAD + NET_IP_ALIGN;
 
@@ -526,6 +564,25 @@ struct sk_buff *__napi_alloc_skb(struct napi_struct *napi, unsigned int len,
 	if (sk_memalloc_socks())
 		gfp_mask |= __GFP_MEMALLOC;
 
+=======
+
+	len += NET_SKB_PAD + NET_IP_ALIGN;
+
+	if ((len > SKB_WITH_OVERHEAD(PAGE_SIZE)) ||
+	    (gfp_mask & (__GFP_DIRECT_RECLAIM | GFP_DMA))) {
+		skb = __alloc_skb(len, gfp_mask, SKB_ALLOC_RX, NUMA_NO_NODE);
+		if (!skb)
+			goto skb_fail;
+		goto skb_success;
+	}
+
+	len += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+	len = SKB_DATA_ALIGN(len);
+
+	if (sk_memalloc_socks())
+		gfp_mask |= __GFP_MEMALLOC;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	data = __alloc_page_frag(nc, len, gfp_mask);
 	if (unlikely(!data))
 		return NULL;

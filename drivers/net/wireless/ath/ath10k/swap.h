@@ -23,8 +23,11 @@
 /* Currently only one swap segment is supported */
 #define ATH10K_SWAP_CODE_SEG_NUM_SUPPORTED	1
 
+<<<<<<< HEAD
 struct ath10k_fw_file;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct ath10k_swap_code_seg_tlv {
 	__le32 address;
 	__le32 length;
@@ -41,6 +44,15 @@ union ath10k_swap_code_seg_item {
 	struct ath10k_swap_code_seg_tail tail;
 } __packed;
 
+<<<<<<< HEAD
+=======
+enum ath10k_swap_code_seg_bin_type {
+	 ATH10K_SWAP_CODE_SEG_BIN_TYPE_OTP,
+	 ATH10K_SWAP_CODE_SEG_BIN_TYPE_FW,
+	 ATH10K_SWAP_CODE_SEG_BIN_TYPE_UTF,
+};
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct ath10k_swap_code_seg_hw_info {
 	/* Swap binary image size */
 	__le32 swap_size;
@@ -61,10 +73,16 @@ struct ath10k_swap_code_seg_info {
 };
 
 int ath10k_swap_code_seg_configure(struct ath10k *ar,
+<<<<<<< HEAD
 				   const struct ath10k_fw_file *fw_file);
 void ath10k_swap_code_seg_release(struct ath10k *ar,
 				  struct ath10k_fw_file *fw_file);
 int ath10k_swap_code_seg_init(struct ath10k *ar,
 			      struct ath10k_fw_file *fw_file);
+=======
+				   enum ath10k_swap_code_seg_bin_type type);
+void ath10k_swap_code_seg_release(struct ath10k *ar);
+int ath10k_swap_code_seg_init(struct ath10k *ar);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif

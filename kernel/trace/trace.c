@@ -895,7 +895,10 @@ static struct {
 	{ trace_clock,			"perf",		1 },
 	{ ktime_get_mono_fast_ns,	"mono",		1 },
 	{ ktime_get_raw_fast_ns,	"mono_raw",	1 },
+<<<<<<< HEAD
 	{ ktime_get_boot_fast_ns,	"boot",		1 },
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ARCH_TRACE_CLOCKS
 };
 
@@ -2767,14 +2770,22 @@ static void test_cpu_buff_start(struct trace_iterator *iter)
 	if (!(iter->iter_flags & TRACE_FILE_ANNOTATE))
 		return;
 
+<<<<<<< HEAD
 	if (cpumask_available(iter->started) &&
 	    cpumask_test_cpu(iter->cpu, iter->started))
+=======
+	if (iter->started && cpumask_test_cpu(iter->cpu, iter->started))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return;
 
 	if (per_cpu_ptr(iter->trace_buffer->data, iter->cpu)->skipped_entries)
 		return;
 
+<<<<<<< HEAD
 	if (cpumask_available(iter->started))
+=======
+	if (iter->started)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		cpumask_set_cpu(iter->cpu, iter->started);
 
 	/* Don't print started cpu buffer for the first entry of the trace */

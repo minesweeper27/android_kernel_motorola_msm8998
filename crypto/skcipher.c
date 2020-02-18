@@ -16,11 +16,15 @@
 
 #include <crypto/internal/skcipher.h>
 #include <linux/bug.h>
+<<<<<<< HEAD
 #include <linux/cryptouser.h>
 #include <linux/module.h>
 #include <linux/rtnetlink.h>
 #include <linux/seq_file.h>
 #include <net/netlink.h>
+=======
+#include <linux/module.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include "internal.h"
 
@@ -29,11 +33,18 @@ static unsigned int crypto_skcipher_extsize(struct crypto_alg *alg)
 	if (alg->cra_type == &crypto_blkcipher_type)
 		return sizeof(struct crypto_blkcipher *);
 
+<<<<<<< HEAD
 	if (alg->cra_type == &crypto_ablkcipher_type ||
 	    alg->cra_type == &crypto_givcipher_type)
 		return sizeof(struct crypto_ablkcipher *);
 
 	return crypto_alg_extsize(alg);
+=======
+	BUG_ON(alg->cra_type != &crypto_ablkcipher_type &&
+	       alg->cra_type != &crypto_givcipher_type);
+
+	return sizeof(struct crypto_ablkcipher *);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int skcipher_setkey_blkcipher(struct crypto_skcipher *tfm,
@@ -123,7 +134,11 @@ static int crypto_init_skcipher_ops_blkcipher(struct crypto_tfm *tfm)
 	skcipher->decrypt = skcipher_decrypt_blkcipher;
 
 	skcipher->ivsize = crypto_blkcipher_ivsize(blkcipher);
+<<<<<<< HEAD
 	skcipher->keysize = calg->cra_blkcipher.max_keysize;
+=======
+	skcipher->has_setkey = calg->cra_blkcipher.max_keysize;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -216,11 +231,16 @@ static int crypto_init_skcipher_ops_ablkcipher(struct crypto_tfm *tfm)
 	skcipher->ivsize = crypto_ablkcipher_ivsize(ablkcipher);
 	skcipher->reqsize = crypto_ablkcipher_reqsize(ablkcipher) +
 			    sizeof(struct ablkcipher_request);
+<<<<<<< HEAD
 	skcipher->keysize = calg->cra_ablkcipher.max_keysize;
+=======
+	skcipher->has_setkey = calg->cra_ablkcipher.max_keysize;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
 
+<<<<<<< HEAD
 static void crypto_skcipher_exit_tfm(struct crypto_tfm *tfm)
 {
 	struct crypto_skcipher *skcipher = __crypto_skcipher_cast(tfm);
@@ -333,6 +353,28 @@ int crypto_grab_skcipher2(struct crypto_skcipher_spawn *spawn,
 }
 EXPORT_SYMBOL_GPL(crypto_grab_skcipher2);
 
+=======
+static int crypto_skcipher_init_tfm(struct crypto_tfm *tfm)
+{
+	if (tfm->__crt_alg->cra_type == &crypto_blkcipher_type)
+		return crypto_init_skcipher_ops_blkcipher(tfm);
+
+	BUG_ON(tfm->__crt_alg->cra_type != &crypto_ablkcipher_type &&
+	       tfm->__crt_alg->cra_type != &crypto_givcipher_type);
+
+	return crypto_init_skcipher_ops_ablkcipher(tfm);
+}
+
+static const struct crypto_type crypto_skcipher_type2 = {
+	.extsize = crypto_skcipher_extsize,
+	.init_tfm = crypto_skcipher_init_tfm,
+	.maskclear = ~CRYPTO_ALG_TYPE_MASK,
+	.maskset = CRYPTO_ALG_TYPE_BLKCIPHER_MASK,
+	.type = CRYPTO_ALG_TYPE_BLKCIPHER,
+	.tfmsize = offsetof(struct crypto_skcipher, base),
+};
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct crypto_skcipher *crypto_alloc_skcipher(const char *alg_name,
 					      u32 type, u32 mask)
 {
@@ -340,6 +382,7 @@ struct crypto_skcipher *crypto_alloc_skcipher(const char *alg_name,
 }
 EXPORT_SYMBOL_GPL(crypto_alloc_skcipher);
 
+<<<<<<< HEAD
 int crypto_has_skcipher2(const char *alg_name, u32 type, u32 mask)
 {
 	return crypto_type_has_alg(alg_name, &crypto_skcipher_type2,
@@ -425,5 +468,7 @@ int skcipher_register_instance(struct crypto_template *tmpl,
 }
 EXPORT_SYMBOL_GPL(skcipher_register_instance);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Symmetric key cipher type");

@@ -248,6 +248,7 @@ void adreno_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
 	uint32_t wptr;
 
+<<<<<<< HEAD
 	/* Copy the shadow to the actual register */
 	ring->cur = ring->next;
 
@@ -257,6 +258,14 @@ void adreno_flush(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
 	 * the ringbuffer and rb->next hasn't wrapped to zero yet
 	 */
 	wptr = get_wptr(ring);
+=======
+	/*
+	 * Mask wptr value that we calculate to fit in the HW range. This is
+	 * to account for the possibility that the last command fit exactly into
+	 * the ringbuffer and rb->next hasn't wrapped to zero yet
+	 */
+	wptr = get_wptr(gpu->rb) & ((gpu->rb->size / 4) - 1);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* ensure writes to ringbuffer have hit system memory: */
 	mb();
@@ -351,6 +360,18 @@ void adreno_dump_info(struct msm_gpu *gpu)
 
 	for (i = 0; i < 8; i++) {
 		pr_err("CP_SCRATCH_REG%d: %u\n", i,
+			gpu_read(gpu, REG_AXXX_CP_SCRATCH_REG0 + i));
+	}
+}
+
+/* would be nice to not have to duplicate the _show() stuff with printk(): */
+void adreno_dump(struct msm_gpu *gpu)
+{
+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+	int i;
+
+	for (i = 0; i < 8; i++) {
+		printk("CP_SCRATCH_REG%d: %u\n", i,
 			gpu_read(gpu, REG_AXXX_CP_SCRATCH_REG0 + i));
 	}
 }
@@ -521,8 +542,20 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
 	adreno_gpu->revn = adreno_gpu->info->revn;
 	adreno_gpu->rev = config->rev;
 
+<<<<<<< HEAD
 	/* Get the rest of the target configuration from the device tree */
 	adreno_of_parse(pdev, gpu);
+=======
+	gpu->fast_rate = config->fast_rate;
+	gpu->slow_rate = config->slow_rate;
+	gpu->bus_freq  = config->bus_freq;
+#ifdef DOWNSTREAM_CONFIG_MSM_BUS_SCALING
+	gpu->bus_scale_table = config->bus_scale_table;
+#endif
+
+	DBG("fast_rate=%u, slow_rate=%u, bus_freq=%u",
+			gpu->fast_rate, gpu->slow_rate, gpu->bus_freq);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = msm_gpu_init(drm, pdev, &adreno_gpu->base, &funcs->base,
 			adreno_gpu->info->name, gpu_config);
@@ -682,9 +715,20 @@ u64 adreno_read_counter(struct msm_gpu *gpu, u32 groupid, int counterid)
 
 void adreno_put_counter(struct msm_gpu *gpu, u32 groupid, int counterid)
 {
+<<<<<<< HEAD
 	struct adreno_counter_group *group =
 		get_counter_group(gpu, groupid);
 
 	if (!IS_ERR_OR_NULL(group) && group->funcs.put)
 		group->funcs.put(gpu, group, counterid);
+=======
+	if (gpu->memptrs_bo) {
+		if (gpu->memptrs_iova)
+			msm_gem_put_iova(gpu->memptrs_bo, gpu->base.id);
+		drm_gem_object_unreference_unlocked(gpu->memptrs_bo);
+	}
+	release_firmware(gpu->pm4);
+	release_firmware(gpu->pfp);
+	msm_gpu_cleanup(&gpu->base);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }

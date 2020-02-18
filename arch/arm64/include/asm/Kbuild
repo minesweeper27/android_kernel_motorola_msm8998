@@ -36,6 +36,10 @@ generic-y += poll.h
 generic-y += preempt.h
 generic-y += resource.h
 generic-y += rwsem.h
+<<<<<<< HEAD
+=======
+generic-y += sections.h
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 generic-y += segment.h
 generic-y += sembuf.h
 generic-y += serial.h

@@ -27,12 +27,17 @@
 #include <asm/cpufeature.h>
 #include <asm/errno.h>
 #include <asm/esr.h>
+<<<<<<< HEAD
 #include <asm/irq.h>
 #include <asm/memory.h>
 #include <asm/mmu.h>
 #include <asm/ptrace.h>
 #include <asm/thread_info.h>
 #include <asm/uaccess.h>
+=======
+#include <asm/memory.h>
+#include <asm/thread_info.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/asm-uaccess.h>
 #include <asm/unistd.h>
 
@@ -132,6 +137,7 @@ alternative_else_nop_endif
 	add	x21, sp, #S_FRAME_SIZE
 	get_thread_info tsk
 	/* Save the task's original addr_limit and set USER_DS (TASK_SIZE_64) */
+<<<<<<< HEAD
 #ifdef CONFIG_THREAD_INFO_IN_TASK
 	ldr	x20, [tsk, #TSK_TI_ADDR_LIMIT]
 #else
@@ -145,6 +151,12 @@ alternative_else_nop_endif
 	str	x20, [tsk, #TI_ADDR_LIMIT]
 #endif
 	ALTERNATIVE(nop, SET_PSTATE_UAO(0), ARM64_HAS_UAO, CONFIG_ARM64_UAO)
+=======
+	ldr	x20, [tsk, #TI_ADDR_LIMIT]
+	str	x20, [sp, #S_ORIG_ADDR_LIMIT]
+	mov	x20, #TASK_SIZE_64
+	str	x20, [tsk, #TI_ADDR_LIMIT]
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endif /* \el == 0 */
 	mrs	x22, elr_el1
 	mrs	x23, spsr_el1
@@ -205,6 +217,7 @@ alternative_else_nop_endif
 	.if	\el != 0
 	/* Restore the task's original addr_limit. */
 	ldr	x20, [sp, #S_ORIG_ADDR_LIMIT]
+<<<<<<< HEAD
 #ifdef CONFIG_THREAD_INFO_IN_TASK
 	str	x20, [tsk, #TSK_TI_ADDR_LIMIT]
 #else
@@ -212,6 +225,9 @@ alternative_else_nop_endif
 #endif
 
 	/* No need to restore UAO, it will be restored from SPSR_EL1 */
+=======
+	str	x20, [tsk, #TI_ADDR_LIMIT]
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endif
 
 	ldp	x21, x22, [sp, #S_PC]		// load ELR, SPSR
@@ -253,18 +269,36 @@ alternative_else_nop_endif
 	.if	\el == 0
 	ldr	x23, [sp, #S_SP]		// load return stack pointer
 	msr	sp_el0, x23
+<<<<<<< HEAD
 	tst	x22, #PSR_MODE32_BIT		// native task?
 	b.eq	3f
 
 #ifdef CONFIG_ARM64_ERRATUM_845719
 alternative_if ARM64_WORKAROUND_845719
 #ifdef CONFIG_PID_IN_CONTEXTIDR
+=======
+#ifdef CONFIG_ARM64_ERRATUM_845719
+alternative_if_not ARM64_WORKAROUND_845719
+	nop
+	nop
+#ifdef CONFIG_PID_IN_CONTEXTIDR
+	nop
+#endif
+alternative_else
+	tbz	x22, #4, 1f
+#ifdef CONFIG_PID_IN_CONTEXTIDR
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mrs	x29, contextidr_el1
 	msr	contextidr_el1, x29
 #else
 	msr contextidr_el1, xzr
 #endif
+<<<<<<< HEAD
 alternative_else_nop_endif
+=======
+1:
+alternative_endif
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 3:
 	.endif
@@ -871,11 +905,15 @@ ENDPROC(cpu_switch_to)
 ret_fast_syscall:
 	disable_irq				// disable interrupts
 	str	x0, [sp, #S_X0]			// returned x0
+<<<<<<< HEAD
 #ifdef CONFIG_THREAD_INFO_IN_TASK
 	ldr	x1, [tsk, #TSK_TI_FLAGS]	// re-check for syscall tracing
 #else
 	ldr	x1, [tsk, #TI_FLAGS]		// re-check for syscall tracing
 #endif
+=======
+	ldr	x1, [tsk, #TI_FLAGS]		// re-check for syscall tracing
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	and	x2, x1, #_TIF_SYSCALL_WORK
 	cbnz	x2, ret_fast_syscall_trace
 	and	x2, x1, #_TIF_WORK_MASK
@@ -915,6 +953,10 @@ ret_to_user:
 	and	x2, x1, #_TIF_WORK_MASK
 	cbnz	x2, work_pending
 	enable_step_tsk x1, x2
+<<<<<<< HEAD
+=======
+no_work_pending:
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kernel_exit 0
 ENDPROC(ret_to_user)
 

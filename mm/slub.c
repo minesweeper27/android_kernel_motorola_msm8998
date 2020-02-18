@@ -474,6 +474,8 @@ static inline void *restore_red_left(struct kmem_cache *s, void *p)
  */
 #if defined(CONFIG_SLUB_DEBUG_ON)
 static int slub_debug = DEBUG_DEFAULT_FLAGS;
+#elif defined(CONFIG_KASAN)
+static int slub_debug = SLAB_STORE_USER;
 #else
 static int slub_debug;
 #endif
@@ -1360,7 +1362,11 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s, gfp_t flags,
 		kmemcheck_slab_alloc(s, flags, object, slab_ksize(s));
 		kmemleak_alloc_recursive(object, s->object_size, 1,
 					 s->flags, flags);
+<<<<<<< HEAD
 		kasan_slab_alloc(s, object, flags);
+=======
+		kasan_slab_alloc(s, object);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	memcg_kmem_put_cache(s);
 }
@@ -1426,6 +1432,40 @@ static void setup_object(struct kmem_cache *s, struct page *page,
 {
 	setup_object_debug(s, page, object);
 	kasan_init_slab_obj(s, object);
+	if (unlikely(s->ctor)) {
+		kasan_unpoison_object_data(s, object);
+		s->ctor(object);
+		kasan_poison_object_data(s, object);
+	}
+}
+
+static inline void slab_free_freelist_hook(struct kmem_cache *s,
+					   void *head, void *tail)
+{
+/*
+ * Compiler cannot detect this function can be removed if slab_free_hook()
+ * evaluates to nothing.  Thus, catch all relevant config debug options here.
+ */
+#if defined(CONFIG_KMEMCHECK) ||		\
+	defined(CONFIG_LOCKDEP)	||		\
+	defined(CONFIG_DEBUG_KMEMLEAK) ||	\
+	defined(CONFIG_DEBUG_OBJECTS_FREE) ||	\
+	defined(CONFIG_KASAN)
+
+	void *object = head;
+	void *tail_obj = tail ? : head;
+
+	do {
+		slab_free_hook(s, object);
+	} while ((object != tail_obj) &&
+		 (object = get_freepointer(s, object)));
+#endif
+}
+
+static void setup_object(struct kmem_cache *s, struct page *page,
+				void *object)
+{
+	setup_object_debug(s, page, object);
 	if (unlikely(s->ctor)) {
 		kasan_unpoison_object_data(s, object);
 		s->ctor(object);
@@ -1591,7 +1631,10 @@ static void __free_slab(struct kmem_cache *s, struct page *page)
 	page_mapcount_reset(page);
 	if (current->reclaim_state)
 		current->reclaim_state->reclaimed_slab += pages;
+<<<<<<< HEAD
 	kasan_alloc_pages(page, order);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__free_kmem_pages(page, order);
 }
 
@@ -2821,13 +2864,25 @@ slab_empty:
  * same page) possible by specifying head and tail ptr, plus objects
  * count (cnt). Bulk free indicated by tail pointer being set.
  */
+<<<<<<< HEAD
 static __always_inline void do_slab_free(struct kmem_cache *s,
 				struct page *page, void *head, void *tail,
 				int cnt, unsigned long addr)
+=======
+static __always_inline void slab_free(struct kmem_cache *s, struct page *page,
+				      void *head, void *tail, int cnt,
+				      unsigned long addr)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	void *tail_obj = tail ? : head;
 	struct kmem_cache_cpu *c;
 	unsigned long tid;
+<<<<<<< HEAD
+=======
+
+	slab_free_freelist_hook(s, head, tail);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 redo:
 	/*
 	 * Determine the currently cpus per cpu slab.

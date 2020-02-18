@@ -506,11 +506,15 @@ int ath10k_ce_send_nolock(struct ath10k_ce_pipe *ce_state,
 	if (flags & CE_SEND_FLAG_BYTE_SWAP)
 		desc_flags |= CE_DESC_FLAGS_BYTE_SWAP;
 
+<<<<<<< HEAD
 	if (QCA_REV_WCN3990(ar))
 		ath10k_ce_snoc_addr_config(&sdesc, buffer, flags);
 	else
 		sdesc.addr   = __cpu_to_le32(buffer);
 
+=======
+	sdesc.addr   = __cpu_to_le32(buffer);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	sdesc.nbytes = __cpu_to_le16(nbytes);
 	sdesc.flags  = __cpu_to_le16(desc_flags);
 
@@ -626,6 +630,7 @@ int __ath10k_ce_rx_post_buf(struct ath10k_ce_pipe *pipe, void *ctx,
 
 	lockdep_assert_held(&ar_opaque->ce_lock);
 
+<<<<<<< HEAD
 	if ((pipe->id != 5) &&
 	    CE_RING_DELTA(nentries_mask, write_index, sw_index - 1) == 0)
 		return -ENOSPC;
@@ -636,6 +641,10 @@ int __ath10k_ce_rx_post_buf(struct ath10k_ce_pipe *pipe, void *ctx,
 	} else {
 		desc->addr = __cpu_to_le32(paddr);
 	}
+=======
+	if (CE_RING_DELTA(nentries_mask, write_index, sw_index - 1) == 0)
+		return -ENOSPC;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	desc->nbytes = 0;
 
@@ -684,6 +693,7 @@ int ath10k_ce_completed_recv_next_nolock(struct ath10k_ce_pipe *ce_state,
 {
 	struct ath10k_ce_ring *dest_ring = ce_state->dest_ring;
 	unsigned int nentries_mask = dest_ring->nentries_mask;
+	struct ath10k *ar = ce_state->ar;
 	unsigned int sw_index = dest_ring->sw_index;
 
 	struct ce_desc *base = dest_ring->base_addr_owner_space;
@@ -916,7 +926,11 @@ int ath10k_ce_completed_send_next(struct ath10k_ce_pipe *ce_state,
 	spin_lock_bh(&ar_opaque->ce_lock);
 	ret = ath10k_ce_completed_send_next_nolock(ce_state,
 						   per_transfer_contextp);
+<<<<<<< HEAD
 	spin_unlock_bh(&ar_opaque->ce_lock);
+=======
+	spin_unlock_bh(&ar_pci->ce_lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ret;
 }
@@ -1188,6 +1202,7 @@ ath10k_ce_alloc_src_ring(struct ath10k *ar, unsigned int ce_id,
 			src_ring->base_addr_ce_space_unaligned,
 			CE_DESC_RING_ALIGN);
 
+<<<<<<< HEAD
 	src_ring->shadow_base_unaligned = kzalloc(
 					  nentries * sizeof(struct ce_desc),
 					  GFP_KERNEL);
@@ -1206,6 +1221,8 @@ ath10k_ce_alloc_src_ring(struct ath10k *ar, unsigned int ce_id,
 				src_ring->shadow_base_unaligned,
 				CE_DESC_RING_ALIGN);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return src_ring;
 }
 
@@ -1430,7 +1447,6 @@ void ath10k_ce_free_pipe(struct ath10k *ar, int ce_id)
 	struct ath10k_ce_pipe *ce_state = &ar_opaque->ce_states[ce_id];
 
 	if (ce_state->src_ring) {
-		kfree(ce_state->src_ring->shadow_base_unaligned);
 		dma_free_coherent(ar->dev,
 				  (ce_state->src_ring->nentries *
 				   sizeof(struct ce_desc) +

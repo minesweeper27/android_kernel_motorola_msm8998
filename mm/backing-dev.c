@@ -398,6 +398,7 @@ static DECLARE_WAIT_QUEUE_HEAD(cgwb_release_wait);
  */
 struct bdi_writeback_congested *
 wb_congested_get_create(struct backing_dev_info *bdi, int blkcg_id, gfp_t gfp)
+<<<<<<< HEAD
 {
 	struct bdi_writeback_congested *new_congested = NULL, *congested;
 	struct rb_node **node, *parent;
@@ -456,6 +457,66 @@ found:
  */
 void wb_congested_put(struct bdi_writeback_congested *congested)
 {
+=======
+{
+	struct bdi_writeback_congested *new_congested = NULL, *congested;
+	struct rb_node **node, *parent;
+	unsigned long flags;
+retry:
+	spin_lock_irqsave(&cgwb_lock, flags);
+
+	node = &bdi->cgwb_congested_tree.rb_node;
+	parent = NULL;
+
+	while (*node != NULL) {
+		parent = *node;
+		congested = container_of(parent, struct bdi_writeback_congested,
+					 rb_node);
+		if (congested->blkcg_id < blkcg_id)
+			node = &parent->rb_left;
+		else if (congested->blkcg_id > blkcg_id)
+			node = &parent->rb_right;
+		else
+			goto found;
+	}
+
+	if (new_congested) {
+		/* !found and storage for new one already allocated, insert */
+		congested = new_congested;
+		new_congested = NULL;
+		rb_link_node(&congested->rb_node, parent, node);
+		rb_insert_color(&congested->rb_node, &bdi->cgwb_congested_tree);
+		goto found;
+	}
+
+	spin_unlock_irqrestore(&cgwb_lock, flags);
+
+	/* allocate storage for new one and retry */
+	new_congested = kzalloc(sizeof(*new_congested), gfp);
+	if (!new_congested)
+		return NULL;
+
+	atomic_set(&new_congested->refcnt, 0);
+	new_congested->bdi = bdi;
+	new_congested->blkcg_id = blkcg_id;
+	goto retry;
+
+found:
+	atomic_inc(&congested->refcnt);
+	spin_unlock_irqrestore(&cgwb_lock, flags);
+	kfree(new_congested);
+	return congested;
+}
+
+/**
+ * wb_congested_put - put a wb_congested
+ * @congested: wb_congested to put
+ *
+ * Put @congested and destroy it if the refcnt reaches zero.
+ */
+void wb_congested_put(struct bdi_writeback_congested *congested)
+{
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned long flags;
 
 	local_irq_save(flags);
@@ -463,6 +524,7 @@ void wb_congested_put(struct bdi_writeback_congested *congested)
 		local_irq_restore(flags);
 		return;
 	}
+<<<<<<< HEAD
 
 	/* bdi might already have been destroyed leaving @congested unlinked */
 	if (congested->bdi) {
@@ -471,6 +533,16 @@ void wb_congested_put(struct bdi_writeback_congested *congested)
 		congested->bdi = NULL;
 	}
 
+=======
+
+	/* bdi might already have been destroyed leaving @congested unlinked */
+	if (congested->bdi) {
+		rb_erase(&congested->rb_node,
+			 &congested->bdi->cgwb_congested_tree);
+		congested->bdi = NULL;
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_unlock_irqrestore(&cgwb_lock, flags);
 	kfree(congested);
 }
@@ -793,6 +865,7 @@ int bdi_init(struct backing_dev_info *bdi)
 	ret = cgwb_bdi_init(bdi);
 
 	list_add_tail_rcu(&bdi->wb.bdi_node, &bdi->wb_list);
+<<<<<<< HEAD
 
 	return ret;
 }
@@ -834,6 +907,33 @@ int bdi_register(struct backing_dev_info *bdi, struct device *parent,
 	bdi_debug_register(bdi, dev_name(dev));
 	set_bit(WB_registered, &bdi->wb.state);
 
+=======
+
+	return ret;
+}
+EXPORT_SYMBOL(bdi_init);
+
+int bdi_register(struct backing_dev_info *bdi, struct device *parent,
+		const char *fmt, ...)
+{
+	va_list args;
+	struct device *dev;
+
+	if (bdi->dev)	/* The driver needs to use separate queues per device */
+		return 0;
+
+	va_start(args, fmt);
+	dev = device_create_vargs(bdi_class, parent, MKDEV(0, 0), bdi, fmt, args);
+	va_end(args);
+	if (IS_ERR(dev))
+		return PTR_ERR(dev);
+
+	bdi->dev = dev;
+
+	bdi_debug_register(bdi, dev_name(dev));
+	set_bit(WB_registered, &bdi->wb.state);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_lock_bh(&bdi_lock);
 	list_add_tail_rcu(&bdi->bdi_list, &bdi_list);
 	spin_unlock_bh(&bdi_lock);
@@ -848,6 +948,7 @@ int bdi_register_dev(struct backing_dev_info *bdi, dev_t dev)
 	return bdi_register(bdi, NULL, "%u:%u", MAJOR(dev), MINOR(dev));
 }
 EXPORT_SYMBOL(bdi_register_dev);
+<<<<<<< HEAD
 
 int bdi_register_owner(struct backing_dev_info *bdi, struct device *owner)
 {
@@ -875,6 +976,35 @@ static void bdi_remove_from_list(struct backing_dev_info *bdi)
 	synchronize_rcu_expedited();
 }
 
+=======
+
+int bdi_register_owner(struct backing_dev_info *bdi, struct device *owner)
+{
+	int rc;
+
+	rc = bdi_register(bdi, NULL, "%u:%u", MAJOR(owner->devt),
+			MINOR(owner->devt));
+	if (rc)
+		return rc;
+	bdi->owner = owner;
+	get_device(owner);
+	return 0;
+}
+EXPORT_SYMBOL(bdi_register_owner);
+
+/*
+ * Remove bdi from bdi_list, and ensure that it is no longer visible
+ */
+static void bdi_remove_from_list(struct backing_dev_info *bdi)
+{
+	spin_lock_bh(&bdi_lock);
+	list_del_rcu(&bdi->bdi_list);
+	spin_unlock_bh(&bdi_lock);
+
+	synchronize_rcu_expedited();
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void bdi_unregister(struct backing_dev_info *bdi)
 {
 	/* make sure nobody finds us on the bdi_list anymore */
@@ -894,12 +1024,17 @@ void bdi_unregister(struct backing_dev_info *bdi)
 	}
 }
 
+<<<<<<< HEAD
 static void bdi_exit(struct backing_dev_info *bdi)
+=======
+void bdi_exit(struct backing_dev_info *bdi)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	WARN_ON_ONCE(bdi->dev);
 	wb_exit(&bdi->wb);
 }
 
+<<<<<<< HEAD
 static void release_bdi(struct kref *ref)
 {
 	struct backing_dev_info *bdi =
@@ -914,6 +1049,8 @@ void bdi_put(struct backing_dev_info *bdi)
 	kref_put(&bdi->refcnt, release_bdi);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void bdi_destroy(struct backing_dev_info *bdi)
 {
 	bdi_unregister(bdi);

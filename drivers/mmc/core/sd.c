@@ -415,6 +415,7 @@ static int sd_select_driver_type(struct mmc_card *card, u8 *status)
 	int err;
 
 	card->drive_strength = 0;
+<<<<<<< HEAD
 
 	card_drv_type = card->sw_caps.sd3_drv_type | SD_DRIVER_TYPE_B;
 
@@ -422,6 +423,15 @@ static int sd_select_driver_type(struct mmc_card *card, u8 *status)
 						   card->sw_caps.uhs_max_dtr,
 						   card_drv_type, &drv_type);
 
+=======
+
+	card_drv_type = card->sw_caps.sd3_drv_type | SD_DRIVER_TYPE_B;
+
+	drive_strength = mmc_select_drive_strength(card,
+						   card->sw_caps.uhs_max_dtr,
+						   card_drv_type, &drv_type);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (drive_strength) {
 		err = mmc_sd_switch(card, 1, 2, drive_strength, status);
 		if (err)
@@ -916,9 +926,13 @@ static int mmc_sd_get_ro(struct mmc_host *host)
 	if (!host->ops->get_ro)
 		return -1;
 
+<<<<<<< HEAD
 	mmc_host_clk_hold(host);
 	ro = host->ops->get_ro(host);
 	mmc_host_clk_release(host);
+=======
+	ro = host->ops->get_ro(host);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ro;
 }
@@ -1578,6 +1592,7 @@ int mmc_attach_sd(struct mmc_host *host)
 		goto remove_card;
 
 	mmc_claim_host(host);
+<<<<<<< HEAD
 
 	err = mmc_init_clk_scaling(host);
 	if (err) {
@@ -1585,6 +1600,8 @@ int mmc_attach_sd(struct mmc_host *host)
 		goto remove_card;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 
 remove_card:

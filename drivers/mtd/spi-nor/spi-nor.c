@@ -836,8 +836,11 @@ static const struct flash_info spi_nor_ids[] = {
 	{ "w25x32", INFO(0xef3016, 0, 64 * 1024,  64, SECT_4K) },
 	{ "w25q32", INFO(0xef4016, 0, 64 * 1024,  64, SECT_4K) },
 	{ "w25q32dw", INFO(0xef6016, 0, 64 * 1024,  64, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+<<<<<<< HEAD
 	{ "w25q40bw", INFO(0xef5013, 0, 64 * 1024, 8, SECT_4K) },
 	{ "w25q40ew", INFO(0xef6013, 0, 64 * 1024, 8, SECT_4K) },
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	{ "w25x64", INFO(0xef3017, 0, 64 * 1024, 128, SECT_4K) },
 	{ "w25q64", INFO(0xef4017, 0, 64 * 1024, 128, SECT_4K) },
 	{ "w25q64dw", INFO(0xef6017, 0, 64 * 1024, 128, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },

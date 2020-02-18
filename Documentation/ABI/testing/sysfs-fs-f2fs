@@ -125,7 +125,10 @@ Date:		February 2015
 Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
 Description:
 		 Controls the trimming rate in batch mode.
+<<<<<<< HEAD
 		 <deprecated>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 What:		/sys/fs/f2fs/<disk>/cp_interval
 Date:		October 2015
@@ -133,6 +136,7 @@ Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
 Description:
 		 Controls the checkpoint timing.
 
+<<<<<<< HEAD
 What:		/sys/fs/f2fs/<disk>/idle_interval
 Date:		January 2016
 Contact:	"Jaegeuk Kim" <jaegeuk@kernel.org>
@@ -160,11 +164,14 @@ Contact:	"Chao Yu" <yuchao0@huawei.com>
 Description:
 		 Controls to enable/disable IO stat.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 What:		/sys/fs/f2fs/<disk>/ra_nid_pages
 Date:		October 2015
 Contact:	"Chao Yu" <chao2.yu@samsung.com>
 Description:
 		 Controls the count of nid pages to be readaheaded.
+<<<<<<< HEAD
 
 What:		/sys/fs/f2fs/<disk>/dirty_nats_ratio
 Date:		January 2016
@@ -251,3 +258,5 @@ Description:
 		If checkpoint=disable, it displays the number of blocks that are unusable.
                 If checkpoint=enable it displays the enumber of blocks that would be unusable
                 if checkpoint=disable were to be set.
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

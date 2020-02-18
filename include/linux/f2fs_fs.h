@@ -56,9 +56,12 @@
 #define MAX_ACTIVE_DATA_LOGS	8
 
 #define VERSION_LEN	256
+<<<<<<< HEAD
 #define MAX_VOLUME_NAME		512
 #define MAX_PATH_LEN		64
 #define MAX_DEVICES		8
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * For superblock
@@ -106,16 +109,21 @@ struct f2fs_super_block {
 	__le32 feature;			/* defined features */
 	__u8 encryption_level;		/* versioning level for encryption */
 	__u8 encrypt_pw_salt[16];	/* Salt used for string2key algorithm */
+<<<<<<< HEAD
 	struct f2fs_device devs[MAX_DEVICES];	/* device list */
 	__le32 qf_ino[F2FS_MAX_QUOTAS];	/* quota inode numbers */
 	__u8 hot_ext_count;		/* # of hot file extension */
 	__u8 reserved[310];		/* valid reserved region */
 	__le32 crc;			/* checksum of superblock */
+=======
+	__u8 reserved[871];		/* valid reserved region */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } __packed;
 
 /*
  * For checkpoint
  */
+<<<<<<< HEAD
 #define CP_DISABLED_QUICK_FLAG		0x00002000
 #define CP_DISABLED_FLAG		0x00001000
 #define CP_QUOTA_NEED_FSCK_FLAG		0x00000800
@@ -123,6 +131,8 @@ struct f2fs_super_block {
 #define CP_NOCRC_RECOVERY_FLAG	0x00000200
 #define CP_TRIMMED_FLAG		0x00000100
 #define CP_NAT_BITS_FLAG	0x00000080
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define CP_CRC_RECOVERY_FLAG	0x00000040
 #define CP_FASTBOOT_FLAG	0x00000020
 #define CP_FSCK_FLAG		0x00000010
@@ -338,6 +348,12 @@ struct f2fs_nat_block {
 #define F2FS_MAX_SEGMENT       ((16 * 1024 * 1024) / 2)
 
 /*
+ * F2FS uses 4 bytes to represent block address. As a result, supported size of
+ * disk is 16 TB and it equals to 16 * 1024 * 1024 / 2 segments.
+ */
+#define F2FS_MAX_SEGMENT       ((16 * 1024 * 1024) / 2)
+
+/*
  * Note that f2fs_sit_entry->vblocks has the following bit-field information.
  * [15:10] : allocation type such as CURSEG_XXXX_TYPE
  * [9:0] : valid block count
@@ -494,6 +510,7 @@ typedef __le32	f2fs_hash_t;
 #define MAX_DIR_BUCKETS		(1 << ((MAX_DIR_HASH_DEPTH / 2) - 1))
 
 /*
+<<<<<<< HEAD
  * space utilization of regular dentry and inline dentry (w/o extra reservation)
  *		regular dentry		inline dentry (def)	inline dentry (min)
  * bitmap	1 * 27 = 27		1 * 23 = 23		1 * 1 = 1
@@ -501,6 +518,15 @@ typedef __le32	f2fs_hash_t;
  * dentry	11 * 214 = 2354		11 * 182 = 2002		11 * 2 = 22
  * filename	8 * 214 = 1712		8 * 182 = 1456		8 * 2 = 16
  * total	4096			3488			40
+=======
+ * space utilization of regular dentry and inline dentry
+ *		regular dentry			inline dentry
+ * bitmap	1 * 27 = 27			1 * 23 = 23
+ * reserved	1 * 3 = 3			1 * 7 = 7
+ * dentry	11 * 214 = 2354			11 * 182 = 2002
+ * filename	8 * 214 = 1712			8 * 182 = 1456
+ * total	4096				3488
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Note: there are more reserved space in inline dentry than in regular
  * dentry, when converting inline dentry we should handle this carefully.
@@ -546,6 +572,9 @@ enum {
 
 #define S_SHIFT 12
 
+<<<<<<< HEAD
 #define	F2FS_DEF_PROJID		0	/* default project ID */
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif  /* _LINUX_F2FS_FS_H */

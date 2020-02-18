@@ -137,8 +137,11 @@
 #include <linux/errqueue.h>
 #include <linux/hrtimer.h>
 #include <linux/netfilter_ingress.h>
+<<<<<<< HEAD
 #include <linux/tcp.h>
 #include <net/tcp.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include "net-sysfs.h"
 
@@ -185,7 +188,11 @@ EXPORT_SYMBOL(dev_base_lock);
 static DEFINE_SPINLOCK(napi_hash_lock);
 
 static unsigned int napi_gen_id = NR_CPUS;
+<<<<<<< HEAD
 static DEFINE_READ_MOSTLY_HASHTABLE(napi_hash, 8);
+=======
+static DEFINE_HASHTABLE(napi_hash, 8);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static seqcount_t devnet_rename_seq;
 

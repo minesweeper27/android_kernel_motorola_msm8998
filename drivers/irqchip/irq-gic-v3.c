@@ -354,6 +354,7 @@ static int gic_irq_set_vcpu_affinity(struct irq_data *d, void *vcpu)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int gic_retrigger(struct irq_data *d)
 {
 	if (gic_arch_extn.irq_retrigger)
@@ -482,6 +483,8 @@ arch_initcall(gic_init_sys);
 
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static u64 gic_mpidr_to_affinity(unsigned long mpidr)
 {
 	u64 aff;
@@ -503,7 +506,11 @@ static asmlinkage void __exception_irq_entry gic_handle_irq(struct pt_regs *regs
 
 		if (likely(irqnr > 15 && irqnr < 1020) || irqnr >= 8192) {
 			int err;
+<<<<<<< HEAD
 			uncached_logk(LOGK_IRQ, (void *)(uintptr_t)irqnr);
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (static_key_true(&supports_deactivate))
 				gic_write_eoir(irqnr);
 
@@ -608,6 +615,12 @@ static int gic_populate_rdist(void)
 				u64 offset = ptr - gic_data.redist_regions[i].redist_base;
 				gic_data_rdist_rd_base() = ptr;
 				gic_data_rdist()->phys_base = gic_data.redist_regions[i].phys_base + offset;
+<<<<<<< HEAD
+=======
+				pr_info("CPU%d: found redistributor %lx region %d:%pa\n",
+					smp_processor_id(), mpidr, i,
+					&gic_data_rdist()->phys_base);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				return 0;
 			}
 
@@ -809,6 +822,7 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
 	val = gic_mpidr_to_affinity(cpu_logical_map(cpu));
 
 	gic_write_irouter(val, reg);
+<<<<<<< HEAD
 
 	/*
 	 * It is possible that irq is disabled from SW perspective only,
@@ -817,6 +831,8 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
 	 */
 	if (irqd_irq_disabled(d))
 		enabled = 0;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * If the interrupt was enabled, enabled it again. Otherwise,
@@ -921,7 +937,10 @@ static struct irq_chip gic_eoimode1_chip = {
 	.irq_set_irqchip_state	= gic_irq_set_irqchip_state,
 	.irq_set_vcpu_affinity	= gic_irq_set_vcpu_affinity,
 	.flags			= IRQCHIP_SET_TYPE_MASKED,
+<<<<<<< HEAD
 	.irq_set_wake		= gic_set_wake,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define GIC_ID_NR		(1U << gic_data.rdists.id_bits)

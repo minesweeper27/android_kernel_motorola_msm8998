@@ -121,6 +121,25 @@ static inline bool pipe_supports_yuv(uint32_t pipe_caps)
 		(pipe_caps & MDP_PIPE_CAP_CSC);
 }
 
+/* MDP capabilities */
+#define MDP_CAP_SMP		BIT(0)	/* Shared Memory Pool                 */
+#define MDP_CAP_DSC		BIT(1)	/* VESA Display Stream Compression    */
+#define MDP_CAP_CDM		BIT(2)	/* Chroma Down Module (HDMI 2.0 YUV)  */
+
+/* MDP pipe capabilities */
+#define MDP_PIPE_CAP_HFLIP			BIT(0)
+#define MDP_PIPE_CAP_VFLIP			BIT(1)
+#define MDP_PIPE_CAP_SCALE			BIT(2)
+#define MDP_PIPE_CAP_CSC			BIT(3)
+#define MDP_PIPE_CAP_DECIMATION			BIT(4)
+#define MDP_PIPE_CAP_SW_PIX_EXT			BIT(5)
+
+static inline bool pipe_supports_yuv(uint32_t pipe_caps)
+{
+	return (pipe_caps & MDP_PIPE_CAP_SCALE) &&
+		(pipe_caps & MDP_PIPE_CAP_CSC);
+}
+
 enum csc_type {
 	CSC_RGB2RGB = 0,
 	CSC_YUV2RGB,

@@ -76,7 +76,10 @@ enum {
 	UFS_AH8_CFG				= 0xFC,
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* QCOM UFS host controller vendor specific debug registers */
 enum {
 	UFS_DBG_RD_REG_UAWM			= 0x100,
@@ -100,8 +103,12 @@ enum {
 /* bit definitions for REG_UFS_CFG1 register */
 #define QUNIPRO_SEL	UFS_BIT(0)
 #define TEST_BUS_EN		BIT(18)
+<<<<<<< HEAD
 #define TEST_BUS_SEL		0x780000
 #define UFS_REG_TEST_BUS_EN	BIT(30)
+=======
+#define TEST_BUS_SEL		GENMASK(22, 19)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* bit definitions for REG_UFS_CFG2 register */
 #define UAWM_HW_CGC_EN		(1 << 0)
@@ -160,6 +167,7 @@ enum ufs_qcom_phy_init_type {
 	 UFS_QCOM_DBG_PRINT_TEST_BUS_EN)
 
 /* QUniPro Vendor specific attributes */
+<<<<<<< HEAD
 #define PA_VS_CONFIG_REG1		0x9000
 #define SAVECONFIGTIME_MODE_MASK	0x6000
 
@@ -174,6 +182,12 @@ enum ufs_qcom_phy_init_type {
 #define DME_VS_CORE_CLK_CTRL_MAX_CORE_CLK_1US_CYCLES_MASK	0xFF
 #define DME_VS_CORE_CLK_CTRL_CORE_CLK_DIV_EN_BIT		BIT(8)
 #define DME_VS_CORE_CLK_CTRL_DME_HW_CGC_EN			BIT(9)
+=======
+#define DME_VS_CORE_CLK_CTRL	0xD002
+/* bit and mask definitions for DME_VS_CORE_CLK_CTRL attribute */
+#define DME_VS_CORE_CLK_CTRL_CORE_CLK_DIV_EN_BIT		BIT(8)
+#define DME_VS_CORE_CLK_CTRL_MAX_CORE_CLK_1US_CYCLES_MASK	0xFF
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline void
 ufs_qcom_get_controller_revision(struct ufs_hba *hba,
@@ -247,6 +261,7 @@ struct ufs_hw_version {
 	u8 major;
 };
 
+<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS
 struct qcom_debugfs_files {
 	struct dentry *debugfs_root;
@@ -260,11 +275,14 @@ struct qcom_debugfs_files {
 };
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct ufs_qcom_testbus {
 	u8 select_major;
 	u8 select_minor;
 };
 
+<<<<<<< HEAD
 /* PM QoS voting state  */
 enum ufs_qcom_pm_qos_state {
 	PM_QOS_UNVOTED,
@@ -317,6 +335,8 @@ struct ufs_qcom_pm_qos {
 	bool is_enabled;
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct ufs_qcom_host {
 	/*
 	 * Set this capability if host controller supports the QUniPro mode
@@ -331,6 +351,7 @@ struct ufs_qcom_host {
 	 * configuration even after UFS controller core power collapse.
 	 */
 	#define UFS_QCOM_CAP_RETAIN_SEC_CFG_AFTER_PWR_COLLAPSE	UFS_BIT(1)
+<<<<<<< HEAD
 
 	/*
 	 * Set this capability if host controller supports Qunipro internal
@@ -342,6 +363,8 @@ struct ufs_qcom_host {
 	 * Set this capability if host controller supports SVS2 frequencies.
 	 */
 	#define UFS_QCOM_CAP_SVS2	UFS_BIT(3)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u32 caps;
 
 	struct phy *generic_phy;
@@ -353,6 +376,7 @@ struct ufs_qcom_host {
 	struct clk *rx_l1_sync_clk;
 	struct clk *tx_l1_sync_clk;
 
+<<<<<<< HEAD
 	/* PM Quality-of-Service (QoS) data */
 	struct ufs_qcom_pm_qos pm_qos;
 
@@ -384,18 +408,33 @@ ufs_qcom_get_debug_reg_offset(struct ufs_qcom_host *host, u32 reg)
 		return UFS_CNTLR_2_x_x_VEN_REGS_OFFSET(reg);
 
 	return UFS_CNTLR_3_x_x_VEN_REGS_OFFSET(reg);
+=======
+	void __iomem *dev_ref_clk_ctrl_mmio;
+	bool is_dev_ref_clk_enabled;
+	struct ufs_hw_version hw_ver;
+
+	u32 dev_ref_clk_en_mask;
+
+	/* Bitmask for enabling debug prints */
+	u32 dbg_print_en;
+	struct ufs_qcom_testbus testbus;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define ufs_qcom_is_link_off(hba) ufshcd_is_link_off(hba)
 #define ufs_qcom_is_link_active(hba) ufshcd_is_link_active(hba)
 #define ufs_qcom_is_link_hibern8(hba) ufshcd_is_link_hibern8(hba)
 
+<<<<<<< HEAD
 bool ufs_qcom_testbus_cfg_is_ok(struct ufs_qcom_host *host, u8 select_major,
 		u8 select_minor);
 int ufs_qcom_testbus_config(struct ufs_qcom_host *host);
 void ufs_qcom_print_hw_debug_reg_all(struct ufs_hba *hba, void *priv,
 		void (*print_fn)(struct ufs_hba *hba, int offset, int num_regs,
 				char *str, void *priv));
+=======
+int ufs_qcom_testbus_config(struct ufs_qcom_host *host);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline bool ufs_qcom_cap_qunipro(struct ufs_qcom_host *host)
 {

@@ -628,7 +628,10 @@ const struct nla_policy rtm_ipv4_policy[RTA_MAX + 1] = {
 	[RTA_FLOW]		= { .type = NLA_U32 },
 	[RTA_ENCAP_TYPE]	= { .type = NLA_U16 },
 	[RTA_ENCAP]		= { .type = NLA_NESTED },
+<<<<<<< HEAD
 	[RTA_UID]		= { .type = NLA_U32 },
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static int rtm_to_fib_config(struct net *net, struct sk_buff *skb,

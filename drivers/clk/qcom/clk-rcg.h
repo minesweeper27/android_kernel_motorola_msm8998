@@ -159,10 +159,14 @@ extern const struct clk_ops clk_dyn_rcg_ops;
  * @parent_map: map from software's parent index to hardware's src_sel field
  * @freq_tbl: frequency table
  * @current_freq: last cached frequency when using branches with shared RCGs
+<<<<<<< HEAD
  * @enable_safe_config: When set, the RCG is parked at CXO when it's disabled
  * @clkr: regmap clock handle
  * @flags: set if RCG needs to be force enabled/disabled during
  * power sequence.
+=======
+ * @clkr: regmap clock handle
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  */
 struct clk_rcg2 {
@@ -172,9 +176,12 @@ struct clk_rcg2 {
 	const struct parent_map	*parent_map;
 	const struct freq_tbl	*freq_tbl;
 	unsigned long		current_freq;
+<<<<<<< HEAD
 	u32		new_index;
 	u32		curr_index;
 	bool			enable_safe_config;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct clk_regmap	clkr;
 
 	u8 flags;

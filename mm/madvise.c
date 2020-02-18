@@ -104,7 +104,11 @@ static long madvise_behavior(struct vm_area_struct *vma,
 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
 	*prev = vma_merge(mm, *prev, start, end, new_flags, vma->anon_vma,
 			  vma->vm_file, pgoff, vma_policy(vma),
+<<<<<<< HEAD
 			  vma->vm_userfaultfd_ctx, vma_get_anon_name(vma));
+=======
+			  vma->vm_userfaultfd_ctx);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (*prev) {
 		vma = *prev;
 		goto success;

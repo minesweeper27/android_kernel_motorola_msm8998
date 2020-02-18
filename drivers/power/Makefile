@@ -69,9 +69,15 @@ obj-$(CONFIG_POWER_AVS)		+= avs/
 obj-$(CONFIG_CHARGER_SMB347)	+= smb347-charger.o
 obj-$(CONFIG_CHARGER_TPS65090)	+= tps65090-charger.o
 obj-$(CONFIG_CHARGER_TPS65217)	+= tps65217_charger.o
+<<<<<<< HEAD
 obj-$(CONFIG_CHARGER_WLS_P922X)	+= p922x_charger.o
 obj-$(CONFIG_POWER_RESET)	+= reset/
 obj-$(CONFIG_AXP288_FUEL_GAUGE) += axp288_fuel_gauge.o
 obj-$(CONFIG_AXP288_CHARGER)	+= axp288_charger.o
 obj-$(CONFIG_ARCH_QCOM)		+= qcom/
 obj-$(CONFIG_POWER_SUPPLY)	+= supply/
+=======
+obj-$(CONFIG_POWER_RESET)	+= reset/
+obj-$(CONFIG_AXP288_FUEL_GAUGE) += axp288_fuel_gauge.o
+obj-$(CONFIG_AXP288_CHARGER)	+= axp288_charger.o
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

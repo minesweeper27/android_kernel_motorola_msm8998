@@ -274,12 +274,15 @@
 #define DWC3_GFLADJ_30MHZ_SDBND_SEL		(1 << 7)
 #define DWC3_GFLADJ_30MHZ_MASK			0x3f
 
+<<<<<<< HEAD
 /* Global Frame Length Adjustment Register */
 #define DWC3_GFLADJ_REFCLK_240MHZDECR_PLS1	(1 << 31)
 #define DWC3_GFLADJ_REFCLK_240MHZ_DECR		(0x7F << 24)
 #define DWC3_GFLADJ_REFCLK_LPM_SEL		(1 << 23)
 #define DWC3_GFLADJ_REFCLK_FLADJ		(0x3FFF << 8)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* Device Configuration Register */
 #define DWC3_DCFG_DEVADDR(addr)	((addr) << 3)
 #define DWC3_DCFG_DEVADDR_MASK	DWC3_DCFG_DEVADDR(0x7f)
@@ -911,7 +914,10 @@ struct dwc3 {
 	u32			u1;
 	u32			u1u2;
 	u32			maximum_speed;
+<<<<<<< HEAD
 	u32			max_hw_supp_speed;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * All 3.1 IP version constants are greater than the 3.0 IP
@@ -951,6 +957,13 @@ struct dwc3 {
 #define DWC3_REVISION_IS_DWC31		0x80000000
 #define DWC3_USB31_REVISION_110A	(0x3131302a | DWC3_REVISION_IS_USB31)
 #define DWC3_USB31_REVISION_120A	(0x3132302a | DWC3_REVISION_IS_DWC31)
+
+/*
+ * NOTICE: we're using bit 31 as a "is usb 3.1" flag. This is really
+ * just so dwc31 revisions are always larger than dwc3.
+ */
+#define DWC3_REVISION_IS_DWC31		0x80000000
+#define DWC3_USB31_REVISION_110A	(0x3131302a | DWC3_REVISION_IS_USB31)
 
 	enum dwc3_ep0_next	ep0_next_event;
 	enum dwc3_ep0_state	ep0state;

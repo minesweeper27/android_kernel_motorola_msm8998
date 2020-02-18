@@ -64,6 +64,7 @@ int xhci_handshake(void __iomem *ptr, u32 mask, u32 done, int usec)
 {
 	u32	result;
 	int	ret;
+<<<<<<< HEAD
 
 	ret = readl_poll_timeout_atomic(ptr, result,
 					(result & mask) == done ||
@@ -94,6 +95,17 @@ int xhci_handshake_check_state(struct xhci_hcd *xhci,
 		usec--;
 	} while (usec > 0);
 	return -ETIMEDOUT;
+=======
+
+	ret = readl_poll_timeout_atomic(ptr, result,
+					(result & mask) == done ||
+					result == U32_MAX,
+					1, usec);
+	if (result == U32_MAX)		/* card removed */
+		return -ENODEV;
+
+	return ret;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*
@@ -184,8 +196,11 @@ static int xhci_start(struct xhci_hcd *xhci)
 		/* clear state flags. Including dying, halted or removing */
 		xhci->xhc_state = 0;
 
+<<<<<<< HEAD
 	enable_irq(hcd->irq);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 
@@ -973,7 +988,11 @@ int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup)
 	struct usb_hcd		*hcd = xhci_to_hcd(xhci);
 	u32			command;
 
+<<<<<<< HEAD
 	if (!hcd->state || xhci->suspended)
+=======
+	if (!hcd->state)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return 0;
 
 	if (hcd->state != HC_STATE_SUSPENDED ||
@@ -1063,7 +1082,11 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
 	int			retval = 0;
 	bool			comp_timer_running = false;
 
+<<<<<<< HEAD
 	if (!hcd->state || !xhci->suspended)
+=======
+	if (!hcd->state)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return 0;
 
 	/* Wait a bit if either of the roothubs need to settle from the
@@ -1213,7 +1236,10 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
 
 	/* Re-enable port polling. */
 	xhci_dbg(xhci, "%s: starting port polling.\n", __func__);
+<<<<<<< HEAD
 	xhci->suspended = false;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	set_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
 	usb_hcd_poll_rh_status(xhci->shared_hcd);
 	set_bit(HCD_FLAG_POLL_RH, &hcd->flags);

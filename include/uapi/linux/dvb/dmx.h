@@ -32,11 +32,14 @@
 
 #define DMX_FILTER_SIZE 16
 
+<<<<<<< HEAD
 /* Min recording chunk upon which event is generated */
 #define DMX_REC_BUFF_CHUNK_MIN_SIZE		(100*188)
 
 #define DMX_MAX_DECODER_BUFFER_NUM		(32)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 enum dmx_output
 {
 	DMX_OUT_DECODER, /* Streaming directly to decoder. */
@@ -657,6 +660,7 @@ struct dmx_stc {
 	__u64 stc;		/* output: stc in 'base'*90 kHz units */
 };
 
+<<<<<<< HEAD
 enum dmx_buffer_mode {
 	/*
 	 * demux buffers are allocated internally
@@ -846,6 +850,8 @@ struct dmx_scrambling_bits {
 	__u8 value;
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define DMX_START                _IO('o', 41)
 #define DMX_STOP                 _IO('o', 42)
 #define DMX_SET_FILTER           _IOW('o', 43, struct dmx_sct_filter_params)

@@ -53,13 +53,21 @@ struct usb_request;
  *
  * @ep: the endpoint to allocate a usb_request
  * @len: usb_requests's buffer suggested size
+<<<<<<< HEAD
+=======
+ * @default_len: used if @len is not provided, ie, is 0
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * In case @ep direction is OUT, the @len will be aligned to ep's
  * wMaxPacketSize. In order to avoid memory leaks or drops, *always* use
  * usb_requests's length (req->length) to refer to the allocated buffer size.
  * Requests allocated via alloc_ep_req() *must* be freed by free_ep_req().
  */
+<<<<<<< HEAD
 struct usb_request *alloc_ep_req(struct usb_ep *ep, size_t len);
+=======
+struct usb_request *alloc_ep_req(struct usb_ep *ep, size_t len, int default_len);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* Frees a usb_request previously allocated by alloc_ep_req() */
 static inline void free_ep_req(struct usb_ep *ep, struct usb_request *req)

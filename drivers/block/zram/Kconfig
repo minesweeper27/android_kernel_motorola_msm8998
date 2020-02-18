@@ -14,6 +14,7 @@ config ZRAM
 
 	  See Documentation/blockdev/zram.txt for more information.
 
+<<<<<<< HEAD
 config ZRAM_WRITEBACK
        bool "Write back incompressible page to backing device"
        depends on ZRAM
@@ -35,3 +36,14 @@ config ZRAM_MEMORY_TRACKING
 	  /sys/kernel/debug/zram/zramX/block_state.
 
 	  See Documentation/blockdev/zram.txt for more information.
+=======
+config ZRAM_LZ4_COMPRESS
+	bool "Enable LZ4 algorithm support"
+	depends on ZRAM
+	select LZ4_COMPRESS
+	select LZ4_DECOMPRESS
+	default n
+	help
+	  This option enables LZ4 compression algorithm support. Compression
+	  algorithm can be changed using `comp_algorithm' device attribute.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

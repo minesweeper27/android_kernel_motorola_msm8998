@@ -758,17 +758,22 @@ static void usb_notifier(void *priv, unsigned int event,
 
 static int tmc_enable(struct tmc_drvdata *drvdata, enum tmc_mode mode)
 {
-	int ret;
 	unsigned long flags;
 
 	pm_runtime_get_sync(drvdata->dev);
+<<<<<<< HEAD
 
 	mutex_lock(&drvdata->mem_lock);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	spin_lock_irqsave(&drvdata->spinlock, flags);
 	if (drvdata->reading) {
 		spin_unlock_irqrestore(&drvdata->spinlock, flags);
+<<<<<<< HEAD
 		mutex_unlock(&drvdata->mem_lock);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pm_runtime_put(drvdata->dev);
 		return -EBUSY;
 	}
@@ -1040,6 +1045,7 @@ out:
 	drvdata->enable = false;
 	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 
+<<<<<<< HEAD
 	if (drvdata->config_type == TMC_CONFIG_TYPE_ETR
 	    && drvdata->out_mode == TMC_ETR_OUT_MODE_USB) {
 		tmc_etr_bam_disable(drvdata);
@@ -1053,6 +1059,9 @@ out:
 		coresight_cti_unmap_trigin(drvdata->cti_reset, 2, 0);
 		coresight_cti_unmap_trigout(drvdata->cti_flush, 1, 0);
 	}
+=======
+	pm_runtime_put(drvdata->dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pm_runtime_put(drvdata->dev);
 	mutex_unlock(&drvdata->mem_lock);
@@ -1881,9 +1890,12 @@ static int tmc_probe(struct amba_device *adev, const struct amba_id *id)
 	spin_lock_init(&drvdata->spinlock);
 	mutex_init(&drvdata->mem_lock);
 
+<<<<<<< HEAD
 	drvdata->force_reg_dump = of_property_read_bool(np,
 							"qcom,force-reg-dump");
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	devid = readl_relaxed(drvdata->base + CORESIGHT_DEVID);
 	drvdata->config_type = BMVAL(devid, 6, 7);
 
@@ -1907,10 +1919,13 @@ static int tmc_probe(struct amba_device *adev, const struct amba_id *id)
 		drvdata->size = readl_relaxed(drvdata->base + TMC_RSZ) * 4;
 	}
 
+<<<<<<< HEAD
 	ret = clk_set_rate(adev->pclk, CORESIGHT_CLK_RATE_TRACE);
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	pm_runtime_put(&adev->dev);
 
 	if (drvdata->config_type == TMC_CONFIG_TYPE_ETR) {
@@ -1988,6 +2003,13 @@ static int tmc_probe(struct amba_device *adev, const struct amba_id *id)
 
 err_misc_register:
 	coresight_unregister(drvdata->csdev);
+<<<<<<< HEAD
+=======
+err_devm_kzalloc:
+	if (drvdata->config_type == TMC_CONFIG_TYPE_ETR)
+		dma_free_coherent(dev, drvdata->size,
+				drvdata->vaddr, drvdata->paddr);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 

@@ -7,4 +7,8 @@ CFLAGS_REMOVE_kasan.o = -pg
 # see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63533
 CFLAGS_kasan.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
 
+<<<<<<< HEAD
 obj-y := kasan.o report.o kasan_init.o quarantine.o
+=======
+obj-y := kasan.o report.o kasan_init.o
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

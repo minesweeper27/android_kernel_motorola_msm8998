@@ -120,6 +120,7 @@ enum {
 	INET_DIAG_DCTCPINFO,
 	INET_DIAG_PROTOCOL,  /* response attribute only */
 	INET_DIAG_SKV6ONLY,
+<<<<<<< HEAD
 	INET_DIAG_LOCALS,
 	INET_DIAG_PEERS,
 	INET_DIAG_PAD,
@@ -127,6 +128,11 @@ enum {
 };
 
 #define INET_DIAG_MAX INET_DIAG_MARK
+=======
+};
+
+#define INET_DIAG_MAX INET_DIAG_SKV6ONLY
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* INET_DIAG_MEM */
 

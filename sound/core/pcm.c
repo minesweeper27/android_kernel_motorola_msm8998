@@ -861,6 +861,7 @@ static void free_chmap(struct snd_pcm_str *pstr)
 		snd_ctl_remove(pstr->pcm->card, pstr->chmap_kctl);
 		pstr->chmap_kctl = NULL;
 	}
+<<<<<<< HEAD
 	if (pstr->vol_kctl) {
 		snd_ctl_remove(pstr->pcm->card, pstr->vol_kctl);
 		pstr->vol_kctl = NULL;
@@ -869,6 +870,8 @@ static void free_chmap(struct snd_pcm_str *pstr)
 		snd_ctl_remove(pstr->pcm->card, pstr->usr_kctl);
 		pstr->usr_kctl = NULL;
 	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void snd_pcm_free_stream(struct snd_pcm_str * pstr)

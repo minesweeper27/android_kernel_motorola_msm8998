@@ -1446,6 +1446,7 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
 	out->vrefresh = in->vrefresh;
 	out->flags = in->flags;
 	out->type = in->type;
+<<<<<<< HEAD
 	out->flags &= ~DRM_MODE_FLAG_PIC_AR_MASK;
 
 	switch (in->picture_aspect_ratio) {
@@ -1467,6 +1468,8 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
 		break;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
 	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
 }
@@ -1512,6 +1515,7 @@ int drm_mode_convert_umode(struct drm_display_mode *out,
 	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
 	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
 
+<<<<<<< HEAD
 	/* Clearing picture aspect ratio bits from out flags */
 	out->flags &= ~DRM_MODE_FLAG_PIC_AR_MASK;
 
@@ -1533,6 +1537,8 @@ int drm_mode_convert_umode(struct drm_display_mode *out,
 		break;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	out->status = drm_mode_validate_basic(out);
 	if (out->status != MODE_OK)
 		goto out;

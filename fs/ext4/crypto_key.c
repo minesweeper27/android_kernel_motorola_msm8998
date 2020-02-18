@@ -30,7 +30,11 @@ static void derive_crypt_complete(struct crypto_async_request *req, int rc)
 }
 
 /**
+<<<<<<< HEAD
  * ext4_derive_key_v1() - Derive a key using AES-128-ECB
+=======
+ * ext4_derive_key_aes() - Derive a key using AES-128-ECB
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @deriving_key: Encryption key used for derivation.
  * @source_key:   Source key to which to apply derivation.
  * @derived_key:  Derived key.
@@ -84,6 +88,7 @@ out:
 	return res;
 }
 
+<<<<<<< HEAD
 /**
  * ext4_derive_key_v2() - Derive a key non-reversibly
  * @nonce: the nonce associated with the file
@@ -169,6 +174,8 @@ static int ext4_derive_key(const struct ext4_encryption_context *ctx,
 		return ext4_derive_key_v1(ctx->nonce, master_key, derived_key);
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void ext4_free_crypt_info(struct ext4_crypt_info *ci)
 {
 	if (!ci)
@@ -195,12 +202,15 @@ void ext4_free_encryption_info(struct inode *inode,
 	ext4_free_crypt_info(ci);
 }
 
+<<<<<<< HEAD
 static int ext4_default_data_encryption_mode(void)
 {
 	return ext4_is_ice_enabled() ? EXT4_ENCRYPTION_MODE_PRIVATE :
 		EXT4_ENCRYPTION_MODE_AES_256_XTS;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int ext4_get_encryption_info(struct inode *inode)
 {
 	struct ext4_inode_info *ei = EXT4_I(inode);
@@ -214,8 +224,13 @@ int ext4_get_encryption_info(struct inode *inode)
 	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
 	struct crypto_ablkcipher *ctfm;
 	const char *cipher_str;
+<<<<<<< HEAD
 	int for_fname = 0;
 	int mode;
+=======
+	char raw_key[EXT4_MAX_KEY_SIZE];
+	char mode;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int res;
 
 	if (ei->i_crypt_info)
@@ -231,8 +246,12 @@ int ext4_get_encryption_info(struct inode *inode)
 	if (res < 0) {
 		if (!DUMMY_ENCRYPTION_ENABLED(sbi))
 			return res;
+<<<<<<< HEAD
 		ctx.contents_encryption_mode =
 			ext4_default_data_encryption_mode();
+=======
+		ctx.contents_encryption_mode = EXT4_ENCRYPTION_MODE_AES_256_XTS;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ctx.filenames_encryption_mode =
 			EXT4_ENCRYPTION_MODE_AES_256_CTS;
 		ctx.flags = 0;
@@ -250,12 +269,21 @@ int ext4_get_encryption_info(struct inode *inode)
 	crypt_info->ci_ctfm = NULL;
 	memcpy(crypt_info->ci_master_key, ctx.master_key_descriptor,
 	       sizeof(crypt_info->ci_master_key));
+<<<<<<< HEAD
 	if (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode))
 		for_fname = 1;
 	else if (!S_ISREG(inode->i_mode))
 		BUG();
 	mode = for_fname ? crypt_info->ci_filename_mode :
 		crypt_info->ci_data_mode;
+=======
+	if (S_ISREG(inode->i_mode))
+		mode = crypt_info->ci_data_mode;
+	else if (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode))
+		mode = crypt_info->ci_filename_mode;
+	else
+		BUG();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (mode) {
 	case EXT4_ENCRYPTION_MODE_AES_256_XTS:
 		cipher_str = "xts(aes)";
@@ -263,11 +291,14 @@ int ext4_get_encryption_info(struct inode *inode)
 	case EXT4_ENCRYPTION_MODE_AES_256_CTS:
 		cipher_str = "cts(cbc(aes))";
 		break;
+<<<<<<< HEAD
 	case EXT4_ENCRYPTION_MODE_PRIVATE:
 		cipher_str = "bugon";
 	case EXT4_ENCRYPTION_MODE_AES_256_HEH:
 		cipher_str = "heh(aes)";
 		break;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default:
 		printk_once(KERN_WARNING
 			    "ext4: unsupported key mode %d (ino %u)\n",
@@ -276,7 +307,11 @@ int ext4_get_encryption_info(struct inode *inode)
 		goto out;
 	}
 	if (DUMMY_ENCRYPTION_ENABLED(sbi)) {
+<<<<<<< HEAD
 		memset(crypt_info->ci_raw_key, 0x42, EXT4_AES_256_XTS_KEY_SIZE);
+=======
+		memset(raw_key, 0x42, EXT4_AES_256_XTS_KEY_SIZE);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto got_key;
 	}
 	memcpy(full_key_descriptor, EXT4_KEY_DESC_PREFIX,
@@ -322,12 +357,18 @@ int ext4_get_encryption_info(struct inode *inode)
 		up_read(&keyring_key->sem);
 		goto out;
 	}
+<<<<<<< HEAD
 	res = ext4_derive_key(&ctx, master_key->raw,
 				  crypt_info->ci_raw_key);
+=======
+	res = ext4_derive_key_aes(ctx.nonce, master_key->raw,
+				  raw_key);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	up_read(&keyring_key->sem);
 	if (res)
 		goto out;
 got_key:
+<<<<<<< HEAD
 	if (for_fname ||
 	    (crypt_info->ci_data_mode != EXT4_ENCRYPTION_MODE_PRIVATE)) {
 		ctfm = crypto_alloc_ablkcipher(cipher_str, 0, 0);
@@ -351,6 +392,24 @@ got_key:
 		res = -EINVAL;
 		goto out;
 	}
+=======
+	ctfm = crypto_alloc_ablkcipher(cipher_str, 0, 0);
+	if (!ctfm || IS_ERR(ctfm)) {
+		res = ctfm ? PTR_ERR(ctfm) : -ENOMEM;
+		printk(KERN_DEBUG
+		       "%s: error %d (inode %u) allocating crypto tfm\n",
+		       __func__, res, (unsigned) inode->i_ino);
+		goto out;
+	}
+	crypt_info->ci_ctfm = ctfm;
+	crypto_ablkcipher_clear_flags(ctfm, ~0);
+	crypto_tfm_set_flags(crypto_ablkcipher_tfm(ctfm),
+			     CRYPTO_TFM_REQ_WEAK_KEY);
+	res = crypto_ablkcipher_setkey(ctfm, raw_key,
+				       ext4_encryption_key_size(mode));
+	if (res)
+		goto out;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (cmpxchg(&ei->i_crypt_info, NULL, crypt_info) == NULL)
 		crypt_info = NULL;
@@ -358,10 +417,15 @@ out:
 	if (res == -ENOKEY)
 		res = 0;
 	key_put(keyring_key);
+<<<<<<< HEAD
 	if (crypt_info)
 		memzero_explicit(crypt_info->ci_raw_key,
 			sizeof(crypt_info->ci_raw_key));
 	ext4_free_crypt_info(crypt_info);
+=======
+	ext4_free_crypt_info(crypt_info);
+	memzero_explicit(raw_key, sizeof(raw_key));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return res;
 }
 

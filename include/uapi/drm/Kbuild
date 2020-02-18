@@ -18,5 +18,8 @@ header-y += via_drm.h
 header-y += vmwgfx_drm.h
 header-y += msm_drm.h
 header-y += virtgpu_drm.h
+<<<<<<< HEAD
 header-y += sde_drm.h
 header-y += msm_drm_pp.h
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

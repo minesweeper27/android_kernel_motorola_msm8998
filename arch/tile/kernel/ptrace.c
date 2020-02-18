@@ -262,7 +262,11 @@ int do_syscall_trace_enter(struct pt_regs *regs)
 	if (work & _TIF_NOHZ)
 		user_exit();
 
+<<<<<<< HEAD
 	if (secure_computing(NULL) == -1)
+=======
+	if (secure_computing() == -1)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -1;
 
 	if (work & _TIF_SYSCALL_TRACE) {

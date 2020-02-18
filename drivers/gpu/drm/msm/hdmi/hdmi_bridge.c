@@ -106,7 +106,11 @@ static void hdmi_bridge_pre_enable(struct drm_bridge *bridge)
 	hdmi_set_mode(hdmi, true);
 
 	if (hdmi->hdcp_ctrl)
+<<<<<<< HEAD
 		hdmi_hdcp_ctrl_on(hdmi->hdcp_ctrl);
+=======
+		hdmi_hdcp_on(hdmi->hdcp_ctrl);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void hdmi_bridge_enable(struct drm_bridge *bridge)
@@ -124,7 +128,11 @@ static void hdmi_bridge_post_disable(struct drm_bridge *bridge)
 	struct hdmi_phy *phy = hdmi->phy;
 
 	if (hdmi->hdcp_ctrl)
+<<<<<<< HEAD
 		hdmi_hdcp_ctrl_off(hdmi->hdcp_ctrl);
+=======
+		hdmi_hdcp_off(hdmi->hdcp_ctrl);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	DBG("power down");
 	hdmi_set_mode(hdmi, false);

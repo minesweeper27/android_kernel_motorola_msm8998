@@ -1468,8 +1468,12 @@ int dso__load(struct dso *dso, struct map *map, symbol_filter_t filter)
 	 * Read the build id if possible. This is required for
 	 * DSO_BINARY_TYPE__BUILDID_DEBUGINFO to work
 	 */
+<<<<<<< HEAD
 	if ((!dso->has_build_id) &&
 	    (filename__read_build_id(dso->name, build_id, BUILD_ID_SIZE) > 0))
+=======
+	if (filename__read_build_id(dso->name, build_id, BUILD_ID_SIZE) > 0)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dso__set_build_id(dso, build_id);
 
 	/*

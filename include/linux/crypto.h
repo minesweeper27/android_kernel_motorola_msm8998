@@ -470,6 +470,7 @@ struct crypto_alg {
 	
 	struct module *cra_module;
 } CRYPTO_MINALIGN_ATTR;
+<<<<<<< HEAD
 
 /*
  * A helper struct for waiting for completion of async crypto ops
@@ -478,6 +479,8 @@ struct crypto_wait {
 	struct completion completion;
 	int err;
 };
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * Macro for declaring a crypto op async wait object on stack

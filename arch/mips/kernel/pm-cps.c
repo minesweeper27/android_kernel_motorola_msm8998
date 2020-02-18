@@ -271,6 +271,14 @@ static int __init cps_gen_flush_fsb(u32 **pp, struct uasm_label **pl,
 		/* On older ones it's unavailable */
 		return -1;
 
+<<<<<<< HEAD
+=======
+	/* CPUs which do not require the workaround */
+	case CPU_P5600:
+	case CPU_I6400:
+		return 0;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default:
 		/* Assume that the CPU does not need this workaround */
 		return 0;

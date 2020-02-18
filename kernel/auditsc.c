@@ -1028,9 +1028,15 @@ static void audit_log_execve_info(struct audit_context *context,
 		return;
 	}
 	buf = buf_head;
+<<<<<<< HEAD
 
 	audit_log_format(*ab, "argc=%d", context->execve.argc);
 
+=======
+
+	audit_log_format(*ab, "argc=%d", context->execve.argc);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	len_rem = len_max;
 	len_buf = 0;
 	len_full = 0;
@@ -1056,6 +1062,7 @@ static void audit_log_execve_info(struct audit_context *context,
 				memmove(buf_head, buf, len_buf);
 				buf = buf_head;
 			}
+<<<<<<< HEAD
 
 			/* fetch as much as we can of the argument */
 			len_tmp = strncpy_from_user(&buf_head[len_buf], p,
@@ -1088,6 +1095,40 @@ static void audit_log_execve_info(struct audit_context *context,
 			len_buf += len_tmp;
 			buf_head[len_buf] = '\0';
 
+=======
+
+			/* fetch as much as we can of the argument */
+			len_tmp = strncpy_from_user(&buf_head[len_buf], p,
+						    len_max - len_buf);
+			if (len_tmp == -EFAULT) {
+				/* unable to copy from userspace */
+				send_sig(SIGKILL, current, 0);
+				goto out;
+			} else if (len_tmp == (len_max - len_buf)) {
+				/* buffer is not large enough */
+				require_data = true;
+				/* NOTE: if we are going to span multiple
+				 *       buffers force the encoding so we stand
+				 *       a chance at a sane len_full value and
+				 *       consistent record encoding */
+				encode = true;
+				len_full = len_full * 2;
+				p += len_tmp;
+			} else {
+				require_data = false;
+				if (!encode)
+					encode = audit_string_contains_control(
+								buf, len_tmp);
+				/* try to use a trusted value for len_full */
+				if (len_full < len_max)
+					len_full = (encode ?
+						    len_tmp * 2 : len_tmp);
+				p += len_tmp + 1;
+			}
+			len_buf += len_tmp;
+			buf_head[len_buf] = '\0';
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			/* length of the buffer in the audit record? */
 			len_abuf = (encode ? len_buf * 2 : len_buf + 2);
 		}
@@ -1992,7 +2033,11 @@ static void audit_log_set_loginuid(kuid_t koldloginuid, kuid_t kloginuid,
 	loginuid = from_kuid(&init_user_ns, kloginuid),
 	tty = audit_get_tty(current);
 
+<<<<<<< HEAD
 	audit_log_format(ab, "pid=%d uid=%u", task_tgid_nr(current), uid);
+=======
+	audit_log_format(ab, "pid=%d uid=%u", task_pid_nr(current), uid);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	audit_log_task_context(ab);
 	audit_log_format(ab, " old-auid=%u auid=%u tty=%s old-ses=%u ses=%u res=%d",
 			 oldloginuid, loginuid, tty ? tty_name(tty) : "(none)",

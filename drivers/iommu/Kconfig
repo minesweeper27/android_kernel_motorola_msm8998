@@ -412,6 +412,7 @@ config S390_IOMMU
 	help
 	  Support for the IOMMU API for s390 PCI devices.
 
+<<<<<<< HEAD
 menuconfig IOMMU_DEBUG
 	bool "IOMMU Profiling and Debugging"
 	help
@@ -442,4 +443,6 @@ config IOMMU_TESTS
 
 endif # IOMMU_DEBUG
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif # IOMMU_SUPPORT

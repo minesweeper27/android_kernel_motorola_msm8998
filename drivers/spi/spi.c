@@ -1511,6 +1511,7 @@ static int of_spi_parse_dt(struct spi_master *master, struct spi_device *spi,
 	}
 	spi->max_speed_hz = value;
 
+<<<<<<< HEAD
 	return 0;
 }
 
@@ -1542,6 +1543,8 @@ of_register_spi_device(struct spi_master *master, struct device_node *nc)
 	if (rc)
 		goto err_out;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Store a pointer to the node in the device structure */
 	of_node_get(nc);
 	spi->dev.of_node = nc;
@@ -1696,6 +1699,7 @@ static struct class spi_master_class = {
 	.owner		= THIS_MODULE,
 	.dev_release	= spi_master_release,
 	.dev_groups	= spi_master_groups,
+<<<<<<< HEAD
 };
 
 #ifdef CONFIG_SPI_SLAVE
@@ -1775,12 +1779,15 @@ static DEVICE_ATTR(slave, 0644, spi_slave_show, spi_slave_store);
 static struct attribute *spi_slave_attrs[] = {
 	&dev_attr_slave.attr,
 	NULL,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static const struct attribute_group spi_slave_group = {
 	.attrs = spi_slave_attrs,
 };
 
+<<<<<<< HEAD
 static const struct attribute_group *spi_slave_groups[] = {
 	&spi_master_statistics_group,
 	&spi_slave_group,
@@ -1797,6 +1804,8 @@ static struct class spi_slave_class = {
 extern struct class spi_slave_class;	/* dummy */
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * __spi_alloc_controller - allocate an SPI master or slave controller
  * @dev: the controller, possibly using the platform_bus
@@ -1812,12 +1821,21 @@ extern struct class spi_slave_class;	/* dummy */
  * an spi_master structure, prior to calling spi_register_master().
  *
  * This must be called from context that can sleep.
+<<<<<<< HEAD
  *
  * The caller is responsible for assigning the bus number and initializing the
  * controller's methods before calling spi_register_master(); and (after errors
  * adding the device) calling spi_master_put() to prevent a memory leak.
  *
  * Return: the SPI controller structure on success, else NULL.
+=======
+ *
+ * The caller is responsible for assigning the bus number and initializing
+ * the master's methods before calling spi_register_master(); and (after errors
+ * adding the device) calling spi_master_put() to prevent a memory leak.
+ *
+ * Return: the SPI master structure on success, else NULL.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 struct spi_master *__spi_alloc_controller(struct device *dev,
 					  unsigned int size, bool slave)
@@ -1834,11 +1852,15 @@ struct spi_master *__spi_alloc_controller(struct device *dev,
 	device_initialize(&master->dev);
 	master->bus_num = -1;
 	master->num_chipselect = 1;
+<<<<<<< HEAD
 	master->slave = slave;
 	if (IS_ENABLED(CONFIG_SPI_SLAVE) && slave)
 		master->dev.class = &spi_slave_class;
 	else
 		master->dev.class = &spi_master_class;
+=======
+	master->dev.class = &spi_master_class;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	master->dev.parent = dev;
 	spi_master_set_devdata(master, &master[1]);
 

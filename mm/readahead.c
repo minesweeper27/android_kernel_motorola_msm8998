@@ -217,12 +217,16 @@ int force_page_cache_readahead(struct address_space *mapping, struct file *filp,
 	if (unlikely(!mapping->a_ops->readpage && !mapping->a_ops->readpages))
 		return -EINVAL;
 
+<<<<<<< HEAD
 	/*
 	 * If the request exceeds the readahead window, allow the read to
 	 * be up to the optimal hardware IO size
 	 */
 	max_pages = max_t(unsigned long, bdi->io_pages, ra->ra_pages);
 	nr_to_read = min(nr_to_read, max_pages);
+=======
+	nr_to_read = min(nr_to_read, inode_to_bdi(mapping->host)->ra_pages);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	while (nr_to_read) {
 		int err;
 
@@ -381,9 +385,13 @@ ondemand_readahead(struct address_space *mapping,
 		   bool hit_readahead_marker, pgoff_t offset,
 		   unsigned long req_size)
 {
+<<<<<<< HEAD
 	struct backing_dev_info *bdi = inode_to_bdi(mapping->host);
 	unsigned long max_pages = ra->ra_pages;
 	unsigned long add_pages;
+=======
+	unsigned long max = ra->ra_pages;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	pgoff_t prev_offset;
 
 	/*

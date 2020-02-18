@@ -306,6 +306,7 @@ try_again:
 		goto out;
 	}
 
+<<<<<<< HEAD
 	if (perf_evlist__apply_drv_configs(evlist, &pos, &err_term)) {
 		error("failed to set config \"%s\" on event %s with %d (%s)\n",
 			err_term->val.drv_cfg, perf_evsel__name(pos), errno,
@@ -314,6 +315,8 @@ try_again:
 		goto out;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (perf_evlist__mmap_ex(evlist, opts->mmap_pages, false,
 				 opts->auxtrace_mmap_pages,
 				 opts->auxtrace_snapshot_mode) < 0) {
@@ -1160,6 +1163,7 @@ int cmd_record(int argc, const char **argv, const char *prefix __maybe_unused)
 		ui__error("kernel does not support recording context switch events\n");
 		parse_options_usage(record_usage, record_options, "switch-events", 0);
 		return -EINVAL;
+<<<<<<< HEAD
 	}
 
 	if (!rec->itr) {
@@ -1168,6 +1172,16 @@ int cmd_record(int argc, const char **argv, const char *prefix __maybe_unused)
 			return err;
 	}
 
+=======
+	}
+
+	if (!rec->itr) {
+		rec->itr = auxtrace_record__init(rec->evlist, &err);
+		if (err)
+			return err;
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	err = auxtrace_parse_snapshot_options(rec->itr, &rec->opts,
 					      rec->opts.auxtrace_snapshot_opts);
 	if (err)

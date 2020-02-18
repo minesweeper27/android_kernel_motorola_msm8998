@@ -142,8 +142,15 @@ int balloon_page_migrate(struct address_space *mapping,
 	VM_BUG_ON_PAGE(!PageLocked(page), page);
 	VM_BUG_ON_PAGE(!PageLocked(newpage), newpage);
 
+<<<<<<< HEAD
 	return balloon->migratepage(balloon, newpage, page, mode);
 }
+=======
+	if (WARN_ON(!__is_movable_balloon_page(page))) {
+		dump_page(page, "not movable balloon page");
+		return rc;
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 const struct address_space_operations balloon_aops = {
 	.migratepage = balloon_page_migrate,
@@ -152,4 +159,9 @@ const struct address_space_operations balloon_aops = {
 };
 EXPORT_SYMBOL_GPL(balloon_aops);
 
+<<<<<<< HEAD
+=======
+	return rc;
+}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_BALLOON_COMPACTION */

@@ -4547,8 +4547,11 @@ int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
 	num_modes += add_established_modes(connector, edid);
 	num_modes += add_cea_modes(connector, edid);
 	num_modes += add_alternate_cea_modes(connector, edid);
+<<<<<<< HEAD
 	num_modes += add_displayid_detailed_modes(connector, edid);
 	num_modes += add_YCbCr420VDB_modes(connector, edid);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (edid->features & DRM_EDID_FEATURE_DEFAULT_GTF)
 		num_modes += add_inferred_modes(connector, edid);
 

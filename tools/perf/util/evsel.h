@@ -44,7 +44,10 @@ enum {
 	PERF_EVSEL__CONFIG_TERM_CALLGRAPH,
 	PERF_EVSEL__CONFIG_TERM_STACK_USER,
 	PERF_EVSEL__CONFIG_TERM_INHERIT,
+<<<<<<< HEAD
 	PERF_EVSEL__CONFIG_TERM_DRV_CFG,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	PERF_EVSEL__CONFIG_TERM_MAX,
 };
 
@@ -56,7 +59,10 @@ struct perf_evsel_config_term {
 		u64	freq;
 		bool	time;
 		char	*callgraph;
+<<<<<<< HEAD
 		char	*drv_cfg;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		u64	stack_user;
 		bool	inherit;
 	} val;
@@ -126,7 +132,10 @@ struct perf_evsel {
 	char			*group_name;
 	bool			cmdline_group_boundary;
 	struct list_head	config_terms;
+<<<<<<< HEAD
 	struct list_head	drv_config_terms;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int			bpf_fd;
 };
 
@@ -231,9 +240,12 @@ int perf_evsel__append_filter(struct perf_evsel *evsel,
 			      const char *op, const char *filter);
 int perf_evsel__apply_filter(struct perf_evsel *evsel, int ncpus, int nthreads,
 			     const char *filter);
+<<<<<<< HEAD
 int perf_evsel__apply_drv_configs(struct perf_evsel *evsel,
 				  int ncpus, int nthreads,
 				  struct perf_evsel_config_term **err_term);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int perf_evsel__enable(struct perf_evsel *evsel, int ncpus, int nthreads);
 int perf_evsel__disable(struct perf_evsel *evsel);
 

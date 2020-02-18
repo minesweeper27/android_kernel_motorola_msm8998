@@ -14,8 +14,11 @@
 #include <linux/swapops.h>
 #include <linux/mmu_notifier.h>
 #include <linux/page_idle.h>
+<<<<<<< HEAD
 #include <linux/mm_inline.h>
 #include <linux/ctype.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/elf.h>
 #include <asm/uaccess.h>
@@ -315,6 +318,7 @@ static int is_stack(struct proc_maps_private *priv,
 	 */
 	return vma->vm_start <= vma->vm_mm->start_stack &&
 		vma->vm_end >= vma->vm_mm->start_stack;
+<<<<<<< HEAD
 }
 
 static void show_vma_header_prefix(struct seq_file *m,
@@ -332,6 +336,8 @@ static void show_vma_header_prefix(struct seq_file *m,
 		   flags & VM_MAYSHARE ? 's' : 'p',
 		   pgoff,
 		   MAJOR(dev), MINOR(dev), ino);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void
@@ -357,7 +363,21 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 	/* We don't show the stack guard page in /proc/maps */
 	start = vma->vm_start;
 	end = vma->vm_end;
+<<<<<<< HEAD
 	show_vma_header_prefix(m, start, end, flags, pgoff, dev, ino);
+=======
+
+	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
+	seq_printf(m, "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu ",
+			start,
+			end,
+			flags & VM_READ ? 'r' : '-',
+			flags & VM_WRITE ? 'w' : '-',
+			flags & VM_EXEC ? 'x' : '-',
+			flags & VM_MAYSHARE ? 's' : 'p',
+			pgoff,
+			MAJOR(dev), MINOR(dev), ino);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Print the dentry name for named mappings, and a
@@ -388,6 +408,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 			goto done;
 		}
 
+<<<<<<< HEAD
 		if (is_stack(priv, vma)) {
 			name = "[stack]";
 			goto done;
@@ -396,6 +417,10 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 			seq_pad(m, ' ');
 			seq_print_vma_name(m, vma);
 		}
+=======
+		if (is_stack(priv, vma))
+			name = "[stack]";
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 done:
@@ -494,9 +519,13 @@ struct mem_size_stats {
 	unsigned long swap;
 	unsigned long shared_hugetlb;
 	unsigned long private_hugetlb;
+<<<<<<< HEAD
 	unsigned long first_vma_start;
 	u64 pss;
 	u64 pss_locked;
+=======
+	u64 pss;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u64 swap_pss;
 };
 
@@ -759,6 +788,7 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 		seq_putc(m, '\n');
 	}
 
+<<<<<<< HEAD
 	if (!rollup_mode)
 		seq_printf(m,
 			   "Size:           %8lu kB\n"
@@ -803,6 +833,46 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 	if (!rollup_mode) {
 		show_smap_vma_flags(m, vma);
 	}
+=======
+	seq_printf(m,
+		   "Size:           %8lu kB\n"
+		   "Rss:            %8lu kB\n"
+		   "Pss:            %8lu kB\n"
+		   "Shared_Clean:   %8lu kB\n"
+		   "Shared_Dirty:   %8lu kB\n"
+		   "Private_Clean:  %8lu kB\n"
+		   "Private_Dirty:  %8lu kB\n"
+		   "Referenced:     %8lu kB\n"
+		   "Anonymous:      %8lu kB\n"
+		   "AnonHugePages:  %8lu kB\n"
+		   "Shared_Hugetlb: %8lu kB\n"
+		   "Private_Hugetlb: %7lu kB\n"
+		   "Swap:           %8lu kB\n"
+		   "SwapPss:        %8lu kB\n"
+		   "KernelPageSize: %8lu kB\n"
+		   "MMUPageSize:    %8lu kB\n"
+		   "Locked:         %8lu kB\n",
+		   (vma->vm_end - vma->vm_start) >> 10,
+		   mss.resident >> 10,
+		   (unsigned long)(mss.pss >> (10 + PSS_SHIFT)),
+		   mss.shared_clean  >> 10,
+		   mss.shared_dirty  >> 10,
+		   mss.private_clean >> 10,
+		   mss.private_dirty >> 10,
+		   mss.referenced >> 10,
+		   mss.anonymous >> 10,
+		   mss.anonymous_thp >> 10,
+		   mss.shared_hugetlb >> 10,
+		   mss.private_hugetlb >> 10,
+		   mss.swap >> 10,
+		   (unsigned long)(mss.swap_pss >> (10 + PSS_SHIFT)),
+		   vma_kernel_pagesize(vma) >> 10,
+		   vma_mmu_pagesize(vma) >> 10,
+		   (vma->vm_flags & VM_LOCKED) ?
+			(unsigned long)(mss.pss >> (10 + PSS_SHIFT)) : 0);
+
+	show_smap_vma_flags(m, vma);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	m_cache_vma(m, vma);
 	return ret;
 }
@@ -1238,10 +1308,17 @@ static pagemap_entry_t pte_to_pagemap_entry(struct pagemapread *pm,
 		flags |= PM_MMAP_EXCLUSIVE;
 	if (vma->vm_flags & VM_SOFTDIRTY)
 		flags |= PM_SOFT_DIRTY;
+<<<<<<< HEAD
 
 	return make_pme(frame, flags);
 }
 
+=======
+
+	return make_pme(frame, flags);
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
 			     struct mm_walk *walk)
 {

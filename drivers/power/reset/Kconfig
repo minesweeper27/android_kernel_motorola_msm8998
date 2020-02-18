@@ -192,6 +192,7 @@ config POWER_RESET_ZX
 	help
 	  Reboot support for ZTE SoCs.
 
+<<<<<<< HEAD
 config REBOOT_MODE
 	tristate
 
@@ -206,5 +207,7 @@ config SYSCON_REBOOT_MODE
 	  register, then the bootloader can read it to take different
 	  action according to the mode.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif
 

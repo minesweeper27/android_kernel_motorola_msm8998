@@ -108,6 +108,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
 
 	down_write(&mm->mmap_sem);
 
+<<<<<<< HEAD
 	/* Map delay slot emulation page */
 	base = mmap_region(NULL, STACK_TOP, PAGE_SIZE,
 			   VM_READ|VM_WRITE|VM_EXEC|
@@ -118,6 +119,8 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
 		goto out;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * Determine total area size. This includes the VDSO data itself, the
 	 * data page, and the GIC user page if present. Always create a mapping
@@ -142,6 +145,7 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
 		ret = base;
 		goto out;
 	}
+<<<<<<< HEAD
 
 	/*
 	 * If we suffer from dcache aliasing, ensure that the VDSO data page
@@ -179,6 +183,45 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
 			goto out;
 	}
 
+=======
+
+	/*
+	 * If we suffer from dcache aliasing, ensure that the VDSO data page
+	 * mapping is coloured the same as the kernel's mapping of that memory.
+	 * This ensures that when the kernel updates the VDSO data userland
+	 * will observe it without requiring cache invalidations.
+	 */
+	if (cpu_has_dc_aliases) {
+		base = __ALIGN_MASK(base, shm_align_mask);
+		base += ((unsigned long)&vdso_data - gic_size) & shm_align_mask;
+	}
+
+	data_addr = base + gic_size;
+	vdso_addr = data_addr + PAGE_SIZE;
+
+	vma = _install_special_mapping(mm, base, vvar_size,
+				       VM_READ | VM_MAYREAD,
+				       &vdso_vvar_mapping);
+	if (IS_ERR(vma)) {
+		ret = PTR_ERR(vma);
+		goto out;
+	}
+
+	/* Map GIC user page. */
+	if (gic_size) {
+		ret = gic_get_usm_range(&gic_res);
+		if (ret)
+			goto out;
+
+		ret = io_remap_pfn_range(vma, base,
+					 gic_res.start >> PAGE_SHIFT,
+					 gic_size,
+					 pgprot_noncached(PAGE_READONLY));
+		if (ret)
+			goto out;
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Map data page. */
 	ret = remap_pfn_range(vma, data_addr,
 			      virt_to_phys(&vdso_data) >> PAGE_SHIFT,

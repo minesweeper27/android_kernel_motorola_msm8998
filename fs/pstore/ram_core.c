@@ -267,6 +267,7 @@ static void notrace persistent_ram_update(struct persistent_ram_zone *prz,
 {
 	struct persistent_ram_buffer *buffer = prz->buffer;
 	memcpy_toio(buffer->data + start, s, count);
+<<<<<<< HEAD
 	persistent_ram_update_ecc(prz, start, count);
 }
 
@@ -276,6 +277,8 @@ static int notrace persistent_ram_update_user(struct persistent_ram_zone *prz,
 	struct persistent_ram_buffer *buffer = prz->buffer;
 	int ret = unlikely(__copy_from_user(buffer->data + start, s, count)) ?
 		-EFAULT : 0;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	persistent_ram_update_ecc(prz, start, count);
 	return ret;
 }

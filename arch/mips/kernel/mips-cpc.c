@@ -23,6 +23,7 @@ static DEFINE_PER_CPU_ALIGNED(spinlock_t, cpc_core_lock);
 
 static DEFINE_PER_CPU_ALIGNED(unsigned long, cpc_core_lock_flags);
 
+<<<<<<< HEAD
 phys_addr_t __weak mips_cpc_default_phys_base(void)
 {
 	struct device_node *cpc_node;
@@ -48,6 +49,17 @@ phys_addr_t __weak mips_cpc_default_phys_base(void)
  */
 static phys_addr_t mips_cpc_phys_base(void)
 {
+=======
+/**
+ * mips_cpc_phys_base - retrieve the physical base address of the CPC
+ *
+ * This function returns the physical base address of the Cluster Power
+ * Controller memory mapped registers, or 0 if no Cluster Power Controller
+ * is present.
+ */
+static phys_addr_t mips_cpc_phys_base(void)
+{
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned long cpc_base;
 
 	if (!mips_cm_present())

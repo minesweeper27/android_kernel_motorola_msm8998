@@ -979,7 +979,10 @@ static void ieee80211_do_stop(struct ieee80211_sub_if_data *sdata,
 
 		spin_lock_bh(&txqi->queue.lock);
 		ieee80211_purge_tx_queue(&local->hw, &txqi->queue);
+<<<<<<< HEAD
 		txqi->byte_cnt = 0;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		spin_unlock_bh(&txqi->queue.lock);
 
 		atomic_set(&sdata->txqs_len[txqi->txq.ac], 0);

@@ -224,12 +224,23 @@ EXPORT_SYMBOL_GPL(snd_soc_info_volsw);
 int snd_soc_info_volsw_sx(struct snd_kcontrol *kcontrol,
 			  struct snd_ctl_elem_info *uinfo)
 {
+<<<<<<< HEAD
 	snd_soc_info_volsw(kcontrol, uinfo);
 	/* Max represents the number of levels in an SX control not the
 	 * maximum value.
 	 * uinfo->value.integer.max is set to number of levels
 	 * in snd_soc_info_volsw_sx. No further adjustment is necessary.
 	 */
+=======
+	struct soc_mixer_control *mc =
+		(struct soc_mixer_control *)kcontrol->private_value;
+
+	snd_soc_info_volsw(kcontrol, uinfo);
+	/* Max represents the number of levels in an SX control not the
+	 * maximum value, so add the minimum value back on
+	 */
+	uinfo->value.integer.max += mc->min;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

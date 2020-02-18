@@ -70,6 +70,7 @@ struct msm_kms_funcs {
 	int (*enable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
 	void (*disable_vblank)(struct msm_kms *kms, struct drm_crtc *crtc);
 	/* modeset, bracketing atomic_commit(): */
+<<<<<<< HEAD
 	void (*prepare_fence)(struct msm_kms *kms,
 			struct drm_atomic_state *state);
 	void (*prepare_commit)(struct msm_kms *kms,
@@ -90,6 +91,13 @@ struct msm_kms_funcs {
 			const struct msm_format *msm_fmt,
 			const struct drm_mode_fb_cmd2 *cmd,
 			struct drm_gem_object **bos);
+=======
+	void (*prepare_commit)(struct msm_kms *kms, struct drm_atomic_state *state);
+	void (*complete_commit)(struct msm_kms *kms, struct drm_atomic_state *state);
+	/* functions to wait for atomic commit completed on each CRTC */
+	void (*wait_for_crtc_commit_done)(struct msm_kms *kms,
+					struct drm_crtc *crtc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* misc: */
 	long (*round_pixclk)(struct msm_kms *kms, unsigned long rate,
 			struct drm_encoder *encoder);

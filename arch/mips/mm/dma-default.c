@@ -208,7 +208,11 @@ static int mips_dma_mmap(struct device *dev, struct vm_area_struct *vma,
 	unsigned long pfn;
 	int ret = -ENXIO;
 
+<<<<<<< HEAD
 	if (!plat_device_is_coherent(dev))
+=======
+	if (!plat_device_is_coherent(dev) && !hw_coherentio)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		addr = CAC_ADDR(addr);
 
 	pfn = page_to_pfn(virt_to_page((void *)addr));

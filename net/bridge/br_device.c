@@ -53,12 +53,15 @@ netdev_tx_t br_dev_xmit(struct sk_buff *skb, struct net_device *dev)
 	skb_reset_mac_header(skb);
 	skb_pull(skb, ETH_HLEN);
 
+<<<<<<< HEAD
 	u64_stats_update_begin(&brstats->syncp);
 	brstats->tx_packets++;
 	/* Exclude ETH_HLEN from byte stats for consistency with Rx chain */
 	brstats->tx_bytes += skb->len;
 	u64_stats_update_end(&brstats->syncp);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!br_allowed_ingress(br, br_vlan_group_rcu(br), skb, &vid))
 		goto out;
 

@@ -1728,7 +1728,10 @@ static void get_tcp6_sock(struct seq_file *seq, struct sock *sp, int i)
 	const struct fastopen_queue *fastopenq = &icsk->icsk_accept_queue.fastopenq;
 	int rx_queue;
 	int state;
+<<<<<<< HEAD
 	__u8 state_seq = sp->sk_state;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	dest  = &sp->sk_v6_daddr;
 	src   = &sp->sk_v6_rcv_saddr;
@@ -1760,9 +1763,12 @@ static void get_tcp6_sock(struct seq_file *seq, struct sock *sp, int i)
 		 */
 		rx_queue = max_t(int, tp->rcv_nxt - tp->copied_seq, 0);
 
+<<<<<<< HEAD
 	if (inet->transparent)
 		state_seq |= 0x80;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	seq_printf(seq,
 		   "%4d: %08X%08X%08X%08X:%04X %08X%08X%08X%08X:%04X "
 		   "%02X %08X:%08X %02X:%08lX %08X %5u %8d %lu %d %pK %lu %lu %u %u %d\n",
@@ -1771,7 +1777,11 @@ static void get_tcp6_sock(struct seq_file *seq, struct sock *sp, int i)
 		   src->s6_addr32[2], src->s6_addr32[3], srcp,
 		   dest->s6_addr32[0], dest->s6_addr32[1],
 		   dest->s6_addr32[2], dest->s6_addr32[3], destp,
+<<<<<<< HEAD
 		   state_seq,
+=======
+		   state,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		   tp->write_seq - tp->snd_una,
 		   rx_queue,
 		   timer_active,

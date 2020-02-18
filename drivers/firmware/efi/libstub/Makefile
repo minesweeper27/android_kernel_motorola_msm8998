@@ -11,9 +11,12 @@ cflags-$(CONFIG_X86)		+= -m$(BITS) -D__KERNEL__ $(LINUX_INCLUDE) -O2 \
 				   -mno-mmx -mno-sse
 
 cflags-$(CONFIG_ARM64)		:= $(subst -pg,,$(KBUILD_CFLAGS)) -fpie
+<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 cflags-$(CONFIG_ARM64)		+= -fpic
 endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 cflags-$(CONFIG_ARM)		:= $(subst -pg,,$(KBUILD_CFLAGS)) \
 				   -fno-builtin -fpic -mno-single-pic-base
 
@@ -41,12 +44,17 @@ $(obj)/lib-%.o: $(srctree)/lib/%.c FORCE
 lib-$(CONFIG_EFI_ARMSTUB)	+= arm-stub.o fdt.o string.o \
 				   $(patsubst %.c,lib-%.o,$(arm-deps))
 
+<<<<<<< HEAD
 lib-$(CONFIG_ARM)		+= arm32-stub.o
 lib-$(CONFIG_ARM64)		+= arm64-stub.o random.o
 CFLAGS_arm64-stub.o 		:= -DTEXT_OFFSET=$(TEXT_OFFSET)
 ifeq ($(cc-name),clang)
 CFLAGS_arm64-stub.o		+= -fno-pic
 endif
+=======
+lib-$(CONFIG_ARM64)		+= arm64-stub.o
+CFLAGS_arm64-stub.o 		:= -DTEXT_OFFSET=$(TEXT_OFFSET)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #
 # arm64 puts the stub in the kernel proper, which will unnecessarily retain all

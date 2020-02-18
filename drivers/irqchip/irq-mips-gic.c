@@ -53,6 +53,7 @@ static inline u64 gic_read64(unsigned int reg)
 }
 
 static inline unsigned long gic_read(unsigned int reg)
+<<<<<<< HEAD
 {
 	if (!mips_cm_is64)
 		return gic_read32(reg);
@@ -67,6 +68,22 @@ static inline void gic_write32(unsigned int reg, u32 val)
 
 static inline void gic_write64(unsigned int reg, u64 val)
 {
+=======
+{
+	if (!mips_cm_is64)
+		return gic_read32(reg);
+	else
+		return gic_read64(reg);
+}
+
+static inline void gic_write32(unsigned int reg, u32 val)
+{
+	return __raw_writel(val, gic_base + reg);
+}
+
+static inline void gic_write64(unsigned int reg, u64 val)
+{
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return __raw_writeq(val, gic_base + reg);
 }
 
@@ -181,7 +198,11 @@ void gic_write_cpu_compare(cycle_t cnt, int cpu)
 
 	local_irq_save(flags);
 
+<<<<<<< HEAD
 	gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR), mips_cm_vp_id(cpu));
+=======
+	gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR), cpu);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (mips_cm_is64) {
 		gic_write(GIC_REG(VPE_OTHER, GIC_VPE_COMPARE), cnt);
@@ -542,8 +563,12 @@ static void gic_mask_local_irq_all_vpes(struct irq_data *d)
 
 	spin_lock_irqsave(&gic_lock, flags);
 	for (i = 0; i < gic_vpes; i++) {
+<<<<<<< HEAD
 		gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR),
 			  mips_cm_vp_id(i));
+=======
+		gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR), i);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		gic_write32(GIC_REG(VPE_OTHER, GIC_VPE_RMASK), 1 << intr);
 	}
 	spin_unlock_irqrestore(&gic_lock, flags);
@@ -557,8 +582,12 @@ static void gic_unmask_local_irq_all_vpes(struct irq_data *d)
 
 	spin_lock_irqsave(&gic_lock, flags);
 	for (i = 0; i < gic_vpes; i++) {
+<<<<<<< HEAD
 		gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR),
 			  mips_cm_vp_id(i));
+=======
+		gic_write(GIC_REG(VPE_LOCAL, GIC_VPE_OTHER_ADDR), i);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		gic_write32(GIC_REG(VPE_OTHER, GIC_VPE_SMASK), 1 << intr);
 	}
 	spin_unlock_irqrestore(&gic_lock, flags);

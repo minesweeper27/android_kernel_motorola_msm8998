@@ -586,6 +586,7 @@ static int irqsoff_function_set(struct trace_array *tr, u32 mask, int set)
 	else
 		unregister_irqsoff_function(tr, is_graph(tr));
 	return 1;
+<<<<<<< HEAD
 }
 #else
 static int register_irqsoff_function(struct trace_array *tr, int graph, int set)
@@ -597,6 +598,19 @@ static inline int irqsoff_function_set(struct trace_array *tr, u32 mask, int set
 {
 	return 0;
 }
+=======
+}
+#else
+static int register_irqsoff_function(struct trace_array *tr, int graph, int set)
+{
+	return 0;
+}
+static void unregister_irqsoff_function(struct trace_array *tr, int graph) { }
+static inline int irqsoff_function_set(struct trace_array *tr, u32 mask, int set)
+{
+	return 0;
+}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_FUNCTION_TRACER */
 
 static int irqsoff_flag_changed(struct trace_array *tr, u32 mask, int set)

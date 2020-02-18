@@ -15,7 +15,10 @@ TRACE_DEFINE_ENUM(META);
 TRACE_DEFINE_ENUM(META_FLUSH);
 TRACE_DEFINE_ENUM(INMEM);
 TRACE_DEFINE_ENUM(INMEM_DROP);
+<<<<<<< HEAD
 TRACE_DEFINE_ENUM(INMEM_INVALIDATE);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 TRACE_DEFINE_ENUM(IPU);
 TRACE_DEFINE_ENUM(OPU);
 TRACE_DEFINE_ENUM(CURSEG_HOT_DATA);
@@ -525,16 +528,24 @@ TRACE_EVENT(f2fs_truncate_partial_nodes,
 		__entry->err)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT(f2fs_file_write_iter,
 
 	TP_PROTO(struct inode *inode, unsigned long offset,
 		unsigned long length, int ret),
 
 	TP_ARGS(inode, offset, length, ret),
+=======
+TRACE_EVENT(f2fs_map_blocks,
+	TP_PROTO(struct inode *inode, struct f2fs_map_blocks *map, int ret),
+
+	TP_ARGS(inode, map, ret),
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	TP_STRUCT__entry(
 		__field(dev_t,	dev)
 		__field(ino_t,	ino)
+<<<<<<< HEAD
 		__field(unsigned long, offset)
 		__field(unsigned long, length)
 		__field(int,	ret)
@@ -570,6 +581,11 @@ TRACE_EVENT(f2fs_map_blocks,
 		__field(unsigned int,	m_flags)
 		__field(int,	m_seg_type)
 		__field(bool,	m_may_create)
+=======
+		__field(block_t,	m_lblk)
+		__field(block_t,	m_pblk)
+		__field(unsigned int,	m_len)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__field(int,	ret)
 	),
 
@@ -579,35 +595,53 @@ TRACE_EVENT(f2fs_map_blocks,
 		__entry->m_lblk		= map->m_lblk;
 		__entry->m_pblk		= map->m_pblk;
 		__entry->m_len		= map->m_len;
+<<<<<<< HEAD
 		__entry->m_flags	= map->m_flags;
 		__entry->m_seg_type	= map->m_seg_type;
 		__entry->m_may_create	= map->m_may_create;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__entry->ret		= ret;
 	),
 
 	TP_printk("dev = (%d,%d), ino = %lu, file offset = %llu, "
+<<<<<<< HEAD
 		"start blkaddr = 0x%llx, len = 0x%llx, flags = %u,"
 		"seg_type = %d, may_create = %d, err = %d",
+=======
+		"start blkaddr = 0x%llx, len = 0x%llx, err = %d",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		show_dev_ino(__entry),
 		(unsigned long long)__entry->m_lblk,
 		(unsigned long long)__entry->m_pblk,
 		(unsigned long long)__entry->m_len,
+<<<<<<< HEAD
 		__entry->m_flags,
 		__entry->m_seg_type,
 		__entry->m_may_create,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__entry->ret)
 );
 
 TRACE_EVENT(f2fs_background_gc,
 
+<<<<<<< HEAD
 	TP_PROTO(struct super_block *sb, unsigned int wait_ms,
+=======
+	TP_PROTO(struct super_block *sb, long wait_ms,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			unsigned int prefree, unsigned int free),
 
 	TP_ARGS(sb, wait_ms, prefree, free),
 
 	TP_STRUCT__entry(
 		__field(dev_t,	dev)
+<<<<<<< HEAD
 		__field(unsigned int,	wait_ms)
+=======
+		__field(long,	wait_ms)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__field(unsigned int,	prefree)
 		__field(unsigned int,	free)
 	),
@@ -619,13 +653,19 @@ TRACE_EVENT(f2fs_background_gc,
 		__entry->free		= free;
 	),
 
+<<<<<<< HEAD
 	TP_printk("dev = (%d,%d), wait_ms = %u, prefree = %u, free = %u",
 		show_dev(__entry->dev),
+=======
+	TP_printk("dev = (%d,%d), wait_ms = %ld, prefree = %u, free = %u",
+		show_dev(__entry),
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__entry->wait_ms,
 		__entry->prefree,
 		__entry->free)
 );
 
+<<<<<<< HEAD
 TRACE_EVENT(f2fs_gc_begin,
 
 	TP_PROTO(struct super_block *sb, bool sync, bool background,
@@ -733,6 +773,8 @@ TRACE_EVENT(f2fs_gc_end,
 		__entry->prefree_seg)
 );
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 TRACE_EVENT(f2fs_get_victim,
 
 	TP_PROTO(struct super_block *sb, int type, int gc_type,

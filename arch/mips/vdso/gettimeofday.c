@@ -20,6 +20,7 @@
 #include <asm/unistd.h>
 #include <asm/vdso.h>
 
+<<<<<<< HEAD
 #ifdef CONFIG_MIPS_CLOCK_VSYSCALL
 
 static __always_inline long gettimeofday_fallback(struct timeval *_tv,
@@ -62,6 +63,8 @@ static __always_inline long clock_gettime_fallback(clockid_t _clkid,
 	return error ? -ret : ret;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static __always_inline int do_realtime_coarse(struct timespec *ts,
 					      const union mips_vdso_data *data)
 {
@@ -81,8 +84,13 @@ static __always_inline int do_monotonic_coarse(struct timespec *ts,
 					       const union mips_vdso_data *data)
 {
 	u32 start_seq;
+<<<<<<< HEAD
 	u64 to_mono_sec;
 	u64 to_mono_nsec;
+=======
+	u32 to_mono_sec;
+	u32 to_mono_nsec;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	do {
 		start_seq = vdso_data_read_begin(data);
@@ -190,8 +198,13 @@ static __always_inline int do_monotonic(struct timespec *ts,
 {
 	u32 start_seq;
 	u64 ns;
+<<<<<<< HEAD
 	u64 to_mono_sec;
 	u64 to_mono_nsec;
+=======
+	u32 to_mono_sec;
+	u32 to_mono_nsec;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	do {
 		start_seq = vdso_data_read_begin(data);
@@ -229,7 +242,11 @@ int __vdso_gettimeofday(struct timeval *tv, struct timezone *tz)
 
 	ret = do_realtime(&ts, data);
 	if (ret)
+<<<<<<< HEAD
 		return gettimeofday_fallback(tv, tz);
+=======
+		return ret;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (tv) {
 		tv->tv_sec = ts.tv_sec;
@@ -244,12 +261,20 @@ int __vdso_gettimeofday(struct timeval *tv, struct timezone *tz)
 	return 0;
 }
 
+<<<<<<< HEAD
 #endif /* CONFIG_MIPS_CLOCK_VSYSCALL */
+=======
+#endif /* CONFIG_CLKSRC_MIPS_GIC */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int __vdso_clock_gettime(clockid_t clkid, struct timespec *ts)
 {
 	const union mips_vdso_data *data = get_vdso_data();
+<<<<<<< HEAD
 	int ret = -1;
+=======
+	int ret;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	switch (clkid) {
 	case CLOCK_REALTIME_COARSE:
@@ -265,11 +290,19 @@ int __vdso_clock_gettime(clockid_t clkid, struct timespec *ts)
 		ret = do_monotonic(ts, data);
 		break;
 	default:
+<<<<<<< HEAD
 		break;
 	}
 
 	if (ret)
 		ret = clock_gettime_fallback(clkid, ts);
 
+=======
+		ret = -ENOSYS;
+		break;
+	}
+
+	/* If we return -ENOSYS libc should fall back to a syscall. */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }

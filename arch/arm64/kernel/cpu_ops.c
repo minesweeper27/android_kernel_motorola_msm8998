@@ -30,6 +30,7 @@ extern const struct cpu_operations cpu_psci_ops;
 
 const struct cpu_operations *cpu_ops[NR_CPUS];
 
+<<<<<<< HEAD
 static const struct cpu_operations *dt_supported_cpu_ops[] __initconst = {
 	&smp_spin_table_ops,
 	&cpu_psci_ops,
@@ -40,6 +41,10 @@ static const struct cpu_operations *acpi_supported_cpu_ops[] __initconst = {
 #ifdef CONFIG_ARM64_ACPI_PARKING_PROTOCOL
 	&acpi_parking_protocol_ops,
 #endif
+=======
+static const struct cpu_operations *supported_cpu_ops[] __initconst = {
+	&smp_spin_table_ops,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	&cpu_psci_ops,
 	NULL,
 };
@@ -87,6 +92,7 @@ static const char *__init cpu_read_enable_method(int cpu)
 		of_node_put(dn);
 	} else {
 		enable_method = acpi_get_enable_method(cpu);
+<<<<<<< HEAD
 		if (!enable_method) {
 			/*
 			 * In ACPI systems the boot CPU does not require
@@ -97,6 +103,10 @@ static const char *__init cpu_read_enable_method(int cpu)
 			if (cpu != 0)
 				pr_err("Unsupported ACPI enable-method\n");
 		}
+=======
+		if (!enable_method)
+			pr_err("Unsupported ACPI enable-method\n");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	return enable_method;

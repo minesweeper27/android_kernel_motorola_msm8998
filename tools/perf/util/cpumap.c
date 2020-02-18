@@ -6,10 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "asm/bug.h"
+<<<<<<< HEAD
 
 static int max_cpu_num;
 static int max_node_num;
 static int *cpunode_map;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct cpu_map *cpu_map__default_new(void)
 {

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014-2015, 2018 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015 The Linux Foundation. All rights reserved.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
  *
@@ -242,7 +246,11 @@ static void blend_setup(struct drm_crtc *crtc)
 
 	/* The reset for blending */
 	for (i = STAGE0; i <= STAGE_MAX; i++) {
+<<<<<<< HEAD
 		if (!pstates[i] || !pstates[i]->base.fb)
+=======
+		if (!pstates[i])
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			continue;
 
 		format = to_mdp_format(

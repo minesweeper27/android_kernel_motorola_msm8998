@@ -264,6 +264,7 @@ static void __arch_timer_setup(unsigned type,
 		clk->name = "arch_sys_timer";
 		clk->rating = 450;
 		clk->cpumask = cpumask_of(smp_processor_id());
+<<<<<<< HEAD
 		clk->irq = arch_timer_ppi[arch_timer_uses_ppi];
 		switch (arch_timer_uses_ppi) {
 		case VIRT_PPI:
@@ -273,6 +274,14 @@ static void __arch_timer_setup(unsigned type,
 		case PHYS_SECURE_PPI:
 		case PHYS_NONSECURE_PPI:
 		case HYP_PPI:
+=======
+		if (arch_timer_use_virtual) {
+			clk->irq = arch_timer_ppi[VIRT_PPI];
+			clk->set_state_shutdown = arch_timer_shutdown_virt;
+			clk->set_next_event = arch_timer_set_next_event_virt;
+		} else {
+			clk->irq = arch_timer_ppi[PHYS_SECURE_PPI];
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			clk->set_state_shutdown = arch_timer_shutdown_phys;
 			clk->set_next_event = arch_timer_set_next_event_phys;
 			break;

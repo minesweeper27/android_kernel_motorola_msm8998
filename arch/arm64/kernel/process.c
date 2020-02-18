@@ -45,9 +45,12 @@
 #include <linux/personality.h>
 #include <linux/notifier.h>
 #include <trace/events/power.h>
+<<<<<<< HEAD
 #ifdef CONFIG_THREAD_INFO_IN_TASK
 #include <linux/percpu.h>
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/alternative.h>
 #include <asm/compat.h>
@@ -85,6 +88,7 @@ void arch_cpu_idle(void)
 	cpu_do_idle();
 	local_irq_enable();
 	trace_cpu_idle_rcuidle(PWR_EVENT_EXIT, smp_processor_id());
+<<<<<<< HEAD
 }
 
 void arch_cpu_idle_enter(void)
@@ -95,6 +99,8 @@ void arch_cpu_idle_enter(void)
 void arch_cpu_idle_exit(void)
 {
 	idle_notifier_call_chain(IDLE_END);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #ifdef CONFIG_HOTPLUG_CPU
@@ -378,6 +384,7 @@ static void tls_thread_switch(struct task_struct *next)
 	asm("mrs %0, tpidr_el0" : "=r" (tpidr));
 	*task_user_tls(current) = tpidr;
 
+<<<<<<< HEAD
 	if (is_compat_thread(task_thread_info(next)))
 		write_sysreg(next->thread.tp_value, tpidrro_el0);
 	else if (!arm64_kernel_unmapped_at_el0())
@@ -406,6 +413,11 @@ void uao_thread_switch(struct task_struct *next)
  * __switch_to() a user task.
  */
 DEFINE_PER_CPU(struct task_struct *, __entry_task);
+=======
+	tpidr = *task_user_tls(next);
+	tpidrro = is_compat_thread(task_thread_info(next)) ?
+		  next->thread.tp_value : 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static void entry_task_switch(struct task_struct *next)
 {

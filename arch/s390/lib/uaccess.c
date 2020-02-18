@@ -104,7 +104,10 @@ static inline unsigned long copy_from_user_mvcp(void *x, const void __user *ptr,
 
 unsigned long __copy_from_user(void *to, const void __user *from, unsigned long n)
 {
+<<<<<<< HEAD
 	check_object_size(to, n, false);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (static_branch_likely(&have_mvcos))
 		return copy_from_user_mvcos(to, from, n);
 	return copy_from_user_mvcp(to, from, n);
@@ -178,7 +181,10 @@ static inline unsigned long copy_to_user_mvcs(void __user *ptr, const void *x,
 
 unsigned long __copy_to_user(void __user *to, const void *from, unsigned long n)
 {
+<<<<<<< HEAD
 	check_object_size(from, n, true);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (static_branch_likely(&have_mvcos))
 		return copy_to_user_mvcos(to, from, n);
 	return copy_to_user_mvcs(to, from, n);

@@ -134,7 +134,11 @@ int pfn_valid(unsigned long pfn)
 
 	if ((addr >> PAGE_SHIFT) != pfn)
 		return 0;
+<<<<<<< HEAD
 	return memblock_is_map_memory(addr);
+=======
+	return memblock_is_memory(addr);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(pfn_valid);
 #endif
@@ -381,7 +385,10 @@ void __init mem_init(void)
 #ifdef CONFIG_KASAN
 		  "    kasan   : 0x%16lx - 0x%16lx   (%6ld GB)\n"
 #endif
+<<<<<<< HEAD
 		  "    modules : 0x%16lx - 0x%16lx   (%6ld MB)\n"
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		  "    vmalloc : 0x%16lx - 0x%16lx   (%6ld GB)\n"
 		  "      .init : 0x%p" " - 0x%p" "   (%6ld KB)\n"
 		  "      .text : 0x%p" " - 0x%p" "   (%6ld KB)\n"
@@ -393,11 +400,22 @@ void __init mem_init(void)
 #endif
 		  "    fixed   : 0x%16lx - 0x%16lx   (%6ld KB)\n"
 		  "    PCI I/O : 0x%16lx - 0x%16lx   (%6ld MB)\n"
+<<<<<<< HEAD
 		  "    memory  : 0x%16lx - 0x%16lx   (%6ld MB)\n",
 #ifdef CONFIG_KASAN
 		  MLG(KASAN_SHADOW_START, KASAN_SHADOW_END),
 #endif
 		  MLM(MODULES_VADDR, MODULES_END),
+=======
+		  "    modules : 0x%16lx - 0x%16lx   (%6ld MB)\n"
+		  "    memory  : 0x%16lx - 0x%16lx   (%6ld MB)\n"
+		  "      .init : 0x%p" " - 0x%p" "   (%6ld KB)\n"
+		  "      .text : 0x%p" " - 0x%p" "   (%6ld KB)\n"
+		  "      .data : 0x%p" " - 0x%p" "   (%6ld KB)\n",
+#ifdef CONFIG_KASAN
+		  MLG(KASAN_SHADOW_START, KASAN_SHADOW_END),
+#endif
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		  MLG(VMALLOC_START, VMALLOC_END),
 		  MLK_ROUNDUP(__init_begin, __init_end),
 		  MLK_ROUNDUP(_text, _etext),
@@ -406,7 +424,11 @@ void __init mem_init(void)
 #ifdef CONFIG_SPARSEMEM_VMEMMAP
 		  MLG(VMEMMAP_START,
 		      VMEMMAP_START + VMEMMAP_SIZE),
+<<<<<<< HEAD
 		  MLM((unsigned long)phys_to_page(memblock_start_of_DRAM()),
+=======
+		  MLM((unsigned long)virt_to_page(PAGE_OFFSET),
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		      (unsigned long)virt_to_page(high_memory)),
 #endif
 		  MLK(FIXADDR_START, FIXADDR_TOP),

@@ -96,7 +96,12 @@ long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count)
 	pagefault_disable();
 
 	do {
+<<<<<<< HEAD
 		ret = __get_user(*dst++, (const char __user __force *)src++);
+=======
+		ret = __copy_from_user_inatomic(dst++,
+						(const void __user __force *)src++, 1);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} while (dst[-1] && ret == 0 && src - unsafe_addr < count);
 
 	dst[-1] = '\0';

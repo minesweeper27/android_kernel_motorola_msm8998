@@ -20,12 +20,25 @@
 struct regmap;
 struct reset_controller_dev;
 
+<<<<<<< HEAD
+=======
+/* Powerdomain allowable state bitfields */
+#define PWRSTS_OFF		BIT(0)
+#define PWRSTS_RET		BIT(1)
+#define PWRSTS_ON		BIT(2)
+#define PWRSTS_OFF_ON		(PWRSTS_OFF | PWRSTS_ON)
+#define PWRSTS_RET_ON		(PWRSTS_RET | PWRSTS_ON)
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * struct gdsc - Globally Distributed Switch Controller
  * @pd: generic power domain
  * @regmap: regmap for MMIO accesses
  * @gdscr: gsdc control register
+<<<<<<< HEAD
  * @gds_hw_ctrl: gds_hw_ctrl register
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @cxcs: offsets of branch registers to toggle mem/periph bits in
  * @cxc_count: number of @cxcs
  * @pwrsts: Possible powerdomain power states
@@ -35,6 +48,7 @@ struct reset_controller_dev;
  */
 struct gdsc {
 	struct generic_pm_domain	pd;
+<<<<<<< HEAD
 	struct generic_pm_domain	*parent;
 	struct regmap			*regmap;
 	unsigned int			gdscr;
@@ -50,11 +64,19 @@ struct gdsc {
 #define PWRSTS_RET_ON		(PWRSTS_RET | PWRSTS_ON)
 	const u8			flags;
 #define VOTABLE		BIT(0)
+=======
+	struct regmap			*regmap;
+	unsigned int			gdscr;
+	unsigned int			*cxcs;
+	unsigned int			cxc_count;
+	const u8			pwrsts;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct reset_controller_dev	*rcdev;
 	unsigned int			*resets;
 	unsigned int			reset_count;
 };
 
+<<<<<<< HEAD
 struct gdsc_desc {
 	struct device *dev;
 	struct gdsc **scs;
@@ -67,12 +89,24 @@ int gdsc_register(struct gdsc_desc *desc, struct reset_controller_dev *,
 void gdsc_unregister(struct gdsc_desc *desc);
 #else
 static inline int gdsc_register(struct gdsc_desc *desc,
+=======
+#ifdef CONFIG_QCOM_GDSC
+int gdsc_register(struct device *, struct gdsc **, size_t n,
+		  struct reset_controller_dev *, struct regmap *);
+void gdsc_unregister(struct device *);
+#else
+static inline int gdsc_register(struct device *d, struct gdsc **g, size_t n,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				struct reset_controller_dev *rcdev,
 				struct regmap *r)
 {
 	return -ENOSYS;
 }
 
+<<<<<<< HEAD
 static inline void gdsc_unregister(struct gdsc_desc *desc) {};
+=======
+static inline void gdsc_unregister(struct device *d) {};
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_QCOM_GDSC */
 #endif /* __QCOM_GDSC_H__ */

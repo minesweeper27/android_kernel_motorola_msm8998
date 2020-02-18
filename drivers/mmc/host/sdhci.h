@@ -330,12 +330,15 @@ enum sdhci_cookie {
 	COOKIE_UNMAPPED,
 	COOKIE_MAPPED,
 	COOKIE_GIVEN,
+<<<<<<< HEAD
 };
 
 enum sdhci_power_policy {
 	SDHCI_PERFORMANCE_MODE,
 	SDHCI_POWER_SAVE_MODE,
 	SDHCI_POWER_POLICY_NUM /* Always keep this one last */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct sdhci_host {
@@ -440,6 +443,7 @@ struct sdhci_host {
  * SD clock frequency or enabling back the internal clock.
  */
 #define SDHCI_QUIRK2_NEED_DELAY_AFTER_INT_CLK_RST	(1<<16)
+<<<<<<< HEAD
 
 /*
  * Read Transfer Active/ Write Transfer Active may be not
@@ -518,6 +522,8 @@ struct sdhci_host {
  */
 #define SDHCI_QUIRK2_USE_PIO_FOR_EMMC_TUNING (1 << 29)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	int irq;		/* Device IRQ */
 	void __iomem *ioaddr;	/* Mapped address */
@@ -613,6 +619,7 @@ struct sdhci_host {
 	unsigned int		tuning_count;	/* Timer count for re-tuning */
 	unsigned int		tuning_mode;	/* Re-tuning mode supported by host */
 #define SDHCI_TUNING_MODE_1	0
+<<<<<<< HEAD
 	ktime_t data_start_time;
 
 	enum sdhci_power_policy power_policy;
@@ -627,6 +634,8 @@ struct sdhci_host {
 	int reset_wa_applied; /* reset workaround status */
 	ktime_t reset_wa_t; /* time when the reset workaround is applied */
 	int reset_wa_cnt; /* total number of times workaround is used */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	unsigned long private[0] ____cacheline_aligned;
 };
@@ -690,6 +699,7 @@ struct sdhci_ops {
 					 struct mmc_card *card,
 					 unsigned int max_dtr, int host_drv,
 					 int card_drv, int *drv_type);
+<<<<<<< HEAD
 	int	(*notify_load)(struct sdhci_host *host, enum mmc_load state);
 	int     (*check_temp)(struct sdhci_host *host);
 	int     (*reg_temp_callback)(struct sdhci_host *host);
@@ -699,6 +709,8 @@ struct sdhci_ops {
 	void	(*pre_req)(struct sdhci_host *host, struct mmc_request *req);
 	void	(*post_req)(struct sdhci_host *host, struct mmc_request *req);
 	unsigned int	(*get_current_limit)(struct sdhci_host *host);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #ifdef CONFIG_MMC_SDHCI_IO_ACCESSORS

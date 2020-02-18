@@ -867,9 +867,20 @@ static int __mmc_blk_ioctl_cmd(struct mmc_card *card, struct mmc_blk_data *md,
 	struct mmc_request mrq = {NULL};
 	struct scatterlist sg;
 	int err;
+<<<<<<< HEAD
 
 	if (!card || !md || !idata)
 		return -EINVAL;
+=======
+	int is_rpmb = false;
+	u32 status = 0;
+
+	if (!card || !md || !idata)
+		return -EINVAL;
+
+	if (md->area_type & MMC_BLK_DATA_AREA_RPMB)
+		is_rpmb = true;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	cmd.opcode = idata->ic.opcode;
 	cmd.arg = idata->ic.arg;
@@ -921,6 +932,7 @@ static int __mmc_blk_ioctl_cmd(struct mmc_card *card, struct mmc_blk_data *md,
 
 	mrq.cmd = &cmd;
 
+<<<<<<< HEAD
 	if (mmc_card_doing_bkops(card)) {
 		err = mmc_stop_bkops(card);
 		if (err) {
@@ -930,6 +942,8 @@ static int __mmc_blk_ioctl_cmd(struct mmc_card *card, struct mmc_blk_data *md,
 		}
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	err = mmc_blk_part_switch(card, md);
 	if (err)
 		return err;
@@ -938,6 +952,16 @@ static int __mmc_blk_ioctl_cmd(struct mmc_card *card, struct mmc_blk_data *md,
 		err = mmc_app_cmd(card->host, card);
 		if (err)
 			return err;
+<<<<<<< HEAD
+=======
+	}
+
+	if (is_rpmb) {
+		err = mmc_set_blockcount(card, data.blocks,
+			idata->ic.write_flag & (1 << 31));
+		if (err)
+			return err;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	if ((MMC_EXTRACT_INDEX_FROM_ARG(cmd.arg) == EXT_CSD_SANITIZE_START) &&
@@ -972,9 +996,12 @@ static int __mmc_blk_ioctl_cmd(struct mmc_card *card, struct mmc_blk_data *md,
 		usleep_range(idata->ic.postsleep_min_us, idata->ic.postsleep_max_us);
 
 	memcpy(&(idata->ic.response), cmd.resp, sizeof(cmd.resp));
+<<<<<<< HEAD
 
 	return err;
 }
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct mmc_blk_ioc_rpmb_data {
 	struct mmc_blk_ioc_data *data[MMC_IOC_MAX_RPMB_CMD];
@@ -1167,7 +1194,45 @@ static int mmc_blk_ioctl_rpmb_cmd(struct block_device *bdev,
 					__func__, status, err);
 	}
 
-cmd_rel_host:
+	return err;
+}
+
+static int mmc_blk_ioctl_cmd(struct block_device *bdev,
+			     struct mmc_ioc_cmd __user *ic_ptr)
+{
+	struct mmc_blk_ioc_data *idata;
+	struct mmc_blk_data *md;
+	struct mmc_card *card;
+	int err = 0, ioc_err = 0;
+
+	/*
+	 * The caller must have CAP_SYS_RAWIO, and must be calling this on the
+	 * whole block device, not on a partition.  This prevents overspray
+	 * between sibling partitions.
+	 */
+	if ((!capable(CAP_SYS_RAWIO)) || (bdev != bdev->bd_contains))
+		return -EPERM;
+
+	idata = mmc_blk_ioctl_copy_from_user(ic_ptr);
+	if (IS_ERR(idata))
+		return PTR_ERR(idata);
+
+	md = mmc_blk_get(bdev->bd_disk);
+	if (!md) {
+		err = -EINVAL;
+		goto cmd_err;
+	}
+
+	card = md->queue.card;
+	if (IS_ERR(card)) {
+		err = PTR_ERR(card);
+		goto cmd_done;
+	}
+
+	mmc_get_card(card);
+
+	ioc_err = __mmc_blk_ioctl_cmd(card, md, idata);
+
 	mmc_put_card(card);
 	atomic_set(&card->host->rpmb_req_pending, 0);
 	mutex_unlock(&card->host->rpmb_req_mutex);
@@ -1247,6 +1312,8 @@ static int mmc_blk_ioctl_cmd(struct block_device *bdev,
 
 	err = mmc_blk_ioctl_copy_to_user(ic_ptr, idata);
 
+	err = mmc_blk_ioctl_copy_to_user(ic_ptr, idata);
+
 cmd_done:
 	mmc_blk_put(md);
 cmd_err:
@@ -1305,6 +1372,7 @@ static int mmc_blk_ioctl_multi_cmd(struct block_device *bdev,
 
 	mmc_get_card(card);
 
+<<<<<<< HEAD
 	if (mmc_card_cmdq(card)) {
 		err = mmc_cmdq_halt(card->host, true);
 		if (err) {
@@ -1325,6 +1393,11 @@ static int mmc_blk_ioctl_multi_cmd(struct block_device *bdev,
 			       mmc_hostname(card->host), __func__);
 	}
 
+=======
+	for (i = 0; i < num_of_cmds && !ioc_err; i++)
+		ioc_err = __mmc_blk_ioctl_cmd(card, md, idata[i]);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mmc_put_card(card);
 
 	/* copy to user if data and response */
@@ -1349,9 +1422,12 @@ static int mmc_blk_ioctl(struct block_device *bdev, fmode_t mode,
 	case MMC_IOC_CMD:
 		return mmc_blk_ioctl_cmd(bdev,
 				(struct mmc_ioc_cmd __user *)arg);
+<<<<<<< HEAD
 	case MMC_IOC_RPMB_CMD:
 		return mmc_blk_ioctl_rpmb_cmd(bdev,
 				(struct mmc_ioc_rpmb __user *)arg);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case MMC_IOC_MULTI_CMD:
 		return mmc_blk_ioctl_multi_cmd(bdev,
 				(struct mmc_ioc_multi_cmd __user *)arg);
@@ -1867,8 +1943,12 @@ int mmc_access_rpmb(struct mmc_queue *mq)
 	return false;
 }
 
+<<<<<<< HEAD
 static struct mmc_cmdq_req *mmc_blk_cmdq_prep_discard_req(struct mmc_queue *mq,
 						struct request *req)
+=======
+static int mmc_blk_issue_discard_rq(struct mmc_queue *mq, struct request *req)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct mmc_blk_data *md = mq->data;
 	struct mmc_card *card = md->queue.card;
@@ -3813,7 +3893,11 @@ static int mmc_blk_issue_rw_rq(struct mmc_queue *mq, struct request *rqc)
 			break;
 		case MMC_BLK_RETRY:
 			retune_retry_done = brq->retune_retry_done;
+<<<<<<< HEAD
 			if (retry++ < MMC_BLK_MAX_RETRIES) {
+=======
+			if (retry++ < 5)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				break;
 			} else if (reset) {
 				reset = false;
@@ -4578,11 +4662,14 @@ force_ro_fail:
 #define CID_MANFID_MICRON	0x13
 #define CID_MANFID_SAMSUNG	0x15
 #define CID_MANFID_KINGSTON	0x70
+<<<<<<< HEAD
 
 #define CID_MANFID_SANDISK	0x2
 #define CID_MANFID_TOSHIBA	0x11
 #define CID_MANFID_MICRON	0x13
 #define CID_MANFID_SAMSUNG	0x15
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static const struct mmc_fixup blk_fixups[] =
 {
@@ -4625,6 +4712,7 @@ static const struct mmc_fixup blk_fixups[] =
 		  MMC_QUIRK_LONG_READ_TIME),
 	MMC_FIXUP("008GE0", CID_MANFID_TOSHIBA, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_LONG_READ_TIME),
+<<<<<<< HEAD
 
 	/*
 	 * Some Samsung MMC cards need longer data read timeout than
@@ -4674,6 +4762,8 @@ static const struct mmc_fixup blk_fixups[] =
 	/* Some INAND MCP devices advertise incorrect timeout values */
 	MMC_FIXUP("SEM04G", 0x45, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_INAND_DATA_TIMEOUT),
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * On these Samsung MoviNAND parts, performing secure erase or
@@ -4698,6 +4788,15 @@ static const struct mmc_fixup blk_fixups[] =
 		  MMC_QUIRK_SEC_ERASE_TRIM_BROKEN),
 	MMC_FIXUP(CID_NAME_ANY, CID_MANFID_MICRON, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_BROKEN_CLK_GATING),
+
+	/*
+	 *  On Some Kingston eMMCs, performing trim can result in
+	 *  unrecoverable data conrruption occasionally due to a firmware bug.
+	 */
+	MMC_FIXUP("V10008", CID_MANFID_KINGSTON, CID_OEMID_ANY, add_quirk_mmc,
+		  MMC_QUIRK_TRIM_BROKEN),
+	MMC_FIXUP("V10016", CID_MANFID_KINGSTON, CID_OEMID_ANY, add_quirk_mmc,
+		  MMC_QUIRK_TRIM_BROKEN),
 
 	END_FIXUP
 };

@@ -17,11 +17,14 @@
 #include <net/sock.h>
 #include <net/fib_rules.h>
 #include <net/ip_tunnels.h>
+<<<<<<< HEAD
 
 static const struct fib_kuid_range fib_kuid_range_unset = {
 	KUIDT_INIT(0),
 	KUIDT_INIT(~0),
 };
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int fib_default_rule_add(struct fib_rules_ops *ops,
 			 u32 pref, u32 table, u32 flags)
@@ -223,10 +226,13 @@ static int fib_rule_match(struct fib_rule *rule, struct fib_rules_ops *ops,
 	if (rule->tun_id && (rule->tun_id != fl->flowi_tun_key.tun_id))
 		goto out;
 
+<<<<<<< HEAD
 	if (uid_lt(fl->flowi_uid, rule->uid_range.start) ||
 	    uid_gt(fl->flowi_uid, rule->uid_range.end))
 		goto out;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ret = ops->match(rule, fl, flags);
 out:
 	return (rule->flags & FIB_RULE_INVERT) ? !ret : ret;
@@ -545,11 +551,14 @@ static int fib_nl_delrule(struct sk_buff *skb, struct nlmsghdr* nlh)
 		    (rule->tun_id != nla_get_be64(tb[FRA_TUN_ID])))
 			continue;
 
+<<<<<<< HEAD
 		if (uid_range_set(&range) &&
 		    (!uid_eq(rule->uid_range.start, range.start) ||
 		     !uid_eq(rule->uid_range.end, range.end)))
 			continue;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!ops->compare(rule, frh, tb))
 			continue;
 
@@ -617,7 +626,10 @@ static inline size_t fib_rule_nlmsg_size(struct fib_rules_ops *ops,
 			 + nla_total_size(4) /* FRA_FWMARK */
 			 + nla_total_size(4) /* FRA_FWMASK */
 			 + nla_total_size(8); /* FRA_TUN_ID */
+<<<<<<< HEAD
 			 + nla_total_size(sizeof(struct fib_kuid_range));
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (ops->nlmsg_payload)
 		payload += ops->nlmsg_payload(rule);
@@ -675,9 +687,13 @@ static int fib_nl_fill_rule(struct sk_buff *skb, struct fib_rule *rule,
 	    (rule->target &&
 	     nla_put_u32(skb, FRA_GOTO, rule->target)) ||
 	    (rule->tun_id &&
+<<<<<<< HEAD
 	     nla_put_be64(skb, FRA_TUN_ID, rule->tun_id)) ||
 	    (uid_range_set(&rule->uid_range) &&
 	     nla_put_uid_range(skb, &rule->uid_range)))
+=======
+	     nla_put_be64(skb, FRA_TUN_ID, rule->tun_id)))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto nla_put_failure;
 
 	if (rule->suppress_ifgroup != -1) {

@@ -141,8 +141,11 @@ static void power_supply_deferred_register_work(struct work_struct *work)
 	if (psy->dev.parent)
 		mutex_lock(&psy->dev.parent->mutex);
 
+<<<<<<< HEAD
 	atomic_notifier_call_chain(&power_supply_notifier,
 				   PSY_EVENT_PROP_ADDED, psy);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	power_supply_changed(psy);
 
 	if (psy->dev.parent)

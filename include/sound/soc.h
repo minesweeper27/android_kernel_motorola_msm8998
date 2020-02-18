@@ -225,6 +225,7 @@
 	.get = xhandler_get, .put = xhandler_put, \
 	.private_value = SOC_DOUBLE_R_VALUE(reg_left, reg_right, xshift, \
 					    xmax, xinvert) }
+<<<<<<< HEAD
 #define SOC_SINGLE_MULTI_EXT(xname, xreg, xshift, xmax, xinvert, xcount,\
 	xhandler_get, xhandler_put) \
 {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
@@ -233,6 +234,8 @@
 	.private_value = (unsigned long)&(struct soc_multi_mixer_control) \
 		{.reg = xreg, .shift = xshift, .rshift = xshift, .max = xmax, \
 		.count = xcount, .platform_max = xmax, .invert = xinvert} }
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define SOC_SINGLE_EXT_TLV(xname, xreg, xshift, xmax, xinvert,\
 	 xhandler_get, xhandler_put, tlv_array) \
 {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \

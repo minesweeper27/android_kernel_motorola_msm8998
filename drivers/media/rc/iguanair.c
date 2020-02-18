@@ -430,7 +430,11 @@ static int iguanair_probe(struct usb_interface *intf,
 	int ret, pipein, pipeout;
 	struct usb_host_interface *idesc;
 
+<<<<<<< HEAD
 	idesc = intf->altsetting;
+=======
+	idesc = intf->cur_altsetting;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (idesc->desc.bNumEndpoints < 2)
 		return -ENODEV;
 

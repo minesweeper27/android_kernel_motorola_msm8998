@@ -83,6 +83,7 @@ Example:
 		clocks = <&core 0>, <&ref 0>, <&iface 0>;
 		clock-names = "core_clk", "ref_clk", "iface_clk";
 		freq-table-hz = <100000000 200000000>, <0 0>, <0 0>;
+<<<<<<< HEAD
 		resets = <clock_gcc GCC_UFS_BCR>;
 		reset-names = "core_reset";
 		phys = <&ufsphy1>;
@@ -191,4 +192,8 @@ Example:
 		qcom,pm-qos-cpu-groups = <0x03 0x0C>; /* group0: cpu0, cpu1, group1: cpu2, cpu3 */
 		qcom,pm-qos-cpu-group-latency-us = <200 300>; /* group0: 200us, group1: 300us */
 		qcom,pm-qos-default-cpu = <0>;
+=======
+		phys = <&ufsphy1>;
+		phy-names = "ufsphy";
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	};

@@ -1253,10 +1253,9 @@ int perf_evlist__apply_drv_configs(struct perf_evlist *evlist,
 {
 	struct perf_evsel *evsel;
 	int err = 0;
-	const int ncpus = cpu_map__nr(evlist->cpus),
-		  nthreads = thread_map__nr(evlist->threads);
 
 	evlist__for_each(evlist, evsel) {
+<<<<<<< HEAD
 		if (list_empty(&evsel->drv_config_terms))
 			continue;
 
@@ -1277,6 +1276,8 @@ int perf_evlist__set_filter(struct perf_evlist *evlist, const char *filter)
 	int err = 0;
 
 	evlist__for_each(evlist, evsel) {
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		err = perf_evsel__set_filter(evsel, filter);
 		if (err)
 			break;

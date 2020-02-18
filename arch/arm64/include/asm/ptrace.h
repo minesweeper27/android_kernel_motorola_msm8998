@@ -154,6 +154,7 @@ struct pt_regs {
 #define SET_USP(ptregs, value) \
 	(!compat_user_mode(regs) ? ((regs)->sp = value) : ((regs)->compat_sp = value))
 
+<<<<<<< HEAD
 extern int regs_query_register_offset(const char *name);
 extern const char *regs_query_register_name(unsigned int offset);
 extern unsigned long regs_get_kernel_stack_nth(struct pt_regs *regs,
@@ -203,11 +204,17 @@ static inline unsigned long regs_return_value(struct pt_regs *regs)
 {
 	return regs->regs[0];
 }
+=======
+/* We must avoid circular header include via sched.h */
+struct task_struct;
+int valid_user_regs(struct user_pt_regs *regs, struct task_struct *task);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* We must avoid circular header include via sched.h */
 struct task_struct;
 int valid_user_regs(struct user_pt_regs *regs, struct task_struct *task);
 
+<<<<<<< HEAD
 #define GET_IP(regs)		((unsigned long)(regs)->pc)
 #define SET_IP(regs, value)	((regs)->pc = ((u64) (value)))
 
@@ -217,6 +224,8 @@ int valid_user_regs(struct user_pt_regs *regs, struct task_struct *task);
 #include <asm-generic/ptrace.h>
 
 #undef profile_pc
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern unsigned long profile_pc(struct pt_regs *regs);
 
 #endif /* __ASSEMBLY__ */

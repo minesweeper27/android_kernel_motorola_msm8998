@@ -555,10 +555,14 @@ arm_copy_from_user(void *to, const void __user *from, unsigned long n);
 static inline unsigned long __must_check
 __copy_from_user(void *to, const void __user *from, unsigned long n)
 {
+<<<<<<< HEAD
 	unsigned int __ua_flags;
 
 	check_object_size(to, n, false);
 	__ua_flags = uaccess_save_and_enable();
+=======
+	unsigned int __ua_flags = uaccess_save_and_enable();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	n = arm_copy_from_user(to, from, n);
 	uaccess_restore(__ua_flags);
 	return n;
@@ -573,15 +577,22 @@ static inline unsigned long __must_check
 __copy_to_user(void __user *to, const void *from, unsigned long n)
 {
 #ifndef CONFIG_UACCESS_WITH_MEMCPY
+<<<<<<< HEAD
 	unsigned int __ua_flags;
 
 	check_object_size(from, n, true);
 	__ua_flags = uaccess_save_and_enable();
+=======
+	unsigned int __ua_flags = uaccess_save_and_enable();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	n = arm_copy_to_user(to, from, n);
 	uaccess_restore(__ua_flags);
 	return n;
 #else
+<<<<<<< HEAD
 	check_object_size(from, n, true);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return arm_copy_to_user(to, from, n);
 #endif
 }

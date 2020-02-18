@@ -2319,6 +2319,7 @@ config FB_PRE_INIT_FB
 	  Select this option if display contents should be inherited as set by
 	  the bootloader.
 
+<<<<<<< HEAD
 config FB_MSM
 	tristate "MSM Framebuffer support"
 	depends on FB && ARCH_QCOM
@@ -2350,6 +2351,8 @@ config PANEL_NOTIFICATIONS
 	---help---
 	  Panel notifications framework
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config FB_MX3
 	tristate "MX3 Framebuffer support"
 	depends on FB && MX3_IPU

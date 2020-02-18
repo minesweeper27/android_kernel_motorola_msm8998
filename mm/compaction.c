@@ -530,6 +530,7 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 				goto isolate_fail;
 		}
 
+<<<<<<< HEAD
 		/* Found a free page, will break it into order-0 pages */
 		order = page_order(page);
 		isolated = __isolate_free_page(page, order);
@@ -541,6 +542,19 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 		cc->nr_freepages += isolated;
 		list_add_tail(&page->lru, freelist);
 
+=======
+		/* Found a free page, break it into order-0 pages */
+		isolated = split_free_page(page);
+		if (!isolated)
+			break;
+
+		total_isolated += isolated;
+		cc->nr_freepages += isolated;
+		for (i = 0; i < isolated; i++) {
+			list_add(&page->lru, freelist);
+			page++;
+		}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!strict && cc->nr_migratepages <= cc->nr_freepages) {
 			blockpfn += isolated;
 			break;
@@ -780,6 +794,10 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 
 	/* Time to isolate some pages for migration */
 	for (; low_pfn < end_pfn; low_pfn++) {
+<<<<<<< HEAD
+=======
+		bool is_lru;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		/*
 		 * Periodically drop the lock (if held) regardless of its
@@ -826,6 +844,7 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 		 * racy, but we can consider only valid values and the only
 		 * danger is skipping too much.
 		 */
+<<<<<<< HEAD
 		if (PageCompound(page)) {
 			unsigned int comp_order = compound_order(page);
 
@@ -856,9 +875,36 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
 				if (!isolate_movable_page(page, isolate_mode))
 					goto isolate_success;
 			}
+=======
+		is_lru = PageLRU(page);
+		if (!is_lru) {
+			if (unlikely(balloon_page_movable(page))) {
+				if (balloon_page_isolate(page)) {
+					/* Successfully isolated */
+					goto isolate_success;
+				}
+			}
+		}
+
+		/*
+		 * Regardless of being on LRU, compound pages such as THP and
+		 * hugetlbfs are not to be compacted. We can potentially save
+		 * a lot of iterations if we skip them at once. The check is
+		 * racy, but we can consider only valid values and the only
+		 * danger is skipping too much.
+		 */
+		if (PageCompound(page)) {
+			unsigned int comp_order = compound_order(page);
+
+			if (likely(comp_order < MAX_ORDER))
+				low_pfn += (1UL << comp_order) - 1;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 			continue;
 		}
+
+		if (!is_lru)
+			continue;
 
 		/*
 		 * Migration will fail if an anonymous page is pinned in memory,
@@ -1103,6 +1149,7 @@ static void isolate_freepages(struct compact_control *cc)
 				isolate_start_pfn =
 					block_start_pfn - pageblock_nr_pages;
 			}
+<<<<<<< HEAD
 			break;
 		} else if (isolate_start_pfn < block_end_pfn) {
 			/*
@@ -1110,6 +1157,15 @@ static void isolate_freepages(struct compact_control *cc)
 			 * needlessly.
 			 */
 			break;
+=======
+			break;
+		} else if (isolate_start_pfn < block_end_pfn) {
+			/*
+			 * If isolation failed early, do not continue
+			 * needlessly.
+			 */
+			break;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 	}
 

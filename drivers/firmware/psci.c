@@ -14,7 +14,10 @@
 #define pr_fmt(fmt) "psci: " fmt
 
 #include <linux/arm-smccc.h>
+<<<<<<< HEAD
 #include <linux/cpuidle.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/errno.h>
 #include <linux/linkage.h>
 #include <linux/of.h>
@@ -22,12 +25,18 @@
 #include <linux/printk.h>
 #include <linux/psci.h>
 #include <linux/reboot.h>
+<<<<<<< HEAD
 #include <linux/slab.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/suspend.h>
 
 #include <uapi/linux/psci.h>
 
+<<<<<<< HEAD
 #include <asm/cpuidle.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/cputype.h>
 #include <asm/system_misc.h>
 #include <asm/smp_plat.h>
@@ -112,6 +121,29 @@ bool psci_power_state_is_valid(u32 state)
 	return !(state & ~valid_mask);
 }
 
+<<<<<<< HEAD
+=======
+static unsigned long __invoke_psci_fn_hvc(unsigned long function_id,
+			unsigned long arg0, unsigned long arg1,
+			unsigned long arg2)
+{
+	struct arm_smccc_res res;
+
+	arm_smccc_hvc(function_id, arg0, arg1, arg2, 0, 0, 0, 0, &res);
+	return res.a0;
+}
+
+static unsigned long __invoke_psci_fn_smc(unsigned long function_id,
+			unsigned long arg0, unsigned long arg1,
+			unsigned long arg2)
+{
+	struct arm_smccc_res res;
+
+	arm_smccc_smc(function_id, arg0, arg1, arg2, 0, 0, 0, 0, &res);
+	return res.a0;
+}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int psci_to_linux_errno(int errno)
 {
 	switch (errno) {
@@ -246,6 +278,7 @@ static int __init psci_features(u32 psci_func_id)
 			      psci_func_id, 0, 0);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_CPU_IDLE
 static DEFINE_PER_CPU_READ_MOSTLY(u32 *, psci_power_state);
 
@@ -370,6 +403,8 @@ CPUIDLE_METHOD_OF_DECLARE(psci, "psci", &psci_cpuidle_ops);
 #endif
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int psci_system_suspend(unsigned long unused)
 {
 	return invoke_psci_fn(PSCI_FN_NATIVE(1_0, SYSTEM_SUSPEND),
@@ -475,8 +510,11 @@ static void __init psci_init_smccc(void)
 static void __init psci_0_2_set_functions(void)
 {
 	pr_info("Using standard PSCI v0.2 function IDs\n");
+<<<<<<< HEAD
 	psci_ops.get_version = psci_get_version;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	psci_function_id[PSCI_FN_CPU_SUSPEND] =
 					PSCI_FN_NATIVE(0_2, CPU_SUSPEND);
 	psci_ops.cpu_suspend = psci_cpu_suspend;

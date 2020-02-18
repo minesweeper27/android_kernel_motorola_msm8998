@@ -164,11 +164,16 @@ void perf_callchain_kernel(struct perf_callchain_entry *entry,
 	frame.fp = regs->regs[29];
 	frame.sp = regs->sp;
 	frame.pc = regs->pc;
+<<<<<<< HEAD
 #ifdef CONFIG_FUNCTION_GRAPH_TRACER
 	frame.graph = current->curr_ret_stack;
 #endif
 
 	walk_stackframe(current, &frame, callchain_trace, entry);
+=======
+
+	walk_stackframe(&frame, callchain_trace, entry);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 unsigned long perf_instruction_pointer(struct pt_regs *regs)

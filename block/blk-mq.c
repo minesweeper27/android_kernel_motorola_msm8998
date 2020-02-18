@@ -1816,6 +1816,13 @@ static void blk_mq_map_swqueue(struct request_queue *q,
 	 * Map software to hardware queues
 	 */
 	queue_for_each_ctx(q, ctx, i) {
+<<<<<<< HEAD
+=======
+		/* If the cpu isn't online, the cpu is mapped to first hctx */
+		if (!cpumask_test_cpu(i, online_mask))
+			continue;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		hctx = q->mq_ops->map_queue(q, i);
 		if (cpumask_test_cpu(i, online_mask))
 			cpumask_set_cpu(i, hctx->cpumask);
@@ -1872,6 +1879,14 @@ static void blk_mq_map_swqueue(struct request_queue *q,
 		hctx = q->mq_ops->map_queue(q, i);
 		if (cpumask_test_cpu(i, online_mask))
 			cpumask_set_cpu(i, hctx->tags->cpumask);
+	}
+
+	queue_for_each_ctx(q, ctx, i) {
+		if (!cpumask_test_cpu(i, online_mask))
+			continue;
+
+		hctx = q->mq_ops->map_queue(q, i);
+		cpumask_set_cpu(i, hctx->tags->cpumask);
 	}
 }
 
@@ -2092,8 +2107,35 @@ void blk_mq_free_queue(struct request_queue *q)
 	mutex_lock(&all_q_mutex);
 	list_del_init(&q->all_q_node);
 	mutex_unlock(&all_q_mutex);
+<<<<<<< HEAD
 
 	blk_mq_del_queue_tag_set(q);
+=======
+
+	blk_mq_del_queue_tag_set(q);
+
+	blk_mq_exit_hw_queues(q, set, set->nr_hw_queues);
+	blk_mq_free_hw_queues(q, set);
+}
+
+/* Basically redo blk_mq_init_queue with queue frozen */
+static void blk_mq_queue_reinit(struct request_queue *q,
+				const struct cpumask *online_mask)
+{
+	WARN_ON_ONCE(!atomic_read(&q->mq_freeze_depth));
+
+	blk_mq_sysfs_unregister(q);
+
+	blk_mq_update_queue_map(q->mq_map, q->nr_hw_queues, online_mask);
+
+	/*
+	 * redo blk_mq_init_cpu_queues and blk_mq_init_hw_queues. FIXME: maybe
+	 * we should change hctx numa_node according to new topology (this
+	 * involves free and re-allocate memory, worthy doing?)
+	 */
+
+	blk_mq_map_swqueue(q, online_mask);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	blk_mq_exit_hw_queues(q, set, set->nr_hw_queues);
 	blk_mq_free_hw_queues(q, set);
@@ -2103,9 +2145,19 @@ static int blk_mq_queue_reinit_notify(struct notifier_block *nb,
 				      unsigned long action, void *hcpu)
 {
 	struct request_queue *q;
+<<<<<<< HEAD
 	struct blk_mq_hw_ctx *hctx;
 	int i;
 	int cpu = (unsigned long)hcpu;
+=======
+	int cpu = (unsigned long)hcpu;
+	/*
+	 * New online cpumask which is going to be set in this hotplug event.
+	 * Declare this cpumasks as global as cpu-hotplug operation is invoked
+	 * one-by-one and dynamically allocating this could result in a failure.
+	 */
+	static struct cpumask online_new;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Before hotadded cpu starts handling requests, new mappings must
@@ -2127,6 +2179,7 @@ static int blk_mq_queue_reinit_notify(struct notifier_block *nb,
 	switch (action & ~CPU_TASKS_FROZEN) {
 	case CPU_DEAD:
 	case CPU_UP_CANCELED:
+<<<<<<< HEAD
 		mutex_lock(&all_q_mutex);
 		list_for_each_entry(q, &all_q_list, all_q_node) {
 			queue_for_each_hw_ctx(q, hctx, i) {
@@ -2152,6 +2205,46 @@ static int blk_mq_queue_reinit_notify(struct notifier_block *nb,
 		return NOTIFY_OK;
 	}
 
+=======
+		cpumask_copy(&online_new, cpu_online_mask);
+		break;
+	case CPU_UP_PREPARE:
+		cpumask_copy(&online_new, cpu_online_mask);
+		cpumask_set_cpu(cpu, &online_new);
+		break;
+	default:
+		return NOTIFY_OK;
+	}
+
+	mutex_lock(&all_q_mutex);
+
+	/*
+	 * We need to freeze and reinit all existing queues.  Freezing
+	 * involves synchronous wait for an RCU grace period and doing it
+	 * one by one may take a long time.  Start freezing all queues in
+	 * one swoop and then wait for the completions so that freezing can
+	 * take place in parallel.
+	 */
+	list_for_each_entry(q, &all_q_list, all_q_node)
+		blk_mq_freeze_queue_start(q);
+	list_for_each_entry(q, &all_q_list, all_q_node) {
+		blk_mq_freeze_queue_wait(q);
+
+		/*
+		 * timeout handler can't touch hw queue during the
+		 * reinitialization
+		 */
+		del_timer_sync(&q->timeout);
+	}
+
+	list_for_each_entry(q, &all_q_list, all_q_node)
+		blk_mq_queue_reinit(q, &online_new);
+
+	list_for_each_entry(q, &all_q_list, all_q_node)
+		blk_mq_unfreeze_queue(q);
+
+	mutex_unlock(&all_q_mutex);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return NOTIFY_OK;
 }
 

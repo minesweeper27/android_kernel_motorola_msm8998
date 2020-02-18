@@ -13,9 +13,13 @@
  *
  */
 
+<<<<<<< HEAD
 #include <linux/bitops.h>
 #include <linux/ftrace.h>
 #include <linux/init.h>
+=======
+#include <linux/ftrace.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/kernel.h>
 #include <linux/mm.h>
 #include <linux/printk.h>
@@ -98,6 +102,7 @@ static const char *get_shadow_bug_type(struct kasan_access_info *info)
 	case KASAN_FREE_PAGE:
 	case KASAN_KMALLOC_FREE:
 		bug_type = "use-after-free";
+<<<<<<< HEAD
 		break;
 	case KASAN_USE_AFTER_SCOPE:
 		bug_type = "use-after-scope";
@@ -137,6 +142,17 @@ static void print_error_description(struct kasan_access_info *info)
 	pr_err("%s of size %zu at addr %p by task %s/%d\n",
 		info->is_write ? "Write" : "Read", info->access_size,
 		info->access_addr, current->comm, task_pid_nr(current));
+=======
+		break;
+	}
+
+	pr_err("BUG: KASAN: %s in %pS at addr %p\n",
+		bug_type, (void *)info->ip,
+		info->access_addr);
+	pr_err("%s of size %zu by task %s/%d\n",
+		info->is_write ? "Write" : "Read",
+		info->access_size, current->comm, task_pid_nr(current));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline bool kernel_or_module_addr(const void *addr)
@@ -337,6 +353,7 @@ void kasan_report_double_free(struct kmem_cache *cache, void *object,
 }
 
 static void kasan_report_error(struct kasan_access_info *info)
+<<<<<<< HEAD
 {
 	unsigned long flags;
 
@@ -388,6 +405,44 @@ static inline bool kasan_report_enabled(void)
 	if (test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
 		return true;
 	return !test_and_set_bit(KASAN_BIT_REPORTED, &kasan_flags);
+=======
+{
+	unsigned long flags;
+	const char *bug_type;
+
+	/*
+	 * Make sure we don't end up in loop.
+	 */
+	kasan_disable_current();
+	spin_lock_irqsave(&report_lock, flags);
+	pr_err("================================="
+		"=================================\n");
+	if (info->access_addr <
+			kasan_shadow_to_mem((void *)KASAN_SHADOW_START)) {
+		if ((unsigned long)info->access_addr < PAGE_SIZE)
+			bug_type = "null-ptr-deref";
+		else if ((unsigned long)info->access_addr < TASK_SIZE)
+			bug_type = "user-memory-access";
+		else
+			bug_type = "wild-memory-access";
+		pr_err("BUG: KASAN: %s on address %p\n",
+			bug_type, info->access_addr);
+		pr_err("%s of size %zu by task %s/%d\n",
+			info->is_write ? "Write" : "Read",
+			info->access_size, current->comm,
+			task_pid_nr(current));
+		dump_stack();
+	} else {
+		print_error_description(info);
+		print_address_description(info);
+		print_shadow_for_address(info->first_bad_addr);
+	}
+	pr_err("================================="
+		"=================================\n");
+	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+	spin_unlock_irqrestore(&report_lock, flags);
+	kasan_enable_current();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void kasan_report(unsigned long addr, size_t size,

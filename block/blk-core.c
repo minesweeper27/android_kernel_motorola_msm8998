@@ -39,12 +39,15 @@
 #include <linux/ratelimit.h>
 #include <linux/pm_runtime.h>
 #include <linux/blk-cgroup.h>
+<<<<<<< HEAD
 
 #ifdef CONFIG_BLOCK_PERF_FRAMEWORK
 #include <linux/ktime.h>
 #include <linux/spinlock.h>
 #include <linux/debugfs.h>
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/block.h>
@@ -87,7 +90,11 @@ static void blk_clear_congested(struct request_list *rl, int sync)
 	 * flip its congestion state for events on other blkcgs.
 	 */
 	if (rl == &rl->q->root_rl)
+<<<<<<< HEAD
 		clear_wb_congested(rl->q->backing_dev_info->wb.congested, sync);
+=======
+		clear_wb_congested(rl->q->backing_dev_info.wb.congested, sync);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 }
 
@@ -98,7 +105,11 @@ static void blk_set_congested(struct request_list *rl, int sync)
 #else
 	/* see blk_clear_congested() */
 	if (rl == &rl->q->root_rl)
+<<<<<<< HEAD
 		set_wb_congested(rl->q->backing_dev_info->wb.congested, sync);
+=======
+		set_wb_congested(rl->q->backing_dev_info.wb.congested, sync);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 }
 
@@ -607,6 +618,8 @@ void blk_cleanup_queue(struct request_queue *q)
 		q->queue_lock = &q->__queue_lock;
 	spin_unlock_irq(lock);
 
+	bdi_unregister(&q->backing_dev_info);
+
 	/* @q is and will stay empty, shutdown and put */
 	blk_put_queue(q);
 }
@@ -705,6 +718,7 @@ struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
 	if (!q->bio_split)
 		goto fail_id;
 
+<<<<<<< HEAD
 	q->backing_dev_info = bdi_alloc_node(gfp_mask, node_id);
 	if (!q->backing_dev_info)
 		goto fail_split;
@@ -716,6 +730,19 @@ struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
 	q->node = node_id;
 
 	setup_timer(&q->backing_dev_info->laptop_mode_wb_timer,
+=======
+	q->backing_dev_info.ra_pages =
+			(VM_MAX_READAHEAD * 1024) / PAGE_CACHE_SIZE;
+	q->backing_dev_info.capabilities = BDI_CAP_CGROUP_WRITEBACK;
+	q->backing_dev_info.name = "block";
+	q->node = node_id;
+
+	err = bdi_init(&q->backing_dev_info);
+	if (err)
+		goto fail_split;
+
+	setup_timer(&q->backing_dev_info.laptop_mode_wb_timer,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		    laptop_mode_timer_fn, (unsigned long) q);
 	setup_timer(&q->timeout, blk_rq_timed_out_timer, (unsigned long) q);
 	INIT_LIST_HEAD(&q->queue_head);
@@ -765,7 +792,11 @@ struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
 fail_ref:
 	percpu_ref_exit(&q->q_usage_counter);
 fail_bdi:
+<<<<<<< HEAD
 	bdi_put(q->backing_dev_info);
+=======
+	bdi_destroy(&q->backing_dev_info);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 fail_split:
 	bioset_free(q->bio_split);
 fail_id:
@@ -2637,7 +2668,10 @@ blk_qc_t submit_bio(int rw, struct bio *bio)
 		}
 	}
 
+<<<<<<< HEAD
 	set_submit_info(bio, count);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return generic_make_request(bio);
 }
 EXPORT_SYMBOL(submit_bio);

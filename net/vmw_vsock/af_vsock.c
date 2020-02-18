@@ -1241,13 +1241,19 @@ static int vsock_stream_connect(struct socket *sock, struct sockaddr *addr,
 			err = sock_intr_errno(timeout);
 			sk->sk_state = SS_UNCONNECTED;
 			sock->state = SS_UNCONNECTED;
+<<<<<<< HEAD
 			vsock_transport_cancel_pkt(vsk);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			goto out_wait;
 		} else if (timeout == 0) {
 			err = -ETIMEDOUT;
 			sk->sk_state = SS_UNCONNECTED;
 			sock->state = SS_UNCONNECTED;
+<<<<<<< HEAD
 			vsock_transport_cancel_pkt(vsk);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			goto out_wait;
 		}
 

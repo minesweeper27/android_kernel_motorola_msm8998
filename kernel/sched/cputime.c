@@ -635,6 +635,7 @@ static void cputime_adjust(struct task_cputime *curr,
 
 	stime = scale_stime((__force u64)stime, (__force u64)rtime,
 			    (__force u64)(stime + utime));
+<<<<<<< HEAD
 
 update:
 	/*
@@ -659,6 +660,32 @@ update:
 		stime = rtime - utime;
 	}
 
+=======
+
+update:
+	/*
+	 * Make sure stime doesn't go backwards; this preserves monotonicity
+	 * for utime because rtime is monotonic.
+	 *
+	 *  utime_i+1 = rtime_i+1 - stime_i
+	 *            = rtime_i+1 - (rtime_i - utime_i)
+	 *            = (rtime_i+1 - rtime_i) + utime_i
+	 *            >= utime_i
+	 */
+	if (stime < prev->stime)
+		stime = prev->stime;
+	utime = rtime - stime;
+
+	/*
+	 * Make sure utime doesn't go backwards; this still preserves
+	 * monotonicity for stime, analogous argument to above.
+	 */
+	if (utime < prev->utime) {
+		utime = prev->utime;
+		stime = rtime - utime;
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	prev->stime = stime;
 	prev->utime = utime;
 out:

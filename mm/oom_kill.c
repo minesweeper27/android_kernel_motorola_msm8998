@@ -386,7 +386,12 @@ void dump_tasks(struct mem_cgroup *memcg, const nodemask_t *nodemask)
 static void dump_header(struct oom_control *oc, struct task_struct *p,
 			struct mem_cgroup *memcg)
 {
+<<<<<<< HEAD
 	pr_warning("%s invoked oom-killer: gfp_mask=0x%x, order=%d, oom_score_adj=%hd\n",
+=======
+	pr_warning("%s invoked oom-killer: gfp_mask=0x%x, order=%d, "
+		"oom_score_adj=%hd\n",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		current->comm, oc->gfp_mask, oc->order,
 		current->signal->oom_score_adj);
 	cpuset_print_current_mems_allowed();
@@ -685,7 +690,11 @@ bool out_of_memory(struct oom_control *oc)
 	unsigned int uninitialized_var(points);
 	enum oom_constraint constraint = CONSTRAINT_NONE;
 
+<<<<<<< HEAD
 	if (oom_killer_disabled || IS_ENABLED(CONFIG_ANDROID_SIMPLE_LMK))
+=======
+	if (oom_killer_disabled)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return false;
 
 	blocking_notifier_call_chain(&oom_notify_list, 0, &freed);

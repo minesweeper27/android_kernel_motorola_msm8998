@@ -486,10 +486,17 @@ static int dwc3_gadget_start_config(struct dwc3 *dwc, struct dwc3_ep *dep)
 
 	for (i = 0; i < DWC3_ENDPOINTS_NUM; i++) {
 		struct dwc3_ep *dep = dwc->eps[i];
+<<<<<<< HEAD
 
 		if (!dep)
 			continue;
 
+=======
+
+		if (!dep)
+			continue;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ret = dwc3_gadget_set_xfer_resource(dwc, dep);
 		if (ret)
 			return ret;
@@ -629,6 +636,12 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep,
 		struct dwc3_trb	*trb_st_hw;
 		struct dwc3_trb	*trb_link;
 
+<<<<<<< HEAD
+=======
+		dep->endpoint.desc = desc;
+		dep->comp_desc = comp_desc;
+		dep->type = usb_endpoint_type(desc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dep->flags |= DWC3_EP_ENABLED;
 
 		reg = dwc3_readl(dwc->regs, DWC3_DALEPENA);
@@ -707,10 +720,14 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
 
 	dwc3_trace(trace_dwc3_gadget, "Disabling %s", dep->name);
 
+<<<<<<< HEAD
 	if (dep->endpoint.ep_type == EP_TYPE_NORMAL)
 		dwc3_remove_requests(dwc, dep);
 	else if (dep->endpoint.ep_type == EP_TYPE_GSI)
 		dwc3_stop_active_transfer(dwc, dep->number, true);
+=======
+	dwc3_remove_requests(dwc, dep);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* make sure HW endpoint isn't stalled */
 	if (dep->flags & DWC3_EP_STALL)
@@ -726,12 +743,18 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
 	dep->type = 0;
 	dep->flags = 0;
 
+<<<<<<< HEAD
 	/* Keep GSI ep names with "-gsi" suffix */
 	if (!strnstr(dep->name, "gsi", 10)) {
 		snprintf(dep->name, sizeof(dep->name), "ep%d%s",
 			dep->number >> 1,
 			(dep->number & 1) ? "in" : "out");
 	}
+=======
+	snprintf(dep->name, sizeof(dep->name), "ep%d%s",
+			dep->number >> 1,
+			(dep->number & 1) ? "in" : "out");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -1232,6 +1255,20 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 	list_add_tail(&req->list, &dep->request_list);
 
 	/*
+	 * If there are no pending requests and the endpoint isn't already
+	 * busy, we will just start the request straight away.
+	 *
+	 * This will save one IRQ (XFER_NOT_READY) and possibly make it a
+	 * little bit faster.
+	 */
+	if (!usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
+			!usb_endpoint_xfer_int(dep->endpoint.desc) &&
+			!(dep->flags & DWC3_EP_BUSY)) {
+		ret = __dwc3_gadget_kick_transfer(dep, 0, true);
+		goto out;
+	}
+
+	/*
 	 * There are a few special cases:
 	 *
 	 * 1. XferNotReady with empty list of requests. We need to kick the
@@ -1267,8 +1304,11 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 		ret = __dwc3_gadget_kick_transfer(dep, 0, true);
 		if (!ret)
 			dep->flags &= ~DWC3_EP_PENDING_REQUEST;
+<<<<<<< HEAD
 		else if (ret != -EBUSY)
 			dbg_event(dep->number, "XfNR QUEUE", ret);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		goto out;
 	}
@@ -1284,8 +1324,11 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 		WARN_ON_ONCE(!dep->resource_index);
 		ret = __dwc3_gadget_kick_transfer(dep, dep->resource_index,
 				false);
+<<<<<<< HEAD
 		if (ret && ret != -EBUSY)
 			dbg_event(dep->number, "XfIP QUEUE", ret);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto out;
 	}
 
@@ -1296,6 +1339,7 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
 	 */
 	if (dep->stream_capable)
 		ret = __dwc3_gadget_kick_transfer(dep, 0, true);
+<<<<<<< HEAD
 
 out:
 	if (ret && ret != -EBUSY) {
@@ -1315,6 +1359,17 @@ static int dwc3_gadget_wakeup(struct usb_gadget *g)
 
 	schedule_work(&dwc->wakeup_work);
 	return 0;
+=======
+
+out:
+	if (ret && ret != -EBUSY)
+		dev_dbg(dwc->dev, "%s: failed to kick transfers\n",
+				dep->name);
+	if (ret == -EBUSY)
+		ret = 0;
+
+	return ret;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static bool dwc3_gadget_is_suspended(struct dwc3 *dwc)
@@ -1375,6 +1430,7 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
 		goto out;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * Queuing endless request to USB endpoint through generic ep queue
 	 * API should not be allowed.
@@ -1396,6 +1452,8 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
 	WARN(!dep->direction && (request->length % ep->desc->wMaxPacketSize),
 		"trying to queue unaligned request (%d)\n", request->length);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ret = __dwc3_gadget_ep_queue(dep, req);
 
 	/*
@@ -2074,6 +2132,7 @@ static int __dwc3_gadget_start(struct dwc3 *dwc)
 	}
 	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
 
+<<<<<<< HEAD
 	/* Programs the number of outstanding pipelined transfer requests
 	 * the AXI master pushes to the AXI slave.
 	 */
@@ -2084,6 +2143,8 @@ static int __dwc3_gadget_start(struct dwc3 *dwc)
 		dwc3_writel(dwc->regs, DWC3_GSBUSCFG1, reg);
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Start with SuperSpeed Default */
 	dwc3_gadget_ep0_desc.wMaxPacketSize = cpu_to_le16(512);
 
@@ -2396,6 +2457,7 @@ static int __dwc3_cleanup_done_trbs(struct dwc3 *dwc, struct dwc3_ep *dep,
 			s_pkt = 1;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * We assume here we will always receive the entire data block
 	 * which we should receive. Meaning, if we program RX to
@@ -2404,6 +2466,8 @@ static int __dwc3_cleanup_done_trbs(struct dwc3 *dwc, struct dwc3_ep *dep,
 	 * gadget driver for further processing.
 	 */
 	req->request.actual += length - count;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (s_pkt)
 		return 1;
 	if ((event->status & DEPEVT_STATUS_LST) &&
@@ -2423,12 +2487,17 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 	struct dwc3_trb		*trb;
 	unsigned int		slot;
 	unsigned int		i;
+<<<<<<< HEAD
 	unsigned int		trb_len;
+=======
+	int			count = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int			ret;
 
 	do {
 		req = next_request(&dep->req_queued);
 		if (!req) {
+<<<<<<< HEAD
 			dev_err(dwc->dev, "%s: evt sts %x for no req queued",
 				dep->name, event->status);
 			return 1;
@@ -2438,6 +2507,11 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 		if (req->trb->ctrl & DWC3_TRB_CTRL_HWO)
 			return 0;
 
+=======
+			WARN_ON_ONCE(1);
+			return 1;
+		}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		i = 0;
 		do {
 			slot = req->start_slot + i;
@@ -2446,6 +2520,7 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 				slot++;
 			slot %= DWC3_TRB_NUM;
 			trb = &dep->trb_pool[slot];
+<<<<<<< HEAD
 
 			if (req->request.num_mapped_sgs)
 				trb_len = sg_dma_len(&req->request.sg[i]);
@@ -2454,10 +2529,18 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 
 			ret = __dwc3_cleanup_done_trbs(dwc, dep, req, trb,
 					trb_len, event, status);
+=======
+			count += trb->size & DWC3_TRB_SIZE_MASK;
+
+
+			ret = __dwc3_cleanup_done_trbs(dwc, dep, req, trb,
+					event, status);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (ret)
 				break;
 		} while (++i < req->request.num_mapped_sgs);
 
+<<<<<<< HEAD
 		dwc3_gadget_giveback(dep, req, status);
 
 		/* EP possibly disabled during giveback? */
@@ -2466,6 +2549,17 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 					dep->name);
 			return 0;
 		}
+=======
+		/*
+		 * We assume here we will always receive the entire data block
+		 * which we should receive. Meaning, if we program RX to
+		 * receive 4K but we receive only 2K, we assume that's all we
+		 * should receive and we simply bounce the request back to the
+		 * gadget driver for further processing.
+		 */
+		req->request.actual += req->request.length - count;
+		dwc3_gadget_giveback(dep, req, status);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (ret)
 			break;
@@ -2487,9 +2581,16 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 		return 1;
 	}
 
+<<<<<<< HEAD
 	if ((event->status & DEPEVT_STATUS_IOC) &&
 			(trb->ctrl & DWC3_TRB_CTRL_IOC))
 		return 0;
+=======
+	if (usb_endpoint_xfer_isoc(dep->endpoint.desc))
+		if ((event->status & DEPEVT_STATUS_IOC) &&
+				(trb->ctrl & DWC3_TRB_CTRL_IOC))
+			return 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 1;
 }
 
@@ -2533,6 +2634,14 @@ static void dwc3_endpoint_transfer_complete(struct dwc3 *dwc,
 		dwc3_writel(dwc->regs, DWC3_DCTL, reg);
 
 		dwc->u1u2 = 0;
+	}
+
+	if (!usb_endpoint_xfer_isoc(dep->endpoint.desc)) {
+		int ret;
+
+		ret = __dwc3_gadget_kick_transfer(dep, 0, is_xfer_complete);
+		if (!ret || ret == -EBUSY)
+			return;
 	}
 }
 
@@ -2582,14 +2691,16 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
 		if (usb_endpoint_xfer_isoc(dep->endpoint.desc)) {
 			dwc3_gadget_start_isoc(dwc, dep, event);
 		} else {
+			int active;
 			int ret;
 
+			active = event->status & DEPEVT_STATUS_TRANSFER_ACTIVE;
+
 			dwc3_trace(trace_dwc3_gadget, "%s: reason %s",
-					dep->name, event->status &
-					DEPEVT_STATUS_TRANSFER_ACTIVE
-					? "Transfer Active"
+					dep->name, active ? "Transfer Active"
 					: "Transfer Not Active");
 
+<<<<<<< HEAD
 			/*
 			 * If XFERNOTREADY interrupt is received with event
 			 * status as TRANSFER ACTIVE, don't kick next transfer.
@@ -2599,6 +2710,9 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
 				return;
 
 			ret = __dwc3_gadget_kick_transfer(dep, 0, 1);
+=======
+			ret = __dwc3_gadget_kick_transfer(dep, 0, !active);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (!ret || ret == -EBUSY)
 				return;
 
@@ -3507,6 +3621,7 @@ irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 	unsigned			temp_cnt = 0;
 	ktime_t				start_time;
 
+<<<<<<< HEAD
 	start_time = ktime_get();
 	dwc->irq_cnt++;
 
@@ -3515,6 +3630,9 @@ irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 		return IRQ_HANDLED;
 
 	for (i = 0; i < dwc->num_normal_event_buffers; i++) {
+=======
+	for (i = 0; i < dwc->num_event_buffers; i++) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		irqreturn_t status;
 
 		status = dwc3_check_event_buf(dwc, i);
@@ -3524,6 +3642,7 @@ irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 		temp_cnt += dwc->ev_buffs[i]->count;
 	}
 
+<<<<<<< HEAD
 	dwc->irq_start_time[dwc->irq_dbg_index] = start_time;
 	dwc->irq_completion_time[dwc->irq_dbg_index] =
 		ktime_us_delta(ktime_get(), start_time);
@@ -3534,6 +3653,9 @@ irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 		queue_work(dwc->dwc_wq, &dwc->bh_work);
 
 	return IRQ_HANDLED;
+=======
+	return ret;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**

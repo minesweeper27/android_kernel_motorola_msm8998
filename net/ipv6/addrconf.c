@@ -240,7 +240,10 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	},
 	.use_oif_addrs_only	= 0,
 	.ignore_routes_with_linkdown = 0,
+<<<<<<< HEAD
 	.accept_ra_prefix_route = 1,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
@@ -288,7 +291,10 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	},
 	.use_oif_addrs_only	= 0,
 	.ignore_routes_with_linkdown = 0,
+<<<<<<< HEAD
 	.accept_ra_prefix_route = 1,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* Check if a valid qdisc is available */
@@ -2223,7 +2229,11 @@ addrconf_prefix_route(struct in6_addr *pfx, int plen, struct net_device *dev,
 		      unsigned long expires, u32 flags)
 {
 	struct fib6_config cfg = {
+<<<<<<< HEAD
 		.fc_table = l3mdev_fib_table(dev) ? : addrconf_rt_table(dev, RT6_TABLE_PREFIX),
+=======
+		.fc_table = l3mdev_fib_table(dev) ? : RT6_TABLE_PREFIX,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		.fc_metric = IP6_RT_PRIO_ADDRCONF,
 		.fc_ifindex = dev->ifindex,
 		.fc_expires = expires,
@@ -2256,7 +2266,11 @@ static struct rt6_info *addrconf_get_prefix_route(const struct in6_addr *pfx,
 	struct fib6_node *fn;
 	struct rt6_info *rt = NULL;
 	struct fib6_table *table;
+<<<<<<< HEAD
 	u32 tb_id = l3mdev_fib_table(dev) ? : addrconf_rt_table(dev, RT6_TABLE_PREFIX);
+=======
+	u32 tb_id = l3mdev_fib_table(dev) ? : RT6_TABLE_PREFIX;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	table = fib6_get_table(dev_net(dev), tb_id);
 	if (!table)
@@ -4772,8 +4786,11 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_IGNORE_ROUTES_WITH_LINKDOWN] = cnf->ignore_routes_with_linkdown;
 	/* we omit DEVCONF_STABLE_SECRET for now */
 	array[DEVCONF_USE_OIF_ADDRS_ONLY] = cnf->use_oif_addrs_only;
+<<<<<<< HEAD
 	array[DEVCONF_DROP_UNICAST_IN_L2_MULTICAST] = cnf->drop_unicast_in_l2_multicast;
 	array[DEVCONF_DROP_UNSOLICITED_NA] = cnf->drop_unsolicited_na;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline size_t inet6_ifla6_size(void)
@@ -5861,6 +5878,7 @@ static struct addrconf_sysctl_table
 			.proc_handler	= addrconf_sysctl_ignore_routes_with_linkdown,
 		},
 		{
+<<<<<<< HEAD
 			.procname	= "drop_unicast_in_l2_multicast",
 			.data		= &ipv6_devconf.drop_unicast_in_l2_multicast,
 			.maxlen		= sizeof(int),
@@ -5875,6 +5893,8 @@ static struct addrconf_sysctl_table
 			.proc_handler	= proc_dointvec,
 		},
 		{
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			/* sentinel */
 		}
 	},

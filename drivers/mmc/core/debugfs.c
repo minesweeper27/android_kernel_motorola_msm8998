@@ -426,6 +426,7 @@ void mmc_add_host_debugfs(struct mmc_host *host)
 			&mmc_clock_fops))
 		goto err_node;
 
+<<<<<<< HEAD
 	if (!debugfs_create_file("max_clock", S_IRUSR | S_IWUSR, root, host,
 		&mmc_max_clock_fops))
 		goto err_node;
@@ -458,6 +459,8 @@ void mmc_add_host_debugfs(struct mmc_host *host)
 				root, &host->clk_delay))
 		goto err_node;
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_FAIL_MMC_REQUEST
 	if (fail_request)
 		setup_fault_attr(&fail_default_attr, fail_request);

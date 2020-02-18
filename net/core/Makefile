@@ -24,5 +24,8 @@ obj-$(CONFIG_NET_PTP_CLASSIFY) += ptp_classifier.o
 obj-$(CONFIG_CGROUP_NET_PRIO) += netprio_cgroup.o
 obj-$(CONFIG_CGROUP_NET_CLASSID) += netclassid_cgroup.o
 obj-$(CONFIG_LWTUNNEL) += lwtunnel.o
+<<<<<<< HEAD
 obj-$(CONFIG_SOCKEV_NLMCAST) += sockev_nlmcast.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_DST_CACHE) += dst_cache.o

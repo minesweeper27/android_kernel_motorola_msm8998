@@ -178,6 +178,7 @@ enum wmi_service {
 	WMI_SERVICE_AUX_SPECTRAL_INTF,
 	WMI_SERVICE_AUX_CHAN_LOAD_INTF,
 	WMI_SERVICE_BSS_CHANNEL_INFO_64,
+<<<<<<< HEAD
 	WMI_SERVICE_EXT_RES_CFG_SUPPORT,
 	WMI_SERVICE_MESH_11S,
 	WMI_SERVICE_MESH_NON_11S,
@@ -188,6 +189,8 @@ enum wmi_service {
 	WMI_SERVICE_TX_MODE_PUSH_PULL,
 	WMI_SERVICE_TX_MODE_DYNAMIC,
 	WMI_SERVICE_MGMT_TX_WMI,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* keep last */
 	WMI_SERVICE_MAX,
@@ -305,6 +308,7 @@ enum wmi_10_4_service {
 	WMI_10_4_SERVICE_AUX_SPECTRAL_INTF,
 	WMI_10_4_SERVICE_AUX_CHAN_LOAD_INTF,
 	WMI_10_4_SERVICE_BSS_CHANNEL_INFO_64,
+<<<<<<< HEAD
 	WMI_10_4_SERVICE_EXT_RES_CFG_SUPPORT,
 	WMI_10_4_SERVICE_MESH_NON_11S,
 	WMI_10_4_SERVICE_RESTRT_CHNL_SUPPORT,
@@ -314,6 +318,8 @@ enum wmi_10_4_service {
 	WMI_10_4_SERVICE_TX_MODE_PUSH_ONLY,
 	WMI_10_4_SERVICE_TX_MODE_PUSH_PULL,
 	WMI_10_4_SERVICE_TX_MODE_DYNAMIC,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static inline char *wmi_service_name(int service_id)
@@ -403,6 +409,7 @@ static inline char *wmi_service_name(int service_id)
 	SVCSTR(WMI_SERVICE_AUX_SPECTRAL_INTF);
 	SVCSTR(WMI_SERVICE_AUX_CHAN_LOAD_INTF);
 	SVCSTR(WMI_SERVICE_BSS_CHANNEL_INFO_64);
+<<<<<<< HEAD
 	SVCSTR(WMI_SERVICE_EXT_RES_CFG_SUPPORT);
 	SVCSTR(WMI_SERVICE_MESH_11S);
 	SVCSTR(WMI_SERVICE_MESH_NON_11S);
@@ -412,6 +419,8 @@ static inline char *wmi_service_name(int service_id)
 	SVCSTR(WMI_SERVICE_TX_MODE_PUSH_ONLY);
 	SVCSTR(WMI_SERVICE_TX_MODE_PUSH_PULL);
 	SVCSTR(WMI_SERVICE_TX_MODE_DYNAMIC);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default:
 		return NULL;
 	}
@@ -649,6 +658,7 @@ static inline void wmi_10_4_svc_map(const __le32 *in, unsigned long *out,
 	       WMI_SERVICE_AUX_CHAN_LOAD_INTF, len);
 	SVCMAP(WMI_10_4_SERVICE_BSS_CHANNEL_INFO_64,
 	       WMI_SERVICE_BSS_CHANNEL_INFO_64, len);
+<<<<<<< HEAD
 	SVCMAP(WMI_10_4_SERVICE_EXT_RES_CFG_SUPPORT,
 	       WMI_SERVICE_EXT_RES_CFG_SUPPORT, len);
 	SVCMAP(WMI_10_4_SERVICE_MESH_NON_11S,
@@ -667,6 +677,8 @@ static inline void wmi_10_4_svc_map(const __le32 *in, unsigned long *out,
 	       WMI_SERVICE_TX_MODE_PUSH_PULL, len);
 	SVCMAP(WMI_10_4_SERVICE_TX_MODE_DYNAMIC,
 	       WMI_SERVICE_TX_MODE_DYNAMIC, len);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #undef SVCMAP
@@ -841,7 +853,10 @@ struct wmi_cmd_map {
 	u32 set_cca_params_cmdid;
 	u32 pdev_bss_chan_info_request_cmdid;
 	u32 pdev_enable_adaptive_cca_cmdid;
+<<<<<<< HEAD
 	u32 ext_resource_cfg_cmdid;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /*
@@ -1454,7 +1469,10 @@ enum wmi_10_2_cmd_id {
 	WMI_10_2_MU_CAL_START_CMDID,
 	WMI_10_2_SET_LTEU_CONFIG_CMDID,
 	WMI_10_2_SET_CCA_PARAMS,
+<<<<<<< HEAD
 	WMI_10_2_PDEV_BSS_CHAN_INFO_REQUEST_CMDID,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	WMI_10_2_PDEV_UTF_CMDID = WMI_10_2_END_CMDID - 1,
 };
 
@@ -1648,9 +1666,12 @@ enum wmi_10_4_cmd_id {
 	WMI_10_4_MU_CAL_START_CMDID,
 	WMI_10_4_SET_CCA_PARAMS_CMDID,
 	WMI_10_4_PDEV_BSS_CHAN_INFO_REQUEST_CMDID,
+<<<<<<< HEAD
 	WMI_10_4_EXT_RESOURCE_CFG_CMDID,
 	WMI_10_4_VDEV_SET_IE_CMDID,
 	WMI_10_4_SET_LTEU_CONFIG_CMDID,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	WMI_10_4_PDEV_UTF_CMDID = WMI_10_4_END_CMDID - 1,
 };
 
@@ -1713,7 +1734,10 @@ enum wmi_10_4_event_id {
 	WMI_10_4_PDEV_TEMPERATURE_EVENTID,
 	WMI_10_4_PDEV_NFCAL_POWER_ALL_CHANNELS_EVENTID,
 	WMI_10_4_PDEV_BSS_CHAN_INFO_EVENTID,
+<<<<<<< HEAD
 	WMI_10_4_MU_REPORT_EVENTID,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	WMI_10_4_PDEV_UTF_EVENTID = WMI_10_4_END_EVENTID - 1,
 };
 
@@ -1848,6 +1872,10 @@ enum wmi_channel_change_cause {
 #define WMI_CHANNEL_CHANGE_CAUSE_CSA (1 << 13)
 
 #define WMI_MAX_SPATIAL_STREAM        3 /* default max ss */
+<<<<<<< HEAD
+=======
+#define WMI_10_4_MAX_SPATIAL_STREAM   4
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* HT Capabilities*/
 #define WMI_HT_CAP_ENABLED                0x0001   /* HT Enabled/ disabled */
@@ -2691,6 +2719,7 @@ struct wmi_resource_config_10_4 {
 	 */
 	__le32 iphdr_pad_config;
 
+<<<<<<< HEAD
 	/* qwrap configuration (bits 15-0)
 	 * 1  - This is qwrap configuration
 	 * 0  - This is not qwrap
@@ -2727,6 +2756,14 @@ struct wmi_ext_resource_config_10_4_cmd {
 	/* see enum wmi_10_4_feature_mask */
 	__le32 fw_feature_bitmap;
 };
+=======
+	/* qwrap configuration
+	 * 1  - This is qwrap configuration
+	 * 0  - This is not qwrap
+	 */
+	__le32 qwrap_config;
+} __packed;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* strucutre describing host memory chunk. */
 struct host_memory_chunk {
@@ -3160,10 +3197,13 @@ struct wmi_10_4_mgmt_rx_event {
 	u8 buf[0];
 } __packed;
 
+<<<<<<< HEAD
 struct wmi_mgmt_rx_ext_info {
 	__le64 rx_mac_timestamp;
 } __packed __aligned(4);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define WMI_RX_STATUS_OK			0x00
 #define WMI_RX_STATUS_ERR_CRC			0x01
 #define WMI_RX_STATUS_ERR_DECRYPT		0x08
@@ -3179,10 +3219,13 @@ struct wmi_mgmt_rx_ext_info {
 #define PHY_ERROR_10_4_RADAR_MASK               0x4
 #define PHY_ERROR_10_4_SPECTRAL_SCAN_MASK       0x4000000
 
+<<<<<<< HEAD
 #define WMI_PHY_ERROR_MASK0_RADAR		BIT(2)
 #define WMI_PHY_ERROR_MASK0_FALSE_RADAR_EXT	BIT(24)
 #define WMI_PHY_ERROR_MASK0_SPECTRAL_SCAN	BIT(26)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 enum phy_err_type {
 	PHY_ERROR_UNKNOWN,
 	PHY_ERROR_SPECTRAL_SCAN,
@@ -3523,7 +3566,10 @@ struct wmi_pdev_param_map {
 	u32 wapi_mbssid_offset;
 	u32 arp_srcaddr;
 	u32 arp_dstaddr;
+<<<<<<< HEAD
 	u32 enable_btcoex;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define WMI_PDEV_PARAM_UNSUPPORTED 0
@@ -3831,6 +3877,7 @@ enum wmi_10_4_pdev_param {
 	WMI_10_4_PDEV_PARAM_WAPI_MBSSID_OFFSET,
 	WMI_10_4_PDEV_PARAM_ARP_SRCADDR,
 	WMI_10_4_PDEV_PARAM_ARP_DSTADDR,
+<<<<<<< HEAD
 	WMI_10_4_PDEV_PARAM_TXPOWER_DECR_DB,
 	WMI_10_4_PDEV_PARAM_RX_BATCHMODE,
 	WMI_10_4_PDEV_PARAM_PACKET_AGGR_DELAY,
@@ -3840,6 +3887,8 @@ enum wmi_10_4_pdev_param {
 	WMI_10_4_PDEV_PARAM_ATF_DYNAMIC_ENABLE,
 	WMI_10_4_PDEV_PARAM_ATF_SSID_GROUP_POLICY,
 	WMI_10_4_PDEV_PARAM_ENABLE_BTCOEX,
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct wmi_pdev_set_param_cmd {
@@ -4436,6 +4485,23 @@ struct wmi_10_4_bss_bcn_filter_stats {
 	struct wmi_10_4_bss_bcn_stats bss_stats;
 } __packed;
 
+struct wmi_10_4_peer_stats {
+	struct wmi_mac_addr peer_macaddr;
+	__le32 peer_rssi;
+	__le32 peer_rssi_seq_num;
+	__le32 peer_tx_rate;
+	__le32 peer_rx_rate;
+	__le32 current_per;
+	__le32 retries;
+	__le32 tx_rate_count;
+	__le32 max_4ms_frame_len;
+	__le32 total_sub_frames;
+	__le32 tx_bytes;
+	__le32 num_pkt_loss_overflow[4];
+	__le32 num_pkt_loss_excess_retry[4];
+	__le32 peer_rssi_changed;
+} __packed;
+
 struct wmi_10_2_pdev_ext_stats {
 	__le32 rx_rssi_comb;
 	__le32 rx_rssi[4];
@@ -4747,7 +4813,10 @@ struct wmi_vdev_param_map {
 	u32 meru_vc;
 	u32 rx_decap_type;
 	u32 bw_nss_ratemask;
+<<<<<<< HEAD
 	u32 set_tsf;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define WMI_VDEV_PARAM_UNSUPPORTED 0
@@ -5080,6 +5149,75 @@ enum wmi_10_4_vdev_param {
 	WMI_10_4_VDEV_PARAM_STA_KICKOUT,
 	WMI_10_4_VDEV_PARAM_CAPABILITIES,
 	WMI_10_4_VDEV_PARAM_TSF_INCREMENT,
+};
+
+enum wmi_10_4_vdev_param {
+	WMI_10_4_VDEV_PARAM_RTS_THRESHOLD = 0x1,
+	WMI_10_4_VDEV_PARAM_FRAGMENTATION_THRESHOLD,
+	WMI_10_4_VDEV_PARAM_BEACON_INTERVAL,
+	WMI_10_4_VDEV_PARAM_LISTEN_INTERVAL,
+	WMI_10_4_VDEV_PARAM_MULTICAST_RATE,
+	WMI_10_4_VDEV_PARAM_MGMT_TX_RATE,
+	WMI_10_4_VDEV_PARAM_SLOT_TIME,
+	WMI_10_4_VDEV_PARAM_PREAMBLE,
+	WMI_10_4_VDEV_PARAM_SWBA_TIME,
+	WMI_10_4_VDEV_STATS_UPDATE_PERIOD,
+	WMI_10_4_VDEV_PWRSAVE_AGEOUT_TIME,
+	WMI_10_4_VDEV_HOST_SWBA_INTERVAL,
+	WMI_10_4_VDEV_PARAM_DTIM_PERIOD,
+	WMI_10_4_VDEV_OC_SCHEDULER_AIR_TIME_LIMIT,
+	WMI_10_4_VDEV_PARAM_WDS,
+	WMI_10_4_VDEV_PARAM_ATIM_WINDOW,
+	WMI_10_4_VDEV_PARAM_BMISS_COUNT_MAX,
+	WMI_10_4_VDEV_PARAM_BMISS_FIRST_BCNT,
+	WMI_10_4_VDEV_PARAM_BMISS_FINAL_BCNT,
+	WMI_10_4_VDEV_PARAM_FEATURE_WMM,
+	WMI_10_4_VDEV_PARAM_CHWIDTH,
+	WMI_10_4_VDEV_PARAM_CHEXTOFFSET,
+	WMI_10_4_VDEV_PARAM_DISABLE_HTPROTECTION,
+	WMI_10_4_VDEV_PARAM_STA_QUICKKICKOUT,
+	WMI_10_4_VDEV_PARAM_MGMT_RATE,
+	WMI_10_4_VDEV_PARAM_PROTECTION_MODE,
+	WMI_10_4_VDEV_PARAM_FIXED_RATE,
+	WMI_10_4_VDEV_PARAM_SGI,
+	WMI_10_4_VDEV_PARAM_LDPC,
+	WMI_10_4_VDEV_PARAM_TX_STBC,
+	WMI_10_4_VDEV_PARAM_RX_STBC,
+	WMI_10_4_VDEV_PARAM_INTRA_BSS_FWD,
+	WMI_10_4_VDEV_PARAM_DEF_KEYID,
+	WMI_10_4_VDEV_PARAM_NSS,
+	WMI_10_4_VDEV_PARAM_BCAST_DATA_RATE,
+	WMI_10_4_VDEV_PARAM_MCAST_DATA_RATE,
+	WMI_10_4_VDEV_PARAM_MCAST_INDICATE,
+	WMI_10_4_VDEV_PARAM_DHCP_INDICATE,
+	WMI_10_4_VDEV_PARAM_UNKNOWN_DEST_INDICATE,
+	WMI_10_4_VDEV_PARAM_AP_KEEPALIVE_MIN_IDLE_INACTIVE_TIME_SECS,
+	WMI_10_4_VDEV_PARAM_AP_KEEPALIVE_MAX_IDLE_INACTIVE_TIME_SECS,
+	WMI_10_4_VDEV_PARAM_AP_KEEPALIVE_MAX_UNRESPONSIVE_TIME_SECS,
+	WMI_10_4_VDEV_PARAM_AP_ENABLE_NAWDS,
+	WMI_10_4_VDEV_PARAM_MCAST2UCAST_SET,
+	WMI_10_4_VDEV_PARAM_ENABLE_RTSCTS,
+	WMI_10_4_VDEV_PARAM_RC_NUM_RETRIES,
+	WMI_10_4_VDEV_PARAM_TXBF,
+	WMI_10_4_VDEV_PARAM_PACKET_POWERSAVE,
+	WMI_10_4_VDEV_PARAM_DROP_UNENCRY,
+	WMI_10_4_VDEV_PARAM_TX_ENCAP_TYPE,
+	WMI_10_4_VDEV_PARAM_AP_DETECT_OUT_OF_SYNC_SLEEPING_STA_TIME_SECS,
+	WMI_10_4_VDEV_PARAM_CABQ_MAXDUR,
+	WMI_10_4_VDEV_PARAM_MFPTEST_SET,
+	WMI_10_4_VDEV_PARAM_RTS_FIXED_RATE,
+	WMI_10_4_VDEV_PARAM_VHT_SGIMASK,
+	WMI_10_4_VDEV_PARAM_VHT80_RATEMASK,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_ADJUST_ENABLE,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_TGT_BMISS_NUM,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_BMISS_SAMPLE_CYCLE,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_SLOP_STEP,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_INIT_SLOP,
+	WMI_10_4_VDEV_PARAM_EARLY_RX_ADJUST_PAUSE,
+	WMI_10_4_VDEV_PARAM_PROXY_STA,
+	WMI_10_4_VDEV_PARAM_MERU_VC,
+	WMI_10_4_VDEV_PARAM_RX_DECAP_TYPE,
+	WMI_10_4_VDEV_PARAM_BW_NSS_RATEMASK,
 };
 
 #define WMI_VDEV_PARAM_TXBF_SU_TX_BFEE BIT(0)
@@ -5668,6 +5806,7 @@ struct wmi_host_swba_event {
 	struct wmi_bcn_info bcn_info[0];
 } __packed;
 
+<<<<<<< HEAD
 struct wmi_10_2_4_bcn_info {
 	struct wmi_tim_info tim_info;
 	/* The 10.2.4 FW doesn't have p2p NOA info */
@@ -5678,6 +5817,8 @@ struct wmi_10_2_4_host_swba_event {
 	struct wmi_10_2_4_bcn_info bcn_info[0];
 } __packed;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* 16 words = 512 client + 1 word = for guard */
 #define WMI_10_4_TIM_BITMAP_ARRAY_SIZE 17
 
@@ -6125,6 +6266,18 @@ struct wmi_10_4_chan_info_event {
 	__le32 rx_frame_count;
 } __packed;
 
+struct wmi_10_4_chan_info_event {
+	__le32 err_code;
+	__le32 freq;
+	__le32 cmd_flags;
+	__le32 noise_floor;
+	__le32 rx_clear_count;
+	__le32 cycle_count;
+	__le32 chan_tx_pwr_range;
+	__le32 chan_tx_pwr_tp;
+	__le32 rx_frame_count;
+} __packed;
+
 struct wmi_peer_sta_kickout_event {
 	struct wmi_mac_addr peer_macaddr;
 } __packed;
@@ -6335,10 +6488,13 @@ struct wmi_ch_info_ev_arg {
 	__le32 chan_tx_pwr_range;
 	__le32 chan_tx_pwr_tp;
 	__le32 rx_frame_count;
+<<<<<<< HEAD
 	__le32 my_bss_rx_cycle_count;
 	__le32 rx_11b_mode_data_duration;
 	__le32 tx_frame_cnt;
 	__le32 mac_clk_mhz;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* From 10.4 firmware, not sure all have the same values. */
@@ -6383,8 +6539,11 @@ struct wmi_phyerr_hdr_arg {
 	u32 tsf_u32;
 	u32 buf_len;
 	const void *phyerrs;
+<<<<<<< HEAD
 	u32 phy_err_mask0;
 	u32 phy_err_mask1;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct wmi_svc_rdy_ev_arg {
@@ -6635,6 +6794,7 @@ struct wmi_pdev_set_adaptive_cca_params {
 	__le32 cca_detect_margin;
 } __packed;
 
+<<<<<<< HEAD
 enum wmi_host_platform_type {
 	WMI_HOST_PLATFORM_HIGH_PERF,
 	WMI_HOST_PLATFORM_LOW_PERF,
@@ -6650,6 +6810,8 @@ struct wmi_pdev_chan_info_req_cmd {
 	__le32 reserved;
 } __packed;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct ath10k;
 struct ath10k_vif;
 struct ath10k_fw_stats_pdev;
@@ -6751,8 +6913,11 @@ size_t ath10k_wmi_fw_stats_num_vdevs(struct list_head *head);
 void ath10k_wmi_10_4_op_fw_stats_fill(struct ath10k *ar,
 				      struct ath10k_fw_stats *fw_stats,
 				      char *buf);
+<<<<<<< HEAD
 int ath10k_wmi_op_get_vdev_subtype(struct ath10k *ar,
 				   enum wmi_vdev_subtype subtype);
 int ath10k_wmi_barrier(struct ath10k *ar);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /* _WMI_H_ */

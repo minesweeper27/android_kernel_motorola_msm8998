@@ -37,14 +37,22 @@ struct snd_usb_audio {
 	struct usb_interface *pm_intf;
 	u32 usb_id;
 	struct mutex mutex;
+<<<<<<< HEAD
 	unsigned int autosuspended:1;
+=======
+	unsigned int autosuspended:1;	
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	atomic_t active;
 	atomic_t shutdown;
 	atomic_t usage_count;
 	wait_queue_head_t shutdown_wait;
 	unsigned int txfr_quirk:1; /* Subframe boundaries on transfers */
 	unsigned int tx_length_quirk:1; /* Put length specifier in transfers */
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int num_interfaces;
 	int num_suspended_intf;
 	unsigned int capture_rate_max;

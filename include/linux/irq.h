@@ -73,7 +73,10 @@ enum irqchip_irq_state;
  *				  it from the spurious interrupt detection
  *				  mechanism and from core side polling.
  * IRQ_DISABLE_UNLAZY		- Disable lazy irq disable
+<<<<<<< HEAD
  * IRQ_AFFINITY_MANAGED		- Affinity is auto-managed by the kernel
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 enum {
 	IRQ_TYPE_NONE		= 0x00000000,
@@ -100,14 +103,21 @@ enum {
 	IRQ_PER_CPU_DEVID	= (1 << 17),
 	IRQ_IS_POLLED		= (1 << 18),
 	IRQ_DISABLE_UNLAZY	= (1 << 19),
+<<<<<<< HEAD
 	IRQ_AFFINITY_MANAGED	= (1 << 21),
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define IRQF_MODIFY_MASK	\
 	(IRQ_TYPE_SENSE_MASK | IRQ_NOPROBE | IRQ_NOREQUEST | \
 	 IRQ_NOAUTOEN | IRQ_MOVE_PCNTXT | IRQ_LEVEL | IRQ_NO_BALANCING | \
 	 IRQ_PER_CPU | IRQ_NESTED_THREAD | IRQ_NOTHREAD | IRQ_PER_CPU_DEVID | \
+<<<<<<< HEAD
 	 IRQ_IS_POLLED | IRQ_DISABLE_UNLAZY | IRQ_AFFINITY_MANAGED)
+=======
+	 IRQ_IS_POLLED | IRQ_DISABLE_UNLAZY)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define IRQ_NO_BALANCING_MASK	(IRQ_PER_CPU | IRQ_NO_BALANCING)
 
@@ -193,7 +203,10 @@ struct irq_data {
  * IRQD_IRQ_INPROGRESS		- In progress state of the interrupt
  * IRQD_WAKEUP_ARMED		- Wakeup mode armed
  * IRQD_FORWARDED_TO_VCPU	- The interrupt is forwarded to a VCPU
+<<<<<<< HEAD
  * IRQD_AFFINITY_MANAGED	- Affinity is auto-managed by the kernel
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 enum {
 	IRQD_TRIGGER_MASK		= 0xf,
@@ -209,7 +222,10 @@ enum {
 	IRQD_IRQ_INPROGRESS		= (1 << 18),
 	IRQD_WAKEUP_ARMED		= (1 << 19),
 	IRQD_FORWARDED_TO_VCPU		= (1 << 20),
+<<<<<<< HEAD
 	IRQD_AFFINITY_MANAGED		= (1 << 21),
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define __irqd_to_state(d)		((d)->common->state_use_accessors)
@@ -294,6 +310,7 @@ static inline bool irqd_is_forwarded_to_vcpu(struct irq_data *d)
 }
 
 static inline void irqd_set_forwarded_to_vcpu(struct irq_data *d)
+<<<<<<< HEAD
 {
 	__irqd_to_state(d) |= IRQD_FORWARDED_TO_VCPU;
 }
@@ -306,6 +323,15 @@ static inline void irqd_clr_forwarded_to_vcpu(struct irq_data *d)
 static inline bool irqd_affinity_is_managed(struct irq_data *d)
 {
 	return __irqd_to_state(d) & IRQD_AFFINITY_MANAGED;
+=======
+{
+	__irqd_to_state(d) |= IRQD_FORWARDED_TO_VCPU;
+}
+
+static inline void irqd_clr_forwarded_to_vcpu(struct irq_data *d)
+{
+	__irqd_to_state(d) &= ~IRQD_FORWARDED_TO_VCPU;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline irq_hw_number_t irqd_to_hwirq(struct irq_data *d)

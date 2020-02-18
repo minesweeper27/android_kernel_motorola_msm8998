@@ -27,8 +27,11 @@ static inline void tick_handover_do_timer(void) { }
 static inline void tick_cleanup_dead_cpu(int cpu) { }
 #endif /* !CONFIG_GENERIC_CLOCKEVENTS */
 
+<<<<<<< HEAD
 extern u64 jiffy_to_ktime_ns(u64 *now, u64 *jiffy_ktime_ns);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #if defined(CONFIG_GENERIC_CLOCKEVENTS) && defined(CONFIG_SUSPEND)
 extern void tick_freeze(void);
 extern void tick_unfreeze(void);
@@ -162,6 +165,7 @@ extern void __tick_nohz_task_switch(void);
 #else
 static inline int housekeeping_any_cpu(void)
 {
+<<<<<<< HEAD
 	cpumask_t available;
 	int cpu;
 
@@ -171,6 +175,9 @@ static inline int housekeeping_any_cpu(void)
 		cpu = smp_processor_id();
 
 	return cpu;
+=======
+	return smp_processor_id();
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 static inline bool tick_nohz_full_enabled(void) { return false; }
 static inline bool tick_nohz_full_cpu(int cpu) { return false; }
@@ -179,7 +186,19 @@ static inline void tick_nohz_full_kick_cpu(int cpu) { }
 static inline void tick_nohz_full_kick(void) { }
 static inline void tick_nohz_full_kick_all(void) { }
 static inline void __tick_nohz_task_switch(void) { }
+<<<<<<< HEAD
 #endif
+
+static inline const struct cpumask *housekeeping_cpumask(void)
+{
+#ifdef CONFIG_NO_HZ_FULL
+	if (tick_nohz_full_enabled())
+		return housekeeping_mask;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
+#endif
+	return cpu_possible_mask;
+}
 
 static inline const struct cpumask *housekeeping_cpumask(void)
 {

@@ -148,6 +148,7 @@ void *kmap_atomic_pfn(unsigned long pfn)
 
 	return (void *)vaddr;
 }
+<<<<<<< HEAD
 
 #ifdef CONFIG_ARCH_WANT_KMAP_ATOMIC_FLUSH
 static void kmap_remove_unused_cpu(int cpu)
@@ -203,3 +204,5 @@ static int __init init_kmap_atomic(void)
 }
 early_initcall(init_kmap_atomic);
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

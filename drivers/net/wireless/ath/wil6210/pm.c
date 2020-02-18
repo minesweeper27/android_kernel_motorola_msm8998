@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2014,2017 Qualcomm Atheros, Inc.
+=======
+ * Copyright (c) 2014 Qualcomm Atheros, Inc.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,12 +19,16 @@
  */
 
 #include "wil6210.h"
+<<<<<<< HEAD
 #include <linux/jiffies.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int wil_can_suspend(struct wil6210_priv *wil, bool is_runtime)
 {
 	int rc = 0;
 	struct wireless_dev *wdev = wil->wdev;
+<<<<<<< HEAD
 	struct net_device *ndev = wil_to_ndev(wil);
 
 	wil_dbg_pm(wil, "can_suspend: %s\n", is_runtime ? "runtime" : "system");
@@ -42,15 +50,24 @@ int wil_can_suspend(struct wil6210_priv *wil, bool is_runtime)
 	}
 
 	/* interface is running */
+=======
+
+	wil_dbg_pm(wil, "%s(%s)\n", __func__,
+		   is_runtime ? "runtime" : "system");
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (wdev->iftype) {
 	case NL80211_IFTYPE_MONITOR:
 	case NL80211_IFTYPE_STATION:
 	case NL80211_IFTYPE_P2P_CLIENT:
+<<<<<<< HEAD
 		if (test_bit(wil_status_fwconnecting, wil->status)) {
 			wil_dbg_pm(wil, "Delay suspend when connecting\n");
 			rc = -EBUSY;
 			goto out;
 		}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 	/* AP-like interface - can't suspend */
 	default:
@@ -59,6 +76,7 @@ int wil_can_suspend(struct wil6210_priv *wil, bool is_runtime)
 		break;
 	}
 
+<<<<<<< HEAD
 out:
 	wil_dbg_pm(wil, "can_suspend: %s => %s (%d)\n",
 		   is_runtime ? "runtime" : "system", rc ? "No" : "Yes", rc);
@@ -224,11 +242,25 @@ reject_suspend:
 }
 
 static int wil_suspend_radio_off(struct wil6210_priv *wil)
+=======
+	wil_dbg_pm(wil, "%s(%s) => %s (%d)\n", __func__,
+		   is_runtime ? "runtime" : "system", rc ? "No" : "Yes", rc);
+
+	return rc;
+}
+
+int wil_suspend(struct wil6210_priv *wil, bool is_runtime)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	int rc = 0;
 	struct net_device *ndev = wil_to_ndev(wil);
 
+<<<<<<< HEAD
 	wil_dbg_pm(wil, "suspend radio off\n");
+=======
+	wil_dbg_pm(wil, "%s(%s)\n", __func__,
+		   is_runtime ? "runtime" : "system");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* if netif up, hardware is alive, shut it down */
 	if (ndev->flags & IFF_UP) {
@@ -239,6 +271,7 @@ static int wil_suspend_radio_off(struct wil6210_priv *wil)
 		}
 	}
 
+<<<<<<< HEAD
 	/* Disable PCIe IRQ to prevent sporadic IRQs when PCIe is suspending */
 	wil_dbg_pm(wil, "Disabling PCIe IRQ before suspending\n");
 	wil_disable_irq(wil);
@@ -304,6 +337,14 @@ int wil_suspend(struct wil6210_priv *wil, bool is_runtime)
 	if (!rc)
 		wil->suspend_stats.suspend_start_time = ktime_get();
 
+=======
+	if (wil->platform_ops.suspend)
+		rc = wil->platform_ops.suspend(wil->platform_handle);
+
+out:
+	wil_dbg_pm(wil, "%s(%s) => %d\n", __func__,
+		   is_runtime ? "runtime" : "system", rc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return rc;
 }
 
@@ -311,6 +352,7 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 {
 	int rc = 0;
 	struct net_device *ndev = wil_to_ndev(wil);
+<<<<<<< HEAD
 	bool keep_radio_on = ndev->flags & IFF_UP &&
 			     wil->keep_radio_on_during_sleep;
 	unsigned long long suspend_time_usec = 0;
@@ -320,12 +362,21 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 	if (wil->platform_ops.resume) {
 		rc = wil->platform_ops.resume(wil->platform_handle,
 					      keep_radio_on);
+=======
+
+	wil_dbg_pm(wil, "%s(%s)\n", __func__,
+		   is_runtime ? "runtime" : "system");
+
+	if (wil->platform_ops.resume) {
+		rc = wil->platform_ops.resume(wil->platform_handle);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (rc) {
 			wil_err(wil, "platform_ops.resume : %d\n", rc);
 			goto out;
 		}
 	}
 
+<<<<<<< HEAD
 	if (keep_radio_on)
 		rc = wil_resume_keep_radio_on(wil);
 	else
@@ -346,5 +397,17 @@ int wil_resume(struct wil6210_priv *wil, bool is_runtime)
 out:
 	wil_dbg_pm(wil, "resume: %s => %d, suspend time %lld usec\n",
 		   is_runtime ? "runtime" : "system", rc, suspend_time_usec);
+=======
+	/* if netif up, bring hardware up
+	 * During open(), IFF_UP set after actual device method
+	 * invocation. This prevent recursive call to wil_up()
+	 */
+	if (ndev->flags & IFF_UP)
+		rc = wil_up(wil);
+
+out:
+	wil_dbg_pm(wil, "%s(%s) => %d\n", __func__,
+		   is_runtime ? "runtime" : "system", rc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return rc;
 }

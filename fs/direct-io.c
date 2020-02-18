@@ -399,7 +399,10 @@ static inline void dio_bio_submit(struct dio *dio, struct dio_submit *sdio)
 	if (dio->is_async && dio->rw == READ && dio->should_dirty)
 		bio_set_pages_dirty(bio);
 
+<<<<<<< HEAD
 	bio->bi_dio_inode = dio->inode;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dio->bio_bdev = bio->bi_bdev;
 
 	if (sdio->submit_io) {

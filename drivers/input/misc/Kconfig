@@ -821,6 +821,7 @@ config INPUT_DRV2665_HAPTICS
 	  To compile this driver as a module, choose M here: the
 	  module will be called drv2665-haptics.
 
+<<<<<<< HEAD
 config INPUT_SX9310
         tristate "SX9310_SAR_sensor"
         depends on I2C
@@ -837,6 +838,8 @@ config INPUT_SX933x
           Say Y to enable the SAR detection application, if N here not to use the
           this SAR sensor.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config INPUT_DRV2667_HAPTICS
 	tristate "TI DRV2667 haptics support"
 	depends on INPUT && I2C
@@ -847,6 +850,7 @@ config INPUT_DRV2667_HAPTICS
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called drv2667-haptics.
+<<<<<<< HEAD
 
 source "drivers/input/misc/ots_pat9125/Kconfig"
 
@@ -884,5 +888,7 @@ config INPUT_SX9310_TRIPLE
 	help
 	  Say Y to enable the SAR detection application, if N here not to use the
 	  this SAR sensor.
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 endif

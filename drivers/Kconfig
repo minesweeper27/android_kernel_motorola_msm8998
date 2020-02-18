@@ -206,6 +206,7 @@ source "drivers/hwtracing/intel_th/Kconfig"
 
 source "drivers/fpga/Kconfig"
 
+<<<<<<< HEAD
 source "drivers/firmware/Kconfig"
 
 source "drivers/bif/Kconfig"
@@ -214,4 +215,6 @@ source "drivers/sensors/Kconfig"
 
 source "drivers/tee/Kconfig"
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endmenu

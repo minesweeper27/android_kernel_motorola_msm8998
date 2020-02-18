@@ -98,6 +98,12 @@ static int change_memory_common(unsigned long addr, int numpages,
 
 	if (!numpages)
 		return 0;
+<<<<<<< HEAD
+=======
+
+	data.set_mask = set_mask;
+	data.clear_mask = clear_mask;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return __change_memory_common(start, size, set_mask, clear_mask);
 }

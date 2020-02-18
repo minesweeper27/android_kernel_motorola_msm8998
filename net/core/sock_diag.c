@@ -300,6 +300,7 @@ static int sock_diag_bind(struct net *net, int group)
 	return 0;
 }
 
+<<<<<<< HEAD
 int sock_diag_destroy(struct sock *sk, int err)
 {
 	if (!ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN))
@@ -312,6 +313,8 @@ int sock_diag_destroy(struct sock *sk, int err)
 }
 EXPORT_SYMBOL_GPL(sock_diag_destroy);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int __net_init diag_net_init(struct net *net)
 {
 	struct netlink_kernel_cfg cfg = {

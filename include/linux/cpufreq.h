@@ -398,9 +398,12 @@ static inline void cpufreq_resume(void) {}
 #define CPUFREQ_START			(2)
 #define CPUFREQ_CREATE_POLICY		(3)
 #define CPUFREQ_REMOVE_POLICY		(4)
+<<<<<<< HEAD
 
 /* Govinfo Notifiers */
 #define CPUFREQ_LOAD_CHANGE		(0)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_CPU_FREQ
 int cpufreq_register_notifier(struct notifier_block *nb, unsigned int list);

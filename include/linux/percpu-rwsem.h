@@ -10,12 +10,17 @@
 
 struct percpu_rw_semaphore {
 	struct rcu_sync		rss;
+<<<<<<< HEAD
 	unsigned int __percpu	*read_count;
+=======
+	unsigned int __percpu	*fast_read_ctr;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct rw_semaphore	rw_sem;
 	wait_queue_head_t	writer;
 	int			readers_block;
 };
 
+<<<<<<< HEAD
 extern int __percpu_down_read(struct percpu_rw_semaphore *, int);
 extern void __percpu_up_read(struct percpu_rw_semaphore *);
 
@@ -85,6 +90,11 @@ static inline void percpu_up_read(struct percpu_rw_semaphore *sem)
 
 	rwsem_release(&sem->rw_sem.dep_map, 1, _RET_IP_);
 }
+=======
+extern void percpu_down_read(struct percpu_rw_semaphore *);
+extern int  percpu_down_read_trylock(struct percpu_rw_semaphore *);
+extern void percpu_up_read(struct percpu_rw_semaphore *);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern void percpu_down_write(struct percpu_rw_semaphore *);
 extern void percpu_up_write(struct percpu_rw_semaphore *);
@@ -100,6 +110,10 @@ extern void percpu_free_rwsem(struct percpu_rw_semaphore *);
 	__percpu_init_rwsem(sem, #sem, &rwsem_key);		\
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define percpu_rwsem_is_held(sem) lockdep_is_held(&(sem)->rw_sem)
 
 static inline void percpu_rwsem_release(struct percpu_rw_semaphore *sem,

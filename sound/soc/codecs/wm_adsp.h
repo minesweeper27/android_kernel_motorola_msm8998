@@ -106,6 +106,7 @@ struct wm_adsp {
 
 	int fw;
 	int fw_ver;
+<<<<<<< HEAD
 
 	bool preloaded;
 	bool booted;
@@ -115,6 +116,9 @@ struct wm_adsp {
 	struct wm_adsp_fw_defs *firmwares;
 	struct snd_kcontrol_new fw_ctrl;
 	struct soc_enum fw_enum;
+=======
+	bool running;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	struct list_head ctl_list;
 

@@ -11,6 +11,7 @@ menuconfig INPUT_TOUCHSCREEN
 
 if INPUT_TOUCHSCREEN
 
+<<<<<<< HEAD
 source "drivers/input/touchscreen/synaptics_dsx/Kconfig"
 source "drivers/input/touchscreen/synaptics_mmi/Kconfig"
 source "drivers/input/touchscreen/focaltech_mmi/Kconfig"
@@ -18,6 +19,9 @@ source "drivers/input/touchscreen/synaptics_tcm/Kconfig"
 source "drivers/input/touchscreen/siw_mmi/Kconfig"
 
 config OF_TOUCHSCREEN
+=======
+config TOUCHSCREEN_PROPERTIES
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	def_tristate INPUT
 	depends on INPUT
 
@@ -1122,6 +1126,7 @@ config TOUCHSCREEN_COLIBRI_VF50
 	  To compile this driver as a module, choose M here: the
 	  module will be called colibri_vf50_ts.
 
+<<<<<<< HEAD
 config TOUCHSCREEN_FT5X06_PSENSOR
        tristate "FocalTech proximity feature support"
        depends on TOUCHSCREEN_FT5X06 && SENSORS
@@ -1150,6 +1155,8 @@ config TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE_EXTRA_SYSFS
 
 	  If unsure, say N.
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config TOUCHSCREEN_ROHM_BU21023
 	tristate "ROHM BU21023/24 Dual touch support resistive touchscreens"
 	depends on I2C
@@ -1161,6 +1168,7 @@ config TOUCHSCREEN_ROHM_BU21023
 	  To compile this driver as a module, choose M here: the
 	  module will be called bu21023_ts.
 
+<<<<<<< HEAD
 config TOUCHSCREEN_MAXIM_STI
 	tristate "Maxim based STI touchscreens"
 	depends on SPI_MASTER
@@ -1262,4 +1270,6 @@ config TOUCHSCREEN_ST
 source "drivers/input/touchscreen/st/Kconfig"
 source "drivers/input/touchscreen/gt9xx_mmi/Kconfig"
 source "drivers/input/touchscreen/nova_mmi/Kconfig"
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif

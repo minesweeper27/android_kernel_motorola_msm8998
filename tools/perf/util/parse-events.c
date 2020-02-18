@@ -285,8 +285,12 @@ static struct perf_evsel *
 __add_event(struct list_head *list, int *idx,
 	    struct perf_event_attr *attr,
 	    char *name, struct cpu_map *cpus,
+<<<<<<< HEAD
 	    struct list_head *config_terms,
 	    struct list_head *drv_config_terms)
+=======
+	    struct list_head *config_terms)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct perf_evsel *evsel;
 
@@ -306,9 +310,12 @@ __add_event(struct list_head *list, int *idx,
 	if (config_terms)
 		list_splice(config_terms, &evsel->config_terms);
 
+<<<<<<< HEAD
 	if (drv_config_terms)
 		list_splice(drv_config_terms, &evsel->drv_config_terms);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	list_add_tail(&evsel->node, list);
 	return evsel;
 }
@@ -317,8 +324,12 @@ static int add_event(struct list_head *list, int *idx,
 		     struct perf_event_attr *attr, char *name,
 		     struct list_head *config_terms)
 {
+<<<<<<< HEAD
 	return __add_event(list, idx, attr, name,
 			   NULL, config_terms, NULL) ? 0 : -ENOMEM;
+=======
+	return __add_event(list, idx, attr, name, NULL, config_terms) ? 0 : -ENOMEM;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int parse_aliases(char *str, const char *names[][PERF_EVSEL__MAX_ALIASES], int size)
@@ -445,12 +456,21 @@ static int add_tracepoint(struct list_head *list, int *idx,
 
 	if (head_config) {
 		LIST_HEAD(config_terms);
+<<<<<<< HEAD
 
 		if (get_config_terms(head_config, &config_terms))
 			return -ENOMEM;
 		list_splice(&config_terms, &evsel->config_terms);
 	}
 
+=======
+
+		if (get_config_terms(head_config, &config_terms))
+			return -ENOMEM;
+		list_splice(&config_terms, &evsel->config_terms);
+	}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	list_add_tail(&evsel->node, list);
 	return 0;
 }
@@ -829,8 +849,12 @@ static int config_term_pmu(struct perf_event_attr *attr,
 			   struct parse_events_term *term,
 			   struct parse_events_error *err)
 {
+<<<<<<< HEAD
 	if (term->type_term == PARSE_EVENTS__TERM_TYPE_USER ||
 	    term->type_term == PARSE_EVENTS__TERM_TYPE_DRV_CFG)
+=======
+	if (term->type_term == PARSE_EVENTS__TERM_TYPE_USER)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * Always succeed for sysfs terms, as we dont know
 		 * at this point what type they need to have.
@@ -876,7 +900,14 @@ static int config_attr(struct perf_event_attr *attr,
 	return 0;
 }
 
+<<<<<<< HEAD
 #define ADD_CONFIG_TERM(__type, __name, __val, __head_terms)	\
+=======
+static int get_config_terms(struct list_head *head_config,
+			    struct list_head *head_terms __maybe_unused)
+{
+#define ADD_CONFIG_TERM(__type, __name, __val)			\
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 do {								\
 	struct perf_evsel_config_term *__t;			\
 								\
@@ -887,17 +918,24 @@ do {								\
 	INIT_LIST_HEAD(&__t->list);				\
 	__t->type       = PERF_EVSEL__CONFIG_TERM_ ## __type;	\
 	__t->val.__name = __val;				\
+<<<<<<< HEAD
 	list_add_tail(&__t->list, __head_terms);		\
 } while (0)
 
 static int get_config_terms(struct list_head *head_config,
 			    struct list_head *head_terms __maybe_unused)
 {
+=======
+	list_add_tail(&__t->list, head_terms);			\
+} while (0)
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct parse_events_term *term;
 
 	list_for_each_entry(term, head_config, list) {
 		switch (term->type_term) {
 		case PARSE_EVENTS__TERM_TYPE_SAMPLE_PERIOD:
+<<<<<<< HEAD
 			ADD_CONFIG_TERM(PERIOD, period,
 					term->val.num, head_terms);
 			break;
@@ -924,6 +962,27 @@ static int get_config_terms(struct list_head *head_config,
 		case PARSE_EVENTS__TERM_TYPE_NOINHERIT:
 			ADD_CONFIG_TERM(INHERIT, inherit,
 					term->val.num ? 0 : 1, head_terms);
+=======
+			ADD_CONFIG_TERM(PERIOD, period, term->val.num);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_SAMPLE_FREQ:
+			ADD_CONFIG_TERM(FREQ, freq, term->val.num);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_TIME:
+			ADD_CONFIG_TERM(TIME, time, term->val.num);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_CALLGRAPH:
+			ADD_CONFIG_TERM(CALLGRAPH, callgraph, term->val.str);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_STACKSIZE:
+			ADD_CONFIG_TERM(STACK_USER, stack_user, term->val.num);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_INHERIT:
+			ADD_CONFIG_TERM(INHERIT, inherit, term->val.num ? 1 : 0);
+			break;
+		case PARSE_EVENTS__TERM_TYPE_NOINHERIT:
+			ADD_CONFIG_TERM(INHERIT, inherit, term->val.num ? 0 : 1);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			break;
 		default:
 			break;
@@ -933,6 +992,7 @@ static int get_config_terms(struct list_head *head_config,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int get_drv_config_terms(struct list_head *head_config,
 				struct list_head *head_terms)
 {
@@ -948,6 +1008,8 @@ static int get_drv_config_terms(struct list_head *head_config,
 	return 0;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int parse_events_add_tracepoint(struct list_head *list, int *idx,
 				char *sys, char *event,
 				struct parse_events_error *err,
@@ -1018,7 +1080,10 @@ int parse_events_add_pmu(struct parse_events_evlist *data,
 	struct perf_pmu *pmu;
 	struct perf_evsel *evsel;
 	LIST_HEAD(config_terms);
+<<<<<<< HEAD
 	LIST_HEAD(drv_config_terms);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pmu = perf_pmu__find(name);
 	if (!pmu)
@@ -1033,8 +1098,12 @@ int parse_events_add_pmu(struct parse_events_evlist *data,
 
 	if (!head_config) {
 		attr.type = pmu->type;
+<<<<<<< HEAD
 		evsel = __add_event(list, &data->idx, &attr,
 				    NULL, pmu->cpus, NULL, NULL);
+=======
+		evsel = __add_event(list, &data->idx, &attr, NULL, pmu->cpus, NULL);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return evsel ? 0 : -ENOMEM;
 	}
 
@@ -1051,15 +1120,22 @@ int parse_events_add_pmu(struct parse_events_evlist *data,
 	if (get_config_terms(head_config, &config_terms))
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	if (get_drv_config_terms(head_config, &drv_config_terms))
 		return -ENOMEM;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (perf_pmu__config(pmu, &attr, head_config, data->error))
 		return -EINVAL;
 
 	evsel = __add_event(list, &data->idx, &attr,
 			    pmu_event_name(head_config), pmu->cpus,
+<<<<<<< HEAD
 			    &config_terms, &drv_config_terms);
+=======
+			    &config_terms);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (evsel) {
 		evsel->unit = info.unit;
 		evsel->scale = info.scale;
@@ -1591,6 +1667,8 @@ static int set_filter(struct perf_evsel *evsel, const void *arg)
 	if (perf_evsel__append_filter(evsel, "&&", str) < 0) {
 		fprintf(stderr,
 			"not enough memory to hold filter string\n");
+<<<<<<< HEAD
+=======
 		return -1;
 	}
 
@@ -1622,12 +1700,47 @@ static int add_exclude_perf_filter(struct perf_evsel *evsel,
 	if (perf_evsel__append_filter(evsel, "&&", new_filter) < 0) {
 		fprintf(stderr,
 			"not enough memory to hold filter string\n");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -1;
 	}
 
 	return 0;
 }
 
+<<<<<<< HEAD
+int parse_filter(const struct option *opt, const char *str,
+		 int unset __maybe_unused)
+{
+	struct perf_evlist *evlist = *(struct perf_evlist **)opt->value;
+
+	return foreach_evsel_in_last_glob(evlist, set_filter,
+					  (const void *)str);
+}
+
+static int add_exclude_perf_filter(struct perf_evsel *evsel,
+				   const void *arg __maybe_unused)
+{
+	char new_filter[64];
+
+	if (evsel == NULL || evsel->attr.type != PERF_TYPE_TRACEPOINT) {
+		fprintf(stderr,
+			"--exclude-perf option should follow a -e tracepoint option\n");
+		return -1;
+	}
+
+	snprintf(new_filter, sizeof(new_filter), "common_pid != %d", getpid());
+
+	if (perf_evsel__append_filter(evsel, "&&", new_filter) < 0) {
+		fprintf(stderr,
+			"not enough memory to hold filter string\n");
+		return -1;
+	}
+
+	return 0;
+}
+
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int exclude_perf(const struct option *opt,
 		 const char *arg __maybe_unused,
 		 int unset __maybe_unused)

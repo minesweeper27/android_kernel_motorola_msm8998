@@ -18,7 +18,10 @@
 #include <linux/workqueue.h>
 #include <linux/kmod.h>
 #include <trace/events/power.h>
+<<<<<<< HEAD
 #include <linux/wakeup_reason.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/cpuset.h>
 
 /*

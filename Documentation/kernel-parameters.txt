@@ -926,11 +926,14 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
 
 	dis_ucode_ldr	[X86] Disable the microcode loader.
 
+<<<<<<< HEAD
 	dm=		[DM] Allows early creation of a device-mapper device.
 			See Documentation/device-mapper/boot.txt.
 
 	dmasound=	[HW,OSS] Sound subsystem buff
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dma_debug=off	If the kernel is compiled with DMA_API_DEBUG support,
 			this option disables the debugging code at boot.
 
@@ -948,7 +951,11 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
 			The filter can be disabled or changed to another
 			driver later using sysfs.
 
+<<<<<<< HEAD
 	drm.edid_firmware=[<connector>:]<file>[,[<connector>:]<file>]
+=======
+	drm_kms_helper.edid_firmware=[<connector>:]<file>[,[<connector>:]<file>]
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			Broken monitors, graphic adapters, KVMs and EDIDless
 			panels may send no or incorrect EDID data sets.
 			This parameter allows to specify an EDID data sets

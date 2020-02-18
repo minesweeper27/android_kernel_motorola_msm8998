@@ -22,6 +22,7 @@
 #include "txrx.h"
 #include "debug.h"
 
+<<<<<<< HEAD
 static u8 ath10k_htt_tx_txq_calc_size(size_t count)
 {
 	int exp;
@@ -100,6 +101,31 @@ static void __ath10k_htt_tx_txq_sync(struct ath10k *ar)
 {
 	u32 seq;
 	size_t size;
+=======
+void __ath10k_htt_tx_dec_pending(struct ath10k_htt *htt, bool limit_mgmt_desc)
+{
+	if (limit_mgmt_desc)
+		htt->num_pending_mgmt_tx--;
+
+	htt->num_pending_tx--;
+	if (htt->num_pending_tx == htt->max_num_pending_tx - 1)
+		ath10k_mac_tx_unlock(htt->ar, ATH10K_TX_PAUSE_Q_FULL);
+}
+
+static void ath10k_htt_tx_dec_pending(struct ath10k_htt *htt,
+				      bool limit_mgmt_desc)
+{
+	spin_lock_bh(&htt->tx_lock);
+	__ath10k_htt_tx_dec_pending(htt, limit_mgmt_desc);
+	spin_unlock_bh(&htt->tx_lock);
+}
+
+static int ath10k_htt_tx_inc_pending(struct ath10k_htt *htt,
+				     bool limit_mgmt_desc, bool is_probe_resp)
+{
+	struct ath10k *ar = htt->ar;
+	int ret = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	lockdep_assert_held(&ar->htt.tx_lock);
 
@@ -166,6 +192,15 @@ int ath10k_htt_tx_inc_pending(struct ath10k_htt *htt)
 
 	if (htt->num_pending_tx >= htt->max_num_pending_tx)
 		return -EBUSY;
+
+	if (limit_mgmt_desc) {
+		if (is_probe_resp && (htt->num_pending_mgmt_tx >
+		    ar->hw_params.max_probe_resp_desc_thres)) {
+			ret = -EBUSY;
+			goto exit;
+		}
+		htt->num_pending_mgmt_tx++;
+	}
 
 	htt->num_pending_tx++;
 	if (htt->num_pending_tx == htt->max_num_pending_tx)
@@ -345,11 +380,16 @@ int ath10k_htt_tx_alloc(struct ath10k_htt *htt)
 	size = htt->max_num_pending_tx * sizeof(struct ath10k_htt_txbuf);
 	htt->txbuf.vaddr = dma_alloc_coherent(ar->dev, size,
 						  &htt->txbuf.paddr,
+<<<<<<< HEAD
 						  GFP_KERNEL);
+=======
+						  GFP_DMA);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!htt->txbuf.vaddr) {
 		ath10k_err(ar, "failed to alloc tx buffer\n");
 		ret = -ENOMEM;
 		goto free_idr_pending_tx;
+<<<<<<< HEAD
 	}
 
 	ret = ath10k_htt_tx_alloc_cont_frag_desc(htt);
@@ -369,25 +409,49 @@ int ath10k_htt_tx_alloc(struct ath10k_htt *htt)
 	if (ret) {
 		ath10k_err(ar, "failed to alloc txdone fifo: %d\n", ret);
 		goto free_txq;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
+	if (!ar->hw_params.continuous_frag_desc)
+		goto skip_frag_desc_alloc;
+
+	size = htt->max_num_pending_tx * sizeof(struct htt_msdu_ext_desc);
+	htt->frag_desc.vaddr = dma_alloc_coherent(ar->dev, size,
+						  &htt->frag_desc.paddr,
+						  GFP_DMA);
+	if (!htt->frag_desc.vaddr) {
+		ath10k_warn(ar, "failed to alloc fragment desc memory\n");
+		ret = -ENOMEM;
+		goto free_txbuf;
+	}
+
+skip_frag_desc_alloc:
 	return 0;
 
+<<<<<<< HEAD
 free_txq:
 	ath10k_htt_tx_free_txq(htt);
 
 free_frag_desc:
 	ath10k_htt_tx_free_cont_frag_desc(htt);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 free_txbuf:
 	size = htt->max_num_pending_tx *
 			  sizeof(struct ath10k_htt_txbuf);
 	dma_free_coherent(htt->ar->dev, size, htt->txbuf.vaddr,
 			  htt->txbuf.paddr);
+<<<<<<< HEAD
 
 free_idr_pending_tx:
 	idr_destroy(&htt->pending_tx);
 
+=======
+free_idr_pending_tx:
+	idr_destroy(&htt->pending_tx);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 
@@ -421,10 +485,19 @@ void ath10k_htt_tx_free(struct ath10k_htt *htt)
 				  htt->txbuf.paddr);
 	}
 
+<<<<<<< HEAD
 	ath10k_htt_tx_free_txq(htt);
 	ath10k_htt_tx_free_cont_frag_desc(htt);
 	WARN_ON(!kfifo_is_empty(&htt->txdone_fifo));
 	kfifo_free(&htt->txdone_fifo);
+=======
+	if (htt->frag_desc.vaddr) {
+		size = htt->max_num_pending_tx *
+				  sizeof(struct htt_msdu_ext_desc);
+		dma_free_coherent(htt->ar->dev, size, htt->frag_desc.vaddr,
+				  htt->frag_desc.paddr);
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void ath10k_htt_htc_tx_complete(struct ath10k *ar, struct sk_buff *skb)
@@ -508,6 +581,7 @@ int ath10k_htt_h2t_stats_req(struct ath10k_htt *htt, u8 mask, u64 cookie)
 	return 0;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_ATH10K_SNOC
 static inline
 void ath10k_htt_fill_rx_ring_cfg(struct ath10k_htt *htt,
@@ -597,14 +671,20 @@ u32 ath10k_htt_get_paddr_hi(dma_addr_t paddr)
 }
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int ath10k_htt_send_frag_desc_bank_cfg(struct ath10k_htt *htt)
 {
 	struct ath10k *ar = htt->ar;
 	struct sk_buff *skb;
 	struct htt_cmd *cmd;
+<<<<<<< HEAD
 	struct htt_frag_desc_bank_cfg *cfg;
 	int ret, size;
 	u8 info;
+=======
+	int ret, size;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!ar->hw_params.continuous_frag_desc)
 		return 0;
@@ -622,6 +702,7 @@ int ath10k_htt_send_frag_desc_bank_cfg(struct ath10k_htt *htt)
 	skb_put(skb, size);
 	cmd = (struct htt_cmd *)skb->data;
 	cmd->hdr.msg_type = HTT_H2T_MSG_TYPE_FRAG_DESC_BANK_CFG;
+<<<<<<< HEAD
 
 	info = 0;
 	info |= SM(htt->tx_q_state.type,
@@ -647,6 +728,16 @@ int ath10k_htt_send_frag_desc_bank_cfg(struct ath10k_htt *htt)
 	cfg->q_state.record_multiplier = HTT_TX_Q_STATE_ENTRY_MULTIPLIER;
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT, "htt frag desc bank cmd\n");
+=======
+	cmd->frag_desc_bank_cfg.info = 0;
+	cmd->frag_desc_bank_cfg.num_banks = 1;
+	cmd->frag_desc_bank_cfg.desc_size = sizeof(struct htt_msdu_ext_desc);
+	cmd->frag_desc_bank_cfg.bank_base_addrs[0] =
+				__cpu_to_le32(htt->frag_desc.paddr);
+	cmd->frag_desc_bank_cfg.bank_id[0].bank_min_id = 0;
+	cmd->frag_desc_bank_cfg.bank_id[0].bank_max_id =
+				__cpu_to_le16(htt->max_num_pending_tx - 1);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = ath10k_htc_send(&htt->ar->htc, htt->eid, skb);
 	if (ret) {
@@ -882,6 +973,23 @@ int ath10k_htt_mgmt_tx(struct ath10k_htt *htt, struct sk_buff *msdu)
 	int msdu_id = -1;
 	int res;
 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)msdu->data;
+<<<<<<< HEAD
+=======
+	bool limit_mgmt_desc = false;
+	bool is_probe_resp = false;
+
+	if (ar->hw_params.max_probe_resp_desc_thres) {
+		limit_mgmt_desc = true;
+
+		if (ieee80211_is_probe_resp(hdr->frame_control))
+			is_probe_resp = true;
+	}
+
+	res = ath10k_htt_tx_inc_pending(htt, limit_mgmt_desc, is_probe_resp);
+
+	if (res)
+		goto err;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	len += sizeof(cmd->hdr);
 	len += sizeof(cmd->mgmt_tx);
@@ -890,6 +998,7 @@ int ath10k_htt_mgmt_tx(struct ath10k_htt *htt, struct sk_buff *msdu)
 	res = ath10k_htt_tx_alloc_msdu_id(htt, msdu);
 	spin_unlock_bh(&htt->tx_lock);
 	if (res < 0)
+<<<<<<< HEAD
 		goto err;
 
 	msdu_id = res;
@@ -900,6 +1009,11 @@ int ath10k_htt_mgmt_tx(struct ath10k_htt *htt, struct sk_buff *msdu)
 	     ieee80211_has_protected(hdr->frame_control)) {
 		skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
 	}
+=======
+		goto err_tx_dec;
+
+	msdu_id = res;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	txdesc = ath10k_htc_alloc_skb(ar, len);
 	if (!txdesc) {
@@ -941,6 +1055,11 @@ err_free_msdu_id:
 	spin_lock_bh(&htt->tx_lock);
 	ath10k_htt_tx_free_msdu_id(htt, msdu_id);
 	spin_unlock_bh(&htt->tx_lock);
+<<<<<<< HEAD
+=======
+err_tx_dec:
+	ath10k_htt_tx_dec_pending(htt, limit_mgmt_desc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 err:
 	return res;
 }
@@ -963,35 +1082,72 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 	int res;
 	u8 flags0 = 0;
 	u16 msdu_id, flags1 = 0;
+<<<<<<< HEAD
 	u16 freq = 0;
 	dma_addr_t frags_paddr = 0;
 	u32 txbuf_paddr;
 	struct htt_msdu_ext_desc *ext_desc = NULL;
+=======
+	u32 frags_paddr = 0;
+	struct htt_msdu_ext_desc *ext_desc = NULL;
+	bool limit_mgmt_desc = false;
+	bool is_probe_resp = false;
+
+	if (unlikely(ieee80211_is_mgmt(hdr->frame_control)) &&
+	    ar->hw_params.max_probe_resp_desc_thres) {
+		limit_mgmt_desc = true;
+
+		if (ieee80211_is_probe_resp(hdr->frame_control))
+			is_probe_resp = true;
+	}
+
+	res = ath10k_htt_tx_inc_pending(htt, limit_mgmt_desc, is_probe_resp);
+	if (res)
+		goto err;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	spin_lock_bh(&htt->tx_lock);
 	res = ath10k_htt_tx_alloc_msdu_id(htt, msdu);
 	spin_unlock_bh(&htt->tx_lock);
 	if (res < 0)
+<<<<<<< HEAD
 		goto err;
+=======
+		goto err_tx_dec;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	msdu_id = res;
 
 	prefetch_len = min(htt->prefetch_len, msdu->len);
 	prefetch_len = roundup(prefetch_len, 4);
 
+<<<<<<< HEAD
 	txbuf = &htt->txbuf.vaddr[msdu_id];
 	txbuf_paddr = htt->txbuf.paddr +
 		      (sizeof(struct ath10k_htt_txbuf) * msdu_id);
+=======
+	skb_cb->htt.txbuf = &htt->txbuf.vaddr[msdu_id];
+	skb_cb->htt.txbuf_paddr = htt->txbuf.paddr +
+		(sizeof(struct ath10k_htt_txbuf) * msdu_id);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if ((ieee80211_is_action(hdr->frame_control) ||
 	     ieee80211_is_deauth(hdr->frame_control) ||
 	     ieee80211_is_disassoc(hdr->frame_control)) &&
 	     ieee80211_has_protected(hdr->frame_control)) {
+<<<<<<< HEAD
 		skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
 	} else if (!(skb_cb->flags & ATH10K_SKB_F_NO_HWCRYPT) &&
 		   txmode == ATH10K_HW_TXRX_RAW &&
 		   ieee80211_has_protected(hdr->frame_control)) {
 		skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
+=======
+		skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
+	} else if (!skb_cb->htt.nohwcrypt &&
+		   skb_cb->txmode == ATH10K_HW_TXRX_RAW &&
+		   ieee80211_has_protected(hdr->frame_control)) {
+		skb_put(msdu, IEEE80211_CCMP_MIC_LEN);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	skb_cb->paddr = dma_map_single(dev, msdu->data, msdu->len,
@@ -1001,9 +1157,12 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 		res = -EIO;
 		goto err_free_msdu_id;
 	}
+<<<<<<< HEAD
 
 	if (unlikely(info->flags & IEEE80211_TX_CTL_TX_OFFCHAN))
 		freq = ar->scan.roc_freq;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	switch (txmode) {
 	case ATH10K_HW_TXRX_RAW:
@@ -1019,18 +1178,35 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 			ext_desc = &htt->frag_desc.vaddr[msdu_id];
 			frags[0].tword_addr.paddr_lo =
 				__cpu_to_le32(skb_cb->paddr);
+<<<<<<< HEAD
 			frags[0].tword_addr.paddr_hi =
 				ath10k_htt_get_paddr_hi(skb_cb->paddr);
+=======
+			frags[0].tword_addr.paddr_hi = 0;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			frags[0].tword_addr.len_16 = __cpu_to_le16(msdu->len);
 
 			frags_paddr =  htt->frag_desc.paddr +
 				(sizeof(struct htt_msdu_ext_desc) * msdu_id);
 		} else {
+<<<<<<< HEAD
 			frags = txbuf->frags;
 			ath10k_htt_fill_frags(frags, msdu, skb_cb);
 			frags_paddr = txbuf_paddr;
 		}
 		flags0 |= SM(txmode, HTT_DATA_TX_DESC_FLAGS0_PKT_TYPE);
+=======
+			frags = skb_cb->htt.txbuf->frags;
+			frags[0].dword_addr.paddr =
+				__cpu_to_le32(skb_cb->paddr);
+			frags[0].dword_addr.len = __cpu_to_le32(msdu->len);
+			frags[1].dword_addr.paddr = 0;
+			frags[1].dword_addr.len = 0;
+
+			frags_paddr = skb_cb->htt.txbuf_paddr;
+		}
+		flags0 |= SM(skb_cb->txmode, HTT_DATA_TX_DESC_FLAGS0_PKT_TYPE);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 	case ATH10K_HW_TXRX_MGMT:
 		flags0 |= SM(ATH10K_HW_TXRX_MGMT,
@@ -1063,7 +1239,14 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 					   prefetch_len);
 	txbuf->htc_hdr.flags = 0;
 
+<<<<<<< HEAD
 	if (skb_cb->flags & ATH10K_SKB_F_NO_HWCRYPT)
+=======
+	if (skb_cb->htt.nohwcrypt)
+		flags0 |= HTT_DATA_TX_DESC_FLAGS0_NO_ENCRYPT;
+
+	if (!skb_cb->is_protected)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		flags0 |= HTT_DATA_TX_DESC_FLAGS0_NO_ENCRYPT;
 
 	flags1 |= SM((u16)vdev_id, HTT_DATA_TX_DESC_FLAGS1_VDEV_ID);
@@ -1072,6 +1255,7 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 	    !test_bit(ATH10K_FLAG_RAW_MODE, &ar->dev_flags)) {
 		flags1 |= HTT_DATA_TX_DESC_FLAGS1_CKSUM_L3_OFFLOAD;
 		flags1 |= HTT_DATA_TX_DESC_FLAGS1_CKSUM_L4_OFFLOAD;
+<<<<<<< HEAD
 		if (ar->hw_params.continuous_frag_desc) {
 			ext_desc->flags |= HTT_MSDU_CHECKSUM_ENABLE;
 			if (QCA_REV_WCN3990(ar)) {
@@ -1080,6 +1264,10 @@ int ath10k_htt_tx(struct ath10k_htt *htt, enum ath10k_hw_txrx_mode txmode,
 				ext_desc->tso_flag[3] |= HTT_TX_CHECKSUM_ENABLE;
 			}
 		}
+=======
+		if (ar->hw_params.continuous_frag_desc)
+			ext_desc->flags |= HTT_MSDU_CHECKSUM_ENABLE;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/* Prevent firmware from sending up tx inspection requests. There's
@@ -1143,6 +1331,12 @@ err_unmap_msdu:
 	dma_unmap_single(dev, skb_cb->paddr, msdu->len, DMA_TO_DEVICE);
 err_free_msdu_id:
 	ath10k_htt_tx_free_msdu_id(htt, msdu_id);
+<<<<<<< HEAD
+=======
+	spin_unlock_bh(&htt->tx_lock);
+err_tx_dec:
+	ath10k_htt_tx_dec_pending(htt, limit_mgmt_desc);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 err:
 	return res;
 }

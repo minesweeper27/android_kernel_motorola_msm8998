@@ -24,10 +24,13 @@
 #include <linux/init.h>
 #include <linux/nmi.h>
 #include <linux/console.h>
+<<<<<<< HEAD
 #include <soc/qcom/minidump.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/exception.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define PANIC_TIMER_STEP 100
 #define PANIC_BLINK_SPD 18

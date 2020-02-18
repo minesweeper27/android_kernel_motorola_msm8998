@@ -359,6 +359,7 @@ static void push_rt_tasks(struct rq *);
 static void pull_rt_task(struct rq *);
 
 static inline void queue_push_tasks(struct rq *rq)
+<<<<<<< HEAD
 {
 	if (!has_pushable_tasks(rq))
 		return;
@@ -368,6 +369,17 @@ static inline void queue_push_tasks(struct rq *rq)
 
 static inline void queue_pull_task(struct rq *rq)
 {
+=======
+{
+	if (!has_pushable_tasks(rq))
+		return;
+
+	queue_balance_callback(rq, &per_cpu(rt_push_head, rq->cpu), push_rt_tasks);
+}
+
+static inline void queue_pull_task(struct rq *rq)
+{
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	queue_balance_callback(rq, &per_cpu(rt_pull_head, rq->cpu), pull_rt_task);
 }
 

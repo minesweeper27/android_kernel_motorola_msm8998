@@ -132,6 +132,10 @@ static void dm_hook_bio(struct dm_hook_info *h, struct bio *bio,
 static void dm_unhook_bio(struct dm_hook_info *h, struct bio *bio)
 {
 	bio->bi_end_io = h->bi_end_io;
+<<<<<<< HEAD
+=======
+	bio->bi_private = h->bi_private;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*----------------------------------------------------------------*/

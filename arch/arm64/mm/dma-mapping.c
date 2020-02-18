@@ -39,7 +39,10 @@
 
 #include "mm.h"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static pgprot_t __get_dma_pgprot(struct dma_attrs *attrs, pgprot_t prot,
 				 bool coherent)
 {
@@ -221,7 +224,12 @@ static void *__dma_alloc(struct device *dev, size_t size,
 {
 	struct page *page;
 	void *ptr, *coherent_ptr;
+<<<<<<< HEAD
 	bool coherent = is_dma_coherent(dev, attrs);
+=======
+	bool coherent = is_device_dma_coherent(dev);
+	pgprot_t prot = __get_dma_pgprot(attrs, PAGE_KERNEL, false);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	size = PAGE_ALIGN(size);
 
@@ -243,6 +251,7 @@ static void *__dma_alloc(struct device *dev, size_t size,
 	if (coherent)
 		return ptr;
 
+<<<<<<< HEAD
 	if (dma_get_attr(DMA_ATTR_NO_KERNEL_MAPPING, attrs)) {
 		coherent_ptr = (void *)NO_KERNEL_MAPPING_DUMMY;
 	} else {
@@ -259,6 +268,18 @@ static void *__dma_alloc(struct device *dev, size_t size,
 		if (!coherent_ptr)
 			goto no_map;
 	}
+=======
+	/* remove any dirty cache lines on the kernel alias */
+	__dma_flush_range(ptr, ptr + size);
+
+	/* create a coherent mapping */
+	page = virt_to_page(ptr);
+	coherent_ptr = dma_common_contiguous_remap(page, size, VM_USERMAP,
+						   prot, NULL);
+	if (!coherent_ptr)
+		goto no_map;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return coherent_ptr;
 
 no_map:
@@ -399,7 +420,11 @@ static int __swiotlb_mmap(struct device *dev,
 	unsigned long off = vma->vm_pgoff;
 
 	vma->vm_page_prot = __get_dma_pgprot(attrs, vma->vm_page_prot,
+<<<<<<< HEAD
 					     is_dma_coherent(dev, attrs));
+=======
+					     is_device_dma_coherent(dev));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
 		return ret;
@@ -425,6 +450,7 @@ static int __swiotlb_get_sgtable(struct device *dev, struct sg_table *sgt,
 			    PAGE_ALIGN(size), 0);
 
 	return ret;
+<<<<<<< HEAD
 }
 
 static void *arm64_dma_remap(struct device *dev, void *cpu_addr,
@@ -474,6 +500,8 @@ static void arm64_dma_unremap(struct device *dev, void *remapped_addr,
 	vunmap(remapped_addr);
 	flush_tlb_kernel_range((unsigned long)remapped_addr,
 			(unsigned long)(remapped_addr + size));
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static struct dma_map_ops swiotlb_dma_ops = {
@@ -564,7 +592,10 @@ static void *__dummy_alloc(struct device *dev, size_t size,
 			   dma_addr_t *dma_handle, gfp_t flags,
 			   struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	WARN(1, "dma alloc failure, device may be missing a call to arch_setup_dma_ops");
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return NULL;
 }
 
@@ -680,7 +711,11 @@ static void *__iommu_alloc_attrs(struct device *dev, size_t size,
 				 dma_addr_t *handle, gfp_t gfp,
 				 struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	bool coherent = is_dma_coherent(dev, attrs);
+=======
+	bool coherent = is_device_dma_coherent(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int ioprot = dma_direction_to_prot(DMA_BIDIRECTIONAL, coherent);
 	size_t iosize = size;
 	void *addr;
@@ -762,7 +797,11 @@ static void __iommu_free_attrs(struct device *dev, size_t size, void *cpu_addr,
 		if (WARN_ON(!area || !area->pages))
 			return;
 		iommu_dma_free(dev, area->pages, iosize, &handle);
+<<<<<<< HEAD
 		dma_common_free_remap(cpu_addr, size, VM_USERMAP, true);
+=======
+		dma_common_free_remap(cpu_addr, size, VM_USERMAP);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} else {
 		iommu_dma_unmap_page(dev, handle, iosize, 0, NULL);
 		__free_pages(virt_to_page(cpu_addr), get_order(size));
@@ -777,7 +816,11 @@ static int __iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
 	int ret;
 
 	vma->vm_page_prot = __get_dma_pgprot(attrs, vma->vm_page_prot,
+<<<<<<< HEAD
 					     is_dma_coherent(dev, attrs));
+=======
+					     is_device_dma_coherent(dev));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (dma_mmap_from_coherent(dev, vma, cpu_addr, size, &ret))
 		return ret;
@@ -834,7 +877,11 @@ static dma_addr_t __iommu_map_page(struct device *dev, struct page *page,
 				   enum dma_data_direction dir,
 				   struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	bool coherent = is_dma_coherent(dev, attrs);
+=======
+	bool coherent = is_device_dma_coherent(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int prot = dma_direction_to_prot(dir, coherent);
 	dma_addr_t dev_addr = iommu_dma_map_page(dev, page, offset, size, prot);
 
@@ -887,7 +934,11 @@ static int __iommu_map_sg_attrs(struct device *dev, struct scatterlist *sgl,
 				int nelems, enum dma_data_direction dir,
 				struct dma_attrs *attrs)
 {
+<<<<<<< HEAD
 	bool coherent = is_dma_coherent(dev, attrs);
+=======
+	bool coherent = is_device_dma_coherent(dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!dma_get_attr(DMA_ATTR_SKIP_CPU_SYNC, attrs))
 		__iommu_sync_sg_for_device(dev, sgl, nelems, dir);
@@ -920,6 +971,10 @@ static struct dma_map_ops iommu_dma_ops = {
 	.sync_single_for_device = __iommu_sync_single_for_device,
 	.sync_sg_for_cpu = __iommu_sync_sg_for_cpu,
 	.sync_sg_for_device = __iommu_sync_sg_for_device,
+<<<<<<< HEAD
+=======
+	.dma_supported = iommu_dma_supported,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.mapping_error = iommu_dma_mapping_error,
 };
 
@@ -1033,7 +1088,11 @@ static int __iommu_attach_notifier(struct notifier_block *nb,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int __init register_iommu_dma_ops_notifier(struct bus_type *bus)
+=======
+static int register_iommu_dma_ops_notifier(struct bus_type *bus)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct notifier_block *nb = kzalloc(sizeof(*nb), GFP_KERNEL);
 	int ret;
@@ -1130,6 +1189,7 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
 	dev->archdata.dma_coherent = coherent;
 	__iommu_setup_dma_ops(dev, dma_base, size, iommu);
 }
+<<<<<<< HEAD
 EXPORT_SYMBOL(arch_setup_dma_ops);
 
 #ifdef CONFIG_ARM64_DMA_USE_IOMMU
@@ -2048,3 +2108,5 @@ void arm_iommu_detach_device(struct device *dev)
 EXPORT_SYMBOL(arm_iommu_detach_device);
 
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -16,7 +16,10 @@
 #include <linux/err.h>
 #include <linux/jiffies.h>
 #include <linux/kernel.h>
+<<<<<<< HEAD
 #include <linux/ktime.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/pm_domain.h>
 #include <linux/regmap.h>
 #include <linux/reset-controller.h>
@@ -43,12 +46,20 @@
 
 #define domain_to_gdsc(domain) container_of(domain, struct gdsc, pd)
 
+<<<<<<< HEAD
 static int gdsc_is_enabled(struct gdsc *sc, unsigned int reg)
+=======
+static int gdsc_is_enabled(struct gdsc *sc)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	u32 val;
 	int ret;
 
+<<<<<<< HEAD
 	ret = regmap_read(sc->regmap, reg, &val);
+=======
+	ret = regmap_read(sc->regmap, sc->gdscr, &val);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret)
 		return ret;
 
@@ -59,13 +70,19 @@ static int gdsc_toggle_logic(struct gdsc *sc, bool en)
 {
 	int ret;
 	u32 val = en ? 0 : SW_COLLAPSE_MASK;
+<<<<<<< HEAD
 	ktime_t start;
 	unsigned int status_reg = sc->gdscr;
+=======
+	u32 check = en ? PWR_ON_MASK : 0;
+	unsigned long timeout;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = regmap_update_bits(sc->regmap, sc->gdscr, SW_COLLAPSE_MASK, val);
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	/* If disabling votable gdscs, don't poll on status */
 	if ((sc->flags & VOTABLE) && !en) {
 		/*
@@ -99,6 +116,23 @@ static int gdsc_toggle_logic(struct gdsc *sc, bool en)
 	} while (ktime_us_delta(ktime_get(), start) < TIMEOUT_US);
 
 	if (gdsc_is_enabled(sc, status_reg) == en)
+=======
+	timeout = jiffies + usecs_to_jiffies(TIMEOUT_US);
+	do {
+		ret = regmap_read(sc->regmap, sc->gdscr, &val);
+		if (ret)
+			return ret;
+
+		if ((val & PWR_ON_MASK) == check)
+			return 0;
+	} while (time_before(jiffies, timeout));
+
+	ret = regmap_read(sc->regmap, sc->gdscr, &val);
+	if (ret)
+		return ret;
+
+	if ((val & PWR_ON_MASK) == check)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return 0;
 
 	return -ETIMEDOUT;
@@ -184,7 +218,10 @@ static int gdsc_init(struct gdsc *sc)
 {
 	u32 mask, val;
 	int on, ret;
+<<<<<<< HEAD
 	unsigned int reg;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Disable HW trigger: collapse/restore occur based on registers writes.
@@ -205,6 +242,7 @@ static int gdsc_init(struct gdsc *sc)
 			return ret;
 	}
 
+<<<<<<< HEAD
 	reg = sc->gds_hw_ctrl ? sc->gds_hw_ctrl : sc->gdscr;
 	on = gdsc_is_enabled(sc, reg);
 	if (on < 0)
@@ -217,6 +255,12 @@ static int gdsc_init(struct gdsc *sc)
 	if ((sc->flags & VOTABLE) && on)
 		gdsc_enable(&sc->pd);
 
+=======
+	on = gdsc_is_enabled(sc);
+	if (on < 0)
+		return on;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (on || (sc->pwrsts & PWRSTS_RET))
 		gdsc_force_mem_on(sc);
 	else
@@ -229,14 +273,21 @@ static int gdsc_init(struct gdsc *sc)
 	return 0;
 }
 
+<<<<<<< HEAD
 int gdsc_register(struct gdsc_desc *desc,
+=======
+int gdsc_register(struct device *dev, struct gdsc **scs, size_t num,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		  struct reset_controller_dev *rcdev, struct regmap *regmap)
 {
 	int i, ret;
 	struct genpd_onecell_data *data;
+<<<<<<< HEAD
 	struct device *dev = desc->dev;
 	struct gdsc **scs = desc->scs;
 	size_t num = desc->num;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
 	if (!data)
@@ -259,6 +310,7 @@ int gdsc_register(struct gdsc_desc *desc,
 		data->domains[i] = &scs[i]->pd;
 	}
 
+<<<<<<< HEAD
 	/* Add subdomains */
 	for (i = 0; i < num; i++) {
 		if (!scs[i])
@@ -284,5 +336,12 @@ void gdsc_unregister(struct gdsc_desc *desc)
 		if (scs[i]->parent)
 			pm_genpd_remove_subdomain(scs[i]->parent, &scs[i]->pd);
 	}
+=======
+	return of_genpd_add_provider_onecell(dev->of_node, data);
+}
+
+void gdsc_unregister(struct device *dev)
+{
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	of_genpd_del_provider(dev->of_node);
 }

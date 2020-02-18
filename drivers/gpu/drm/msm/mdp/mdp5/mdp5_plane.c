@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (C) 2014-2015, 2018 The Linux Foundation. All rights reserved.
+=======
+ * Copyright (C) 2014-2015 The Linux Foundation. All rights reserved.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
  *
@@ -126,6 +130,7 @@ static void mdp5_plane_install_properties(struct drm_plane *plane,
 #undef INSTALL_RANGE_PROPERTY
 #undef INSTALL_ENUM_PROPERTY
 #undef INSTALL_PROPERTY
+<<<<<<< HEAD
 }
 
 static int mdp5_plane_atomic_set_property(struct drm_plane *plane,
@@ -159,6 +164,13 @@ done:
 static int mdp5_plane_atomic_get_property(struct drm_plane *plane,
 		const struct drm_plane_state *state,
 		struct drm_property *property, uint64_t *val)
+=======
+}
+
+static int mdp5_plane_atomic_set_property(struct drm_plane *plane,
+		struct drm_plane_state *state, struct drm_property *property,
+		uint64_t val)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct drm_device *dev = plane->dev;
 	struct mdp5_plane_state *pstate;
@@ -167,6 +179,37 @@ static int mdp5_plane_atomic_get_property(struct drm_plane *plane,
 
 	pstate = to_mdp5_plane_state(state);
 
+<<<<<<< HEAD
+=======
+#define SET_PROPERTY(name, NAME, type) do { \
+		if (dev_priv->plane_property[PLANE_PROP_##NAME] == property) { \
+			pstate->name = (type)val; \
+			DBG("Set property %s %d", #name, (type)val); \
+			goto done; \
+		} \
+	} while (0)
+
+	SET_PROPERTY(zpos, ZPOS, uint8_t);
+
+	dev_err(dev->dev, "Invalid property\n");
+	ret = -EINVAL;
+done:
+	return ret;
+#undef SET_PROPERTY
+}
+
+static int mdp5_plane_atomic_get_property(struct drm_plane *plane,
+		const struct drm_plane_state *state,
+		struct drm_property *property, uint64_t *val)
+{
+	struct drm_device *dev = plane->dev;
+	struct mdp5_plane_state *pstate;
+	struct msm_drm_private *dev_priv = dev->dev_private;
+	int ret = 0;
+
+	pstate = to_mdp5_plane_state(state);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define GET_PROPERTY(name, NAME, type) do { \
 		if (dev_priv->plane_property[PLANE_PROP_##NAME] == property) { \
 			*val = pstate->name; \
@@ -204,6 +247,18 @@ static void mdp5_plane_reset(struct drm_plane *plane)
 	else
 		mdp5_state->zpos = STAGE0 + drm_plane_index(plane);
 
+<<<<<<< HEAD
+=======
+	/* assign default blend parameters */
+	mdp5_state->alpha = 255;
+	mdp5_state->premultiplied = 0;
+
+	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
+		mdp5_state->zpos = STAGE_BASE;
+	else
+		mdp5_state->zpos = STAGE0 + drm_plane_index(plane);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mdp5_state->base.plane = plane;
 
 	plane->state = &mdp5_state->base;
@@ -409,7 +464,11 @@ static void set_scanout_locked(struct drm_plane *plane,
 	mdp5_write(mdp5_kms, REG_MDP5_PIPE_SRC2_ADDR(pipe),
 			msm_framebuffer_iova(fb, mdp5_kms->aspace, 2));
 	mdp5_write(mdp5_kms, REG_MDP5_PIPE_SRC3_ADDR(pipe),
+<<<<<<< HEAD
 			msm_framebuffer_iova(fb, mdp5_kms->aspace, 3));
+=======
+			msm_framebuffer_iova(fb, mdp5_kms->id, 3));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	plane->fb = fb;
 }
@@ -553,6 +612,7 @@ static int calc_scaley_steps(struct drm_plane *plane,
 
 static uint32_t get_scale_config(const struct mdp_format *format,
 		uint32_t src, uint32_t dst, bool horz)
+<<<<<<< HEAD
 {
 	bool scaling = format->is_yuv ? true : (src != dst);
 	uint32_t sub, pix_fmt = format->base.pixel_format;
@@ -598,6 +658,53 @@ static void calc_pixel_ext(const struct mdp_format *format,
 	 *     3. we are in a single pipe configuration
 	 */
 
+=======
+{
+	bool scaling = format->is_yuv ? true : (src != dst);
+	uint32_t sub, pix_fmt = format->base.pixel_format;
+	uint32_t ya_filter, uv_filter;
+	bool yuv = format->is_yuv;
+
+	if (!scaling)
+		return 0;
+
+	if (yuv) {
+		sub = horz ? drm_format_horz_chroma_subsampling(pix_fmt) :
+			     drm_format_vert_chroma_subsampling(pix_fmt);
+		uv_filter = ((src / sub) <= dst) ?
+				   SCALE_FILTER_BIL : SCALE_FILTER_PCMN;
+	}
+	ya_filter = (src <= dst) ? SCALE_FILTER_BIL : SCALE_FILTER_PCMN;
+
+	if (horz)
+		return  MDP5_PIPE_SCALE_CONFIG_SCALEX_EN |
+			MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0(ya_filter) |
+			MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3(ya_filter) |
+			COND(yuv, MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2(uv_filter));
+	else
+		return  MDP5_PIPE_SCALE_CONFIG_SCALEY_EN |
+			MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0(ya_filter) |
+			MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3(ya_filter) |
+			COND(yuv, MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2(uv_filter));
+}
+
+static void calc_pixel_ext(const struct mdp_format *format,
+		uint32_t src, uint32_t dst, uint32_t phase_step[2],
+		int pix_ext_edge1[COMP_MAX], int pix_ext_edge2[COMP_MAX],
+		bool horz)
+{
+	bool scaling = format->is_yuv ? true : (src != dst);
+	int i;
+
+	/*
+	 * Note:
+	 * We assume here that:
+	 *     1. PCMN filter is used for downscale
+	 *     2. bilinear filter is used for upscale
+	 *     3. we are in a single pipe configuration
+	 */
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	for (i = 0; i < COMP_MAX; i++) {
 		pix_ext_edge1[i] = 0;
 		pix_ext_edge2[i] = scaling ? 1 : 0;
@@ -612,6 +719,7 @@ static void mdp5_write_pixel_ext(struct mdp5_kms *mdp5_kms, enum mdp5_pipe pipe,
 	uint32_t pix_fmt = format->base.pixel_format;
 	uint32_t lr, tb, req;
 	int i;
+<<<<<<< HEAD
 
 	for (i = 0; i < COMP_MAX; i++) {
 		uint32_t roi_w = src_w;
@@ -622,6 +730,18 @@ static void mdp5_write_pixel_ext(struct mdp5_kms *mdp5_kms, enum mdp5_pipe pipe,
 			roi_h /= drm_format_vert_chroma_subsampling(pix_fmt);
 		}
 
+=======
+
+	for (i = 0; i < COMP_MAX; i++) {
+		uint32_t roi_w = src_w;
+		uint32_t roi_h = src_h;
+
+		if (format->is_yuv && i == COMP_1_2) {
+			roi_w /= drm_format_horz_chroma_subsampling(pix_fmt);
+			roi_h /= drm_format_vert_chroma_subsampling(pix_fmt);
+		}
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		lr  = (pe_left[i] >= 0) ?
 			MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT(pe_left[i]) :
 			MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF(pe_left[i]);

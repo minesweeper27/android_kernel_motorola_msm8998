@@ -109,6 +109,7 @@
 	((ESR_ELx_EC_BRK64 << ESR_ELx_EC_SHIFT) | ESR_ELx_IL |	\
 	 ((imm) & 0xffff))
 
+<<<<<<< HEAD
 /* ISS field definitions for System instruction traps */
 #define ESR_ELx_SYS64_ISS_RES0_SHIFT	22
 #define ESR_ELx_SYS64_ISS_RES0_MASK	(UL(0x7) << ESR_ELx_SYS64_ISS_RES0_SHIFT)
@@ -149,6 +150,8 @@
 #define ESR_ELx_SYS64_ISS_SYS_CNTFRQ	(ESR_ELx_SYS64_ISS_SYS_VAL(3, 3, 0, 14, 0) | \
 					 ESR_ELx_SYS64_ISS_DIR_READ)
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifndef __ASSEMBLY__
 #include <asm/types.h>
 

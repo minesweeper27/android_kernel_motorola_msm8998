@@ -32,11 +32,14 @@
 #define CLK_SET_RATE_NO_REPARENT BIT(7) /* don't re-parent on rate change */
 #define CLK_GET_ACCURACY_NOCACHE BIT(8) /* do not use the cached clk accuracy */
 #define CLK_RECALC_NEW_RATES	BIT(9) /* recalc rates after notifications */
+<<<<<<< HEAD
 #define CLK_IS_CRITICAL		BIT(11) /* do not gate, ever */
 #define CLK_ENABLE_HAND_OFF	BIT(12) /* enable clock when registered.
 					   hand-off enable_count & prepare_count
 					   to first consumer that enables clk */
 #define CLK_IS_MEASURE          BIT(14) /* measure clock */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct clk;
 struct clk_hw;
@@ -755,9 +758,12 @@ int __clk_mux_determine_rate_closest(struct clk_hw *hw,
 void clk_hw_reparent(struct clk_hw *hw, struct clk_hw *new_parent);
 void clk_hw_set_rate_range(struct clk_hw *hw, unsigned long min_rate,
 			   unsigned long max_rate);
+<<<<<<< HEAD
 
 unsigned long clk_aggregate_rate(struct clk_hw *hw,
 					const struct clk_core *parent);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline void __clk_hw_set_clk(struct clk_hw *dst, struct clk_hw *src)
 {

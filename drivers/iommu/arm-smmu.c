@@ -225,9 +225,12 @@
 #define ARM_SMMU_CB_S1_TLBIVAL		0x620
 #define ARM_SMMU_CB_S2_TLBIIPAS2	0x630
 #define ARM_SMMU_CB_S2_TLBIIPAS2L	0x638
+<<<<<<< HEAD
 #define ARM_SMMU_CB_TLBSYNC		0x7f0
 #define ARM_SMMU_CB_TLBSTATUS		0x7f4
 #define TLBSTATUS_SACTIVE		(1 << 0)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define ARM_SMMU_CB_ATS1PR		0x800
 #define ARM_SMMU_CB_ATSR		0x8f0
 #define ARM_SMMU_GR1_CBFRSYNRA(n)	(0x400 + ((n) << 2))
@@ -250,6 +253,12 @@
 #define RESUME_RETRY			(0 << 0)
 #define RESUME_TERMINATE		(1 << 0)
 
+<<<<<<< HEAD
+=======
+#define TTBCR2_SEP_SHIFT		15
+#define TTBCR2_SEP_UPSTREAM		(0x7 << TTBCR2_SEP_SHIFT)
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define TTBRn_ASID_SHIFT		48
 
 #define FSR_MULTI			(1 << 31)
@@ -1194,6 +1203,7 @@ static void arm_smmu_tlb_inv_range_nosync(unsigned long iova, size_t size,
 	}
 }
 
+<<<<<<< HEAD
 static void arm_smmu_tlbi_domain(struct iommu_domain *domain)
 {
 	arm_smmu_tlb_inv_context(to_smmu_domain(domain));
@@ -1207,6 +1217,15 @@ static int arm_smmu_enable_config_clocks(struct iommu_domain *domain)
 }
 
 static void arm_smmu_disable_config_clocks(struct iommu_domain *domain)
+=======
+static struct iommu_gather_ops arm_smmu_gather_ops = {
+	.tlb_flush_all	= arm_smmu_tlb_inv_context,
+	.tlb_add_flush	= arm_smmu_tlb_inv_range_nosync,
+	.tlb_sync	= arm_smmu_tlb_sync,
+};
+
+static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
 
@@ -1647,6 +1666,10 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
 		writel_relaxed(reg, cb_base + ARM_SMMU_CB_TTBCR);
 		if (smmu->version > ARM_SMMU_V1) {
 			reg = pgtbl_cfg->arm_lpae_s1_cfg.tcr >> 32;
+<<<<<<< HEAD
+=======
+			reg |= TTBCR2_SEP_UPSTREAM;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			writel_relaxed(reg, cb_base + ARM_SMMU_CB_TTBCR2);
 		}
 	} else {
@@ -1879,6 +1902,17 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
 		cfg->irptndx = cfg->cbndx;
 	}
 
+<<<<<<< HEAD
+=======
+	pgtbl_cfg = (struct io_pgtable_cfg) {
+		.pgsize_bitmap	= arm_smmu_ops.pgsize_bitmap,
+		.ias		= ias,
+		.oas		= oas,
+		.tlb		= &arm_smmu_gather_ops,
+		.iommu_dev	= smmu->dev,
+	};
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	smmu_domain->smmu = smmu;
 
 	if (is_iommu_pt_coherent(smmu_domain))
@@ -2884,6 +2918,7 @@ static phys_addr_t __arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
 	u32 tmp;
 	u64 phys;
 	unsigned long va;
+<<<<<<< HEAD
 	unsigned long flags;
 
 	if (arm_smmu_enable_clocks(smmu))
@@ -2896,6 +2931,11 @@ static phys_addr_t __arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
 	if (do_halt && arm_smmu_halt(smmu))
 		goto err_unlock;
 
+=======
+
+	cb_base = ARM_SMMU_CB_BASE(smmu) + ARM_SMMU_CB(smmu, cfg->cbndx);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* ATS1 registers can only be written atomically */
 	va = iova & ~0xfffUL;
 	if (smmu->version == ARM_SMMU_V2)
@@ -2905,8 +2945,15 @@ static phys_addr_t __arm_smmu_iova_to_phys_hard(struct iommu_domain *domain,
 
 	if (readl_poll_timeout_atomic(cb_base + ARM_SMMU_CB_ATSR, tmp,
 				      !(tmp & ATSR_ACTIVE), 5, 50)) {
+<<<<<<< HEAD
 		dev_err(dev, "iova to phys timed out\n");
 		goto err_resume;
+=======
+		dev_err(dev,
+			"iova to phys timed out on %pad. Falling back to software table walk.\n",
+			&iova);
+		return ops->iova_to_phys(ops, iova);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	phys = readl_relaxed(cb_base + ARM_SMMU_CB_PAR_LO);
@@ -3043,9 +3090,14 @@ static int arm_smmu_init_pci_device(struct pci_dev *pdev,
 				    struct iommu_group *group)
 {
 	struct arm_smmu_master_cfg *cfg;
+<<<<<<< HEAD
 	u32 sid;
 	int tmp, ret;
 	struct device *dev = &pdev->dev;
+=======
+	u16 sid;
+	int i;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	cfg = iommu_group_get_iommudata(group);
 	if (!cfg) {
@@ -3059,6 +3111,18 @@ static int arm_smmu_init_pci_device(struct pci_dev *pdev,
 
 	if (cfg->num_streamids >= MAX_MASTER_STREAMIDS)
 		return -ENOSPC;
+<<<<<<< HEAD
+=======
+
+	/*
+	 * Assume Stream ID == Requester ID for now.
+	 * We need a way to describe the ID mappings in FDT.
+	 */
+	pci_for_each_dma_alias(pdev, __arm_smmu_get_pci_sid, &sid);
+	for (i = 0; i < cfg->num_streamids; ++i)
+		if (cfg->streamids[i] == sid)
+			break;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = msm_pcie_configure_sid(dev, &sid, &tmp);
 	if (ret) {
@@ -3093,11 +3157,19 @@ static int arm_smmu_init_platform_device(struct device *dev,
 static int arm_smmu_add_device(struct device *dev)
 {
 	struct iommu_group *group;
+<<<<<<< HEAD
 
 	group = iommu_group_get_for_dev(dev);
 	if (IS_ERR(group))
 		return PTR_ERR(group);
 
+=======
+
+	group = iommu_group_get_for_dev(dev);
+	if (IS_ERR(group))
+		return PTR_ERR(group);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
@@ -3111,6 +3183,7 @@ static struct iommu_group *arm_smmu_device_group(struct device *dev)
 	struct iommu_group *group;
 	int ret;
 
+<<<<<<< HEAD
 	/*
 	 * We used to call pci_device_group here for dev_is_pci(dev)
 	 * devices.  However, that causes the root complex device to be
@@ -3123,6 +3196,14 @@ static struct iommu_group *arm_smmu_device_group(struct device *dev)
 	group = generic_device_group(dev);
 
 	if (IS_ERR_OR_NULL(group))
+=======
+	if (dev_is_pci(dev))
+		group = pci_device_group(dev);
+	else
+		group = generic_device_group(dev);
+
+	if (IS_ERR(group))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return group;
 
 	if (dev_is_pci(dev))
@@ -3819,9 +3900,12 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
 	void __iomem *gr0_base = ARM_SMMU_GR0(smmu);
 	u32 id;
 	bool cttw_dt, cttw_reg;
+<<<<<<< HEAD
 
 	if (arm_smmu_restore_sec_cfg(smmu))
 		return -ENODEV;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	dev_dbg(smmu->dev, "probing hardware configuration...\n");
 	dev_dbg(smmu->dev, "SMMUv%d with:\n", smmu->version);
@@ -3872,10 +3956,17 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
 	if (cttw_dt)
 		smmu->features |= ARM_SMMU_FEAT_COHERENT_WALK;
 	if (cttw_dt || cttw_reg)
+<<<<<<< HEAD
 		dev_dbg(smmu->dev, "\t%scoherent table walk\n",
 			   cttw_dt ? "" : "non-");
 	if (cttw_dt != cttw_reg)
 		dev_dbg(smmu->dev,
+=======
+		dev_notice(smmu->dev, "\t%scoherent table walk\n",
+			   cttw_dt ? "" : "non-");
+	if (cttw_dt != cttw_reg)
+		dev_notice(smmu->dev,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			   "\t(IDR0.CTTW overridden by dma-coherent property)\n");
 
 	if (id & ID0_SMS) {

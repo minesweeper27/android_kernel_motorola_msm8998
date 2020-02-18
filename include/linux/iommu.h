@@ -141,8 +141,11 @@ enum iommu_attr {
 	DOMAIN_ATTR_MAX,
 };
 
+<<<<<<< HEAD
 extern struct dentry *iommu_debugfs_top;
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * struct iommu_dm_region - descriptor for a direct mapped memory region
  * @list: Linked list pointers
@@ -265,8 +268,11 @@ extern int iommu_attach_device(struct iommu_domain *domain,
 			       struct device *dev);
 extern void iommu_detach_device(struct iommu_domain *domain,
 				struct device *dev);
+<<<<<<< HEAD
 extern size_t iommu_pgsize(unsigned long pgsize_bitmap,
 			   unsigned long addr_merge, size_t size);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
 extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
 		     phys_addr_t paddr, size_t size, int prot);
@@ -290,6 +296,10 @@ extern unsigned long iommu_reg_read(struct iommu_domain *domain,
 				    unsigned long offset);
 extern void iommu_reg_write(struct iommu_domain *domain, unsigned long offset,
 			    unsigned long val);
+
+extern void iommu_get_dm_regions(struct device *dev, struct list_head *list);
+extern void iommu_put_dm_regions(struct device *dev, struct list_head *list);
+extern int iommu_request_dm_for_dev(struct device *dev);
 
 extern void iommu_get_dm_regions(struct device *dev, struct list_head *list);
 extern void iommu_put_dm_regions(struct device *dev, struct list_head *list);
@@ -424,6 +434,11 @@ static inline void iommu_disable_config_clocks(struct iommu_domain *domain)
 		domain->ops->disable_config_clocks(domain);
 }
 
+/* PCI device grouping function */
+extern struct iommu_group *pci_device_group(struct device *dev);
+/* Generic device grouping function */
+extern struct iommu_group *generic_device_group(struct device *dev);
+
 #else /* CONFIG_IOMMU_API */
 
 struct iommu_ops {};
@@ -528,6 +543,7 @@ static inline void iommu_set_fault_handler(struct iommu_domain *domain,
 {
 }
 
+<<<<<<< HEAD
 static inline void iommu_trigger_fault(struct iommu_domain *domain,
 				       unsigned long flags)
 {
@@ -544,6 +560,8 @@ static inline void iommu_reg_write(struct iommu_domain *domain,
 {
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void iommu_get_dm_regions(struct device *dev,
 					struct list_head *list)
 {

@@ -118,7 +118,11 @@ static const struct file_operations virtio_gpu_driver_fops = {
 
 
 static struct drm_driver driver = {
+<<<<<<< HEAD
 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME | DRIVER_RENDER | DRIVER_ATOMIC,
+=======
+	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_PRIME | DRIVER_RENDER,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.set_busid = drm_virtio_set_busid,
 	.load = virtio_gpu_driver_load,
 	.unload = virtio_gpu_driver_unload,

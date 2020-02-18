@@ -393,11 +393,15 @@ static int get_v4l2_plane32(struct v4l2_plane __user *up,
 
 	if (copy_in_user(up, up32, 2 * sizeof(__u32)) ||
 	    copy_in_user(&up->data_offset, &up32->data_offset,
+<<<<<<< HEAD
 			 sizeof(up->data_offset)) ||
 	    copy_in_user(up->reserved, up32->reserved,
 			 sizeof(up->reserved)) ||
 	    copy_in_user(&up->length, &up32->length,
 			 sizeof(up->length)))
+=======
+			 sizeof(up->data_offset)))
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -EFAULT;
 
 	switch (memory) {
@@ -428,8 +432,11 @@ static int put_v4l2_plane32(struct v4l2_plane __user *up,
 	unsigned long p;
 
 	if (copy_in_user(up32, up, 2 * sizeof(__u32)) ||
+<<<<<<< HEAD
 	    copy_in_user(up32->reserved, up->reserved,
 			 sizeof(up32->reserved)) ||
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	    copy_in_user(&up32->data_offset, &up->data_offset,
 			 sizeof(up->data_offset)))
 		return -EFAULT;
@@ -909,6 +916,7 @@ static int put_v4l2_ext_controls32(struct file *file,
 struct v4l2_event32 {
 	__u32				type;
 	union {
+<<<<<<< HEAD
 		struct v4l2_event_vsync		vsync;
 		struct v4l2_event_ctrl		ctrl;
 		struct v4l2_event_frame_sync	frame_sync;
@@ -916,6 +924,10 @@ struct v4l2_event32 {
 		struct v4l2_event_motion_det	motion_det;
 		 compat_s64                     value64;
 		__u8			        data[64];
+=======
+		compat_s64		value64;
+		__u8			data[64];
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} u;
 	__u32				pending;
 	__u32				sequence;

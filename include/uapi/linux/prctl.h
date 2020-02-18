@@ -197,6 +197,7 @@ struct prctl_mm_map {
 # define PR_CAP_AMBIENT_LOWER		3
 # define PR_CAP_AMBIENT_CLEAR_ALL	4
 
+<<<<<<< HEAD
 /* Sets the timerslack for arbitrary threads
  * arg2 slack value, 0 means "use default"
  * arg3 pid of the thread whose timer slack needs to be set
@@ -206,6 +207,8 @@ struct prctl_mm_map {
 #define PR_SET_VMA		0x53564d41
 # define PR_SET_VMA_ANON_NAME		0
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* Per task speculation control */
 #define PR_GET_SPECULATION_CTRL		52
 #define PR_SET_SPECULATION_CTRL		53

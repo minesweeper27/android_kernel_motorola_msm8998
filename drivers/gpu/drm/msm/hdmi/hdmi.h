@@ -63,10 +63,13 @@ struct hdmi {
 
 	void __iomem *mmio;
 	void __iomem *qfprom_mmio;
+<<<<<<< HEAD
 	void __iomem *hdcp_mmio;
 	u32 mmio_len;
 	u32 qfprom_mmio_len;
 	u32 hdcp_mmio_len;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	phys_addr_t mmio_phy_addr;
 
 	struct regulator **hpd_regs;
@@ -85,6 +88,7 @@ struct hdmi {
 	bool hdmi_mode;               /* are we in hdmi mode? */
 	bool is_hdcp_supported;
 	int irq;
+<<<<<<< HEAD
 	void (*ddc_sw_done_cb)(void *data);
 	void *sw_done_cb_data;
 	struct workqueue_struct *workq;
@@ -93,6 +97,12 @@ struct hdmi {
 	bool use_hard_timeout;
 	int busy_wait_us;
 	u32 timeout_count;
+=======
+	struct workqueue_struct *workq;
+
+	struct hdmi_hdcp_ctrl *hdcp_ctrl;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	* spinlock to protect registers shared by different execution
 	* REG_HDMI_CTRL
@@ -108,7 +118,11 @@ struct hdmi_platform_config {
 	struct hdmi_phy *(*phy_init)(struct hdmi *hdmi);
 	const char *mmio_name;
 	const char *qfprom_mmio_name;
+<<<<<<< HEAD
 	const char *hdcp_mmio_name;
+=======
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* regulators that need to be on for hpd: */
 	const char **hpd_reg_names;
 	int hpd_reg_cnt;
@@ -216,6 +230,7 @@ void hdmi_i2c_destroy(struct i2c_adapter *i2c);
 struct i2c_adapter *hdmi_i2c_init(struct hdmi *hdmi);
 
 /*
+<<<<<<< HEAD
  * DDC utility functions
  */
 int hdmi_ddc_read(struct hdmi *hdmi, u16 addr, u8 offset,
@@ -230,5 +245,14 @@ void hdmi_hdcp_ctrl_destroy(struct hdmi *hdmi);
 void hdmi_hdcp_ctrl_on(struct hdmi_hdcp_ctrl *hdcp_ctrl);
 void hdmi_hdcp_ctrl_off(struct hdmi_hdcp_ctrl *hdcp_ctrl);
 void hdmi_hdcp_ctrl_irq(struct hdmi_hdcp_ctrl *hdcp_ctrl);
+=======
+ * hdcp
+ */
+struct hdmi_hdcp_ctrl *hdmi_hdcp_init(struct hdmi *hdmi);
+void hdmi_hdcp_destroy(struct hdmi *hdmi);
+void hdmi_hdcp_on(struct hdmi_hdcp_ctrl *hdcp_ctrl);
+void hdmi_hdcp_off(struct hdmi_hdcp_ctrl *hdcp_ctrl);
+void hdmi_hdcp_irq(struct hdmi_hdcp_ctrl *hdcp_ctrl);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /* __HDMI_CONNECTOR_H__ */

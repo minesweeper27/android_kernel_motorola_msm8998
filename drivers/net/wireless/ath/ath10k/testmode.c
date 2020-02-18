@@ -147,8 +147,132 @@ static int ath10k_tm_cmd_get_version(struct ath10k *ar, struct nlattr *tb[])
 	return cfg80211_testmode_reply(skb);
 }
 
+<<<<<<< HEAD
 static int ath10k_tm_fetch_utf_firmware_api_1(struct ath10k *ar,
 					      struct ath10k_fw_file *fw_file)
+=======
+static int ath10k_tm_fetch_utf_firmware_api_2(struct ath10k *ar)
+{
+	size_t len, magic_len, ie_len;
+	struct ath10k_fw_ie *hdr;
+	char filename[100];
+	__le32 *version;
+	const u8 *data;
+	int ie_id, ret;
+
+	snprintf(filename, sizeof(filename), "%s/%s",
+		 ar->hw_params.fw.dir, ATH10K_FW_UTF_API2_FILE);
+
+	/* load utf firmware image */
+	ret = request_firmware(&ar->testmode.utf, filename, ar->dev);
+	if (ret) {
+		ath10k_warn(ar, "failed to retrieve utf firmware '%s': %d\n",
+			    filename, ret);
+		return ret;
+	}
+
+	data = ar->testmode.utf->data;
+	len = ar->testmode.utf->size;
+
+	/* FIXME: call release_firmware() in error cases */
+
+	/* magic also includes the null byte, check that as well */
+	magic_len = strlen(ATH10K_FIRMWARE_MAGIC) + 1;
+
+	if (len < magic_len) {
+		ath10k_err(ar, "utf firmware file is too small to contain magic\n");
+		ret = -EINVAL;
+		goto err;
+	}
+
+	if (memcmp(data, ATH10K_FIRMWARE_MAGIC, magic_len) != 0) {
+		ath10k_err(ar, "invalid firmware magic\n");
+		ret = -EINVAL;
+		goto err;
+	}
+
+	/* jump over the padding */
+	magic_len = ALIGN(magic_len, 4);
+
+	len -= magic_len;
+	data += magic_len;
+
+	/* loop elements */
+	while (len > sizeof(struct ath10k_fw_ie)) {
+		hdr = (struct ath10k_fw_ie *)data;
+
+		ie_id = le32_to_cpu(hdr->id);
+		ie_len = le32_to_cpu(hdr->len);
+
+		len -= sizeof(*hdr);
+		data += sizeof(*hdr);
+
+		if (len < ie_len) {
+			ath10k_err(ar, "invalid length for FW IE %d (%zu < %zu)\n",
+				   ie_id, len, ie_len);
+			ret = -EINVAL;
+			goto err;
+		}
+
+		switch (ie_id) {
+		case ATH10K_FW_IE_FW_VERSION:
+			if (ie_len > sizeof(ar->testmode.utf_version) - 1)
+				break;
+
+			memcpy(ar->testmode.utf_version, data, ie_len);
+			ar->testmode.utf_version[ie_len] = '\0';
+
+			ath10k_dbg(ar, ATH10K_DBG_TESTMODE,
+				   "testmode found fw utf version %s\n",
+				   ar->testmode.utf_version);
+			break;
+		case ATH10K_FW_IE_TIMESTAMP:
+			/* ignore timestamp, but don't warn about it either */
+			break;
+		case ATH10K_FW_IE_FW_IMAGE:
+			ath10k_dbg(ar, ATH10K_DBG_TESTMODE,
+				   "testmode found fw image ie (%zd B)\n",
+				   ie_len);
+
+			ar->testmode.utf_firmware_data = data;
+			ar->testmode.utf_firmware_len = ie_len;
+			break;
+		case ATH10K_FW_IE_WMI_OP_VERSION:
+			if (ie_len != sizeof(u32))
+				break;
+			version = (__le32 *)data;
+			ar->testmode.op_version = le32_to_cpup(version);
+			ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "testmode found fw ie wmi op version %d\n",
+				   ar->testmode.op_version);
+			break;
+		default:
+			ath10k_warn(ar, "Unknown testmode FW IE: %u\n",
+				    le32_to_cpu(hdr->id));
+			break;
+		}
+		/* jump over the padding */
+		ie_len = ALIGN(ie_len, 4);
+
+		len -= ie_len;
+		data += ie_len;
+	}
+
+	if (!ar->testmode.utf_firmware_data || !ar->testmode.utf_firmware_len) {
+		ath10k_err(ar, "No ATH10K_FW_IE_FW_IMAGE found\n");
+		ret = -EINVAL;
+		goto err;
+	}
+
+	return 0;
+
+err:
+	release_firmware(ar->testmode.utf);
+
+	return ret;
+}
+
+static int ath10k_tm_fetch_utf_firmware_api_1(struct ath10k *ar)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	char filename[100];
 	int ret;
@@ -157,7 +281,11 @@ static int ath10k_tm_fetch_utf_firmware_api_1(struct ath10k *ar,
 		 ar->hw_params.fw.dir, ATH10K_FW_UTF_FILE);
 
 	/* load utf firmware image */
+<<<<<<< HEAD
 	ret = request_firmware(&fw_file->firmware, filename, ar->dev);
+=======
+	ret = request_firmware(&ar->testmode.utf, filename, ar->dev);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret) {
 		ath10k_warn(ar, "failed to retrieve utf firmware '%s': %d\n",
 			    filename, ret);
@@ -170,16 +298,23 @@ static int ath10k_tm_fetch_utf_firmware_api_1(struct ath10k *ar,
 	 * correct WMI interface.
 	 */
 
+<<<<<<< HEAD
 	fw_file->wmi_op_version = ATH10K_FW_WMI_OP_VERSION_10_1;
 	fw_file->htt_op_version = ATH10K_FW_HTT_OP_VERSION_10_1;
 	fw_file->firmware_data = fw_file->firmware->data;
 	fw_file->firmware_len = fw_file->firmware->size;
+=======
+	ar->testmode.op_version = ATH10K_FW_WMI_OP_VERSION_10_1;
+	ar->testmode.utf_firmware_data = ar->testmode.utf->data;
+	ar->testmode.utf_firmware_len = ar->testmode.utf->size;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
 
 static int ath10k_tm_fetch_firmware(struct ath10k *ar)
 {
+<<<<<<< HEAD
 	struct ath10k_fw_components *utf_mode_fw;
 	struct ath10k_fw_file *fw_file;
 	int ret;
@@ -198,6 +333,17 @@ static int ath10k_tm_fetch_firmware(struct ath10k *ar)
 	}
 
 	ret = ath10k_tm_fetch_utf_firmware_api_1(ar, &ar->testmode.utf_mode_fw.fw_file);
+=======
+	int ret;
+
+	ret = ath10k_tm_fetch_utf_firmware_api_2(ar);
+	if (ret == 0) {
+		ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "testmode using fw utf api 2");
+		return 0;
+	}
+
+	ret = ath10k_tm_fetch_utf_firmware_api_1(ar);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret) {
 		ath10k_err(ar, "failed to fetch utf firmware binary: %d", ret);
 		return ret;
@@ -205,6 +351,7 @@ static int ath10k_tm_fetch_firmware(struct ath10k *ar)
 
 	ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "testmode using utf api 1");
 
+<<<<<<< HEAD
 out:
 	utf_mode_fw = &ar->testmode.utf_mode_fw;
 
@@ -220,6 +367,8 @@ out:
 		utf_mode_fw->fw_file.otp_len = ar->normal_mode_fw.fw_file.otp_len;
 	}
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
@@ -255,6 +404,7 @@ static int ath10k_tm_cmd_utf_start(struct ath10k *ar, struct nlattr *tb[])
 		goto err;
 	}
 
+<<<<<<< HEAD
 	if (ar->testmode.utf_mode_fw.fw_file.codeswap_data &&
 	    ar->testmode.utf_mode_fw.fw_file.codeswap_len) {
 		ret = ath10k_swap_code_seg_init(ar,
@@ -273,6 +423,23 @@ static int ath10k_tm_cmd_utf_start(struct ath10k *ar, struct nlattr *tb[])
 
 	ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "testmode wmi version %d\n",
 		   ar->testmode.utf_mode_fw.fw_file.wmi_op_version);
+=======
+	spin_lock_bh(&ar->data_lock);
+	ar->testmode.utf_monitor = true;
+	spin_unlock_bh(&ar->data_lock);
+	BUILD_BUG_ON(sizeof(ar->fw_features) !=
+		     sizeof(ar->testmode.orig_fw_features));
+
+	memcpy(ar->testmode.orig_fw_features, ar->fw_features,
+	       sizeof(ar->fw_features));
+	ar->testmode.orig_wmi_op_version = ar->wmi.op_version;
+	memset(ar->fw_features, 0, sizeof(ar->fw_features));
+
+	ar->wmi.op_version = ar->testmode.op_version;
+
+	ath10k_dbg(ar, ATH10K_DBG_TESTMODE, "testmode wmi version %d\n",
+		   ar->wmi.op_version);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = ath10k_hif_power_up(ar);
 	if (ret) {
@@ -291,8 +458,13 @@ static int ath10k_tm_cmd_utf_start(struct ath10k *ar, struct nlattr *tb[])
 
 	ar->state = ATH10K_STATE_UTF;
 
+<<<<<<< HEAD
 	if (strlen(ar->testmode.utf_mode_fw.fw_file.fw_version) > 0)
 		ver = ar->testmode.utf_mode_fw.fw_file.fw_version;
+=======
+	if (strlen(ar->testmode.utf_version) > 0)
+		ver = ar->testmode.utf_version;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	else
 		ver = "API 1";
 

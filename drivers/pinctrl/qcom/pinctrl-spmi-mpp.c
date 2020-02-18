@@ -88,10 +88,13 @@
 #define PMIC_MPP_REG_AIN_ROUTE_SHIFT		0
 #define PMIC_MPP_REG_AIN_ROUTE_MASK		0x7
 
+<<<<<<< HEAD
 /* PMIC_MPP_REG_SINK_CTL */
 #define PMIC_MPP_REG_CURRENT_SINK_MASK		0x7
 #define MPP_CURRENT_SINK_MA_STEP_SIZE		5
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define PMIC_MPP_MODE_DIGITAL_INPUT		0
 #define PMIC_MPP_MODE_DIGITAL_OUTPUT		1
 #define PMIC_MPP_MODE_DIGITAL_BIDIR		2
@@ -111,7 +114,10 @@
 #define PMIC_MPP_CONF_ANALOG_LEVEL		(PIN_CONFIG_END + 2)
 #define PMIC_MPP_CONF_DTEST_SELECTOR		(PIN_CONFIG_END + 3)
 #define PMIC_MPP_CONF_PAIRED			(PIN_CONFIG_END + 4)
+<<<<<<< HEAD
 #define PMIC_MPP_CONF_DTEST_BUFFER		(PIN_CONFIG_END + 5)
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /**
  * struct pmic_mpp_pad - keep current MPP settings
@@ -130,7 +136,10 @@
  * @function: See pmic_mpp_functions[].
  * @drive_strength: Amount of current in sink mode
  * @dtest: DTEST route selector
+<<<<<<< HEAD
  * @dtest_buffer: the DTEST buffer selection for digital input mode
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 struct pmic_mpp_pad {
 	u16		base;
@@ -148,7 +157,10 @@ struct pmic_mpp_pad {
 	unsigned int	function;
 	unsigned int	drive_strength;
 	unsigned int	dtest;
+<<<<<<< HEAD
 	unsigned int	dtest_buffer;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct pmic_mpp_state {
@@ -163,7 +175,10 @@ static const struct pinconf_generic_params pmic_mpp_bindings[] = {
 	{"qcom,analog-level",	PMIC_MPP_CONF_ANALOG_LEVEL,	0},
 	{"qcom,dtest",		PMIC_MPP_CONF_DTEST_SELECTOR,	0},
 	{"qcom,paired",		PMIC_MPP_CONF_PAIRED,		0},
+<<<<<<< HEAD
 	{"qcom,dtest-buffer",	PMIC_MPP_CONF_DTEST_BUFFER,	0},
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #ifdef CONFIG_DEBUG_FS
@@ -172,7 +187,10 @@ static const struct pin_config_item pmic_conf_items[] = {
 	PCONFDUMP(PMIC_MPP_CONF_ANALOG_LEVEL, "analog level", NULL, true),
 	PCONFDUMP(PMIC_MPP_CONF_DTEST_SELECTOR, "dtest", NULL, true),
 	PCONFDUMP(PMIC_MPP_CONF_PAIRED, "paired", NULL, false),
+<<<<<<< HEAD
 	PCONFDUMP(PMIC_MPP_CONF_DTEST_BUFFER, "dtest buffer", NULL, true),
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 #endif
 
@@ -408,9 +426,12 @@ static int pmic_mpp_config_get(struct pinctrl_dev *pctldev,
 		break;
 	case PMIC_MPP_CONF_ANALOG_LEVEL:
 		arg = pad->aout_level;
+<<<<<<< HEAD
 		break;
 	case PMIC_MPP_CONF_DTEST_BUFFER:
 		arg = pad->dtest_buffer;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 	default:
 		return -EINVAL;
@@ -489,6 +510,7 @@ static int pmic_mpp_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
 			break;
 		case PMIC_MPP_CONF_PAIRED:
 			pad->paired = !!arg;
+<<<<<<< HEAD
 			break;
 		case PMIC_MPP_CONF_DTEST_BUFFER:
 			/*
@@ -498,6 +520,8 @@ static int pmic_mpp_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
 			if (arg > 0xf)
 				return -EINVAL;
 			pad->dtest_buffer = arg;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			break;
 		default:
 			return -EINVAL;
@@ -531,6 +555,7 @@ static int pmic_mpp_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
 	val = 0;
 	if (pad->drive_strength >= MPP_CURRENT_SINK_MA_STEP_SIZE)
 		val = DIV_ROUND_UP(pad->drive_strength,
@@ -545,6 +570,12 @@ static int pmic_mpp_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
 	if (ret < 0)
 		return ret;
 
+=======
+	ret = pmic_mpp_write_mode_ctl(state, pad);
+	if (ret < 0)
+		return ret;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ret = pmic_mpp_write(state, pad, PMIC_MPP_REG_SINK_CTL, pad->drive_strength);
 	if (ret < 0)
 		return ret;
@@ -592,8 +623,11 @@ static void pmic_mpp_config_dbg_show(struct pinctrl_dev *pctldev,
 			seq_printf(s, " dtest%d", pad->dtest);
 		if (pad->paired)
 			seq_puts(s, " paired");
+<<<<<<< HEAD
 		if (pad->dtest_buffer)
 			seq_printf(s, " dtest buffer %d", pad->dtest_buffer);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 
@@ -791,7 +825,11 @@ static int pmic_mpp_populate(struct pmic_mpp_state *state,
 	sel &= PMIC_MPP_REG_MODE_FUNCTION_MASK;
 
 	if (sel >= PMIC_MPP_SELECTOR_DTEST_FIRST)
+<<<<<<< HEAD
 		pad->dtest = sel - PMIC_MPP_SELECTOR_DTEST_FIRST + 1;
+=======
+		pad->dtest = sel + 1;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	else if (sel == PMIC_MPP_SELECTOR_PAIRED)
 		pad->paired = true;
 
@@ -826,8 +864,12 @@ static int pmic_mpp_populate(struct pmic_mpp_state *state,
 	if (val < 0)
 		return val;
 
+<<<<<<< HEAD
 	val &= PMIC_MPP_REG_CURRENT_SINK_MASK;
 	pad->drive_strength = (val + 1) * MPP_CURRENT_SINK_MA_STEP_SIZE;
+=======
+	pad->drive_strength = val;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	val = pmic_mpp_read(state, pad, PMIC_MPP_REG_AOUT_CTL);
 	if (val < 0)

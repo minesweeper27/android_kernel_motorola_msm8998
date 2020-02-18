@@ -372,12 +372,17 @@ __releases(&port->port_lock)
 __acquires(&port->port_lock)
 */
 {
+<<<<<<< HEAD
 	struct list_head	*pool;
+=======
+	struct list_head	*pool = &port->write_pool;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct usb_ep		*in;
 	int			status = 0;
 	static long		prev_len;
 	bool			do_tty_wake = false;
 
+<<<<<<< HEAD
 	if (!port || !port->port_usb) {
 		pr_err("Error - port or port->usb is NULL.");
 		return -EIO;
@@ -385,6 +390,12 @@ __acquires(&port->port_lock)
 
 	pool = &port->write_pool;
 	in   = port->port_usb->in;
+=======
+	if (!port->port_usb)
+		return status;
+
+	in = port->port_usb->in;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	while (!port->write_busy && !list_empty(pool)) {
 		struct usb_request	*req;

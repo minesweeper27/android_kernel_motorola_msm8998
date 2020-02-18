@@ -60,9 +60,13 @@ struct branch {
 	u64 misc;
 };
 
+<<<<<<< HEAD
 static size_t
 intel_bts_info_priv_size(struct auxtrace_record *itr __maybe_unused,
 			 struct perf_evlist *evlist __maybe_unused)
+=======
+static size_t intel_bts_info_priv_size(struct auxtrace_record *itr __maybe_unused)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	return INTEL_BTS_AUXTRACE_PRIV_SIZE;
 }

@@ -102,7 +102,11 @@ background_gc=%s       Turn on/off cleaning operations, namely garbage
                        collection, triggered in background when I/O subsystem is
                        idle. If background_gc=on, it will turn on the garbage
                        collection and if background_gc=off, garbage collection
+<<<<<<< HEAD
                        will be turned off. If background_gc=sync, it will turn
+=======
+                       will be truned off. If background_gc=sync, it will turn
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
                        on synchronous garbage collection running in background.
                        Default value for this option is on. So garbage
                        collection is on by default.
@@ -151,7 +155,11 @@ extent_cache           Enable an extent cache based on rb-tree, it can cache
                        as many as extent which map between contiguous logical
                        address and physical address per inode, resulting in
                        increasing the cache hit ratio. Set by default.
+<<<<<<< HEAD
 noextent_cache         Disable an extent cache based on rb-tree explicitly, see
+=======
+noextent_cache         Diable an extent cache based on rb-tree explicitly, see
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
                        the above extent_cache mount option.
 noinline_data          Disable the inline data feature, inline data feature is
                        enabled by default.

@@ -65,8 +65,11 @@ config MIPS
 	select HAVE_IRQ_TIME_ACCOUNTING
 	select GENERIC_TIME_VSYSCALL
 	select ARCH_CLOCKSOURCE_DATA
+<<<<<<< HEAD
 	select HANDLE_DOMAIN_IRQ
 	select HAVE_EXIT_THREAD
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 menu "Machine selection"
 
@@ -2330,7 +2333,11 @@ config MIPS_CMP
 
 config MIPS_CPS
 	bool "MIPS Coherent Processing System support"
+<<<<<<< HEAD
 	depends on SYS_SUPPORTS_MIPS_CPS
+=======
+	depends on SYS_SUPPORTS_MIPS_CPS && !CPU_MIPSR6
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select MIPS_CM
 	select MIPS_CPC
 	select MIPS_CPS_PM if HOTPLUG_CPU

@@ -766,6 +766,7 @@ static int __check_input_term(struct mixer_build *state, int id,
 				term->channels = d->bNrChannels;
 				term->chconfig = le32_to_cpu(d->bmChannelConfig);
 				term->name = d->iTerminal;
+<<<<<<< HEAD
 			} else { /* UAC_VERSION_3 */
 				struct uac3_input_terminal_descriptor *d = p1;
 
@@ -784,6 +785,8 @@ static int __check_input_term(struct mixer_build *state, int id,
 					term->chconfig = BADD_CH_CONFIG_STEREO;
 				}
 				term->name = d->wTerminalDescrStr;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			}
 			return 0;
 		case UAC_FEATURE_UNIT: {
@@ -801,6 +804,7 @@ static int __check_input_term(struct mixer_build *state, int id,
 			return 0;
 		}
 		case UAC_SELECTOR_UNIT:
+<<<<<<< HEAD
 		/* UAC3_MIXER_UNIT_V3 */
 		case UAC2_CLOCK_SELECTOR:
 		/* UAC3_CLOCK_SOURCE */ {
@@ -836,6 +840,17 @@ static int __check_input_term(struct mixer_build *state, int id,
 				term->id = id;
 				term->name = uac_selector_unit_iSelector(d);
 			}
+=======
+		case UAC2_CLOCK_SELECTOR: {
+			struct uac_selector_unit_descriptor *d = p1;
+			/* call recursively to retrieve the channel info */
+			err = __check_input_term(state, d->baSourceID[0], term);
+			if (err < 0)
+				return err;
+			term->type = d->bDescriptorSubtype << 16; /* virtual type */
+			term->id = id;
+			term->name = uac_selector_unit_iSelector(d);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			return 0;
 		}
 		case UAC1_PROCESSING_UNIT:
@@ -1384,7 +1399,11 @@ static void build_feature_ctl(struct mixer_build *state, void *raw_desc,
 	ctl_info = &audio_feature_info[control-1];
 	if (state->mixer->protocol == UAC_VERSION_1)
 		cval->val_type = ctl_info->type;
+<<<<<<< HEAD
 	else /* UAC_VERSION_2 or UAC_VERSION_3*/
+=======
+	else /* UAC_VERSION_2 */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		cval->val_type = ctl_info->type_uac2 >= 0 ?
 			ctl_info->type_uac2 : ctl_info->type;
 
@@ -1900,6 +1919,7 @@ static int parse_audio_mixer_unit(struct mixer_build *state, int unitid,
 	int input_pins, num_ins, num_outs;
 	int pin, ich, err;
 
+<<<<<<< HEAD
 	if (state->mixer->protocol == UAC_VERSION_3) {
 		input_pins = badd_baiof_mu_desc.bNrInPins;
 		num_outs =
@@ -1914,6 +1934,15 @@ static int parse_audio_mixer_unit(struct mixer_build *state, int unitid,
 				      unitid);
 			return -EINVAL;
 		}
+=======
+	if (desc->bLength < 11 || !(input_pins = desc->bNrInPins) ||
+	    desc->bLength < sizeof(*desc) + desc->bNrInPins ||
+	    !(num_outs = uac_mixer_unit_bNrChannels(desc))) {
+		usb_audio_err(state->chip,
+			      "invalid MIXER UNIT descriptor %d\n",
+			      unitid);
+		return -EINVAL;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	num_ins = 0;

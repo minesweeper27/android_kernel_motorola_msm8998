@@ -1124,8 +1124,34 @@ static int l2cap_sock_shutdown(struct socket *sock, int how)
 	chan = l2cap_pi(sk)->chan;
 	/* prevent chan structure from being freed whilst unlocked */
 	l2cap_chan_hold(chan);
+<<<<<<< HEAD
 
 	BT_DBG("chan %pK state %s", chan, state_to_string(chan->state));
+
+	if (chan->mode == L2CAP_MODE_ERTM &&
+	    chan->unacked_frames > 0 &&
+	    chan->state == BT_CONNECTED) {
+		err = __l2cap_wait_ack(sk, chan);
+
+		/* After waiting for ACKs, check whether shutdown
+		 * has already been actioned to close the L2CAP
+		 * link such as by l2cap_disconnection_req().
+		 */
+		if (sk->sk_shutdown)
+			goto has_shutdown;
+	}
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
+
+	sk->sk_shutdown = SHUTDOWN_MASK;
+	release_sock(sk);
+
+	l2cap_chan_lock(chan);
+	conn = chan->conn;
+	if (conn)
+		/* prevent conn structure from being freed */
+		l2cap_conn_get(conn);
+	l2cap_chan_unlock(chan);
 
 	if (chan->mode == L2CAP_MODE_ERTM &&
 	    chan->unacked_frames > 0 &&
@@ -1146,11 +1172,14 @@ static int l2cap_sock_shutdown(struct socket *sock, int how)
 	l2cap_chan_lock(chan);
 	conn = chan->conn;
 	if (conn)
+<<<<<<< HEAD
+=======
 		/* prevent conn structure from being freed */
 		l2cap_conn_get(conn);
 	l2cap_chan_unlock(chan);
 
 	if (conn)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/* mutex lock must be taken before l2cap_chan_lock() */
 		mutex_lock(&conn->chan_lock);
 

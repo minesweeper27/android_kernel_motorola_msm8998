@@ -325,11 +325,14 @@ static inline int devfreq_update_stats(struct devfreq *df)
 {
 	return -EINVAL;
 }
+<<<<<<< HEAD
 
 static inline int update_devfreq(struct devfreq *devfreq)
 {
 	return -EINVAL;
 }
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_PM_DEVFREQ */
 
 #endif /* __LINUX_DEVFREQ_H__ */

@@ -44,6 +44,7 @@ static inline int led_get_brightness(struct led_classdev *led_cdev)
 	return led_cdev->brightness;
 }
 
+<<<<<<< HEAD
 static inline struct led_classdev *trigger_to_lcdev(struct led_trigger *trig)
 {
 	struct led_classdev *led_cdev;
@@ -66,4 +67,12 @@ void led_stop_software_blink(struct led_classdev *led_cdev);
 extern struct rw_semaphore leds_list_lock;
 extern struct list_head leds_list;
 
+=======
+void led_init_core(struct led_classdev *led_cdev);
+void led_stop_software_blink(struct led_classdev *led_cdev);
+
+extern struct rw_semaphore leds_list_lock;
+extern struct list_head leds_list;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif	/* __LEDS_H_INCLUDED */

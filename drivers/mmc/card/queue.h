@@ -103,9 +103,12 @@ extern void mmc_packed_clean(struct mmc_queue *);
 
 extern int mmc_access_rpmb(struct mmc_queue *);
 
+<<<<<<< HEAD
 extern void print_mmc_packing_stats(struct mmc_card *card);
 
 extern int mmc_cmdq_init(struct mmc_queue *mq, struct mmc_card *card);
 extern void mmc_cmdq_clean(struct mmc_queue *mq, struct mmc_card *card);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

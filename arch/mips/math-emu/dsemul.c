@@ -62,7 +62,22 @@ struct emuframe {
 	mips_instruction	badinst;
 };
 
+<<<<<<< HEAD
 static const int emupage_frame_count = PAGE_SIZE / sizeof(struct emuframe);
+=======
+int mips_dsemul(struct pt_regs *regs, mips_instruction ir, unsigned long cpc)
+{
+	struct emuframe __user *fr;
+	int err;
+
+	if ((get_isa16_mode(regs->cp0_epc) && ((ir >> 16) == MM_NOP16)) ||
+		(ir == 0)) {
+		/* NOP is easy */
+		regs->cp0_epc = cpc;
+		clear_delay_slot(regs);
+		return 0;
+	}
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline __user struct emuframe *dsemul_page(void)
 {

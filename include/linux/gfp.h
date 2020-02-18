@@ -36,7 +36,10 @@ struct vm_area_struct;
 #define ___GFP_OTHER_NODE	0x800000u
 #define ___GFP_WRITE		0x1000000u
 #define ___GFP_KSWAPD_RECLAIM	0x2000000u
+<<<<<<< HEAD
 #define ___GFP_CMA		0x4000000u
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* If the above are modified, __GFP_BITS_SHIFT may need updating */
 
 /*
@@ -51,6 +54,7 @@ struct vm_area_struct;
 #define __GFP_DMA32	((__force gfp_t)___GFP_DMA32)
 #define __GFP_MOVABLE	((__force gfp_t)___GFP_MOVABLE)  /* Page is movable */
 #define __GFP_MOVABLE	((__force gfp_t)___GFP_MOVABLE)  /* ZONE_MOVABLE allowed */
+<<<<<<< HEAD
 #define __GFP_CMA	((__force gfp_t)___GFP_CMA)
 #define GFP_ZONEMASK	(__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE| \
 			__GFP_CMA)
@@ -82,6 +86,38 @@ struct vm_area_struct;
 #define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
 
 /*
+=======
+#define GFP_ZONEMASK	(__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)
+
+/*
+ * Page mobility and placement hints
+ *
+ * These flags provide hints about how mobile the page is. Pages with similar
+ * mobility are placed within the same pageblocks to minimise problems due
+ * to external fragmentation.
+ *
+ * __GFP_MOVABLE (also a zone modifier) indicates that the page can be
+ *   moved by page migration during memory compaction or can be reclaimed.
+ *
+ * __GFP_RECLAIMABLE is used for slab allocations that specify
+ *   SLAB_RECLAIM_ACCOUNT and whose pages can be freed via shrinkers.
+ *
+ * __GFP_WRITE indicates the caller intends to dirty the page. Where possible,
+ *   these pages will be spread between local zones to avoid all the dirty
+ *   pages being in one zone (fair zone allocation policy).
+ *
+ * __GFP_HARDWALL enforces the cpuset memory allocation policy.
+ *
+ * __GFP_THISNODE forces the allocation to be satisified from the requested
+ *   node with no fallbacks or placement policy enforcements.
+ */
+#define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
+#define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
+#define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
+#define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
+
+/*
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Watermark modifiers -- controls access to emergency reserves
  *
  * __GFP_HIGH indicates that the caller is high-priority and that granting
@@ -185,7 +221,11 @@ struct vm_area_struct;
 #define __GFP_OTHER_NODE ((__force gfp_t)___GFP_OTHER_NODE)
 
 /* Room for N __GFP_FOO bits */
+<<<<<<< HEAD
 #define __GFP_BITS_SHIFT 27
+=======
+#define __GFP_BITS_SHIFT 26
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
 
 /*
@@ -266,12 +306,16 @@ static inline int gfpflags_to_migratetype(const gfp_t gfp_flags)
 		return MIGRATE_UNMOVABLE;
 
 	/* Group based on mobility */
+<<<<<<< HEAD
 #ifndef CONFIG_CMA
 	return (gfp_flags & GFP_MOVABLE_MASK) >> GFP_MOVABLE_SHIFT;
 #else
 	return ((gfp_flags & GFP_MOVABLE_MASK) >> GFP_MOVABLE_SHIFT) |
 	       ((gfp_flags & __GFP_CMA) != 0);
 #endif
+=======
+	return (gfp_flags & GFP_MOVABLE_MASK) >> GFP_MOVABLE_SHIFT;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 #undef GFP_MOVABLE_MASK
 #undef GFP_MOVABLE_SHIFT

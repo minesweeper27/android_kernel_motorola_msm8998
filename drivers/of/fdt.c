@@ -836,6 +836,7 @@ static int __init early_init_dt_scan_chosen_serial(void)
 	if (offset < 0)
 		return -ENODEV;
 
+<<<<<<< HEAD
 	for (match = __earlycon_table; match < __earlycon_table_end; match++) {
 		u64 addr;
 
@@ -843,6 +844,13 @@ static int __init early_init_dt_scan_chosen_serial(void)
 			continue;
 
 		if (fdt_node_check_compatible(fdt, offset, match->compatible))
+=======
+	while (match->compatible[0]) {
+		u64 addr;
+
+		if (fdt_node_check_compatible(fdt, offset, match->compatible)) {
+			match++;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			continue;
 
 		addr = fdt_translate_address(fdt, offset);
@@ -1017,9 +1025,12 @@ int __init early_init_dt_scan_chosen(unsigned long node, const char *uname,
 }
 
 #ifdef CONFIG_HAVE_MEMBLOCK
+<<<<<<< HEAD
 #ifndef MIN_MEMBLOCK_ADDR
 #define MIN_MEMBLOCK_ADDR	__pa(PAGE_OFFSET)
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifndef MAX_MEMBLOCK_ADDR
 #define MAX_MEMBLOCK_ADDR	((phys_addr_t)~0)
 #endif

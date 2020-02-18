@@ -48,6 +48,7 @@ obj-$(CONFIG_INTEL_PCH_THERMAL)	+= intel_pch_thermal.o
 obj-$(CONFIG_ST_THERMAL)	+= st/
 obj-$(CONFIG_TEGRA_SOCTHERM)	+= tegra_soctherm.o
 obj-$(CONFIG_HISI_THERMAL)     += hisi_thermal.o
+<<<<<<< HEAD
 obj-$(CONFIG_GENERIC_ADC_THERMAL)	+= thermal-generic-adc.o
 obj-$(CONFIG_THERMAL_QPNP)	+= qpnp-temp-alarm.o
 obj-$(CONFIG_THERMAL_QPNP_ADC_TM)	+= qpnp-adc-tm.o
@@ -57,3 +58,5 @@ obj-$(CONFIG_LIMITS_MONITOR)	+= lmh_interface.o
 obj-$(CONFIG_LIMITS_LITE_HW)	+= lmh_lite.o
 obj-$(CONFIG_QCOM_THERMAL_LIMITS_DCVS)	+= msm_lmh_dcvs.o
 obj-$(CONFIG_MMI_SYS_TEMP)      += mmi_sys_temp.o
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

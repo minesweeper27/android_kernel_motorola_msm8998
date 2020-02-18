@@ -1098,7 +1098,10 @@ EXPORT_SYMBOL(drm_arm_vblank_event);
 void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
 			       struct drm_pending_vblank_event *e)
 {
+<<<<<<< HEAD
 	e->event.crtc_id = crtc->base.id;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	drm_arm_vblank_event(crtc->dev, drm_crtc_index(crtc), e);
 }
 EXPORT_SYMBOL(drm_crtc_arm_vblank_event);

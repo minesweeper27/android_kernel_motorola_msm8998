@@ -17,8 +17,11 @@
 #ifndef __ASM_PERF_EVENT_H
 #define __ASM_PERF_EVENT_H
 
+<<<<<<< HEAD
 #include <asm/stack_pointer.h>
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_PERF_EVENTS
 struct pt_regs;
 extern unsigned long perf_instruction_pointer(struct pt_regs *regs);
@@ -33,6 +36,7 @@ extern unsigned long perf_misc_flags(struct pt_regs *regs);
 	(regs)->pstate = PSR_MODE_EL1h;	\
 }
 
+<<<<<<< HEAD
 static inline u32 armv8pmu_pmcr_read_reg(void)
 {
 	u32 val;
@@ -120,4 +124,6 @@ static inline void armv8pmu_pmuserenr_write_reg(u32 val)
 	asm volatile("msr pmuserenr_el0, %0" :: "r" (val));
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

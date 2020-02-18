@@ -35,6 +35,7 @@
 #define SDIO_DEVICE_ID_MARVELL_8797_F0	0x9128
 #endif
 
+<<<<<<< HEAD
 #ifndef SDIO_VENDOR_ID_MSM
 #define SDIO_VENDOR_ID_MSM		0x0070
 #endif
@@ -114,6 +115,9 @@ static const struct mmc_fixup mmc_fixup_methods[] = {
 	SDIO_FIXUP(SDIO_VENDOR_ID_MSM_QCA, SDIO_DEVICE_ID_MSM_QCA_AR6004_2,
 		   remove_quirk, MMC_QUIRK_BROKEN_CLK_GATING),
 
+=======
+static const struct mmc_fixup mmc_fixup_methods[] = {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	SDIO_FIXUP(SDIO_VENDOR_ID_TI, SDIO_DEVICE_ID_TI_WL1271,
 		   add_quirk, MMC_QUIRK_NONSTD_FUNC_IF),
 

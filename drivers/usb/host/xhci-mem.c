@@ -1959,12 +1959,16 @@ void xhci_event_ring_cleanup(struct xhci_hcd *xhci)
 	for (i = 1; i < xhci->max_interrupters; i++)
 		xhci_sec_event_ring_cleanup(xhci_to_hcd(xhci), i);
 
+<<<<<<< HEAD
 	kfree(xhci->sec_ir_set);
 	xhci->sec_ir_set = NULL;
 	kfree(xhci->sec_erst);
 	xhci->sec_erst = NULL;
 	kfree(xhci->sec_event_ring);
 	xhci->sec_event_ring = NULL;
+=======
+	cancel_delayed_work_sync(&xhci->cmd_timer);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* primary event ring clean up */
 	size = sizeof(struct xhci_erst_entry)*(xhci->erst.num_entries);
@@ -2237,9 +2241,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
 	u32 temp, port_offset, port_count;
 	int i;
 	struct xhci_hub *rhub;
+<<<<<<< HEAD
 
 	temp = readl(addr);
 
+=======
+
+	temp = readl(addr);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (XHCI_EXT_PORT_MAJOR(temp) == 0x03) {
 		rhub = &xhci->usb3_rhub;
 	} else if (XHCI_EXT_PORT_MAJOR(temp) <= 0x02) {
@@ -2819,8 +2829,63 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
 	if (xhci_event_ring_init(xhci, GFP_KERNEL))
 		goto fail;
 
+<<<<<<< HEAD
 	if (xhci_check_trb_in_td_math(xhci) < 0)
 		goto fail;
+=======
+	xhci->erst.entries = dma_alloc_coherent(dev,
+			sizeof(struct xhci_erst_entry) * ERST_NUM_SEGS, &dma,
+			flags);
+	if (!xhci->erst.entries)
+		goto fail;
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"// Allocated event ring segment table at 0x%llx",
+			(unsigned long long)dma);
+
+	memset(xhci->erst.entries, 0, sizeof(struct xhci_erst_entry)*ERST_NUM_SEGS);
+	xhci->erst.num_entries = ERST_NUM_SEGS;
+	xhci->erst.erst_dma_addr = dma;
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"Set ERST to 0; private num segs = %i, virt addr = %p, dma addr = 0x%llx",
+			xhci->erst.num_entries,
+			xhci->erst.entries,
+			(unsigned long long)xhci->erst.erst_dma_addr);
+
+	/* set ring base address and size for each segment table entry */
+	for (val = 0, seg = xhci->event_ring->first_seg; val < ERST_NUM_SEGS; val++) {
+		struct xhci_erst_entry *entry = &xhci->erst.entries[val];
+		entry->seg_addr = cpu_to_le64(seg->dma);
+		entry->seg_size = cpu_to_le32(TRBS_PER_SEGMENT);
+		entry->rsvd = 0;
+		seg = seg->next;
+	}
+
+	/* set ERST count with the number of entries in the segment table */
+	val = readl(&xhci->ir_set->erst_size);
+	val &= ERST_SIZE_MASK;
+	val |= ERST_NUM_SEGS;
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"// Write ERST size = %i to ir_set 0 (some bits preserved)",
+			val);
+	writel(val, &xhci->ir_set->erst_size);
+
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"// Set ERST entries to point to event ring.");
+	/* set the segment table base address */
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"// Set ERST base address for ir_set 0 = 0x%llx",
+			(unsigned long long)xhci->erst.erst_dma_addr);
+	val_64 = xhci_read_64(xhci, &xhci->ir_set->erst_base);
+	val_64 &= ERST_PTR_MASK;
+	val_64 |= (xhci->erst.erst_dma_addr & (u64) ~ERST_PTR_MASK);
+	xhci_write_64(xhci, val_64, &xhci->ir_set->erst_base);
+
+	/* Set the event ring dequeue address */
+	xhci_set_hc_event_deq(xhci);
+	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+			"Wrote ERST address to ir_set 0.");
+	xhci_print_ir_set(xhci, 0);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * XXX: Might need to set the Interrupter Moderation Register to

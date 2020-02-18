@@ -396,6 +396,7 @@ static int modeset_init(struct mdp5_kms *mdp5_kms)
 
 		plane = mdp5_plane_init(dev, vig_planes[i], false,
 			hw_cfg->pipe_vig.base[i], hw_cfg->pipe_vig.caps);
+<<<<<<< HEAD
 		if (IS_ERR(plane)) {
 			ret = PTR_ERR(plane);
 			dev_err(dev->dev, "failed to construct %s plane: %d\n",
@@ -413,6 +414,25 @@ static int modeset_init(struct mdp5_kms *mdp5_kms)
 		if (IS_ERR(plane)) {
 			ret = PTR_ERR(plane);
 			dev_err(dev->dev, "failed to construct %s plane: %d\n",
+=======
+		if (IS_ERR(plane)) {
+			ret = PTR_ERR(plane);
+			dev_err(dev->dev, "failed to construct %s plane: %d\n",
+					pipe2name(vig_planes[i]), ret);
+			goto fail;
+		}
+	}
+
+	/* DMA planes */
+	for (i = 0; i < hw_cfg->pipe_dma.count; i++) {
+		struct drm_plane *plane;
+
+		plane = mdp5_plane_init(dev, dma_planes[i], false,
+				hw_cfg->pipe_dma.base[i], hw_cfg->pipe_dma.caps);
+		if (IS_ERR(plane)) {
+			ret = PTR_ERR(plane);
+			dev_err(dev->dev, "failed to construct %s plane: %d\n",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					pipe2name(dma_planes[i]), ret);
 			goto fail;
 		}
@@ -517,6 +537,7 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
 
 	/* mandatory clocks: */
 	ret = get_clk(pdev, &mdp5_kms->axi_clk, "bus_clk", true);
+<<<<<<< HEAD
 	if (ret)
 		goto fail;
 	ret = get_clk(pdev, &mdp5_kms->ahb_clk, "iface_clk", true);
@@ -528,6 +549,19 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
 	ret = get_clk(pdev, &mdp5_kms->core_clk, "core_clk", true);
 	if (ret)
 		goto fail;
+=======
+	if (ret)
+		goto fail;
+	ret = get_clk(pdev, &mdp5_kms->ahb_clk, "iface_clk", true);
+	if (ret)
+		goto fail;
+	ret = get_clk(pdev, &mdp5_kms->src_clk, "core_clk_src", true);
+	if (ret)
+		goto fail;
+	ret = get_clk(pdev, &mdp5_kms->core_clk, "core_clk", true);
+	if (ret)
+		goto fail;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ret = get_clk(pdev, &mdp5_kms->vsync_clk, "vsync_clk", true);
 	if (ret)
 		goto fail;
@@ -598,12 +632,15 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
 			ret = PTR_ERR(mmu);
 			dev_err(dev->dev, "failed to init iommu: %d\n", ret);
 			iommu_domain_free(config->platform.iommu);
+<<<<<<< HEAD
 		}
 
 		aspace = msm_gem_smmu_address_space_create(&pdev->dev,
 				mmu, "mdp5");
 		if (IS_ERR(aspace)) {
 			ret = PTR_ERR(aspace);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			goto fail;
 		}
 

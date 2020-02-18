@@ -30,6 +30,7 @@
 #define BO_PINNED   0x2000
 
 static struct msm_gem_submit *submit_create(struct drm_device *dev,
+<<<<<<< HEAD
 		struct msm_gem_address_space *aspace,
 		uint32_t nr_bos, uint32_t nr_cmds,
 		struct msm_gpu_submitqueue *queue)
@@ -37,6 +38,12 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
 	struct msm_gem_submit *submit;
 	uint64_t sz = sizeof(*submit) + ((u64)nr_bos * sizeof(submit->bos[0])) +
 		((u64)nr_cmds * sizeof(submit->cmd[0]));
+=======
+		struct msm_gpu *gpu, uint32_t nr)
+{
+	struct msm_gem_submit *submit;
+	uint64_t sz = sizeof(*submit) + ((u64)nr * sizeof(submit->bos[0]));
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (sz > SIZE_MAX)
 		return NULL;
@@ -77,6 +84,7 @@ copy_from_user_inatomic(void *to, const void __user *from, unsigned long n)
 	return -EFAULT;
 }
 
+<<<<<<< HEAD
 void msm_gem_submit_free(struct msm_gem_submit *submit)
 {
 	if (!submit)
@@ -89,6 +97,9 @@ void msm_gem_submit_free(struct msm_gem_submit *submit)
 
 static int submit_lookup_objects(struct msm_gpu *gpu,
 		struct msm_gem_submit *submit,
+=======
+static int submit_lookup_objects(struct msm_gem_submit *submit,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		struct drm_msm_gem_submit *args, struct drm_file *file)
 {
 	unsigned i;
@@ -102,6 +113,7 @@ static int submit_lookup_objects(struct msm_gpu *gpu,
 		struct drm_gem_object *obj;
 		struct msm_gem_object *msm_obj;
 		void __user *userptr =
+<<<<<<< HEAD
 			u64_to_user_ptr(args->bos + (i * sizeof(submit_bo)));
 
 		if (copy_from_user_inatomic(&submit_bo, userptr,
@@ -114,6 +126,17 @@ static int submit_lookup_objects(struct msm_gpu *gpu,
 				goto out;
 			}
 
+=======
+			to_user_ptr(args->bos + (i * sizeof(submit_bo)));
+
+		ret = copy_from_user_inatomic(&submit_bo, userptr, sizeof(submit_bo));
+		if (unlikely(ret)) {
+			pagefault_enable();
+			spin_unlock(&file->table_lock);
+			ret = copy_from_user(&submit_bo, userptr, sizeof(submit_bo));
+			if (ret)
+				goto out;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			spin_lock(&file->table_lock);
 			pagefault_disable();
 		}

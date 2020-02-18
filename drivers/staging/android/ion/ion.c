@@ -17,6 +17,10 @@
  */
 
 #include <linux/atomic.h>
+<<<<<<< HEAD
+=======
+#include <linux/device.h>
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/err.h>
 #include <linux/file.h>
 #include <linux/freezer.h>
@@ -499,8 +503,13 @@ static struct ion_handle *ion_handle_lookup(struct ion_client *client,
 	return ERR_PTR(-EINVAL);
 }
 
+<<<<<<< HEAD
 struct ion_handle *ion_handle_get_by_id_nolock(struct ion_client *client,
 					       int id)
+=======
+static struct ion_handle *ion_handle_get_by_id_nolock(struct ion_client *client,
+						int id)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct ion_handle *handle;
 
@@ -666,7 +675,11 @@ struct ion_handle *ion_alloc(struct ion_client *client, size_t len,
 }
 EXPORT_SYMBOL(ion_alloc);
 
+<<<<<<< HEAD
 void ion_free_nolock(struct ion_client *client, struct ion_handle *handle)
+=======
+static void ion_free_nolock(struct ion_client *client, struct ion_handle *handle)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	bool valid_handle;
 
@@ -692,11 +705,15 @@ static void user_ion_free_nolock(struct ion_client *client,
 		WARN(1, "%s: invalid handle passed to free.\n", __func__);
 		return;
 	}
+<<<<<<< HEAD
 	if (handle->user_ref_count == 0) {
 		WARN(1, "%s: User does not have access!\n", __func__);
 		return;
 	}
 	user_ion_handle_put_nolock(handle);
+=======
+	ion_handle_put_nolock(handle);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void ion_free(struct ion_client *client, struct ion_handle *handle)
@@ -1491,6 +1508,7 @@ int ion_share_dma_buf_fd(struct ion_client *client, struct ion_handle *handle)
 }
 EXPORT_SYMBOL(ion_share_dma_buf_fd);
 
+<<<<<<< HEAD
 bool ion_dma_buf_is_secure(struct dma_buf *dmabuf)
 {
 	struct ion_buffer *buffer;
@@ -1513,14 +1531,20 @@ bool ion_dma_buf_is_secure(struct dma_buf *dmabuf)
 }
 EXPORT_SYMBOL(ion_dma_buf_is_secure);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int ion_share_dma_buf_fd_nolock(struct ion_client *client,
 				       struct ion_handle *handle)
 {
 	return __ion_share_dma_buf_fd(client, handle, false);
 }
 
+<<<<<<< HEAD
 static struct ion_handle *__ion_import_dma_buf(struct ion_client *client,
 					       int fd, bool lock_client)
+=======
+struct ion_handle *ion_import_dma_buf(struct ion_client *client, int fd)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct dma_buf *dmabuf;
 	struct ion_buffer *buffer;
@@ -1546,15 +1570,23 @@ static struct ion_handle *__ion_import_dma_buf(struct ion_client *client,
 	handle = ion_handle_lookup(client, buffer);
 	if (!IS_ERR(handle)) {
 		handle = ion_handle_get_check_overflow(handle);
+<<<<<<< HEAD
 		if (lock_client)
 			mutex_unlock(&client->lock);
+=======
+		mutex_unlock(&client->lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto end;
 	}
 
 	handle = ion_handle_create(client, buffer);
 	if (IS_ERR(handle)) {
+<<<<<<< HEAD
 		if (lock_client)
 			mutex_unlock(&client->lock);
+=======
+		mutex_unlock(&client->lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto end;
 	}
 
@@ -1678,7 +1710,11 @@ static long ion_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 			mutex_unlock(&client->lock);
 			return PTR_ERR(handle);
 		}
+<<<<<<< HEAD
 		user_ion_free_nolock(client, handle);
+=======
+		ion_free_nolock(client, handle);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ion_handle_put_nolock(handle);
 		mutex_unlock(&client->lock);
 		break;
@@ -1989,6 +2025,7 @@ static const struct file_operations debug_heap_fops = {
 	.release = single_release,
 };
 
+<<<<<<< HEAD
 void show_ion_usage(struct ion_device *dev)
 {
 	struct ion_heap *heap;
@@ -2014,6 +2051,8 @@ void show_ion_usage(struct ion_device *dev)
 }
 
 #ifdef DEBUG_HEAP_SHRINKER
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int debug_shrink_set(void *data, u64 val)
 {
 	struct ion_heap *heap = data;
@@ -2048,7 +2087,6 @@ static int debug_shrink_get(void *data, u64 *val)
 
 DEFINE_SIMPLE_ATTRIBUTE(debug_shrink_fops, debug_shrink_get,
 			debug_shrink_set, "%llu\n");
-#endif
 
 void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 {
@@ -2088,7 +2126,10 @@ void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 			path, heap->name);
 	}
 
+<<<<<<< HEAD
 #ifdef DEBUG_HEAP_SHRINKER
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (heap->shrinker.count_objects && heap->shrinker.scan_objects) {
 		char debug_name[64];
 
@@ -2104,11 +2145,15 @@ void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 				path, debug_name);
 		}
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	up_write(&dev->lock);
 }
 EXPORT_SYMBOL(ion_device_add_heap);
+<<<<<<< HEAD
 
 int ion_walk_heaps(struct ion_client *client, int heap_id,
 			unsigned int type, void *data,
@@ -2202,6 +2247,8 @@ static const struct file_operations debug_allbufs_fops = {
 	.llseek = seq_lseek,
 	.release = single_release,
 };
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct ion_device *ion_device_create(long (*custom_ioctl)
 				     (struct ion_client *client,

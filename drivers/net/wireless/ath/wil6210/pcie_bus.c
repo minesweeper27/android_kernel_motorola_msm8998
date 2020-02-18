@@ -26,6 +26,7 @@ static bool use_msi = true;
 module_param(use_msi, bool, 0444);
 MODULE_PARM_DESC(use_msi, " Use MSI interrupt, default - true");
 
+<<<<<<< HEAD
 static bool ftm_mode;
 module_param(ftm_mode, bool, 0444);
 MODULE_PARM_DESC(ftm_mode, " Set factory test mode, default - false");
@@ -36,14 +37,23 @@ static int wil6210_pm_notify(struct notifier_block *notify_block,
 			     unsigned long mode, void *unused);
 #endif /* CONFIG_PM_SLEEP */
 #endif /* CONFIG_PM */
+=======
+static bool use_msi = true;
+module_param(use_msi, bool, S_IRUGO);
+MODULE_PARM_DESC(use_msi, " Use MSI interrupt, default - true");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static
 void wil_set_capabilities(struct wil6210_priv *wil)
 {
+<<<<<<< HEAD
 	const char *wil_fw_name;
 	u32 jtag_id = wil_r(wil, RGF_USER_JTAG_DEV_ID);
 	u8 chip_revision = (wil_r(wil, RGF_USER_REVISION_ID) &
 			    RGF_USER_REVISION_ID_MASK);
+=======
+	u32 rev_id = wil_r(wil, RGF_USER_JTAG_DEV_ID);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	bitmap_zero(wil->hw_capabilities, hw_capability_last);
 	bitmap_zero(wil->fw_capabilities, WMI_FW_CAPABILITY_MAX);
@@ -108,8 +118,11 @@ static int wil_if_pcie_enable(struct wil6210_priv *wil)
 	 */
 	int msi_only = pdev->msi_enabled;
 	bool _use_msi = use_msi;
+<<<<<<< HEAD
 	bool wmi_only = test_bit(WMI_FW_CAPABILITY_WMI_ONLY,
 				 wil->fw_capabilities);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	wil_dbg_misc(wil, "if_pcie_enable, wmi_only %d\n", wmi_only);
 
@@ -220,6 +233,7 @@ static int wil_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 		dev_err(dev, "wil_if_alloc failed: %d\n", rc);
 		return rc;
 	}
+<<<<<<< HEAD
 
 	wil->pdev = pdev;
 	pci_set_drvdata(pdev, wil);
@@ -228,6 +242,14 @@ static int wil_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	wil->platform_handle =
 		wil_platform_init(&pdev->dev, &wil->platform_ops, &rops, wil);
+=======
+	wil->pdev = pdev;
+	pci_set_drvdata(pdev, wil);
+	/* rollback to if_free */
+
+	wil->platform_handle =
+			wil_platform_init(&pdev->dev, &wil->platform_ops);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!wil->platform_handle) {
 		rc = -ENODEV;
 		wil_err(wil, "wil_platform_init failed\n");
@@ -235,6 +257,7 @@ static int wil_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 	}
 	/* rollback to err_plat */
 
+<<<<<<< HEAD
 	/* device supports 48bit addresses */
 	rc = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(48));
 	if (rc) {
@@ -252,6 +275,10 @@ static int wil_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 	rc = pci_enable_device(pdev);
 	if (rc && pdev->msi_enabled == 0) {
+=======
+	rc = pci_enable_device(pdev);
+	if (rc) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		wil_err(wil,
 			"pci_enable_device failed, retry with MSI only\n");
 		/* Work around for platforms that can't allocate IRQ:
@@ -379,13 +406,19 @@ static int wil6210_suspend(struct device *dev, bool is_runtime)
 	struct pci_dev *pdev = to_pci_dev(dev);
 	struct wil6210_priv *wil = pci_get_drvdata(pdev);
 
+<<<<<<< HEAD
 	wil_dbg_pm(wil, "suspend: %s\n", is_runtime ? "runtime" : "system");
+=======
+	wil_dbg_pm(wil, "%s(%s)\n", __func__,
+		   is_runtime ? "runtime" : "system");
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	rc = wil_can_suspend(wil, is_runtime);
 	if (rc)
 		goto out;
 
 	rc = wil_suspend(wil, is_runtime);
+<<<<<<< HEAD
 	if (!rc) {
 		wil->suspend_stats.successful_suspends++;
 
@@ -396,6 +429,17 @@ static int wil6210_suspend(struct device *dev, bool is_runtime)
 			/* disable bus mastering */
 			pci_clear_master(pdev);
 	}
+=======
+	if (rc)
+		goto out;
+
+	/* TODO: how do I bring card in low power state? */
+
+	/* disable bus mastering */
+	pci_clear_master(pdev);
+	/* PCI will call pci_save_state(pdev) and pci_prepare_to_sleep(pdev) */
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out:
 	return rc;
 }
@@ -406,6 +450,7 @@ static int wil6210_resume(struct device *dev, bool is_runtime)
 	struct pci_dev *pdev = to_pci_dev(dev);
 	struct wil6210_priv *wil = pci_get_drvdata(pdev);
 
+<<<<<<< HEAD
 	wil_dbg_pm(wil, "resume: %s\n", is_runtime ? "runtime" : "system");
 
 	/* If platform device supports keep_radio_on_during_sleep it will
@@ -463,6 +508,18 @@ static int wil6210_pm_notify(struct notifier_block *notify_block,
 	}
 
 	wil_dbg_pm(wil, "notification mode %ld: rc (%d)\n", mode, rc);
+=======
+	wil_dbg_pm(wil, "%s(%s)\n", __func__,
+		   is_runtime ? "runtime" : "system");
+
+	/* allow master */
+	pci_set_master(pdev);
+
+	rc = wil_resume(wil, is_runtime);
+	if (rc)
+		pci_clear_master(pdev);
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return rc;
 }
 

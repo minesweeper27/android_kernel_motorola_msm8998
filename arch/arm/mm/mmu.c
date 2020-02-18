@@ -1115,6 +1115,7 @@ void __init sanity_check_meminfo(void)
 	phys_addr_t vmalloc_limit = __pa(vmalloc_min - 1) + 1;
 	struct memblock_region *reg;
 	bool should_use_highmem = false;
+<<<<<<< HEAD
 
 #ifdef CONFIG_ENABLE_VMALLOC_SAVING
 	struct memblock_region *prev_reg = NULL;
@@ -1128,6 +1129,8 @@ void __init sanity_check_meminfo(void)
 		prev_reg = reg;
 	}
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	for_each_memblock(memory, reg) {
 		phys_addr_t block_start = reg->base;
@@ -1587,6 +1590,7 @@ void __init early_paging_init(const struct machine_desc *mdesc)
 
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_FORCE_PAGES
 /*
  * remap a PMD into pages
@@ -1700,6 +1704,8 @@ static void __init remap_pages(void)
 }
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void __init early_fixmap_shutdown(void)
 {
 	int i;
@@ -1743,7 +1749,10 @@ void __init paging_init(const struct machine_desc *mdesc)
 	memblock_set_current_limit(arm_lowmem_limit);
 	dma_contiguous_remap();
 	early_fixmap_shutdown();
+<<<<<<< HEAD
 	remap_pages();
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	devicemaps_init(mdesc);
 	kmap_init();
 	tcm_init();

@@ -287,8 +287,12 @@ static void output_printk(struct trace_event_buffer *fbuffer)
 	spin_unlock_irqrestore(&tracepoint_iter_lock, flags);
 }
 
+<<<<<<< HEAD
 void trace_event_buffer_commit(struct trace_event_buffer *fbuffer,
 			       unsigned long len)
+=======
+void trace_event_buffer_commit(struct trace_event_buffer *fbuffer)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	if (tracepoint_printk)
 		output_printk(fbuffer);

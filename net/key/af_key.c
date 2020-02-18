@@ -244,7 +244,11 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 		 * socket.
 		 */
 		if (pfk->promisc)
+<<<<<<< HEAD
 			pfkey_broadcast_one(skb, GFP_ATOMIC, sk);
+=======
+			pfkey_broadcast_one(skb, &skb2, GFP_ATOMIC, sk);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		/* the exact target will be processed later */
 		if (sk == one_sk)
@@ -259,7 +263,11 @@ static int pfkey_broadcast(struct sk_buff *skb, gfp_t allocation,
 				continue;
 		}
 
+<<<<<<< HEAD
 		err2 = pfkey_broadcast_one(skb, GFP_ATOMIC, sk);
+=======
+		err2 = pfkey_broadcast_one(skb, &skb2, GFP_ATOMIC, sk);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		/* Error is cleared after successful sending to at least one
 		 * registered KM */

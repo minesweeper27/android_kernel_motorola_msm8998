@@ -53,6 +53,7 @@ static int str(yyscan_t scanner, int token)
 	return token;
 }
 
+<<<<<<< HEAD
 static int drv_str(yyscan_t scanner, int token)
 {
 	YYSTYPE *yylval = parse_events_get_lval(scanner);
@@ -63,6 +64,8 @@ static int drv_str(yyscan_t scanner, int token)
 	return token;
 }
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define REWIND(__alloc)				\
 do {								\
 	YYSTYPE *__yylval = parse_events_get_lval(yyscanner);	\
@@ -133,7 +136,10 @@ num_hex		0x[a-fA-F0-9]+
 num_raw_hex	[a-fA-F0-9]+
 name		[a-zA-Z_*?][a-zA-Z0-9_*?.]*
 name_minus	[a-zA-Z_*?][a-zA-Z0-9\-_*?.]*
+<<<<<<< HEAD
 drv_cfg_term	[a-zA-Z0-9_\.]+(=[a-zA-Z0-9_*?\.:]+)?
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* If you add a modifier you need to update check_modifier() */
 modifier_event	[ukhpPGHSDI]+
 modifier_bp	[rwx]{1,3}

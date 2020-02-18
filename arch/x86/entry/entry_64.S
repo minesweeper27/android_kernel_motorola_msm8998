@@ -187,19 +187,25 @@ entry_SYSCALL_64_fastpath:
 	sbb	%rcx, %rcx			/* array_index_mask_nospec() */
 	and	%rcx, %rax
 	movq	%r10, %rcx
+<<<<<<< HEAD
 
 	/*
 	 * This call instruction is handled specially in stub_ptregs_64.
 	 * It might end up jumping to the slow path.  If it jumps, RAX is
 	 * clobbered.
 	 */
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_RETPOLINE
 	movq	sys_call_table(, %rax, 8), %rax
 	call	__x86_indirect_thunk_rax
 #else
 	call	*sys_call_table(, %rax, 8)
 #endif
+<<<<<<< HEAD
 .Lentry_SYSCALL_64_after_fastpath_call:
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	movq	%rax, RAX(%rsp)
 1:
@@ -261,6 +267,7 @@ GLOBAL(int_ret_from_sys_call_irqs_off)
 
 	/* Do syscall entry tracing */
 tracesys:
+<<<<<<< HEAD
 	SAVE_EXTRA_REGS
 	movq	%rsp, %rdi
 	call	syscall_trace_enter
@@ -268,6 +275,27 @@ tracesys:
 	/*
 	 * Reload registers from stack in case ptrace changed them.
 	 * We don't reload %rax because syscall_trace_enter() returned
+=======
+	movq	%rsp, %rdi
+	movl	$AUDIT_ARCH_X86_64, %esi
+	call	syscall_trace_enter_phase1
+	test	%rax, %rax
+	jnz	tracesys_phase2			/* if needed, run the slow path */
+	RESTORE_C_REGS_EXCEPT_RAX		/* else restore clobbered regs */
+	movq	ORIG_RAX(%rsp), %rax
+	jmp	entry_SYSCALL_64_fastpath	/* and return to the fast path */
+
+tracesys_phase2:
+	SAVE_EXTRA_REGS
+	movq	%rsp, %rdi
+	movl	$AUDIT_ARCH_X86_64, %esi
+	movq	%rax, %rdx
+	call	syscall_trace_enter_phase2
+
+	/*
+	 * Reload registers from stack in case ptrace changed them.
+	 * We don't reload %rax because syscall_trace_entry_phase2() returned
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	 * the value it wants us to use in the table lookup.
 	 */
 	RESTORE_C_REGS_EXCEPT_RAX
@@ -392,6 +420,7 @@ opportunistic_sysret_failed:
 	jmp	restore_c_regs_and_iret
 END(entry_SYSCALL_64)
 
+<<<<<<< HEAD
 ENTRY(stub_ptregs_64)
 	/*
 	 * Syscalls marked as needing ptregs land here.
@@ -424,6 +453,8 @@ END(ptregs_\func)
 #define __SYSCALL_64_QUAL_ptregs(sym) ptregs_stub sym
 #define __SYSCALL_64(nr, sym, qual) __SYSCALL_64_QUAL_##qual(sym)
 #include <asm/syscalls_64.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	.macro FORK_LIKE func
 ENTRY(stub_\func)
@@ -748,6 +779,7 @@ apicinterrupt3 \num trace(\sym) smp_trace(\sym)
 .endm
 #endif
 
+<<<<<<< HEAD
 /* Make sure APIC interrupt handlers end up in the irqentry section: */
 #define PUSH_SECTION_IRQENTRY	.pushsection .irqentry.text, "ax"
 #define POP_SECTION_IRQENTRY	.popsection
@@ -757,6 +789,11 @@ PUSH_SECTION_IRQENTRY
 apicinterrupt3 \num \sym \do_sym
 trace_apicinterrupt \num \sym
 POP_SECTION_IRQENTRY
+=======
+.macro apicinterrupt num sym do_sym
+apicinterrupt3 \num \sym \do_sym
+trace_apicinterrupt \num \sym
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 .endm
 
 #ifdef CONFIG_SMP

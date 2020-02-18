@@ -77,12 +77,15 @@ struct pmu_hw_events {
 	struct arm_pmu		*percpu_pmu;
 };
 
+<<<<<<< HEAD
 enum armpmu_pmu_states {
 	ARM_PMU_STATE_OFF,
 	ARM_PMU_STATE_RUNNING,
 	ARM_PMU_STATE_GOING_DOWN,
 };
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct arm_pmu {
 	struct pmu	pmu;
 	cpumask_t	active_irqs;
@@ -107,6 +110,7 @@ struct arm_pmu {
 	void		(*free_irq)(struct arm_pmu *);
 	int		(*map_event)(struct perf_event *event);
 	int		num_events;
+<<<<<<< HEAD
 	int		pmu_state;
 	int		percpu_irq;
 	atomic_t	active_events;
@@ -117,14 +121,26 @@ struct arm_pmu {
 	struct pmu_hw_events	__percpu *hw_events;
 	struct notifier_block	hotplug_nb;
 	struct notifier_block	cpu_pm_nb;
+=======
+	atomic_t	active_events;
+	struct mutex	reserve_mutex;
+	u64		max_period;
+	struct platform_device	*plat_device;
+	struct pmu_hw_events	__percpu *hw_events;
+	struct notifier_block	hotplug_nb;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define to_arm_pmu(p) (container_of(p, struct arm_pmu, pmu))
 
+<<<<<<< HEAD
 extern const unsigned armv8_pmuv3_perf_map[PERF_COUNT_HW_MAX];
 extern const unsigned armv8_pmuv3_perf_cache_map[PERF_COUNT_HW_CACHE_MAX]
 						[PERF_COUNT_HW_CACHE_OP_MAX]
 						[PERF_COUNT_HW_CACHE_RESULT_MAX];
+=======
+int armpmu_register(struct arm_pmu *armpmu, int type);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 u64 armpmu_event_update(struct perf_event *event);
 
@@ -162,6 +178,7 @@ int arm_pmu_device_probe(struct platform_device *pdev,
 			 const struct of_device_id *of_table,
 			 const struct pmu_probe_info *probe_table);
 
+<<<<<<< HEAD
 void armv8_pmu_init(struct arm_pmu *cpu_pmu);
 int armv8pmu_enable_intens(int idx);
 int armv8pmu_disable_intens(int idx);
@@ -174,6 +191,8 @@ int armv8pmu_probe_num_events(struct arm_pmu *arm_pmu);
 
 int kryo_pmu_init(struct arm_pmu *cpu_pmu);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_ARM_PMU */
 
 #endif /* __ARM_PMU_H__ */

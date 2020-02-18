@@ -41,7 +41,10 @@
 #include <linux/irqchip.h>
 #include <linux/irqchip/chained_irq.h>
 #include <linux/irqchip/arm-gic.h>
+<<<<<<< HEAD
 #include <linux/syscore_ops.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/cputype.h>
 #include <asm/irq.h>
@@ -104,11 +107,14 @@ static DEFINE_RAW_SPINLOCK(irq_controller_lock);
 static u8 gic_cpu_map[NR_GIC_CPU_IF] __read_mostly;
 
 static struct static_key supports_deactivate = STATIC_KEY_INIT_TRUE;
+<<<<<<< HEAD
 /*
  * Supported arch specific GIC irq extension.
  * Default make them NULL.
  */
 extern struct irq_chip gic_arch_extn;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifndef MAX_GIC_NR
 #define MAX_GIC_NR	1
@@ -200,6 +206,21 @@ static void gic_mask_irq(struct irq_data *d)
 	if (gic_arch_extn.irq_mask)
 		gic_arch_extn.irq_mask(d);
 	raw_spin_unlock_irqrestore(&irq_controller_lock, flags);
+}
+
+static void gic_eoimode1_mask_irq(struct irq_data *d)
+{
+	gic_mask_irq(d);
+	/*
+	 * When masking a forwarded interrupt, make sure it is
+	 * deactivated as well.
+	 *
+	 * This ensures that an interrupt that is getting
+	 * disabled/masked will not get "stuck", because there is
+	 * noone to deactivate it (guest is being terminated).
+	 */
+	if (irqd_is_forwarded_to_vcpu(d))
+		gic_poke_irq(d, GIC_DIST_ACTIVE_CLEAR);
 }
 
 static void gic_eoimode1_mask_irq(struct irq_data *d)
@@ -434,6 +455,19 @@ static int gic_retrigger(struct irq_data *d)
 		return gic_arch_extn.irq_retrigger(d);
 
 	/* the genirq layer expects 0 if we can't retrigger in hardware */
+	return 0;
+}
+
+static int gic_irq_set_vcpu_affinity(struct irq_data *d, void *vcpu)
+{
+	/* Only interrupts on the primary GIC can be forwarded to a vcpu. */
+	if (cascading_gic_irq(d))
+		return -EINVAL;
+
+	if (vcpu)
+		irqd_set_forwarded_to_vcpu(d);
+	else
+		irqd_clr_forwarded_to_vcpu(d);
 	return 0;
 }
 
@@ -1161,6 +1195,7 @@ static int gic_irq_domain_translate(struct irq_domain *d,
 
 		/* Get the interrupt number and add 16 to skip over SGIs */
 		*hwirq = fwspec->param[1] + 16;
+<<<<<<< HEAD
 
 		/*
 		 * For SPIs, we need to add 16 more to get the GIC irq
@@ -1169,6 +1204,16 @@ static int gic_irq_domain_translate(struct irq_domain *d,
 		if (!fwspec->param[0])
 			*hwirq += 16;
 
+=======
+
+		/*
+		 * For SPIs, we need to add 16 more to get the GIC irq
+		 * ID number
+		 */
+		if (!fwspec->param[0])
+			*hwirq += 16;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		*type = fwspec->param[2] & IRQ_TYPE_SENSE_MASK;
 		return 0;
 	}
@@ -1543,6 +1588,7 @@ static int __init gic_v2_acpi_init(struct acpi_subtable_header *header,
 	 * Disable split EOI/Deactivate if HYP is not available. ACPI
 	 * guarantees that we'll always have a GICv2, so the CPU
 	 * interface will always be the right size.
+<<<<<<< HEAD
 	 */
 	if (!is_hyp_mode_available())
 		static_key_slow_dec(&supports_deactivate);
@@ -1550,6 +1596,15 @@ static int __init gic_v2_acpi_init(struct acpi_subtable_header *header,
 	/*
 	 * Initialize GIC instance zero (no multi-GIC support).
 	 */
+=======
+	 */
+	if (!is_hyp_mode_available())
+		static_key_slow_dec(&supports_deactivate);
+
+	/*
+	 * Initialize GIC instance zero (no multi-GIC support).
+	 */
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	domain_handle = irq_domain_alloc_fwnode(dist_base);
 	if (!domain_handle) {
 		pr_err("Unable to allocate domain handle\n");

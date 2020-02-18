@@ -68,6 +68,7 @@ static ssize_t channels_show(struct device *dev,
 
 static DEVICE_ATTR_RO(channels);
 
+<<<<<<< HEAD
 static ssize_t hw_override_show(struct device *dev,
 				struct device_attribute *attr,
 				char *buf)
@@ -86,6 +87,11 @@ static struct attribute *stm_attrs[] = {
 	&dev_attr_masters.attr,
 	&dev_attr_channels.attr,
 	&dev_attr_hw_override.attr,
+=======
+static struct attribute *stm_attrs[] = {
+	&dev_attr_masters.attr,
+	&dev_attr_channels.attr,
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL,
 };
 
@@ -395,6 +401,7 @@ err_free:
 static int stm_char_release(struct inode *inode, struct file *file)
 {
 	struct stm_file *stmf = file->private_data;
+<<<<<<< HEAD
 	struct stm_device *stm = stmf->stm;
 
 	if (stm->data->unlink)
@@ -402,12 +409,20 @@ static int stm_char_release(struct inode *inode, struct file *file)
 				  stmf->output.channel);
 
 	stm_output_free(stm, &stmf->output);
+=======
+
+	stm_output_free(stmf->stm, &stmf->output);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * matches the stm_char_open()'s
 	 * class_find_device() + try_module_get()
 	 */
+<<<<<<< HEAD
 	stm_put_device(stm);
+=======
+	stm_put_device(stmf->stm);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kfree(stmf);
 
 	return 0;
@@ -428,8 +443,13 @@ static int stm_file_assign(struct stm_file *stmf, char *id, unsigned int width)
 	return ret;
 }
 
+<<<<<<< HEAD
 static ssize_t stm_write(struct stm_data *data, unsigned int master,
 			  unsigned int channel, const char *buf, size_t count)
+=======
+static void stm_write(struct stm_data *data, unsigned int master,
+		      unsigned int channel, const char *buf, size_t count)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	unsigned int flags = STP_PACKET_TIMESTAMPED;
 	const unsigned char *p = buf, nil = 0;
@@ -441,6 +461,7 @@ static ssize_t stm_write(struct stm_data *data, unsigned int master,
 		sz = data->packet(data, master, channel, STP_PACKET_DATA, flags,
 				  sz, p);
 		flags = 0;
+<<<<<<< HEAD
 
 		if (sz < 0)
 			break;
@@ -449,6 +470,11 @@ static ssize_t stm_write(struct stm_data *data, unsigned int master,
 	data->packet(data, master, channel, STP_PACKET_FLAG, 0, 0, &nil);
 
 	return pos;
+=======
+	}
+
+	data->packet(data, master, channel, STP_PACKET_FLAG, 0, 0, &nil);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static ssize_t stm_char_write(struct file *file, const char __user *buf,
@@ -486,8 +512,13 @@ static ssize_t stm_char_write(struct file *file, const char __user *buf,
 		return -EFAULT;
 	}
 
+<<<<<<< HEAD
 	count = stm_write(stm->data, stmf->output.master, stmf->output.channel,
 			  kbuf, count);
+=======
+	stm_write(stm->data, stmf->output.master, stmf->output.channel, kbuf,
+		  count);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	kfree(kbuf);
 
@@ -567,6 +598,11 @@ static int stm_char_policy_set_ioctl(struct stm_file *stmf, void __user *arg)
 	if (ret)
 		goto err_free;
 
+<<<<<<< HEAD
+=======
+	ret = 0;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (stm->data->link)
 		ret = stm->data->link(stm->data, stmf->output.master,
 				      stmf->output.channel);
@@ -892,6 +928,7 @@ unlock:
 	spin_unlock(&src->link_lock);
 	spin_unlock(&stm->link_lock);
 
+<<<<<<< HEAD
 	/*
 	 * Call the unlink callbacks for both source and stm, when we know
 	 * that we have actually performed the unlinking.
@@ -904,6 +941,10 @@ unlock:
 			stm->data->unlink(stm->data, src->output.master,
 					  src->output.channel);
 	}
+=======
+	if (!ret && src->data->unlink)
+		src->data->unlink(src->data);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ret;
 }
@@ -1091,9 +1132,15 @@ int stm_source_write(struct stm_source_data *data, unsigned int chan,
 
 	stm = srcu_dereference(src->link, &stm_source_srcu);
 	if (stm)
+<<<<<<< HEAD
 		count = stm_write(stm->data, src->output.master,
 				  src->output.channel + chan,
 				  buf, count);
+=======
+		stm_write(stm->data, src->output.master,
+			  src->output.channel + chan,
+			  buf, count);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	else
 		count = -ENODEV;
 

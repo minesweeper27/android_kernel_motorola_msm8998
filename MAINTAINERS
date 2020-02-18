@@ -746,11 +746,14 @@ W:	http://ez.analog.com/community/linux-device-drivers
 S:	Supported
 F:	drivers/dma/dma-axi-dmac.c
 
+<<<<<<< HEAD
 ANDROID CONFIG FRAGMENTS
 M:	Rob Herring <robh@kernel.org>
 S:	Supported
 F:	kernel/configs/android*
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 ANDROID DRIVERS
 M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 M:	Arve Hjønnevåg <arve@android.com>
@@ -8923,6 +8926,7 @@ S:	Maintained
 F:	Documentation/blockdev/ramdisk.txt
 F:	drivers/block/brd.c
 
+<<<<<<< HEAD
 RANCHU VIRTUAL BOARD FOR MIPS
 M:	Miodrag Dinic <miodrag.dinic@mips.com>
 L:	linux-mips@linux-mips.org
@@ -8930,6 +8934,8 @@ S:	Supported
 F:	arch/mips/generic/board-ranchu.c
 F:	arch/mips/configs/generic/board-ranchu.config
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 RANDOM NUMBER DRIVER
 M:	"Theodore Ts'o" <tytso@mit.edu>
 S:	Maintained
@@ -9449,12 +9455,16 @@ F:	drivers/mmc/host/dw_mmc*
 SYSTEM TRACE MODULE CLASS
 M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
 S:	Maintained
+<<<<<<< HEAD
 T:	git git://git.kernel.org/pub/scm/linux/kernel/git/ash/stm.git
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 F:	Documentation/trace/stm.txt
 F:	drivers/hwtracing/stm/
 F:	include/linux/stm.h
 F:	include/uapi/linux/stm.h
 
+<<<<<<< HEAD
 TEE SUBSYSTEM
 M:	Jens Wiklander <jens.wiklander@linaro.org>
 S:	Maintained
@@ -9463,6 +9473,8 @@ F:	include/uapi/linux/tee.h
 F:	drivers/tee/
 F:	Documentation/tee.txt
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 THUNDERBOLT DRIVER
 M:	Andreas Noever <andreas.noever@gmail.com>
 S:	Maintained
@@ -11485,6 +11497,7 @@ S:	Maintained
 F:	drivers/media/v4l2-core/videobuf2-*
 F:	include/media/videobuf2-*
 
+<<<<<<< HEAD
 VIRTIO AND VHOST VSOCK DRIVER
 M:	Stefan Hajnoczi <stefanha@redhat.com>
 L:	kvm@vger.kernel.org
@@ -11498,6 +11511,8 @@ F:	net/vmw_vsock/virtio_transport.c
 F:	drivers/vhost/vsock.c
 F:	drivers/vhost/vsock.h
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 VIRTUAL SERIO DEVICE DRIVER
 M:	Stephen Chandler Paul <thatslyude@gmail.com>
 S:	Maintained

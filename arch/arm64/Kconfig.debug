@@ -73,7 +73,11 @@ config DEBUG_RODATA
 	  If in doubt, say Y
 
 config DEBUG_ALIGN_RODATA
+<<<<<<< HEAD
 	depends on DEBUG_RODATA
+=======
+	depends on DEBUG_RODATA && ARM64_4K_PAGES
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	bool "Align linker sections up to SECTION_SIZE"
 	help
 	  If this option is enabled, sections that may potentially be marked as

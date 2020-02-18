@@ -63,7 +63,10 @@ include/asm-generic/bitops/const_hweight.h
 include/asm-generic/bitops/fls64.h
 include/asm-generic/bitops/__fls.h
 include/asm-generic/bitops/fls.h
+<<<<<<< HEAD
 include/linux/coresight-pmu.h
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 include/linux/perf_event.h
 include/linux/list.h
 include/linux/hash.h

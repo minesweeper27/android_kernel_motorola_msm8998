@@ -19,8 +19,11 @@
 #ifndef __ASM_KERNEL_PGTABLE_H
 #define __ASM_KERNEL_PGTABLE_H
 
+<<<<<<< HEAD
 #include <asm/pgtable.h>
 #include <asm/sparsemem.h>
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * The linear mapping and the start of memory are both 2M aligned (per
@@ -55,12 +58,15 @@
 #define SWAPPER_DIR_SIZE	(SWAPPER_PGTABLE_LEVELS * PAGE_SIZE)
 #define IDMAP_DIR_SIZE		(IDMAP_PGTABLE_LEVELS * PAGE_SIZE)
 
+<<<<<<< HEAD
 #ifdef CONFIG_ARM64_SW_TTBR0_PAN
 #define RESERVED_TTBR0_SIZE	(PAGE_SIZE)
 #else
 #define RESERVED_TTBR0_SIZE	(0)
 #endif
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* Initial memory map size */
 #if ARM64_SWAPPER_USES_SECTION_MAPS
 #define SWAPPER_BLOCK_SHIFT	SECTION_SHIFT
@@ -78,6 +84,7 @@
 /*
  * Initial memory map attributes.
  */
+<<<<<<< HEAD
 #define _SWAPPER_PTE_FLAGS	(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
 #define _SWAPPER_PMD_FLAGS	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
 
@@ -88,6 +95,10 @@
 #define SWAPPER_PTE_FLAGS	_SWAPPER_PTE_FLAGS
 #define SWAPPER_PMD_FLAGS	_SWAPPER_PMD_FLAGS
 #endif
+=======
+#define SWAPPER_PTE_FLAGS	(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
+#define SWAPPER_PMD_FLAGS	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #if ARM64_SWAPPER_USES_SECTION_MAPS
 #define SWAPPER_MM_MMUFLAGS	(PMD_ATTRINDX(MT_NORMAL) | SWAPPER_PMD_FLAGS)
@@ -95,6 +106,7 @@
 #define SWAPPER_MM_MMUFLAGS	(PTE_ATTRINDX(MT_NORMAL) | SWAPPER_PTE_FLAGS)
 #endif
 
+<<<<<<< HEAD
 /*
  * To make optimal use of block mappings when laying out the linear
  * mapping, round down the base of physical memory to a size that can
@@ -121,5 +133,7 @@
 #else
 #define ARM64_MEMSTART_ALIGN	(1UL << ARM64_MEMSTART_SHIFT)
 #endif
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif	/* __ASM_KERNEL_PGTABLE_H */

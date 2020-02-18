@@ -359,6 +359,7 @@ static int ip_rcv_finish(struct net *net, struct sock *sk, struct sk_buff *skb)
 	rt = skb_rtable(skb);
 	if (rt->rt_type == RTN_MULTICAST) {
 		IP_UPD_PO_STATS_BH(net, IPSTATS_MIB_INMCAST, skb->len);
+<<<<<<< HEAD
 	} else if (rt->rt_type == RTN_BROADCAST) {
 		IP_UPD_PO_STATS_BH(net, IPSTATS_MIB_INBCAST, skb->len);
 	} else if (skb->pkt_type == PACKET_BROADCAST ||
@@ -384,6 +385,10 @@ static int ip_rcv_finish(struct net *net, struct sock *sk, struct sk_buff *skb)
 		    IN_DEV_ORCONF(in_dev, DROP_UNICAST_IN_L2_MULTICAST))
 			goto drop;
 	}
+=======
+	} else if (rt->rt_type == RTN_BROADCAST)
+		IP_UPD_PO_STATS_BH(net, IPSTATS_MIB_INBCAST, skb->len);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return dst_input(skb);
 

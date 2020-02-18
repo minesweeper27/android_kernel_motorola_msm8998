@@ -90,6 +90,12 @@ static int ion_cma_allocate(struct ion_heap *heap, struct ion_buffer *buffer,
 	ion_cma_get_sgtable(dev,
 			info->table, info->cpu_addr, info->handle, len);
 
+<<<<<<< HEAD
+=======
+	if (dma_get_sgtable(dev, info->table, info->cpu_addr, info->handle,
+			    len))
+		goto free_table;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* keep this for memory release */
 	buffer->priv_virt = info;
 	return 0;
@@ -217,6 +223,7 @@ struct ion_heap *ion_cma_heap_create(struct ion_platform_heap *data)
 	if (!heap)
 		return ERR_PTR(-ENOMEM);
 
+<<<<<<< HEAD
 	heap->ops = &ion_cma_ops;
 	/* set device as private heaps data, later it will be
 	 * used to make the link with reserved CMA memory */
@@ -224,6 +231,16 @@ struct ion_heap *ion_cma_heap_create(struct ion_platform_heap *data)
 	heap->type = ION_HEAP_TYPE_DMA;
 	cma_heap_has_outer_cache = data->has_outer_cache;
 	return heap;
+=======
+	cma_heap->heap.ops = &ion_cma_ops;
+	/*
+	 * get device from private heaps data, later it will be
+	 * used to make the link with reserved CMA memory
+	 */
+	cma_heap->dev = data->priv;
+	cma_heap->heap.type = ION_HEAP_TYPE_DMA;
+	return &cma_heap->heap;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void ion_cma_heap_destroy(struct ion_heap *heap)

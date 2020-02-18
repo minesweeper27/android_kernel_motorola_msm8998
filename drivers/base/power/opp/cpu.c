@@ -31,7 +31,11 @@
  * @table:	Cpufreq table returned back to caller
  *
  * Generate a cpufreq table for a provided device- this assumes that the
+<<<<<<< HEAD
  * opp table is already initialized and ready for usage.
+=======
+ * opp list is already initialized and ready for usage.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * This function allocates required memory for the cpufreq table. It is
  * expected that the caller does the required maintenance such as freeing
@@ -44,7 +48,11 @@
  * WARNING: It is  important for the callers to ensure refreshing their copy of
  * the table if any of the mentioned functions have been invoked in the interim.
  *
+<<<<<<< HEAD
  * Locking: The internal opp_table and opp structures are RCU protected.
+=======
+ * Locking: The internal device_opp and opp structures are RCU protected.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Since we just use the regular accessor functions to access the internal data
  * structures, we use RCU read lock inside this function. As a result, users of
  * this function DONOT need to use explicit locks for invoking.
@@ -122,6 +130,7 @@ EXPORT_SYMBOL_GPL(dev_pm_opp_free_cpufreq_table);
 /* Required only for V1 bindings, as v2 can manage it from DT itself */
 int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, cpumask_var_t cpumask)
 {
+<<<<<<< HEAD
 	struct opp_device *opp_dev;
 	struct opp_table *opp_table;
 	struct device *dev;
@@ -131,6 +140,17 @@ int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, cpumask_var_t cpumask)
 
 	opp_table = _find_opp_table(cpu_dev);
 	if (IS_ERR(opp_table)) {
+=======
+	struct device_list_opp *list_dev;
+	struct device_opp *dev_opp;
+	struct device *dev;
+	int cpu, ret = 0;
+
+	mutex_lock(&dev_opp_list_lock);
+
+	dev_opp = _find_device_opp(cpu_dev);
+	if (IS_ERR(dev_opp)) {
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ret = -EINVAL;
 		goto unlock;
 	}
@@ -146,15 +166,25 @@ int dev_pm_opp_set_sharing_cpus(struct device *cpu_dev, cpumask_var_t cpumask)
 			continue;
 		}
 
+<<<<<<< HEAD
 		opp_dev = _add_opp_dev(dev, opp_table);
 		if (!opp_dev) {
 			dev_err(dev, "%s: failed to add opp-dev for cpu%d device\n",
+=======
+		list_dev = _add_list_dev(dev, dev_opp);
+		if (!list_dev) {
+			dev_err(dev, "%s: failed to add list-dev for cpu%d device\n",
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				__func__, cpu);
 			continue;
 		}
 	}
 unlock:
+<<<<<<< HEAD
 	mutex_unlock(&opp_table_lock);
+=======
+	mutex_unlock(&dev_opp_list_lock);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return ret;
 }
@@ -214,6 +244,10 @@ EXPORT_SYMBOL_GPL(dev_pm_opp_of_cpumask_add_table);
 /*
  * Works only for OPP v2 bindings.
  *
+<<<<<<< HEAD
+=======
+ * cpumask should be already set to mask of cpu_dev->id.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Returns -ENOENT if operating-points-v2 bindings aren't supported.
  */
 int dev_pm_opp_of_get_sharing_cpus(struct device *cpu_dev, cpumask_var_t cpumask)
@@ -229,8 +263,11 @@ int dev_pm_opp_of_get_sharing_cpus(struct device *cpu_dev, cpumask_var_t cpumask
 		return -ENOENT;
 	}
 
+<<<<<<< HEAD
 	cpumask_set_cpu(cpu_dev->id, cpumask);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* OPPs are shared ? */
 	if (!of_property_read_bool(np, "opp-shared"))
 		goto put_cpu_node;

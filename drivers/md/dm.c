@@ -2221,7 +2221,11 @@ static int dm_any_congested(void *congested_data, int bdi_bits)
 			 * the query about congestion status of request_queue
 			 */
 			if (dm_request_based(md))
+<<<<<<< HEAD
 				r = md->queue->backing_dev_info->wb.state &
+=======
+				r = md->queue->backing_dev_info.wb.state &
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				    bdi_bits;
 			else
 				r = dm_table_any_congested(map, bdi_bits);
@@ -2303,7 +2307,10 @@ static void dm_init_md_queue(struct mapped_device *md)
 	 * - must do so here (in alloc_dev callchain) before queue is used
 	 */
 	md->queue->queuedata = md;
+<<<<<<< HEAD
 	md->queue->backing_dev_info->congested_data = md;
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void dm_init_old_md_queue(struct mapped_device *md)
@@ -2314,7 +2321,12 @@ static void dm_init_old_md_queue(struct mapped_device *md)
 	/*
 	 * Initialize aspects of queue that aren't relevant for blk-mq
 	 */
+<<<<<<< HEAD
 	md->queue->backing_dev_info->congested_fn = dm_any_congested;
+=======
+	md->queue->backing_dev_info.congested_data = md;
+	md->queue->backing_dev_info.congested_fn = dm_any_congested;
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	blk_queue_bounce_limit(md->queue, BLK_BOUNCE_ANY);
 }
 
@@ -2396,6 +2408,12 @@ static struct mapped_device *alloc_dev(int minor)
 		goto bad;
 
 	dm_init_md_queue(md);
+	/*
+	 * default to bio-based required ->make_request_fn until DM
+	 * table is loaded and md->type established. If request-based
+	 * table is loaded: blk-mq will override accordingly.
+	 */
+	blk_queue_make_request(md->queue, dm_make_request);
 
 	md->disk = alloc_disk(1);
 	if (!md->disk)
@@ -2859,7 +2877,10 @@ int dm_setup_md_queue(struct mapped_device *md)
 		break;
 	case DM_TYPE_BIO_BASED:
 		dm_init_old_md_queue(md);
+<<<<<<< HEAD
 		blk_queue_make_request(md->queue, dm_make_request);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * DM handles splitting bios as needed.  Free the bio_split bioset
 		 * since it won't be used (saves 1 process per bio-based DM device).

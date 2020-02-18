@@ -308,7 +308,13 @@ static void disable_loopback(struct f_loopback *loop)
 
 static inline struct usb_request *lb_alloc_ep_req(struct usb_ep *ep, int len)
 {
+<<<<<<< HEAD
 	return alloc_ep_req(ep, len);
+=======
+	struct f_loopback	*loop = ep->driver_data;
+
+	return alloc_ep_req(ep, len, loop->buflen);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int alloc_requests(struct usb_composite_dev *cdev,
@@ -331,6 +337,7 @@ static int alloc_requests(struct usb_composite_dev *cdev,
 		if (!in_req)
 			goto fail;
 
+<<<<<<< HEAD
 		out_req = lb_alloc_ep_req(loop->out_ep, loop->buflen);
 		if (!out_req)
 			goto fail_in;
@@ -338,6 +345,15 @@ static int alloc_requests(struct usb_composite_dev *cdev,
 		in_req->complete = loopback_complete;
 		out_req->complete = loopback_complete;
 
+=======
+		out_req = lb_alloc_ep_req(loop->out_ep, 0);
+		if (!out_req)
+			goto fail_in;
+
+		in_req->complete = loopback_complete;
+		out_req->complete = loopback_complete;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		in_req->buf = out_req->buf;
 		/* length will be set in complete routine */
 		in_req->context = out_req;
@@ -369,6 +385,7 @@ static int enable_endpoint(struct usb_composite_dev *cdev,
 	result = config_ep_by_speed(cdev->gadget, &(loop->function), ep);
 	if (result)
 		goto out;
+<<<<<<< HEAD
 
 	result = usb_ep_enable(ep);
 	if (result < 0)
@@ -376,6 +393,15 @@ static int enable_endpoint(struct usb_composite_dev *cdev,
 	ep->driver_data = loop;
 	result = 0;
 
+=======
+
+	result = usb_ep_enable(ep);
+	if (result < 0)
+		goto out;
+	ep->driver_data = loop;
+	result = 0;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out:
 	return result;
 }

@@ -708,9 +708,12 @@ static ssize_t store_##file_name					\
 	int ret, temp;							\
 	struct cpufreq_policy new_policy;				\
 									\
+<<<<<<< HEAD
 	if (&policy->object == &policy->min)				\
 		return count;						\
 									\
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	memcpy(&new_policy, policy, sizeof(*policy));			\
 	new_policy.min = policy->user_policy.min;			\
 	new_policy.max = policy->user_policy.max;			\
@@ -1367,7 +1370,10 @@ static int cpufreq_online(unsigned int cpu)
 			goto out_exit_policy;
 		blocking_notifier_call_chain(&cpufreq_policy_notifier_list,
 				CPUFREQ_CREATE_POLICY, policy);
+<<<<<<< HEAD
 		cpufreq_times_create_policy(policy);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		write_lock_irqsave(&cpufreq_driver_lock, flags);
 		list_add(&policy->policy_list, &cpufreq_policy_list);
@@ -1449,8 +1455,12 @@ static void cpufreq_offline_prepare(unsigned int cpu)
 	if (has_target()) {
 		int ret = __cpufreq_governor(policy, CPUFREQ_GOV_STOP);
 		if (ret)
+<<<<<<< HEAD
 			pr_err("%s: Failed to stop governor for CPU%u\n",
 			       __func__, cpu);
+=======
+			pr_err("%s: Failed to stop governor\n", __func__);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	down_write(&policy->rwsem);
@@ -1500,8 +1510,12 @@ static void cpufreq_offline_finish(unsigned int cpu)
 	if (has_target()) {
 		int ret = __cpufreq_governor(policy, CPUFREQ_GOV_POLICY_EXIT);
 		if (ret)
+<<<<<<< HEAD
 			pr_err("%s: Failed to start governor for CPU%u, policy CPU%u\n",
 			       __func__, cpu, policy->cpu);
+=======
+			pr_err("%s: Failed to exit governor\n", __func__);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/*
@@ -2387,6 +2401,7 @@ static int cpufreq_cpu_callback(struct notifier_block *nfb,
 {
 	unsigned int cpu = (unsigned long)hcpu;
 
+<<<<<<< HEAD
 	if (!cpufreq_driver)
 		return NOTIFY_OK;
 
@@ -2403,6 +2418,21 @@ static int cpufreq_cpu_callback(struct notifier_block *nfb,
 		cpufreq_offline_finish(cpu);
 		break;
 
+=======
+	switch (action & ~CPU_TASKS_FROZEN) {
+	case CPU_ONLINE:
+		cpufreq_online(cpu);
+		break;
+
+	case CPU_DOWN_PREPARE:
+		cpufreq_offline_prepare(cpu);
+		break;
+
+	case CPU_POST_DEAD:
+		cpufreq_offline_finish(cpu);
+		break;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case CPU_DOWN_FAILED:
 		cpufreq_online(cpu);
 		break;
@@ -2563,9 +2593,12 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data)
 
 	pr_debug("trying to register driver %s\n", driver_data->name);
 
+<<<<<<< HEAD
 	/* Register for hotplug notifers before blocking hotplug. */
 	register_hotcpu_notifier(&cpufreq_cpu_notifier);
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Protect against concurrent CPU online/offline. */
 	get_online_cpus();
 
@@ -2604,6 +2637,13 @@ out:
 	put_online_cpus();
 	return ret;
 
+<<<<<<< HEAD
+=======
+out:
+	put_online_cpus();
+	return ret;
+
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 err_if_unreg:
 	subsys_interface_unregister(&cpufreq_interface);
 err_boost_unreg:

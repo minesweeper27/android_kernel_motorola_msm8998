@@ -57,6 +57,17 @@ extern char* (*arch_read_hardware_id)(void);
 	__show_ratelimited;						\
 })
 
+#define show_unhandled_signals_ratelimited()				\
+({									\
+	static DEFINE_RATELIMIT_STATE(_rs,				\
+				      DEFAULT_RATELIMIT_INTERVAL,	\
+				      DEFAULT_RATELIMIT_BURST);		\
+	bool __show_ratelimited = false;				\
+	if (show_unhandled_signals && __ratelimit(&_rs))		\
+		__show_ratelimited = true;				\
+	__show_ratelimited;						\
+})
+
 #define UDBG_UNDEFINED	(1 << 0)
 #define UDBG_SYSCALL	(1 << 1)
 #define UDBG_BADABORT	(1 << 2)

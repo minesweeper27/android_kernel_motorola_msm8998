@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2017 Qualcomm Atheros, Inc.
+=======
+ * Copyright (c) 2012-2015 Qualcomm Atheros, Inc.
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -1353,6 +1357,7 @@ static void wil_print_rxtid(struct seq_file *s, struct wil_tid_ampdu_rx *r)
 		   "] total %llu drop %llu (dup %llu + old %llu) last 0x%03x\n",
 		   r->total, drop_dup + drop_old, drop_dup, drop_old,
 		   r->ssn_last_drop);
+<<<<<<< HEAD
 }
 
 static void wil_print_rxtid_crypto(struct seq_file *s, int tid,
@@ -1381,6 +1386,8 @@ has_keys:
 			   cc->pn);
 	}
 	seq_puts(s, "\n");
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int wil_sta_debugfs_show(struct seq_file *s, void *data)
@@ -1406,7 +1413,11 @@ __acquires(&p->tid_rx_lock) __releases(&p->tid_rx_lock)
 			aid = p->aid;
 			break;
 		}
+<<<<<<< HEAD
 		seq_printf(s, "[%d] %pM %s AID %d\n", i, p->addr, status, aid);
+=======
+		seq_printf(s, "[%d] %pM %s\n", i, p->addr, status);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (p->status == wil_sta_connected) {
 			spin_lock_bh(&p->tid_rx_lock);
@@ -1426,11 +1437,18 @@ __acquires(&p->tid_rx_lock) __releases(&p->tid_rx_lock)
 					       &p->group_crypto_rx);
 			spin_unlock_bh(&p->tid_rx_lock);
 			seq_printf(s,
+<<<<<<< HEAD
 				   "Rx invalid frame: non-data %lu, short %lu, large %lu, replay %lu\n",
 				   p->stats.rx_non_data_frame,
 				   p->stats.rx_short_frame,
 				   p->stats.rx_large_frame,
 				   p->stats.rx_replay);
+=======
+				   "Rx invalid frame: non-data %lu, short %lu, large %lu\n",
+				   p->stats.rx_non_data_frame,
+				   p->stats.rx_short_frame,
+				   p->stats.rx_large_frame);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 			seq_puts(s, "Rx/MCS:");
 			for (mcs = 0; mcs < ARRAY_SIZE(p->stats.rx_per_mcs);
@@ -1701,6 +1719,7 @@ static const struct {
 	umode_t mode;
 	const struct file_operations *fops;
 } dbg_files[] = {
+<<<<<<< HEAD
 	{"mbox",	0444,		&fops_mbox},
 	{"vrings",	0444,		&fops_vring},
 	{"stations", 0444,		&fops_sta},
@@ -1725,6 +1744,27 @@ static const struct {
 	{"fw_capabilities",	0444,	&fops_fw_capabilities},
 	{"fw_version",	0444,		&fops_fw_version},
 	{"suspend_stats",	0644,	&fops_suspend_stats},
+=======
+	{"mbox",	S_IRUGO,		&fops_mbox},
+	{"vrings",	S_IRUGO,		&fops_vring},
+	{"stations",	S_IRUGO,		&fops_sta},
+	{"desc",	S_IRUGO,		&fops_txdesc},
+	{"bf",		S_IRUGO,		&fops_bf},
+	{"ssid",	S_IRUGO | S_IWUSR,	&fops_ssid},
+	{"mem_val",	S_IRUGO,		&fops_memread},
+	{"reset",		  S_IWUSR,	&fops_reset},
+	{"rxon",		  S_IWUSR,	&fops_rxon},
+	{"tx_mgmt",		  S_IWUSR,	&fops_txmgmt},
+	{"wmi_send",		  S_IWUSR,	&fops_wmi},
+	{"back",	S_IRUGO | S_IWUSR,	&fops_back},
+	{"pmccfg",	S_IRUGO | S_IWUSR,	&fops_pmccfg},
+	{"pmcdata",	S_IRUGO,		&fops_pmcdata},
+	{"temp",	S_IRUGO,		&fops_temp},
+	{"freq",	S_IRUGO,		&fops_freq},
+	{"link",	S_IRUGO,		&fops_link},
+	{"info",	S_IRUGO,		&fops_info},
+	{"recovery",	S_IRUGO | S_IWUSR,	&fops_recovery},
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static void wil6210_debugfs_init_files(struct wil6210_priv *wil,

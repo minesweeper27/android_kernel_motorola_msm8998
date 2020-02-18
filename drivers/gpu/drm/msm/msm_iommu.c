@@ -125,7 +125,11 @@ static int msm_iommu_attach_dynamic(struct msm_mmu *mmu, const char **names,
 	/* Assign a unique procid for the domain to cut down on TLB churn */
 	id = ++procid;
 
+<<<<<<< HEAD
 	iommu_domain_set_attr(iommu->domain, DOMAIN_ATTR_PROCID, &id);
+=======
+		VERB("map[%d]: %08x %08x(%zx)", i, iova, pa, bytes);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = iommu_attach_device(iommu->domain, mmu->dev);
 	if (ret)
@@ -184,8 +188,12 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
 	if (!(flags & MSM_BO_GPU_READONLY))
 		prot |= IOMMU_WRITE;
 
+<<<<<<< HEAD
 	if (flags & MSM_BO_PRIVILEGED)
 		prot |= IOMMU_PRIV;
+=======
+		VERB("unmap[%d]: %08x(%zx)", i, iova, bytes);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if ((flags & MSM_BO_CACHED) && msm_iommu_coherent(mmu))
 		prot |= IOMMU_CACHE;

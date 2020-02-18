@@ -196,22 +196,34 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	}
 
 	/* Take note of the planned idle state. */
+<<<<<<< HEAD
 	sched_idle_set_state(target_state, index);
+=======
+	sched_idle_set_state(target_state);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	trace_cpu_idle_rcuidle(index, dev->cpu);
 	time_start = ktime_get();
 
 	stop_critical_timings();
+<<<<<<< HEAD
 	cpuidle_set_idle_cpu(dev->cpu);
 	entered_state = target_state->enter(dev, drv, index);
 	cpuidle_clear_idle_cpu(dev->cpu);
+=======
+	entered_state = target_state->enter(dev, drv, index);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	start_critical_timings();
 
 	time_end = ktime_get();
 	trace_cpu_idle_rcuidle(PWR_EVENT_EXIT, dev->cpu);
 
 	/* The cpu is no longer idle or about to enter idle. */
+<<<<<<< HEAD
 	sched_idle_set_state(NULL, -1);
+=======
+	sched_idle_set_state(NULL);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (broadcast) {
 		if (WARN_ON_ONCE(!irqs_disabled()))

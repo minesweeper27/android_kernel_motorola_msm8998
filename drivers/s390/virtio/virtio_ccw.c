@@ -641,7 +641,11 @@ out:
 static int virtio_ccw_find_vqs(struct virtio_device *vdev, unsigned nvqs,
 			       struct virtqueue *vqs[],
 			       vq_callback_t *callbacks[],
+<<<<<<< HEAD
 			       const char * const names[])
+=======
+			       const char *names[])
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct virtio_ccw_device *vcdev = to_vc_device(vdev);
 	unsigned long *indicatorp = NULL;

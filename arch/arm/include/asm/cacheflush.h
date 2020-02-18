@@ -157,8 +157,11 @@ extern struct cpu_cache_fns cpu_cache;
  * is visible to DMA, or data written by DMA to system memory is
  * visible to the CPU.
  */
+<<<<<<< HEAD
 #define dmac_inv_range			cpu_cache.dma_inv_range
 #define dmac_clean_range		cpu_cache.dma_clean_range
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define dmac_flush_range		cpu_cache.dma_flush_range
 
 #else
@@ -178,11 +181,14 @@ extern void __cpuc_flush_dcache_area(void *, size_t);
  * is visible to DMA, or data written by DMA to system memory is
  * visible to the CPU.
  */
+<<<<<<< HEAD
 extern void __dma_map_area(const void *, size_t, int);
 extern void __dma_unmap_area(const void *, size_t, int);
 
 extern void dmac_inv_range(const void *, const void *);
 extern void dmac_clean_range(const void *, const void *);
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern void dmac_flush_range(const void *, const void *);
 
 #endif
@@ -542,6 +548,7 @@ static inline void secure_flush_area(const void *addr, size_t size)
 	outer_flush_range(phys, phys + size);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_FREE_PAGES_RDONLY
 #define mark_addr_rdonly(a)     set_memory_ro((unsigned long)a, 1)
 #define mark_addr_rdwrite(a)    set_memory_rw((unsigned long)a, 1)
@@ -551,4 +558,6 @@ static inline void secure_flush_area(const void *addr, size_t size)
 #endif
 
 
+=======
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

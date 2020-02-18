@@ -175,8 +175,13 @@ struct ion_heap *ion_chunk_heap_create(struct ion_platform_heap *heap_data)
 	chunk_heap->heap.ops = &chunk_heap_ops;
 	chunk_heap->heap.type = ION_HEAP_TYPE_CHUNK;
 	chunk_heap->heap.flags = ION_HEAP_FLAG_DEFER_FREE;
+<<<<<<< HEAD
 	pr_debug("%s: base %pad size %zu align %pad\n", __func__,
 		&chunk_heap->base, heap_data->size, &heap_data->align);
+=======
+	pr_debug("%s: base %lu size %zu align %ld\n", __func__,
+		chunk_heap->base, heap_data->size, heap_data->align);
+>>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return &chunk_heap->heap;
 
