@@ -76,10 +76,6 @@ static struct ion_heap_desc ion_heap_meta[] = {
 		.name	= ION_MM_FIRMWARE_HEAP_NAME,
 	},
 	{
-		.id	= ION_GOOGLE_HEAP_ID,
-		.name	= ION_GOOGLE_HEAP_NAME,
-	},
-	{
 		.id	= ION_CP_MFC_HEAP_ID,
 		.name	= ION_MFC_HEAP_NAME,
 		.permission_type = IPT_TYPE_MFC_SHAREDMEM,
@@ -677,7 +673,8 @@ bool is_secure_vmid_valid(int vmid)
 		vmid == VMID_CP_CAMERA ||
 		vmid == VMID_CP_SEC_DISPLAY ||
 		vmid == VMID_CP_APP ||
-		vmid == VMID_CP_CAMERA_PREVIEW);
+		vmid == VMID_CP_CAMERA_PREVIEW ||
+		vmid == VMID_CP_SPSS_SP_SHARED);
 }
 
 int get_secure_vmid(unsigned long flags)
@@ -698,8 +695,25 @@ int get_secure_vmid(unsigned long flags)
 		return VMID_CP_APP;
 	if (flags & ION_FLAG_CP_CAMERA_PREVIEW)
 		return VMID_CP_CAMERA_PREVIEW;
+	if (flags & ION_FLAG_CP_SPSS_SP_SHARED)
+		return VMID_CP_SPSS_SP_SHARED;
 	return -EINVAL;
 }
+
+bool is_buffer_hlos_assigned(struct ion_buffer *buffer)
+{
+	bool is_hlos = false;
+
+	if (buffer->heap->type == (enum ion_heap_type)ION_HEAP_TYPE_HYP_CMA &&
+	    (buffer->flags & ION_FLAG_CP_HLOS))
+		is_hlos = true;
+
+	if (get_secure_vmid(buffer->flags) <= 0)
+		is_hlos = true;
+
+	return is_hlos;
+}
+
 /* fix up the cases where the ioctl direction bits are incorrect */
 static unsigned int msm_ion_ioctl_dir(unsigned int cmd)
 {

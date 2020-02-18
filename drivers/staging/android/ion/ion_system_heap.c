@@ -37,15 +37,11 @@ static gfp_t high_order_gfp_flags = (GFP_HIGHUSER | __GFP_NOWARN |
 static gfp_t low_order_gfp_flags  = (GFP_HIGHUSER | __GFP_NOWARN);
 
 #ifndef CONFIG_ALLOC_BUFFERS_IN_4K_CHUNKS
-<<<<<<< HEAD
 #if defined(CONFIG_IOMMU_IO_PGTABLE_ARMV7S)
 static const unsigned int orders[] = {8, 4, 0};
 #else
 static const unsigned int orders[] = {9, 4, 0};
 #endif
-=======
-static const unsigned int orders[] = {4, 0};
->>>>>>> efbf25f2bc88... ion: fetch from wahoo
 #else
 static const unsigned int orders[] = {0};
 #endif
@@ -105,6 +101,11 @@ size_t ion_system_heap_secure_page_pool_total(struct ion_heap *heap,
 	}
 
 	return total << PAGE_SHIFT;
+}
+
+static int ion_heap_is_system_heap_type(enum ion_heap_type type)
+{
+	return type == ((enum ion_heap_type)ION_HEAP_TYPE_SYSTEM);
 }
 
 static struct page *alloc_buffer_page(struct ion_system_heap *heap,
@@ -351,7 +352,7 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	struct sg_table table_sync;
 	struct scatterlist *sg;
 	struct scatterlist *sg_sync;
-	int ret;
+	int ret = 0;
 	struct list_head pages;
 	struct list_head pages_from_pool;
 	struct page_info *info, *tmp_info;
@@ -363,6 +364,13 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	unsigned int sz;
 	int vmid = get_secure_vmid(buffer->flags);
 	struct device *dev = heap->priv;
+
+	if (ion_heap_is_system_heap_type(buffer->heap->type) &&
+	    is_secure_vmid_valid(vmid)) {
+		pr_info("%s: System heap doesn't support secure allocations\n",
+			__func__);
+		return -EINVAL;
+	}
 
 	if (align > PAGE_SIZE)
 		return -EINVAL;
@@ -478,7 +486,7 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 
 err_free_sg2:
 	/* We failed to zero buffers. Bypass pool */
-	buffer->flags |= ION_PRIV_FLAG_SHRINKER_FREE;
+	buffer->private_flags |= ION_PRIV_FLAG_SHRINKER_FREE;
 
 	if (vmid > 0)
 		ion_system_secure_heap_unassign_sg(table, vmid);
