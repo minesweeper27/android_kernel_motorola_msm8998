@@ -1241,24 +1241,6 @@ err_task_lock:
 	task_unlock(task);
 	put_task_struct(task);
 out:
-<<<<<<< HEAD
-	/* These apps burn through CPU in the background. Don't let them. */
-	if (!err && oom_score_adj >= 700) {
-		if (!strcmp(task_comm, "id.GoogleCamera") ||
-		    !strcmp(task_comm, "snap.")) {
-			struct task_kill_info *kinfo;
-
-			kinfo = kmalloc(sizeof(*kinfo), GFP_KERNEL);
-			if (kinfo) {
-				get_task_struct(task);
-				kinfo->task = task;
-				INIT_WORK(&kinfo->work, proc_kill_task);
-				schedule_work(&kinfo->work);
-			}
-		}
-	}
-=======
->>>>>>> parent of 0da8c20f822f... proc: Don't let Google Camera and Settings run in the background
 	return err < 0 ? err : count;
 }
 
