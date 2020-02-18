@@ -96,10 +96,7 @@ union ieee754dp ieee754dp_fmax(union ieee754dp x, union ieee754dp y)
 
 	case CLPAIR(IEEE754_CLASS_DNORM, IEEE754_CLASS_DNORM):
 		DPDNORMX;
-<<<<<<< HEAD
 		/* fall through */
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	case CLPAIR(IEEE754_CLASS_NORM, IEEE754_CLASS_DNORM):
 		DPDNORMY;
@@ -228,10 +225,7 @@ union ieee754dp ieee754dp_fmaxa(union ieee754dp x, union ieee754dp y)
 
 	case CLPAIR(IEEE754_CLASS_DNORM, IEEE754_CLASS_DNORM):
 		DPDNORMX;
-<<<<<<< HEAD
 		/* fall through */
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	case CLPAIR(IEEE754_CLASS_NORM, IEEE754_CLASS_DNORM):
 		DPDNORMY;

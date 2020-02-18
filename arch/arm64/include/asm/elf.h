@@ -119,7 +119,6 @@
  * space open for things that want to use the area for 32-bit pointers.
  */
 #define ELF_ET_DYN_BASE		(2 * TASK_SIZE_64 / 3)
-<<<<<<< HEAD
 
 #ifndef __ASSEMBLY__
 
@@ -131,8 +130,6 @@ typedef unsigned long elf_greg_t;
 
 typedef elf_greg_t elf_gregset_t[ELF_NGREG];
 typedef struct user_fpsimd_state elf_fpregset_t;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * When the program starts, a1 contains a pointer to a function to be
@@ -144,11 +141,7 @@ typedef struct user_fpsimd_state elf_fpregset_t;
 #define SET_PERSONALITY(ex)		clear_thread_flag(TIF_32BIT);
 
 /* update AT_VECTOR_SIZE_ARCH if the number of NEW_AUX_ENT entries changes */
-<<<<<<< HEAD
 #define _SET_AUX_ENT_VDSO						\
-=======
-#define ARCH_DLINFO							\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 do {									\
 	NEW_AUX_ENT(AT_SYSINFO_EHDR,					\
 		    (Elf64_Off)current->mm->context.vdso);		\
@@ -178,11 +171,7 @@ extern int arch_setup_additional_pages(struct linux_binprm *bprm,
 #ifdef CONFIG_COMPAT
 
 /* PIE load location for compat arm. Must match ARM ELF_ET_DYN_BASE. */
-<<<<<<< HEAD
 #define COMPAT_ELF_ET_DYN_BASE		(2 * TASK_SIZE_32 / 3)
-=======
-#define COMPAT_ELF_ET_DYN_BASE		0x000400000UL
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* AArch32 registers. */
 #define COMPAT_ELF_NGREG		18

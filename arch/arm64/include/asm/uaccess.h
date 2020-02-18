@@ -32,13 +32,8 @@
 #include <linux/string.h>
 #include <linux/thread_info.h>
 
-<<<<<<< HEAD
-=======
-#include <asm/alternative.h>
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/cpufeature.h>
 #include <asm/ptrace.h>
-#include <asm/sysreg.h>
 #include <asm/errno.h>
 #include <asm/memory.h>
 #include <asm/compiler.h>
@@ -281,12 +276,7 @@ static inline void uaccess_enable_not_uao(void)
 do {									\
 	unsigned long __gu_val;						\
 	__chk_user_ptr(ptr);						\
-<<<<<<< HEAD
 	uaccess_enable_not_uao();					\
-=======
-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN,	\
-			CONFIG_ARM64_PAN));				\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (sizeof(*(ptr))) {					\
 	case 1:								\
 		__get_user_asm("ldrb", "ldtrb", "%w", __gu_val, (ptr),  \
@@ -309,8 +299,6 @@ do {									\
 	}								\
 	uaccess_disable_not_uao();					\
 	(x) = (__force __typeof__(*(ptr)))__gu_val;			\
-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,	\
-			CONFIG_ARM64_PAN));				\
 } while (0)
 
 #define __get_user(x, ptr)						\
@@ -355,12 +343,7 @@ do {									\
 do {									\
 	__typeof__(*(ptr)) __pu_val = (x);				\
 	__chk_user_ptr(ptr);						\
-<<<<<<< HEAD
 	uaccess_enable_not_uao();					\
-=======
-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN,	\
-			CONFIG_ARM64_PAN));				\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (sizeof(*(ptr))) {					\
 	case 1:								\
 		__put_user_asm("strb", "sttrb", "%w", __pu_val, (ptr),	\
@@ -381,12 +364,7 @@ do {									\
 	default:							\
 		BUILD_BUG();						\
 	}								\
-<<<<<<< HEAD
 	uaccess_disable_not_uao();					\
-=======
-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,	\
-			CONFIG_ARM64_PAN));				\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } while (0)
 
 #define __put_user(x, ptr)						\

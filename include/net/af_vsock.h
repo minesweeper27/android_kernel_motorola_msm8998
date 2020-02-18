@@ -64,11 +64,8 @@ struct vsock_sock {
 	bool rejected;
 	struct delayed_work connect_work;
 	struct delayed_work pending_work;
-<<<<<<< HEAD
 	struct delayed_work close_work;
 	bool close_work_scheduled;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u32 peer_shutdown;
 	bool sent_request;
 	bool ignore_connecting_rst;

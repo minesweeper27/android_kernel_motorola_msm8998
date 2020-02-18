@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,13 +14,9 @@
 #define _CORESIGHT_CORESIGHT_ETM_H
 
 #include <linux/spinlock.h>
-<<<<<<< HEAD
 #include <linux/mutex.h>
 #include "coresight-priv.h"
 #include <soc/qcom/memory_dump.h>
-=======
-#include "coresight-priv.h"
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * Device registers:
@@ -195,20 +187,14 @@
  * @dev:        The device entity associated to this component.
  * @csdev:      Component vitals needed by the framework.
  * @spinlock:   Only one at a time pls.
-<<<<<<< HEAD
  * @mutex:      Avoid race condition between hotplug and probe path.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @cpu:        The cpu this component is affined to.
  * @arch:       ETM version number.
  * @enable:	Is this ETM currently tracing.
  * @sticky_enable: true if ETM base configuration has been done.
  * @boot_enable:True if we should start tracing at boot time.
  * @os_unlock:  True if access to management registers is allowed.
-<<<<<<< HEAD
  * @init:	True if ETM is initialzied
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @nr_pe:	The number of processing entity available for tracing.
  * @nr_pe_cmp:	The number of processing entity comparator inputs that are
  *		available for tracing.
@@ -298,30 +284,21 @@
  * @ns_ex_level:In non-secure state, indicates whether instruction tracing is
  *		supported for the corresponding Exception level.
  * @ext_inp:	External input selection.
-<<<<<<< HEAD
  * @reg_data:   MSM memory dump data
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 struct etmv4_drvdata {
 	void __iomem			*base;
 	struct device			*dev;
 	struct coresight_device		*csdev;
 	spinlock_t			spinlock;
-<<<<<<< HEAD
 	struct mutex			mutex;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int				cpu;
 	u8				arch;
 	bool				enable;
 	bool				sticky_enable;
 	bool				boot_enable;
 	bool				os_unlock;
-<<<<<<< HEAD
 	bool				init;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u8				nr_pe;
 	u8				nr_pe_cmp;
 	u8				nr_addr_cmp;
@@ -396,10 +373,7 @@ struct etmv4_drvdata {
 	u8				s_ex_level;
 	u8				ns_ex_level;
 	u32				ext_inp;
-<<<<<<< HEAD
 	struct msm_dump_data		reg_data;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* Address comparator access types */

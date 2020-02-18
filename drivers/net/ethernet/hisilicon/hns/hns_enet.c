@@ -97,15 +97,9 @@ static void unfill_desc(struct hnae_ring *ring)
 	ring_ptr_move_bw(ring, next_to_use);
 }
 
-<<<<<<< HEAD
 netdev_tx_t hns_nic_net_xmit_hw(struct net_device *ndev,
 				struct sk_buff *skb,
 				struct hns_nic_ring_data *ring_data)
-=======
-int hns_nic_net_xmit_hw(struct net_device *ndev,
-			struct sk_buff *skb,
-			struct hns_nic_ring_data *ring_data)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct hns_nic_priv *priv = netdev_priv(ndev);
 	struct hnae_ring *ring = ring_data->ring;
@@ -175,13 +169,10 @@ int hns_nic_net_xmit_hw(struct net_device *ndev,
 	dev_queue = netdev_get_tx_queue(ndev, skb->queue_mapping);
 	netdev_tx_sent_queue(dev_queue, skb->len);
 
-<<<<<<< HEAD
 	ndev->trans_start = jiffies;
 	ndev->stats.tx_bytes += skb->len;
 	ndev->stats.tx_packets++;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	wmb(); /* commit all data before submit */
 	assert(skb->queue_mapping < priv->ae_handle->q_num);
 	hnae_queue_xmit(priv->ae_handle->qs[skb->queue_mapping], buf_num);
@@ -1099,25 +1090,11 @@ static netdev_tx_t hns_nic_net_xmit(struct sk_buff *skb,
 				    struct net_device *ndev)
 {
 	struct hns_nic_priv *priv = netdev_priv(ndev);
-<<<<<<< HEAD
 
 	assert(skb->queue_mapping < ndev->ae_handle->q_num);
 
 	return hns_nic_net_xmit_hw(ndev, skb,
 				   &tx_ring_data(priv, skb->queue_mapping));
-=======
-	int ret;
-
-	assert(skb->queue_mapping < ndev->ae_handle->q_num);
-	ret = hns_nic_net_xmit_hw(ndev, skb,
-				  &tx_ring_data(priv, skb->queue_mapping));
-	if (ret == NETDEV_TX_OK) {
-		ndev->trans_start = jiffies;
-		ndev->stats.tx_bytes += skb->len;
-		ndev->stats.tx_packets++;
-	}
-	return (netdev_tx_t)ret;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int hns_nic_change_mtu(struct net_device *ndev, int new_mtu)

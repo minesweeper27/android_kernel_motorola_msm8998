@@ -68,10 +68,7 @@ void rcu_sync_lockdep_assert(struct rcu_sync *rsp)
 	RCU_LOCKDEP_WARN(!gp_ops[rsp->gp_type].held(),
 			 "suspicious rcu_sync_is_idle() usage");
 }
-<<<<<<< HEAD
 EXPORT_SYMBOL_GPL(rcu_sync_lockdep_assert);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 
 /**
@@ -87,7 +84,6 @@ void rcu_sync_init(struct rcu_sync *rsp, enum rcu_sync_type type)
 }
 
 /**
-<<<<<<< HEAD
  * Must be called after rcu_sync_init() and before first use.
  *
  * Ensures rcu_sync_is_idle() returns false and rcu_sync_{enter,exit}()
@@ -100,8 +96,6 @@ void rcu_sync_enter_start(struct rcu_sync *rsp)
 }
 
 /**
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * rcu_sync_enter() - Force readers onto slowpath
  * @rsp: Pointer to rcu_sync structure to use for synchronization
  *

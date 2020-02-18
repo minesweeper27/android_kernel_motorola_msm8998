@@ -567,14 +567,11 @@ static inline int regulator_list_voltage(struct regulator *regulator, unsigned s
 	return -EINVAL;
 }
 
-<<<<<<< HEAD
 static inline int regulator_list_corner_voltage(struct regulator *regulator,
 	int corner)
 {
 	return -EINVAL;
 }
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 
 static inline int regulator_set_voltage_triplet(struct regulator *regulator,

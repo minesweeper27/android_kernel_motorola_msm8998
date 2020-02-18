@@ -64,15 +64,7 @@ static void completion_pages(struct work_struct *work)
 	bio_for_each_segment_all(bv, bio, i) {
 		struct page *page = bv->bv_page;
 
-<<<<<<< HEAD
 		if (ext4_is_ice_enabled()) {
-=======
-		int ret = ext4_decrypt(page);
-		if (ret) {
-			WARN_ON_ONCE(1);
-			SetPageError(page);
-		} else
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			SetPageUptodate(page);
 		} else {
 			int ret = ext4_decrypt(page);

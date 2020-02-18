@@ -1203,7 +1203,6 @@ u32 aarch64_set_branch_offset(u32 insn, s32 offset)
 	BUG();
 }
 
-<<<<<<< HEAD
 /*
  * Extract the Op/CR data from a msr/mrs instruction.
  */
@@ -1212,8 +1211,6 @@ u32 aarch64_insn_extract_system_reg(u32 insn)
 	return (insn & 0x1FFFE0) >> 5;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 bool aarch32_insn_is_wide(u32 insn)
 {
 	return insn >= 0xe800;

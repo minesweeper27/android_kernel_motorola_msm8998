@@ -19,7 +19,6 @@ ccflags-y += -DDISABLE_BRANCH_PROFILING -ffixed-x18
 ccflags-y += -nostdlib -Wl,-soname=linux-vdso.so.1 \
 		$(call cc-ldoption, -Wl$(comma)--hash-style=sysv)
 
-<<<<<<< HEAD
 # Force -O2 to avoid libgcc dependencies
 CFLAGS_REMOVE_vgettimeofday.o = -pg -Os
 CFLAGS_vgettimeofday.o = -O2 -fPIC
@@ -32,10 +31,6 @@ GCOV_PROFILE := n
 KASAN_SANITIZE := n
 UBSAN_SANITIZE := n
 KCOV_INSTRUMENT := n
-=======
-# Disable gcov profiling for VDSO code
-GCOV_PROFILE := n
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # Workaround for bare-metal (ELF) toolchains that neglect to pass -shared
 # down to collect2, resulting in silent corruption of the vDSO image.

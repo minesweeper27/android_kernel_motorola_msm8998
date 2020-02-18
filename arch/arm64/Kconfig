@@ -26,11 +26,7 @@ config ARM64
 	select ARM_PSCI_FW
 	select BUILDTIME_EXTABLE_SORT
 	select CLONE_BACKWARDS
-<<<<<<< HEAD
 	select COMMON_CLK if !ARCH_QCOM
-=======
-	select COMMON_CLK
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select CPU_PM if (SUSPEND || CPU_IDLE)
 	select DCACHE_WORD_ACCESS
 	select EDAC_SUPPORT
@@ -93,13 +89,9 @@ config ARM64
 	select HAVE_REGS_AND_STACK_ACCESS_API
 	select HAVE_RCU_TABLE_FREE
 	select HAVE_SYSCALL_TRACEPOINTS
-<<<<<<< HEAD
 	select IOMMU_DMA if (IOMMU_SUPPORT && !ARCH_QCOM)
 	select HAVE_KPROBES
 	select HAVE_KRETPROBES if HAVE_KPROBES
-=======
-	select IOMMU_DMA if IOMMU_SUPPORT
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select IRQ_DOMAIN
 	select IRQ_FORCED_THREADING
 	select MODULES_USE_ELF_RELA
@@ -114,11 +106,8 @@ config ARM64
 	select SYSCTL_EXCEPTION_TRACE
 	select HAVE_CONTEXT_TRACKING
 	select HAVE_ARM_SMCCC
-<<<<<<< HEAD
 	select THREAD_INFO_IN_TASK
 	select HAVE_ARM_SMCCC
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	help
 	  ARM 64-bit (AArch64) Linux support.
 
@@ -216,7 +205,6 @@ config NEED_SG_DMA_LENGTH
 config SMP
 	def_bool y
 
-<<<<<<< HEAD
 config HOTPLUG_SIZE_BITS
 	int "Memory hotplug block size(28 => 256MB 30 => 1GB)"
 	depends on SPARSEMEM
@@ -253,8 +241,6 @@ config ARM64_DMA_IOMMU_ALIGNMENT
 
 endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config SWIOTLB
 	def_bool y
 
@@ -276,7 +262,6 @@ config PGTABLE_LEVELS
 	default 3 if ARM64_16K_PAGES && ARM64_VA_BITS_47
 	default 4 if !ARM64_64K_PAGES && ARM64_VA_BITS_48
 
-<<<<<<< HEAD
 config MSM_GVM
 	bool "Enable virtualization Support for MSM kernel"
 	help
@@ -295,8 +280,6 @@ config MSM_GVM_QUIN
 		This should work on 64bit machine.
 		If you don't know what to do here, say N.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 source "init/Kconfig"
 
 source "kernel/Kconfig.freezer"
@@ -480,10 +463,7 @@ config ARM64_ERRATUM_843419
 	bool "Cortex-A53: 843419: A load or store might access an incorrect address"
 	depends on MODULES
 	default y
-<<<<<<< HEAD
 	select ARM64_MODULE_CMODEL_LARGE
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	help
 	  This option builds kernel modules using the large memory model in
 	  order to avoid the use of the ADRP instruction, which can cause
@@ -578,7 +558,6 @@ config ARM64_16K_PAGES
 	  requires applications compiled with 16K (or a multiple of 16K)
 	  aligned segments.
 
-<<<<<<< HEAD
 config ARM64_DCACHE_DISABLE
 	bool "Disable CPU Data Caches"
 	help
@@ -598,8 +577,6 @@ config ARM64_ICACHE_DISABLE
 
 	  If you are not sure what to do, select 'N' here.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config ARM64_64K_PAGES
 	bool "64KB"
 	help
@@ -726,7 +703,6 @@ config HOTPLUG_CPU
 	  Say Y here to experiment with turning CPUs off and on.  CPUs
 	  can be controlled through /sys/devices/system/cpu.
 
-<<<<<<< HEAD
 config ARCH_ENABLE_MEMORY_HOTPLUG
     depends on !NUMA
 	def_bool y
@@ -758,10 +734,6 @@ source kernel/Kconfig.hz
 
 config ARCH_SUPPORTS_DEBUG_PAGEALLOC
 	def_bool y
-=======
-source kernel/Kconfig.preempt
-source kernel/Kconfig.hz
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 config ARCH_HAS_HOLES_MEMORYMODEL
 	def_bool y if SPARSEMEM
@@ -782,7 +754,6 @@ config HAVE_ARCH_PFN_VALID
 config HW_PERF_EVENTS
 	def_bool y
 	depends on ARM_PMU
-<<<<<<< HEAD
 
 config ARM64_REG_REBALANCE_ON_CTX_SW
 	bool "Rebalance registers during context switches."
@@ -798,8 +769,6 @@ config PERF_EVENTS_USERMODE
 	  Enable user-mode access to performance counters for perf events.
 	  If enabled, the access permissions allowing CPU performance
 	  counters to be accessed from user-mode are set.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	  If you want user-mode programs to access perf events, say Y
 
@@ -877,7 +846,6 @@ config FORCE_MAX_ZONEORDER
 
 	  However for 4K, we choose a higher default value, 11 as opposed to 10, giving us
 	  4M allocations matching the default size used by generic code.
-<<<<<<< HEAD
 
 config UNMAP_KERNEL_AT_EL0
 	bool "Unmap kernel when running in userspace (aka \"KAISER\")" if EXPERT
@@ -907,8 +875,6 @@ config HARDEN_BRANCH_PREDICTOR
 	  firmware.
 
 	  If unsure, say Y.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 menuconfig ARMV8_DEPRECATED
 	bool "Emulate deprecated/obsolete ARMv8 instructions"
@@ -977,7 +943,6 @@ config SETEND_EMULATION
 	  If unsure, say Y
 endif
 
-<<<<<<< HEAD
 config ARM64_SW_TTBR0_PAN
 	bool "Emulate Privileged Access Never using TTBR0_EL1 switching"
 	help
@@ -986,16 +951,10 @@ config ARM64_SW_TTBR0_PAN
 	  zeroed area and reserved ASID. The user access routines
 	  restore the valid TTBR0_EL1 temporarily.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 menu "ARMv8.1 architectural features"
 
 config ARM64_HW_AFDBM
 	bool "Support for hardware updates of the Access and Dirty page flags"
-<<<<<<< HEAD
-=======
-	default y
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	help
 	  The ARMv8.1 architecture extensions introduce support for
 	  hardware updates of the access and dirty information in page
@@ -1012,10 +971,6 @@ config ARM64_HW_AFDBM
 
 config ARM64_PAN
 	bool "Enable support for Privileged Access Never (PAN)"
-<<<<<<< HEAD
-=======
-	default y
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	help
 	 Privileged Access Never (PAN; part of the ARMv8.1 Extensions)
 	 prevents the kernel or hypervisor from accessing user-space (EL0)
@@ -1041,7 +996,6 @@ config ARM64_LSE_ATOMICS
 
 endmenu
 
-<<<<<<< HEAD
 config ARM64_UAO
 	bool "Enable support for User Access Override (UAO)"
 	help
@@ -1115,8 +1069,6 @@ config RANDOMIZE_MODULE_REGION_FULL
 	  a limited range that contains the [_stext, _etext] interval of the
 	  core kernel, so branch relocations are always in range.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endmenu
 
 menu "Boot options"
@@ -1298,7 +1250,6 @@ config KEYS_COMPAT
 	def_bool y
 	depends on COMPAT && KEYS
 
-<<<<<<< HEAD
 config COMPAT_VDSO
 	bool "32-bit vDSO"
 	depends on COMPAT
@@ -1324,8 +1275,6 @@ config CROSS_COMPILE_ARM32
 	  Same as setting CROSS_COMPILE_ARM32 in the environment, but saved for
 	  future builds. The environment variable overrides this config option.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endmenu
 
 menu "Power management options"

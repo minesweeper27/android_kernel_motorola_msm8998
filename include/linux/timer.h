@@ -21,14 +21,6 @@ struct timer_list {
 	u32			flags;
 	int			slack;
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_TIMER_STATS
-	int			start_pid;
-	void			*start_site;
-	char			start_comm[16];
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_LOCKDEP
 	struct lockdep_map	lockdep_map;
 #endif
@@ -66,10 +58,7 @@ struct timer_list {
 #define TIMER_BASEMASK		(TIMER_CPUMASK | TIMER_MIGRATING)
 #define TIMER_DEFERRABLE	0x00100000
 #define TIMER_IRQSAFE		0x00200000
-<<<<<<< HEAD
 #define TIMER_PINNED_ON_CPU	0x00400000
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define __TIMER_INITIALIZER(_function, _expires, _data, _flags) { \
 		.entry = { .next = TIMER_ENTRY_STATIC },	\
@@ -191,50 +180,8 @@ extern bool check_pending_deferrable_timers(int cpu);
  */
 #define NEXT_TIMER_MAX_DELTA	((1UL << 30) - 1)
 
-<<<<<<< HEAD
 /* To be used from cpusets, only */
 extern void timer_quiesce_cpu(void *cpup);
-=======
-/*
- * Timer-statistics info:
- */
-#ifdef CONFIG_TIMER_STATS
-
-extern int timer_stats_active;
-
-extern void init_timer_stats(void);
-
-extern void timer_stats_update_stats(void *timer, pid_t pid, void *startf,
-				     void *timerf, char *comm, u32 flags);
-
-extern void __timer_stats_timer_set_start_info(struct timer_list *timer,
-					       void *addr);
-
-static inline void timer_stats_timer_set_start_info(struct timer_list *timer)
-{
-	if (likely(!timer_stats_active))
-		return;
-	__timer_stats_timer_set_start_info(timer, __builtin_return_address(0));
-}
-
-static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
-{
-	timer->start_site = NULL;
-}
-#else
-static inline void init_timer_stats(void)
-{
-}
-
-static inline void timer_stats_timer_set_start_info(struct timer_list *timer)
-{
-}
-
-static inline void timer_stats_timer_clear_start_info(struct timer_list *timer)
-{
-}
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern void add_timer(struct timer_list *timer);
 
@@ -256,11 +203,8 @@ extern enum hrtimer_restart it_real_fn(struct hrtimer *);
 #if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
 #include <linux/sysctl.h>
 
-<<<<<<< HEAD
 extern struct tvec_base tvec_base_deferrable;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern unsigned int sysctl_timer_migration;
 int timer_migration_handler(struct ctl_table *table, int write,
 			    void __user *buffer, size_t *lenp,

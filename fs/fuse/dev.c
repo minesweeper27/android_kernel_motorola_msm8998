@@ -498,13 +498,9 @@ static void request_wait_answer(struct fuse_conn *fc, struct fuse_req *req)
 	 * Either request is already in userspace, or it was forced.
 	 * Wait it out.
 	 */
-<<<<<<< HEAD
 	while (!test_bit(FR_FINISHED, &req->flags))
 		wait_event_freezable(req->waitq,
 				test_bit(FR_FINISHED, &req->flags));
-=======
-	wait_event(req->waitq, test_bit(FR_FINISHED, &req->flags));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void __fuse_request_send(struct fuse_conn *fc, struct fuse_req *req)
@@ -1984,10 +1980,7 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
 	}
 	fuse_copy_finish(cs);
 
-<<<<<<< HEAD
 	fuse_setup_passthrough(fc, req);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_lock(&fpq->lock);
 	clear_bit(FR_LOCKED, &req->flags);
 	if (!fpq->connected)
@@ -2169,21 +2162,12 @@ static void end_polls(struct fuse_conn *fc)
  *
  * Emergency exit in case of a malicious or accidental deadlock, or just a hung
  * filesystem.
-<<<<<<< HEAD
  *
  * The same effect is usually achievable through killing the filesystem daemon
  * and all users of the filesystem.  The exception is the combination of an
  * asynchronous request and the tricky deadlock (see
  * Documentation/filesystems/fuse.txt).
  *
-=======
- *
- * The same effect is usually achievable through killing the filesystem daemon
- * and all users of the filesystem.  The exception is the combination of an
- * asynchronous request and the tricky deadlock (see
- * Documentation/filesystems/fuse.txt).
- *
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Aborting requests under I/O goes as follows: 1: Separate out unlocked
  * requests, they should be finished off immediately.  Locked requests will be
  * finished after unlock; see unlock_request(). 2: Finish off the unlocked

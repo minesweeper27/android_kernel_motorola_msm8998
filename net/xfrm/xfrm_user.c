@@ -440,12 +440,9 @@ static inline int xfrm_replay_verify_len(struct xfrm_replay_state_esn *replay_es
 		return -EINVAL;
 
 	if (up->replay_window > up->bmp_len * sizeof(__u32) * 8)
-<<<<<<< HEAD
 		return -EINVAL;
 
 	if (up->replay_window > up->bmp_len * sizeof(__u32) * 8)
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -EINVAL;
 
 	return 0;
@@ -2537,14 +2534,6 @@ static int xfrm_user_rcv_msg(struct sk_buff *skb, struct nlmsghdr *nlh)
 	const struct xfrm_link *link;
 	int type, err;
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_COMPAT
-	if (is_compat_task())
-		return -EOPNOTSUPP;
-#endif
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	type = nlh->nlmsg_type;
 	if (type > XFRM_MSG_MAX)
 		return -EINVAL;

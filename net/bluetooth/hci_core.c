@@ -1652,11 +1652,7 @@ int hci_dev_do_close(struct hci_dev *hdev)
 {
 	bool auto_off;
 
-<<<<<<< HEAD
 	BT_DBG("%s %pK", hdev->name, hdev);
-=======
-	BT_DBG("%s %p", hdev->name, hdev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!hci_dev_test_flag(hdev, HCI_UNREGISTER) &&
 	    !hci_dev_test_flag(hdev, HCI_USER_CHANNEL) &&

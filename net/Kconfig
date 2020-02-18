@@ -48,7 +48,6 @@ config COMPAT_NETLINK_MESSAGES
 config NET_INGRESS
 	bool
 
-<<<<<<< HEAD
 config DISABLE_NET_SKB_FRAG_CACHE
 	bool "Disable skb fragment cache"
 	help
@@ -59,8 +58,6 @@ config DISABLE_NET_SKB_FRAG_CACHE
 
 	  If you are unsure how to answer this question, answer N.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 menu "Networking options"
 
 source "net/packet/Kconfig"
@@ -252,10 +249,7 @@ source "net/mpls/Kconfig"
 source "net/hsr/Kconfig"
 source "net/switchdev/Kconfig"
 source "net/l3mdev/Kconfig"
-<<<<<<< HEAD
 source "net/rmnet_data/Kconfig"
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 config RPS
 	bool
@@ -415,11 +409,8 @@ config LWTUNNEL
 	  weight tunnel endpoint. Tunnel encapsulation parameters are stored
 	  with light weight tunnel state associated with fib routes.
 
-<<<<<<< HEAD
 source "net/ipc_router/Kconfig"
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config DST_CACHE
 	bool
 	default n

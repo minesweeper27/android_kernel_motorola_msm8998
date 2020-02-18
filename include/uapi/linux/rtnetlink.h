@@ -311,12 +311,9 @@ enum rtattr_type_t {
 	RTA_PREF,
 	RTA_ENCAP_TYPE,
 	RTA_ENCAP,
-<<<<<<< HEAD
 	RTA_EXPIRES,
 	RTA_PAD,
 	RTA_UID,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__RTA_MAX
 };
 

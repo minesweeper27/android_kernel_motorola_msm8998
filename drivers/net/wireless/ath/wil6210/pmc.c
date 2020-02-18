@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2015,2017 Qualcomm Atheros, Inc.
-=======
- * Copyright (c) 2012-2015 Qualcomm Atheros, Inc.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -58,16 +54,12 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 	struct pmc_ctx *pmc = &wil->pmc;
 	struct device *dev = wil_to_dev(wil);
 	struct wmi_pmc_cmd pmc_cmd = {0};
-<<<<<<< HEAD
 	int last_cmd_err = -ENOMEM;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	mutex_lock(&pmc->lock);
 
 	if (wil_is_pmc_allocated(pmc)) {
 		/* sanity check */
-<<<<<<< HEAD
 		wil_err(wil, "ERROR pmc is already allocated\n");
 		goto no_release_err;
 	}
@@ -92,29 +84,20 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 			"Overflow in num_descriptors(%d)*descriptor_size(%d)\n",
 			num_descriptors, descriptor_size);
 		last_cmd_err = -EINVAL;
-=======
-		wil_err(wil, "%s: ERROR pmc is already allocated\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto no_release_err;
 	}
 
 	pmc->num_descriptors = num_descriptors;
 	pmc->descriptor_size = descriptor_size;
 
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "pmc_alloc: %d descriptors x %d bytes each\n",
 		     num_descriptors, descriptor_size);
-=======
-	wil_dbg_misc(wil, "%s: %d descriptors x %d bytes each\n",
-		     __func__, num_descriptors, descriptor_size);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* allocate descriptors info list in pmc context*/
 	pmc->descriptors = kcalloc(num_descriptors,
 				  sizeof(struct desc_alloc_info),
 				  GFP_KERNEL);
 	if (!pmc->descriptors) {
-<<<<<<< HEAD
 		wil_err(wil, "ERROR allocating pmc skb list\n");
 		goto no_release_err;
 	}
@@ -138,47 +121,23 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 	if (wil->use_extended_dma_addr)
 		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
 
-=======
-		wil_err(wil, "%s: ERROR allocating pmc skb list\n", __func__);
-		goto no_release_err;
-	}
-
-	wil_dbg_misc(wil,
-		     "%s: allocated descriptors info list %p\n",
-		     __func__, pmc->descriptors);
-
-	/* Allocate pring buffer and descriptors.
-	 * vring->va should be aligned on its size rounded up to power of 2
-	 * This is granted by the dma_alloc_coherent
-	 */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	pmc->pring_va = dma_alloc_coherent(dev,
 			sizeof(struct vring_tx_desc) * num_descriptors,
 			&pmc->pring_pa,
 			GFP_KERNEL);
 
-<<<<<<< HEAD
 	if (wil->use_extended_dma_addr)
 		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(48));
 
 	wil_dbg_misc(wil,
 		     "pmc_alloc: allocated pring %p => %pad. %zd x %d = total %zd bytes\n",
-=======
-	wil_dbg_misc(wil,
-		     "%s: allocated pring %p => %pad. %zd x %d = total %zd bytes\n",
-		     __func__,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		     pmc->pring_va, &pmc->pring_pa,
 		     sizeof(struct vring_tx_desc),
 		     num_descriptors,
 		     sizeof(struct vring_tx_desc) * num_descriptors);
 
 	if (!pmc->pring_va) {
-<<<<<<< HEAD
 		wil_err(wil, "ERROR allocating pmc pring\n");
-=======
-		wil_err(wil, "%s: ERROR allocating pmc pring\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto release_pmc_skb_list;
 	}
 
@@ -197,13 +156,7 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 			GFP_KERNEL);
 
 		if (unlikely(!pmc->descriptors[i].va)) {
-<<<<<<< HEAD
 			wil_err(wil, "ERROR allocating pmc descriptor %d", i);
-=======
-			wil_err(wil,
-				"%s: ERROR allocating pmc descriptor %d",
-				__func__, i);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			goto release_pmc_skbs;
 		}
 
@@ -223,34 +176,21 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 		*_d = *d;
 	}
 
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "pmc_alloc: allocated successfully\n");
-=======
-	wil_dbg_misc(wil, "%s: allocated successfully\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pmc_cmd.op = WMI_PMC_ALLOCATE;
 	pmc_cmd.ring_size = cpu_to_le16(pmc->num_descriptors);
 	pmc_cmd.mem_base = cpu_to_le64(pmc->pring_pa);
 
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "pmc_alloc: send WMI_PMC_CMD with ALLOCATE op\n");
-=======
-	wil_dbg_misc(wil, "%s: send WMI_PMC_CMD with ALLOCATE op\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	pmc->last_cmd_status = wmi_send(wil,
 					WMI_PMC_CMDID,
 					&pmc_cmd,
 					sizeof(pmc_cmd));
 	if (pmc->last_cmd_status) {
 		wil_err(wil,
-<<<<<<< HEAD
 			"WMI_PMC_CMD with ALLOCATE op failed with status %d",
 			pmc->last_cmd_status);
-=======
-			"%s: WMI_PMC_CMD with ALLOCATE op failed with status %d",
-			__func__, pmc->last_cmd_status);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto release_pmc_skbs;
 	}
 
@@ -259,13 +199,8 @@ void wil_pmc_alloc(struct wil6210_priv *wil,
 	return;
 
 release_pmc_skbs:
-<<<<<<< HEAD
 	wil_err(wil, "exit on error: Releasing skbs...\n");
 	for (i = 0; i < num_descriptors && pmc->descriptors[i].va; i++) {
-=======
-	wil_err(wil, "%s: exit on error: Releasing skbs...\n", __func__);
-	for (i = 0; pmc->descriptors[i].va && i < num_descriptors; i++) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dma_free_coherent(dev,
 				  descriptor_size,
 				  pmc->descriptors[i].va,
@@ -273,11 +208,7 @@ release_pmc_skbs:
 
 		pmc->descriptors[i].va = NULL;
 	}
-<<<<<<< HEAD
 	wil_err(wil, "exit on error: Releasing pring...\n");
-=======
-	wil_err(wil, "%s: exit on error: Releasing pring...\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	dma_free_coherent(dev,
 			  sizeof(struct vring_tx_desc) * num_descriptors,
@@ -287,21 +218,12 @@ release_pmc_skbs:
 	pmc->pring_va = NULL;
 
 release_pmc_skb_list:
-<<<<<<< HEAD
 	wil_err(wil, "exit on error: Releasing descriptors info list...\n");
-=======
-	wil_err(wil, "%s: exit on error: Releasing descriptors info list...\n",
-		__func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kfree(pmc->descriptors);
 	pmc->descriptors = NULL;
 
 no_release_err:
-<<<<<<< HEAD
 	pmc->last_cmd_status = last_cmd_err;
-=======
-	pmc->last_cmd_status = -ENOMEM;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mutex_unlock(&pmc->lock);
 }
 
@@ -320,38 +242,23 @@ void wil_pmc_free(struct wil6210_priv *wil, int send_pmc_cmd)
 	pmc->last_cmd_status = 0;
 
 	if (!wil_is_pmc_allocated(pmc)) {
-<<<<<<< HEAD
 		wil_dbg_misc(wil,
 			     "pmc_free: Error, can't free - not allocated\n");
-=======
-		wil_dbg_misc(wil, "%s: Error, can't free - not allocated\n",
-			     __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pmc->last_cmd_status = -EPERM;
 		mutex_unlock(&pmc->lock);
 		return;
 	}
 
 	if (send_pmc_cmd) {
-<<<<<<< HEAD
 		wil_dbg_misc(wil, "send WMI_PMC_CMD with RELEASE op\n");
-=======
-		wil_dbg_misc(wil, "%s: send WMI_PMC_CMD with RELEASE op\n",
-			     __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pmc_cmd.op = WMI_PMC_RELEASE;
 		pmc->last_cmd_status =
 				wmi_send(wil, WMI_PMC_CMDID, &pmc_cmd,
 					 sizeof(pmc_cmd));
 		if (pmc->last_cmd_status) {
 			wil_err(wil,
-<<<<<<< HEAD
 				"WMI_PMC_CMD with RELEASE op failed, status %d",
 				pmc->last_cmd_status);
-=======
-				"%s WMI_PMC_CMD with RELEASE op failed, status %d",
-				__func__, pmc->last_cmd_status);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			/* There's nothing we can do with this error.
 			 * Normally, it should never occur.
 			 * Continue to freeing all memory allocated for pmc.
@@ -363,13 +270,8 @@ void wil_pmc_free(struct wil6210_priv *wil, int send_pmc_cmd)
 		size_t buf_size = sizeof(struct vring_tx_desc) *
 				  pmc->num_descriptors;
 
-<<<<<<< HEAD
 		wil_dbg_misc(wil, "pmc_free: free pring va %p\n",
 			     pmc->pring_va);
-=======
-		wil_dbg_misc(wil, "%s: free pring va %p\n",
-			     __func__, pmc->pring_va);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dma_free_coherent(dev, buf_size, pmc->pring_va, pmc->pring_pa);
 
 		pmc->pring_va = NULL;
@@ -381,30 +283,18 @@ void wil_pmc_free(struct wil6210_priv *wil, int send_pmc_cmd)
 		int i;
 
 		for (i = 0;
-<<<<<<< HEAD
 		     i < pmc->num_descriptors && pmc->descriptors[i].va; i++) {
-=======
-		     pmc->descriptors[i].va && i < pmc->num_descriptors; i++) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			dma_free_coherent(dev,
 					  pmc->descriptor_size,
 					  pmc->descriptors[i].va,
 					  pmc->descriptors[i].pa);
 			pmc->descriptors[i].va = NULL;
 		}
-<<<<<<< HEAD
 		wil_dbg_misc(wil, "pmc_free: free descriptor info %d/%d\n", i,
 			     pmc->num_descriptors);
 		wil_dbg_misc(wil,
 			     "pmc_free: free pmc descriptors info list %p\n",
 			     pmc->descriptors);
-=======
-		wil_dbg_misc(wil, "%s: free descriptor info %d/%d\n",
-			     __func__, i, pmc->num_descriptors);
-		wil_dbg_misc(wil,
-			     "%s: free pmc descriptors info list %p\n",
-			     __func__, pmc->descriptors);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		kfree(pmc->descriptors);
 		pmc->descriptors = NULL;
 	} else {
@@ -420,11 +310,7 @@ void wil_pmc_free(struct wil6210_priv *wil, int send_pmc_cmd)
  */
 int wil_pmc_last_cmd_status(struct wil6210_priv *wil)
 {
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "pmc_last_cmd_status: status %d\n",
-=======
-	wil_dbg_misc(wil, "%s: status %d\n", __func__,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		     wil->pmc.last_cmd_status);
 
 	return wil->pmc.last_cmd_status;
@@ -442,36 +328,22 @@ ssize_t wil_pmc_read(struct file *filp, char __user *buf, size_t count,
 	size_t retval = 0;
 	unsigned long long idx;
 	loff_t offset;
-<<<<<<< HEAD
 	size_t pmc_size;
-=======
-	size_t pmc_size = pmc->descriptor_size * pmc->num_descriptors;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	mutex_lock(&pmc->lock);
 
 	if (!wil_is_pmc_allocated(pmc)) {
-<<<<<<< HEAD
 		wil_err(wil, "error, pmc is not allocated!\n");
-=======
-		wil_err(wil, "%s: error, pmc is not allocated!\n", __func__);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pmc->last_cmd_status = -EPERM;
 		mutex_unlock(&pmc->lock);
 		return -EPERM;
 	}
 
-<<<<<<< HEAD
 	pmc_size = pmc->descriptor_size * pmc->num_descriptors;
 
 	wil_dbg_misc(wil,
 		     "pmc_read: size %u, pos %lld\n",
 		     (u32)count, *f_pos);
-=======
-	wil_dbg_misc(wil,
-		     "%s: size %u, pos %lld\n",
-		     __func__, (unsigned)count, *f_pos);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pmc->last_cmd_status = 0;
 
@@ -480,26 +352,16 @@ ssize_t wil_pmc_read(struct file *filp, char __user *buf, size_t count,
 	offset = *f_pos - (idx * pmc->descriptor_size);
 
 	if (*f_pos >= pmc_size) {
-<<<<<<< HEAD
 		wil_dbg_misc(wil,
 			     "pmc_read: reached end of pmc buf: %lld >= %u\n",
 			     *f_pos, (u32)pmc_size);
-=======
-		wil_dbg_misc(wil, "%s: reached end of pmc buf: %lld >= %u\n",
-			     __func__, *f_pos, (unsigned)pmc_size);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		pmc->last_cmd_status = -ERANGE;
 		goto out;
 	}
 
 	wil_dbg_misc(wil,
-<<<<<<< HEAD
 		     "pmc_read: read from pos %lld (descriptor %llu, offset %llu) %zu bytes\n",
 		     *f_pos, idx, offset, count);
-=======
-		     "%s: read from pos %lld (descriptor %llu, offset %llu) %zu bytes\n",
-		     __func__, *f_pos, idx, offset, count);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* if no errors, return the copied byte count */
 	retval = simple_read_from_buffer(buf,
@@ -519,7 +381,6 @@ loff_t wil_pmc_llseek(struct file *filp, loff_t off, int whence)
 	loff_t newpos;
 	struct wil6210_priv *wil = filp->private_data;
 	struct pmc_ctx *pmc = &wil->pmc;
-<<<<<<< HEAD
 	size_t pmc_size;
 
 	mutex_lock(&pmc->lock);
@@ -532,9 +393,6 @@ loff_t wil_pmc_llseek(struct file *filp, loff_t off, int whence)
 	}
 
 	pmc_size = pmc->descriptor_size * pmc->num_descriptors;
-=======
-	size_t pmc_size = pmc->descriptor_size * pmc->num_descriptors;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	switch (whence) {
 	case 0: /* SEEK_SET */
@@ -550,7 +408,6 @@ loff_t wil_pmc_llseek(struct file *filp, loff_t off, int whence)
 		break;
 
 	default: /* can't happen */
-<<<<<<< HEAD
 		newpos = -EINVAL;
 		goto out;
 	}
@@ -559,23 +416,13 @@ loff_t wil_pmc_llseek(struct file *filp, loff_t off, int whence)
 		newpos = -EINVAL;
 		goto out;
 	}
-=======
-		return -EINVAL;
-	}
-
-	if (newpos < 0)
-		return -EINVAL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (newpos > pmc_size)
 		newpos = pmc_size;
 
 	filp->f_pos = newpos;
 
-<<<<<<< HEAD
 out:
 	mutex_unlock(&pmc->lock);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return newpos;
 }

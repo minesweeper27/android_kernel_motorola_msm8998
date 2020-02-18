@@ -981,13 +981,10 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
 		if (is_sdr && is_tx && ops->vidioc_g_fmt_sdr_out)
 			return 0;
 		break;
-<<<<<<< HEAD
 	case V4L2_BUF_TYPE_PRIVATE:
 		if (ops->vidioc_g_fmt_type_private)
 			return 0;
 		break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default:
 		break;
 	}
@@ -1237,7 +1234,6 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 	case V4L2_SDR_FMT_CS8:		descr = "Complex S8"; break;
 	case V4L2_SDR_FMT_CS14LE:	descr = "Complex S14LE"; break;
 	case V4L2_SDR_FMT_RU12LE:	descr = "Real U12LE"; break;
-<<<<<<< HEAD
 	case V4L2_PIX_FMT_NV12_UBWC:
 		descr = "NV12 UBWC"; break;
 	case V4L2_PIX_FMT_RGBA8888_UBWC:
@@ -1316,8 +1312,6 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 					descr = "Y/CbCr 4:2:0 P10"; break;
 	case V4L2_PIX_FMT_NV12_TP10_UBWC:
 					descr = "Y/CbCr 4:2:0 TP10 UBWC"; break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	default:
 		/* Compressed formats */
@@ -1357,7 +1351,6 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 		case V4L2_PIX_FMT_JPGL:		descr = "JPEG Lite"; break;
 		case V4L2_PIX_FMT_SE401:	descr = "GSPCA SE401"; break;
 		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
-<<<<<<< HEAD
 		case V4L2_PIX_FMT_HEVC:
 			descr = "HEVC"; break;
 		case V4L2_PIX_FMT_HEVC_HYBRID:
@@ -1368,8 +1361,6 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
 			descr = "DIVX311"; break;
 		case V4L2_PIX_FMT_DIVX:
 			descr = "DIVX"; break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		default:
 			WARN(1, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
 			if (fmt->description[0])

@@ -255,11 +255,7 @@ static int hci_uart_flush(struct hci_dev *hdev)
 /* Close device */
 static int hci_uart_close(struct hci_dev *hdev)
 {
-<<<<<<< HEAD
 	BT_DBG("hdev %pK", hdev);
-=======
-	BT_DBG("hdev %p", hdev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	hci_uart_flush(hdev);
 	hdev->flush = NULL;
@@ -493,12 +489,9 @@ static int hci_uart_tty_open(struct tty_struct *tty)
 	INIT_WORK(&hu->init_ready, hci_uart_init_work);
 	INIT_WORK(&hu->write_work, hci_uart_write_work);
 
-<<<<<<< HEAD
 	spin_lock_init(&hu->rx_lock);
 	mutex_init(&hu->proto_lock);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Flush any pending characters in the driver and line discipline. */
 
 	/* FIXME: why is this needed. Note don't use ldisc_ref here as the

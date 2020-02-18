@@ -97,14 +97,11 @@ static const struct i2c_device_id ds2482_id[] = {
 	{ }
 };
 MODULE_DEVICE_TABLE(i2c, ds2482_id);
-<<<<<<< HEAD
 
 static const struct dev_pm_ops ds2482_pm_ops = {
 	.suspend = ds2482_suspend,
 	.resume = ds2482_resume,
 };
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct i2c_driver ds2482_driver = {
 	.driver = {

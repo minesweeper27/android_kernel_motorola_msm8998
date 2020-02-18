@@ -15,14 +15,7 @@
 #define FREE_NID_PAGES	8
 #define MAX_FREE_NIDS	(NAT_ENTRY_PER_BLOCK * FREE_NID_PAGES)
 
-<<<<<<< HEAD
 #define DEF_RA_NID_PAGES	0	/* # of nid pages to be readaheaded */
-=======
-/* # of pages to perform synchronous readahead before building free nids */
-#define FREE_NID_PAGES 4
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
-
-#define DEF_RA_NID_PAGES	4	/* # of nid pages to be readaheaded */
 
 /* maximum readahead size for node during getting data blocks */
 #define MAX_RA_NODE		128
@@ -271,37 +264,6 @@ static inline block_t next_blkaddr_of_node(struct page *node_page)
 	return le32_to_cpu(rn->footer.next_blkaddr);
 }
 
-static inline nid_t ino_of_node(struct page *node_page)
-{
-	struct f2fs_node *rn = F2FS_NODE(node_page);
-	return le32_to_cpu(rn->footer.ino);
-}
-
-static inline nid_t nid_of_node(struct page *node_page)
-{
-	struct f2fs_node *rn = F2FS_NODE(node_page);
-	return le32_to_cpu(rn->footer.nid);
-}
-
-static inline unsigned int ofs_of_node(struct page *node_page)
-{
-	struct f2fs_node *rn = F2FS_NODE(node_page);
-	unsigned flag = le32_to_cpu(rn->footer.flag);
-	return flag >> OFFSET_BIT_SHIFT;
-}
-
-static inline __u64 cpver_of_node(struct page *node_page)
-{
-	struct f2fs_node *rn = F2FS_NODE(node_page);
-	return le64_to_cpu(rn->footer.cp_ver);
-}
-
-static inline block_t next_blkaddr_of_node(struct page *node_page)
-{
-	struct f2fs_node *rn = F2FS_NODE(node_page);
-	return le32_to_cpu(rn->footer.next_blkaddr);
-}
-
 static inline void fill_node_footer(struct page *page, nid_t nid,
 				nid_t ino, unsigned int ofs, bool reset)
 {
@@ -332,22 +294,11 @@ static inline void fill_node_footer_blkaddr(struct page *page, block_t blkaddr)
 {
 	struct f2fs_checkpoint *ckpt = F2FS_CKPT(F2FS_P_SB(page));
 	struct f2fs_node *rn = F2FS_NODE(page);
-<<<<<<< HEAD
 	__u64 cp_ver = cur_cp_version(ckpt);
 
 	if (__is_set_ckpt_flags(ckpt, CP_CRC_RECOVERY_FLAG))
 		cp_ver |= (cur_cp_crc(ckpt) << 32);
 
-=======
-	size_t crc_offset = le32_to_cpu(ckpt->checksum_offset);
-	__u64 cp_ver = le64_to_cpu(ckpt->checkpoint_ver);
-
-	if (is_set_ckpt_flags(ckpt, CP_CRC_RECOVERY_FLAG)) {
-		__u64 crc = le32_to_cpu(*((__le32 *)
-				((unsigned char *)ckpt + crc_offset)));
-		cp_ver |= (crc << 32);
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	rn->footer.cp_ver = cpu_to_le64(cp_ver);
 	rn->footer.next_blkaddr = cpu_to_le32(blkaddr);
 }
@@ -355,7 +306,6 @@ static inline void fill_node_footer_blkaddr(struct page *page, block_t blkaddr)
 static inline bool is_recoverable_dnode(struct page *page)
 {
 	struct f2fs_checkpoint *ckpt = F2FS_CKPT(F2FS_P_SB(page));
-<<<<<<< HEAD
 	__u64 cp_ver = cur_cp_version(ckpt);
 
 	/* Don't care crc part, if fsck.f2fs sets it. */
@@ -366,17 +316,6 @@ static inline bool is_recoverable_dnode(struct page *page)
 		cp_ver |= (cur_cp_crc(ckpt) << 32);
 
 	return cp_ver == cpver_of_node(page);
-=======
-	size_t crc_offset = le32_to_cpu(ckpt->checksum_offset);
-	__u64 cp_ver = cur_cp_version(ckpt);
-
-	if (is_set_ckpt_flags(ckpt, CP_CRC_RECOVERY_FLAG)) {
-		__u64 crc = le32_to_cpu(*((__le32 *)
-				((unsigned char *)ckpt + crc_offset)));
-		cp_ver |= (crc << 32);
-	}
-	return cpu_to_le64(cp_ver) == cpver_of_node(page);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*

@@ -143,11 +143,7 @@ static bool xt_socket_sk_is_transparent(struct sock *sk)
 	}
 }
 
-<<<<<<< HEAD
 struct sock *xt_socket_lookup_slow_v4(struct net *net,
-=======
-static struct sock *xt_socket_lookup_slow_v4(struct net *net,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					     const struct sk_buff *skb,
 					     const struct net_device *indev)
 {
@@ -206,7 +202,6 @@ static struct sock *xt_socket_lookup_slow_v4(struct net *net,
 	}
 #endif
 
-<<<<<<< HEAD
 	if (sk)
 		atomic_inc(&sk->sk_refcnt);
 	else
@@ -215,10 +210,6 @@ static struct sock *xt_socket_lookup_slow_v4(struct net *net,
 					   indev);
 
 	return sk;
-=======
-	return xt_socket_get_sock_v4(net, protocol, saddr, daddr,
-				     sport, dport, indev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(xt_socket_lookup_slow_v4);
 
@@ -249,18 +240,10 @@ socket_match(const struct sk_buff *skb, struct xt_action_param *par,
 			transparent = xt_socket_sk_is_transparent(sk);
 
 		if (info->flags & XT_SOCKET_RESTORESKMARK && !wildcard &&
-<<<<<<< HEAD
 		    transparent && sk_fullsock(sk))
 			pskb->mark = sk->sk_mark;
 
 		sock_gen_put(sk);
-=======
-		    transparent)
-			pskb->mark = sk->sk_mark;
-
-		if (sk != skb->sk)
-			sock_gen_put(sk);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (wildcard || !transparent)
 			sk = NULL;
@@ -363,11 +346,7 @@ xt_socket_get_sock_v6(struct net *net, const u8 protocol,
 	return NULL;
 }
 
-<<<<<<< HEAD
 struct sock *xt_socket_lookup_slow_v6(struct net *net,
-=======
-static struct sock *xt_socket_lookup_slow_v6(struct net *net,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					     const struct sk_buff *skb,
 					     const struct net_device *indev)
 {
@@ -407,7 +386,6 @@ static struct sock *xt_socket_lookup_slow_v6(struct net *net,
 		return NULL;
 	}
 
-<<<<<<< HEAD
 	if (sk)
 		atomic_inc(&sk->sk_refcnt);
 	else
@@ -416,10 +394,6 @@ static struct sock *xt_socket_lookup_slow_v6(struct net *net,
 					   indev);
 
 	return sk;
-=======
-	return xt_socket_get_sock_v6(net, tproto, saddr, daddr,
-				     sport, dport, indev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(xt_socket_lookup_slow_v6);
 
@@ -450,11 +424,7 @@ socket_mt6_v1_v2_v3(const struct sk_buff *skb, struct xt_action_param *par)
 			transparent = xt_socket_sk_is_transparent(sk);
 
 		if (info->flags & XT_SOCKET_RESTORESKMARK && !wildcard &&
-<<<<<<< HEAD
 		    transparent && sk_fullsock(sk))
-=======
-		    transparent)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			pskb->mark = sk->sk_mark;
 
 		if (sk != skb->sk)

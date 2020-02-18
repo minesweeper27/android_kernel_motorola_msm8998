@@ -189,11 +189,7 @@ static int __init vdso_init(void)
 	}
 
 	text_pages = (vdso_end - vdso_start) >> PAGE_SHIFT;
-<<<<<<< HEAD
 	pr_debug("vdso: %i text pages at base %pK\n", text_pages, vdso_start);
-=======
-	pr_debug("vdso: %i text pages at base %p\n", text_pages, vdso_start);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Allocate the VDSO text pagelist */
 	vdso_text_pagelist = kcalloc(text_pages, sizeof(struct page *),
@@ -316,11 +312,7 @@ void update_vsyscall(struct timekeeper *tk)
 
 	vdso_write_begin(vdso_data);
 
-<<<<<<< HEAD
 	vdso_data->use_syscall			= !tk_is_cntvct(tk);
-=======
-	vdso_data->tk_is_cntvct			= tk_is_cntvct(tk);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	vdso_data->xtime_coarse_sec		= tk->xtime_sec;
 	vdso_data->xtime_coarse_nsec		= (u32)(tk->tkr_mono.xtime_nsec >>
 							tk->tkr_mono.shift);

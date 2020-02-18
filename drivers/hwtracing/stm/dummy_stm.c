@@ -40,7 +40,6 @@ dummy_stm_packet(struct stm_data *stm_data, unsigned int master,
 	return size;
 }
 
-<<<<<<< HEAD
 #define DUMMY_STM_MAX 32
 
 static struct stm_data dummy_stm[DUMMY_STM_MAX];
@@ -96,33 +95,16 @@ fail_free:
 
 	return ret;
 
-=======
-static struct stm_data dummy_stm = {
-	.name		= "dummy_stm",
-	.sw_start	= 0x0000,
-	.sw_end		= 0xffff,
-	.sw_nchannels	= 0xffff,
-	.packet		= dummy_stm_packet,
-};
-
-static int dummy_stm_init(void)
-{
-	return stm_register_device(NULL, &dummy_stm, THIS_MODULE);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void dummy_stm_exit(void)
 {
-<<<<<<< HEAD
 	int i;
 
 	for (i = 0; i < nr_dummies; i++) {
 		stm_unregister_device(&dummy_stm[i]);
 		kfree(dummy_stm[i].name);
 	}
-=======
-	stm_unregister_device(&dummy_stm);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 module_init(dummy_stm_init);

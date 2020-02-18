@@ -22,7 +22,6 @@
 #include <linux/cpumask.h>
 #include <linux/thread_info.h>
 
-<<<<<<< HEAD
 DECLARE_PER_CPU_READ_MOSTLY(int, cpu_number);
 
 /*
@@ -33,9 +32,6 @@ DECLARE_PER_CPU_READ_MOSTLY(int, cpu_number);
  * here under CONFIG_DEBUG_PREEMPT=y.
  */
 #define raw_smp_processor_id() (*raw_cpu_ptr(&cpu_number))
-=======
-#define raw_smp_processor_id() (current_thread_info()->cpu)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct seq_file;
 

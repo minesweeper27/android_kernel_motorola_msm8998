@@ -474,29 +474,6 @@ static void set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
 				le16_to_cpu(ep_desc->wMaxPacketSize)));
 }
 
-static void set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
-	struct usb_endpoint_descriptor *ep_desc,
-	unsigned int factor, bool is_playback)
-{
-	int chmask, srate, ssize;
-	u16 max_packet_size;
-
-	if (is_playback) {
-		chmask = uac2_opts->p_chmask;
-		srate = uac2_opts->p_srate;
-		ssize = uac2_opts->p_ssize;
-	} else {
-		chmask = uac2_opts->c_chmask;
-		srate = uac2_opts->c_srate;
-		ssize = uac2_opts->c_ssize;
-	}
-
-	max_packet_size = num_channels(chmask) * ssize *
-		DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1)));
-	ep_desc->wMaxPacketSize = cpu_to_le16(min_t(u16, max_packet_size,
-				le16_to_cpu(ep_desc->wMaxPacketSize)));
-}
-
 static int
 afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
 {
@@ -599,12 +576,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
 	agdev->out_ep_maxpsize = max(fs_epout_desc.wMaxPacketSize,
 					hs_epout_desc.wMaxPacketSize);
 
-	/* Calculate wMaxPacketSize according to audio bandwidth */
-	set_ep_max_packet_size(uac2_opts, &fs_epin_desc, 1000, true);
-	set_ep_max_packet_size(uac2_opts, &fs_epout_desc, 1000, false);
-	set_ep_max_packet_size(uac2_opts, &hs_epin_desc, 8000, true);
-	set_ep_max_packet_size(uac2_opts, &hs_epout_desc, 8000, false);
-
 	hs_epout_desc.bEndpointAddress = fs_epout_desc.bEndpointAddress;
 	hs_epin_desc.bEndpointAddress = fs_epin_desc.bEndpointAddress;
 
@@ -614,7 +585,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
 
 	agdev->gadget = gadget;
 
-<<<<<<< HEAD
 	agdev->params.p_chmask = uac2_opts->p_chmask;
 	agdev->params.p_srate = uac2_opts->p_srate;
 	agdev->params.p_ssize = uac2_opts->p_ssize;
@@ -623,34 +593,14 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
 	agdev->params.c_ssize = uac2_opts->c_ssize;
 	agdev->params.req_number = uac2_opts->req_number;
 	ret = g_audio_setup(agdev, "UAC2 PCM", "UAC2_Gadget");
-=======
-	prm = &agdev->uac2.p_prm;
-	prm->max_psize = hs_epin_desc.wMaxPacketSize;
-	prm->rbuf = kzalloc(prm->max_psize * USB_XFERS, GFP_KERNEL);
-	if (!prm->rbuf) {
-		prm->max_psize = 0;
-		goto err;
-	}
-
-	ret = alsa_uac2_init(agdev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret)
-		goto err;
+		goto err_free_descs;
 	return 0;
 
-<<<<<<< HEAD
 err_free_descs:
 	usb_free_all_descriptors(fn);
 	agdev->gadget = NULL;
 	return ret;
-=======
-err:
-	kfree(agdev->uac2.p_prm.rbuf);
-	kfree(agdev->uac2.c_prm.rbuf);
-err_free_descs:
-	usb_free_all_descriptors(fn);
-	return -EINVAL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int
@@ -677,43 +627,8 @@ afunc_set_alt(struct usb_function *fn, unsigned intf, unsigned alt)
 		return 0;
 	}
 
-<<<<<<< HEAD
 	if (intf == uac2->as_out_intf) {
 		uac2->as_out_alt = alt;
-=======
-	if (intf == agdev->as_out_intf) {
-		ep = agdev->out_ep;
-		prm = &uac2->c_prm;
-		config_ep_by_speed(gadget, fn, ep);
-		agdev->as_out_alt = alt;
-		req_len = prm->max_psize;
-	} else if (intf == agdev->as_in_intf) {
-		struct f_uac2_opts *opts = agdev_to_uac2_opts(agdev);
-		unsigned int factor, rate;
-		struct usb_endpoint_descriptor *ep_desc;
-
-		ep = agdev->in_ep;
-		prm = &uac2->p_prm;
-		config_ep_by_speed(gadget, fn, ep);
-		agdev->as_in_alt = alt;
-
-		/* pre-calculate the playback endpoint's interval */
-		if (gadget->speed == USB_SPEED_FULL) {
-			ep_desc = &fs_epin_desc;
-			factor = 1000;
-		} else {
-			ep_desc = &hs_epin_desc;
-			factor = 8000;
-		}
-
-		/* pre-compute some values for iso_complete() */
-		uac2->p_framesize = opts->p_ssize *
-				    num_channels(opts->p_chmask);
-		rate = opts->p_srate * uac2->p_framesize;
-		uac2->p_interval = factor / (1 << (ep_desc->bInterval - 1));
-		uac2->p_pktsize = min_t(unsigned int, rate / uac2->p_interval,
-					prm->max_psize);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (alt)
 			ret = u_audio_start_capture(&uac2->g_audio);
@@ -1000,10 +915,7 @@ static struct configfs_attribute *f_uac2_attrs[] = {
 	&f_uac2_opts_attr_c_chmask,
 	&f_uac2_opts_attr_c_srate,
 	&f_uac2_opts_attr_c_ssize,
-<<<<<<< HEAD
 	&f_uac2_opts_attr_req_number,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL,
 };
 
@@ -1064,11 +976,8 @@ static void afunc_unbind(struct usb_configuration *c, struct usb_function *f)
 
 	g_audio_cleanup(agdev);
 	usb_free_all_descriptors(f);
-<<<<<<< HEAD
 
 	agdev->gadget = NULL;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static struct usb_function *afunc_alloc(struct usb_function_instance *fi)

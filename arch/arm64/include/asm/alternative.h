@@ -1,12 +1,9 @@
 #ifndef __ASM_ALTERNATIVE_H
 #define __ASM_ALTERNATIVE_H
 
-<<<<<<< HEAD
 #include <asm/cpufeature.h>
 #include <asm/insn.h>
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifndef __ASSEMBLY__
 
 #include <linux/init.h>
@@ -69,11 +66,8 @@ void apply_alternatives(void *start, size_t length);
 
 #else
 
-<<<<<<< HEAD
 #include <asm/assembler.h>
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 .macro altinstruction_entry orig_offset alt_offset feature orig_len alt_len
 	.word \orig_offset - .
 	.word \alt_offset - .
@@ -97,7 +91,6 @@ void apply_alternatives(void *start, size_t length);
 .endm
 
 /*
-<<<<<<< HEAD
  * Alternative sequences
  *
  * The code for the case where the capability is not present will be
@@ -121,20 +114,10 @@ void apply_alternatives(void *start, size_t length);
  */
 .macro alternative_if_not cap
 	.set .Lasm_alt_mode, 0
-=======
- * Begin an alternative code sequence.
- *
- * The code that follows this macro will be assembled and linked as
- * normal. There are no restrictions on this code.
- */
-.macro alternative_if_not cap, enable = 1
-	.if \enable
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.pushsection .altinstructions, "a"
 	altinstruction_entry 661f, 663f, \cap, 662f-661f, 664f-663f
 	.popsection
 661:
-<<<<<<< HEAD
 .endm
 
 .macro alternative_if cap
@@ -158,36 +141,11 @@ void apply_alternatives(void *start, size_t length);
 	.popsection
 	.endif
 663:
-=======
-	.endif
-.endm
-
-/*
- * Provide the alternative code sequence.
- *
- * The code that follows this macro is assembled into a special
- * section to be used for dynamic patching. Code that follows this
- * macro must:
- *
- * 1. Be exactly the same length (in bytes) as the default code
- *    sequence.
- *
- * 2. Not contain a branch target that is used outside of the
- *    alternative sequence it is defined in (branches into an
- *    alternative sequence are not fixed up).
- */
-.macro alternative_else, enable = 1
-	.if \enable
-662:	.pushsection .altinstr_replacement, "ax"
-663:
-	.endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 .endm
 
 /*
  * Complete an alternative code sequence.
  */
-<<<<<<< HEAD
 .macro alternative_endif
 664:
 	.if .Lasm_alt_mode==0
@@ -206,20 +164,11 @@ void apply_alternatives(void *start, size_t length);
 alternative_else
 	nops	(662b-661b) / AARCH64_INSN_SIZE
 alternative_endif
-=======
-.macro alternative_endif, enable = 1
-	.if \enable
-664:	.popsection
-	.org	. - (664b-663b) + (662b-661b)
-	.org	. - (662b-661b) + (664b-663b)
-	.endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 .endm
 
 #define _ALTERNATIVE_CFG(insn1, insn2, cap, cfg, ...)	\
 	alternative_insn insn1, insn2, cap, IS_ENABLED(cfg)
 
-<<<<<<< HEAD
 .macro user_alt, label, oldinstr, newinstr, cond
 9999:	alternative_insn "\oldinstr", "\newinstr", \cond
 	_ASM_EXTABLE 9999b, \label
@@ -283,8 +232,6 @@ alternative_endif
 		USER(\l, \inst \reg, [\addr], \post_inc)
 	.endm
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif  /*  __ASSEMBLY__  */
 

@@ -629,7 +629,6 @@ config MAX_STACK_SIZE_MB
 
 	  A sane initial value is 80 MB.
 
-<<<<<<< HEAD
 config ZCACHE
        bool "Compressed cache for file pages (EXPERIMENTAL)"
        depends on CRYPTO && CLEANCACHE
@@ -668,8 +667,6 @@ config KSWAPD_CPU_AFFINITY_MASK
 	  For example to limit kswapd to the first 4 cores use the following:
 	  CONFIG_KSWAPD_CPU_AFFINITY_MASK="f"
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # For architectures that support deferred memory initialisation
 config ARCH_SUPPORTS_DEFERRED_STRUCT_PAGE_INIT
 	bool
@@ -720,7 +717,6 @@ config ZONE_DEVICE
 
 config FRAME_VECTOR
 	bool
-<<<<<<< HEAD
 
 config FORCE_ALLOC_FROM_DMA_ZONE
 	bool "Force certain memory allocators to always return ZONE_DMA memory"
@@ -755,5 +751,3 @@ config VM_MAX_READAHEAD
 	 This sets the VM_MAX_READAHEAD value to allow the readahead window
 	 to grow to a maximum size of configured. This will benefit sequential
 	 read throughput and thus early boot performance.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -72,7 +72,6 @@ static void do_rw_io(struct goldfish_tty *qtty,
 	void __iomem *base = qtty->base;
 
 	spin_lock_irqsave(&qtty->lock, irq_flags);
-<<<<<<< HEAD
 	gf_write_ptr((void *)address, base + GOLDFISH_TTY_REG_DATA_PTR,
 		     base + GOLDFISH_TTY_REG_DATA_PTR_HIGH);
 	writel(count, base + GOLDFISH_TTY_REG_DATA_LEN);
@@ -84,12 +83,6 @@ static void do_rw_io(struct goldfish_tty *qtty,
 		writel(GOLDFISH_TTY_CMD_READ_BUFFER,
 		       base + GOLDFISH_TTY_REG_CMD);
 
-=======
-	gf_write_ptr(buf, base + GOLDFISH_TTY_DATA_PTR,
-				base + GOLDFISH_TTY_DATA_PTR_HIGH);
-	writel(count, base + GOLDFISH_TTY_DATA_LEN);
-	writel(GOLDFISH_TTY_CMD_WRITE_BUFFER, base + GOLDFISH_TTY_CMD);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_unlock_irqrestore(&qtty->lock, irq_flags);
 }
 
@@ -169,17 +162,8 @@ static irqreturn_t goldfish_tty_interrupt(int irq, void *dev_id)
 		return IRQ_NONE;
 
 	count = tty_prepare_flip_string(&qtty->port, &buf, count);
-<<<<<<< HEAD
 	goldfish_tty_rw(qtty, buf, count, 0);
 
-=======
-	spin_lock_irqsave(&qtty->lock, irq_flags);
-	gf_write_ptr(buf, base + GOLDFISH_TTY_DATA_PTR,
-				base + GOLDFISH_TTY_DATA_PTR_HIGH);
-	writel(count, base + GOLDFISH_TTY_DATA_LEN);
-	writel(GOLDFISH_TTY_CMD_READ_BUFFER, base + GOLDFISH_TTY_CMD);
-	spin_unlock_irqrestore(&qtty->lock, irq_flags);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	tty_schedule_flip(&qtty->port);
 	return IRQ_HANDLED;
 }

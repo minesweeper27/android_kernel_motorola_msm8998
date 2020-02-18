@@ -11,10 +11,7 @@
 #include <linux/interrupt.h>
 #include <linux/ratelimit.h>
 #include <linux/irq.h>
-<<<<<<< HEAD
 #include <linux/cpumask.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include "internals.h"
 
@@ -24,10 +21,7 @@ static bool migrate_one_irq(struct irq_desc *desc)
 	const struct cpumask *affinity = d->common->affinity;
 	struct irq_chip *c;
 	bool ret = false;
-<<<<<<< HEAD
 	struct cpumask available_cpus;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * If this is a per-CPU interrupt, or the affinity does not
@@ -37,7 +31,6 @@ static bool migrate_one_irq(struct irq_desc *desc)
 	    !cpumask_test_cpu(smp_processor_id(), affinity))
 		return false;
 
-<<<<<<< HEAD
 	cpumask_copy(&available_cpus, affinity);
 	cpumask_andnot(&available_cpus, &available_cpus, cpu_isolated_mask);
 	affinity = &available_cpus;
@@ -69,10 +62,6 @@ static bool migrate_one_irq(struct irq_desc *desc)
 		 * prepared mask while overriding the user affinity.
 		 */
 		affinity = cpumask_of(cpumask_any(affinity));
-=======
-	if (cpumask_any_and(affinity, cpu_online_mask) >= nr_cpu_ids) {
-		affinity = cpu_online_mask;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		ret = true;
 	}
 
@@ -80,11 +69,7 @@ static bool migrate_one_irq(struct irq_desc *desc)
 	if (!c->irq_set_affinity) {
 		pr_debug("IRQ%u: unable to set affinity\n", d->irq);
 	} else {
-<<<<<<< HEAD
 		int r = irq_set_affinity_locked(d, affinity, false);
-=======
-		int r = irq_do_set_affinity(d, affinity, false);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (r)
 			pr_warn_ratelimited("IRQ%u: set affinity failed(%d).\n",
 					    d->irq, r);
@@ -115,22 +100,15 @@ void irq_migrate_all_off_this_cpu(void)
 		bool affinity_broken;
 
 		desc = irq_to_desc(irq);
-<<<<<<< HEAD
 		if (!desc)
 			continue;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		raw_spin_lock(&desc->lock);
 		affinity_broken = migrate_one_irq(desc);
 		raw_spin_unlock(&desc->lock);
 
 		if (affinity_broken)
-<<<<<<< HEAD
 			pr_debug_ratelimited("IRQ%u no longer affine to CPU%u\n",
-=======
-			pr_warn_ratelimited("IRQ%u no longer affine to CPU%u\n",
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					    irq, smp_processor_id());
 	}
 

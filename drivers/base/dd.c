@@ -454,7 +454,6 @@ int driver_probe_device(struct device_driver *drv, struct device *dev)
 }
 
 bool driver_allows_async_probing(struct device_driver *drv)
-<<<<<<< HEAD
 {
 	switch (drv->probe_type) {
 	case PROBE_PREFER_ASYNCHRONOUS:
@@ -506,59 +505,6 @@ struct device_attach_data {
 
 static int __device_attach_driver(struct device_driver *drv, void *_data)
 {
-=======
-{
-	switch (drv->probe_type) {
-	case PROBE_PREFER_ASYNCHRONOUS:
-		return true;
-
-	case PROBE_FORCE_SYNCHRONOUS:
-		return false;
-
-	default:
-		if (module_requested_async_probing(drv->owner))
-			return true;
-
-		return false;
-	}
-}
-
-struct device_attach_data {
-	struct device *dev;
-
-	/*
-	 * Indicates whether we are are considering asynchronous probing or
-	 * not. Only initial binding after device or driver registration
-	 * (including deferral processing) may be done asynchronously, the
-	 * rest is always synchronous, as we expect it is being done by
-	 * request from userspace.
-	 */
-	bool check_async;
-
-	/*
-	 * Indicates if we are binding synchronous or asynchronous drivers.
-	 * When asynchronous probing is enabled we'll execute 2 passes
-	 * over drivers: first pass doing synchronous probing and second
-	 * doing asynchronous probing (if synchronous did not succeed -
-	 * most likely because there was no driver requiring synchronous
-	 * probing - and we found asynchronous driver during first pass).
-	 * The 2 passes are done because we can't shoot asynchronous
-	 * probe for given device and driver from bus_for_each_drv() since
-	 * driver pointer is not guaranteed to stay valid once
-	 * bus_for_each_drv() iterates to the next driver on the bus.
-	 */
-	bool want_async;
-
-	/*
-	 * We'll set have_async to 'true' if, while scanning for matching
-	 * driver, we'll encounter one that requests asynchronous probing.
-	 */
-	bool have_async;
-};
-
-static int __device_attach_driver(struct device_driver *drv, void *_data)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct device_attach_data *data = _data;
 	struct device *dev = data->dev;
 	bool async_allowed;
@@ -689,7 +635,6 @@ void device_initial_probe(struct device *dev)
 {
 	__device_attach(dev, true);
 }
-<<<<<<< HEAD
 #ifdef CONFIG_PLATFORM_AUTO
 static inline int lock_parent(struct device *dev)
 {
@@ -704,8 +649,6 @@ static inline int lock_parent(struct device *dev)
 	return dev->parent ? 1 : 0;
 }
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static int __driver_attach(struct device *dev, void *data)
 {

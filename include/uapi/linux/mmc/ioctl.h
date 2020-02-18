@@ -55,7 +55,6 @@ struct mmc_ioc_multi_cmd {
 	__u64 num_of_cmds;
 	struct mmc_ioc_cmd cmds[0];
 };
-<<<<<<< HEAD
 
 #define MMC_IOC_CMD _IOWR(MMC_BLOCK_MAJOR, 0, struct mmc_ioc_cmd)
 /*
@@ -118,16 +117,7 @@ struct mmc_ioc_rpmb {
  * or normal partitions.
  */
 #define MMC_IOC_RPMB_CMD _IOWR(MMC_BLOCK_MAJOR, 0, struct mmc_ioc_rpmb)
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
-#define MMC_IOC_CMD _IOWR(MMC_BLOCK_MAJOR, 0, struct mmc_ioc_cmd)
-/*
- * MMC_IOC_MULTI_CMD: Used to send an array of MMC commands described by
- *	the structure mmc_ioc_multi_cmd. The MMC driver will issue all
- *	commands in array in sequence to card.
- */
-#define MMC_IOC_MULTI_CMD _IOWR(MMC_BLOCK_MAJOR, 1, struct mmc_ioc_multi_cmd)
 /*
  * Since this ioctl is only meant to enhance (and not replace) normal access
  * to the mmc bus device, an upper data transfer limit of MMC_IOC_MAX_BYTES

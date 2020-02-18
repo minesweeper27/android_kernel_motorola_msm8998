@@ -15,10 +15,7 @@
 #include <linux/seq_file.h>
 #include <linux/debugfs.h>
 #include <linux/pm_wakeirq.h>
-<<<<<<< HEAD
 #include <linux/types.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <trace/events/power.h>
 
 #include "power.h"

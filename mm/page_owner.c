@@ -109,7 +109,6 @@ void __reset_page_owner(struct page *page, unsigned int order)
 static inline bool check_recursive_alloc(struct stack_trace *trace,
 					unsigned long ip)
 {
-<<<<<<< HEAD
 	int i, count;
 
 	if (!trace->nr_entries)
@@ -126,10 +125,6 @@ static inline bool check_recursive_alloc(struct stack_trace *trace,
 static noinline depot_stack_handle_t save_stack(gfp_t flags)
 {
 	unsigned long entries[PAGE_OWNER_STACK_DEPTH];
-=======
-	struct page_ext *page_ext = lookup_page_ext(page);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct stack_trace trace = {
 		.nr_entries = 0,
 		.entries = entries,
@@ -137,9 +132,6 @@ static noinline depot_stack_handle_t save_stack(gfp_t flags)
 		.skip = 2
 	};
 	depot_stack_handle_t handle;
-
-	if (unlikely(!page_ext))
-		return;
 
 	save_stack_trace(&trace);
 	if (trace.nr_entries != 0 &&
@@ -179,7 +171,6 @@ noinline void __set_page_owner(struct page *page, unsigned int order,
 	__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
 }
 
-<<<<<<< HEAD
 void __set_page_owner_migrate_reason(struct page *page, int reason)
 {
 	struct page_ext *page_ext = lookup_page_ext(page);
@@ -228,19 +219,6 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
 	 * the new page, which will be freed.
 	 */
 	__set_bit(PAGE_EXT_OWNER, &new_ext->flags);
-=======
-gfp_t __get_page_owner_gfp(struct page *page)
-{
-	struct page_ext *page_ext = lookup_page_ext(page);
-	if (unlikely(!page_ext))
-		/*
-		 * The caller just returns 0 if no valid gfp
-		 * So return 0 here too.
-		 */
-		return 0;
-
-	return page_ext->gfp_mask;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static ssize_t

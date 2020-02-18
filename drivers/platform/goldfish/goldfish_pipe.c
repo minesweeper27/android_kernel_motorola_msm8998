@@ -303,7 +303,6 @@ static ssize_t goldfish_pipe_read_write(struct file *filp, char __user *buffer,
 
 		/* Now, try to transfer the bytes in the current page */
 		spin_lock_irqsave(&dev->lock, irq_flags);
-<<<<<<< HEAD
 		if (access_with_param(dev,
 					is_write ? CMD_WRITE_BUFFER : CMD_READ_BUFFER,
 					xaddr, avail, pipe, &status)) {
@@ -315,18 +314,6 @@ static ssize_t goldfish_pipe_read_write(struct file *filp, char __user *buffer,
 				     dev->base + PIPE_REG_ADDRESS_HIGH);
 			writel(is_write ? CMD_WRITE_BUFFER : CMD_READ_BUFFER,
 			       dev->base + PIPE_REG_COMMAND);
-=======
-		if (access_with_param(dev, CMD_WRITE_BUFFER + cmd_offset,
-				address, avail, pipe, &status)) {
-			gf_write_ptr(pipe, dev->base + PIPE_REG_CHANNEL,
-				     dev->base + PIPE_REG_CHANNEL_HIGH);
-			writel(avail, dev->base + PIPE_REG_SIZE);
-			gf_write_ptr((void *)address,
-				     dev->base + PIPE_REG_ADDRESS,
-				     dev->base + PIPE_REG_ADDRESS_HIGH);
-			writel(CMD_WRITE_BUFFER + cmd_offset,
-					dev->base + PIPE_REG_COMMAND);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			status = readl(dev->base + PIPE_REG_STATUS);
 		}
 		spin_unlock_irqrestore(&dev->lock, irq_flags);

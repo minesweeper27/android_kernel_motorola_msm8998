@@ -61,7 +61,6 @@ static const struct sco_param esco_param_msbc[] = {
 
 /* This function requires the caller holds hdev->lock */
 static void hci_connect_le_scan_cleanup(struct hci_conn *conn)
-<<<<<<< HEAD
 {
 	struct hci_conn_params *params;
 	struct hci_dev *hdev = conn->hdev;
@@ -137,93 +136,12 @@ static void hci_conn_cleanup(struct hci_conn *conn)
 
 static void le_scan_cleanup(struct work_struct *work)
 {
-=======
-{
-	struct hci_conn_params *params;
-	struct hci_dev *hdev = conn->hdev;
-	struct smp_irk *irk;
-	bdaddr_t *bdaddr;
-	u8 bdaddr_type;
-
-	bdaddr = &conn->dst;
-	bdaddr_type = conn->dst_type;
-
-	/* Check if we need to convert to identity address */
-	irk = hci_get_irk(hdev, bdaddr, bdaddr_type);
-	if (irk) {
-		bdaddr = &irk->bdaddr;
-		bdaddr_type = irk->addr_type;
-	}
-
-	params = hci_pend_le_action_lookup(&hdev->pend_le_conns, bdaddr,
-					   bdaddr_type);
-	if (!params || !params->explicit_connect)
-		return;
-
-	/* The connection attempt was doing scan for new RPA, and is
-	 * in scan phase. If params are not associated with any other
-	 * autoconnect action, remove them completely. If they are, just unmark
-	 * them as waiting for connection, by clearing explicit_connect field.
-	 */
-	params->explicit_connect = false;
-
-	list_del_init(&params->action);
-
-	switch (params->auto_connect) {
-	case HCI_AUTO_CONN_EXPLICIT:
-		hci_conn_params_del(hdev, bdaddr, bdaddr_type);
-		/* return instead of break to avoid duplicate scan update */
-		return;
-	case HCI_AUTO_CONN_DIRECT:
-	case HCI_AUTO_CONN_ALWAYS:
-		list_add(&params->action, &hdev->pend_le_conns);
-		break;
-	case HCI_AUTO_CONN_REPORT:
-		list_add(&params->action, &hdev->pend_le_reports);
-		break;
-	default:
-		break;
-	}
-
-	hci_update_background_scan(hdev);
-}
-
-static void hci_conn_cleanup(struct hci_conn *conn)
-{
-	struct hci_dev *hdev = conn->hdev;
-
-	if (test_bit(HCI_CONN_PARAM_REMOVAL_PEND, &conn->flags))
-		hci_conn_params_del(conn->hdev, &conn->dst, conn->dst_type);
-
-	hci_chan_list_flush(conn);
-
-	hci_conn_hash_del(hdev, conn);
-
-	if (hdev->notify)
-		hdev->notify(hdev, HCI_NOTIFY_CONN_DEL);
-
-	hci_conn_del_sysfs(conn);
-
-	debugfs_remove_recursive(conn->debugfs);
-
-	hci_dev_put(hdev);
-
-	hci_conn_put(conn);
-}
-
-static void le_scan_cleanup(struct work_struct *work)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct hci_conn *conn = container_of(work, struct hci_conn,
 					     le_scan_cleanup);
 	struct hci_dev *hdev = conn->hdev;
 	struct hci_conn *c = NULL;
 
-<<<<<<< HEAD
 	BT_DBG("%s hcon %pK", hdev->name, conn);
-=======
-	BT_DBG("%s hcon %p", hdev->name, conn);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	hci_dev_lock(hdev);
 
@@ -247,11 +165,7 @@ static void le_scan_cleanup(struct work_struct *work)
 
 static void hci_connect_le_scan_remove(struct hci_conn *conn)
 {
-<<<<<<< HEAD
 	BT_DBG("%s hcon %pK", conn->hdev->name, conn);
-=======
-	BT_DBG("%s hcon %p", conn->hdev->name, conn);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* We can't call hci_conn_del/hci_conn_cleanup here since that
 	 * could deadlock with another hci_conn_del() call that's holding
@@ -312,11 +226,7 @@ static void hci_acl_create_connection(struct hci_conn *conn)
 
 int hci_disconnect(struct hci_conn *conn, __u8 reason)
 {
-<<<<<<< HEAD
 	BT_DBG("hcon %pK", conn);
-=======
-	BT_DBG("hcon %p", conn);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* When we are master of an established connection and it enters
 	 * the disconnect timeout, then go ahead and try to read the

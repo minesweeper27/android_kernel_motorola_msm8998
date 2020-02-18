@@ -618,11 +618,8 @@ struct drm_mode_destroy_blob {
 	__u32 blob_id;
 };
 
-<<<<<<< HEAD
 #if defined(__cplusplus)
 }
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

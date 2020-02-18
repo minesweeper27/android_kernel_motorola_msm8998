@@ -24,11 +24,7 @@ static char *cm2_tr[8] = {
 	"0x04", "cpc", "0x06", "0x07"
 };
 
-<<<<<<< HEAD
 /* CM3 Tag ECC transaction type */
-=======
-/* CM3 Tag ECC transation type */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static char *cm3_tr[16] = {
 	[0x0] = "ReqNoData",
 	[0x1] = "0x1",
@@ -269,17 +265,10 @@ void mips_cm_lock_other(unsigned int core, unsigned int vp)
 	u32 val;
 
 	preempt_disable();
-<<<<<<< HEAD
-=======
-	curr_core = current_cpu_data.core;
-	spin_lock_irqsave(&per_cpu(cm_core_lock, curr_core),
-			  per_cpu(cm_core_lock_flags, curr_core));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (mips_cm_revision() >= CM_REV_CM3) {
 		val = core << CM3_GCR_Cx_OTHER_CORE_SHF;
 		val |= vp << CM3_GCR_Cx_OTHER_VP_SHF;
-<<<<<<< HEAD
 
 		/*
 		 * We need to disable interrupts in SMP systems in order to
@@ -304,10 +293,6 @@ void mips_cm_lock_other(unsigned int core, unsigned int vp)
 		spin_lock_irqsave(&per_cpu(cm_core_lock, curr_core),
 				  per_cpu(cm_core_lock_flags, curr_core));
 
-=======
-	} else {
-		BUG_ON(vp != 0);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		val = core << CM_GCR_Cx_OTHER_CORENUM_SHF;
 	}
 
@@ -322,7 +307,6 @@ void mips_cm_lock_other(unsigned int core, unsigned int vp)
 
 void mips_cm_unlock_other(void)
 {
-<<<<<<< HEAD
 	unsigned int curr_core;
 
 	if (mips_cm_revision() < CM_REV_CM3) {
@@ -334,12 +318,6 @@ void mips_cm_unlock_other(void)
 				       *this_cpu_ptr(&cm_core_lock_flags));
 	}
 
-=======
-	unsigned curr_core = current_cpu_data.core;
-
-	spin_unlock_irqrestore(&per_cpu(cm_core_lock, curr_core),
-			       per_cpu(cm_core_lock_flags, curr_core));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	preempt_enable();
 }
 

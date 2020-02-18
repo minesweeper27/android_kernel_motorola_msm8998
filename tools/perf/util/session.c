@@ -280,49 +280,6 @@ static int process_event_op2_stub(struct perf_tool *tool __maybe_unused,
 	return 0;
 }
 
-static int process_event_auxtrace_info_stub(struct perf_tool *tool __maybe_unused,
-				union perf_event *event __maybe_unused,
-				struct perf_session *session __maybe_unused)
-{
-	dump_printf(": unhandled!\n");
-	return 0;
-}
-
-static int skipn(int fd, off_t n)
-{
-	char buf[4096];
-	ssize_t ret;
-
-	while (n > 0) {
-		ret = read(fd, buf, min(n, (off_t)sizeof(buf)));
-		if (ret <= 0)
-			return ret;
-		n -= ret;
-	}
-
-	return 0;
-}
-
-static s64 process_event_auxtrace_stub(struct perf_tool *tool __maybe_unused,
-				       union perf_event *event,
-				       struct perf_session *session
-				       __maybe_unused)
-{
-	dump_printf(": unhandled!\n");
-	if (perf_data_file__is_pipe(session->file))
-		skipn(perf_data_file__fd(session->file), event->auxtrace.size);
-	return event->auxtrace.size;
-}
-
-static
-int process_event_auxtrace_error_stub(struct perf_tool *tool __maybe_unused,
-				      union perf_event *event __maybe_unused,
-				      struct perf_session *session __maybe_unused)
-{
-	dump_printf(": unhandled!\n");
-	return 0;
-}
-
 void perf_tool__fill_defaults(struct perf_tool *tool)
 {
 	if (tool->sample == NULL)
@@ -366,7 +323,6 @@ void perf_tool__fill_defaults(struct perf_tool *tool)
 			tool->finished_round = process_finished_round_stub;
 	}
 	if (tool->id_index == NULL)
-<<<<<<< HEAD
 		tool->id_index = process_event_op2_stub;
 	if (tool->auxtrace_info == NULL)
 		tool->auxtrace_info = process_event_op2_stub;
@@ -374,15 +330,6 @@ void perf_tool__fill_defaults(struct perf_tool *tool)
 		tool->auxtrace = process_event_auxtrace_stub;
 	if (tool->auxtrace_error == NULL)
 		tool->auxtrace_error = process_event_op2_stub;
-=======
-		tool->id_index = process_id_index_stub;
-	if (tool->auxtrace_info == NULL)
-		tool->auxtrace_info = process_event_auxtrace_info_stub;
-	if (tool->auxtrace == NULL)
-		tool->auxtrace = process_event_auxtrace_stub;
-	if (tool->auxtrace_error == NULL)
-		tool->auxtrace_error = process_event_auxtrace_error_stub;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void swap_sample_id_all(union perf_event *event, void *data)

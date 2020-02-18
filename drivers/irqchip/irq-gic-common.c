@@ -32,7 +32,6 @@ void gic_enable_quirks(u32 iidr, const struct gic_quirk *quirks,
 	}
 }
 
-<<<<<<< HEAD
 /*
  * Supported arch specific GIC irq extension.
  * Default make them NULL.
@@ -46,8 +45,6 @@ struct irq_chip gic_arch_extn = {
 	.irq_set_wake	= NULL,
 };
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int gic_configure_irq(unsigned int irq, unsigned int type,
 		       void __iomem *base, void (*sync_access)(void))
 {
@@ -104,15 +101,9 @@ void __init gic_dist_config(void __iomem *base, int gic_irqs,
 	 * alone as they are in the redistributor registers on GICv3.
 	 */
 	for (i = 32; i < gic_irqs; i += 32) {
-<<<<<<< HEAD
 		writel_relaxed(GICD_INT_EN_CLR_X32,
 			       base + GIC_DIST_ACTIVE_CLEAR + i / 8);
 		writel_relaxed(GICD_INT_EN_CLR_X32,
-=======
-		writel_relaxed(GICD_INT_EN_CLR_X32,
-			       base + GIC_DIST_ACTIVE_CLEAR + i / 8);
-		writel_relaxed(GICD_INT_EN_CLR_X32,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			       base + GIC_DIST_ENABLE_CLEAR + i / 8);
 	}
 

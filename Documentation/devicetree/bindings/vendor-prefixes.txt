@@ -87,10 +87,7 @@ excito	Excito
 fcs	Fairchild Semiconductor
 firefly	Firefly
 focaltech	FocalTech Systems Co.,Ltd
-<<<<<<< HEAD
 fpc	Fingerprint Cards
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 fsl	Freescale Semiconductor
 GEFanuc	GE Fanuc Intelligent Platforms Embedded Systems, Inc.
 goodix	Goodix. Ltd.
@@ -120,10 +117,7 @@ ibm	International Business Machines (IBM)
 idt	Integrated Device Technologies, Inc.
 iom	Iomega Corporation
 img	Imagination Technologies Ltd.
-<<<<<<< HEAD
 infineon	Infineon Technologies AG
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 ingenic	Ingenic Semiconductor
 innolux	Innolux Corporation
 intel	Intel Corporation
@@ -131,10 +125,7 @@ intercontrol	Inter Control Group
 invensense	InvenSense Inc.
 isee	ISEE 2007 S.L.
 isil	Intersil
-<<<<<<< HEAD
 ite     ITE Tech. Inc.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 jedec	JEDEC Solid State Technology Association
 karo	Ka-Ro electronics GmbH
 keymile	Keymile GmbH
@@ -160,13 +151,9 @@ mitsubishi	Mitsubishi Electric Corporation
 mosaixtech	Mosaix Technologies, Inc.
 moxa	Moxa
 mpl	MPL AG
-<<<<<<< HEAD
 mmi	Motorola Mobility LLC (formerly Motorola Mobility, Inc.)
 msi	Micro-Star International Co. Ltd.
 mstar	MStar Semiconductor, Inc.
-=======
-msi	Micro-Star International Co. Ltd.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 mti	Imagination Technologies Ltd. (formerly MIPS Technologies Inc.)
 mundoreader	Mundo Reader S.L.
 murata	Murata Manufacturing Co., Ltd.

@@ -662,10 +662,7 @@ exit:
 		}
 	}
 
-<<<<<<< HEAD
 	ath10k_wow_op_report_wakeup_reason(ar);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	mutex_unlock(&ar->conf_mutex);
 	return ret;
 }

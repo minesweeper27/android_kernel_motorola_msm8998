@@ -431,17 +431,13 @@ static struct attribute *ubi_dev_attrs[] = {
 	&dev_min_io_size.attr,
 	&dev_bgt_enabled.attr,
 	&dev_mtd_num.attr,
-<<<<<<< HEAD
 	&dev_mtd_trigger_scrub.attr,
 	&dev_mtd_max_scrub_sqnum.attr,
 	&dev_mtd_min_scrub_sqnum.attr,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL
 };
 ATTRIBUTE_GROUPS(ubi_dev);
 
-<<<<<<< HEAD
 static ssize_t dev_attribute_store(struct device *dev,
 			   struct device_attribute *attr,
 			   const char *buf, size_t count)
@@ -474,8 +470,6 @@ out:
 	return ret;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void dev_release(struct device *dev)
 {
 	struct ubi_device *ubi = container_of(dev, struct ubi_device, dev);

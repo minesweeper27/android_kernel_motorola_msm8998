@@ -62,7 +62,6 @@ config EXT4_FS
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
 config EXT4_USERDATA_BLKNUM
 	int "userdata blknumber"
 	range 40 100
@@ -78,11 +77,6 @@ config EXT4_FORCE_NODISCARD
 config EXT4_USE_FOR_EXT2
 	bool "Use ext4 for ext2 file systems"
 	depends on EXT4_FS
-=======
-config EXT4_USE_FOR_EXT2
-	bool "Use ext4 for ext2 file systems"
-	depends on EXT4_FS
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	depends on EXT2_FS=n
 	default y
 	help
@@ -124,10 +118,7 @@ config EXT4_ENCRYPTION
 	select CRYPTO_ECB
 	select CRYPTO_XTS
 	select CRYPTO_CTS
-<<<<<<< HEAD
 	select CRYPTO_HEH
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select CRYPTO_CTR
 	select CRYPTO_SHA256
 	select KEYS

@@ -133,25 +133,6 @@ static int __set_timestamp(struct vb2_buffer *vb, const void *pb)
 	return 0;
 };
 
-<<<<<<< HEAD
-=======
-static void vb2_warn_zero_bytesused(struct vb2_buffer *vb)
-{
-	static bool check_once;
-
-	if (check_once)
-		return;
-
-	check_once = true;
-
-	pr_warn("use of bytesused == 0 is deprecated and will be removed in the future,\n");
-	if (vb->vb2_queue->allow_zero_bytesused)
-		pr_warn("use VIDIOC_DECODER_CMD(V4L2_DEC_CMD_STOP) instead.\n");
-	else
-		pr_warn("use the actual size instead.\n");
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct v4l2_buffer *b,
 				    const char *opname)
 {
@@ -359,12 +340,6 @@ static int __fill_vb2_buffer(struct vb2_buffer *vb,
 				struct vb2_plane *pdst = &planes[plane];
 				struct v4l2_plane *psrc = &b->m.planes[plane];
 
-<<<<<<< HEAD
-=======
-				if (psrc->bytesused == 0)
-					vb2_warn_zero_bytesused(vb);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				if (vb->vb2_queue->allow_zero_bytesused)
 					pdst->bytesused = psrc->bytesused;
 				else
@@ -399,12 +374,6 @@ static int __fill_vb2_buffer(struct vb2_buffer *vb,
 		}
 
 		if (V4L2_TYPE_IS_OUTPUT(b->type)) {
-<<<<<<< HEAD
-=======
-			if (b->bytesused == 0)
-				vb2_warn_zero_bytesused(vb);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (vb->vb2_queue->allow_zero_bytesused)
 				planes[0].bytesused = b->bytesused;
 			else

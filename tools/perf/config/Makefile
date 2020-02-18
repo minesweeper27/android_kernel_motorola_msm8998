@@ -666,7 +666,6 @@ ifdef LIBBABELTRACE
 endif
 
 ifndef NO_AUXTRACE
-<<<<<<< HEAD
   ifeq ($(ARCH),x86)
     ifeq ($(feature-get_cpuid), 0)
       msg := $(warning Your gcc lacks the __get_cpuid() builtin, disables support for auxtrace/Intel PT, please install a newer gcc);
@@ -675,11 +674,6 @@ ifndef NO_AUXTRACE
       $(call detected,CONFIG_AUXTRACE)
       CFLAGS += -DHAVE_AUXTRACE_SUPPORT
     endif
-=======
-  ifeq ($(feature-get_cpuid), 0)
-    msg := $(warning Your gcc lacks the __get_cpuid() builtin, disables support for auxtrace/Intel PT, please install a newer gcc);
-    NO_AUXTRACE := 1
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
   else
     $(call detected,CONFIG_AUXTRACE)
     CFLAGS += -DHAVE_AUXTRACE_SUPPORT

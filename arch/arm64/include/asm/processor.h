@@ -194,9 +194,6 @@ static inline void spin_lock_prefetch(const void *ptr)
 #endif
 
 int cpu_enable_pan(void *__unused);
-<<<<<<< HEAD
 int cpu_enable_uao(void *__unused);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #endif /* __ASM_PROCESSOR_H */

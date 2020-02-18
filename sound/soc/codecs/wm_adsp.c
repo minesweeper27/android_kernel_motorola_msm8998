@@ -2068,11 +2068,7 @@ static int wm_adsp_load(struct wm_adsp *dsp)
 	const struct wm_adsp_region *mem;
 	const char *region_name;
 	char *file, *text = NULL;
-<<<<<<< HEAD
 	char part_name[32];
-=======
-	struct wm_adsp_buf *buf;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned int reg;
 	int regions = 0;
 	int ret, offset, type, sizes;
@@ -2263,13 +2259,8 @@ static int wm_adsp_load(struct wm_adsp *dsp)
 			 regions, le32_to_cpu(region->len), offset,
 			 region_name);
 
-<<<<<<< HEAD
 		if (le32_to_cpu(region->len) >
 		    firmware->size - pos - sizeof(*region)) {
-=======
-		if ((pos + le32_to_cpu(region->len) + sizeof(*region)) >
-		    firmware->size) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			adsp_err(dsp,
 				 "%s.%d: %s region len %d bytes exceeds file length %zu\n",
 				 file, regions, region_name,
@@ -2964,31 +2955,14 @@ static int wm_adsp_load_coeff(struct wm_adsp *dsp)
 		}
 
 		if (reg) {
-<<<<<<< HEAD
 			if (le32_to_cpu(blk->len) >
 			    firmware->size - pos - sizeof(*blk)) {
-=======
-			if ((pos + le32_to_cpu(blk->len) + sizeof(*blk)) >
-			    firmware->size) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				adsp_err(dsp,
 					 "%s.%d: %s region len %d bytes exceeds file length %zu\n",
 					 file, blocks, region_name,
 					 le32_to_cpu(blk->len),
 					 firmware->size);
 				ret = -EINVAL;
-<<<<<<< HEAD
-=======
-				goto out_fw;
-			}
-
-			buf = wm_adsp_buf_alloc(blk->data,
-						le32_to_cpu(blk->len),
-						&buf_list);
-			if (!buf) {
-				adsp_err(dsp, "Out of memory\n");
-				ret = -ENOMEM;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				goto out_fw;
 			}
 

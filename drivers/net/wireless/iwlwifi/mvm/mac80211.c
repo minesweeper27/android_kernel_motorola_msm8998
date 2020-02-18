@@ -548,31 +548,18 @@ int iwl_mvm_mac_setup_register(struct iwl_mvm *mvm)
 	else
 		mvm->max_scans = IWL_MVM_MAX_LMAC_SCANS;
 
-<<<<<<< HEAD
 	if (mvm->nvm_data->bands[NL80211_BAND_2GHZ].n_channels)
 		hw->wiphy->bands[NL80211_BAND_2GHZ] =
 			&mvm->nvm_data->bands[NL80211_BAND_2GHZ];
 	if (mvm->nvm_data->bands[NL80211_BAND_5GHZ].n_channels) {
 		hw->wiphy->bands[NL80211_BAND_5GHZ] =
 			&mvm->nvm_data->bands[NL80211_BAND_5GHZ];
-=======
-	if (mvm->nvm_data->bands[IEEE80211_BAND_2GHZ].n_channels)
-		hw->wiphy->bands[IEEE80211_BAND_2GHZ] =
-			&mvm->nvm_data->bands[IEEE80211_BAND_2GHZ];
-	if (mvm->nvm_data->bands[IEEE80211_BAND_5GHZ].n_channels) {
-		hw->wiphy->bands[IEEE80211_BAND_5GHZ] =
-			&mvm->nvm_data->bands[IEEE80211_BAND_5GHZ];
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		if (fw_has_capa(&mvm->fw->ucode_capa,
 				IWL_UCODE_TLV_CAPA_BEAMFORMER) &&
 		    fw_has_api(&mvm->fw->ucode_capa,
 			       IWL_UCODE_TLV_API_LQ_SS_PARAMS))
-<<<<<<< HEAD
 			hw->wiphy->bands[NL80211_BAND_5GHZ]->vht_cap.cap |=
-=======
-			hw->wiphy->bands[IEEE80211_BAND_5GHZ]->vht_cap.cap |=
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				IEEE80211_VHT_CAP_SU_BEAMFORMER_CAPABLE;
 	}
 

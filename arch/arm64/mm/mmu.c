@@ -36,10 +36,7 @@
 #include <asm/barrier.h>
 #include <asm/cputype.h>
 #include <asm/fixmap.h>
-<<<<<<< HEAD
 #include <asm/kasan.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/kernel-pgtable.h>
 #include <asm/sections.h>
 #include <asm/setup.h>
@@ -84,7 +81,6 @@ static phys_addr_t __init early_pgtable_alloc(void)
 	phys_addr_t phys;
 	void *ptr;
 
-<<<<<<< HEAD
 	phys = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
 	BUG_ON(!phys);
 
@@ -104,13 +100,6 @@ static phys_addr_t __init early_pgtable_alloc(void)
 	pte_clear_fixmap();
 
 	return phys;
-=======
-	phys = memblock_alloc(sz, sz);
-	BUG_ON(!phys);
-	ptr = __va(phys);
-	memset(ptr, 0, sz);
-	return ptr;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*
@@ -363,16 +352,12 @@ static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
 	init_pgd(pgd_offset_raw(pgdir, virt), phys, virt, size, prot, alloc);
 }
 
-<<<<<<< HEAD
 /*
  * This function can only be used to modify existing table entries,
  * without allocating new levels of table. Note that this permits the
  * creation of new section or page entries.
  */
 static void __init create_mapping_noalloc(phys_addr_t phys, unsigned long virt,
-=======
-static void __init create_mapping(phys_addr_t phys, unsigned long virt,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				  phys_addr_t size, pgprot_t prot)
 {
 	if (virt < VMALLOC_START) {
@@ -414,7 +399,6 @@ static void __init __map_memblock(pgd_t *pgd, phys_addr_t start, phys_addr_t end
 	 * Take care not to create a writable alias for the
 	 * read-only text and rodata sections of the kernel image.
 	 */
-<<<<<<< HEAD
 
 	/* No overlap with the kernel text/rodata */
 	if (end < kernel_start || start >= kernel_end) {
@@ -422,31 +406,6 @@ static void __init __map_memblock(pgd_t *pgd, phys_addr_t start, phys_addr_t end
 				     end - start, PAGE_KERNEL,
 				     early_pgtable_alloc);
 		return;
-=======
-	unsigned long kernel_x_start = round_down(__pa(_stext), SWAPPER_BLOCK_SIZE);
-	unsigned long kernel_x_end = round_up(__pa(__init_end), SWAPPER_BLOCK_SIZE);
-
-	if (end < kernel_x_start) {
-		create_mapping(start, __phys_to_virt(start),
-			end - start, PAGE_KERNEL);
-	} else if (start >= kernel_x_end) {
-		create_mapping(start, __phys_to_virt(start),
-			end - start, PAGE_KERNEL);
-	} else {
-		if (start < kernel_x_start)
-			create_mapping(start, __phys_to_virt(start),
-				kernel_x_start - start,
-				PAGE_KERNEL);
-		create_mapping(kernel_x_start,
-				__phys_to_virt(kernel_x_start),
-				kernel_x_end - kernel_x_start,
-				PAGE_KERNEL_EXEC);
-		if (kernel_x_end < end)
-			create_mapping(kernel_x_end,
-				__phys_to_virt(kernel_x_end),
-				end - kernel_x_end,
-				PAGE_KERNEL);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/*
@@ -478,23 +437,6 @@ static void __init __map_memblock(pgd_t *pgd, phys_addr_t start, phys_addr_t end
 static void __init map_mem(pgd_t *pgd)
 {
 	struct memblock_region *reg;
-<<<<<<< HEAD
-=======
-	phys_addr_t limit;
-
-	/*
-	 * Temporarily limit the memblock range. We need to do this as
-	 * create_mapping requires puds, pmds and ptes to be allocated from
-	 * memory addressable from the initial direct kernel mapping.
-	 *
-	 * The initial direct kernel mapping, located at swapper_pg_dir, gives
-	 * us PUD_SIZE (with SECTION maps) or PMD_SIZE (without SECTION maps,
-	 * memory starting from PHYS_OFFSET (which must be aligned to 2MB as
-	 * per Documentation/arm64/booting.txt).
-	 */
-	limit = PHYS_OFFSET + SWAPPER_INIT_MAP_SIZE;
-	memblock_set_current_limit(limit);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* map all the memory banks */
 	for_each_memblock(memory, reg) {
@@ -506,29 +448,7 @@ static void __init map_mem(pgd_t *pgd)
 		if (memblock_is_nomap(reg))
 			continue;
 
-<<<<<<< HEAD
 		__map_memblock(pgd, start, end);
-=======
-		if (ARM64_SWAPPER_USES_SECTION_MAPS) {
-			/*
-			 * For the first memory bank align the start address and
-			 * current memblock limit to prevent create_mapping() from
-			 * allocating pte page tables from unmapped memory. With
-			 * the section maps, if the first block doesn't end on section
-			 * size boundary, create_mapping() will try to allocate a pte
-			 * page, which may be returned from an unmapped area.
-			 * When section maps are not used, the pte page table for the
-			 * current limit is already present in swapper_pg_dir.
-			 */
-			if (start < limit)
-				start = ALIGN(start, SECTION_SIZE);
-			if (end < limit) {
-				limit = end & SECTION_MASK;
-				memblock_set_current_limit(limit);
-			}
-		}
-		__map_memblock(start, end);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 
@@ -549,7 +469,6 @@ void mark_rodata_ro(void)
 			    section_size, PAGE_KERNEL_RO);
 }
 
-<<<<<<< HEAD
 void fixup_init(void)
 {
 	/*
@@ -559,15 +478,6 @@ void fixup_init(void)
 	 */
 	unmap_kernel_range((u64)__init_begin, (u64)(__init_end - __init_begin));
 }
-=======
-static void __init fixup_executable(void)
-{
-#ifdef CONFIG_DEBUG_RODATA
-	/* now that we are actually fully mapped, make the start/end more fine grained */
-	if (!IS_ALIGNED((unsigned long)_stext, SWAPPER_BLOCK_SIZE)) {
-		unsigned long aligned_start = round_down(__pa(_stext),
-							 SWAPPER_BLOCK_SIZE);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static void __init map_kernel_segment(pgd_t *pgd, void *va_start, void *va_end,
 				      pgprot_t prot, struct vm_struct *vma)
@@ -575,7 +485,6 @@ static void __init map_kernel_segment(pgd_t *pgd, void *va_start, void *va_end,
 	phys_addr_t pa_start = __pa_symbol(va_start);
 	unsigned long size = va_end - va_start;
 
-<<<<<<< HEAD
 	BUG_ON(!PAGE_ALIGNED(pa_start));
 	BUG_ON(!PAGE_ALIGNED(size));
 
@@ -589,22 +498,11 @@ static void __init map_kernel_segment(pgd_t *pgd, void *va_start, void *va_end,
 	vma->caller	= __builtin_return_address(0);
 
 	vm_area_add_early(vma);
-=======
-	if (!IS_ALIGNED((unsigned long)__init_end, SWAPPER_BLOCK_SIZE)) {
-		unsigned long aligned_end = round_up(__pa(__init_end),
-							  SWAPPER_BLOCK_SIZE);
-		create_mapping(__pa(__init_end), (unsigned long)__init_end,
-				aligned_end - __pa(__init_end),
-				PAGE_KERNEL);
-	}
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
 static int __init map_entry_trampoline(void)
 {
-<<<<<<< HEAD
 	extern char __entry_tramp_text_start[];
 
 	pgprot_t prot = PAGE_KERNEL_ROX;
@@ -627,11 +525,6 @@ static int __init map_entry_trampoline(void)
 			     __pa_symbol(__entry_tramp_data_start),
 			     PAGE_KERNEL_RO);
 	}
-=======
-	create_mapping_late(__pa(_stext), (unsigned long)_stext,
-				(unsigned long)_etext - (unsigned long)_stext,
-				PAGE_KERNEL_ROX);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -844,16 +737,12 @@ static void free_pte_table(pmd_t *pmd, bool direct)
 
 	free_pagetable(page, 0, direct);
 
-	/* Ensure the zero page is visible to the page table walker */
-	dsb(ishst);
-
 	/*
 	 * This spin lock could be only taken in _pte_aloc_kernel
 	 * in mm/memory.c and nowhere else (for arm64). Not sure if
 	 * the function above can be called concurrently. In doubt,
 	 * I am living it here for now, but it probably can be removed
 	 */
-<<<<<<< HEAD
 	spin_lock(&init_mm.page_table_lock);
 	pmd_clear(pmd);
 	spin_unlock(&init_mm.page_table_lock);
@@ -1183,14 +1072,6 @@ void remove_pagetable(unsigned long start, unsigned long end, bool direct)
 #endif /* CONFIG_MEMORY_HOTPLUG */
 
 /*
-=======
-	cpu_set_reserved_ttbr0();
-	local_flush_tlb_all();
-	cpu_set_default_tcr_t0sz();
-}
-
-/*
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Check whether a kernel address is valid (derived from arch/x86/).
  */
 int kern_addr_valid(unsigned long addr)
@@ -1384,18 +1265,10 @@ void __set_fixmap(enum fixed_addresses idx,
 	}
 }
 
-<<<<<<< HEAD
 void *__init __fixmap_remap_fdt(phys_addr_t dt_phys, int *size, pgprot_t prot)
 {
 	const u64 dt_virt_base = __fix_to_virt(FIX_FDT);
 	int offset;
-=======
-void *__init fixmap_remap_fdt(phys_addr_t dt_phys)
-{
-	const u64 dt_virt_base = __fix_to_virt(FIX_FDT);
-	pgprot_t prot = PAGE_KERNEL_RO;
-	int size, offset;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	void *dt_virt;
 
 	/*
@@ -1412,11 +1285,7 @@ void *__init fixmap_remap_fdt(phys_addr_t dt_phys)
 	/*
 	 * Make sure that the FDT region can be mapped without the need to
 	 * allocate additional translation table pages, so that it is safe
-<<<<<<< HEAD
 	 * to call create_mapping_noalloc() this early.
-=======
-	 * to call create_mapping() this early.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	 *
 	 * On 64k pages, the FDT will be mapped using PTEs, so we need to
 	 * be in the same PMD as the rest of the fixmap.
@@ -1432,18 +1301,12 @@ void *__init fixmap_remap_fdt(phys_addr_t dt_phys)
 	dt_virt = (void *)dt_virt_base + offset;
 
 	/* map the first chunk so we can read the size from the header */
-<<<<<<< HEAD
 	create_mapping_noalloc(round_down(dt_phys, SWAPPER_BLOCK_SIZE),
 			dt_virt_base, SWAPPER_BLOCK_SIZE, prot);
-=======
-	create_mapping(round_down(dt_phys, SWAPPER_BLOCK_SIZE), dt_virt_base,
-		       SWAPPER_BLOCK_SIZE, prot);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (fdt_magic(dt_virt) != FDT_MAGIC)
 		return NULL;
 
-<<<<<<< HEAD
 	*size = fdt_totalsize(dt_virt);
 	if (*size > MAX_FDT_SIZE)
 		return NULL;
@@ -1507,19 +1370,6 @@ int pmd_clear_huge(pmd_t *pmd)
 		return 0;
 	pmd_clear(pmd);
 	return 1;
-=======
-	size = fdt_totalsize(dt_virt);
-	if (size > MAX_FDT_SIZE)
-		return NULL;
-
-	if (offset + size > SWAPPER_BLOCK_SIZE)
-		create_mapping(round_down(dt_phys, SWAPPER_BLOCK_SIZE), dt_virt_base,
-			       round_up(offset + size, SWAPPER_BLOCK_SIZE), prot);
-
-	memblock_reserve(dt_phys, size);
-
-	return dt_virt;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #ifdef CONFIG_HAVE_ARCH_HUGE_VMAP

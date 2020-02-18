@@ -77,43 +77,12 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 	 * Function graph tracer state gets incosistent when the kernel
 	 * calls functions that never return (aka suspend finishers) hence
 	 * disable graph tracing during their execution.
-<<<<<<< HEAD
 	 */
 	pause_graph_tracing();
 
 	if (__cpu_suspend_enter(&state)) {
 		/* Call the suspend finisher */
 		ret = fn(arg);
-=======
-	 */
-	pause_graph_tracing();
-
-	/*
-	 * mm context saved on the stack, it will be restored when
-	 * the cpu comes out of reset through the identity mapped
-	 * page tables, so that the thread address space is properly
-	 * set-up on function return.
-	 */
-	ret = __cpu_suspend_enter(arg, fn);
-	if (ret == 0) {
-		/*
-		 * We are resuming from reset with TTBR0_EL1 set to the
-		 * idmap to enable the MMU; set the TTBR0 to the reserved
-		 * page tables to prevent speculative TLB allocations, flush
-		 * the local tlb and set the default tcr_el1.t0sz so that
-		 * the TTBR0 address space set-up is properly restored.
-		 * If the current active_mm != &init_mm we entered cpu_suspend
-		 * with mappings in TTBR0 that must be restored, so we switch
-		 * them back to complete the address space configuration
-		 * restoration before returning.
-		 */
-		cpu_set_reserved_ttbr0();
-		local_flush_tlb_all();
-		cpu_set_default_tcr_t0sz();
-
-		if (mm != &init_mm)
-			cpu_switch_mm(mm->pgd, mm);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		/*
 		 * PSTATE was not saved over suspend/resume, re-enable any
@@ -122,13 +91,6 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 		asm(ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,
 				CONFIG_ARM64_PAN));
 		uao_thread_switch(current);
-
-		/*
-		 * PSTATE was not saved over suspend/resume, re-enable any
-		 * detected features that might not have been set correctly.
-		 */
-		asm(ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,
-				CONFIG_ARM64_PAN));
 
 		/*
 		 * Restore HW breakpoint registers to sane values
@@ -153,11 +115,6 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
-struct sleep_save_sp sleep_save_sp;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int __init cpu_suspend_init(void)
 {
 	/* ctx_ptr is an array of physical addresses */
@@ -167,13 +124,6 @@ static int __init cpu_suspend_init(void)
 	if (WARN_ON(!sleep_save_stash))
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
-	sleep_save_sp.save_ptr_stash = ctx_ptr;
-	sleep_save_sp.save_ptr_stash_phys = virt_to_phys(ctx_ptr);
-	__flush_dcache_area(&sleep_save_sp, sizeof(struct sleep_save_sp));
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 early_initcall(cpu_suspend_init);

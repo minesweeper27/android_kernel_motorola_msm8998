@@ -54,12 +54,6 @@ should suffice.
 1) Load Module:
 	modprobe zram num_devices=4
 	This creates 4 devices: /dev/zram{0,1,2,3}
-<<<<<<< HEAD
-=======
-
-num_devices parameter is optional and tells zram how many devices should be
-pre-created. Default: 1.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 num_devices parameter is optional and tells zram how many devices should be
 pre-created. Default: 1.
@@ -76,17 +70,10 @@ To find out how many streams are currently available:
 	cat /sys/block/zram0/max_comp_streams
 
 3) Select compression algorithm
-<<<<<<< HEAD
 Using comp_algorithm device attribute one can see available and
 currently selected (shown in square brackets) compression algorithms,
 change selected compression algorithm (once the device is initialised
 there is no way to change compression algorithm).
-=======
-	Using comp_algorithm device attribute one can see available and
-	currently selected (shown in square brackets) compression algorithms,
-	change selected compression algorithm (once the device is initialised
-	there is no way to change compression algorithm).
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 Examples:
 	#show supported compression algorithms
@@ -179,33 +166,9 @@ mem_limit         WO    specifies the maximum amount of memory ZRAM can use
                         to store the compressed data
 max_comp_streams  RW    the number of possible concurrent compress operations
 comp_algorithm    RW    show and change the compression algorithm
-<<<<<<< HEAD
 compact           WO    trigger memory compaction
 debug_stat        RO    this file is used for zram debugging purposes
 backing_dev	  RW	set up backend storage for zram to write out
-=======
-notify_free       RO    the number of notifications to free pages (either
-                        slot free notifications or REQ_DISCARD requests)
-zero_pages        RO    the number of zero filled pages written to this disk
-orig_data_size    RO    uncompressed size of data stored in this disk
-compr_data_size   RO    compressed size of data stored in this disk
-mem_used_total    RO    the amount of memory allocated for this disk
-mem_used_max      RW    the maximum amount of memory zram have consumed to
-                        store the data (to reset this counter to the actual
-                        current value, write 1 to this attribute)
-mem_limit         RW    the maximum amount of memory ZRAM can use to store
-                        the compressed data
-pages_compacted   RO    the number of pages freed during compaction
-                        (available only via zram<id>/mm_stat node)
-compact           WO    trigger memory compaction
-
-WARNING
-=======
-per-stat sysfs attributes are considered to be deprecated.
-The basic strategy is:
--- the existing RW nodes will be downgraded to WO nodes (in linux 4.11)
--- deprecated RO sysfs nodes will eventually be removed (in linux 4.11)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 
 User space is advised to use the following files to read the device statistics.
@@ -238,7 +201,6 @@ File /sys/block/zram<id>/mm_stat
 
 The stat file represents device's mm statistics. It consists of a single
 line of text and contains the following stats separated by whitespace:
-<<<<<<< HEAD
  orig_data_size   uncompressed size of data stored in this disk.
 		  This excludes same-element-filled pages (same_pages) since
 		  no memory is allocated for them.
@@ -257,15 +219,6 @@ line of text and contains the following stats separated by whitespace:
                   No memory is allocated for such pages.
  pages_compacted  the number of pages freed during compaction
  huge_pages	  the number of incompressible pages
-=======
-	orig_data_size
-	compr_data_size
-	mem_used_total
-	mem_limit
-	mem_used_max
-	zero_pages
-	num_migrated
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 9) Deactivate:
 	swapoff /dev/zram0

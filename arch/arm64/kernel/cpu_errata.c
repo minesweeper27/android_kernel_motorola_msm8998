@@ -21,16 +21,6 @@
 #include <asm/cputype.h>
 #include <asm/cpufeature.h>
 
-<<<<<<< HEAD
-=======
-#define MIDR_CORTEX_A53 MIDR_CPU_PART(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A53)
-#define MIDR_CORTEX_A57 MIDR_CPU_PART(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A57)
-#define MIDR_THUNDERX	MIDR_CPU_PART(ARM_CPU_IMP_CAVIUM, CAVIUM_CPU_PART_THUNDERX)
-
-#define CPU_MODEL_MASK (MIDR_IMPLEMENTOR_MASK | MIDR_PARTNUM_MASK | \
-			MIDR_ARCHITECTURE_MASK)
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static bool __maybe_unused
 is_affected_midr_range(const struct arm64_cpu_capabilities *entry)
 {
@@ -294,23 +284,6 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
 		.enable = enable_qcom_bp_hardening,
 	},
 #endif
-#ifdef CONFIG_CAVIUM_ERRATUM_23154
-	{
-	/* Cavium ThunderX, pass 1.x */
-		.desc = "Cavium erratum 23154",
-		.capability = ARM64_WORKAROUND_CAVIUM_23154,
-		MIDR_RANGE(MIDR_THUNDERX, 0x00, 0x01),
-	},
-#endif
-#ifdef CONFIG_CAVIUM_ERRATUM_27456
-	{
-	/* Cavium ThunderX, T88 pass 1.x - 2.1 */
-		.desc = "Cavium erratum 27456",
-		.capability = ARM64_WORKAROUND_CAVIUM_27456,
-		MIDR_RANGE(MIDR_THUNDERX, 0x00,
-			   (1 << MIDR_VARIANT_SHIFT) | 1),
-	},
-#endif
 	{
 	}
 };
@@ -318,12 +291,9 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
 void check_local_cpu_errata(void)
 {
 	update_cpu_capabilities(arm64_errata, "enabling workaround for");
-<<<<<<< HEAD
 }
 
 void __init enable_errata_workarounds(void)
 {
 	enable_cpu_capabilities(arm64_errata);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }

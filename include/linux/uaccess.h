@@ -114,7 +114,6 @@ extern long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count);
 #define probe_kernel_address(addr, retval)		\
 	probe_kernel_read(&retval, addr, sizeof(retval))
 
-<<<<<<< HEAD
 #ifndef user_access_begin
 #define user_access_begin() do { } while (0)
 #define user_access_end() do { } while (0)
@@ -122,6 +121,4 @@ extern long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count);
 #define unsafe_put_user(x, ptr, err) do { if (unlikely(__put_user(x, ptr))) goto err; } while (0)
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif		/* __LINUX_UACCESS_H__ */

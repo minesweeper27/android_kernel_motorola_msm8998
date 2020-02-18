@@ -465,15 +465,9 @@ static bool __propagate_umount(struct mount *mnt,
 	 */
 	list_for_each_entry(child, &mnt->mnt_mounts, mnt_child) {
 		if (child->mnt_mountpoint == mnt->mnt.mnt_root)
-<<<<<<< HEAD
 			continue;
 		if (!list_empty(&child->mnt_umounting) && IS_MNT_MARKED(child))
 			continue;
-=======
-			continue;
-		if (!list_empty(&child->mnt_umounting) && IS_MNT_MARKED(child))
-			continue;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/* Found a mounted child */
 		goto children;
 	}
@@ -558,7 +552,6 @@ int propagate_umount(struct list_head *list)
 	list_for_each_entry_reverse(mnt, list, mnt_list) {
 		struct mount *parent = mnt->mnt_parent;
 		struct mount *m;
-<<<<<<< HEAD
 
 		/*
 		 * If this mount has already been visited it is known that it's
@@ -609,58 +602,6 @@ int propagate_umount(struct list_head *list)
 		}
 	}
 
-=======
-
-		/*
-		 * If this mount has already been visited it is known that it's
-		 * entire peer group and all of their slaves in the propagation
-		 * tree for the mountpoint has already been visited and there is
-		 * no need to visit them again.
-		 */
-		if (!list_empty(&mnt->mnt_umounting))
-			continue;
-
-		list_add_tail(&mnt->mnt_umounting, &visited);
-		for (m = propagation_next(parent, parent); m;
-		     m = propagation_next(m, parent)) {
-			struct mount *child = __lookup_mnt(&m->mnt,
-							   mnt->mnt_mountpoint);
-			if (!child)
-				continue;
-
-			if (!list_empty(&child->mnt_umounting)) {
-				/*
-				 * If the child has already been visited it is
-				 * know that it's entire peer group and all of
-				 * their slaves in the propgation tree for the
-				 * mountpoint has already been visited and there
-				 * is no need to visit this subtree again.
-				 */
-				m = skip_propagation_subtree(m, parent);
-				continue;
-			} else if (child->mnt.mnt_flags & MNT_UMOUNT) {
-				/*
-				 * We have come accross an partially unmounted
-				 * mount in list that has not been visited yet.
-				 * Remember it has been visited and continue
-				 * about our merry way.
-				 */
-				list_add_tail(&child->mnt_umounting, &visited);
-				continue;
-			}
-
-			/* Check the child and parents while progress is made */
-			while (__propagate_umount(child,
-						  &to_umount, &to_restore)) {
-				/* Is the parent a umount candidate? */
-				child = child->mnt_parent;
-				if (list_empty(&child->mnt_umounting))
-					break;
-			}
-		}
-	}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	umount_list(&to_umount, &to_restore);
 	restore_mounts(&to_restore);
 	cleanup_umount_visitations(&visited);

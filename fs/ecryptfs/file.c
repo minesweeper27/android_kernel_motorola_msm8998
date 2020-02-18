@@ -239,7 +239,6 @@ static int ecryptfs_open(struct inode *inode, struct file *file)
 	}
 	ecryptfs_set_file_lower(
 		file, ecryptfs_inode_to_private(inode)->lower_file);
-<<<<<<< HEAD
 	if (d_is_dir(ecryptfs_dentry)) {
 		ecryptfs_printk(KERN_DEBUG, "This is a directory\n");
 		mutex_lock(&crypt_stat->cs_mutex);
@@ -249,8 +248,6 @@ static int ecryptfs_open(struct inode *inode, struct file *file)
 		goto out;
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	rc = read_or_initialize_metadata(ecryptfs_dentry);
 	if (rc)
 		goto out_put;
@@ -353,17 +350,6 @@ static int ecryptfs_dir_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
-static int ecryptfs_dir_release(struct inode *inode, struct file *file)
-{
-	fput(ecryptfs_file_to_lower(file));
-	kmem_cache_free(ecryptfs_file_info_cache,
-			ecryptfs_file_to_private(file));
-	return 0;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static loff_t ecryptfs_dir_llseek(struct file *file, loff_t offset, int whence)
 {
 	return vfs_llseek(ecryptfs_file_to_lower(file), offset, whence);

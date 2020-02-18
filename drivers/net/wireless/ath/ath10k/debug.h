@@ -37,11 +37,8 @@ enum ath10k_debug_mask {
 	ATH10K_DBG_TESTMODE	= 0x00001000,
 	ATH10K_DBG_WMI_PRINT	= 0x00002000,
 	ATH10K_DBG_PCI_PS	= 0x00004000,
-<<<<<<< HEAD
 	ATH10K_DBG_AHB		= 0x00008000,
 	ATH10K_DBG_SNOC		= 0x00010000,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ATH10K_DBG_ANY		= 0xffffffff,
 };
 
@@ -60,7 +57,6 @@ enum ath10k_dbg_aggr_mode {
 	ATH10K_DBG_AGGR_MODE_MAX,
 };
 
-<<<<<<< HEAD
 #define IEEE80211_FC1_DIR_MASK              0x03
 #define IEEE80211_FC1_DIR_NODS              0x00    /* STA->STA */
 #define IEEE80211_FC1_DIR_TODS              0x01    /* STA->AP  */
@@ -142,10 +138,6 @@ struct ath_pktlog_rx_info {
 /* FIXME: How to calculate the buffer size sanely? */
 #define ATH10K_FW_STATS_BUF_SIZE (1024 * 1024)
 #define ATH10K_DATAPATH_BUF_SIZE (1024 * 1024)
-=======
-/* FIXME: How to calculate the buffer size sanely? */
-#define ATH10K_FW_STATS_BUF_SIZE (1024*1024)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern unsigned int ath10k_debug_mask;
 

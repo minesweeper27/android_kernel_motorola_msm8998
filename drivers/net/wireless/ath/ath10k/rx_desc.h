@@ -481,7 +481,6 @@ struct rx_msdu_start_qca99x0 {
 	__le32 info2; /* %RX_MSDU_START_INFO2_ */
 } __packed;
 
-<<<<<<< HEAD
 #ifdef CONFIG_ATH10K_SNOC
 struct rx_msdu_start_wcn3990 {
 	__le32 info3;
@@ -491,19 +490,14 @@ struct rx_msdu_start_wcn3990 {
 } __packed;
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct rx_msdu_start {
 	struct rx_msdu_start_common common;
 	union {
 		struct rx_msdu_start_qca99x0 qca99x0;
 	} __packed;
-<<<<<<< HEAD
 	union {
 		struct rx_msdu_start_wcn3990 wcn3990;
 	} __packed;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } __packed;
 
 /*
@@ -623,7 +617,6 @@ struct rx_msdu_end_qca99x0 {
 	__le32 info2;
 } __packed;
 
-<<<<<<< HEAD
 struct rx_msdu_end_wcn3990 {
 	__le32 rule_indication_0;
 	__le32 rule_indication_1;
@@ -631,19 +624,14 @@ struct rx_msdu_end_wcn3990 {
 	__le32 rule_indication_3;
 } __packed;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct rx_msdu_end {
 	struct rx_msdu_end_common common;
 	union {
 		struct rx_msdu_end_qca99x0 qca99x0;
 	} __packed;
-<<<<<<< HEAD
 #ifdef CONFIG_ATH10K_SNOC
 	struct rx_msdu_end_wcn3990 wcn3990;
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } __packed;
 
 /*
@@ -1003,7 +991,6 @@ struct rx_ppdu_end_qca6174 {
 
 struct rx_pkt_end {
 	__le32 info0; /* %RX_PKT_END_INFO0_ */
-<<<<<<< HEAD
 #ifndef CONFIG_ATH10K_SNOC
 	__le32 phy_timestamp_1;
 	__le32 phy_timestamp_2;
@@ -1049,11 +1036,6 @@ struct rx_location_info {
 #ifdef CONFIG_ATH10K_SNOC
 	__le32 rx_location_info2; /* %RX_LOCATION_INFO2_ */
 #endif
-=======
-	__le32 phy_timestamp_1;
-	__le32 phy_timestamp_2;
-	__le32 rx_location_info; /* %RX_LOCATION_INFO_ */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } __packed;
 
 enum rx_phy_ppdu_end_info0 {
@@ -1126,7 +1108,6 @@ struct rx_phy_ppdu_end {
 
 struct rx_ppdu_end_qca99x0 {
 	struct rx_pkt_end rx_pkt_end;
-<<<<<<< HEAD
 	__le32 rx_location_info; /* %RX_LOCATION_INFO_ */
 	struct rx_phy_ppdu_end rx_phy_ppdu_end;
 	__le32 rx_timing_offset; /* %RX_PPDU_END_RX_TIMING_OFFSET_ */
@@ -1138,8 +1119,6 @@ struct rx_ppdu_end_qca99x0 {
 struct rx_ppdu_end_qca9984 {
 	struct rx_pkt_end rx_pkt_end;
 	struct rx_location_info rx_location_info;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct rx_phy_ppdu_end rx_phy_ppdu_end;
 	__le32 rx_timing_offset; /* %RX_PPDU_END_RX_TIMING_OFFSET_ */
 	__le32 rx_info; /* %RX_PPDU_END_RX_INFO_ */
@@ -1147,7 +1126,6 @@ struct rx_ppdu_end_qca9984 {
 	__le16 info1; /* %RX_PPDU_END_INFO1_ */
 } __packed;
 
-<<<<<<< HEAD
 struct rx_timing_offset {
 	__le32 timing_offset;
 };
@@ -1166,21 +1144,16 @@ struct rx_ppdu_end_wcn3990 {
 	struct rx_location_info rx_location_info;
 } __packed;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct rx_ppdu_end {
 	struct rx_ppdu_end_common common;
 	union {
 		struct rx_ppdu_end_qca988x qca988x;
 		struct rx_ppdu_end_qca6174 qca6174;
 		struct rx_ppdu_end_qca99x0 qca99x0;
-<<<<<<< HEAD
 		struct rx_ppdu_end_qca9984 qca9984;
 #ifdef CONFIG_ATH10K_SNOC
 		struct rx_ppdu_end_wcn3990 wcn3990;
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	} __packed;
 } __packed;
 

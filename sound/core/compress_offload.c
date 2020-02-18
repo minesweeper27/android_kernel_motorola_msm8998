@@ -782,16 +782,12 @@ static int snd_compr_drain(struct snd_compr_stream *stream)
 {
 	int retval;
 
-<<<<<<< HEAD
 	mutex_lock(&stream->device->lock);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (stream->runtime->state) {
 	case SNDRV_PCM_STATE_OPEN:
 	case SNDRV_PCM_STATE_SETUP:
 	case SNDRV_PCM_STATE_PREPARED:
 	case SNDRV_PCM_STATE_PAUSED:
-<<<<<<< HEAD
 		retval = -EPERM;
 		goto ret;
 	case SNDRV_PCM_STATE_XRUN:
@@ -801,14 +797,6 @@ static int snd_compr_drain(struct snd_compr_stream *stream)
 		break;
 	}
 	mutex_unlock(&stream->device->lock);
-=======
-		return -EPERM;
-	case SNDRV_PCM_STATE_XRUN:
-		return -EPIPE;
-	default:
-		break;
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	retval = stream->ops->trigger(stream, SND_COMPR_TRIGGER_DRAIN);
 	mutex_lock(&stream->device->lock);
@@ -848,32 +836,21 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
 {
 	int retval;
 
-<<<<<<< HEAD
 	mutex_lock(&stream->device->lock);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	switch (stream->runtime->state) {
 	case SNDRV_PCM_STATE_OPEN:
 	case SNDRV_PCM_STATE_SETUP:
 	case SNDRV_PCM_STATE_PREPARED:
 	case SNDRV_PCM_STATE_PAUSED:
-<<<<<<< HEAD
 		mutex_unlock(&stream->device->lock);
 		return -EPERM;
 	case SNDRV_PCM_STATE_XRUN:
 		mutex_unlock(&stream->device->lock);
-=======
-		return -EPERM;
-	case SNDRV_PCM_STATE_XRUN:
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return -EPIPE;
 	default:
 		break;
 	}
-<<<<<<< HEAD
 	mutex_unlock(&stream->device->lock);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* stream can be drained only when next track has been signalled */
 	if (stream->next_track == false)
@@ -964,16 +941,6 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 
 	mutex_lock(&stream->device->lock);
 	switch (_IOC_NR(cmd)) {
-<<<<<<< HEAD
-=======
-	case _IOC_NR(SNDRV_COMPRESS_IOCTL_VERSION):
-		retval = put_user(SNDRV_COMPRESS_VERSION,
-				(int __user *)arg) ? -EFAULT : 0;
-		break;
-	case _IOC_NR(SNDRV_COMPRESS_GET_CAPS):
-		retval = snd_compr_get_caps(stream, arg);
-		break;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifndef COMPR_CODEC_CAPS_OVERFLOW
 	case _IOC_NR(SNDRV_COMPRESS_GET_CODEC_CAPS):
 		retval = snd_compr_get_codec_caps(stream, arg);
@@ -1047,17 +1014,11 @@ static const struct file_operations snd_compr_file_ops = {
 		.unlocked_ioctl = snd_compr_ioctl,
 #ifdef CONFIG_COMPAT
 		.compat_ioctl = snd_compr_ioctl_compat,
-<<<<<<< HEAD
 #else
 		.compat_ioctl   = snd_compr_ioctl,
 #endif
 		.mmap =           snd_compr_mmap,
 		.poll =           snd_compr_poll,
-=======
-#endif
-		.mmap =		snd_compr_mmap,
-		.poll =		snd_compr_poll,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static int snd_compress_dev_register(struct snd_device *device)

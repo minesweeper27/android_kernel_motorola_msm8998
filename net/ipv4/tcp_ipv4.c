@@ -714,11 +714,7 @@ release_sk1:
    outside socket context is ugly, certainly. What can I do?
  */
 
-<<<<<<< HEAD
 static void tcp_v4_send_ack(const struct sock *sk,
-=======
-static void tcp_v4_send_ack(struct net *net,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			    struct sk_buff *skb, u32 seq, u32 ack,
 			    u32 win, u32 tsval, u32 tsecr, int oif,
 			    struct tcp_md5sig_key *key,
@@ -797,11 +793,7 @@ static void tcp_v4_timewait_ack(struct sock *sk, struct sk_buff *skb)
 	struct inet_timewait_sock *tw = inet_twsk(sk);
 	struct tcp_timewait_sock *tcptw = tcp_twsk(sk);
 
-<<<<<<< HEAD
 	tcp_v4_send_ack(sk, skb,
-=======
-	tcp_v4_send_ack(sock_net(sk), skb,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			tcptw->tw_snd_nxt, tcptw->tw_rcv_nxt,
 			tcptw->tw_rcv_wnd >> tw->tw_rcv_wscale,
 			tcp_time_stamp + tcptw->tw_ts_offset,
@@ -829,11 +821,7 @@ static void tcp_v4_reqsk_send_ack(const struct sock *sk, struct sk_buff *skb,
 	 * exception of <SYN> segments, MUST be right-shifted by
 	 * Rcv.Wind.Shift bits:
 	 */
-<<<<<<< HEAD
 	tcp_v4_send_ack(sk, skb, seq,
-=======
-	tcp_v4_send_ack(sock_net(sk), skb, seq,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			tcp_rsk(req)->rcv_nxt,
 			req->rsk_rcv_wnd >> inet_rsk(req)->rcv_wscale,
 			tcp_time_stamp,
@@ -2244,12 +2232,9 @@ static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i)
 		timer_expires = jiffies;
 	}
 
-<<<<<<< HEAD
 	if (inet->transparent)
 		seq_state |= 0x80;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	state = sk_state_load(sk);
 	if (state == TCP_LISTEN)
 		rx_queue = sk->sk_ack_backlog;
@@ -2261,11 +2246,7 @@ static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i)
 
 	seq_printf(f, "%4d: %08X:%04X %08X:%04X %02X %08X:%08X %02X:%08lX "
 			"%08X %5u %8d %lu %d %pK %lu %lu %u %u %d",
-<<<<<<< HEAD
 		i, src, srcp, dest, destp, seq_state,
-=======
-		i, src, srcp, dest, destp, state,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		tp->write_seq - tp->snd_una,
 		rx_queue,
 		timer_active,

@@ -251,16 +251,10 @@ extern void proc_sched_set_task(struct task_struct *p);
 #define TASK_WAKING		256
 #define TASK_PARKED		512
 #define TASK_NOLOAD		1024
-<<<<<<< HEAD
 #define TASK_NEW		2048
 #define TASK_STATE_MAX		4096
 
 #define TASK_STATE_TO_CHAR_STR "RSDTtXZxKWPNn"
-=======
-#define TASK_STATE_MAX		2048
-
-#define TASK_STATE_TO_CHAR_STR "RSDTtXZxKWPN"
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern char ___assert_task_state[1 - 2*!!(
 		sizeof(TASK_STATE_TO_CHAR_STR)-1 != ilog2(TASK_STATE_MAX)+1)];
@@ -715,7 +709,6 @@ struct task_cputime_atomic {
 	}
 
 #define PREEMPT_DISABLED	(PREEMPT_DISABLE_OFFSET + PREEMPT_ENABLED)
-<<<<<<< HEAD
 
 /*
  * Disable preemption until the scheduler is running -- use an unconditional
@@ -734,26 +727,6 @@ struct task_cputime_atomic {
  * Note: PREEMPT_DISABLE_OFFSET is 0 for !PREEMPT_COUNT kernels.
  * Note: See finish_task_switch().
  */
-=======
-
-/*
- * Disable preemption until the scheduler is running -- use an unconditional
- * value so that it also works on !PREEMPT_COUNT kernels.
- *
- * Reset by start_kernel()->sched_init()->init_idle()->init_idle_preempt_count().
- */
-#define INIT_PREEMPT_COUNT	PREEMPT_OFFSET
-
-/*
- * Initial preempt_count value; reflects the preempt_count schedule invariant
- * which states that during context switches:
- *
- *    preempt_count() == 2*PREEMPT_DISABLE_OFFSET
- *
- * Note: PREEMPT_DISABLE_OFFSET is 0 for !PREEMPT_COUNT kernels.
- * Note: See finish_task_switch().
- */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define FORK_PREEMPT_COUNT	(2*PREEMPT_DISABLE_OFFSET + PREEMPT_ENABLED)
 
 /**
@@ -1120,50 +1093,6 @@ struct wake_q_head {
 
 #define WAKE_Q(name)					\
 	struct wake_q_head name = { WAKE_Q_TAIL, &name.first, 0 }
-
-extern void wake_q_add(struct wake_q_head *head,
-		       struct task_struct *task);
-extern void wake_up_q(struct wake_q_head *head);
-
-/*
- * Wake-queues are lists of tasks with a pending wakeup, whose
- * callers have already marked the task as woken internally,
- * and can thus carry on. A common use case is being able to
- * do the wakeups once the corresponding user lock as been
- * released.
- *
- * We hold reference to each task in the list across the wakeup,
- * thus guaranteeing that the memory is still valid by the time
- * the actual wakeups are performed in wake_up_q().
- *
- * One per task suffices, because there's never a need for a task to be
- * in two wake queues simultaneously; it is forbidden to abandon a task
- * in a wake queue (a call to wake_up_q() _must_ follow), so if a task is
- * already in a wake queue, the wakeup will happen soon and the second
- * waker can just skip it.
- *
- * The WAKE_Q macro declares and initializes the list head.
- * wake_up_q() does NOT reinitialize the list; it's expected to be
- * called near the end of a function, where the fact that the queue is
- * not used again will be easy to see by inspection.
- *
- * Note that this can cause spurious wakeups. schedule() callers
- * must ensure the call is done inside a loop, confirming that the
- * wakeup condition has in fact occurred.
- */
-struct wake_q_node {
-	struct wake_q_node *next;
-};
-
-struct wake_q_head {
-	struct wake_q_node *first;
-	struct wake_q_node **lastp;
-};
-
-#define WAKE_Q_TAIL ((struct wake_q_node *) 0x01)
-
-#define WAKE_Q(name)					\
-	struct wake_q_head name = { WAKE_Q_TAIL, &name.first }
 
 extern void wake_q_add(struct wake_q_head *head,
 		       struct task_struct *task);
@@ -1884,13 +1813,10 @@ struct task_struct {
 
 	cputime_t utime, stime, utimescaled, stimescaled;
 	cputime_t gtime;
-<<<<<<< HEAD
 #ifdef CONFIG_CPU_FREQ_TIMES
 	u64 *time_in_state;
 	unsigned int max_state;
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct prev_cputime prev_cputime;
 #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
 	seqlock_t vtime_seqlock;
@@ -2319,13 +2245,8 @@ static inline pid_t task_tgid_nr(struct task_struct *tsk)
 	return tsk->tgid;
 }
 
-<<<<<<< HEAD
 static inline int pid_alive(const struct task_struct *p);
 static inline pid_t task_tgid_nr_ns(struct task_struct *tsk, struct pid_namespace *ns);
-=======
-
-static inline int pid_alive(const struct task_struct *p);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline pid_t task_pgrp_nr_ns(struct task_struct *tsk,
 					struct pid_namespace *ns)
@@ -2766,7 +2687,6 @@ static inline void calc_load_enter_idle(void) { }
 static inline void calc_load_exit_idle(void) { }
 #endif /* CONFIG_NO_HZ_COMMON */
 
-<<<<<<< HEAD
 static inline void set_wake_up_idle(bool enabled)
 {
 	if (enabled)
@@ -2775,8 +2695,6 @@ static inline void set_wake_up_idle(bool enabled)
 		current->flags &= ~PF_WAKE_UP_IDLE;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Do not use outside of architecture code which knows its limitations.
  *

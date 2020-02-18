@@ -611,11 +611,7 @@ void add_disk(struct gendisk *disk)
 	disk_alloc_events(disk);
 
 	/* Register BDI before referencing it from bdev */
-<<<<<<< HEAD
 	bdi = disk->queue->backing_dev_info;
-=======
-	bdi = &disk->queue->backing_dev_info;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	bdi_register_owner(bdi, disk_to_dev(disk));
 
 	blk_register_region(disk_devt(disk), disk->minors, NULL,
@@ -662,7 +658,6 @@ void del_gendisk(struct gendisk *disk)
 	disk->flags &= ~GENHD_FL_UP;
 
 	sysfs_remove_link(&disk_to_dev(disk)->kobj, "bdi");
-<<<<<<< HEAD
 	if (disk->queue) {
 		/*
 		 * Unregister bdi before releasing device numbers (as they can
@@ -673,9 +668,6 @@ void del_gendisk(struct gendisk *disk)
 	} else {
 		WARN_ON(1);
 	}
-=======
-	blk_unregister_queue(disk);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	blk_unregister_region(disk_devt(disk), disk->minors);
 
 	part_stat_set_all(&disk->part0, 0);

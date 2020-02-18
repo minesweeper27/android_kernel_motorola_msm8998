@@ -11,13 +11,10 @@ config DRM_MSM
 	select SHMEM
 	select TMPFS
 	select QCOM_SCM
-<<<<<<< HEAD
 	select BACKLIGHT_CLASS_DEVICE
 	select MSM_EXT_DISPLAY
 	select MMU_NOTIFIER
 	select INTERVAL_TREE
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default y
 	help
 	  DRM/KMS driver for MSM/snapdragon.
@@ -51,7 +48,6 @@ config DRM_MSM_DSI
 	  Choose this option if you have a need for MIPI DSI connector
 	  support.
 
-<<<<<<< HEAD
 config DRM_MSM_DSI_STAGING
 	bool "Enable new DSI driver support in MSM DRM driver"
 	depends on DRM_MSM
@@ -64,8 +60,6 @@ config DRM_MSM_DSI_STAGING
 	  Interface and DSI stands for Display Serial Interface which powers
 	  the primary display of your mobile device.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config DRM_MSM_DSI_PLL
 	bool "Enable DSI PLL driver in MSM DRM"
 	depends on DRM_MSM_DSI && COMMON_CLK
@@ -87,7 +81,6 @@ config DRM_MSM_DSI_20NM_PHY
 	default y
 	help
 	  Choose this option if the 20nm DSI PHY is used on the platform.
-<<<<<<< HEAD
 
 config DRM_MSM_MDP4
 	tristate "MSM MDP4 DRM driver"
@@ -136,5 +129,3 @@ config DRM_SDE_EVTLOG_DEBUG
           driver during fatal errors and enable some display-driver logging
           into an internal buffer (this avoids logging overhead).
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

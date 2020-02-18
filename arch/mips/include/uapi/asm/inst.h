@@ -25,11 +25,7 @@ enum major_op {
 	andi_op, ori_op, xori_op, lui_op,
 	cop0_op, cop1_op, cop2_op, cop1x_op,
 	beql_op, bnel_op, blezl_op, bgtzl_op,
-<<<<<<< HEAD
 	daddi_op, pop30_op = daddi_op, daddiu_op, ldl_op, ldr_op,
-=======
-	daddi_op, cbcond1_op = daddi_op, daddiu_op, ldl_op, ldr_op,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spec2_op, jalx_op, mdmx_op, msa_op = mdmx_op, spec3_op,
 	lb_op, lh_op, lwl_op, lw_op,
 	lbu_op, lhu_op, lwr_op, lwu_op,
@@ -649,7 +645,6 @@ struct msa_mi10_format {		/* MSA MI10 */
 	;))))))
 };
 
-<<<<<<< HEAD
 struct dsp_format {		/* SPEC3 DSP format instructions */
 	__BITFIELD_FIELD(unsigned int opcode : 6,
 	__BITFIELD_FIELD(unsigned int base : 5,
@@ -660,8 +655,6 @@ struct dsp_format {		/* SPEC3 DSP format instructions */
 	;))))))
 };
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct spec3_format {   /* SPEC3 */
 	__BITFIELD_FIELD(unsigned int opcode:6,
 	__BITFIELD_FIELD(unsigned int rs:5,

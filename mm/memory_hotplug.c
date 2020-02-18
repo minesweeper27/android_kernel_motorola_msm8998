@@ -32,10 +32,7 @@
 #include <linux/hugetlb.h>
 #include <linux/memblock.h>
 #include <linux/bootmem.h>
-<<<<<<< HEAD
 #include <linux/compaction.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/rmap.h>
 
 #include <asm/tlbflush.h>
@@ -1498,11 +1495,7 @@ do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
 			if (WARN_ON(PageLRU(page)))
 				isolate_lru_page(page);
 			if (page_mapped(page))
-<<<<<<< HEAD
 				try_to_unmap(page, TTU_IGNORE_MLOCK | TTU_IGNORE_ACCESS, NULL);
-=======
-				try_to_unmap(page, TTU_IGNORE_MLOCK | TTU_IGNORE_ACCESS);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			continue;
 		}
 

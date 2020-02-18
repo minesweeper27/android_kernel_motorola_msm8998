@@ -53,11 +53,7 @@ config DRM_FBDEV_EMULATION
 	depends on DRM
 	select DRM_KMS_HELPER
 	select DRM_KMS_FB_HELPER
-<<<<<<< HEAD
 	default n
-=======
-	default y
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	help
 	  Choose this option if you have a need for the legacy fbdev
 	  support. Note that this support also provides the linux console
@@ -271,8 +267,5 @@ source "drivers/gpu/drm/amd/amdkfd/Kconfig"
 source "drivers/gpu/drm/imx/Kconfig"
 
 source "drivers/gpu/drm/vc4/Kconfig"
-<<<<<<< HEAD
 
 source "drivers/gpu/drm/msm-hyp/Kconfig"
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -141,11 +141,7 @@ static struct snd_info_entry_ops snd_card_state_proc_ops = {
 
 static int init_info_for_card(struct snd_card *card)
 {
-<<<<<<< HEAD
 	struct snd_info_entry *entry, *entry_state;
-=======
-	struct snd_info_entry *entry;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	entry = snd_info_create_card_entry(card, "id", card->proc_root);
 	if (!entry) {

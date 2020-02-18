@@ -107,7 +107,6 @@ void show_pte(struct mm_struct *mm, unsigned long addr)
 	} while(0);
 
 	pr_cont("\n");
-<<<<<<< HEAD
 }
 
 #ifdef CONFIG_ARM64_HW_AFDBM
@@ -164,60 +163,7 @@ int ptep_set_access_flags(struct vm_area_struct *vma,
 static bool is_el1_instruction_abort(unsigned int esr)
 {
 	return ESR_ELx_EC(esr) == ESR_ELx_EC_IABT_CUR;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
-
-#ifdef CONFIG_ARM64_HW_AFDBM
-/*
- * This function sets the access flags (dirty, accessed), as well as write
- * permission, and only to a more permissive setting.
- *
- * It needs to cope with hardware update of the accessed/dirty state by other
- * agents in the system and can safely skip the __sync_icache_dcache() call as,
- * like set_pte_at(), the PTE is never changed from no-exec to exec here.
- *
- * Returns whether or not the PTE actually changed.
- */
-int ptep_set_access_flags(struct vm_area_struct *vma,
-			  unsigned long address, pte_t *ptep,
-			  pte_t entry, int dirty)
-{
-	pteval_t old_pteval;
-	unsigned int tmp;
-
-	if (pte_same(*ptep, entry))
-		return 0;
-
-	/* only preserve the access flags and write permission */
-	pte_val(entry) &= PTE_AF | PTE_WRITE | PTE_DIRTY;
-
-	/* set PTE_RDONLY if actual read-only or clean PTE */
-	if (!pte_write(entry) || !pte_sw_dirty(entry))
-		pte_val(entry) |= PTE_RDONLY;
-
-	/*
-	 * Setting the flags must be done atomically to avoid racing with the
-	 * hardware update of the access/dirty state. The PTE_RDONLY bit must
-	 * be set to the most permissive (lowest value) of *ptep and entry
-	 * (calculated as: a & b == ~(~a | ~b)).
-	 */
-	pte_val(entry) ^= PTE_RDONLY;
-	asm volatile("//	ptep_set_access_flags\n"
-	"	prfm	pstl1strm, %2\n"
-	"1:	ldxr	%0, %2\n"
-	"	eor	%0, %0, %3		// negate PTE_RDONLY in *ptep\n"
-	"	orr	%0, %0, %4		// set flags\n"
-	"	eor	%0, %0, %3		// negate final PTE_RDONLY\n"
-	"	stxr	%w1, %0, %2\n"
-	"	cbnz	%w1, 1b\n"
-	: "=&r" (old_pteval), "=&r" (tmp), "+Q" (pte_val(*ptep))
-	: "L" (PTE_RDONLY), "r" (pte_val(entry)));
-
-	flush_tlb_fix_spurious_fault(vma, address);
-	return 1;
-}
-#endif
 
 /*
  * The kernel tried to access some page that wasn't present.
@@ -256,11 +202,8 @@ static void __do_user_fault(struct task_struct *tsk, unsigned long addr,
 {
 	struct siginfo si;
 
-<<<<<<< HEAD
 	trace_user_fault(tsk, addr, esr);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (unhandled_signal(tsk, sig) && show_unhandled_signals_ratelimited()) {
 		pr_info("%s[%d]: unhandled %s (%d) at 0x%08lx, esr 0x%03x\n",
 			tsk->comm, task_pid_nr(tsk), fault_name(esr), sig,
@@ -398,13 +341,6 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
 		if (!search_exception_tables(regs->pc))
 			die("Accessing user space memory outside uaccess.h routines", regs, esr);
 	}
-
-	/*
-	 * PAN bit set implies the fault happened in kernel space, but not
-	 * in the arch's user access functions.
-	 */
-	if (IS_ENABLED(CONFIG_ARM64_PAN) && (regs->pstate & PSR_PAN_BIT))
-		goto no_context;
 
 	/*
 	 * As per x86, we may deadlock here. However, since the kernel only
@@ -624,15 +560,11 @@ static const struct fault_info {
 	{ do_bad,		SIGBUS,  0,		"unknown 45"			},
 	{ do_bad,		SIGBUS,  0,		"unknown 46"			},
 	{ do_bad,		SIGBUS,  0,		"unknown 47"			},
-<<<<<<< HEAD
 #ifdef CONFIG_QCOM_TLB_EL2_HANDLER
 	{ do_tlb_conf_fault,	SIGBUS,  0,		"TLB conflict abort"		},
 #else
 	{ do_bad,		SIGBUS,  0,		"TLB conflict abort"		},
 #endif
-=======
-	{ do_bad,		SIGBUS,  0,		"TLB conflict abort"		},
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	{ do_bad,		SIGBUS,  0,		"unknown 49"			},
 	{ do_bad,		SIGBUS,  0,		"unknown 50"			},
 	{ do_bad,		SIGBUS,  0,		"unknown 51"			},
@@ -783,10 +715,7 @@ asmlinkage int __exception do_debug_exception(unsigned long addr_if_watchpoint,
 
 	return rv;
 }
-<<<<<<< HEAD
 NOKPROBE_SYMBOL(do_debug_exception);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_ARM64_PAN
 int cpu_enable_pan(void *__unused)
@@ -799,7 +728,6 @@ int cpu_enable_pan(void *__unused)
 
 	config_sctlr_el1(SCTLR_EL1_SPAN, 0);
 	asm(SET_PSTATE_PAN(1));
-<<<<<<< HEAD
 	return 0;
 }
 #endif /* CONFIG_ARM64_PAN */
@@ -817,8 +745,3 @@ int cpu_enable_uao(void *__unused)
 	return 0;
 }
 #endif /* CONFIG_ARM64_UAO */
-=======
-	return 0;
-}
-#endif /* CONFIG_ARM64_PAN */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

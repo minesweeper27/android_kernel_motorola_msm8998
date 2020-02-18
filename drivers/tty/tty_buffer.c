@@ -406,11 +406,7 @@ void tty_schedule_flip(struct tty_port *port)
 	 * flush_to_ldisc() sees buffer data.
 	 */
 	smp_store_release(&buf->tail->commit, buf->tail->used);
-<<<<<<< HEAD
 	queue_kthread_work(&port->worker, &buf->work);
-=======
-	queue_work(system_unbound_wq, &buf->work);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(tty_schedule_flip);
 
@@ -609,27 +605,15 @@ void tty_buffer_set_lock_subclass(struct tty_port *port)
 
 bool tty_buffer_restart_work(struct tty_port *port)
 {
-<<<<<<< HEAD
 	return queue_kthread_work(&port->worker, &port->buf.work);
-=======
-	return queue_work(system_unbound_wq, &port->buf.work);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 bool tty_buffer_cancel_work(struct tty_port *port)
 {
-<<<<<<< HEAD
 	return kthread_cancel_work_sync(&port->buf.work);
-=======
-	return cancel_work_sync(&port->buf.work);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void tty_buffer_flush_work(struct tty_port *port)
 {
-<<<<<<< HEAD
 	flush_kthread_work(&port->buf.work);
-=======
-	flush_work(&port->buf.work);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }

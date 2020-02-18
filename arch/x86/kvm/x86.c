@@ -53,10 +53,6 @@
 #include <linux/pvclock_gtod.h>
 #include <linux/kvm_irqfd.h>
 #include <linux/irqbypass.h>
-<<<<<<< HEAD
-=======
-#include <linux/nospec.h>
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <trace/events/kvm.h>
 
 #define CREATE_TRACE_POINTS
@@ -877,11 +873,9 @@ static u64 kvm_dr6_fixed(struct kvm_vcpu *vcpu)
 
 static int __kvm_set_dr(struct kvm_vcpu *vcpu, int dr, unsigned long val)
 {
-	size_t size = ARRAY_SIZE(vcpu->arch.db);
-
 	switch (dr) {
 	case 0 ... 3:
-		vcpu->arch.db[array_index_nospec(dr, size)] = val;
+		vcpu->arch.db[dr] = val;
 		if (!(vcpu->guest_debug & KVM_GUESTDBG_USE_HW_BP))
 			vcpu->arch.eff_db[dr] = val;
 		break;
@@ -918,11 +912,9 @@ EXPORT_SYMBOL_GPL(kvm_set_dr);
 
 int kvm_get_dr(struct kvm_vcpu *vcpu, int dr, unsigned long *val)
 {
-	size_t size = ARRAY_SIZE(vcpu->arch.db);
-
 	switch (dr) {
 	case 0 ... 3:
-		*val = vcpu->arch.db[array_index_nospec(dr, size)];
+		*val = vcpu->arch.db[dr];
 		break;
 	case 4:
 		/* fall through */
@@ -1038,21 +1030,12 @@ u64 kvm_get_arch_capabilities(void)
 		data |= ARCH_CAP_TAA_NO;
 	else if (data & ARCH_CAP_TSX_CTRL_MSR)
 		data &= ~ARCH_CAP_MDS_NO;
-<<<<<<< HEAD
 
 	/* KVM does not emulate MSR_IA32_TSX_CTRL.  */
 	data &= ~ARCH_CAP_TSX_CTRL_MSR;
 	return data;
 }
 
-=======
-
-	/* KVM does not emulate MSR_IA32_TSX_CTRL.  */
-	data &= ~ARCH_CAP_TSX_CTRL_MSR;
-	return data;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 EXPORT_SYMBOL_GPL(kvm_get_arch_capabilities);
 
 static bool __kvm_valid_efer(struct kvm_vcpu *vcpu, u64 efer)
@@ -2006,10 +1989,7 @@ static int set_msr_mce(struct kvm_vcpu *vcpu, u32 msr, u64 data)
 	default:
 		if (msr >= MSR_IA32_MC0_CTL &&
 		    msr < MSR_IA32_MCx_CTL(bank_num)) {
-			u32 offset = array_index_nospec(
-				msr - MSR_IA32_MC0_CTL,
-				MSR_IA32_MCx_CTL(bank_num) - MSR_IA32_MC0_CTL);
-
+			u32 offset = msr - MSR_IA32_MC0_CTL;
 			/* only 0 or all 1s can be written to IA32_MCi_CTL
 			 * some Linux kernels though clear bit 10 in bank 4 to
 			 * workaround a BIOS/GART TBL issue on AMD K8s, ignore
@@ -2370,10 +2350,7 @@ static int get_msr_mce(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata)
 	default:
 		if (msr >= MSR_IA32_MC0_CTL &&
 		    msr < MSR_IA32_MCx_CTL(bank_num)) {
-			u32 offset = array_index_nospec(
-				msr - MSR_IA32_MC0_CTL,
-				MSR_IA32_MCx_CTL(bank_num) - MSR_IA32_MC0_CTL);
-
+			u32 offset = msr - MSR_IA32_MC0_CTL;
 			data = vcpu->arch.mce_banks[offset];
 			break;
 		}
@@ -5897,12 +5874,14 @@ static void kvm_set_mmio_spte_mask(void)
 	/* Set the present bit. */
 	mask |= 1ull;
 
+#ifdef CONFIG_X86_64
 	/*
 	 * If reserved bit is not supported, clear the present bit to disable
 	 * mmio page fault.
 	 */
 	if (maxphyaddr == 52)
 		mask &= ~1ull;
+#endif
 
 	kvm_mmu_set_mmio_spte_mask(mask);
 }
@@ -6314,7 +6293,6 @@ static void process_smi_save_seg_64(struct kvm_vcpu *vcpu, char *buf, int n)
 #endif
 
 static void process_smi_save_state_32(struct kvm_vcpu *vcpu, char *buf)
-<<<<<<< HEAD
 {
 	struct desc_ptr dt;
 	struct kvm_segment seg;
@@ -6428,121 +6406,6 @@ static void process_smi(struct kvm_vcpu *vcpu)
 	char buf[512];
 	u32 cr0;
 
-=======
-{
-	struct desc_ptr dt;
-	struct kvm_segment seg;
-	unsigned long val;
-	int i;
-
-	put_smstate(u32, buf, 0x7ffc, kvm_read_cr0(vcpu));
-	put_smstate(u32, buf, 0x7ff8, kvm_read_cr3(vcpu));
-	put_smstate(u32, buf, 0x7ff4, kvm_get_rflags(vcpu));
-	put_smstate(u32, buf, 0x7ff0, kvm_rip_read(vcpu));
-
-	for (i = 0; i < 8; i++)
-		put_smstate(u32, buf, 0x7fd0 + i * 4, kvm_register_read(vcpu, i));
-
-	kvm_get_dr(vcpu, 6, &val);
-	put_smstate(u32, buf, 0x7fcc, (u32)val);
-	kvm_get_dr(vcpu, 7, &val);
-	put_smstate(u32, buf, 0x7fc8, (u32)val);
-
-	kvm_get_segment(vcpu, &seg, VCPU_SREG_TR);
-	put_smstate(u32, buf, 0x7fc4, seg.selector);
-	put_smstate(u32, buf, 0x7f64, seg.base);
-	put_smstate(u32, buf, 0x7f60, seg.limit);
-	put_smstate(u32, buf, 0x7f5c, process_smi_get_segment_flags(&seg));
-
-	kvm_get_segment(vcpu, &seg, VCPU_SREG_LDTR);
-	put_smstate(u32, buf, 0x7fc0, seg.selector);
-	put_smstate(u32, buf, 0x7f80, seg.base);
-	put_smstate(u32, buf, 0x7f7c, seg.limit);
-	put_smstate(u32, buf, 0x7f78, process_smi_get_segment_flags(&seg));
-
-	kvm_x86_ops->get_gdt(vcpu, &dt);
-	put_smstate(u32, buf, 0x7f74, dt.address);
-	put_smstate(u32, buf, 0x7f70, dt.size);
-
-	kvm_x86_ops->get_idt(vcpu, &dt);
-	put_smstate(u32, buf, 0x7f58, dt.address);
-	put_smstate(u32, buf, 0x7f54, dt.size);
-
-	for (i = 0; i < 6; i++)
-		process_smi_save_seg_32(vcpu, buf, i);
-
-	put_smstate(u32, buf, 0x7f14, kvm_read_cr4(vcpu));
-
-	/* revision id */
-	put_smstate(u32, buf, 0x7efc, 0x00020000);
-	put_smstate(u32, buf, 0x7ef8, vcpu->arch.smbase);
-}
-
-static void process_smi_save_state_64(struct kvm_vcpu *vcpu, char *buf)
-{
-#ifdef CONFIG_X86_64
-	struct desc_ptr dt;
-	struct kvm_segment seg;
-	unsigned long val;
-	int i;
-
-	for (i = 0; i < 16; i++)
-		put_smstate(u64, buf, 0x7ff8 - i * 8, kvm_register_read(vcpu, i));
-
-	put_smstate(u64, buf, 0x7f78, kvm_rip_read(vcpu));
-	put_smstate(u32, buf, 0x7f70, kvm_get_rflags(vcpu));
-
-	kvm_get_dr(vcpu, 6, &val);
-	put_smstate(u64, buf, 0x7f68, val);
-	kvm_get_dr(vcpu, 7, &val);
-	put_smstate(u64, buf, 0x7f60, val);
-
-	put_smstate(u64, buf, 0x7f58, kvm_read_cr0(vcpu));
-	put_smstate(u64, buf, 0x7f50, kvm_read_cr3(vcpu));
-	put_smstate(u64, buf, 0x7f48, kvm_read_cr4(vcpu));
-
-	put_smstate(u32, buf, 0x7f00, vcpu->arch.smbase);
-
-	/* revision id */
-	put_smstate(u32, buf, 0x7efc, 0x00020064);
-
-	put_smstate(u64, buf, 0x7ed0, vcpu->arch.efer);
-
-	kvm_get_segment(vcpu, &seg, VCPU_SREG_TR);
-	put_smstate(u16, buf, 0x7e90, seg.selector);
-	put_smstate(u16, buf, 0x7e92, process_smi_get_segment_flags(&seg) >> 8);
-	put_smstate(u32, buf, 0x7e94, seg.limit);
-	put_smstate(u64, buf, 0x7e98, seg.base);
-
-	kvm_x86_ops->get_idt(vcpu, &dt);
-	put_smstate(u32, buf, 0x7e84, dt.size);
-	put_smstate(u64, buf, 0x7e88, dt.address);
-
-	kvm_get_segment(vcpu, &seg, VCPU_SREG_LDTR);
-	put_smstate(u16, buf, 0x7e70, seg.selector);
-	put_smstate(u16, buf, 0x7e72, process_smi_get_segment_flags(&seg) >> 8);
-	put_smstate(u32, buf, 0x7e74, seg.limit);
-	put_smstate(u64, buf, 0x7e78, seg.base);
-
-	kvm_x86_ops->get_gdt(vcpu, &dt);
-	put_smstate(u32, buf, 0x7e64, dt.size);
-	put_smstate(u64, buf, 0x7e68, dt.address);
-
-	for (i = 0; i < 6; i++)
-		process_smi_save_seg_64(vcpu, buf, i);
-#else
-	WARN_ON_ONCE(1);
-#endif
-}
-
-static void process_smi(struct kvm_vcpu *vcpu)
-{
-	struct kvm_segment cs, ds;
-	struct desc_ptr dt;
-	char buf[512];
-	u32 cr0;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (is_smm(vcpu)) {
 		vcpu->arch.smi_pending = true;
 		return;
@@ -7624,11 +7487,7 @@ void kvm_arch_vcpu_destroy(struct kvm_vcpu *vcpu)
 	kvm_mmu_unload(vcpu);
 	vcpu_put(vcpu);
 
-<<<<<<< HEAD
 	kvm_x86_ops->vcpu_free(vcpu);
-=======
-	kvm_arch_vcpu_free(vcpu);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void kvm_vcpu_reset(struct kvm_vcpu *vcpu, bool init_event)

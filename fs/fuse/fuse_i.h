@@ -452,61 +452,6 @@ struct fuse_dev {
 	struct list_head entry;
 };
 
-struct fuse_iqueue {
-	/** Connection established */
-	unsigned connected;
-
-	/** Readers of the connection are waiting on this */
-	wait_queue_head_t waitq;
-
-	/** The next unique request id */
-	u64 reqctr;
-
-	/** The list of pending requests */
-	struct list_head pending;
-
-	/** Pending interrupts */
-	struct list_head interrupts;
-
-	/** Queue of pending forgets */
-	struct fuse_forget_link forget_list_head;
-	struct fuse_forget_link *forget_list_tail;
-
-	/** Batching of FORGET requests (positive indicates FORGET batch) */
-	int forget_batch;
-
-	/** O_ASYNC requests */
-	struct fasync_struct *fasync;
-};
-
-struct fuse_pqueue {
-	/** Connection established */
-	unsigned connected;
-
-	/** Lock protecting accessess to  members of this structure */
-	spinlock_t lock;
-
-	/** The list of requests being processed */
-	struct list_head processing;
-
-	/** The list of requests under I/O */
-	struct list_head io;
-};
-
-/**
- * Fuse device instance
- */
-struct fuse_dev {
-	/** Fuse connection for this device */
-	struct fuse_conn *fc;
-
-	/** Processing queue */
-	struct fuse_pqueue pq;
-
-	/** list entry on fc->devices */
-	struct list_head entry;
-};
-
 /**
  * A Fuse connection.
  *

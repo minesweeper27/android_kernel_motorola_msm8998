@@ -47,7 +47,6 @@ jiffies = jiffies_64;
 	*(.idmap.text)					\
 	VMLINUX_SYMBOL(__idmap_text_end) = .;
 
-<<<<<<< HEAD
 #ifdef CONFIG_HIBERNATION
 #define HIBERNATE_TEXT					\
 	. = ALIGN(SZ_4K);				\
@@ -69,8 +68,6 @@ jiffies = jiffies_64;
 #define TRAMP_TEXT
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * The size of the PE/COFF section that covers the kernel image, which
  * runs from stext to _edata, must be a round multiple of the PE/COFF
@@ -88,20 +85,12 @@ PECOFF_FILE_ALIGNMENT = 0x200;
 #endif
 
 #if defined(CONFIG_DEBUG_ALIGN_RODATA)
-<<<<<<< HEAD
 /*
  *  4 KB granule:   1 level 2 entry
  * 16 KB granule: 128 level 3 entries, with contiguous bit
  * 64 KB granule:  32 level 3 entries, with contiguous bit
  */
 #define SEGMENT_ALIGN			SZ_2M
-=======
-#define ALIGN_DEBUG_RO			. = ALIGN(1<<SECTION_SHIFT);
-#define ALIGN_DEBUG_RO_MIN(min)		ALIGN_DEBUG_RO
-#elif defined(CONFIG_DEBUG_RODATA)
-#define ALIGN_DEBUG_RO			. = ALIGN(1<<PAGE_SHIFT);
-#define ALIGN_DEBUG_RO_MIN(min)		ALIGN_DEBUG_RO
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #else
 /*
  *  4 KB granule:  16 level 3 entries, with contiguous bit
@@ -149,11 +138,8 @@ SECTIONS
 			KPROBES_TEXT
 			HYPERVISOR_TEXT
 			IDMAP_TEXT
-<<<<<<< HEAD
 			HIBERNATE_TEXT
 			TRAMP_TEXT
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			*(.fixup)
 			*(.gnu.warning)
 		. = ALIGN(16);
@@ -188,12 +174,6 @@ SECTIONS
 	}
 
 	PERCPU_SECTION(L1_CACHE_BYTES)
-<<<<<<< HEAD
-=======
-
-	. = ALIGN(PAGE_SIZE);
-	__init_end = .;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	. = ALIGN(4);
 	.altinstructions : {
@@ -217,7 +197,6 @@ SECTIONS
 	_data = .;
 	_sdata = .;
 	RW_DATA_SECTION(L1_CACHE_BYTES, PAGE_SIZE, THREAD_SIZE)
-<<<<<<< HEAD
 
 	/*
 	 * Data written with the MMU off but read with the MMU on requires
@@ -237,8 +216,6 @@ SECTIONS
 		__mmuoff_data_end = .;
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	PECOFF_EDATA_PADDING
 	_edata = .;
 
@@ -275,13 +252,10 @@ ASSERT(__hyp_idmap_text_end - (__hyp_idmap_text_start & ~(SZ_4K - 1)) <= SZ_4K,
 	"HYP init code too big or misaligned")
 ASSERT(__idmap_text_end - (__idmap_text_start & ~(SZ_4K - 1)) <= SZ_4K,
 	"ID map text too big or misaligned")
-<<<<<<< HEAD
 #ifdef CONFIG_HIBERNATION
 ASSERT(__hibernate_exit_text_end - (__hibernate_exit_text_start & ~(SZ_4K - 1))
 	<= SZ_4K, "Hibernate exit text too big or misaligned")
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_UNMAP_KERNEL_AT_EL0
 ASSERT((__entry_tramp_text_end - __entry_tramp_text_start) == PAGE_SIZE,

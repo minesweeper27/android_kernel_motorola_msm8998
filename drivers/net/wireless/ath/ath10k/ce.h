@@ -22,11 +22,7 @@
 
 /* Maximum number of Copy Engine's supported */
 #define CE_COUNT_MAX 12
-<<<<<<< HEAD
 #define CE_HTT_H2T_MSG_SRC_NENTRIES 8192
-=======
-#define CE_HTT_H2T_MSG_SRC_NENTRIES 4096
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* Descriptor rings must be aligned to this boundary */
 #define CE_DESC_RING_ALIGN	8
@@ -42,17 +38,7 @@ struct ath10k_ce_pipe;
 
 #define CE_DESC_FLAGS_GATHER         (1 << 0)
 #define CE_DESC_FLAGS_BYTE_SWAP      (1 << 1)
-<<<<<<< HEAD
 #define CE_WCN3990_DESC_FLAGS_GATHER BIT(31)
-=======
-
-/* Following desc flags are used in QCA99X0 */
-#define CE_DESC_FLAGS_HOST_INT_DIS	(1 << 2)
-#define CE_DESC_FLAGS_TGT_INT_DIS	(1 << 3)
-
-#define CE_DESC_FLAGS_META_DATA_MASK ar->hw_values->ce_desc_meta_data_mask
-#define CE_DESC_FLAGS_META_DATA_LSB  ar->hw_values->ce_desc_meta_data_lsb
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define CE_DESC_FLAGS_GET_MASK		0x1F
 #define CE_DESC_37BIT_ADDR_MASK		0x1FFFFFFFFF
@@ -129,12 +115,9 @@ struct ath10k_ce_ring {
 
 	/* CE address space */
 	u32 base_addr_ce_space;
-<<<<<<< HEAD
 
 	char *shadow_base_unaligned;
 	struct ce_desc *shadow_base;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* keep last */
 	void *per_transfer_context[0];

@@ -166,7 +166,6 @@ struct input_mask {
 #define EVIOCGRAB		_IOW('E', 0x90, int)			/* Grab/Release device */
 #define EVIOCREVOKE		_IOW('E', 0x91, int)			/* Revoke device access */
 
-<<<<<<< HEAD
 #define EVIOCSCLOCKID		_IOW('E', 0xa0, int)			/* Set clockid to be used for timestamps */
 
 /*
@@ -211,8 +210,6 @@ struct input_mask {
  */
 
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * EVIOCGMASK - Retrieve current event mask
  *
@@ -527,7 +524,6 @@ struct ff_effect {
 #define FF_GAIN		0x60
 #define FF_AUTOCENTER	0x61
 
-<<<<<<< HEAD
 
 /* Cap sensor report key, including cs0, cs1, cs2 and comb */
 #define KEY_CAP_CS0             0x270
@@ -535,8 +531,6 @@ struct ff_effect {
 #define KEY_CAP_CS2             0x272
 #define KEY_CAP_COMB            0x272
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * ff->playback(effect_id = FF_GAIN) is the first effect_id to
  * cause a collision with another ff method, in this case ff->set_gain().

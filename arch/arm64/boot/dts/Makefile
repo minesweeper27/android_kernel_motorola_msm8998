@@ -21,7 +21,4 @@ dtstree		:= $(srctree)/$(src)
 dtb-$(CONFIG_OF_ALL_DTBS) := $(patsubst $(dtstree)/%.dts,%.dtb, $(foreach d,$(dts-dirs), $(wildcard $(dtstree)/$(d)/*.dts)))
 
 always		:= $(dtb-y)
-<<<<<<< HEAD
 targets += dtbs
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

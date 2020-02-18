@@ -13,17 +13,6 @@
 
 #include <linux/usb/composite.h>
 
-<<<<<<< HEAD
-=======
-#include <sound/core.h>
-#include <sound/pcm.h>
-#include <sound/pcm_params.h>
-
-#define FILE_PCM_PLAYBACK	"/dev/snd/pcmC0D0p"
-#define FILE_PCM_CAPTURE	"/dev/snd/pcmC0D0c"
-#define FILE_CONTROL		"/dev/snd/controlC0"
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define UAC1_OUT_EP_MAX_PACKET_SIZE	200
 #define UAC1_DEF_CCHMASK	0x3
 #define UAC1_DEF_CSRATE		48000

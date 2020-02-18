@@ -410,10 +410,7 @@ KernelPageSize:        4 kB
 MMUPageSize:           4 kB
 Locked:                0 kB
 VmFlags: rd ex mr mw me dw
-<<<<<<< HEAD
 Name:           name from userspace
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 the first of these lines shows the same information as is displayed for the
 mapping in /proc/PID/maps.  The remaining lines show the size of the mapping
@@ -477,12 +474,9 @@ be present in all further kernel releases. Things get changed, the flags may
 be vanished or the reverse -- new added. Interpretation of their meaning
 might change in future as well. So each consumer of these flags has to
 follow each specific kernel version for the exact semantic.
-<<<<<<< HEAD
 
 The "Name" field will only be present on a mapping that has been named by
 userspace, and will show the name passed in by userspace.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 This file is only present if the CONFIG_MMU kernel configuration option is
 enabled.

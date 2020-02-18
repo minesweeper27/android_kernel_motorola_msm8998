@@ -186,10 +186,7 @@ static struct platform_device *of_platform_device_create_pdata(
 	dev->dev.platform_data = platform_data;
 	of_dma_configure(&dev->dev, dev->dev.of_node);
 	of_msi_configure(&dev->dev, dev->dev.of_node);
-<<<<<<< HEAD
 	of_reserved_mem_device_init(&dev->dev);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (of_device_add(dev) != 0) {
 		of_dma_deconfigure(&dev->dev);

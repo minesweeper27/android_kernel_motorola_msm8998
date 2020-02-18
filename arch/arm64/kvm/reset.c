@@ -124,7 +124,6 @@ int kvm_reset_vcpu(struct kvm_vcpu *vcpu)
 
 	/* Reset timer */
 	return kvm_timer_vcpu_reset(vcpu, cpu_vtimer_irq);
-<<<<<<< HEAD
 }
 
 extern char __hyp_idmap_text_start[];
@@ -137,6 +136,4 @@ phys_addr_t kvm_hyp_reset_entry(void)
 		 - ((unsigned long)__hyp_idmap_text_start & PAGE_MASK);
 
 	return TRAMPOLINE_VA + offset;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }

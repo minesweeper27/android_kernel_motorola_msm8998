@@ -89,11 +89,8 @@
 #include <linux/magic.h>
 #include <linux/slab.h>
 #include <linux/xattr.h>
-<<<<<<< HEAD
 #include <linux/seemp_api.h>
 #include <linux/seemp_instrumentation.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/nospec.h>
 
 #include <asm/uaccess.h>

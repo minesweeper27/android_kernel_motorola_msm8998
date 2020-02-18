@@ -598,7 +598,6 @@ config LEDS_POWERNV
 	  To compile this driver as a module, choose 'm' here: the module
 	  will be called leds-powernv.
 
-<<<<<<< HEAD
 config LEDS_QPNP
 	tristate "Support for QPNP LEDs"
 	depends on LEDS_CLASS && SPMI
@@ -636,8 +635,6 @@ config LEDS_QPNP_WLED
 	  variable brightness.  It also supports outputting the Avdd supply for
 	  AMOLED displays.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config LEDS_SYSCON
 	bool "LED support for LEDs on system controllers"
 	depends on LEDS_CLASS=y
@@ -656,7 +653,6 @@ config LEDS_VERSATILE
 	  This option enabled support for the LEDs on the ARM Versatile
 	  and RealView boards. Say Y to enabled these.
 
-<<<<<<< HEAD
 config LEDS_QPNP_HAPTICS
 	tristate "Haptics support for QPNP PMIC"
 	depends on LEDS_CLASS && MFD_SPMI_PMIC
@@ -667,8 +663,6 @@ config LEDS_QPNP_HAPTICS
 	  module provides haptic feedback for user actions such as a long press
 	  on the touch screen.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 comment "LED Triggers"
 source "drivers/leds/trigger/Kconfig"
 

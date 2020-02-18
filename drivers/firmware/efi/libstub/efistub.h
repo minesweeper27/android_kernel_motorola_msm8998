@@ -5,11 +5,8 @@
 /* error code which can't be mistaken for valid address */
 #define EFI_ERROR	(~0UL)
 
-<<<<<<< HEAD
 extern int __pure nokaslr(void);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void efi_char16_printk(efi_system_table_t *, efi_char16_t *);
 
 efi_status_t efi_open_volume(efi_system_table_t *sys_table_arg, void *__image,

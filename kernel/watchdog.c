@@ -21,19 +21,13 @@
 #include <linux/smpboot.h>
 #include <linux/sched/rt.h>
 #include <linux/tick.h>
-<<<<<<< HEAD
 #include <linux/workqueue.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <asm/irq_regs.h>
 #include <linux/kvm_para.h>
 #include <linux/perf_event.h>
 #include <linux/kthread.h>
-<<<<<<< HEAD
 #include <soc/qcom/watchdog.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * The run state of the lockup detectors is controlled by the content of the
@@ -73,19 +67,11 @@ int __read_mostly sysctl_hardlockup_all_cpu_backtrace;
 #endif
 static struct cpumask watchdog_cpumask __read_mostly;
 unsigned long *watchdog_cpumask_bits = cpumask_bits(&watchdog_cpumask);
-<<<<<<< HEAD
 
 /* Helper for online, unparked cpus. */
 #define for_each_watchdog_cpu(cpu) \
 	for_each_cpu_and((cpu), cpu_online_mask, &watchdog_cpumask)
 
-=======
-
-/* Helper for online, unparked cpus. */
-#define for_each_watchdog_cpu(cpu) \
-	for_each_cpu_and((cpu), cpu_online_mask, &watchdog_cpumask)
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * The 'watchdog_running' variable is set to 1 when the watchdog threads
  * are registered/started and is set to 0 when the watchdog threads are
@@ -137,11 +123,7 @@ static unsigned long soft_lockup_nmi_warn;
 #ifdef CONFIG_HARDLOCKUP_DETECTOR
 unsigned int __read_mostly hardlockup_panic =
 			CONFIG_BOOTPARAM_HARDLOCKUP_PANIC_VALUE;
-<<<<<<< HEAD
 static unsigned long __maybe_unused hardlockup_allcpu_dumped;
-=======
-static unsigned long hardlockup_allcpu_dumped;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * We may not want to enable hard lockup detection by default in all cases,
  * for example when running the kernel as a guest on a hypervisor. In these
@@ -324,7 +306,6 @@ static bool is_hardlockup(void)
 
 	__this_cpu_write(hrtimer_interrupts_saved, hrint);
 	return false;
-<<<<<<< HEAD
 }
 #endif
 
@@ -353,8 +334,6 @@ static int is_hardlockup_other_cpu(unsigned int cpu)
 
 	per_cpu(hrtimer_interrupts_saved, cpu) = hrint;
 	return 0;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void watchdog_check_hardlockup_other_cpu(void)
@@ -452,12 +431,9 @@ static void watchdog_overflow_callback(struct perf_event *event,
 			return;
 
 		pr_emerg("Watchdog detected hard LOCKUP on cpu %d", this_cpu);
-<<<<<<< HEAD
 		if (hardlockup_panic)
 			msm_trigger_wdog_bite();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		print_modules();
 		print_irqtrace_events(current);
 		if (regs)
@@ -816,7 +792,6 @@ static void watchdog_nmi_disable(unsigned int cpu)
 	}
 }
 
-<<<<<<< HEAD
 #else
 #ifdef CONFIG_HARDLOCKUP_DETECTOR_OTHER_CPU
 static int watchdog_nmi_enable(unsigned int cpu)
@@ -856,12 +831,6 @@ static int watchdog_nmi_enable(unsigned int cpu) { return 0; }
 static void watchdog_nmi_disable(unsigned int cpu) { return; }
 #endif /* CONFIG_HARDLOCKUP_DETECTOR_OTHER_CPU */
 #endif /* CONFIG_HARDLOCKUP_DETECTOR_NMI */
-=======
-#else
-static int watchdog_nmi_enable(unsigned int cpu) { return 0; }
-static void watchdog_nmi_disable(unsigned int cpu) { return; }
-#endif /* CONFIG_HARDLOCKUP_DETECTOR */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct smp_hotplug_thread watchdog_threads = {
 	.store			= &softlockup_watchdog,
@@ -895,7 +864,6 @@ static int watchdog_park_threads(void)
 		if (ret)
 			break;
 	}
-<<<<<<< HEAD
 
 	return ret;
 }
@@ -914,26 +882,6 @@ static void watchdog_unpark_threads(void)
 		kthread_unpark(per_cpu(softlockup_watchdog, cpu));
 }
 
-=======
-
-	return ret;
-}
-
-/*
- * unpark all watchdog threads that are specified in 'watchdog_cpumask'
- *
- * This function may only be called in a context that is protected against
- * races with CPU hotplug - for example, via get_online_cpus().
- */
-static void watchdog_unpark_threads(void)
-{
-	int cpu;
-
-	for_each_watchdog_cpu(cpu)
-		kthread_unpark(per_cpu(softlockup_watchdog, cpu));
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Suspend the hard and soft lockup detector by parking the watchdog threads.
  */

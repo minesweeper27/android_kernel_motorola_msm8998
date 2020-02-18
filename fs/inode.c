@@ -1753,11 +1753,7 @@ int dentry_needs_remove_privs(struct dentry *dentry)
 }
 EXPORT_SYMBOL(dentry_needs_remove_privs);
 
-<<<<<<< HEAD
 static int __remove_privs(struct vfsmount *mnt, struct dentry *dentry, int kill)
-=======
-static int __remove_privs(struct dentry *dentry, int kill)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct iattr newattrs;
 
@@ -1793,11 +1789,7 @@ int file_remove_privs(struct file *file)
 	if (kill < 0)
 		return kill;
 	if (kill)
-<<<<<<< HEAD
 		error = __remove_privs(file->f_path.mnt, dentry, kill);
-=======
-		error = __remove_privs(dentry, kill);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!error)
 		inode_has_no_xattr(inode);
 
@@ -2091,7 +2083,6 @@ void inode_nohighmem(struct inode *inode)
 	mapping_set_gfp_mask(inode->i_mapping, GFP_USER);
 }
 EXPORT_SYMBOL(inode_nohighmem);
-<<<<<<< HEAD
 
 /*
  * Generic function to check FS_IOC_SETFLAGS values and reject any invalid
@@ -2116,5 +2107,3 @@ int vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
 	return 0;
 }
 EXPORT_SYMBOL(vfs_ioc_setflags_prepare);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

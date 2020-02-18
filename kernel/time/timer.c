@@ -94,7 +94,6 @@ struct tvec_base {
 	struct tvec tv5;
 } ____cacheline_aligned;
 
-<<<<<<< HEAD
 static inline void __run_timers(struct tvec_base *base);
 
 static DEFINE_PER_CPU(struct tvec_base, tvec_bases);
@@ -105,14 +104,6 @@ unsigned int sysctl_timer_migration = 1;
 struct tvec_base tvec_base_deferrable;
 static atomic_t deferrable_pending;
 
-=======
-
-static DEFINE_PER_CPU(struct tvec_base, tvec_bases);
-
-#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
-unsigned int sysctl_timer_migration = 1;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void timers_update_migration(bool update_nohz)
 {
 	bool on = sysctl_timer_migration && tick_nohz_active;
@@ -148,21 +139,15 @@ int timer_migration_handler(struct ctl_table *table, int write,
 }
 
 static inline struct tvec_base *get_target_base(struct tvec_base *base,
-<<<<<<< HEAD
 						int pinned, u32 timer_flags)
 {
 	if (!pinned && !(timer_flags & TIMER_PINNED_ON_CPU) &&
 	    (timer_flags & TIMER_DEFERRABLE))
 		return &tvec_base_deferrable;
-=======
-						int pinned)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (pinned || !base->migration_enabled)
 		return this_cpu_ptr(&tvec_bases);
 	return per_cpu_ptr(&tvec_bases, get_nohz_timer_target());
 }
-<<<<<<< HEAD
 
 static inline void __run_deferrable_timers(void)
 {
@@ -181,15 +166,7 @@ static inline void init_timer_deferrable_global(void)
 	spin_lock_init(&tvec_base_deferrable.lock);
 	tvec_base_deferrable.timer_jiffies = jiffies;
 	tvec_base_deferrable.next_timer = tvec_base_deferrable.timer_jiffies;
-=======
-#else
-static inline struct tvec_base *get_target_base(struct tvec_base *base,
-						int pinned)
-{
-	return this_cpu_ptr(&tvec_bases);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
-#endif
 
 static inline struct tvec_base *get_timer_base(u32 timer_flags)
 {
@@ -521,37 +498,6 @@ static void internal_add_timer(struct tvec_base *base, struct timer_list *timer)
 		    tick_nohz_full_cpu(base->cpu))
 			wake_up_nohz_cpu(base->cpu);
 	}
-<<<<<<< HEAD
-=======
-}
-
-#ifdef CONFIG_TIMER_STATS
-void __timer_stats_timer_set_start_info(struct timer_list *timer, void *addr)
-{
-	if (timer->start_site)
-		return;
-
-	timer->start_site = addr;
-	memcpy(timer->start_comm, current->comm, TASK_COMM_LEN);
-	timer->start_pid = current->pid;
-}
-
-static void timer_stats_account_timer(struct timer_list *timer)
-{
-	void *site;
-
-	/*
-	 * start_site can be concurrently reset by
-	 * timer_stats_timer_clear_start_info()
-	 */
-	site = READ_ONCE(timer->start_site);
-	if (likely(!site))
-		return;
-
-	timer_stats_update_stats(timer, timer->start_pid, site,
-				 timer->function, timer->start_comm,
-				 timer->flags);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #ifdef CONFIG_DEBUG_OBJECTS_TIMERS
@@ -844,11 +790,7 @@ static struct tvec_base *lock_timer_base(struct timer_list *timer,
 		tf = READ_ONCE(timer->flags);
 
 		if (!(tf & TIMER_MIGRATING)) {
-<<<<<<< HEAD
 			base = get_timer_base(tf);
-=======
-			base = per_cpu_ptr(&tvec_bases, tf & TIMER_CPUMASK);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			spin_lock_irqsave(&base->lock, *flags);
 			if (timer->flags == tf)
 				return base;
@@ -876,11 +818,7 @@ __mod_timer(struct timer_list *timer, unsigned long expires,
 
 	debug_activate(timer, expires);
 
-<<<<<<< HEAD
 	new_base = get_target_base(base, pinned, timer->flags);
-=======
-	new_base = get_target_base(base, pinned);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (base != new_base) {
 		/*
@@ -1086,10 +1024,7 @@ void add_timer_on(struct timer_list *timer, int cpu)
 			   (timer->flags & ~TIMER_BASEMASK) | cpu);
 	}
 
-<<<<<<< HEAD
 	timer->flags |= TIMER_PINNED_ON_CPU;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	debug_activate(timer, timer->expires);
 	internal_add_timer(base, timer);
 	spin_unlock_irqrestore(&base->lock, flags);
@@ -1327,11 +1262,6 @@ static inline void __run_timers(struct tvec_base *base)
 			fn = timer->function;
 			data = timer->data;
 			irqsafe = timer->flags & TIMER_IRQSAFE;
-<<<<<<< HEAD
-=======
-
-			timer_stats_account_timer(timer);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 			base->running_timer = timer;
 			detach_expired_timer(timer, base);
@@ -1547,11 +1477,8 @@ void update_process_times(int user_tick)
 static void run_timer_softirq(struct softirq_action *h)
 {
 	struct tvec_base *base = this_cpu_ptr(&tvec_bases);
-<<<<<<< HEAD
 
 	__run_deferrable_timers();
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (time_after_eq(jiffies, base->timer_jiffies))
 		__run_timers(base);
@@ -1689,7 +1616,6 @@ signed long __sched schedule_timeout_uninterruptible(signed long timeout)
 }
 EXPORT_SYMBOL(schedule_timeout_uninterruptible);
 
-<<<<<<< HEAD
 #if defined(CONFIG_HOTPLUG_CPU)
 static void migrate_timer_list(struct tvec_base *new_base,
 			       struct hlist_head *head, bool remove_pinned)
@@ -1705,18 +1631,6 @@ static void migrate_timer_list(struct tvec_base *new_base,
 			continue;
 
 		detach_if_pending(timer, get_timer_base(timer->flags), false);
-=======
-#ifdef CONFIG_HOTPLUG_CPU
-static void migrate_timer_list(struct tvec_base *new_base, struct hlist_head *head)
-{
-	struct timer_list *timer;
-	int cpu = new_base->cpu;
-
-	while (!hlist_empty(head)) {
-		timer = hlist_entry(head->first, struct timer_list, entry);
-		/* We ignore the accounting on the dying cpu */
-		detach_timer(timer, false);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		timer->flags = (timer->flags & ~TIMER_BASEMASK) | cpu;
 		internal_add_timer(new_base, timer);
 	}
@@ -1729,10 +1643,6 @@ static void __migrate_timers(int cpu, bool remove_pinned)
 	unsigned long flags;
 	int i;
 
-<<<<<<< HEAD
-=======
-	BUG_ON(cpu_online(cpu));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	old_base = per_cpu_ptr(&tvec_bases, cpu);
 	new_base = get_cpu_ptr(&tvec_bases);
 	/*
@@ -1766,7 +1676,6 @@ static void __migrate_timers(int cpu, bool remove_pinned)
 	}
 
 	spin_unlock(&old_base->lock);
-<<<<<<< HEAD
 	spin_unlock_irqrestore(&new_base->lock, flags);
 	put_cpu_ptr(&tvec_bases);
 }
@@ -1781,10 +1690,6 @@ static void migrate_timers(int cpu)
 void timer_quiesce_cpu(void *cpup)
 {
 	__migrate_timers(*(int *)cpup, false);
-=======
-	spin_unlock_irq(&new_base->lock);
-	put_cpu_ptr(&tvec_bases);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int timer_cpu_notify(struct notifier_block *self,
@@ -1827,11 +1732,8 @@ static void __init init_timer_cpus(void)
 
 	for_each_possible_cpu(cpu)
 		init_timer_cpu(cpu);
-<<<<<<< HEAD
 
 	init_timer_deferrable_global();
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 void __init init_timers(void)

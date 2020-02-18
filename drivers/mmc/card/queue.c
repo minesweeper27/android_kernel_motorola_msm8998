@@ -172,13 +172,8 @@ static int mmc_queue_thread(void *d)
 			cmd_flags = req ? req->cmd_flags : 0;
 			mq->issue_fn(mq, req);
 			cond_resched();
-<<<<<<< HEAD
 			if (test_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags)) {
 				clear_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags);
-=======
-			if (mq->flags & MMC_QUEUE_NEW_REQUEST) {
-				mq->flags &= ~MMC_QUEUE_NEW_REQUEST;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				continue; /* fetch again */
 			}
 

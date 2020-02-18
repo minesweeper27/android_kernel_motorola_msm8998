@@ -3361,12 +3361,9 @@ static int wait_for_ss_port_enable(struct usb_device *udev,
 		       status, *portstatus, *portchange);
 		if (status)
 			break;
-<<<<<<< HEAD
 		if ((*portstatus & USB_PORT_STAT_CONNECTION) &&
 		    !port_is_suspended(hub, *portstatus))
 			break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!port_is_power_on(hub, *portstatus)) {
 			status = -ENODEV;
 			break;
@@ -3434,11 +3431,8 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
 
 	/* Skip the initial Clear-Suspend step for a remote wakeup */
 	status = hub_port_status(hub, port1, &portstatus, &portchange);
-<<<<<<< HEAD
 	dev_dbg(&port_dev->dev, "%s: init status %d ps 0x%x pc 0x%x\n",
 		__func__, status,  portstatus, portchange);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (status == 0 && !port_is_suspended(hub, portstatus)) {
 		if (portchange & USB_PORT_STAT_C_SUSPEND)
 			pm_wakeup_event(&udev->dev, 0);

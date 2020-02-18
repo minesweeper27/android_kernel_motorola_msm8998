@@ -375,7 +375,6 @@ lm75_probe(struct i2c_client *client, const struct i2c_device_id *id)
 		data->resolution = 12;
 		data->sample_time = HZ / 4;
 		break;
-<<<<<<< HEAD
 	case tmp108:
 		/* The tmp108 config register is word-sized */
 		set_mask = 1 << 7;		/* active high */
@@ -383,8 +382,6 @@ lm75_probe(struct i2c_client *client, const struct i2c_device_id *id)
 		data->resolution = 12;
 		data->sample_time = HZ;
 		break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/* configure as specified */

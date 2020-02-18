@@ -2179,7 +2179,6 @@ __kmem_cache_create (struct kmem_cache *cachep, unsigned long flags)
 		else
 			size += BYTES_PER_WORD;
 	}
-<<<<<<< HEAD
 #endif
 
 	kasan_cache_create(cachep, &size, &flags);
@@ -2193,9 +2192,6 @@ __kmem_cache_create (struct kmem_cache *cachep, unsigned long flags)
 		size = ALIGN(SLAB_OBJ_MIN_SIZE, cachep->align);
 
 #if DEBUG
-=======
-#if FORCED_DEBUG && defined(CONFIG_DEBUG_PAGEALLOC)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * To activate debug pagealloc, off-slab management is necessary
 	 * requirement. In early phase of initialization, small sized slab
@@ -2203,18 +2199,11 @@ __kmem_cache_create (struct kmem_cache *cachep, unsigned long flags)
 	 * to check size >= 256. It guarantees that all necessary small
 	 * sized slab is initialized in current slab initialization sequence.
 	 */
-<<<<<<< HEAD
 	if (debug_pagealloc_enabled() && (flags & SLAB_POISON) &&
 		!slab_early_init && size >= kmalloc_size(INDEX_NODE) &&
 		size >= 256 && cachep->object_size > cache_line_size() &&
 		size < PAGE_SIZE) {
 		cachep->obj_offset += PAGE_SIZE - size;
-=======
-	if (!slab_early_init && size >= kmalloc_size(INDEX_NODE) &&
-		size >= 256 && cachep->object_size > cache_line_size() &&
-		ALIGN(size, cachep->align) < PAGE_SIZE) {
-		cachep->obj_offset += PAGE_SIZE - ALIGN(size, cachep->align);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		size = PAGE_SIZE;
 	}
 #endif
@@ -2226,11 +2215,7 @@ __kmem_cache_create (struct kmem_cache *cachep, unsigned long flags)
 	 * SLAB_NOLEAKTRACE to avoid recursive calls into kmemleak)
 	 */
 	if (size >= OFF_SLAB_MIN_SIZE && !slab_early_init &&
-<<<<<<< HEAD
 	    !(flags & SLAB_NOLEAKTRACE)) {
-=======
-	    !(flags & SLAB_NOLEAKTRACE))
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * Size is large, assume best to place the slab management obj
 		 * off-slab (should allow better packing of objs).

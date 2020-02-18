@@ -295,13 +295,10 @@ static unsigned long do_shrink_slab(struct shrink_control *shrinkctl,
 	long batch_size = shrinker->batch ? shrinker->batch
 					  : SHRINK_BATCH;
 	long scanned = 0, next_deferred;
-<<<<<<< HEAD
 	long min_cache_size = batch_size;
 
 	if (current_is_kswapd())
 		min_cache_size = 0;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	freeable = shrinker->count_objects(shrinker, shrinkctl);
 	if (freeable == 0)
@@ -1126,12 +1123,8 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		 */
 		if (page_mapped(page) && mapping) {
 			switch (try_to_unmap(page,
-<<<<<<< HEAD
 					ttu_flags|TTU_BATCH_FLUSH,
 					sc->target_vma)) {
-=======
-					ttu_flags|TTU_BATCH_FLUSH)) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			case SWAP_FAIL:
 				goto activate_locked;
 			case SWAP_AGAIN:
@@ -1632,19 +1625,7 @@ static int too_many_isolated(struct zone *zone, int file,
 			return 1;
 	}
 
-<<<<<<< HEAD
 	return 0;
-=======
-	/*
-	 * GFP_NOIO/GFP_NOFS callers are allowed to isolate more pages, so they
-	 * won't get blocked by normal direct-reclaimers, forming a circular
-	 * deadlock.
-	 */
-	if ((sc->gfp_mask & (__GFP_IO | __GFP_FS)) == (__GFP_IO | __GFP_FS))
-		inactive >>= 3;
-
-	return isolated > inactive;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static noinline_for_stack void
@@ -2232,14 +2213,9 @@ static void get_scan_count(struct lruvec *lruvec, int swappiness,
 	 * lruvec even if it has plenty of old anonymous pages unless the
 	 * system is under heavy pressure.
 	 */
-<<<<<<< HEAD
 	if (!IS_ENABLED(CONFIG_BALANCE_ANON_FILE_RECLAIM) &&
 			!inactive_file_is_low(lruvec) &&
 			get_lru_size(lruvec, LRU_INACTIVE_FILE) >> sc->priority) {
-=======
-	if (!inactive_file_is_low(lruvec) &&
-	    get_lru_size(lruvec, LRU_INACTIVE_FILE) >> sc->priority) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		scan_balance = SCAN_FILE;
 		goto out;
 	}
@@ -3145,13 +3121,7 @@ static void age_active_anon(struct zone *zone, struct scan_control *sc)
 static bool zone_balanced(struct zone *zone, int order, bool highorder,
 			unsigned long balance_gap, int classzone_idx)
 {
-<<<<<<< HEAD
 	unsigned long mark = high_wmark_pages(zone) + balance_gap;
-=======
-	if (!zone_watermark_ok_safe(zone, order, high_wmark_pages(zone) +
-				    balance_gap, classzone_idx))
-		return false;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * When checking from pgdat_balanced(), kswapd should stop and sleep

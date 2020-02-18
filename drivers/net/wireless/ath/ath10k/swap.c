@@ -135,39 +135,17 @@ ath10k_swap_code_seg_alloc(struct ath10k *ar, size_t swap_bin_len)
 }
 
 int ath10k_swap_code_seg_configure(struct ath10k *ar,
-<<<<<<< HEAD
 				   const struct ath10k_fw_file *fw_file)
-=======
-				   enum ath10k_swap_code_seg_bin_type type)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	int ret;
 	struct ath10k_swap_code_seg_info *seg_info = NULL;
 
-<<<<<<< HEAD
 	if (!fw_file->firmware_swap_code_seg_info)
 		return 0;
 
 	ath10k_dbg(ar, ATH10K_DBG_BOOT, "boot found firmware code swap binary\n");
 
 	seg_info = fw_file->firmware_swap_code_seg_info;
-=======
-	switch (type) {
-	case ATH10K_SWAP_CODE_SEG_BIN_TYPE_FW:
-		if (!ar->swap.firmware_swap_code_seg_info)
-			return 0;
-
-		ath10k_dbg(ar, ATH10K_DBG_BOOT, "boot found firmware code swap binary\n");
-		seg_info = ar->swap.firmware_swap_code_seg_info;
-		break;
-	default:
-	case ATH10K_SWAP_CODE_SEG_BIN_TYPE_OTP:
-	case ATH10K_SWAP_CODE_SEG_BIN_TYPE_UTF:
-		ath10k_warn(ar, "ignoring unknown code swap binary type %d\n",
-			    type);
-		return 0;
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ret = ath10k_bmi_write_memory(ar, seg_info->target_addr,
 				      &seg_info->seg_hw_info,
@@ -181,7 +159,6 @@ int ath10k_swap_code_seg_configure(struct ath10k *ar,
 	return 0;
 }
 
-<<<<<<< HEAD
 void ath10k_swap_code_seg_release(struct ath10k *ar,
 				  struct ath10k_fw_file *fw_file)
 {
@@ -210,38 +187,13 @@ int ath10k_swap_code_seg_init(struct ath10k *ar, struct ath10k_fw_file *fw_file)
 		return 0;
 
 	seg_info = ath10k_swap_code_seg_alloc(ar, codeswap_len);
-=======
-void ath10k_swap_code_seg_release(struct ath10k *ar)
-{
-	ath10k_swap_code_seg_free(ar, ar->swap.firmware_swap_code_seg_info);
-	ar->swap.firmware_codeswap_data = NULL;
-	ar->swap.firmware_codeswap_len = 0;
-	ar->swap.firmware_swap_code_seg_info = NULL;
-}
-
-int ath10k_swap_code_seg_init(struct ath10k *ar)
-{
-	int ret;
-	struct ath10k_swap_code_seg_info *seg_info;
-
-	if (!ar->swap.firmware_codeswap_len || !ar->swap.firmware_codeswap_data)
-		return 0;
-
-	seg_info = ath10k_swap_code_seg_alloc(ar,
-					      ar->swap.firmware_codeswap_len);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!seg_info) {
 		ath10k_err(ar, "failed to allocate fw code swap segment\n");
 		return -ENOMEM;
 	}
 
 	ret = ath10k_swap_code_seg_fill(ar, seg_info,
-<<<<<<< HEAD
 					codeswap_data, codeswap_len);
-=======
-					ar->swap.firmware_codeswap_data,
-					ar->swap.firmware_codeswap_len);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (ret) {
 		ath10k_warn(ar, "failed to initialize fw code swap segment: %d\n",
@@ -250,11 +202,7 @@ int ath10k_swap_code_seg_init(struct ath10k *ar)
 		return ret;
 	}
 
-<<<<<<< HEAD
 	fw_file->firmware_swap_code_seg_info = seg_info;
-=======
-	ar->swap.firmware_swap_code_seg_info = seg_info;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

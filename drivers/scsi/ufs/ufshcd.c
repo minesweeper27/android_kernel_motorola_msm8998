@@ -448,12 +448,7 @@ static inline void __ufshcd_scsi_block_requests(struct ufs_hba *hba)
 
 void ufshcd_scsi_block_requests(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	unsigned long flags;
-=======
-	if (hba->quirks & UFSHCD_QUIRK_BROKEN_UFS_HCI_VERSION)
-		return ufshcd_vops_get_ufs_hci_version(hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	spin_lock_irqsave(hba->host->host_lock, flags);
 	__ufshcd_scsi_block_requests(hba);
@@ -1925,28 +1920,8 @@ static int ufshcd_hibern8_hold(struct ufs_hba *hba, bool async)
 	}
 
 start:
-<<<<<<< HEAD
 	switch (hba->hibern8_on_idle.state) {
 	case HIBERN8_EXITED:
-=======
-	switch (hba->clk_gating.state) {
-	case CLKS_ON:
-		/*
-		 * Wait for the ungate work to complete if in progress.
-		 * Though the clocks may be in ON state, the link could
-		 * still be in hibner8 state if hibern8 is allowed
-		 * during clock gating.
-		 * Make sure we exit hibern8 state also in addition to
-		 * clocks being ON.
-		 */
-		if (ufshcd_can_hibern8_during_gating(hba) &&
-		    ufshcd_is_link_hibern8(hba)) {
-			spin_unlock_irqrestore(hba->host->host_lock, flags);
-			flush_work(&hba->clk_gating.ungate_work);
-			spin_lock_irqsave(hba->host->host_lock, flags);
-			goto start;
-		}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 	case REQ_HIBERN8_ENTER:
 		if (cancel_delayed_work(&hba->hibern8_on_idle.enter_work)) {
@@ -1991,7 +1966,6 @@ start:
 out:
 	return rc;
 }
-EXPORT_SYMBOL_GPL(ufshcd_hold);
 
 /* host lock must be held before calling this variant */
 static void __ufshcd_hibern8_release(struct ufs_hba *hba, bool no_sched)
@@ -2145,7 +2119,6 @@ static void ufshcd_hibern8_exit_work(struct work_struct *work)
 unblock_reqs:
 	ufshcd_scsi_unblock_requests(hba);
 }
-EXPORT_SYMBOL_GPL(ufshcd_release);
 
 static ssize_t ufshcd_hibern8_on_idle_delay_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
@@ -2391,11 +2364,7 @@ static inline void ufshcd_copy_sense_data(struct ufshcd_lrb *lrbp)
 
 		memcpy(lrbp->sense_buffer,
 			lrbp->ucd_rsp_ptr->sr.sense_data,
-<<<<<<< HEAD
 			min_t(int, len_to_copy, UFSHCD_REQ_SENSE_SIZE));
-=======
-			min_t(int, len_to_copy, SCSI_SENSE_BUFFERSIZE));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 
@@ -5087,18 +5056,11 @@ link_startup:
 			goto out;
 	}
 
-<<<<<<< HEAD
 	if (hba->dev_quirks & UFS_DEVICE_QUIRK_BROKEN_LCC) {
 		ret = ufshcd_disable_host_tx_lcc(hba);
 		if (ret)
 			goto out;
 	}
-=======
-	/* Include any host controller configuration via UIC commands */
-	ret = ufshcd_vops_link_startup_notify(hba, POST_CHANGE);
-	if (ret)
-		goto out;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Include any host controller configuration via UIC commands */
 	ret = ufshcd_vops_link_startup_notify(hba, POST_CHANGE);
@@ -6021,11 +5983,7 @@ static void ufshcd_exception_event_handler(struct work_struct *work)
 	hba = container_of(work, struct ufs_hba, eeh_work);
 
 	pm_runtime_get_sync(hba->dev);
-<<<<<<< HEAD
 	ufshcd_scsi_block_requests(hba);
-=======
-	scsi_block_requests(hba->host);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	err = ufshcd_get_ee_status(hba, &status);
 	if (err) {
 		dev_err(hba->dev, "%s: failed to get exception status %d\n",
@@ -6039,7 +5997,6 @@ static void ufshcd_exception_event_handler(struct work_struct *work)
 		ufshcd_bkops_exception_event_handler(hba);
 
 out:
-<<<<<<< HEAD
 	ufshcd_scsi_unblock_requests(hba);
 	/*
 	 * pm_runtime_get_noresume is called while scheduling
@@ -6049,10 +6006,6 @@ out:
 	 */
 	pm_runtime_put_noidle(hba->dev);
 	pm_runtime_put(hba->dev);
-=======
-	scsi_unblock_requests(hba->host);
-	pm_runtime_put_sync(hba->dev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return;
 }
 
@@ -7644,13 +7597,8 @@ static int ufshcd_probe_hba(struct ufs_hba *hba)
 			ufshcd_init_icc_levels(hba);
 
 		/* Add required well known logical units to scsi mid layer */
-<<<<<<< HEAD
 		if (ufshcd_scsi_add_wlus(hba)) {
 			pr_err("%s: ufshcd_scsi_add_wlus failed\n", __func__);
-=======
-		ret = ufshcd_scsi_add_wlus(hba);
-		if (ret)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			goto out;
 		}
 
@@ -8133,15 +8081,10 @@ static inline int ufshcd_config_vreg_hpm(struct ufs_hba *hba,
 {
 	if (!vreg)
 		return 0;
-<<<<<<< HEAD
 	else if (vreg->unused)
 		return 0;
 	else
 		return ufshcd_config_vreg_load(hba->dev, vreg, vreg->max_uA);
-=======
-
-	return ufshcd_config_vreg_load(hba->dev, vreg, vreg->max_uA);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int ufshcd_config_vreg(struct device *dev,
@@ -8156,21 +8099,6 @@ static int ufshcd_config_vreg(struct device *dev,
 
 	reg = vreg->reg;
 	name = vreg->name;
-<<<<<<< HEAD
-=======
-
-	if (regulator_count_voltages(reg) > 0) {
-		if (vreg->min_uV && vreg->max_uV) {
-			min_uV = on ? vreg->min_uV : 0;
-			ret = regulator_set_voltage(reg, min_uV, vreg->max_uV);
-			if (ret) {
-				dev_err(dev,
-					"%s: %s set voltage failed, err=%d\n",
-					__func__, name, ret);
-				goto out;
-			}
-		}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (regulator_count_voltages(reg) > 0) {
 		uA_load = on ? vreg->max_uA : 0;
@@ -8415,7 +8343,6 @@ static int ufshcd_setup_clocks(struct ufs_hba *hba, bool on,
 		}
 	}
 
-<<<<<<< HEAD
 	/*
 	 * vendor specific setup_clocks ops may depend on clocks managed by
 	 * this standard driver hence call the vendor specific setup_clocks
@@ -8434,9 +8361,6 @@ static int ufshcd_setup_clocks(struct ufs_hba *hba, bool on,
 	if (!on)
 		ret = ufshcd_vops_set_bus_vote(hba, on);
 
-=======
-	ret = ufshcd_vops_setup_clocks(hba, on);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out:
 	if (ret) {
 		if (on)
@@ -8550,11 +8474,6 @@ static void ufshcd_variant_hba_exit(struct ufs_hba *hba)
 	if (!hba->var || !hba->var->vops)
 		return;
 
-<<<<<<< HEAD
-=======
-	ufshcd_vops_setup_clocks(hba, false);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ufshcd_vops_setup_regulators(hba, false);
 
 	ufshcd_vops_exit(hba);
@@ -8970,13 +8889,6 @@ disable_clks:
 	ret = ufshcd_vops_suspend(hba, pm_op);
 	if (ret)
 		goto set_link_active;
-<<<<<<< HEAD
-=======
-
-	ret = ufshcd_vops_setup_clocks(hba, false);
-	if (ret)
-		goto vops_resume;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!ufshcd_is_link_active(hba))
 		ret = ufshcd_disable_clocks(hba, false);
@@ -9000,11 +8912,6 @@ disable_clks:
 	ufshcd_hba_vreg_set_lpm(hba);
 	goto out;
 
-<<<<<<< HEAD
-=======
-vops_resume:
-	ufshcd_vops_resume(hba, pm_op);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 set_link_active:
 	if (hba->clk_scaling.is_allowed)
 		ufshcd_resume_clkscaling(hba);
@@ -9206,12 +9113,9 @@ EXPORT_SYMBOL(ufshcd_system_suspend);
 
 int ufshcd_system_resume(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	int ret = 0;
 	ktime_t start = ktime_get();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!hba)
 		return -EINVAL;
 
@@ -9241,17 +9145,13 @@ EXPORT_SYMBOL(ufshcd_system_resume);
  */
 int ufshcd_runtime_suspend(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	int ret = 0;
 	ktime_t start = ktime_get();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!hba)
 		return -EINVAL;
 
 	if (!hba->is_powered)
-<<<<<<< HEAD
 		goto out;
 	else
 		ret = ufshcd_suspend(hba, UFS_RUNTIME_PM);
@@ -9261,9 +9161,6 @@ out:
 		hba->curr_dev_pwr_mode,
 		hba->uic_link_state);
 	return ret;
-=======
-		return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 }
 EXPORT_SYMBOL(ufshcd_runtime_suspend);
@@ -9291,17 +9188,13 @@ EXPORT_SYMBOL(ufshcd_runtime_suspend);
  */
 int ufshcd_runtime_resume(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	int ret = 0;
 	ktime_t start = ktime_get();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!hba)
 		return -EINVAL;
 
 	if (!hba->is_powered)
-<<<<<<< HEAD
 		goto out;
 	else
 		ret = ufshcd_resume(hba, UFS_RUNTIME_PM);
@@ -9311,11 +9204,6 @@ out:
 		hba->curr_dev_pwr_mode,
 		hba->uic_link_state);
 	return ret;
-=======
-		return 0;
-
-	return ufshcd_resume(hba, UFS_RUNTIME_PM);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(ufshcd_runtime_resume);
 
@@ -9676,11 +9564,7 @@ void ufshcd_remove(struct ufs_hba *hba)
 	scsi_remove_host(hba->host);
 	/* disable interrupts */
 	ufshcd_disable_intr(hba, hba->intr_mask);
-<<<<<<< HEAD
 	ufshcd_hba_stop(hba, true);
-=======
-	ufshcd_hba_stop(hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ufshcd_exit_clk_gating(hba);
 	ufshcd_exit_hibern8_on_idle(hba);
@@ -9772,10 +9656,6 @@ static bool ufshcd_is_devfreq_scaling_required(struct ufs_hba *hba,
 	if (!head || list_empty(head))
 		return false;
 
-	ret = ufshcd_vops_clk_scale_notify(hba, scale_up, PRE_CHANGE);
-	if (ret)
-		return ret;
-
 	list_for_each_entry(clki, head, list) {
 		if (!IS_ERR_OR_NULL(clki->clk)) {
 			if (scale_up && clki->max_freq) {
@@ -9790,7 +9670,6 @@ static bool ufshcd_is_devfreq_scaling_required(struct ufs_hba *hba,
 		}
 	}
 
-<<<<<<< HEAD
 	return false;
 }
 
@@ -9975,10 +9854,6 @@ scale_up_gear:
 		ufshcd_scale_gear(hba, true);
 clk_scaling_unprepare:
 	ufshcd_clock_scaling_unprepare(hba);
-=======
-	ret = ufshcd_vops_clk_scale_notify(hba, scale_up, POST_CHANGE);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out:
 	hba->ufs_stats.clk_rel.ctx = CLK_SCALE_WORK;
 	ufshcd_release_all(hba);
@@ -10118,19 +9993,13 @@ static int ufshcd_devfreq_target(struct device *dev,
 {
 	int ret = 0;
 	struct ufs_hba *hba = dev_get_drvdata(dev);
-<<<<<<< HEAD
 	unsigned long irq_flags;
 	ktime_t start;
 	bool scale_up, sched_clk_scaling_suspend_work = false;
-=======
-	bool release_clk_hold = false;
-	unsigned long irq_flags;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!ufshcd_is_clkscaling_supported(hba))
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if ((*freq > 0) && (*freq < UINT_MAX)) {
 		dev_err(hba->dev, "%s: invalid freq = %lu\n", __func__, *freq);
 		return -EINVAL;
@@ -10165,44 +10034,6 @@ out:
 			   &hba->clk_scaling.suspend_work);
 
 	return ret;
-=======
-	spin_lock_irqsave(hba->host->host_lock, irq_flags);
-	if (ufshcd_eh_in_progress(hba)) {
-		spin_unlock_irqrestore(hba->host->host_lock, irq_flags);
-		return 0;
-	}
-
-	if (ufshcd_is_clkgating_allowed(hba) &&
-	    (hba->clk_gating.state != CLKS_ON)) {
-		if (cancel_delayed_work(&hba->clk_gating.gate_work)) {
-			/* hold the vote until the scaling work is completed */
-			hba->clk_gating.active_reqs++;
-			release_clk_hold = true;
-			hba->clk_gating.state = CLKS_ON;
-		} else {
-			/*
-			 * Clock gating work seems to be running in parallel
-			 * hence skip scaling work to avoid deadlock between
-			 * current scaling work and gating work.
-			 */
-			spin_unlock_irqrestore(hba->host->host_lock, irq_flags);
-			return 0;
-		}
-	}
-	spin_unlock_irqrestore(hba->host->host_lock, irq_flags);
-
-	if (*freq == UINT_MAX)
-		err = ufshcd_scale_clks(hba, true);
-	else if (*freq == 0)
-		err = ufshcd_scale_clks(hba, false);
-
-	spin_lock_irqsave(hba->host->host_lock, irq_flags);
-	if (release_clk_hold)
-		__ufshcd_release(hba);
-	spin_unlock_irqrestore(hba->host->host_lock, irq_flags);
-
-	return err;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int ufshcd_devfreq_get_dev_status(struct device *dev,

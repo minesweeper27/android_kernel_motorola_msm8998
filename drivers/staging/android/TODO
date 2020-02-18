@@ -24,7 +24,6 @@ ion/
    such cma regions must already be used by some device for dma. I.e. ion only
    exposes existing cma regions and doesn't reserve unecessarily memory when
    booting a system which doesn't use ion.
-<<<<<<< HEAD
 
 vsoc.c, uapi/vsoc_shm.h
  - The current driver uses the same wait queue for all of the futexes in a
@@ -34,8 +33,6 @@ vsoc.c, uapi/vsoc_shm.h
  - Add debugfs support for examining the permissions of regions.
  - Remove VSOC_WAIT_FOR_INCOMING_INTERRUPT ioctl. This functionality has been
    superseded by the futex and is there for legacy reasons.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 Please send patches to Greg Kroah-Hartman <greg@kroah.com> and Cc:
 Arve Hjønnevåg <arve@android.com> and Riley Andrews <riandrews@android.com>

@@ -1223,10 +1223,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, int for_part)
 		bdev->bd_disk = disk;
 		bdev->bd_queue = disk->queue;
 		bdev->bd_contains = bdev;
-<<<<<<< HEAD
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		bdev->bd_inode->i_flags = disk->fops->direct_access ? S_DAX : 0;
 		if (!partno) {
 			ret = -ENXIO;
@@ -1552,15 +1549,6 @@ static void __blkdev_put(struct block_device *bdev, fmode_t mode, int for_part)
 		kill_bdev(bdev);
 
 		bdev_write_inode(bdev);
-<<<<<<< HEAD
-=======
-		/*
-		 * Detaching bdev inode from its wb in __destroy_inode()
-		 * is too late: the queue which embeds its bdi (along with
-		 * root wb) can be gone as soon as we put_disk() below.
-		 */
-		inode_detach_wb(bdev->bd_inode);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	if (bdev->bd_contains == bdev) {
 		if (disk->fops->release)

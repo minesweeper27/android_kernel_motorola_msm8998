@@ -253,10 +253,7 @@ static int _freq_tbl_determine_rate(struct clk_hw *hw,
 		const struct freq_tbl *f, struct clk_rate_request *req)
 {
 	unsigned long clk_flags, rate = req->rate;
-<<<<<<< HEAD
 	struct clk_rate_request parent_req = { };
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct clk_hw *p;
 	struct clk_rcg2 *rcg = to_clk_rcg2(hw);
 	int index, ret = 0;
@@ -287,7 +284,6 @@ static int _freq_tbl_determine_rate(struct clk_hw *hw,
 		}
 	} else {
 		rate =  clk_hw_get_rate(p);
-<<<<<<< HEAD
 	}
 	req->best_parent_hw = p;
 	req->best_parent_rate = rate;
@@ -307,12 +303,6 @@ static int _freq_tbl_determine_rate(struct clk_hw *hw,
 			return ret;
 		}
 	}
-=======
-	}
-	req->best_parent_hw = p;
-	req->best_parent_rate = rate;
-	req->rate = f->freq;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -323,7 +313,6 @@ static int clk_rcg2_determine_rate(struct clk_hw *hw,
 	struct clk_rcg2 *rcg = to_clk_rcg2(hw);
 
 	return _freq_tbl_determine_rate(hw, rcg->freq_tbl, req);
-<<<<<<< HEAD
 }
 
 static bool clk_rcg2_current_config(struct clk_rcg2 *rcg,
@@ -357,8 +346,6 @@ static bool clk_rcg2_current_config(struct clk_rcg2 *rcg,
 		return false;
 
 	return true;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int clk_rcg2_configure(struct clk_rcg2 *rcg, const struct freq_tbl *f)
@@ -1032,11 +1019,8 @@ static int clk_byte2_set_rate(struct clk_hw *hw, unsigned long rate,
 	for (i = 0; i < num_parents; i++) {
 		if (cfg == rcg->parent_map[i].cfg) {
 			f.src = rcg->parent_map[i].src;
-<<<<<<< HEAD
 			if (clk_rcg2_current_config(rcg, &f))
 				return 0;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			return clk_rcg2_configure(rcg, &f);
 		}
 	}
@@ -1059,10 +1043,7 @@ const struct clk_ops clk_byte2_ops = {
 	.set_rate = clk_byte2_set_rate,
 	.set_rate_and_parent = clk_byte2_set_rate_and_parent,
 	.determine_rate = clk_byte2_determine_rate,
-<<<<<<< HEAD
 	.list_registers = clk_rcg2_list_registers,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 EXPORT_SYMBOL_GPL(clk_byte2_ops);
 

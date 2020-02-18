@@ -67,16 +67,6 @@ unsigned long thread_saved_pc(struct task_struct *tsk)
 
 extern void kernel_thread_starter(void);
 
-<<<<<<< HEAD
-=======
-/*
- * Free current thread data structures etc..
- */
-void exit_thread(void)
-{
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void flush_thread(void)
 {
 }

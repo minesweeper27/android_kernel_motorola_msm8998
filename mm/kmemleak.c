@@ -1280,19 +1280,11 @@ static void scan_object(struct kmemleak_object *object)
 		void *start = (void *)object->pointer;
 		void *end = (void *)(object->pointer + object->size);
 		void *next;
-<<<<<<< HEAD
 
 		do {
 			next = min(start + MAX_SCAN_SIZE, end);
 			scan_block(start, next, object);
 
-=======
-
-		do {
-			next = min(start + MAX_SCAN_SIZE, end);
-			scan_block(start, next, object);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			start = next;
 			if (start >= end)
 				break;
@@ -1817,12 +1809,7 @@ static void kmemleak_do_cleanup(struct work_struct *work)
 	if (!kmemleak_found_leaks)
 		__kmemleak_do_cleanup();
 	else
-<<<<<<< HEAD
 		pr_info("Kmemleak disabled without freeing internal data. Reclaim the memory with \"echo clear > /sys/kernel/debug/kmemleak\".\n");
-=======
-		pr_info("Kmemleak disabled without freeing internal data. "
-			"Reclaim the memory with \"echo clear > /sys/kernel/debug/kmemleak\"\n");
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static DECLARE_WORK(cleanup_work, kmemleak_do_cleanup);

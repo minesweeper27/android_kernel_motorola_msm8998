@@ -43,17 +43,7 @@
  */
 #define VMEMMAP_SIZE		ALIGN((1UL << (VA_BITS - PAGE_SHIFT)) * sizeof(struct page), PUD_SIZE)
 
-<<<<<<< HEAD
 #define VMALLOC_START		(MODULES_END)
-=======
-#ifndef CONFIG_KASAN
-#define VMALLOC_START		(VA_START)
-#else
-#include <asm/kasan.h>
-#define VMALLOC_START		(KASAN_SHADOW_END + SZ_64K)
-#endif
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define VMALLOC_END		(PAGE_OFFSET - PUD_SIZE - VMEMMAP_SIZE - SZ_64K)
 
 #define VMEMMAP_START		(VMALLOC_END + SZ_64K)
@@ -64,10 +54,7 @@
 
 #ifndef __ASSEMBLY__
 
-<<<<<<< HEAD
 #include <asm/fixmap.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/mmdebug.h>
 
 extern void __pte_error(const char *file, int line, unsigned long val);
@@ -75,7 +62,6 @@ extern void __pmd_error(const char *file, int line, unsigned long val);
 extern void __pud_error(const char *file, int line, unsigned long val);
 extern void __pgd_error(const char *file, int line, unsigned long val);
 
-<<<<<<< HEAD
 #define _PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
 #define _PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
 
@@ -86,10 +72,6 @@ extern void __pgd_error(const char *file, int line, unsigned long val);
 #define PROT_DEFAULT		_PROT_DEFAULT
 #define PROT_SECT_DEFAULT	_PROT_SECT_DEFAULT
 #endif /* CONFIG_UNMAP_KERNEL_AT_EL0 */
-=======
-#define PROT_DEFAULT		(PTE_TYPE_PAGE | PTE_AF | PTE_SHARED)
-#define PROT_SECT_DEFAULT	(PMD_TYPE_SECT | PMD_SECT_AF | PMD_SECT_S)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define PROT_DEVICE_nGnRnE	(PROT_DEFAULT | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_DEVICE_nGnRnE))
 #define PROT_DEVICE_nGnRE	(PROT_DEFAULT | PTE_PXN | PTE_UXN | PTE_DIRTY | PTE_WRITE | PTE_ATTRINDX(MT_DEVICE_nGnRE))
@@ -116,11 +98,7 @@ extern void __pgd_error(const char *file, int line, unsigned long val);
 #define PAGE_S2			__pgprot(PROT_DEFAULT | PTE_S2_MEMATTR(MT_S2_NORMAL) | PTE_S2_RDONLY)
 #define PAGE_S2_DEVICE		__pgprot(PROT_DEFAULT | PTE_S2_MEMATTR(MT_S2_DEVICE_nGnRE) | PTE_S2_RDONLY | PTE_UXN)
 
-<<<<<<< HEAD
 #define PAGE_NONE		__pgprot(((_PAGE_DEFAULT) & ~PTE_VALID) | PTE_PROT_NONE | PTE_NG | PTE_PXN | PTE_UXN)
-=======
-#define PAGE_NONE		__pgprot(((_PAGE_DEFAULT) & ~PTE_VALID) | PTE_PROT_NONE | PTE_PXN | PTE_UXN)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define PAGE_SHARED		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN | PTE_WRITE)
 #define PAGE_SHARED_EXEC	__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_WRITE)
 #define PAGE_COPY		__pgprot(_PAGE_DEFAULT | PTE_USER | PTE_NG | PTE_PXN | PTE_UXN)
@@ -245,12 +223,8 @@ static inline pte_t pte_mkspecial(pte_t pte)
 
 static inline pte_t pte_mkcont(pte_t pte)
 {
-<<<<<<< HEAD
 	pte = set_pte_bit(pte, __pgprot(PTE_CONT));
 	return set_pte_bit(pte, __pgprot(PTE_TYPE_PAGE));
-=======
-	return set_pte_bit(pte, __pgprot(PTE_CONT));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline pte_t pte_mknoncont(pte_t pte)
@@ -258,7 +232,6 @@ static inline pte_t pte_mknoncont(pte_t pte)
 	return clear_pte_bit(pte, __pgprot(PTE_CONT));
 }
 
-<<<<<<< HEAD
 static inline pte_t pte_clear_rdonly(pte_t pte)
 {
 	return clear_pte_bit(pte, __pgprot(PTE_RDONLY));
@@ -274,8 +247,6 @@ static inline pmd_t pmd_mkcont(pmd_t pmd)
 	return __pmd(pmd_val(pmd) | PMD_SECT_CONT);
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void set_pte(pte_t *ptep, pte_t pte)
 {
 #ifdef CONFIG_ARM64_STRICT_BREAK_BEFORE_MAKE
@@ -833,24 +804,6 @@ extern int kern_addr_valid(unsigned long addr);
 
 void pgd_cache_init(void);
 #define pgtable_cache_init	pgd_cache_init
-
-/*
- * On AArch64, the cache coherency is handled via the set_pte_at() function.
- */
-static inline void update_mmu_cache(struct vm_area_struct *vma,
-				    unsigned long addr, pte_t *ptep)
-{
-	/*
-	 * We don't do anything here, so there's a very small chance of
-	 * us retaking a user fault which we just fixed up. The alternative
-	 * is doing a dsb(ishst), but that penalises the fastpath.
-	 */
-}
-
-#define update_mmu_cache_pmd(vma, address, pmd) do { } while (0)
-
-#define kc_vaddr_to_offset(v)	((v) & ~VA_START)
-#define kc_offset_to_vaddr(o)	((o) | VA_START)
 
 /*
  * On AArch64, the cache coherency is handled via the set_pte_at() function.

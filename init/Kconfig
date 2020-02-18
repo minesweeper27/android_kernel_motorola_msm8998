@@ -2135,7 +2135,6 @@ config MODULE_COMPRESS
 
 	  Compresses kernel modules when 'make modules_install' is run; gzip or
 	  xz depending on "Compression algorithm" below.
-<<<<<<< HEAD
 
 	  module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
 
@@ -2147,19 +2146,6 @@ config MODULE_COMPRESS
 
 	  Note: This is fully compatible with signed modules.
 
-=======
-
-	  module-init-tools MAY support gzip, and kmod MAY support gzip and xz.
-
-	  Out-of-tree kernel modules installed using Kbuild will also be
-	  compressed upon installation.
-
-	  Note: for modules inside an initrd or initramfs, it's more efficient
-	  to compress the whole initrd or initramfs instead.
-
-	  Note: This is fully compatible with signed modules.
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	  If in doubt, say N.
 
 choice

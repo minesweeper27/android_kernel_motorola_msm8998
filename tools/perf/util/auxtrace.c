@@ -49,10 +49,7 @@
 
 #include "intel-pt.h"
 #include "intel-bts.h"
-<<<<<<< HEAD
 #include "cs-etm.h"
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int auxtrace_mmap__mmap(struct auxtrace_mmap *mm,
 			struct auxtrace_mmap_params *mp,
@@ -485,18 +482,11 @@ void auxtrace_heap__pop(struct auxtrace_heap *heap)
 			 heap_array[last].ordinal);
 }
 
-<<<<<<< HEAD
 size_t auxtrace_record__info_priv_size(struct auxtrace_record *itr,
 				       struct perf_evlist *evlist)
 {
 	if (itr)
 		return itr->info_priv_size(itr, evlist);
-=======
-size_t auxtrace_record__info_priv_size(struct auxtrace_record *itr)
-{
-	if (itr)
-		return itr->info_priv_size(itr);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
@@ -867,11 +857,7 @@ int perf_event__synthesize_auxtrace_info(struct auxtrace_record *itr,
 	int err;
 
 	pr_debug2("Synthesizing auxtrace information\n");
-<<<<<<< HEAD
 	priv_size = auxtrace_record__info_priv_size(itr, session->evlist);
-=======
-	priv_size = auxtrace_record__info_priv_size(itr);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ev = zalloc(sizeof(struct auxtrace_info_event) + priv_size);
 	if (!ev)
 		return -ENOMEM;
@@ -910,11 +896,8 @@ int perf_event__process_auxtrace_info(struct perf_tool *tool __maybe_unused,
 		return intel_pt_process_auxtrace_info(event, session);
 	case PERF_AUXTRACE_INTEL_BTS:
 		return intel_bts_process_auxtrace_info(event, session);
-<<<<<<< HEAD
 	case PERF_AUXTRACE_CS_ETM:
 		return cs_etm__process_auxtrace_info(event, session);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case PERF_AUXTRACE_UNKNOWN:
 	default:
 		return -EINVAL;

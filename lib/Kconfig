@@ -542,7 +542,6 @@ config ARCH_HAS_PMEM_API
 config ARCH_HAS_MMIO_FLUSH
 	bool
 
-<<<<<<< HEAD
 config QMI_ENCDEC
 	bool "QMI Encode/Decode Library"
 	help
@@ -563,6 +562,4 @@ config STACKDEPOT
 	bool
 	select STACKTRACE
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endmenu

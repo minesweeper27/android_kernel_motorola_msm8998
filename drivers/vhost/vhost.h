@@ -140,7 +140,6 @@ struct vhost_virtqueue {
 	/* Ring endianness requested by userspace for cross-endian support. */
 	bool user_be;
 #endif
-<<<<<<< HEAD
 	u32 busyloop_timeout;
 };
 
@@ -148,8 +147,6 @@ struct vhost_msg_node {
   struct vhost_msg msg;
   struct vhost_virtqueue *vq;
   struct list_head node;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct vhost_dev {
@@ -163,15 +160,12 @@ struct vhost_dev {
 	struct task_struct *worker;
 	int weight;
 	int byte_weight;
-<<<<<<< HEAD
 	struct vhost_umem *umem;
 	struct vhost_umem *iotlb;
 	spinlock_t iotlb_lock;
 	struct list_head read_list;
 	struct list_head pending_list;
 	wait_queue_head_t wait;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 bool vhost_exceeds_weight(struct vhost_virtqueue *vq, int pkts, int total_len);

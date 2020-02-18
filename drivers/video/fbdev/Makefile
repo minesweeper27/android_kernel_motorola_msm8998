@@ -125,27 +125,21 @@ obj-y                             += omap2/
 obj-$(CONFIG_XEN_FBDEV_FRONTEND)  += xen-fbfront.o
 obj-$(CONFIG_FB_CARMINE)          += carminefb.o
 obj-$(CONFIG_FB_MB862XX)	  += mb862xx/
-<<<<<<< HEAD
 ifeq ($(CONFIG_FB_MSM),y)
 obj-y                             += msm/
 else
 obj-$(CONFIG_MSM_DBA)             += msm/msm_dba/
 endif
 obj-y                             += slimport/
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_FB_NUC900)           += nuc900fb.o
 obj-$(CONFIG_FB_JZ4740)		  += jz4740_fb.o
 obj-$(CONFIG_FB_PUV3_UNIGFX)      += fb-puv3.o
 obj-$(CONFIG_FB_HYPERV)		  += hyperv_fb.o
 obj-$(CONFIG_FB_OPENCORES)	  += ocfb.o
 obj-$(CONFIG_FB_SM712)		  += sm712fb.o
-<<<<<<< HEAD
 
 obj-$(CONFIG_MOD_DISPLAY) += mod_display.o
 obj-$(CONFIG_PANEL_NOTIFICATIONS) += panel_notifier.o
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # Platform or fallback drivers go here
 obj-$(CONFIG_FB_UVESA)            += uvesafb.o

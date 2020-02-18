@@ -5,12 +5,9 @@
 KBUILD_CFLAGS += $(DISABLE_LTO)
 KASAN_SANITIZE := n
 
-<<<<<<< HEAD
 # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
 KCOV_INSTRUMENT		:= n
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 VDSO64-$(CONFIG_X86_64)		:= y
 VDSOX32-$(CONFIG_X86_X32_ABI)	:= y
 VDSO32-$(CONFIG_X86_32)		:= y
@@ -73,11 +70,7 @@ CFL := $(PROFILING) -mcmodel=small -fPIC -O2 -fasynchronous-unwind-tables -m64 \
        -fno-omit-frame-pointer -foptimize-sibling-calls \
        -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
 
-<<<<<<< HEAD
 $(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
-=======
-$(vobjs): KBUILD_CFLAGS += $(CFL)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #
 # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
@@ -145,10 +138,7 @@ KBUILD_CFLAGS_32 := $(filter-out -m64,$(KBUILD_CFLAGS))
 KBUILD_CFLAGS_32 := $(filter-out -mcmodel=kernel,$(KBUILD_CFLAGS_32))
 KBUILD_CFLAGS_32 := $(filter-out -fno-pic,$(KBUILD_CFLAGS_32))
 KBUILD_CFLAGS_32 := $(filter-out -mfentry,$(KBUILD_CFLAGS_32))
-<<<<<<< HEAD
 KBUILD_CFLAGS_32 := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS_32))
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 KBUILD_CFLAGS_32 += -m32 -msoft-float -mregparm=0 -fpic
 KBUILD_CFLAGS_32 += $(call cc-option, -fno-stack-protector)
 KBUILD_CFLAGS_32 += $(call cc-option, -foptimize-sibling-calls)
@@ -198,18 +188,10 @@ vdso_img_insttargets := $(vdso_img_sodbg:%.dbg=install_%)
 $(MODLIB)/vdso: FORCE
 	@mkdir -p $(MODLIB)/vdso
 
-<<<<<<< HEAD
 $(vdso_img_insttargets): install_%: $(obj)/%.dbg $(MODLIB)/vdso
 	$(call cmd,vdso_install)
 
 PHONY += vdso_install $(vdso_img_insttargets)
 vdso_install: $(vdso_img_insttargets)
-=======
-$(vdso_img_insttargets): install_%: $(obj)/%.dbg $(MODLIB)/vdso FORCE
-	$(call cmd,vdso_install)
-
-PHONY += vdso_install $(vdso_img_insttargets)
-vdso_install: $(vdso_img_insttargets) FORCE
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 clean-files := vdso32.so vdso32.so.dbg vdso64* vdso-image-*.c vdsox32.so*

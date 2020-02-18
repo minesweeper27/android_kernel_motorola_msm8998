@@ -25,10 +25,7 @@ enum {
 	MEMBLOCK_NONE		= 0x0,	/* No special request */
 	MEMBLOCK_HOTPLUG	= 0x1,	/* hotpluggable region */
 	MEMBLOCK_MIRROR		= 0x2,	/* mirrored region */
-<<<<<<< HEAD
 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct memblock_region {
@@ -86,15 +83,11 @@ bool memblock_overlaps_region(struct memblock_type *type,
 int memblock_mark_hotplug(phys_addr_t base, phys_addr_t size);
 int memblock_clear_hotplug(phys_addr_t base, phys_addr_t size);
 int memblock_mark_mirror(phys_addr_t base, phys_addr_t size);
-<<<<<<< HEAD
 int memblock_mark_nomap(phys_addr_t base, phys_addr_t size);
 int memblock_clear_nomap(phys_addr_t base, phys_addr_t size);
 ulong choose_memblock_flags(void);
 unsigned long memblock_region_resize_late_begin(void);
 void memblock_region_resize_late_end(unsigned long);
-=======
-ulong choose_memblock_flags(void);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* Low level functions */
 int memblock_add_range(struct memblock_type *type,
@@ -196,14 +189,11 @@ static inline bool memblock_is_mirror(struct memblock_region *m)
 	return m->flags & MEMBLOCK_MIRROR;
 }
 
-<<<<<<< HEAD
 static inline bool memblock_is_nomap(struct memblock_region *m)
 {
 	return m->flags & MEMBLOCK_NOMAP;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_HAVE_MEMBLOCK_NODE_MAP
 int memblock_search_pfn_nid(unsigned long pfn, unsigned long *start_pfn,
 			    unsigned long  *end_pfn);

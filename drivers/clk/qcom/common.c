@@ -95,7 +95,6 @@ static void qcom_cc_gdsc_unregister(void *data)
 	gdsc_unregister(data);
 }
 
-<<<<<<< HEAD
 /*
  * Backwards compatibility with old DTs. Register a pass-through factor 1/1
  * clock to translate 'path' clk into 'name' clk and regsiter the 'path'
@@ -181,8 +180,6 @@ int qcom_cc_register_sleep_clk(struct device *dev)
 }
 EXPORT_SYMBOL_GPL(qcom_cc_register_sleep_clk);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int qcom_cc_really_probe(struct platform_device *pdev,
 			 const struct qcom_cc_desc *desc, struct regmap *regmap)
 {
@@ -239,15 +236,11 @@ int qcom_cc_really_probe(struct platform_device *pdev,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	ret = devm_add_action_or_reset(dev, qcom_cc_del_clk_provider,
 				       pdev->dev.of_node);
 
 	if (ret)
 		return ret;
-=======
-	devm_add_action(dev, qcom_cc_del_clk_provider, pdev->dev.of_node);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	reset = &cc->reset;
 	reset->rcdev.of_node = dev->of_node;
@@ -261,7 +254,6 @@ int qcom_cc_really_probe(struct platform_device *pdev,
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
 	ret = devm_add_action_or_reset(dev, qcom_cc_reset_unregister,
 				       &reset->rcdev);
 
@@ -283,19 +275,6 @@ int qcom_cc_really_probe(struct platform_device *pdev,
 		if (ret)
 			return ret;
 	}
-=======
-	devm_add_action(dev, qcom_cc_reset_unregister, &reset->rcdev);
-
-	if (desc->gdscs && desc->num_gdscs) {
-		ret = gdsc_register(dev, desc->gdscs, desc->num_gdscs,
-				    &reset->rcdev, regmap);
-		if (ret)
-			return ret;
-	}
-
-	devm_add_action(dev, qcom_cc_gdsc_unregister, dev);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

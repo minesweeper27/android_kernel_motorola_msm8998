@@ -34,7 +34,6 @@
 #include <linux/sched.h>
 #include <linux/smp.h>
 #include <linux/delay.h>
-<<<<<<< HEAD
 #include <linux/of_fdt.h>
 
 #include <soc/qcom/bootinfo.h>
@@ -43,8 +42,6 @@ void __attribute__((weak)) mach_cpuinfo_show(struct seq_file *m, void *v);
 
 char* (*arch_read_hardware_id)(void);
 EXPORT_SYMBOL(arch_read_hardware_id);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * In case the boot CPU is hotpluggable, we record its initial state and
@@ -118,13 +115,9 @@ static int c_show(struct seq_file *m, void *v)
 	int i, j;
 	bool compat = personality(current->personality) == PER_LINUX32;
 
-<<<<<<< HEAD
 	seq_printf(m, "Processor\t: AArch64 Processor rev %d (%s)\n",
 		read_cpuid_id() & 15, ELF_PLATFORM);
 	for_each_present_cpu(i) {
-=======
-	for_each_online_cpu(i) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		struct cpuinfo_arm64 *cpuinfo = &per_cpu(cpu_data, i);
 		u32 midr = cpuinfo->reg_midr;
 
@@ -174,7 +167,6 @@ static int c_show(struct seq_file *m, void *v)
 		seq_printf(m, "CPU revision\t: %d\n\n", MIDR_REVISION(midr));
 	}
 
-<<<<<<< HEAD
 	if (!arch_read_hardware_id)
 		seq_printf(m, "Hardware\t: %s\n", machine_name);
 	else
@@ -233,54 +225,6 @@ static void cpuinfo_detect_icache_policy(struct cpuinfo_arm64 *info)
 		set_bit(ICACHEF_AIVIVT, &__icache_flags);
 
 	pr_debug("Detected %s I-cache on CPU%d\n", icache_policy_str[l1ip], cpu);
-=======
-	return 0;
-}
-
-static void *c_start(struct seq_file *m, loff_t *pos)
-{
-	return *pos < 1 ? (void *)1 : NULL;
-}
-
-static void *c_next(struct seq_file *m, void *v, loff_t *pos)
-{
-	++*pos;
-	return NULL;
-}
-
-static void c_stop(struct seq_file *m, void *v)
-{
-}
-
-const struct seq_operations cpuinfo_op = {
-	.start	= c_start,
-	.next	= c_next,
-	.stop	= c_stop,
-	.show	= c_show
-};
-
-static void cpuinfo_detect_icache_policy(struct cpuinfo_arm64 *info)
-{
-	unsigned int cpu = smp_processor_id();
-	u32 l1ip = CTR_L1IP(info->reg_ctr);
-
-	if (l1ip != ICACHE_POLICY_PIPT) {
-		/*
-		 * VIPT caches are non-aliasing if the VA always equals the PA
-		 * in all bit positions that are covered by the index. This is
-		 * the case if the size of a way (# of sets * line size) does
-		 * not exceed PAGE_SIZE.
-		 */
-		u32 waysize = icache_get_numsets() * icache_get_linesize();
-
-		if (l1ip != ICACHE_POLICY_VIPT || waysize > PAGE_SIZE)
-			set_bit(ICACHEF_ALIASING, &__icache_flags);
-	}
-	if (l1ip == ICACHE_POLICY_AIVIVT)
-		set_bit(ICACHEF_AIVIVT, &__icache_flags);
-
-	pr_info("Detected %s I-cache on CPU%d\n", icache_policy_str[l1ip], cpu);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void __cpuinfo_store_cpu(struct cpuinfo_arm64 *info)

@@ -118,7 +118,6 @@ struct msm_gpu {
 
 	/* Power Control: */
 	struct regulator *gpu_reg, *gpu_cx;
-<<<<<<< HEAD
 	struct clk **grp_clks;
 	struct clk *ebi1_clk, *core_clk, *rbbmtimer_clk;
 	int nr_clocks;
@@ -132,11 +131,6 @@ struct msm_gpu {
 
 	struct drm_gem_object *memptrs_bo;
 
-=======
-	struct clk *ebi1_clk, *grp_clks[6];
-	uint32_t fast_rate, slow_rate, bus_freq;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef DOWNSTREAM_CONFIG_MSM_BUS_SCALING
 	struct msm_bus_scale_pdata *bus_scale_table;
 	uint32_t bsc;
@@ -150,7 +144,6 @@ struct msm_gpu {
 #define DRM_MSM_HANGCHECK_JIFFIES msecs_to_jiffies(DRM_MSM_HANGCHECK_PERIOD)
 	struct timer_list hangcheck_timer;
 	struct work_struct recover_work;
-<<<<<<< HEAD
 	struct msm_snapshot *snapshot;
 };
 
@@ -161,10 +154,6 @@ struct msm_gpu_submitqueue {
 	int faults;
 	struct list_head node;
 	struct kref ref;
-=======
-
-	struct list_head submit_list;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* It turns out that all targets use the same ringbuffer size. */

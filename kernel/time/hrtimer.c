@@ -860,12 +860,7 @@ static int enqueue_hrtimer(struct hrtimer *timer,
 
 	base->cpu_base->active_bases |= 1 << base->index;
 
-<<<<<<< HEAD
 	timer->state |= HRTIMER_STATE_ENQUEUED;
-=======
-	/* Pairs with the lockless read in hrtimer_is_queued() */
-	WRITE_ONCE(timer->state, HRTIMER_STATE_ENQUEUED);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return timerqueue_add(&base->active, &timer->node);
 }
@@ -885,18 +880,9 @@ static void __remove_hrtimer(struct hrtimer *timer,
 			     u8 newstate, int reprogram)
 {
 	struct hrtimer_cpu_base *cpu_base = base->cpu_base;
-<<<<<<< HEAD
 
 	if (!(timer->state & HRTIMER_STATE_ENQUEUED))
 		goto out;
-=======
-	u8 state = timer->state;
-
-	/* Pairs with the lockless read in hrtimer_is_queued() */
-	WRITE_ONCE(timer->state, newstate);
-	if (!(state & HRTIMER_STATE_ENQUEUED))
-		return;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!timerqueue_del(&base->active, &timer->node))
 		cpu_base->active_bases &= ~(1 << base->index);
@@ -928,14 +914,8 @@ out:
 static inline int
 remove_hrtimer(struct hrtimer *timer, struct hrtimer_clock_base *base, bool restart)
 {
-<<<<<<< HEAD
 	if (hrtimer_is_queued(timer)) {
 		u8 state = timer->state;
-=======
-	u8 state = timer->state;
-
-	if (state & HRTIMER_STATE_ENQUEUED) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		int reprogram;
 
 		/*
@@ -1182,13 +1162,8 @@ bool hrtimer_active(const struct hrtimer *timer)
 		cpu_base = READ_ONCE(timer->base->cpu_base);
 		seq = raw_read_seqcount_begin(&cpu_base->seq);
 
-<<<<<<< HEAD
 		if (((timer->state & ~HRTIMER_STATE_PINNED) !=
 		      HRTIMER_STATE_INACTIVE) || cpu_base->running == timer)
-=======
-		if (timer->state != HRTIMER_STATE_INACTIVE ||
-		    cpu_base->running == timer)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			return true;
 
 	} while (read_seqcount_retry(&cpu_base->seq, seq) ||
@@ -1238,10 +1213,6 @@ static void __run_hrtimer(struct hrtimer_cpu_base *cpu_base,
 	raw_write_seqcount_barrier(&cpu_base->seq);
 
 	__remove_hrtimer(timer, base, HRTIMER_STATE_INACTIVE, 0);
-<<<<<<< HEAD
-=======
-	timer_stats_account_hrtimer(timer);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	fn = timer->function;
 
 	/*
@@ -1654,7 +1625,6 @@ static void migrate_hrtimer_list(struct hrtimer_clock_base *old_base,
 		 * under us on another CPU
 		 */
 		__remove_hrtimer(timer, old_base, HRTIMER_STATE_ENQUEUED, 0);
-<<<<<<< HEAD
 
 		is_pinned = timer->state & HRTIMER_STATE_PINNED;
 		if (!remove_pinned && is_pinned) {
@@ -1662,8 +1632,6 @@ static void migrate_hrtimer_list(struct hrtimer_clock_base *old_base,
 			continue;
 		}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		timer->base = new_base;
 		/*
 		 * Enqueue the timers on the new cpu. This does not
@@ -1674,7 +1642,6 @@ static void migrate_hrtimer_list(struct hrtimer_clock_base *old_base,
 		 * event device.
 		 */
 		enqueue_hrtimer(timer, new_base);
-<<<<<<< HEAD
 	}
 
 	/* Re-queue pinned timers for non-hotplug usecase */
@@ -1683,8 +1650,6 @@ static void migrate_hrtimer_list(struct hrtimer_clock_base *old_base,
 
 		timerqueue_del(&pinned, &timer->node);
 		enqueue_hrtimer(timer, old_base);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 

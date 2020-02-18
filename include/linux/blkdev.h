@@ -497,10 +497,7 @@ struct request_queue {
 #define QUEUE_FLAG_INIT_DONE   20	/* queue is initialized */
 #define QUEUE_FLAG_NO_SG_MERGE 21	/* don't attempt to merge SG segments*/
 #define QUEUE_FLAG_POLL	       22	/* IO polling enabled if set */
-<<<<<<< HEAD
 #define QUEUE_FLAG_FAST        23	/* fast block device (e.g. ram based) */
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define QUEUE_FLAG_DEFAULT	((1 << QUEUE_FLAG_STACKABLE)	|	\
 				 (1 << QUEUE_FLAG_SAME_COMP)	|	\
@@ -806,10 +803,7 @@ extern int scsi_cmd_ioctl(struct request_queue *, struct gendisk *, fmode_t,
 extern int sg_scsi_ioctl(struct request_queue *, struct gendisk *, fmode_t,
 			 struct scsi_ioctl_command __user *);
 
-<<<<<<< HEAD
 extern void blk_recalc_rq_segments(struct request *rq);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int blk_queue_enter(struct request_queue *q, gfp_t gfp);
 extern void blk_queue_exit(struct request_queue *q);
 extern void blk_start_queue(struct request_queue *q);
@@ -1675,7 +1669,6 @@ extern int bdev_write_page(struct block_device *, sector_t, struct page *,
 						struct writeback_control *);
 extern long bdev_direct_access(struct block_device *, sector_t,
 		void __pmem **addr, unsigned long *pfn, long size);
-<<<<<<< HEAD
 
 /*
  * X-axis for IO latency histogram support.
@@ -1732,8 +1725,6 @@ blk_update_latency_hist(struct io_latency_state *s, u_int64_t delta_us)
 ssize_t blk_latency_hist_show(char* name, struct io_latency_state *s,
 		char *buf, int buf_size);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #else /* CONFIG_BLOCK */
 
 struct block_device;

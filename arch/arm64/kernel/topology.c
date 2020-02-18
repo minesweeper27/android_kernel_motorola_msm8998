@@ -556,11 +556,7 @@ void __init init_cpu_topology(void)
 	 * Discard anything that was parsed if we hit an error so we
 	 * don't use partial information.
 	 */
-<<<<<<< HEAD
 	if (of_have_populated_dt() && parse_dt_topology()) {
-=======
-	if (of_have_populated_dt() && parse_dt_topology())
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		reset_cpu_topology();
 	} else {
 		set_sched_topology(arm64_topology);

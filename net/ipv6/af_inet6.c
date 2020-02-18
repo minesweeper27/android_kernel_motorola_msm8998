@@ -126,12 +126,9 @@ static int inet6_create(struct net *net, struct socket *sock, int protocol,
 	if (protocol < 0 || protocol >= IPPROTO_MAX)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (!current_has_network())
 		return -EACCES;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Look for the requested type/protocol pair. */
 lookup_protocol:
 	err = -ESOCKTNOSUPPORT;

@@ -50,11 +50,7 @@ struct tk_read_base {
  * @tai_offset:		The current UTC to TAI offset in seconds
  * @clock_was_set_seq:	The sequence number of clock was set events
  * @next_leap_ktime:	CLOCK_MONOTONIC time value of a pending leap-second
-<<<<<<< HEAD
  * @raw_sec:		CLOCK_MONOTONIC_RAW  time in seconds
-=======
- * @raw_time:		Monotonic raw base time in timespec64 format
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @cycle_interval:	Number of clock cycles in one NTP interval
  * @xtime_interval:	Number of clock shifted nano seconds in one NTP
  *			interval.
@@ -95,11 +91,7 @@ struct timekeeper {
 	s32			tai_offset;
 	unsigned int		clock_was_set_seq;
 	ktime_t			next_leap_ktime;
-<<<<<<< HEAD
 	u64			raw_sec;
-=======
-	struct timespec64	raw_time;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* The following members are for timekeeping internal use */
 	cycle_t			cycle_interval;

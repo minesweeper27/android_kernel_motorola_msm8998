@@ -1,9 +1,6 @@
 # define_trace.h needs to know how to find our header
 CFLAGS_trace.o				:= -I$(src)
-<<<<<<< HEAD
 CFLAGS_dwc3-msm.o                      := -Idrivers/usb/host -Idrivers/base/power
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 obj-$(CONFIG_USB_DWC3)			+= dwc3.o
 

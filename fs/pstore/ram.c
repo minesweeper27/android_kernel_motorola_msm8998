@@ -198,7 +198,6 @@ static ssize_t ramoops_pstore_read(u64 *id, enum pstore_type_id *type,
 	struct ramoops_context *cxt = psi->data;
 	struct persistent_ram_zone *prz = NULL;
 	int header_length = 0;
-<<<<<<< HEAD
 
 	/* Ramoops headers provide time stamps for PSTORE_TYPE_DMESG, but
 	 * PSTORE_TYPE_CONSOLE and PSTORE_TYPE_FTRACE don't currently have
@@ -226,35 +225,6 @@ static ssize_t ramoops_pstore_read(u64 *id, enum pstore_type_id *type,
 	}
 
 	if (!prz_ok(prz)) {
-=======
-
-	/* Ramoops headers provide time stamps for PSTORE_TYPE_DMESG, but
-	 * PSTORE_TYPE_CONSOLE and PSTORE_TYPE_FTRACE don't currently have
-	 * valid time stamps, so it is initialized to zero.
-	 */
-	time->tv_sec = 0;
-	time->tv_nsec = 0;
-	*compressed = false;
-
-	/* Find the next valid persistent_ram_zone for DMESG */
-	while (cxt->dump_read_cnt < cxt->max_dump_cnt && !prz) {
-		prz = ramoops_get_next_prz(cxt->przs, &cxt->dump_read_cnt,
-					   cxt->max_dump_cnt, id, type,
-					   PSTORE_TYPE_DMESG, 1);
-		if (!prz_ok(prz))
-			continue;
-		header_length = ramoops_read_kmsg_hdr(persistent_ram_old(prz),
-						      time, compressed);
-		/* Clear and skip this DMESG record if it has no valid header */
-		if (!header_length) {
-			persistent_ram_free_old(prz);
-			persistent_ram_zap(prz);
-			prz = NULL;
-		}
-	}
-
-	if (!prz_ok(prz))
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		prz = ramoops_get_next_prz(&cxt->cprz, &cxt->console_read_cnt,
 					   1, id, type, PSTORE_TYPE_CONSOLE, 0);
 	}

@@ -53,11 +53,8 @@
 #include <asm/tlbflush.h>
 #include <asm/ptrace.h>
 #include <asm/virt.h>
-<<<<<<< HEAD
 #include <asm/edac.h>
 #include <soc/qcom/minidump.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/ipi.h>
@@ -164,23 +161,12 @@ asmlinkage notrace void secondary_start_kernel(void)
 	 */
 	atomic_inc(&mm->mm_count);
 	current->active_mm = mm;
-<<<<<<< HEAD
-=======
-
-	set_my_cpu_offset(per_cpu_offset(smp_processor_id()));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * TTBR0 is only used for the identity mapping at this stage. Make it
 	 * point to zero page to avoid speculatively fetching new entries.
 	 */
-<<<<<<< HEAD
 	cpu_uninstall_idmap();
-=======
-	cpu_set_reserved_ttbr0();
-	local_flush_tlb_all();
-	cpu_set_default_tcr_t0sz();
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	preempt_disable();
 	trace_hardirqs_off();
@@ -212,11 +198,7 @@ asmlinkage notrace void secondary_start_kernel(void)
 	 * the CPU migration code to notice that the CPU is online
 	 * before we continue.
 	 */
-<<<<<<< HEAD
 	pr_debug("CPU%u: Booted secondary processor [%08x]\n",
-=======
-	pr_info("CPU%u: Booted secondary processor [%08x]\n",
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					 cpu, read_cpuid_id());
 	set_cpu_online(cpu, true);
 	complete(&cpu_running);
@@ -404,7 +386,6 @@ static u64 __init of_get_cpu_mpidr(struct device_node *dn)
 		return INVALID_HWID;
 	}
 	return hwid;
-<<<<<<< HEAD
 }
 
 /*
@@ -531,112 +512,7 @@ void smp_cross_call_common(const struct cpumask *cpumask, unsigned int func)
 		per_cpu(pending_ipi, cpu) = true;
 
 	__smp_cross_call(cpumask, func);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
-
-/*
- * Duplicate MPIDRs are a recipe for disaster. Scan all initialized
- * entries and check for duplicates. If any is found just ignore the
- * cpu. cpu_logical_map was initialized to INVALID_HWID to avoid
- * matching valid MPIDR values.
- */
-static bool __init is_mpidr_duplicate(unsigned int cpu, u64 hwid)
-{
-	unsigned int i;
-
-	for (i = 1; (i < cpu) && (i < NR_CPUS); i++)
-		if (cpu_logical_map(i) == hwid)
-			return true;
-	return false;
-}
-
-/*
- * Initialize cpu operations for a logical cpu and
- * set it in the possible mask on success
- */
-static int __init smp_cpu_setup(int cpu)
-{
-	if (cpu_read_ops(cpu))
-		return -ENODEV;
-
-	if (cpu_ops[cpu]->cpu_init(cpu))
-		return -ENODEV;
-
-	set_cpu_possible(cpu, true);
-
-	return 0;
-}
-
-static bool bootcpu_valid __initdata;
-static unsigned int cpu_count = 1;
-
-#ifdef CONFIG_ACPI
-/*
- * acpi_map_gic_cpu_interface - parse processor MADT entry
- *
- * Carry out sanity checks on MADT processor entry and initialize
- * cpu_logical_map on success
- */
-static void __init
-acpi_map_gic_cpu_interface(struct acpi_madt_generic_interrupt *processor)
-{
-	u64 hwid = processor->arm_mpidr;
-
-	if (!(processor->flags & ACPI_MADT_ENABLED)) {
-		pr_debug("skipping disabled CPU entry with 0x%llx MPIDR\n", hwid);
-		return;
-	}
-
-	if (hwid & ~MPIDR_HWID_BITMASK || hwid == INVALID_HWID) {
-		pr_err("skipping CPU entry with invalid MPIDR 0x%llx\n", hwid);
-		return;
-	}
-
-	if (is_mpidr_duplicate(cpu_count, hwid)) {
-		pr_err("duplicate CPU MPIDR 0x%llx in MADT\n", hwid);
-		return;
-	}
-
-	/* Check if GICC structure of boot CPU is available in the MADT */
-	if (cpu_logical_map(0) == hwid) {
-		if (bootcpu_valid) {
-			pr_err("duplicate boot CPU MPIDR: 0x%llx in MADT\n",
-			       hwid);
-			return;
-		}
-		bootcpu_valid = true;
-		return;
-	}
-
-	if (cpu_count >= NR_CPUS)
-		return;
-
-	/* map the logical cpu id to cpu MPIDR */
-	cpu_logical_map(cpu_count) = hwid;
-
-	cpu_count++;
-}
-
-static int __init
-acpi_parse_gic_cpu_interface(struct acpi_subtable_header *header,
-			     const unsigned long end)
-{
-	struct acpi_madt_generic_interrupt *processor;
-
-	processor = (struct acpi_madt_generic_interrupt *)header;
-	if (BAD_MADT_GICC_ENTRY(processor, end))
-		return -EINVAL;
-
-	acpi_table_print_madt_entry(header);
-
-	acpi_map_gic_cpu_interface(processor);
-
-	return 0;
-}
-#else
-#define acpi_table_parse_madt(...)	do { } while (0)
-#endif
 
 /*
  * Enumerate the possible CPU set from the device tree and build the
@@ -1023,11 +899,8 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
 
 	if ((unsigned)ipinr < NR_IPI)
 		trace_ipi_exit_rcuidle(ipi_types[ipinr]);
-<<<<<<< HEAD
 
 	per_cpu(pending_ipi, cpu) = false;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	set_irq_regs(old_regs);
 }
 

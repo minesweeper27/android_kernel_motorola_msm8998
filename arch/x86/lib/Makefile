@@ -26,11 +26,7 @@ lib-$(CONFIG_RWSEM_XCHGADD_ALGORITHM) += rwsem.o
 lib-$(CONFIG_INSTRUCTION_DECODER) += insn.o inat.o
 lib-$(CONFIG_RETPOLINE) += retpoline.o
 
-<<<<<<< HEAD
 obj-y += msr.o msr-reg.o msr-reg-export.o hash.o hweight.o
-=======
-obj-y += msr.o msr-reg.o msr-reg-export.o hweight.o
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 ifeq ($(CONFIG_X86_32),y)
         obj-y += atomic64_32.o

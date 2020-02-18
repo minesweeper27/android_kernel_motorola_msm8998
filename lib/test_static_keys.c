@@ -46,16 +46,11 @@ struct test_key {
 	bool			(*test_key)(void);
 };
 
-<<<<<<< HEAD
 #define test_key_func(key, branch)	\
 static bool key ## _ ## branch(void)	\
 {					\
 	return branch(&key);		\
 }
-=======
-#define test_key_func(key, branch) \
-	({bool func(void) { return branch(key); } func;	})
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static void invert_key(struct static_key *key)
 {
@@ -100,7 +95,6 @@ static int verify_keys(struct test_key *keys, int size, bool invert)
 	return 0;
 }
 
-<<<<<<< HEAD
 test_key_func(old_true_key, static_key_true)
 test_key_func(old_false_key, static_key_false)
 test_key_func(true_key, static_branch_likely)
@@ -120,8 +114,6 @@ test_key_func(base_false_key, static_branch_unlikely)
 test_key_func(base_inv_false_key, static_branch_likely)
 test_key_func(base_inv_false_key, static_branch_unlikely)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int __init test_static_key_init(void)
 {
 	int ret;
@@ -132,167 +124,95 @@ static int __init test_static_key_init(void)
 		{
 			.init_state	= true,
 			.key		= &old_true_key,
-<<<<<<< HEAD
 			.test_key	= &old_true_key_static_key_true,
-=======
-			.test_key	= test_key_func(&old_true_key, static_key_true),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &old_false_key,
-<<<<<<< HEAD
 			.test_key	= &old_false_key_static_key_false,
-=======
-			.test_key	= test_key_func(&old_false_key, static_key_false),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		/* internal keys - new keys */
 		{
 			.init_state	= true,
 			.key		= &true_key.key,
-<<<<<<< HEAD
 			.test_key	= &true_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&true_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= true,
 			.key		= &true_key.key,
-<<<<<<< HEAD
 			.test_key	= &true_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&true_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &false_key.key,
-<<<<<<< HEAD
 			.test_key	= &false_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&false_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &false_key.key,
-<<<<<<< HEAD
 			.test_key	= &false_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&false_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		/* external keys - old keys */
 		{
 			.init_state	= true,
 			.key		= &base_old_true_key,
-<<<<<<< HEAD
 			.test_key	= &base_old_true_key_static_key_true,
-=======
-			.test_key	= test_key_func(&base_old_true_key, static_key_true),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_inv_old_true_key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_old_true_key_static_key_true,
-=======
-			.test_key	= test_key_func(&base_inv_old_true_key, static_key_true),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_old_false_key,
-<<<<<<< HEAD
 			.test_key	= &base_old_false_key_static_key_false,
-=======
-			.test_key	= test_key_func(&base_old_false_key, static_key_false),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= true,
 			.key		= &base_inv_old_false_key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_old_false_key_static_key_false,
-=======
-			.test_key	= test_key_func(&base_inv_old_false_key, static_key_false),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		/* external keys - new keys */
 		{
 			.init_state	= true,
 			.key		= &base_true_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_true_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&base_true_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= true,
 			.key		= &base_true_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_true_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&base_true_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_inv_true_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_true_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&base_inv_true_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_inv_true_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_true_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&base_inv_true_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_false_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_false_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&base_false_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= false,
 			.key		= &base_false_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_false_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&base_false_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= true,
 			.key		= &base_inv_false_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_false_key_static_branch_likely,
-=======
-			.test_key	= test_key_func(&base_inv_false_key, static_branch_likely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 		{
 			.init_state	= true,
 			.key		= &base_inv_false_key.key,
-<<<<<<< HEAD
 			.test_key	= &base_inv_false_key_static_branch_unlikely,
-=======
-			.test_key	= test_key_func(&base_inv_false_key, static_branch_unlikely),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		},
 	};
 

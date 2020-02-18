@@ -176,16 +176,11 @@ static unsigned long *alloc_thread_stack_node(struct task_struct *tsk,
 
 static inline void free_thread_stack(unsigned long *stack)
 {
-<<<<<<< HEAD
 	struct page *page = virt_to_page(stack);
 
 	kasan_alloc_pages(page, THREAD_SIZE_ORDER);
 	kaiser_unmap_thread_stack(stack);
 	__free_kmem_pages(page, THREAD_SIZE_ORDER);
-=======
-	kaiser_unmap_thread_stack(ti);
-	free_kmem_pages((unsigned long)ti, THREAD_SIZE_ORDER);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 # else
 static struct kmem_cache *thread_stack_cache;
@@ -351,11 +346,7 @@ void set_task_stack_end_magic(struct task_struct *tsk)
 static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
 {
 	struct task_struct *tsk;
-<<<<<<< HEAD
 	unsigned long *stack;
-=======
-	struct thread_info *ti;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int err;
 
 	if (node == NUMA_NO_NODE)
@@ -380,14 +371,6 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
 
 	tsk->flags &= ~PF_SU;
 
-<<<<<<< HEAD
-=======
-	tsk->stack = ti;
-
-	err = kaiser_map_thread_stack(tsk->stack);
-	if (err)
-		goto free_ti;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_SECCOMP
 	/*
 	 * We must handle setting up seccomp filters once we're under
@@ -1394,11 +1377,8 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	if (!p)
 		goto fork_out;
 
-<<<<<<< HEAD
 	cpufreq_task_times_init(p);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * This _must_ happen before we call free_task(), i.e. before we jump
 	 * to any of the bad_fork_* labels. This is to avoid freeing
@@ -1845,10 +1825,7 @@ long _do_fork(unsigned long clone_flags,
 
 	p = copy_process(clone_flags, stack_start, stack_size,
 			 child_tidptr, NULL, trace, tls, NUMA_NO_NODE);
-<<<<<<< HEAD
 	add_latent_entropy();
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * Do this prior waking up the new thread - the thread pointer
 	 * might get invalid after that point, if the thread exits quickly.

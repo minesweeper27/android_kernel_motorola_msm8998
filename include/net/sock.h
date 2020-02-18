@@ -450,10 +450,7 @@ struct sock {
 	void			*sk_security;
 #endif
 	__u32			sk_mark;
-<<<<<<< HEAD
 	kuid_t			sk_uid;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_CGROUP_NET_CLASSID
 	u32			sk_classid;
 #endif
@@ -1083,10 +1080,7 @@ struct proto {
 	void			(*destroy_cgroup)(struct mem_cgroup *memcg);
 	struct cg_proto		*(*proto_cgroup)(struct mem_cgroup *memcg);
 #endif
-<<<<<<< HEAD
 	int			(*diag_destroy)(struct sock *sk, int err);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int proto_register(struct proto *prot, int alloc_slab);
@@ -1719,14 +1713,11 @@ static inline void sock_graft(struct sock *sk, struct socket *parent)
 kuid_t sock_i_uid(struct sock *sk);
 unsigned long sock_i_ino(struct sock *sk);
 
-<<<<<<< HEAD
 static inline kuid_t sock_net_uid(const struct net *net, const struct sock *sk)
 {
 	return sk ? sk->sk_uid : make_kuid(net->user_ns, 0);
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline u32 net_tx_rndhash(void)
 {
 	u32 v = prandom_u32();
@@ -2058,21 +2049,12 @@ static inline void sk_set_bit(int nr, struct sock *sk)
 }
 
 static inline void sk_clear_bit(int nr, struct sock *sk)
-<<<<<<< HEAD
 {
 	clear_bit(nr, &sk->sk_wq_raw->flags);
 }
 
 static inline void sk_wake_async(const struct sock *sk, int how, int band)
 {
-=======
-{
-	clear_bit(nr, &sk->sk_wq_raw->flags);
-}
-
-static inline void sk_wake_async(const struct sock *sk, int how, int band)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (sock_flag(sk, SOCK_FASYNC)) {
 		rcu_read_lock();
 		sock_wake_async(rcu_dereference(sk->sk_wq), how, band);

@@ -618,36 +618,26 @@ fail:
 struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id)
 {
 	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-<<<<<<< HEAD
 	struct drm_device *dev;
-=======
-	struct drm_device *dev = msm_dsi->dev;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct drm_encoder *encoder;
 	struct drm_bridge *int_bridge, *ext_bridge;
 	struct drm_connector *connector;
 	struct list_head *connector_list;
 
-<<<<<<< HEAD
 	if (!msm_dsi)
 		return ERR_PTR(-EINVAL);
 
 	dev = msm_dsi->dev;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int_bridge = msm_dsi->bridge;
 	ext_bridge = msm_dsi->external_bridge =
 			msm_dsi_host_get_bridge(msm_dsi->host);
 
-<<<<<<< HEAD
 	if (!int_bridge || !ext_bridge) {
 		pr_err("%s: failed to get bridge info\n", __func__);
 		return ERR_PTR(-EINVAL);
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * HACK: we may not know the external DSI bridge device's mode
 	 * flags here. We'll get to know them only when the device

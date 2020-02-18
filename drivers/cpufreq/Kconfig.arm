@@ -255,7 +255,6 @@ config ACPI_CPPC_CPUFREQ
 	  support for its operation.
 
 	  If in doubt, say N.
-<<<<<<< HEAD
 
 config CPU_FREQ_MSM
 	bool "MSM CPUFreq support"
@@ -263,5 +262,3 @@ config CPU_FREQ_MSM
 	default y
 	help
 	  This enables the CPUFreq driver for Qualcomm CPUs.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

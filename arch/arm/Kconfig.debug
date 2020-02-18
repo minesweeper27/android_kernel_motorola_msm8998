@@ -954,7 +954,6 @@ choice
 		  enabled UART in a sequence 3-1-2.
 
 	config DEBUG_SOCFPGA_UART0
-<<<<<<< HEAD
 		depends on ARCH_SOCFPGA
 		bool "Use SOCFPGA UART0 for low-level debug"
 		select DEBUG_UART_8250
@@ -968,21 +967,6 @@ choice
 		select DEBUG_UART_8250
 		help
 		  Say Y here if you want kernel low-level debugging support
-=======
-		depends on ARCH_SOCFPGA
-		bool "Use SOCFPGA UART0 for low-level debug"
-		select DEBUG_UART_8250
-		help
-		  Say Y here if you want kernel low-level debugging support
-		  on SOCFPGA(Cyclone 5 and Arria 5) based platforms.
-
-	config DEBUG_SOCFPGA_UART1
-		depends on ARCH_SOCFPGA
-		bool "Use SOCFPGA UART1 for low-level debug"
-		select DEBUG_UART_8250
-		help
-		  Say Y here if you want kernel low-level debugging support
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		  on SOCFPGA(Arria 10) based platforms.
 
 
@@ -1646,11 +1630,7 @@ config DEBUG_UNCOMPRESS
 config UNCOMPRESS_INCLUDE
 	string
 	default "debug/uncompress.h" if ARCH_MULTIPLATFORM || ARCH_MSM || \
-<<<<<<< HEAD
 				ARCH_QCOM || PLAT_SAMSUNG || ARM_SINGLE_ARMV7M
-=======
-					PLAT_SAMSUNG || ARM_SINGLE_ARMV7M
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default "mach/uncompress.h"
 
 config EARLY_PRINTK

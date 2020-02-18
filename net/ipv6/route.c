@@ -111,7 +111,6 @@ struct uncached_list {
 	spinlock_t		lock;
 	struct list_head	head;
 };
-<<<<<<< HEAD
 
 static DEFINE_PER_CPU_ALIGNED(struct uncached_list, rt6_uncached_list);
 
@@ -122,18 +121,6 @@ static void rt6_uncached_list_add(struct rt6_info *rt)
 	rt->dst.flags |= DST_NOCACHE;
 	rt->rt6i_uncached_list = ul;
 
-=======
-
-static DEFINE_PER_CPU_ALIGNED(struct uncached_list, rt6_uncached_list);
-
-static void rt6_uncached_list_add(struct rt6_info *rt)
-{
-	struct uncached_list *ul = raw_cpu_ptr(&rt6_uncached_list);
-
-	rt->dst.flags |= DST_NOCACHE;
-	rt->rt6i_uncached_list = ul;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_lock_bh(&ul->lock);
 	list_add_tail(&rt->rt6i_uncached, &ul->head);
 	spin_unlock_bh(&ul->lock);
@@ -706,7 +693,6 @@ static struct rt6_info *find_rr_leaf(struct fib6_node *fn,
 			break;
 		}
 
-<<<<<<< HEAD
 		match = find_match(rt, oif, strict, &mpri, match, do_rr);
 	}
 
@@ -719,20 +705,6 @@ static struct rt6_info *find_rr_leaf(struct fib6_node *fn,
 		match = find_match(rt, oif, strict, &mpri, match, do_rr);
 	}
 
-=======
-		match = find_match(rt, oif, strict, &mpri, match, do_rr);
-	}
-
-	for (rt = fn->leaf; rt && rt != rr_head; rt = rt->dst.rt6_next) {
-		if (rt->rt6i_metric != metric) {
-			cont = rt;
-			break;
-		}
-
-		match = find_match(rt, oif, strict, &mpri, match, do_rr);
-	}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (match || !cont)
 		return match;
 
@@ -1447,11 +1419,7 @@ void ip6_sk_update_pmtu(struct sk_buff *skb, struct sock *sk, __be32 mtu)
 	if (!oif && skb->dev)
 		oif = l3mdev_master_ifindex(skb->dev);
 
-<<<<<<< HEAD
 	ip6_update_pmtu(skb, sock_net(sk), mtu, oif, sk->sk_mark, sk->sk_uid);
-=======
-	ip6_update_pmtu(skb, sock_net(sk), mtu, oif, sk->sk_mark);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL_GPL(ip6_sk_update_pmtu);
 
@@ -1758,21 +1726,12 @@ static int ip6_convert_metrics(struct mx6_config *mxc,
 	nla_for_each_attr(nla, cfg->fc_mx, cfg->fc_mx_len, remaining) {
 		int type = nla_type(nla);
 		u32 val;
-<<<<<<< HEAD
 
 		if (!type)
 			continue;
 		if (unlikely(type > RTAX_MAX))
 			goto err;
 
-=======
-
-		if (!type)
-			continue;
-		if (unlikely(type > RTAX_MAX))
-			goto err;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (type == RTAX_CC_ALGO) {
 			char tmp[TCP_CA_NAME_MAX];
 
@@ -2358,11 +2317,7 @@ static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 		.fc_nlinfo.nl_net = dev_net(dev),
 	};
 
-<<<<<<< HEAD
 	cfg.fc_table = l3mdev_fib_table_by_index(dev_net(dev), dev->ifindex) ? : addrconf_rt_table(dev, RT6_TABLE_INFO);
-=======
-	cfg.fc_table = l3mdev_fib_table_by_index(net, ifindex) ? : RT6_TABLE_INFO;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	cfg.fc_dst = *prefix;
 	cfg.fc_gateway = *gwaddr;
 
@@ -2404,11 +2359,7 @@ struct rt6_info *rt6_add_dflt_router(const struct in6_addr *gwaddr,
 				     unsigned int pref)
 {
 	struct fib6_config cfg = {
-<<<<<<< HEAD
 		.fc_table	= l3mdev_fib_table(dev) ? : addrconf_rt_table(dev, RT6_TABLE_DFLT),
-=======
-		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		.fc_metric	= IP6_RT_PRIO_USER,
 		.fc_ifindex	= dev->ifindex,
 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
@@ -2761,10 +2712,7 @@ static const struct nla_policy rtm_ipv6_policy[RTA_MAX+1] = {
 	[RTA_PREF]              = { .type = NLA_U8 },
 	[RTA_ENCAP_TYPE]	= { .type = NLA_U16 },
 	[RTA_ENCAP]		= { .type = NLA_NESTED },
-<<<<<<< HEAD
 	[RTA_UID]		= { .type = NLA_U32 },
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	[RTA_TABLE]		= { .type = NLA_U32 },
 };
 

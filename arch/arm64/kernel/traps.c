@@ -33,10 +33,7 @@
 #include <linux/syscalls.h>
 
 #include <asm/atomic.h>
-<<<<<<< HEAD
 #include <asm/barrier.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/bug.h>
 #include <asm/debug-monitors.h>
 #include <asm/esr.h>
@@ -203,7 +200,6 @@ static void dump_backtrace(struct pt_regs *regs, struct task_struct *tsk)
 		unsigned long stack;
 		int ret;
 
-<<<<<<< HEAD
 		/* skip until specified stack frame */
 		if (!skip) {
 			dump_backtrace_entry(where);
@@ -236,16 +232,6 @@ static void dump_backtrace(struct pt_regs *regs, struct task_struct *tsk)
 			dump_mem("", "Exception stack", stack,
 				 stack + sizeof(struct pt_regs), false);
 		}
-=======
-		dump_backtrace_entry(where);
-		ret = unwind_frame(&frame);
-		if (ret < 0)
-			break;
-		stack = frame.sp;
-		if (in_exception_text(where))
-			dump_mem("", "Exception stack", stack,
-				 stack + sizeof(struct pt_regs), false);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	put_task_stack(tsk);
@@ -285,12 +271,6 @@ static int __die(const char *str, int err, struct pt_regs *regs)
 		 end_of_stack(tsk));
 
 	if (!user_mode(regs) || in_interrupt()) {
-<<<<<<< HEAD
-=======
-		dump_mem(KERN_EMERG, "Stack: ", regs->sp,
-			 THREAD_SIZE + (unsigned long)task_stack_page(tsk),
-			 compat_user_mode(regs));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		dump_backtrace(regs, tsk);
 		dump_instr(KERN_EMERG, regs);
 	}
@@ -304,7 +284,6 @@ static unsigned int die_nest_count;
 
 static unsigned long oops_begin(void)
 {
-<<<<<<< HEAD
 	int cpu;
 	unsigned long flags;
 
@@ -321,16 +300,6 @@ static unsigned long oops_begin(void)
 	}
 	die_nest_count++;
 	die_owner = cpu;
-=======
-	struct thread_info *thread = current_thread_info();
-	int ret;
-	unsigned long flags;
-
-	raw_spin_lock_irqsave(&die_lock, flags);
-
-	oops_enter();
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	console_verbose();
 	bust_spinlocks(1);
 	return flags;
@@ -344,28 +313,18 @@ static void oops_end(unsigned long flags, struct pt_regs *regs, int notify)
 	bust_spinlocks(0);
 	die_owner = -1;
 	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
-<<<<<<< HEAD
 	die_nest_count--;
 	if (!die_nest_count)
 		/* Nest count reaches zero, release the lock. */
 		arch_spin_unlock(&die_lock);
 	raw_local_irq_restore(flags);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	oops_exit();
 
 	if (in_interrupt())
 		panic("Fatal exception in interrupt");
 	if (panic_on_oops)
 		panic("Fatal exception");
-<<<<<<< HEAD
 	if (notify != NOTIFY_STOP)
-=======
-
-	raw_spin_unlock_irqrestore(&die_lock, flags);
-
-	if (ret != NOTIFY_STOP)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		do_exit(SIGSEGV);
 }
 
@@ -475,11 +434,8 @@ asmlinkage void __exception do_undefinstr(struct pt_regs *regs)
 	if (call_undef_hook(regs) == 0)
 		return;
 
-<<<<<<< HEAD
 	trace_undef_instr(regs, (void *)pc);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (unhandled_signal(current, SIGILL) && show_unhandled_signals_ratelimited()) {
 		pr_info("%s[%d]: undefined instruction: pc=%p\n",
 			current->comm, task_pid_nr(current), pc);
@@ -606,15 +562,12 @@ asmlinkage void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 	pr_crit("Bad mode in %s handler detected, code 0x%08x -- %s\n",
 		handler[reason], esr, esr_get_class_string(esr));
 
-<<<<<<< HEAD
 	if (esr >> ESR_ELx_EC_SHIFT == ESR_ELx_EC_SERROR) {
 		pr_crit("System error detected. ESR.ISS = %08x\n",
 			esr & 0xffffff);
 		arm64_check_cache_ecc(NULL);
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	local_irq_disable();
 	panic("bad mode");
 }
@@ -719,64 +672,6 @@ int __init early_brk64(unsigned long addr, unsigned int esr,
 	return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
 }
 
-<<<<<<< HEAD
-=======
-/* GENERIC_BUG traps */
-
-int is_valid_bugaddr(unsigned long addr)
-{
-	/*
-	 * bug_handler() only called for BRK #BUG_BRK_IMM.
-	 * So the answer is trivial -- any spurious instances with no
-	 * bug table entry will be rejected by report_bug() and passed
-	 * back to the debug-monitors code and handled as a fatal
-	 * unexpected debug exception.
-	 */
-	return 1;
-}
-
-static int bug_handler(struct pt_regs *regs, unsigned int esr)
-{
-	if (user_mode(regs))
-		return DBG_HOOK_ERROR;
-
-	switch (report_bug(regs->pc, regs)) {
-	case BUG_TRAP_TYPE_BUG:
-		die("Oops - BUG", regs, 0);
-		break;
-
-	case BUG_TRAP_TYPE_WARN:
-		/* Ideally, report_bug() should backtrace for us... but no. */
-		dump_backtrace(regs, NULL);
-		break;
-
-	default:
-		/* unknown/unrecognised bug trap type */
-		return DBG_HOOK_ERROR;
-	}
-
-	/* If thread survives, skip over the BUG instruction and continue: */
-	regs->pc += AARCH64_INSN_SIZE;	/* skip BRK and resume */
-	return DBG_HOOK_HANDLED;
-}
-
-static struct break_hook bug_break_hook = {
-	.esr_val = 0xf2000000 | BUG_BRK_IMM,
-	.esr_mask = 0xffffffff,
-	.fn = bug_handler,
-};
-
-/*
- * Initial handler for AArch64 BRK exceptions
- * This handler only used until debug_traps_init().
- */
-int __init early_brk64(unsigned long addr, unsigned int esr,
-		struct pt_regs *regs)
-{
-	return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* This registration must happen early, before debug_traps_init(). */
 void __init trap_init(void)
 {

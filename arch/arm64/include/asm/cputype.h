@@ -63,16 +63,11 @@
 	 MIDR_ARCHITECTURE_MASK | \
 	 MIDR_PARTNUM_MASK)
 
-<<<<<<< HEAD
 #define MIDR_CPU_MODEL(imp, partnum) \
-=======
-#define MIDR_CPU_PART(imp, partnum) \
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	(((imp)			<< MIDR_IMPLEMENTOR_SHIFT) | \
 	(0xf			<< MIDR_ARCHITECTURE_SHIFT) | \
 	((partnum)		<< MIDR_PARTNUM_SHIFT))
 
-<<<<<<< HEAD
 #define MIDR_CPU_MODEL_MASK (MIDR_IMPLEMENTOR_MASK | MIDR_PARTNUM_MASK | \
 			     MIDR_ARCHITECTURE_MASK)
 
@@ -121,23 +116,6 @@
 #ifndef __ASSEMBLY__
 
 #include <asm/sysreg.h>
-=======
-#define ARM_CPU_IMP_ARM			0x41
-#define ARM_CPU_IMP_APM			0x50
-#define ARM_CPU_IMP_CAVIUM		0x43
-
-#define ARM_CPU_PART_AEM_V8		0xD0F
-#define ARM_CPU_PART_FOUNDATION		0xD00
-#define ARM_CPU_PART_CORTEX_A57		0xD07
-#define ARM_CPU_PART_CORTEX_A53		0xD03
-#define ARM_CPU_PART_CORTEX_A55		0xD05
-
-#define APM_CPU_PART_POTENZA		0x000
-
-#define CAVIUM_CPU_PART_THUNDERX	0x0A1
-
-#define MIDR_CORTEX_A55 MIDR_CPU_PART(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A55)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define read_cpuid(reg) ({						\
 	u64 __val;							\
@@ -172,11 +150,7 @@ static inline unsigned int __attribute_const__ read_cpuid_part_number(void)
 
 static inline u32 __attribute_const__ read_cpuid_cachetype(void)
 {
-<<<<<<< HEAD
 	return read_cpuid(SYS_CTR_EL0);
-=======
-	return read_cpuid(CTR_EL0);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 #endif /* __ASSEMBLY__ */
 

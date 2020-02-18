@@ -1152,21 +1152,12 @@ const char *get_link(struct nameidata *nd)
 		if (nd->flags & LOOKUP_RCU) {
 			if (unlikely(unlazy_walk(nd, NULL, 0)))
 				return ERR_PTR(-ECHILD);
-<<<<<<< HEAD
 		}
 		res = inode->i_op->follow_link(dentry, &last->cookie);
 		if (IS_ERR_OR_NULL(res)) {
 			last->cookie = NULL;
 			return res;
 		}
-=======
-		}
-		res = inode->i_op->follow_link(dentry, &last->cookie);
-		if (IS_ERR_OR_NULL(res)) {
-			last->cookie = NULL;
-			return res;
-		}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	if (*res == '/') {
 		if (nd->flags & LOOKUP_RCU) {
@@ -1829,7 +1820,6 @@ static int pick_link(struct nameidata *nd, struct path *link,
 	if (!(nd->flags & LOOKUP_RCU)) {
 		if (link->mnt == nd->path.mnt)
 			mntget(link->mnt);
-<<<<<<< HEAD
 	}
 	error = nd_alloc_stack(nd);
 	if (unlikely(error)) {
@@ -1843,21 +1833,6 @@ static int pick_link(struct nameidata *nd, struct path *link,
 			return error;
 		}
 	}
-=======
-	}
-	error = nd_alloc_stack(nd);
-	if (unlikely(error)) {
-		if (error == -ECHILD) {
-			if (unlikely(unlazy_link(nd, link, seq)))
-				return -ECHILD;
-			error = nd_alloc_stack(nd);
-		}
-		if (error) {
-			path_put(link);
-			return error;
-		}
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	last = nd->stack + nd->depth++;
 	last->link = *link;
@@ -2181,11 +2156,7 @@ static const char *path_init(struct nameidata *nd, unsigned flags)
 		if (*s) {
 			if (!d_can_lookup(root))
 				return ERR_PTR(-ENOTDIR);
-<<<<<<< HEAD
 			retval = inode_permission2(mnt, inode, MAY_EXEC);
-=======
-			retval = inode_permission(inode, MAY_EXEC);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (retval)
 				return ERR_PTR(retval);
 		}
@@ -2319,7 +2290,6 @@ static int path_lookupat(struct nameidata *nd, unsigned flags, struct path *path
 	if (!err && nd->flags & LOOKUP_DIRECTORY)
 		if (!d_can_lookup(nd->path.dentry))
 			err = -ENOTDIR;
-<<<<<<< HEAD
 
 	if (!err) {
 		struct super_block *sb = nd->inode->i_sb;
@@ -2336,13 +2306,6 @@ static int path_lookupat(struct nameidata *nd, unsigned flags, struct path *path
 		nd->path.mnt = NULL;
 		nd->path.dentry = NULL;
 	}
-=======
-	if (!err) {
-		*path = nd->path;
-		nd->path.mnt = NULL;
-		nd->path.dentry = NULL;
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	terminate_walk(nd);
 	return err;
 }
@@ -2526,7 +2489,6 @@ EXPORT_SYMBOL(lookup_one_len2);
 
 struct dentry *lookup_one_len(const char *name, struct dentry *base, int len)
 {
-<<<<<<< HEAD
 	return lookup_one_len2(name, NULL, base, len);
 }
 EXPORT_SYMBOL(lookup_one_len);
@@ -2534,8 +2496,6 @@ EXPORT_SYMBOL(lookup_one_len);
 int user_path_at_empty(int dfd, const char __user *name, unsigned flags,
 		 struct path *path, int *empty)
 {
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return filename_lookup(dfd, getname_flags(name, flags, empty),
 			       flags, path, NULL);
 }
@@ -3480,11 +3440,7 @@ static int do_tmpfile(struct nameidata *nd, unsigned flags,
 		goto out;
 	dir = path.dentry->d_inode;
 	/* we want directory to be writable */
-<<<<<<< HEAD
 	error = inode_permission2(path.mnt, dir, MAY_WRITE | MAY_EXEC);
-=======
-	error = inode_permission(dir, MAY_WRITE | MAY_EXEC);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (error)
 		goto out2;
 	if (!dir->i_op->tmpfile) {
@@ -4001,11 +3957,7 @@ retry:
 	error = security_path_rmdir(&path, dentry);
 	if (error)
 		goto exit3;
-<<<<<<< HEAD
 	error = vfs_rmdir2(path.mnt, path.dentry->d_inode, dentry);
-=======
-	error = vfs_rmdir(path.dentry->d_inode, dentry);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 exit3:
 	dput(dentry);
 exit2:
@@ -4135,11 +4087,7 @@ retry_deleg:
 		error = security_path_unlink(&path, dentry);
 		if (error)
 			goto exit2;
-<<<<<<< HEAD
 		error = vfs_unlink2(path.mnt, path.dentry->d_inode, dentry, &delegated_inode);
-=======
-		error = vfs_unlink(path.dentry->d_inode, dentry, &delegated_inode);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 exit2:
 		dput(dentry);
 	}
@@ -4717,11 +4665,7 @@ retry_deleg:
 				     &new_path, new_dentry, flags);
 	if (error)
 		goto exit5;
-<<<<<<< HEAD
 	error = vfs_rename2(old_path.mnt, old_path.dentry->d_inode, old_dentry,
-=======
-	error = vfs_rename(old_path.dentry->d_inode, old_dentry,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			   new_path.dentry->d_inode, new_dentry,
 			   &delegated_inode, flags);
 exit5:

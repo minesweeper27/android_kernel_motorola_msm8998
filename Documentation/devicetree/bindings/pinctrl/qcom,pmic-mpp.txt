@@ -142,11 +142,7 @@ to specify in a pin configuration subnode:
 - qcom,dtest:
 	Usage: optional
 	Value type: <u32>
-<<<<<<< HEAD
 	Definition: Selects which dtest rail to be routed for digital output.
-=======
-	Definition: Selects which dtest rail to be routed in the various functions.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		    Valid values are 1-4
 
 - qcom,amux-route:

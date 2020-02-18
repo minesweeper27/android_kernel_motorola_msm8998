@@ -63,15 +63,12 @@ static const char *extcon_name[] =  {
 	[EXTCON_JACK_SPDIF_IN]		= "SPDIF-IN",
 	[EXTCON_JACK_SPDIF_OUT]		= "SPDIF-OUT",
 
-<<<<<<< HEAD
 	/* connector orientation 0 - CC1, 1 - CC2 */
 	[EXTCON_USB_CC]			= "USB-CC",
 
 	/* connector speed 0 - High Speed, 1 - Super Speed */
 	[EXTCON_USB_SPEED]		= "USB-SPEED",
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Display external connector */
 	[EXTCON_DISP_HDMI]		= "HDMI",
 	[EXTCON_DISP_MHL]		= "MHL",

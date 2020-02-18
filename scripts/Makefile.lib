@@ -127,7 +127,6 @@ ifeq ($(CONFIG_KASAN),y)
 _c_flags += $(if $(patsubst n%,, \
 		$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
-<<<<<<< HEAD
 endif
 
 ifeq ($(CONFIG_UBSAN),y)
@@ -140,8 +139,6 @@ ifeq ($(CONFIG_KCOV),y)
 _c_flags += $(if $(patsubst n%,, \
 	$(KCOV_INSTRUMENT_$(basetarget).o)$(KCOV_INSTRUMENT)y), \
 	$(CFLAGS_KCOV))
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif
 
 # If building the kernel in a separate objtree expand all occurrences

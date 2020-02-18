@@ -573,7 +573,6 @@ PE_TERM
 	struct parse_events_term *term;
 
 	ABORT_ON(parse_events_term__num(&term, (int)$1, NULL, 1, &@1, NULL));
-<<<<<<< HEAD
 	$$ = term;
 }
 |
@@ -583,8 +582,6 @@ PE_DRV_CFG_TERM
 
 	ABORT_ON(parse_events_term__str(&term, PARSE_EVENTS__TERM_TYPE_DRV_CFG,
                                        $1, $1, &@1, NULL));
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	$$ = term;
 }
 

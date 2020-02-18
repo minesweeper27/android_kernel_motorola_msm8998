@@ -399,10 +399,7 @@ retry:
 		goto out;
 
 	inode = d_backing_inode(path.dentry);
-<<<<<<< HEAD
 	mnt = path.mnt;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if ((mode & MAY_EXEC) && S_ISREG(inode->i_mode)) {
 		/*

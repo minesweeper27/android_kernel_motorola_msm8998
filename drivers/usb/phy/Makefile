@@ -23,13 +23,10 @@ obj-$(CONFIG_USB_GPIO_VBUS)		+= phy-gpio-vbus-usb.o
 obj-$(CONFIG_USB_ISP1301)		+= phy-isp1301.o
 obj-$(CONFIG_USB_MSM_OTG)		+= phy-msm-usb.o
 obj-$(CONFIG_USB_QCOM_8X16_PHY)	+= phy-qcom-8x16-usb.o
-<<<<<<< HEAD
 obj-$(CONFIG_USB_MSM_HSPHY)     	+= phy-msm-hsusb.o
 obj-$(CONFIG_USB_MSM_SSPHY)     	+= phy-msm-ssusb.o
 obj-$(CONFIG_USB_MSM_SSPHY_QMP)     	+= phy-msm-ssusb-qmp.o
 obj-$(CONFIG_MSM_QUSB_PHY)              += phy-msm-qusb.o phy-msm-qusb-v2.o
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 obj-$(CONFIG_USB_MV_OTG)		+= phy-mv-usb.o
 obj-$(CONFIG_USB_MXS_PHY)		+= phy-mxs-usb.o
 obj-$(CONFIG_USB_RCAR_PHY)		+= phy-rcar-usb.o

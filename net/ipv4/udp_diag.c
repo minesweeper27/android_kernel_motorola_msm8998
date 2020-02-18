@@ -246,12 +246,9 @@ static const struct inet_diag_handler udp_diag_handler = {
 	.idiag_get_info  = udp_diag_get_info,
 	.idiag_type	 = IPPROTO_UDP,
 	.idiag_info_size = 0,
-<<<<<<< HEAD
 #ifdef CONFIG_INET_DIAG_DESTROY
 	.destroy	 = udp_diag_destroy,
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static void udplite_diag_dump(struct sk_buff *skb, struct netlink_callback *cb,
@@ -273,12 +270,9 @@ static const struct inet_diag_handler udplite_diag_handler = {
 	.idiag_get_info  = udp_diag_get_info,
 	.idiag_type	 = IPPROTO_UDPLITE,
 	.idiag_info_size = 0,
-<<<<<<< HEAD
 #ifdef CONFIG_INET_DIAG_DESTROY
 	.destroy	 = udplite_diag_destroy,
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static int __init udp_diag_init(void)

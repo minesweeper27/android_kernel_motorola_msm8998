@@ -75,16 +75,10 @@ void __sync_icache_dcache(pte_t pte, unsigned long addr)
 {
 	struct page *page = pte_page(pte);
 
-<<<<<<< HEAD
 	if (!test_and_set_bit(PG_dcache_clean, &page->flags))
 		sync_icache_aliases(page_address(page),
 				    PAGE_SIZE << compound_order(page));
 	else if (icache_is_aivivt())
-=======
-	if (!test_and_set_bit(PG_dcache_clean, &page->flags)) {
-		__flush_dcache_area(page_address(page),
-				PAGE_SIZE << compound_order(page));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		__flush_icache_all();
 }
 
@@ -103,6 +97,7 @@ EXPORT_SYMBOL(flush_dcache_page);
 /*
  * Additional functions defined in assembly.
  */
+EXPORT_SYMBOL(flush_cache_all);
 EXPORT_SYMBOL(flush_icache_range);
 
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE

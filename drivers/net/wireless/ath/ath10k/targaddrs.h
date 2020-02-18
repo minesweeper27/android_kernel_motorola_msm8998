@@ -459,10 +459,7 @@ Fw Mode/SubMode Mask
 #define QCA99X0_BOARD_DATA_SZ	  12288
 #define QCA99X0_BOARD_EXT_DATA_SZ 0
 
-<<<<<<< HEAD
 #define QCA4019_BOARD_DATA_SZ	  12064
 #define QCA4019_BOARD_EXT_DATA_SZ 0
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* __TARGADDRS_H__ */

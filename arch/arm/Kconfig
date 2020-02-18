@@ -639,7 +639,6 @@ config ARCH_PXA
 	help
 	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
 
-<<<<<<< HEAD
 config ARCH_QCOM
 	bool "Qualcomm MSM (non-multiplatform)"
 	select ARCH_REQUIRE_GPIOLIB
@@ -667,8 +666,6 @@ config ARCH_QCOM
 	  stack and controls some vital subsystems
 	  (clock and power control, etc).
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config ARCH_RPC
 	bool "RiscPC"
 	depends on MMU
@@ -2233,11 +2230,7 @@ config ARCH_SUSPEND_POSSIBLE
 	def_bool y
 
 config ARM_CPU_SUSPEND
-<<<<<<< HEAD
 	def_bool PM_SLEEP || BL_SWITCHER || ARM_PSCI_FW
-=======
-	def_bool PM_SLEEP || BL_SWITCHER
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	depends on ARCH_SUSPEND_POSSIBLE
 
 config ARCH_HIBERNATION_POSSIBLE

@@ -35,10 +35,6 @@ module_param(oob_mode, byte, 0444);
 MODULE_PARM_DESC(oob_mode,
 		 " enable out of the box (OOB) mode in FW, for diagnostics and certification");
 
-bool debug_fw; /* = false; */
-module_param(debug_fw, bool, S_IRUGO);
-MODULE_PARM_DESC(debug_fw, " do not perform card reset. For FW debug");
-
 bool no_fw_recovery;
 module_param(no_fw_recovery, bool, 0644);
 MODULE_PARM_DESC(no_fw_recovery, " disable automatic FW error recovery");
@@ -110,11 +106,7 @@ module_param_cb(rx_ring_order, &ring_order_ops, &rx_ring_order, 0444);
 MODULE_PARM_DESC(rx_ring_order, " Rx ring order; size = 1 << order");
 module_param_cb(tx_ring_order, &ring_order_ops, &tx_ring_order, 0444);
 MODULE_PARM_DESC(tx_ring_order, " Tx ring order; size = 1 << order");
-<<<<<<< HEAD
 module_param_cb(bcast_ring_order, &ring_order_ops, &bcast_ring_order, 0444);
-=======
-module_param_cb(bcast_ring_order, &ring_order_ops, &bcast_ring_order, S_IRUGO);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 MODULE_PARM_DESC(bcast_ring_order, " Bcast ring order; size = 1 << order");
 
 #define RST_DELAY (20) /* msec, for loop in @wil_target_reset */
@@ -177,15 +169,9 @@ __acquires(&sta->tid_rx_lock) __releases(&sta->tid_rx_lock)
 	struct wil_sta_info *sta = &wil->sta[cid];
 
 	might_sleep();
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "disconnect_cid: CID %d, status %d\n",
 		     cid, sta->status);
 	/* inform upper/lower layers */
-=======
-	wil_dbg_misc(wil, "%s(CID %d, status %d)\n", __func__, cid,
-		     sta->status);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (sta->status != wil_sta_unused) {
 		if (!from_event) {
 			bool del_sta = (wdev->iftype == NL80211_IFTYPE_AP) ?
@@ -531,36 +517,6 @@ void wil_bcast_fini(struct wil6210_priv *wil)
 	wil_vring_fini_tx(wil, ri);
 }
 
-<<<<<<< HEAD
-=======
-static void wil_connect_worker(struct work_struct *work)
-{
-	int rc;
-	struct wil6210_priv *wil = container_of(work, struct wil6210_priv,
-						connect_worker);
-	struct net_device *ndev = wil_to_ndev(wil);
-
-	int cid = wil->pending_connect_cid;
-	int ringid = wil_find_free_vring(wil);
-
-	if (cid < 0) {
-		wil_err(wil, "No connection pending\n");
-		return;
-	}
-
-	wil_dbg_wmi(wil, "Configure for connection CID %d\n", cid);
-
-	rc = wil_vring_init_tx(wil, ringid, 1 << tx_ring_order, cid, 0);
-	wil->pending_connect_cid = -1;
-	if (rc == 0) {
-		wil->sta[cid].status = wil_sta_connected;
-		netif_tx_wake_all_queues(ndev);
-	} else {
-		wil_disconnect_cid(wil, cid, WLAN_REASON_UNSPECIFIED, true);
-	}
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int wil_priv_init(struct wil6210_priv *wil)
 {
 	uint i;
@@ -697,7 +653,6 @@ static inline void wil_release_cpu(struct wil6210_priv *wil)
 {
 	/* Start CPU */
 	wil_w(wil, RGF_USER_USER_CPU_0, 1);
-<<<<<<< HEAD
 }
 
 static void wil_set_oob_mode(struct wil6210_priv *wil, u8 mode)
@@ -719,8 +674,6 @@ static void wil_set_oob_mode(struct wil6210_priv *wil, u8 mode)
 	default:
 		wil_err(wil, "invalid oob_mode: %d\n", mode);
 	}
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int wil_target_reset(struct wil6210_priv *wil)
@@ -852,10 +805,7 @@ void wil_mbox_ring_le2cpus(struct wil6210_mbox_ring *r)
 static int wil_get_bl_info(struct wil6210_priv *wil)
 {
 	struct net_device *ndev = wil_to_ndev(wil);
-<<<<<<< HEAD
 	struct wiphy *wiphy = wil_to_wiphy(wil);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	union {
 		struct bl_dedicated_registers_v0 bl0;
 		struct bl_dedicated_registers_v1 bl1;
@@ -900,10 +850,7 @@ static int wil_get_bl_info(struct wil6210_priv *wil)
 	}
 
 	ether_addr_copy(ndev->perm_addr, mac);
-<<<<<<< HEAD
 	ether_addr_copy(wiphy->perm_addr, mac);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!is_valid_ether_addr(ndev->dev_addr))
 		ether_addr_copy(ndev->dev_addr, mac);
 
@@ -1053,24 +1000,9 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 		return 0;
 	}
 
-	WARN_ON(!mutex_is_locked(&wil->mutex));
-	WARN_ON(test_bit(wil_status_napi_en, wil->status));
-
-	if (debug_fw) {
-		static const u8 mac[ETH_ALEN] = {
-			0x00, 0xde, 0xad, 0x12, 0x34, 0x56,
-		};
-		struct net_device *ndev = wil_to_ndev(wil);
-
-		ether_addr_copy(ndev->perm_addr, mac);
-		ether_addr_copy(ndev->dev_addr, ndev->perm_addr);
-		return 0;
-	}
-
 	if (wil->hw_version == HW_VER_UNKNOWN)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	wil_dbg_misc(wil, "Prevent DS in BL & mark FW to set T_POWER_ON=0\n");
 	wil_s(wil, RGF_USER_USAGE_8, BIT_USER_PREVENT_DEEP_SLEEP |
 	      BIT_USER_SUPPORT_T_POWER_ON_0);
@@ -1083,8 +1015,6 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 				rc);
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	set_bit(wil_status_resetting, wil->status);
 
 	cancel_work_sync(&wil->disconnect_worker);
@@ -1111,10 +1041,7 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 	flush_workqueue(wil->wmi_wq);
 
 	wil_bl_crash_info(wil, false);
-<<<<<<< HEAD
 	wil_disable_irq(wil);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	rc = wil_target_reset(wil);
 	wil6210_clear_irq(wil);
 	wil_enable_irq(wil);
@@ -1145,22 +1072,7 @@ int wil_reset(struct wil6210_priv *wil, bool load_fw)
 		if (rc)
 			return rc;
 
-<<<<<<< HEAD
 		wil_pre_fw_config(wil);
-=======
-		/* Mark FW as loaded from host */
-		wil_s(wil, RGF_USER_USAGE_6, 1);
-
-		/* clear any interrupts which on-card-firmware
-		 * may have set
-		 */
-		wil6210_clear_irq(wil);
-		/* CAF_ICR - clear and mask */
-		/* it is W1C, clear by writing back same value */
-		wil_s(wil, RGF_CAF_ICR + offsetof(struct RGF_ICR, ICR), 0);
-		wil_w(wil, RGF_CAF_ICR + offsetof(struct RGF_ICR, IMV), ~0);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		wil_release_cpu(wil);
 	}
 

@@ -644,7 +644,6 @@ struct drm_encoder {
  * @audio_latency: audio latency info from ELD, if found
  * @null_edid_counter: track sinks that give us all zeros for the EDID
  * @bad_edid_counter: track sinks that give us an EDID with invalid checksum
-<<<<<<< HEAD
  * @max_tmds_char: indicates the maximum TMDS Character Rate supported
  * @scdc_present: when set the sink supports SCDC functionality
  * @rr_capable: when set the sink is capable of initiating an SCDC read request
@@ -662,8 +661,6 @@ struct drm_encoder {
  * @hdr_supported: does the sink support HDR content
  * @rgb_qs: does the sink declare RGB selectable quantization range
  * @yuv_qs: does the sink declare YCC selectable quantization range
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * @edid_corrupt: indicates whether the last read EDID was corrupt
  * @debugfs_entry: debugfs directory for this connector
  * @state: current atomic state for this connector
@@ -737,7 +734,6 @@ struct drm_connector {
 	int null_edid_counter; /* needed to workaround some HW bugs where we get all 0s */
 	unsigned bad_edid_counter;
 
-<<<<<<< HEAD
 	/* EDID bits HDMI 2.0 */
 	int max_tmds_char;	/* in Mcsc */
 	bool scdc_present;
@@ -756,8 +752,6 @@ struct drm_connector {
 	bool hdr_supported;
 	bool rgb_qs;
 	bool yuv_qs;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Flag for raw EDID header corruption - used in Displayport
 	 * compliance testing - * Displayport Link CTS Core 1.2 rev1.1 4.2.2.6
 	 */

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2014, 2016-2017 The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2014, The Linux Foundation. All rights reserved.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -28,10 +24,6 @@
 #include <linux/smp.h>
 #include <linux/sysfs.h>
 #include <linux/stat.h>
-<<<<<<< HEAD
-=======
-#include <linux/clk.h>
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/cpu.h>
 #include <linux/coresight.h>
 #include <linux/pm_wakeup.h>
@@ -49,27 +41,18 @@ module_param_named(boot_enable, boot_enable, int, S_IRUGO);
 /* The number of ETMv4 currently registered */
 static int etm4_count;
 static struct etmv4_drvdata *etmdrvdata[NR_CPUS];
-<<<<<<< HEAD
 static struct notifier_block etm4_cpu_notifier;
 static struct notifier_block etm4_cpu_dying_notifier;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static void etm4_os_unlock(void *info)
 {
 	struct etmv4_drvdata *drvdata = (struct etmv4_drvdata *)info;
 
-<<<<<<< HEAD
 	CS_UNLOCK(drvdata->base);
 	/* Writing any value to ETMOSLAR unlocks the trace registers */
 	writel_relaxed(0x0, drvdata->base + TRCOSLAR);
 	isb();
 	CS_LOCK(drvdata->base);
-=======
-	/* Writing any value to ETMOSLAR unlocks the trace registers */
-	writel_relaxed(0x0, drvdata->base + TRCOSLAR);
-	isb();
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static bool etm4_arch_supported(u8 arch)
@@ -87,29 +70,8 @@ static bool etm4_arch_supported(u8 arch)
 static int etm4_trace_id(struct coresight_device *csdev)
 {
 	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-<<<<<<< HEAD
 
 	return drvdata->trcid;
-=======
-	unsigned long flags;
-	int trace_id = -1;
-
-	if (!drvdata->enable)
-		return drvdata->trcid;
-
-	pm_runtime_get_sync(drvdata->dev);
-	spin_lock_irqsave(&drvdata->spinlock, flags);
-
-	CS_UNLOCK(drvdata->base);
-	trace_id = readl_relaxed(drvdata->base + TRCTRACEIDR);
-	trace_id &= ETM_TRACEID_MASK;
-	CS_LOCK(drvdata->base);
-
-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-	pm_runtime_put(drvdata->dev);
-
-	return trace_id;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void etm4_enable_hw(void *info)
@@ -119,11 +81,6 @@ static void etm4_enable_hw(void *info)
 
 	CS_UNLOCK(drvdata->base);
 
-<<<<<<< HEAD
-=======
-	etm4_os_unlock(drvdata);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* Disable the trace unit before programming trace registers */
 	writel_relaxed(0, drvdata->base + TRCPRGCTLR);
 
@@ -2240,7 +2197,6 @@ static struct attribute *coresight_etmv4_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 struct etmv4_reg {
 	void __iomem *addr;
 	u32 data;
@@ -2277,8 +2233,6 @@ static ssize_t name##_show(struct device *_dev,				\
 }									\
 static DEVICE_ATTR_RO(name)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define coresight_simple_func(name, offset)				\
 static ssize_t name##_show(struct device *_dev,				\
 			   struct device_attribute *attr, char *buf)	\
@@ -2289,7 +2243,6 @@ static ssize_t name##_show(struct device *_dev,				\
 }									\
 static DEVICE_ATTR_RO(name)
 
-<<<<<<< HEAD
 coresight_cross_read(trcoslsr, TRCOSLSR);
 coresight_cross_read(trcpdcr, TRCPDCR);
 coresight_cross_read(trcpdsr, TRCPDSR);
@@ -2301,19 +2254,6 @@ coresight_cross_read(trcpidr0, TRCPIDR0);
 coresight_cross_read(trcpidr1, TRCPIDR1);
 coresight_cross_read(trcpidr2, TRCPIDR2);
 coresight_cross_read(trcpidr3, TRCPIDR3);
-=======
-coresight_simple_func(trcoslsr, TRCOSLSR);
-coresight_simple_func(trcpdcr, TRCPDCR);
-coresight_simple_func(trcpdsr, TRCPDSR);
-coresight_simple_func(trclsr, TRCLSR);
-coresight_simple_func(trcauthstatus, TRCAUTHSTATUS);
-coresight_simple_func(trcdevid, TRCDEVID);
-coresight_simple_func(trcdevtype, TRCDEVTYPE);
-coresight_simple_func(trcpidr0, TRCPIDR0);
-coresight_simple_func(trcpidr1, TRCPIDR1);
-coresight_simple_func(trcpidr2, TRCPIDR2);
-coresight_simple_func(trcpidr3, TRCPIDR3);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct attribute *coresight_etmv4_mgmt_attrs[] = {
 	&dev_attr_trcoslsr.attr,
@@ -2330,7 +2270,6 @@ static struct attribute *coresight_etmv4_mgmt_attrs[] = {
 	NULL,
 };
 
-<<<<<<< HEAD
 coresight_cross_read(trcidr0, TRCIDR0);
 coresight_cross_read(trcidr1, TRCIDR1);
 coresight_cross_read(trcidr2, TRCIDR2);
@@ -2344,21 +2283,6 @@ coresight_cross_read(trcidr10, TRCIDR10);
 coresight_cross_read(trcidr11, TRCIDR11);
 coresight_cross_read(trcidr12, TRCIDR12);
 coresight_cross_read(trcidr13, TRCIDR13);
-=======
-coresight_simple_func(trcidr0, TRCIDR0);
-coresight_simple_func(trcidr1, TRCIDR1);
-coresight_simple_func(trcidr2, TRCIDR2);
-coresight_simple_func(trcidr3, TRCIDR3);
-coresight_simple_func(trcidr4, TRCIDR4);
-coresight_simple_func(trcidr5, TRCIDR5);
-/* trcidr[6,7] are reserved */
-coresight_simple_func(trcidr8, TRCIDR8);
-coresight_simple_func(trcidr9, TRCIDR9);
-coresight_simple_func(trcidr10, TRCIDR10);
-coresight_simple_func(trcidr11, TRCIDR11);
-coresight_simple_func(trcidr12, TRCIDR12);
-coresight_simple_func(trcidr13, TRCIDR13);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static struct attribute *coresight_etmv4_trcidr_attrs[] = {
 	&dev_attr_trcidr0.attr,
@@ -2590,11 +2514,6 @@ static void etm4_init_default_data(struct etmv4_drvdata *drvdata)
 	if (drvdata->nr_addr_cmp)
 		drvdata->vinst_ctrl |= BIT(9);
 
-<<<<<<< HEAD
-=======
-	/* no address range filtering for ViewInst */
-	drvdata->viiectlr = 0x0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* no start-stop filtering for ViewInst */
 	drvdata->vissctlr = 0x0;
 
@@ -2628,12 +2547,9 @@ static void etm4_init_default_data(struct etmv4_drvdata *drvdata)
 		drvdata->addr_val[1] = (unsigned long)_etext;
 		drvdata->addr_type[0] = ETM_ADDR_TYPE_RANGE;
 		drvdata->addr_type[1] = ETM_ADDR_TYPE_RANGE;
-<<<<<<< HEAD
 
 		/* address range filtering for ViewInst */
 		drvdata->viiectlr = 0x1;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	for (i = 0; i < drvdata->numcidc; i++) {
@@ -2650,7 +2566,6 @@ static void etm4_init_default_data(struct etmv4_drvdata *drvdata)
 	drvdata->vmid_mask1 = 0x0;
 
 	/*
-<<<<<<< HEAD
 	 * Start trace id from 0x1.
 	 */
 	drvdata->trcid = 0x1 + drvdata->cpu;
@@ -2738,30 +2653,19 @@ static int etm4_late_init(struct etmv4_drvdata *drvdata)
 err_coresight_register:
 	devm_kfree(dev, desc);
 	return ret;
-=======
-	 * A trace ID value of 0 is invalid, so let's start at some
-	 * random value that fits in 7 bits.  ETMv3.x has 0x10 so let's
-	 * start at 0x20.
-	 */
-	drvdata->trcid = 0x20 + drvdata->cpu;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int etm4_cpu_callback(struct notifier_block *nfb, unsigned long action,
 			    void *hcpu)
 {
 	unsigned int cpu = (unsigned long)hcpu;
-<<<<<<< HEAD
 	static bool clk_disable[NR_CPUS];
 	int ret;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!etmdrvdata[cpu])
 		goto out;
 
 	switch (action & (~CPU_TASKS_FROZEN)) {
-<<<<<<< HEAD
 	case CPU_UP_PREPARE:
 		if (!etmdrvdata[cpu]->os_unlock) {
 			ret = pm_runtime_get_sync(etmdrvdata[cpu]->dev);
@@ -2775,17 +2679,12 @@ static int etm4_cpu_callback(struct notifier_block *nfb, unsigned long action,
 		}
 		break;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case CPU_STARTING:
 		spin_lock(&etmdrvdata[cpu]->spinlock);
 		if (!etmdrvdata[cpu]->os_unlock) {
 			etm4_os_unlock(etmdrvdata[cpu]);
 			etmdrvdata[cpu]->os_unlock = true;
-<<<<<<< HEAD
 			etm4_init_arch_data(etmdrvdata[cpu]);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 
 		if (etmdrvdata[cpu]->enable)
@@ -2794,7 +2693,6 @@ static int etm4_cpu_callback(struct notifier_block *nfb, unsigned long action,
 		break;
 
 	case CPU_ONLINE:
-<<<<<<< HEAD
 		mutex_lock(&etmdrvdata[cpu]->mutex);
 		if (!etmdrvdata[cpu]->init) {
 			ret = etm4_late_init(etmdrvdata[cpu]);
@@ -2813,14 +2711,11 @@ static int etm4_cpu_callback(struct notifier_block *nfb, unsigned long action,
 			clk_disable[cpu] = false;
 		}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (etmdrvdata[cpu]->boot_enable &&
 			!etmdrvdata[cpu]->sticky_enable)
 			coresight_enable(etmdrvdata[cpu]->csdev);
 		break;
 
-<<<<<<< HEAD
 	case CPU_UP_CANCELED:
 		if (clk_disable[cpu]) {
 			pm_runtime_put(etmdrvdata[cpu]->dev);
@@ -2864,8 +2759,6 @@ static int etm4_cpu_dying_callback(struct notifier_block *nfb,
 		goto out;
 
 	switch (action & (~CPU_TASKS_FROZEN)) {
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case CPU_DYING:
 		spin_lock(&etmdrvdata[cpu]->spinlock);
 		if (etmdrvdata[cpu]->enable)
@@ -2877,14 +2770,9 @@ out:
 	return NOTIFY_OK;
 }
 
-<<<<<<< HEAD
 static struct notifier_block etm4_cpu_dying_notifier = {
 	.notifier_call = etm4_cpu_dying_callback,
 	.priority = 1,
-=======
-static struct notifier_block etm4_cpu_notifier = {
-	.notifier_call = etm4_cpu_callback,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static int etm4_probe(struct amba_device *adev, const struct amba_id *id)
@@ -2895,18 +2783,8 @@ static int etm4_probe(struct amba_device *adev, const struct amba_id *id)
 	struct coresight_platform_data *pdata = NULL;
 	struct etmv4_drvdata *drvdata;
 	struct resource *res = &adev->res;
-<<<<<<< HEAD
 	struct device_node *np = adev->dev.of_node;
 
-=======
-	struct coresight_desc *desc;
-	struct device_node *np = adev->dev.of_node;
-
-	desc = devm_kzalloc(dev, sizeof(*desc), GFP_KERNEL);
-	if (!desc)
-		return -ENOMEM;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
 	if (!drvdata)
 		return -ENOMEM;
@@ -2929,7 +2807,6 @@ static int etm4_probe(struct amba_device *adev, const struct amba_id *id)
 	drvdata->base = base;
 
 	spin_lock_init(&drvdata->spinlock);
-<<<<<<< HEAD
 	mutex_init(&drvdata->mutex);
 
 	drvdata->cpu = pdata ? pdata->cpu : -1;
@@ -2988,60 +2865,6 @@ err_late_init:
 	}
 	etmdrvdata[drvdata->cpu] = NULL;
 	dev_set_drvdata(dev, NULL);
-=======
-
-	drvdata->cpu = pdata ? pdata->cpu : 0;
-
-	get_online_cpus();
-	etmdrvdata[drvdata->cpu] = drvdata;
-
-	if (!smp_call_function_single(drvdata->cpu, etm4_os_unlock, drvdata, 1))
-		drvdata->os_unlock = true;
-
-	if (smp_call_function_single(drvdata->cpu,
-				etm4_init_arch_data,  drvdata, 1))
-		dev_err(dev, "ETM arch init failed\n");
-
-	if (!etm4_count++)
-		register_hotcpu_notifier(&etm4_cpu_notifier);
-
-	put_online_cpus();
-
-	if (etm4_arch_supported(drvdata->arch) == false) {
-		ret = -EINVAL;
-		goto err_arch_supported;
-	}
-	etm4_init_default_data(drvdata);
-
-	pm_runtime_put(&adev->dev);
-
-	desc->type = CORESIGHT_DEV_TYPE_SOURCE;
-	desc->subtype.source_subtype = CORESIGHT_DEV_SUBTYPE_SOURCE_PROC;
-	desc->ops = &etm4_cs_ops;
-	desc->pdata = pdata;
-	desc->dev = dev;
-	desc->groups = coresight_etmv4_groups;
-	drvdata->csdev = coresight_register(desc);
-	if (IS_ERR(drvdata->csdev)) {
-		ret = PTR_ERR(drvdata->csdev);
-		goto err_coresight_register;
-	}
-
-	dev_info(dev, "%s initialized\n", (char *)id->data);
-
-	if (boot_enable) {
-		coresight_enable(drvdata->csdev);
-		drvdata->boot_enable = true;
-	}
-
-	return 0;
-
-err_arch_supported:
-	pm_runtime_put(&adev->dev);
-err_coresight_register:
-	if (--etm4_count == 0)
-		unregister_hotcpu_notifier(&etm4_cpu_notifier);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }
 

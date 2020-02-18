@@ -909,10 +909,7 @@ add:
 			fn->fn_flags |= RTN_RTINFO;
 		}
 		nsiblings = iter->rt6i_nsiblings;
-<<<<<<< HEAD
 		iter->rt6i_node = NULL;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		fib6_purge_rt(iter, fn, info->nl_net);
 		if (fn->rr_ptr == iter)
 			fn->rr_ptr = NULL;
@@ -927,10 +924,7 @@ add:
 					break;
 				if (rt6_qualify_for_ecmp(iter)) {
 					*ins = iter->dst.rt6_next;
-<<<<<<< HEAD
 					iter->rt6i_node = NULL;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					fib6_purge_rt(iter, fn, info->nl_net);
 					if (fn->rr_ptr == iter)
 						fn->rr_ptr = NULL;

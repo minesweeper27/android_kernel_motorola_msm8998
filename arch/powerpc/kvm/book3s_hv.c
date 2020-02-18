@@ -1669,7 +1669,7 @@ static struct kvm_vcpu *kvmppc_core_vcpu_create_hv(struct kvm *kvm,
 	mutex_unlock(&kvm->lock);
 
 	if (!vcore)
-		goto uninit_vcpu;
+		goto free_vcpu;
 
 	spin_lock(&vcore->lock);
 	++vcore->num_threads;
@@ -1685,8 +1685,6 @@ static struct kvm_vcpu *kvmppc_core_vcpu_create_hv(struct kvm *kvm,
 
 	return vcpu;
 
-uninit_vcpu:
-	kvm_vcpu_uninit(vcpu);
 free_vcpu:
 	kmem_cache_free(kvm_vcpu_cache, vcpu);
 out:
@@ -1918,7 +1916,6 @@ static void init_vcore_lists(void)
 }
 
 static void kvmppc_vcore_preempt(struct kvmppc_vcore *vc)
-<<<<<<< HEAD
 {
 	struct preempted_vcore_list *lp = this_cpu_ptr(&preempted_vcores);
 
@@ -2009,98 +2006,6 @@ static void init_master_vcore(struct kvmppc_vcore *vc)
 }
 
 /*
-=======
-{
-	struct preempted_vcore_list *lp = this_cpu_ptr(&preempted_vcores);
-
-	vc->vcore_state = VCORE_PREEMPT;
-	vc->pcpu = smp_processor_id();
-	if (vc->num_threads < threads_per_subcore) {
-		spin_lock(&lp->lock);
-		list_add_tail(&vc->preempt_list, &lp->list);
-		spin_unlock(&lp->lock);
-	}
-
-	/* Start accumulating stolen time */
-	kvmppc_core_start_stolen(vc);
-}
-
-static void kvmppc_vcore_end_preempt(struct kvmppc_vcore *vc)
-{
-	struct preempted_vcore_list *lp;
-
-	kvmppc_core_end_stolen(vc);
-	if (!list_empty(&vc->preempt_list)) {
-		lp = &per_cpu(preempted_vcores, vc->pcpu);
-		spin_lock(&lp->lock);
-		list_del_init(&vc->preempt_list);
-		spin_unlock(&lp->lock);
-	}
-	vc->vcore_state = VCORE_INACTIVE;
-}
-
-/*
- * This stores information about the virtual cores currently
- * assigned to a physical core.
- */
-struct core_info {
-	int		n_subcores;
-	int		max_subcore_threads;
-	int		total_threads;
-	int		subcore_threads[MAX_SUBCORES];
-	struct kvm	*subcore_vm[MAX_SUBCORES];
-	struct list_head vcs[MAX_SUBCORES];
-};
-
-/*
- * This mapping means subcores 0 and 1 can use threads 0-3 and 4-7
- * respectively in 2-way micro-threading (split-core) mode.
- */
-static int subcore_thread_map[MAX_SUBCORES] = { 0, 4, 2, 6 };
-
-static void init_core_info(struct core_info *cip, struct kvmppc_vcore *vc)
-{
-	int sub;
-
-	memset(cip, 0, sizeof(*cip));
-	cip->n_subcores = 1;
-	cip->max_subcore_threads = vc->num_threads;
-	cip->total_threads = vc->num_threads;
-	cip->subcore_threads[0] = vc->num_threads;
-	cip->subcore_vm[0] = vc->kvm;
-	for (sub = 0; sub < MAX_SUBCORES; ++sub)
-		INIT_LIST_HEAD(&cip->vcs[sub]);
-	list_add_tail(&vc->preempt_list, &cip->vcs[0]);
-}
-
-static bool subcore_config_ok(int n_subcores, int n_threads)
-{
-	/* Can only dynamically split if unsplit to begin with */
-	if (n_subcores > 1 && threads_per_subcore < MAX_SMT_THREADS)
-		return false;
-	if (n_subcores > MAX_SUBCORES)
-		return false;
-	if (n_subcores > 1) {
-		if (!(dynamic_mt_modes & 2))
-			n_subcores = 4;
-		if (n_subcores > 2 && !(dynamic_mt_modes & 4))
-			return false;
-	}
-
-	return n_subcores * roundup_pow_of_two(n_threads) <= MAX_SMT_THREADS;
-}
-
-static void init_master_vcore(struct kvmppc_vcore *vc)
-{
-	vc->master_vcore = vc;
-	vc->entry_exit_map = 0;
-	vc->in_guest = 0;
-	vc->napping_threads = 0;
-	vc->conferring_threads = 0;
-}
-
-/*
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * See if the existing subcores can be split into 3 (or fewer) subcores
  * of at most two threads each, so we can fit in another vcore.  This
  * assumes there are at most two subcores and at most 6 threads in total.
@@ -2245,7 +2150,6 @@ static bool can_piggyback(struct kvmppc_vcore *pvc, struct core_info *cip,
 			  int target_threads)
 {
 	int sub;
-<<<<<<< HEAD
 
 	if (cip->total_threads + pvc->num_threads > target_threads)
 		return false;
@@ -2254,16 +2158,6 @@ static bool can_piggyback(struct kvmppc_vcore *pvc, struct core_info *cip,
 		    can_piggyback_subcore(pvc, cip, sub))
 			return true;
 
-=======
-
-	if (cip->total_threads + pvc->num_threads > target_threads)
-		return false;
-	for (sub = 0; sub < cip->n_subcores; ++sub)
-		if (cip->subcore_threads[sub] &&
-		    can_piggyback_subcore(pvc, cip, sub))
-			return true;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (can_dynamic_split(pvc, cip))
 		return true;
 

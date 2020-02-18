@@ -91,11 +91,6 @@ void clflush_cache_range(void *addr, unsigned int size);
 
 #define mmio_flush_range(addr, size) clflush_cache_range(addr, size)
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_DEBUG_RODATA
-void mark_rodata_ro(void);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern const int rodata_test_data;
 extern int kernel_set_to_readonly;
 void set_kernel_text_rw(void);

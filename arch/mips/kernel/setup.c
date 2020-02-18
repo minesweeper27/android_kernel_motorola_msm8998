@@ -426,7 +426,6 @@ static void __init bootmem_init(void)
 	 * memory regions that have been reserved through eg. DTB
 	 */
 	bootmap_size = bootmap_bytes(max_low_pfn - min_low_pfn);
-<<<<<<< HEAD
 
 	bootmap_valid = memory_region_available(PFN_PHYS(mapstart),
 						bootmap_size);
@@ -450,31 +449,6 @@ static void __init bootmem_init(void)
 		}
 	}
 
-=======
-
-	bootmap_valid = memory_region_available(PFN_PHYS(mapstart),
-						bootmap_size);
-	for (i = 0; i < boot_mem_map.nr_map && !bootmap_valid; i++) {
-		unsigned long mapstart_addr;
-
-		switch (boot_mem_map.map[i].type) {
-		case BOOT_MEM_RESERVED:
-			mapstart_addr = PFN_ALIGN(boot_mem_map.map[i].addr +
-						boot_mem_map.map[i].size);
-			if (PHYS_PFN(mapstart_addr) < mapstart)
-				break;
-
-			bootmap_valid = memory_region_available(mapstart_addr,
-								bootmap_size);
-			if (bootmap_valid)
-				mapstart = PHYS_PFN(mapstart_addr);
-			break;
-		default:
-			break;
-		}
-	}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (!bootmap_valid)
 		panic("No memory area to place a bootmap bitmap");
 

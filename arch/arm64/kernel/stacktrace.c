@@ -69,7 +69,6 @@ int notrace unwind_frame(struct task_struct *tsk, struct stackframe *frame)
 	frame->sp = fp + 0x10;
 	frame->fp = *(unsigned long *)(fp);
 	frame->pc = *(unsigned long *)(fp + 8);
-<<<<<<< HEAD
 
 	kasan_enable_current();
 
@@ -115,8 +114,6 @@ int notrace unwind_frame(struct task_struct *tsk, struct stackframe *frame)
 			return -EINVAL;
 		}
 	}
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

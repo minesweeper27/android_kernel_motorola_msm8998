@@ -38,17 +38,11 @@
 #include <asm/vdso.h>
 #include <asm/vdso_datapage.h>
 
-<<<<<<< HEAD
 struct vdso_mappings {
 	unsigned long num_code_pages;
 	struct vm_special_mapping data_mapping;
 	struct vm_special_mapping code_mapping;
 };
-=======
-extern char vdso_start[], vdso_end[];
-static unsigned long vdso_pages;
-static struct page **vdso_pagelist;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * The vDSO data page.
@@ -176,7 +170,6 @@ static int __init vdso_mappings_init(const char *name,
 	struct page **vdso_pagelist;
 	unsigned long pfn;
 
-<<<<<<< HEAD
 	if (memcmp(code_start, "\177ELF", 4)) {
 		pr_err("%s is not a valid ELF object!\n", name);
 		return -EINVAL;
@@ -195,20 +188,6 @@ static int __init vdso_mappings_init(const char *name,
 	 */
 	vdso_pagelist = kmalloc_array(vdso_pages + 1, sizeof(struct page *),
 				      GFP_KERNEL);
-=======
-	if (memcmp(vdso_start, "\177ELF", 4)) {
-		pr_err("vDSO is not a valid ELF object!\n");
-		return -EINVAL;
-	}
-
-	vdso_pages = (vdso_end - vdso_start) >> PAGE_SHIFT;
-	pr_info("vdso: %ld pages (%ld code @ %p, %ld data @ %p)\n",
-		vdso_pages + 1, vdso_pages, vdso_start, 1L, vdso_data);
-
-	/* Allocate the vDSO pagelist, plus a page for the data. */
-	vdso_pagelist = kcalloc(vdso_pages + 1, sizeof(struct page *),
-				GFP_KERNEL);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (vdso_pagelist == NULL)
 		return -ENOMEM;
 
@@ -219,11 +198,7 @@ static int __init vdso_mappings_init(const char *name,
 	pfn = sym_to_pfn(code_start);
 
 	for (i = 0; i < vdso_pages; i++)
-<<<<<<< HEAD
 		vdso_pagelist[i + 1] = pfn_to_page(pfn + i);
-=======
-		vdso_pagelist[i + 1] = virt_to_page(vdso_start + i * PAGE_SIZE);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Populate the special mapping structures */
 	mappings->data_mapping = (struct vm_special_mapping) {

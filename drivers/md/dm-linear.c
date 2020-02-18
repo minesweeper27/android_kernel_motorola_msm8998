@@ -120,11 +120,7 @@ void dm_linear_status(struct dm_target *ti, status_type_t type,
 }
 EXPORT_SYMBOL_GPL(dm_linear_status);
 
-<<<<<<< HEAD
 int dm_linear_prepare_ioctl(struct dm_target *ti,
-=======
-static int linear_prepare_ioctl(struct dm_target *ti,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		struct block_device **bdev, fmode_t *mode)
 {
 	struct linear_c *lc = (struct linear_c *) ti->private;
@@ -155,21 +151,12 @@ static struct target_type linear_target = {
 	.name   = "linear",
 	.version = {1, 2, 1},
 	.module = THIS_MODULE,
-<<<<<<< HEAD
 	.ctr    = dm_linear_ctr,
 	.dtr    = dm_linear_dtr,
 	.map    = dm_linear_map,
 	.status = dm_linear_status,
 	.prepare_ioctl  = dm_linear_prepare_ioctl,
 	.iterate_devices = dm_linear_iterate_devices,
-=======
-	.ctr    = linear_ctr,
-	.dtr    = linear_dtr,
-	.map    = linear_map,
-	.status = linear_status,
-	.prepare_ioctl = linear_prepare_ioctl,
-	.iterate_devices = linear_iterate_devices,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int __init dm_linear_init(void)

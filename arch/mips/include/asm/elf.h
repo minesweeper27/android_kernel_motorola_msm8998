@@ -305,11 +305,7 @@ do {									\
 									\
 	current->thread.abi = &mips_abi;				\
 									\
-<<<<<<< HEAD
 	mips_set_personality_nan(state);				\
-=======
-	current->thread.fpu.fcr31 = boot_cpu_data.fpu_csr31;		\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } while (0)
 
 #endif /* CONFIG_32BIT */
@@ -371,11 +367,7 @@ do {									\
 	else								\
 		current->thread.abi = &mips_abi;			\
 									\
-<<<<<<< HEAD
 	mips_set_personality_nan(state);				\
-=======
-	current->thread.fpu.fcr31 = boot_cpu_data.fpu_csr31;		\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 									\
 	p = personality(current->personality);				\
 	if (p != PER_LINUX32 && p != PER_LINUX)				\

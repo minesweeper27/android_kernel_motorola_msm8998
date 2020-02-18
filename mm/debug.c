@@ -59,12 +59,9 @@ static const struct trace_print_flags pageflag_names[] = {
 	{1UL << PG_young,		"young"		},
 	{1UL << PG_idle,		"idle"		},
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_ZCACHE
 	{1UL << PG_was_active,		"was_active"	},
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static void dump_flags(unsigned long flags,

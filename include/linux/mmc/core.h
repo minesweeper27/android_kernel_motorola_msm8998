@@ -162,17 +162,12 @@ extern int mmc_wait_for_cmd(struct mmc_host *, struct mmc_command *, int);
 extern int mmc_app_cmd(struct mmc_host *, struct mmc_card *);
 extern int mmc_wait_for_app_cmd(struct mmc_host *, struct mmc_card *,
 	struct mmc_command *, int);
-<<<<<<< HEAD
 extern void mmc_check_bkops(struct mmc_card *card);
 extern void mmc_start_manual_bkops(struct mmc_card *card);
 extern int mmc_switch(struct mmc_card *, u8, u8, u8, unsigned int);
 extern int __mmc_switch_cmdq_mode(struct mmc_command *cmd, u8 set, u8 index,
 				  u8 value, unsigned int timeout_ms,
 				  bool use_busy_signal, bool ignore_timeout);
-=======
-extern void mmc_start_bkops(struct mmc_card *card, bool from_exception);
-extern int mmc_switch(struct mmc_card *, u8, u8, u8, unsigned int);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int mmc_send_tuning(struct mmc_host *host, u32 opcode, int *cmd_error);
 extern int mmc_get_ext_csd(struct mmc_card *card, u8 **new_ext_csd);
 extern int mmc_set_auto_bkops(struct mmc_card *card, bool enable);

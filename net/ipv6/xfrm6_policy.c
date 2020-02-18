@@ -37,14 +37,9 @@ static struct dst_entry *xfrm6_dst_lookup(struct net *net, int tos, int oif,
 	int err;
 
 	memset(&fl6, 0, sizeof(fl6));
-<<<<<<< HEAD
 	fl6.flowi6_oif = l3mdev_master_ifindex_by_index(net, oif);
 	fl6.flowi6_flags = FLOWI_FLAG_SKIP_NH_OIF;
 	fl6.flowi6_mark = mark;
-=======
-	fl6.flowi6_oif = oif;
-	fl6.flowi6_flags = FLOWI_FLAG_SKIP_NH_OIF;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	memcpy(&fl6.daddr, daddr, sizeof(fl6.daddr));
 	if (saddr)
 		memcpy(&fl6.saddr, saddr, sizeof(fl6.saddr));
@@ -61,21 +56,13 @@ static struct dst_entry *xfrm6_dst_lookup(struct net *net, int tos, int oif,
 }
 
 static int xfrm6_get_saddr(struct net *net, int oif,
-<<<<<<< HEAD
 			   xfrm_address_t *saddr, xfrm_address_t *daddr,
 			   u32 mark)
-=======
-			   xfrm_address_t *saddr, xfrm_address_t *daddr)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct dst_entry *dst;
 	struct net_device *dev;
 
-<<<<<<< HEAD
 	dst = xfrm6_dst_lookup(net, 0, oif, NULL, daddr, mark);
-=======
-	dst = xfrm6_dst_lookup(net, 0, oif, NULL, daddr);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (IS_ERR(dst))
 		return -EHOSTUNREACH;
 

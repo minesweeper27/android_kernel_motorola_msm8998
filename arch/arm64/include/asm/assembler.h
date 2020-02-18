@@ -23,13 +23,10 @@
 #ifndef __ASM_ASSEMBLER_H
 #define __ASM_ASSEMBLER_H
 
-<<<<<<< HEAD
 #include <asm/asm-offsets.h>
 #include <asm/cpufeature.h>
 #include <asm/page.h>
 #include <asm/pgtable-hwdef.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/cputype.h>
 #include <asm/ptrace.h>
 #include <asm/thread_info.h>
@@ -64,6 +61,18 @@
 
 	.macro	restore_irq, flags
 	msr	daif, \flags
+	.endm
+
+/*
+ * Save/disable and restore interrupts.
+ */
+	.macro	save_and_disable_irqs, olddaif
+	mrs	\olddaif, daif
+	disable_irq
+	.endm
+
+	.macro	restore_irqs, olddaif
+	msr	daif, \olddaif
 	.endm
 
 /*
@@ -109,7 +118,6 @@
  */
 	.macro	smp_dmb, opt
 	dmb	\opt
-<<<<<<< HEAD
 	.endm
 
 /*
@@ -129,8 +137,6 @@
 	.align		3
 	.long		(\from - .), (\to - .)
 	.popsection
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 #define USER(l, x...)				\
@@ -229,7 +235,6 @@ lr	.req	x30		// link register
 	str	\src, [\tmp, :lo12:\sym]
 	.endm
 
-<<<<<<< HEAD
 	/*
 	 * @dst: Result of per_cpu(sym, smp_processor_id())
 	 * @sym: The name of the per-cpu variable
@@ -357,8 +362,6 @@ alternative_endif
 	b.ne	9998b
 	.endm
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Annotate a function as position independent, i.e., safe to be called before
  * the kernel virtual mapping is activated.
@@ -371,7 +374,6 @@ alternative_endif
 	ENDPROC(x)
 
 	/*
-<<<<<<< HEAD
 	 * Emit a 64-bit absolute little endian symbol reference in a way that
 	 * ensures that it will be resolved at build time, even when building a
 	 * PIE binary. This requires cooperation from the linker script, which
@@ -383,8 +385,6 @@ alternative_endif
 	.endm
 
 	/*
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	 * mov_q - move an immediate constant into a 64-bit register using
 	 *         between 2 and 4 movz/movk instructions (depending on the
 	 *         magnitude and sign of the operand)
@@ -405,7 +405,6 @@ alternative_endif
 	.endm
 
 /*
-<<<<<<< HEAD
  * Return the current thread_info.
  */
 	.macro	get_thread_info, rd
@@ -413,8 +412,6 @@ alternative_endif
 	.endm
 
 /*
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * Check the MIDR_EL1 of the current CPU for a given model and a range of
  * variant/revision. See asm/cputype.h for the macros used below.
  *

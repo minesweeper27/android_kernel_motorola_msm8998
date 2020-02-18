@@ -2923,7 +2923,6 @@ static int dvb_dmxdev_ts_event_cb(struct dmx_ts_feed *feed,
 		return 0;
 	}
 
-<<<<<<< HEAD
 	if (dmx_data_ready->status == DMX_OK_MARKER) {
 		pr_debug("dmxdev: DMX_OK_MARKER - id=%llu\n",
 			dmx_data_ready->marker.id);
@@ -2934,14 +2933,6 @@ static int dvb_dmxdev_ts_event_cb(struct dmx_ts_feed *feed,
 		wake_up_all(&buffer->queue);
 		return 0;
 	}
-=======
-static int dvb_dmxdev_section_callback(const u8 *buffer1, size_t buffer1_len,
-				       const u8 *buffer2, size_t buffer2_len,
-				       struct dmx_section_filter *filter)
-{
-	struct dmxdev_filter *dmxdevfilter = filter->priv;
-	int ret;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (dmx_data_ready->status == DMX_OK_PCR) {
 		pr_debug("dmxdev: event callback DMX_OK_PCR\n");
@@ -2981,7 +2972,6 @@ static int dvb_dmxdev_section_callback(const u8 *buffer1, size_t buffer1_len,
 		return 0;
 	}
 
-<<<<<<< HEAD
 	if (dmx_data_ready->status == DMX_OK_DECODER_BUF) {
 		event.type = DMX_EVENT_NEW_ES_DATA;
 		event.params.es_data.buf_handle = dmx_data_ready->buf.handle;
@@ -3006,15 +2996,6 @@ static int dvb_dmxdev_section_callback(const u8 *buffer1, size_t buffer1_len,
 		wake_up_all(&buffer->queue);
 		return 0;
 	}
-=======
-static int dvb_dmxdev_ts_callback(const u8 *buffer1, size_t buffer1_len,
-				  const u8 *buffer2, size_t buffer2_len,
-				  struct dmx_ts_feed *feed)
-{
-	struct dmxdev_filter *dmxdevfilter = feed->priv;
-	struct dvb_ringbuffer *buffer;
-	int ret;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (dmxdevfilter->params.pes.output == DMX_OUT_DECODER) {
 		spin_unlock(&dmxdevfilter->dev->lock);
@@ -4226,9 +4207,6 @@ static int dvb_demux_do_ioctl(struct file *file,
 		dmxdev->demux->get_pes_pids(dmxdev->demux, parg);
 		break;
 
-#if 0
-	/* Not used upstream and never documented */
-
 	case DMX_GET_CAPS:
 		if (!dmxdev->demux->get_caps) {
 			ret = -EINVAL;
@@ -4297,7 +4275,6 @@ static int dvb_demux_do_ioctl(struct file *file,
 		ret = dvb_dmxdev_get_event(dmxdevfilter, parg);
 		mutex_unlock(&dmxdevfilter->mutex);
 		break;
-#endif
 
 	case DMX_GET_STC:
 		if (!dmxdev->demux->get_stc) {
@@ -4428,13 +4405,9 @@ static int dvb_demux_do_ioctl(struct file *file,
 		break;
 
 	default:
-<<<<<<< HEAD
 		pr_err("%s: unknown ioctl code (0x%x)\n",
 			__func__, cmd);
 		ret = -ENOIOCTLCMD;
-=======
-		ret = -ENOTTY;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		break;
 	}
 	mutex_unlock(&dmxdev->mutex);

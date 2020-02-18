@@ -31,10 +31,7 @@
 #include <linux/vmalloc.h>
 #include <linux/security.h>
 #include <linux/backing-dev.h>
-<<<<<<< HEAD
 #include <linux/compaction.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/syscalls.h>
 #include <linux/hugetlb.h>
 #include <linux/hugetlb_cgroup.h>
@@ -42,10 +39,7 @@
 #include <linux/balloon_compaction.h>
 #include <linux/mmu_notifier.h>
 #include <linux/page_idle.h>
-<<<<<<< HEAD
 #include <linux/page_owner.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/ptrace.h>
 
 #include <asm/tlbflush.h>
@@ -849,12 +843,8 @@ static int move_to_new_page(struct page *newpage, struct page *page,
 				enum migrate_mode mode)
 {
 	struct address_space *mapping;
-<<<<<<< HEAD
 	int rc = -EAGAIN;
 	bool is_lru = !__PageMovable(page);
-=======
-	int rc;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	VM_BUG_ON_PAGE(!PageLocked(page), page);
 	VM_BUG_ON_PAGE(!PageLocked(newpage), newpage);
@@ -882,7 +872,6 @@ static int move_to_new_page(struct page *newpage, struct page *page,
 		 * In case of non-lru page, it could be released after
 		 * isolation step. In that case, we shouldn't try migration.
 		 */
-<<<<<<< HEAD
 		VM_BUG_ON_PAGE(!PageIsolated(page), page);
 		if (!PageMovable(page)) {
 			rc = MIGRATEPAGE_SUCCESS;
@@ -921,21 +910,6 @@ static int move_to_new_page(struct page *newpage, struct page *page,
 			page->mapping = NULL;
 	}
 out:
-=======
-		rc = mapping->a_ops->migratepage(mapping, newpage, page, mode);
-	else
-		rc = fallback_migrate_page(mapping, newpage, page, mode);
-
-	/*
-	 * When successful, old pagecache page->mapping must be cleared before
-	 * page is freed; but stats require that PageAnon be left as PageAnon.
-	 */
-	if (rc == MIGRATEPAGE_SUCCESS) {
-		set_page_memcg(page, NULL);
-		if (!PageAnon(page))
-			page->mapping = NULL;
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return rc;
 }
 
@@ -1002,7 +976,6 @@ static int __unmap_and_move(struct page *page, struct page *newpage,
 	 */
 	if (PageAnon(page) && !PageKsm(page))
 		anon_vma = page_get_anon_vma(page);
-<<<<<<< HEAD
 
 	/*
 	 * Block others from accessing the new page when we get around to
@@ -1017,29 +990,6 @@ static int __unmap_and_move(struct page *page, struct page *newpage,
 
 	if (unlikely(!is_lru)) {
 		rc = move_to_new_page(newpage, page, mode);
-=======
-
-	/*
-	 * Block others from accessing the new page when we get around to
-	 * establishing additional references. We are usually the only one
-	 * holding a reference to newpage at this point. We used to have a BUG
-	 * here if trylock_page(newpage) fails, but would like to allow for
-	 * cases where there might be a race with the previous use of newpage.
-	 * This is much like races on refcount of oldpage: just don't BUG().
-	 */
-	if (unlikely(!trylock_page(newpage)))
-		goto out_unlock;
-
-	if (unlikely(isolated_balloon_page(page))) {
-		/*
-		 * A ballooned page does not need any special attention from
-		 * physical to virtual reverse mapping procedures.
-		 * Skip any attempt to unmap PTEs or to remap swap cache,
-		 * in order to avoid burning cycles at rmap level, and perform
-		 * the page migration right away (proteced by page lock).
-		 */
-		rc = balloon_page_migrate(newpage, page, mode);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto out_unlock_both;
 	}
 
@@ -1124,10 +1074,6 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
 	int rc = MIGRATEPAGE_SUCCESS;
 	int *result = NULL;
 	struct page *newpage;
-<<<<<<< HEAD
-=======
-	bool is_lru = !isolated_balloon_page(page);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	newpage = get_new_page(page, private, &result);
 	if (!newpage)
@@ -1155,14 +1101,9 @@ static ICE_noinline int unmap_and_move(new_page_t get_new_page,
 			goto out;
 
 	rc = __unmap_and_move(page, newpage, force, mode);
-<<<<<<< HEAD
 	if (rc == MIGRATEPAGE_SUCCESS) {
 		set_page_owner_migrate_reason(newpage, reason);
 	}
-=======
-	if (rc == MIGRATEPAGE_SUCCESS)
-		put_new_page = NULL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 out:
 	if (rc != -EAGAIN) {
@@ -1175,7 +1116,6 @@ out:
 		list_del(&page->lru);
 		dec_zone_page_state(page, NR_ISOLATED_ANON +
 				page_is_file_cache(page));
-<<<<<<< HEAD
 	}
 
 	/*
@@ -1215,37 +1155,6 @@ put_new:
 		else
 			put_page(newpage);
 	}
-=======
-		/* Soft-offlined page shouldn't go through lru cache list */
-		if (reason == MR_MEMORY_FAILURE && rc == MIGRATEPAGE_SUCCESS) {
-			/*
-			 * With this release, we free successfully migrated
-			 * page and set PG_HWPoison on just freed page
-			 * intentionally. Although it's rather weird, it's how
-			 * HWPoison flag works at the moment.
-			 */
-			put_page(page);
-			if (!test_set_page_hwpoison(page))
-				num_poisoned_pages_inc();
-		} else
-			putback_lru_page(page);
-	}
-
-	/*
-	 * If migration was not successful and there's a freeing callback, use
-	 * it.  Otherwise, putback_lru_page() will drop the reference grabbed
-	 * during isolation. Use the old state of the isolated source page to
-	 * determine if we migrated a LRU page. newpage was already unlocked
-	 * and possibly modified by its owner - don't rely on the page state.
-	 */
-	if (put_new_page)
-		put_new_page(newpage, private);
-	else if (rc == MIGRATEPAGE_SUCCESS && unlikely(!is_lru)) {
-		/* drop our reference, page already in the balloon */
-		put_page(newpage);
-	} else
-		putback_lru_page(newpage);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (result) {
 		if (rc)
@@ -1331,7 +1240,6 @@ static int unmap_and_move_huge_page(new_page_t get_new_page,
 
 	if (!page_mapped(hpage))
 		rc = move_to_new_page(new_hpage, hpage, mode);
-<<<<<<< HEAD
 
 	if (page_was_mapped)
 		remove_migration_ptes(hpage,
@@ -1339,15 +1247,6 @@ static int unmap_and_move_huge_page(new_page_t get_new_page,
 
 	unlock_page(new_hpage);
 
-=======
-
-	if (page_was_mapped)
-		remove_migration_ptes(hpage,
-			rc == MIGRATEPAGE_SUCCESS ? new_hpage : hpage);
-
-	unlock_page(new_hpage);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 put_anon:
 	if (anon_vma)
 		put_anon_vma(anon_vma);
@@ -1355,10 +1254,7 @@ put_anon:
 	if (rc == MIGRATEPAGE_SUCCESS) {
 		hugetlb_cgroup_migrate(hpage, new_hpage);
 		put_new_page = NULL;
-<<<<<<< HEAD
 		set_page_owner_migrate_reason(new_hpage, reason);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 out_unlock:

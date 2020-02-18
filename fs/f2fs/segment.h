@@ -17,8 +17,6 @@
 
 #define F2FS_MIN_SEGMENTS	9 /* SB + 2 (CP + SIT + NAT) + SSA + MAIN */
 
-#define F2FS_MIN_SEGMENTS	9 /* SB + 2 (CP + SIT + NAT) + SSA + MAIN */
-
 /* L: Logical segment # in volume, R: Relative segment # in main area */
 #define GET_L2R_SEGNO(free_i, segno)	((segno) - (free_i)->start_segno)
 #define GET_R2L_SEGNO(free_i, segno)	((segno) + (free_i)->start_segno)
@@ -39,7 +37,6 @@
 	 ((seg) == CURSEG_I(sbi, CURSEG_COLD_NODE)->segno))
 
 #define IS_CURSEC(sbi, secno)						\
-<<<<<<< HEAD
 	(((secno) == CURSEG_I(sbi, CURSEG_HOT_DATA)->segno /		\
 	  (sbi)->segs_per_sec) ||	\
 	 ((secno) == CURSEG_I(sbi, CURSEG_WARM_DATA)->segno /		\
@@ -52,20 +49,6 @@
 	  (sbi)->segs_per_sec) ||	\
 	 ((secno) == CURSEG_I(sbi, CURSEG_COLD_NODE)->segno /		\
 	  (sbi)->segs_per_sec))	\
-=======
-	((secno == CURSEG_I(sbi, CURSEG_HOT_DATA)->segno /		\
-	  sbi->segs_per_sec) ||	\
-	 (secno == CURSEG_I(sbi, CURSEG_WARM_DATA)->segno /		\
-	  sbi->segs_per_sec) ||	\
-	 (secno == CURSEG_I(sbi, CURSEG_COLD_DATA)->segno /		\
-	  sbi->segs_per_sec) ||	\
-	 (secno == CURSEG_I(sbi, CURSEG_HOT_NODE)->segno /		\
-	  sbi->segs_per_sec) ||	\
-	 (secno == CURSEG_I(sbi, CURSEG_WARM_NODE)->segno /		\
-	  sbi->segs_per_sec) ||	\
-	 (secno == CURSEG_I(sbi, CURSEG_COLD_NODE)->segno /		\
-	  sbi->segs_per_sec))	\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define MAIN_BLKADDR(sbi)						\
 	(SM_I(sbi) ? SM_I(sbi)->main_blkaddr : 				\
@@ -80,11 +63,7 @@
 #define TOTAL_SEGS(sbi)							\
 	(SM_I(sbi) ? SM_I(sbi)->segment_count : 				\
 		le32_to_cpu(F2FS_RAW_SUPER(sbi)->segment_count))
-<<<<<<< HEAD
 #define TOTAL_BLKS(sbi)	(TOTAL_SEGS(sbi) << (sbi)->log_blocks_per_seg)
-=======
-#define TOTAL_BLKS(sbi)	(TOTAL_SEGS(sbi) << sbi->log_blocks_per_seg)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define MAX_BLKADDR(sbi)	(SEG0_BLKADDR(sbi) + TOTAL_BLKS(sbi))
 #define SEGMENT_SIZE(sbi)	(1ULL << ((sbi)->log_blocksize +	\
@@ -103,11 +82,7 @@
 	(GET_SEGOFF_FROM_SEG0(sbi, blk_addr) & ((sbi)->blocks_per_seg - 1))
 
 #define GET_SEGNO(sbi, blk_addr)					\
-<<<<<<< HEAD
 	((!__is_valid_data_blkaddr(blk_addr)) ?			\
-=======
-	((!is_valid_data_blkaddr(sbi, blk_addr)) ?			\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	NULL_SEGNO : GET_L2R_SEGNO(FREE_I(sbi),			\
 		GET_SEGNO_FROM_SEG0(sbi, blk_addr)))
 #define BLKS_PER_SEC(sbi)					\
@@ -212,15 +187,8 @@ struct seg_entry {
 	 * # of valid blocks and the validity bitmap stored in the the last
 	 * checkpoint pack. This information is used by the SSR mode.
 	 */
-<<<<<<< HEAD
 	unsigned char *ckpt_valid_map;	/* validity bitmap of blocks last cp */
 	unsigned char *discard_map;
-=======
-	unsigned short ckpt_valid_blocks;
-	unsigned char *ckpt_valid_map;
-	unsigned char *discard_map;
-	unsigned char type;		/* segment type like CURSEG_XXX_TYPE */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	unsigned long long mtime;	/* modification time of the segment */
 };
 
@@ -236,7 +204,6 @@ struct segment_allocation {
  * this value is set in page as a private data which indicate that
  * the page is atomically written, and it is in inmem_pages list.
  */
-<<<<<<< HEAD
 #define ATOMIC_WRITTEN_PAGE		((unsigned long)-1)
 #define DUMMY_WRITTEN_PAGE		((unsigned long)-2)
 
@@ -246,12 +213,6 @@ struct segment_allocation {
 		(page_private(page) == (unsigned long)DUMMY_WRITTEN_PAGE)
 
 #define MAX_SKIP_GC_COUNT			16
-=======
-#define ATOMIC_WRITTEN_PAGE		0x0000ffff
-
-#define IS_ATOMIC_WRITTEN_PAGE(page)			\
-		(page_private(page) == (unsigned long)ATOMIC_WRITTEN_PAGE)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 struct inmem_pages {
 	struct list_head list;
@@ -695,7 +656,6 @@ static inline void check_seg_range(struct f2fs_sb_info *sbi, unsigned int segno)
 	f2fs_bug_on(sbi, segno > TOTAL_SEGS(sbi) - 1);
 }
 
-<<<<<<< HEAD
 static inline void verify_fio_blkaddr(struct f2fs_io_info *fio)
 {
 	struct f2fs_sb_info *sbi = fio->sbi;
@@ -705,16 +665,6 @@ static inline void verify_fio_blkaddr(struct f2fs_io_info *fio)
 					META_GENERIC : DATA_GENERIC);
 	verify_blkaddr(sbi, fio->new_blkaddr, __is_meta_io(fio) ?
 					META_GENERIC : DATA_GENERIC_ENHANCE);
-=======
-static inline void verify_block_addr(struct f2fs_io_info *fio, block_t blk_addr)
-{
-	struct f2fs_sb_info *sbi = fio->sbi;
-
-	if (__is_meta_io(fio))
-		verify_blkaddr(sbi, blk_addr, META_GENERIC);
-	else
-		verify_blkaddr(sbi, blk_addr, DATA_GENERIC);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*
@@ -743,35 +693,19 @@ static inline int check_block_count(struct f2fs_sb_info *sbi,
 	} while (cur_pos < sbi->blocks_per_seg);
 
 	if (unlikely(GET_SIT_VBLOCKS(raw_sit) != valid_blocks)) {
-<<<<<<< HEAD
 		f2fs_err(sbi, "Mismatch valid blocks %d vs. %d",
 			 GET_SIT_VBLOCKS(raw_sit), valid_blocks);
 		set_sbi_flag(sbi, SBI_NEED_FSCK);
 		return -EFSCORRUPTED;
-=======
-		f2fs_msg(sbi->sb, KERN_ERR,
-				"Mismatch valid blocks %d vs. %d",
-					GET_SIT_VBLOCKS(raw_sit), valid_blocks);
-		set_sbi_flag(sbi, SBI_NEED_FSCK);
-		return -EINVAL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/* check segment usage, and check boundary of a given segment number */
 	if (unlikely(GET_SIT_VBLOCKS(raw_sit) > sbi->blocks_per_seg
 					|| segno > TOTAL_SEGS(sbi) - 1)) {
-<<<<<<< HEAD
 		f2fs_err(sbi, "Wrong valid blocks %d or segno %u",
 			 GET_SIT_VBLOCKS(raw_sit), segno);
 		set_sbi_flag(sbi, SBI_NEED_FSCK);
 		return -EFSCORRUPTED;
-=======
-		f2fs_msg(sbi->sb, KERN_ERR,
-				"Wrong valid blocks %d or segno %u",
-					GET_SIT_VBLOCKS(raw_sit), segno);
-		set_sbi_flag(sbi, SBI_NEED_FSCK);
-		return -EINVAL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	return 0;
 }

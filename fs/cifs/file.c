@@ -3478,15 +3478,9 @@ readpages_get_pages(struct address_space *mapping, struct list_head *page_list,
 		if (*bytes + PAGE_CACHE_SIZE > rsize)
 			break;
 
-<<<<<<< HEAD
 		__SetPageLocked(page);
 		if (add_to_page_cache_locked(page, mapping, page->index, gfp)) {
 			__ClearPageLocked(page);
-=======
-		__set_page_locked(page);
-		if (add_to_page_cache_locked(page, mapping, page->index, gfp)) {
-			__clear_page_locked(page);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			break;
 		}
 		list_move_tail(&page->lru, tmplist);

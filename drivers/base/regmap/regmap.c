@@ -1824,11 +1824,7 @@ EXPORT_SYMBOL_GPL(regmap_bulk_write);
  * they are all in the same page and have been changed to being page
  * relative. The page register has been written if that was necessary.
  */
-<<<<<<< HEAD
 int _regmap_raw_multi_reg_write(struct regmap *map,
-=======
-static int _regmap_raw_multi_reg_write(struct regmap *map,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				       const struct reg_sequence *regs,
 				       size_t num_regs)
 {

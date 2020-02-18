@@ -378,11 +378,7 @@ void ieee80211_sta_set_rx_nss(struct sta_info *sta)
 
 u32 __ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
 				  struct sta_info *sta, u8 opmode,
-<<<<<<< HEAD
 				  enum nl80211_band band)
-=======
-				  enum ieee80211_band band)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct ieee80211_local *local = sdata->local;
 	struct ieee80211_supported_band *sband;
@@ -431,11 +427,7 @@ u32 __ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
 
 void ieee80211_vht_handle_opmode(struct ieee80211_sub_if_data *sdata,
 				 struct sta_info *sta, u8 opmode,
-<<<<<<< HEAD
 				 enum nl80211_band band)
-=======
-				 enum ieee80211_band band)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct ieee80211_local *local = sdata->local;
 	struct ieee80211_supported_band *sband = local->hw.wiphy->bands[band];

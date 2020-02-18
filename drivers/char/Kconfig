@@ -594,7 +594,6 @@ config DEVPORT
 
 source "drivers/s390/char/Kconfig"
 
-<<<<<<< HEAD
 config MSM_SMD_PKT
 	bool "Enable device interface for some SMD packet ports"
 	default n
@@ -605,8 +604,6 @@ config MSM_SMD_PKT
 	  usersapce clients to read and write to some smd packets channel
 	  for MSM chipset.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config TILE_SROM
 	bool "Character-device access via hypervisor to the Tilera SPI ROM"
 	depends on TILE

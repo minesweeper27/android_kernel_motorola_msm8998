@@ -29,12 +29,7 @@
 #include <linux/spinlock.h>
 #include <linux/syscore_ops.h>
 #include <linux/reboot.h>
-<<<<<<< HEAD
 #include <linux/irqchip/msm-mpm-irq.h>
-=======
-#include <linux/pm.h>
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include "../core.h"
 #include "../pinconf.h"
 #include "pinctrl-msm.h"
@@ -482,7 +477,6 @@ static void msm_gpio_set(struct gpio_chip *chip, unsigned offset, int value)
 	spin_unlock_irqrestore(&pctrl->lock, flags);
 }
 
-<<<<<<< HEAD
 
 int tlmm_get_inout(unsigned gpio)
 {
@@ -578,8 +572,6 @@ int tlmm_set_config(unsigned config)
 	return 0;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_DEBUG_FS
 #include <linux/seq_file.h>
 
@@ -763,6 +755,10 @@ static void msm_gpio_irq_unmask(struct irq_data *d)
 
 	spin_lock_irqsave(&pctrl->lock, flags);
 
+	val = readl(pctrl->regs + g->intr_status_reg);
+	val &= ~BIT(g->intr_status_bit);
+	writel(val, pctrl->regs + g->intr_status_reg);
+
 	val = readl(pctrl->regs + g->intr_cfg_reg);
 	val |= BIT(g->intr_enable_bit);
 	writel(val, pctrl->regs + g->intr_cfg_reg);
@@ -889,12 +885,9 @@ static int msm_gpio_irq_set_type(struct irq_data *d, unsigned int type)
 		irq_set_handler_locked(d, handle_level_irq);
 	else if (type & (IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING))
 		irq_set_handler_locked(d, handle_edge_irq);
-<<<<<<< HEAD
 
 	if (pctrl->irq_chip_extn->irq_set_type)
 		pctrl->irq_chip_extn->irq_set_type(d, type);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }

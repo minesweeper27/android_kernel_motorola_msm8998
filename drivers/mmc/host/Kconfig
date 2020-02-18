@@ -820,10 +820,7 @@ config MMC_MTK
 	  If you have a machine with a integrated SD/MMC card reader, say Y or M here.
 	  This is needed if support for any SD/SDIO/MMC devices is required.
 	  If unsure, say N.
-<<<<<<< HEAD
 
 config SDHCI_DUMPREG_DEBUG_PANIC
         tristate "MMC panic when error happend"
         default n
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

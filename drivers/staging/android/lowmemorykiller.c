@@ -665,7 +665,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			     p->comm, p->pid, oom_score_adj, tasksize);
 	}
 	if (selected) {
-<<<<<<< HEAD
 		long cache_size, cache_limit, free;
 
 		if (test_task_flag(selected, TIF_MEMDIE) &&
@@ -678,8 +677,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			return 0;
 		}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		task_lock(selected);
 		send_sig(SIGKILL, selected, 0);
 		/*
@@ -690,7 +687,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		if (selected->mm)
 			mark_oom_victim(selected);
 		task_unlock(selected);
-<<<<<<< HEAD
 		cache_size = other_file * (long)(PAGE_SIZE / 1024);
 		cache_limit = minfree * (long)(PAGE_SIZE / 1024);
 		free = other_free * (long)(PAGE_SIZE / 1024);
@@ -728,11 +724,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			dump_tasks(NULL, NULL);
 		}
 
-=======
-		lowmem_print(1, "send sigkill to %d (%s), adj %hd, size %d\n",
-			     selected->pid, selected->comm,
-			     selected_oom_score_adj, selected_tasksize);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		lowmem_deathpending_timeout = jiffies + HZ;
 		rem += selected_tasksize;
 		rcu_read_unlock();
@@ -773,7 +764,6 @@ static int __init lowmem_init(void)
 	return 0;
 }
 device_initcall(lowmem_init);
-<<<<<<< HEAD
 
 #ifdef CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES
 static short lowmem_oom_adj_to_oom_score_adj(short oom_adj)
@@ -852,9 +842,6 @@ static const struct kparam_array __param_arr_adj = {
 };
 #endif
 
-=======
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * not really modular, but the easiest way to keep compat with existing
  * bootargs behaviour is to continue using module_param here.
@@ -874,8 +861,5 @@ module_param_array_named(minfree, lowmem_minfree, uint, &lowmem_minfree_size,
 module_param_array_named(lmk_count, lowmem_per_minfree_count, uint, NULL,
 			 S_IRUGO);
 module_param_named(debug_level, lowmem_debug_level, uint, S_IRUGO | S_IWUSR);
-<<<<<<< HEAD
 module_param_named(lmk_fast_run, lmk_fast_run, int, S_IRUGO | S_IWUSR);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 

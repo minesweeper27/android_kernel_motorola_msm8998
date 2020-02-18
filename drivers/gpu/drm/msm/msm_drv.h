@@ -32,12 +32,9 @@
 #include <linux/iommu.h>
 #include <linux/types.h>
 #include <linux/of_graph.h>
-<<<<<<< HEAD
 #include <linux/of_device.h>
 #include <linux/sde_io_util.h>
 #include <linux/hashtable.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/sizes.h>
 #include <linux/kthread.h>
 
@@ -193,7 +190,6 @@ enum msm_display_compression {
 	MSM_DISPLAY_COMPRESS_FBC,
 };
 
-<<<<<<< HEAD
 /**
  * enum msm_display_caps - features/capabilities supported by displays
  * @MSM_DISPLAY_CAP_VID_MODE:           Video or "active" mode supported
@@ -277,21 +273,6 @@ struct msm_drm_commit {
 
 #define MSM_GPU_MAX_RINGS 4
 
-=======
-enum msm_mdp_plane_property {
-	PLANE_PROP_ZPOS,
-	PLANE_PROP_ALPHA,
-	PLANE_PROP_PREMULTIPLIED,
-	PLANE_PROP_MAX_NUM
-};
-
-struct msm_vblank_ctrl {
-	struct work_struct work;
-	struct list_head event_list;
-	spinlock_t lock;
-};
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct msm_drm_private {
 
 	struct msm_kms *kms;
@@ -379,9 +360,6 @@ struct msm_drm_private {
 	/* Color processing properties for the crtc */
 	struct drm_property **cp_property;
 
-	/* Properties */
-	struct drm_property *plane_property[PLANE_PROP_MAX_NUM];
-
 	/* VRAM carveout, used when no IOMMU: */
 	struct {
 		unsigned long size;
@@ -394,7 +372,6 @@ struct msm_drm_private {
 	} vram;
 
 	struct msm_vblank_ctrl vblank_ctrl;
-<<<<<<< HEAD
 
 	/* saved atomic state during system suspend */
 	struct drm_atomic_state *suspend_state;
@@ -404,8 +381,6 @@ struct msm_drm_private {
 
 	/* update the flag when msm driver receives shutdown notification */
 	bool shutdown_in_progress;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct msm_format {
@@ -463,11 +438,6 @@ static inline bool msm_is_suspend_state(struct drm_device *dev)
 int msm_atomic_commit(struct drm_device *dev,
 		struct drm_atomic_state *state, bool async);
 
-<<<<<<< HEAD
-=======
-int msm_register_mmu(struct drm_device *dev, struct msm_mmu *mmu);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int msm_wait_fence(struct drm_device *dev, uint32_t fence,
 		ktime_t *timeout, bool interruptible);
 int msm_queue_fence_cb(struct drm_device *dev,

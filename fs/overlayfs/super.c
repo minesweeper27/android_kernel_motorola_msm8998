@@ -253,7 +253,6 @@ const struct cred *ovl_override_creds(struct super_block *sb)
 {
 	struct ovl_fs *ofs = sb->s_fs_info;
 
-<<<<<<< HEAD
 	if (!ofs->config.override_creds)
 		return NULL;
 	return override_creds(ofs->creator_cred);
@@ -265,11 +264,6 @@ void ovl_revert_creds(const struct cred *old_cred)
 		revert_creds(old_cred);
 }
 
-=======
-	return override_creds(ofs->creator_cred);
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static bool ovl_is_opaquedir(struct dentry *dentry)
 {
 	int res;

@@ -11,17 +11,7 @@
 #include <linux/bug.h>
 #include <linux/restart_block.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_THREAD_INFO_IN_TASK
-=======
-struct timespec;
-struct compat_timespec;
-
-#ifdef CONFIG_THREAD_INFO_IN_TASK
-#define current_thread_info() ((struct thread_info *)current)
-#endif
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * For CONFIG_THREAD_INFO_IN_TASK kernels we need <asm/current.h> for the
  * definition of current, but for !CONFIG_THREAD_INFO_IN_TASK kernels,

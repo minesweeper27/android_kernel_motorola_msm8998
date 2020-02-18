@@ -101,13 +101,6 @@ void interrupt_end(void)
 		do_signal(regs);
 	if (test_and_clear_thread_flag(TIF_NOTIFY_RESUME))
 		tracehook_notify_resume(regs);
-<<<<<<< HEAD
-=======
-}
-
-void exit_thread(void)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 int get_current_pid(void)

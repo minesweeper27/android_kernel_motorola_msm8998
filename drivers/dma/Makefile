@@ -65,9 +65,6 @@ obj-$(CONFIG_TI_DMA_CROSSBAR) += ti-dma-crossbar.o
 obj-$(CONFIG_TI_EDMA) += edma.o
 obj-$(CONFIG_XGENE_DMA) += xgene-dma.o
 obj-$(CONFIG_ZX_DMA) += zx296702_dma.o
-<<<<<<< HEAD
 obj-$(CONFIG_QCOM_SPS_DMA) += qcom-sps-dma.o
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 obj-y += xilinx/

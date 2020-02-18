@@ -233,10 +233,6 @@ config ARCH_THREAD_STACK_ALLOCATOR
 config ARCH_WANTS_DYNAMIC_TASK_STRUCT
 	bool
 
-# Select if arch wants to size task_struct dynamically via arch_task_struct_size:
-config ARCH_WANTS_DYNAMIC_TASK_STRUCT
-	bool
-
 config HAVE_REGS_AND_STACK_ACCESS_API
 	bool
 	help
@@ -607,7 +603,6 @@ config HAVE_COPY_THREAD_TLS
 	  normal C parameter passing, rather than extracting the syscall
 	  argument from pt_regs.
 
-<<<<<<< HEAD
 config HAVE_ARCH_MMAP_RND_BITS
 	bool
 	help
@@ -681,8 +676,6 @@ config ARCH_MMAP_RND_COMPAT_BITS
 	  This value can be changed after boot using the
 	  /proc/sys/vm/mmap_rnd_compat_bits tunable
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #
 # ABI hall of shame
 #

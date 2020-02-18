@@ -528,14 +528,11 @@ struct mm_struct {
 #ifdef CONFIG_HUGETLB_PAGE
 	atomic_long_t hugetlb_usage;
 #endif
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_APP_SETTINGS
 	int app_setting;
 #endif
 
 	struct work_struct async_put_work;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 static inline void mm_init_cpumask(struct mm_struct *mm)

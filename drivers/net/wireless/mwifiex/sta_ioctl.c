@@ -232,10 +232,6 @@ static int mwifiex_process_country_ie(struct mwifiex_private *priv,
 
 	if (country_ie_len >
 	    (IEEE80211_COUNTRY_STRING_LEN + MWIFIEX_MAX_TRIPLET_802_11D)) {
-<<<<<<< HEAD
-=======
-		rcu_read_unlock();
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		mwifiex_dbg(priv->adapter, ERROR,
 			    "11D: country_ie_len overflow!, deauth AP\n");
 		return -EINVAL;

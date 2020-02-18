@@ -1076,7 +1076,6 @@ void iommu_set_fault_handler(struct iommu_domain *domain,
 }
 EXPORT_SYMBOL_GPL(iommu_set_fault_handler);
 
-<<<<<<< HEAD
 /**
  * iommu_trigger_fault() - trigger an IOMMU fault
  * @domain: iommu domain
@@ -1116,8 +1115,6 @@ void iommu_reg_write(struct iommu_domain *domain, unsigned long offset,
 		domain->ops->reg_write(domain, offset, val);
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static struct iommu_domain *__iommu_domain_alloc(struct bus_type *bus,
 						 unsigned type)
 {
@@ -1161,34 +1158,6 @@ static int __iommu_attach_device(struct iommu_domain *domain,
 		trace_attach_device_to_domain(dev);
 		iommu_debug_attach_device(domain, dev);
 	}
-	return ret;
-}
-
-int iommu_attach_device(struct iommu_domain *domain, struct device *dev)
-{
-	struct iommu_group *group;
-	int ret;
-
-	group = iommu_group_get(dev);
-	/* FIXME: Remove this when groups a mandatory for iommu drivers */
-	if (group == NULL)
-		return __iommu_attach_device(domain, dev);
-
-	/*
-	 * We have a group - lock it to make sure the device-count doesn't
-	 * change while we are attaching
-	 */
-	mutex_lock(&group->mutex);
-	ret = -EINVAL;
-	if (iommu_group_device_count(group) != 1)
-		goto out_unlock;
-
-	ret = __iommu_attach_group(domain, group);
-
-out_unlock:
-	mutex_unlock(&group->mutex);
-	iommu_group_put(group);
-
 	return ret;
 }
 
@@ -1724,7 +1693,6 @@ int iommu_domain_set_attr(struct iommu_domain *domain,
 }
 EXPORT_SYMBOL_GPL(iommu_domain_set_attr);
 
-<<<<<<< HEAD
 int iommu_dma_supported(struct iommu_domain *domain, struct device *dev,
 								u64 mask)
 {
@@ -1733,8 +1701,6 @@ int iommu_dma_supported(struct iommu_domain *domain, struct device *dev,
 	return 0;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void iommu_get_dm_regions(struct device *dev, struct list_head *list)
 {
 	const struct iommu_ops *ops = dev->bus->iommu_ops;

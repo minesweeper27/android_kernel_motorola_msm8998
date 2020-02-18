@@ -49,10 +49,7 @@
 #include <linux/kdebug.h>
 #include <linux/kallsyms.h>
 #include <linux/ftrace.h>
-<<<<<<< HEAD
 #include <linux/kasan.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/moduleloader.h>
 
 #include <asm/cacheflush.h>

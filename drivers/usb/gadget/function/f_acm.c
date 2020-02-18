@@ -704,11 +704,7 @@ fail:
 	if (acm->notify_req)
 		gs_free_req(acm->notify, acm->notify_req);
 
-<<<<<<< HEAD
 	ERROR(cdev, "%s/%pK: can't bind, err %d\n", f->name, f, status);
-=======
-	ERROR(cdev, "%s/%p: can't bind, err %d\n", f->name, f, status);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return status;
 }

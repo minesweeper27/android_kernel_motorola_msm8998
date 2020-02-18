@@ -217,11 +217,7 @@ struct pmic_arb_ver_ops {
 	u32 (*channel_map_offset)(u16 n);
 };
 
-<<<<<<< HEAD
 static inline void pmic_arb_base_write(struct spmi_pmic_arb *pa,
-=======
-static inline void pmic_arb_base_write(struct spmi_pmic_arb_dev *dev,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				       u32 offset, u32 val)
 {
 	writel_relaxed(val, pa->wr_base + offset);
@@ -241,12 +237,8 @@ static inline void pmic_arb_set_rd_cmd(struct spmi_pmic_arb *pa,
  */
 static void pa_read_data(struct spmi_pmic_arb *pa, u8 *buf, u32 reg, u8 bc)
 {
-<<<<<<< HEAD
 	u32 data = __raw_readl(pa->rd_base + reg);
 
-=======
-	u32 data = __raw_readl(dev->rd_base + reg);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	memcpy(buf, &data, (bc & 3) + 1);
 }
 
@@ -262,11 +254,7 @@ pa_write_data(struct spmi_pmic_arb *pa, const u8 *buf, u32 reg, u8 bc)
 	u32 data = 0;
 
 	memcpy(&data, buf, (bc & 3) + 1);
-<<<<<<< HEAD
 	pmic_arb_base_write(pa, reg, data);
-=======
-	__raw_writel(data, dev->wr_base + reg);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int pmic_arb_wait_for_done(struct spmi_controller *ctrl,
@@ -583,16 +571,8 @@ static void periph_interrupt(struct spmi_pmic_arb *pa, u16 apid, bool show)
 	}
 }
 
-<<<<<<< HEAD
 static void __pmic_arb_chained_irq(struct spmi_pmic_arb *pa, bool show)
 {
-=======
-static void pmic_arb_chained_irq(struct irq_desc *desc)
-{
-	struct spmi_pmic_arb_dev *pa = irq_desc_get_handler_data(desc);
-	struct irq_chip *chip = irq_desc_get_chip(desc);
-	void __iomem *intr = pa->intr;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int first = pa->min_apid >> 5;
 	int last = pa->max_apid >> 5;
 	u32 status, enable;
@@ -748,22 +728,6 @@ static int qpnpint_get_irqchip_state(struct irq_data *d,
 				     bool *state)
 {
 	u8 irq = HWIRQ_IRQ(d->hwirq);
-	u8 status = 0;
-
-	if (which != IRQCHIP_STATE_LINE_LEVEL)
-		return -EINVAL;
-
-	qpnpint_spmi_read(d, QPNPINT_REG_RT_STS, &status, 1);
-	*state = !!(status & BIT(irq));
-
-	return 0;
-}
-
-static int qpnpint_get_irqchip_state(struct irq_data *d,
-				     enum irqchip_irq_state which,
-				     bool *state)
-{
-	u8 irq = d->hwirq >> 8;
 	u8 status = 0;
 
 	if (which != IRQCHIP_STATE_LINE_LEVEL)
@@ -1467,10 +1431,7 @@ static int spmi_pmic_arb_probe(struct platform_device *pdev)
 	}
 
 	irq_set_chained_handler_and_data(pa->irq, pmic_arb_chained_irq, pa);
-<<<<<<< HEAD
 	enable_irq_wake(pa->irq);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	err = spmi_controller_add(ctrl);
 	if (err)
@@ -1495,11 +1456,8 @@ static int spmi_pmic_arb_remove(struct platform_device *pdev)
 
 	spmi_controller_remove(ctrl);
 	irq_set_chained_handler_and_data(pa->irq, NULL, NULL);
-<<<<<<< HEAD
 	unregister_syscore_ops(&spmi_pmic_arb_syscore_ops);
 	the_pa = NULL;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	irq_domain_remove(pa->domain);
 	spmi_controller_put(ctrl);
 	return 0;

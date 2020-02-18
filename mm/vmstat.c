@@ -926,22 +926,6 @@ static void walk_zones_in_node(struct seq_file *m, pg_data_t *pgdat,
 #endif
 
 #ifdef CONFIG_PROC_FS
-<<<<<<< HEAD
-=======
-static char * const migratetype_names[MIGRATE_TYPES] = {
-	"Unmovable",
-	"Movable",
-	"Reclaimable",
-	"HighAtomic",
-#ifdef CONFIG_CMA
-	"CMA",
-#endif
-#ifdef CONFIG_MEMORY_ISOLATION
-	"Isolate",
-#endif
-};
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void frag_show_print(struct seq_file *m, pg_data_t *pgdat,
 						struct zone *zone)
 {
@@ -1404,11 +1388,7 @@ static cpumask_var_t cpu_stat_off;
 
 static void vmstat_update(struct work_struct *w)
 {
-<<<<<<< HEAD
 	if (refresh_cpu_vm_stats(true) && !cpu_isolated(smp_processor_id())) {
-=======
-	if (refresh_cpu_vm_stats(true)) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * Counters were updated so we expect more updates
 		 * to occur in the future. Keep on running the
@@ -1507,11 +1487,7 @@ static void vmstat_shepherd(struct work_struct *w)
 	for_each_cpu(cpu, cpu_stat_off) {
 		struct delayed_work *dw = &per_cpu(vmstat_work, cpu);
 
-<<<<<<< HEAD
 		if (!cpu_isolated(cpu) && need_update(cpu)) {
-=======
-		if (need_update(cpu)) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			if (cpumask_test_and_clear_cpu(cpu, cpu_stat_off))
 				queue_delayed_work_on(cpu, vmstat_wq, dw, 0);
 		} else {

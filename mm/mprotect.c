@@ -343,11 +343,7 @@ mprotect_fixup(struct vm_area_struct *vma, struct vm_area_struct **pprev,
 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
 	*pprev = vma_merge(mm, *pprev, start, end, newflags,
 			   vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
-<<<<<<< HEAD
 			   vma->vm_userfaultfd_ctx, vma_get_anon_name(vma));
-=======
-			   vma->vm_userfaultfd_ctx);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (*pprev) {
 		vma = *pprev;
 		goto success;

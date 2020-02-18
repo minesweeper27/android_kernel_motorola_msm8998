@@ -75,7 +75,4 @@ void *wil_platform_init(struct device *dev, struct wil_platform_ops *ops,
 int __init wil_platform_modinit(void);
 void wil_platform_modexit(void);
 
-int __init wil_platform_modinit(void);
-void wil_platform_modexit(void);
-
 #endif /* __WIL_PLATFORM_H__ */

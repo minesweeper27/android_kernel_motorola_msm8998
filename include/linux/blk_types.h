@@ -56,10 +56,7 @@ struct bio {
 	struct bio		*bi_next;	/* request queue link */
 	struct block_device	*bi_bdev;
 	unsigned int		bi_flags;	/* status, command, etc */
-<<<<<<< HEAD
 	unsigned short		bi_write_hint;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int			bi_error;
 	unsigned long		bi_rw;		/* bottom bits READ/WRITE,
 						 * top bits priority
@@ -151,7 +148,6 @@ struct bio {
  */
 #define BIO_RESET_BITS	13
 #define BIO_OWNS_VEC	13	/* bio_free() should free bvec */
-<<<<<<< HEAD
 /*
  * Added for Req based dm which need to perform post processing. This flag
  * ensures blk_update_request does not free the bios or request, this is done
@@ -159,8 +155,6 @@ struct bio {
  */
 #define BIO_DONTFREE 14
 #define BIO_INLINECRYPT 15
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * top 4 bits of bio flags indicate the pool this bio came from

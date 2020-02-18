@@ -79,13 +79,8 @@ union mips_vdso_data {
 	struct {
 		u64 xtime_sec;
 		u64 xtime_nsec;
-<<<<<<< HEAD
 		u64 wall_to_mono_sec;
 		u64 wall_to_mono_nsec;
-=======
-		u32 wall_to_mono_sec;
-		u32 wall_to_mono_nsec;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		u32 seq_count;
 		u32 cs_shift;
 		u8 clock_mode;

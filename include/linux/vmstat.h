@@ -160,7 +160,6 @@ static inline unsigned long zone_page_state_snapshot(struct zone *zone,
 	return x;
 }
 
-<<<<<<< HEAD
 static inline unsigned long global_page_state_snapshot(enum zone_stat_item item)
 {
 	long x = atomic_long_read(&vm_stat[item]);
@@ -183,10 +182,6 @@ static inline unsigned long global_page_state_snapshot(enum zone_stat_item item)
 
 #ifdef CONFIG_NUMA
 
-=======
-#ifdef CONFIG_NUMA
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern unsigned long node_page_state(int node, enum zone_stat_item item);
 extern void zone_statistics(struct zone *, struct zone *, gfp_t gfp);
 

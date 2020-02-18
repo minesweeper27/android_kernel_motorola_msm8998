@@ -21,23 +21,12 @@
 #include <linux/futex.h>
 #include <linux/uaccess.h>
 
-<<<<<<< HEAD
-=======
-#include <asm/alternative.h>
-#include <asm/cpufeature.h>
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/errno.h>
-#include <asm/sysreg.h>
 
 #define __futex_atomic_op(insn, ret, oldval, uaddr, tmp, oparg)		\
 do {									\
 	uaccess_enable();						\
 	asm volatile(							\
-<<<<<<< HEAD
-=======
-	ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN,		\
-		    CONFIG_ARM64_PAN)					\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 "	prfm	pstl1strm, %2\n"					\
 "1:	ldxr	%w1, %2\n"						\
 	insn "\n"							\
@@ -50,17 +39,8 @@ do {									\
 "4:	mov	%w0, %w5\n"						\
 "	b	3b\n"							\
 "	.popsection\n"							\
-<<<<<<< HEAD
 	_ASM_EXTABLE(1b, 4b)						\
 	_ASM_EXTABLE(2b, 4b)						\
-=======
-"	.pushsection __ex_table,\"a\"\n"				\
-"	.align	3\n"							\
-"	.quad	1b, 4b, 2b, 4b\n"					\
-"	.popsection\n"							\
-	ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,		\
-		    CONFIG_ARM64_PAN)					\
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	: "=&r" (ret), "=&r" (oldval), "+Q" (*uaddr), "=&r" (tmp)	\
 	: "r" (oparg), "Ir" (-EFAULT)					\
 	: "memory");							\
@@ -119,10 +99,6 @@ futex_atomic_cmpxchg_inatomic(u32 *uval, u32 __user *uaddr,
 
 	uaccess_enable();
 	asm volatile("// futex_atomic_cmpxchg_inatomic\n"
-<<<<<<< HEAD
-=======
-ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN, CONFIG_ARM64_PAN)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 "	prfm	pstl1strm, %2\n"
 "1:	ldxr	%w1, %2\n"
 "	sub	%w3, %w1, %w4\n"
@@ -135,16 +111,8 @@ ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN, CONFIG_ARM64_PAN)
 "4:	mov	%w0, %w6\n"
 "	b	3b\n"
 "	.popsection\n"
-<<<<<<< HEAD
 	_ASM_EXTABLE(1b, 4b)
 	_ASM_EXTABLE(2b, 4b)
-=======
-"	.pushsection __ex_table,\"a\"\n"
-"	.align	3\n"
-"	.quad	1b, 4b, 2b, 4b\n"
-"	.popsection\n"
-ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN, CONFIG_ARM64_PAN)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	: "+r" (ret), "=&r" (val), "+Q" (*uaddr), "=&r" (tmp)
 	: "r" (oldval), "r" (newval), "Ir" (-EFAULT)
 	: "memory");

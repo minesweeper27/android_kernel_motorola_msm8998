@@ -1,10 +1,6 @@
 VERSION = 4
 PATCHLEVEL = 4
-<<<<<<< HEAD
 SUBLEVEL = 213
-=======
-SUBLEVEL = 214
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 EXTRAVERSION =
 NAME = Blurry Fish Butt
 
@@ -310,14 +306,11 @@ HOSTCXX      = g++
 HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
 HOSTCXXFLAGS = -O2
 
-<<<<<<< HEAD
 ifeq ($(shell $(HOSTCC) -v 2>&1 | grep -c "clang version"), 1)
 HOSTCFLAGS  += -Wno-unused-value -Wno-unused-parameter \
 		-Wno-missing-field-initializers
 endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
 
@@ -378,11 +371,8 @@ LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
-<<<<<<< HEAD
 CFLAGS_KCOV     := $(call cc-option,-fsanitize-coverage=trace-pc,)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 ifeq ($(cc-name),clang)
 ifneq ($(CROSS_COMPILE),)
@@ -423,23 +413,14 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-<<<<<<< HEAD
 		   -std=gnu89 $(call cc-option,-fno-PIE) $(CLANG_FLAGS)
-=======
-		   -std=gnu89 $(call cc-option,-fno-PIE)
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 ifeq ($(TARGET_BOARD_TYPE),auto)
 KBUILD_CFLAGS    += -DCONFIG_PLATFORM_AUTO
 endif
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
-<<<<<<< HEAD
 KBUILD_AFLAGS   := -D__ASSEMBLY__ $(call cc-option,-fno-PIE) $(CLANG_FLAGS)
-=======
-KBUILD_AFLAGS   := -D__ASSEMBLY__ $(call cc-option,-fno-PIE)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
@@ -456,12 +437,8 @@ export HOSTCXX HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
 
 export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS LDFLAGS
 export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE CFLAGS_GCOV
-<<<<<<< HEAD
 export CFLAGS_KASAN CFLAGS_UBSAN CFLAGS_KASAN_NOSANITIZE
 export CFLAGS_KCOV
-=======
-export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
 export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
 export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
@@ -656,15 +633,11 @@ all: vmlinux
 
 ifeq ($(cc-name),clang)
 ifneq ($(CROSS_COMPILE),)
-<<<<<<< HEAD
 CLANG_TRIPLE	?= $(CROSS_COMPILE)
 CLANG_TARGET	:= --target=$(notdir $(CLANG_TRIPLE:%-=%))
 ifeq ($(shell $(srctree)/scripts/clang-android.sh $(CC) $(CLANG_TARGET)), y)
 $(error "Clang with Android --target detected. Did you specify CLANG_TRIPLE?")
 endif
-=======
-CLANG_TARGET	:= --target=$(notdir $(CROSS_COMPILE:%-=%))
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
 CLANG_PREFIX	:= --prefix=$(GCC_TOOLCHAIN_DIR)
 GCC_TOOLCHAIN	:= $(realpath $(GCC_TOOLCHAIN_DIR)/..)
@@ -715,13 +688,10 @@ KBUILD_CFLAGS	+= -O2
 else
 KBUILD_CFLAGS   += -O2
 endif
-<<<<<<< HEAD
 endif
 
 ifdef CONFIG_CC_WERROR
 KBUILD_CFLAGS	+= -Werror
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
@@ -733,11 +703,8 @@ ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLA
 	KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
 endif
 
-<<<<<<< HEAD
 include scripts/Makefile.gcc-plugins
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 ifdef CONFIG_READABLE_ASM
 # Disable optimizations that make assembler listings hard to read.
 # reorder blocks reorders the control in the function
@@ -810,10 +777,7 @@ KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
 KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
 else
 
-<<<<<<< HEAD
 KBUILD_CFLAGS += $(call cc-option,-fno-delete-null-pointer-checks,)
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # These warnings generated too much noise in a regular build.
 # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
@@ -1589,10 +1553,7 @@ clean: $(clean-dirs)
 		-o -name '*.symtypes' -o -name 'modules.order' \
 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
 		-o -name '*.ll' \
-<<<<<<< HEAD
 		-o -name '*.c.[012]*.*' \
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		-o -name '*.gcno' \) -type f -print | xargs rm -f
 
 # Generate tags for editors

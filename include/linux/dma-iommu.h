@@ -60,10 +60,6 @@ void iommu_dma_unmap_page(struct device *dev, dma_addr_t handle, size_t size,
 		enum dma_data_direction dir, struct dma_attrs *attrs);
 void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
 		enum dma_data_direction dir, struct dma_attrs *attrs);
-<<<<<<< HEAD
-=======
-int iommu_dma_supported(struct device *dev, u64 mask);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int iommu_dma_mapping_error(struct device *dev, dma_addr_t dma_addr);
 
 #else

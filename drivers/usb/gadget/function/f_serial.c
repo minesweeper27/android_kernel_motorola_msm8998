@@ -367,7 +367,6 @@ static int gser_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 		usb_ep_disable(gser->notify);
 	}
 
-<<<<<<< HEAD
 	if (!gser->notify->desc) {
 		if (config_ep_by_speed(cdev->gadget, f, gser->notify)) {
 			gser->notify->desc = NULL;
@@ -383,8 +382,6 @@ static int gser_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 	}
 	gser->notify->driver_data = gser;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (gser->port.in->enabled) {
 		dev_dbg(&cdev->gadget->dev,
 			"reset generic ttyGS%d\n", gser->port_num);
@@ -627,7 +624,6 @@ static int gser_bind(struct usb_configuration *c, struct usb_function *f)
 	if (!ep)
 		goto fail;
 	gser->port.out = ep;
-<<<<<<< HEAD
 
 	ep = usb_ep_autoconfig(cdev->gadget, &gser_fs_notify_desc);
 	if (!ep)
@@ -643,8 +639,6 @@ static int gser_bind(struct usb_configuration *c, struct usb_function *f)
 
 	gser->notify_req->complete = gser_notify_complete;
 	gser->notify_req->context = gser;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* support all relevant hardware speeds... we expect that when
 	 * hardware is dual speed, all bulk-capable endpoints work at
@@ -673,12 +667,9 @@ static int gser_bind(struct usb_configuration *c, struct usb_function *f)
 	return 0;
 
 fail:
-<<<<<<< HEAD
 	if (gser->notify_req)
 		gs_free_req(gser->notify, gser->notify_req);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ERROR(cdev, "%s: can't bind, err %d\n", f->name, status);
 
 	return status;

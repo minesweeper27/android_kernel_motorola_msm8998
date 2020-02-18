@@ -29,7 +29,6 @@ static bool dissector_uses_key(const struct flow_dissector *flow_dissector,
 
 static void dissector_set_key(struct flow_dissector *flow_dissector,
 			      enum flow_dissector_key_id key_id)
-<<<<<<< HEAD
 {
 	flow_dissector->used_keys |= (1 << key_id);
 }
@@ -41,19 +40,6 @@ static void *skb_flow_dissector_target(struct flow_dissector *flow_dissector,
 	return ((char *) target_container) + flow_dissector->offset[key_id];
 }
 
-=======
-{
-	flow_dissector->used_keys |= (1 << key_id);
-}
-
-static void *skb_flow_dissector_target(struct flow_dissector *flow_dissector,
-				       enum flow_dissector_key_id key_id,
-				       void *target_container)
-{
-	return ((char *) target_container) + flow_dissector->offset[key_id];
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void skb_flow_dissector_init(struct flow_dissector *flow_dissector,
 			     const struct flow_dissector_key *key,
 			     unsigned int key_count)
@@ -352,7 +338,6 @@ mpls:
 		}
 
 		goto out_good;
-<<<<<<< HEAD
 	}
 
 	case __constant_htons(ETH_P_MAP): {
@@ -388,10 +373,7 @@ mpls:
 		default:
 			return false;
 		}
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
-
 	case htons(ETH_P_FCOE):
 		key_control->thoff = (u16)(nhoff + FCOE_HEADER_LEN);
 		/* fall through */
@@ -545,7 +527,6 @@ ip_proto_again:
 
 out_good:
 	ret = true;
-<<<<<<< HEAD
 
 out:
 	key_control->thoff = min_t(u16, nhoff, skb ? skb->len : hlen);
@@ -554,16 +535,6 @@ out:
 
 	return ret;
 
-=======
-
-out:
-	key_control->thoff = min_t(u16, nhoff, skb ? skb->len : hlen);
-	key_basic->n_proto = proto;
-	key_basic->ip_proto = ip_proto;
-
-	return ret;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 out_bad:
 	ret = false;
 	goto out;
@@ -599,7 +570,6 @@ static inline size_t flow_keys_hash_length(const struct flow_keys *flow)
 	}
 	return len;
 }
-<<<<<<< HEAD
 
 __be32 flow_get_u32_src(const struct flow_keys *flow)
 {
@@ -671,79 +641,6 @@ static inline u32 __flow_hash_from_keys(struct flow_keys *keys,
 
 	__flow_hash_consistentify(keys);
 
-=======
-
-__be32 flow_get_u32_src(const struct flow_keys *flow)
-{
-	switch (flow->control.addr_type) {
-	case FLOW_DISSECTOR_KEY_IPV4_ADDRS:
-		return flow->addrs.v4addrs.src;
-	case FLOW_DISSECTOR_KEY_IPV6_ADDRS:
-		return (__force __be32)ipv6_addr_hash(
-			&flow->addrs.v6addrs.src);
-	case FLOW_DISSECTOR_KEY_TIPC_ADDRS:
-		return flow->addrs.tipcaddrs.srcnode;
-	default:
-		return 0;
-	}
-}
-EXPORT_SYMBOL(flow_get_u32_src);
-
-__be32 flow_get_u32_dst(const struct flow_keys *flow)
-{
-	switch (flow->control.addr_type) {
-	case FLOW_DISSECTOR_KEY_IPV4_ADDRS:
-		return flow->addrs.v4addrs.dst;
-	case FLOW_DISSECTOR_KEY_IPV6_ADDRS:
-		return (__force __be32)ipv6_addr_hash(
-			&flow->addrs.v6addrs.dst);
-	default:
-		return 0;
-	}
-}
-EXPORT_SYMBOL(flow_get_u32_dst);
-
-static inline void __flow_hash_consistentify(struct flow_keys *keys)
-{
-	int addr_diff, i;
-
-	switch (keys->control.addr_type) {
-	case FLOW_DISSECTOR_KEY_IPV4_ADDRS:
-		addr_diff = (__force u32)keys->addrs.v4addrs.dst -
-			    (__force u32)keys->addrs.v4addrs.src;
-		if ((addr_diff < 0) ||
-		    (addr_diff == 0 &&
-		     ((__force u16)keys->ports.dst <
-		      (__force u16)keys->ports.src))) {
-			swap(keys->addrs.v4addrs.src, keys->addrs.v4addrs.dst);
-			swap(keys->ports.src, keys->ports.dst);
-		}
-		break;
-	case FLOW_DISSECTOR_KEY_IPV6_ADDRS:
-		addr_diff = memcmp(&keys->addrs.v6addrs.dst,
-				   &keys->addrs.v6addrs.src,
-				   sizeof(keys->addrs.v6addrs.dst));
-		if ((addr_diff < 0) ||
-		    (addr_diff == 0 &&
-		     ((__force u16)keys->ports.dst <
-		      (__force u16)keys->ports.src))) {
-			for (i = 0; i < 4; i++)
-				swap(keys->addrs.v6addrs.src.s6_addr32[i],
-				     keys->addrs.v6addrs.dst.s6_addr32[i]);
-			swap(keys->ports.src, keys->ports.dst);
-		}
-		break;
-	}
-}
-
-static inline u32 __flow_hash_from_keys(struct flow_keys *keys,
-					const siphash_key_t *keyval)
-{
-	u32 hash;
-
-	__flow_hash_consistentify(keys);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	hash = siphash(flow_keys_hash_start(keys),
 		       flow_keys_hash_length(keys), keyval);
 	if (!hash)

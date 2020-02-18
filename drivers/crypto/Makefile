@@ -29,7 +29,4 @@ obj-$(CONFIG_CRYPTO_DEV_QAT) += qat/
 obj-$(CONFIG_CRYPTO_DEV_QCE) += qce/
 obj-$(CONFIG_CRYPTO_DEV_VMX) += vmx/
 obj-$(CONFIG_CRYPTO_DEV_SUN4I_SS) += sunxi-ss/
-<<<<<<< HEAD
 obj-$(CONFIG_ARCH_QCOM) += msm/
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

@@ -76,15 +76,11 @@ extern unsigned int vced_count, vcei_count;
 
 #endif
 
-<<<<<<< HEAD
 /*
  * One page above the stack is used for branch delay slot "emulation".
  * See dsemul.c for details.
  */
 #define STACK_TOP	((TASK_SIZE & PAGE_MASK) - PAGE_SIZE)
-=======
-#define STACK_TOP	(TASK_SIZE & PAGE_MASK)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * This decides where the kernel will search for a free chunk of vm

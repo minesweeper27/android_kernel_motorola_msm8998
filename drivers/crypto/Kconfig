@@ -556,12 +556,9 @@ config CRYPTO_DEV_SUN4I_SS
 	  To compile this driver as a module, choose M here: the module
 	  will be called sun4i-ss.
 
-<<<<<<< HEAD
 if ARCH_QCOM
 source drivers/crypto/msm/Kconfig
 endif # ARCH_QCOM
 
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 endif # CRYPTO_HW

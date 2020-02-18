@@ -151,14 +151,6 @@ static inline sector_t logical_to_sectors(struct scsi_device *sdev, sector_t blo
 	return blocks << (ilog2(sdev->sector_size) - 9);
 }
 
-<<<<<<< HEAD
-=======
-static inline unsigned int logical_to_bytes(struct scsi_device *sdev, sector_t blocks)
-{
-	return blocks * sdev->sector_size;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * A DIF-capable target device can be formatted with different
  * protection schemes.  Currently 0 through 3 are defined:

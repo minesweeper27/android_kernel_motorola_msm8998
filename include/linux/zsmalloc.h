@@ -41,11 +41,7 @@ struct zs_pool_stats {
 
 struct zs_pool;
 
-<<<<<<< HEAD
 struct zs_pool *zs_create_pool(const char *name);
-=======
-struct zs_pool *zs_create_pool(const char *name, gfp_t flags);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 void zs_destroy_pool(struct zs_pool *pool);
 
 unsigned long zs_malloc(struct zs_pool *pool, size_t size, gfp_t flags);

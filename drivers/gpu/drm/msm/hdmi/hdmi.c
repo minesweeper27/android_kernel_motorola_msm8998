@@ -56,11 +56,7 @@ static irqreturn_t hdmi_irq(int irq, void *dev_id)
 
 	/* Process HDCP: */
 	if (hdmi->hdcp_ctrl)
-<<<<<<< HEAD
 		hdmi_hdcp_ctrl_irq(hdmi->hdcp_ctrl);
-=======
-		hdmi_hdcp_irq(hdmi->hdcp_ctrl);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* TODO audio.. */
 
@@ -79,12 +75,8 @@ static void hdmi_destroy(struct hdmi *hdmi)
 		flush_workqueue(hdmi->workq);
 		destroy_workqueue(hdmi->workq);
 	}
-<<<<<<< HEAD
 
 	hdmi_hdcp_ctrl_destroy(hdmi);
-=======
-	hdmi_hdcp_destroy(hdmi);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (phy)
 		phy->funcs->destroy(phy);
 
@@ -103,11 +95,7 @@ static struct hdmi *hdmi_init(struct platform_device *pdev)
 	struct hdmi_platform_config *config = pdev->dev.platform_data;
 	struct hdmi *hdmi = NULL;
 	struct resource *res;
-<<<<<<< HEAD
 	int i, ret = 0;
-=======
-	int i, ret;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
 	if (!hdmi) {
@@ -152,7 +140,6 @@ static struct hdmi *hdmi_init(struct platform_device *pdev)
 		config->mmio_name);
 	hdmi->mmio_phy_addr = res->start;
 
-<<<<<<< HEAD
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 	config->qfprom_mmio_name);
 
@@ -186,15 +173,6 @@ static struct hdmi *hdmi_init(struct platform_device *pdev)
 		hdmi->hdcp_mmio = NULL;
 	}
 
-=======
-	hdmi->qfprom_mmio = msm_ioremap(pdev,
-		config->qfprom_mmio_name, "HDMI_QFPROM");
-	if (IS_ERR(hdmi->qfprom_mmio)) {
-		dev_info(&pdev->dev, "can't find qfprom resource\n");
-		hdmi->qfprom_mmio = NULL;
-	}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	hdmi->hpd_regs = devm_kzalloc(&pdev->dev, sizeof(hdmi->hpd_regs[0]) *
 			config->hpd_reg_cnt, GFP_KERNEL);
 	if (!hdmi->hpd_regs) {
@@ -287,23 +265,16 @@ static struct hdmi *hdmi_init(struct platform_device *pdev)
 		goto fail;
 	}
 
-<<<<<<< HEAD
 	hdmi->hdcp_ctrl = hdmi_hdcp_ctrl_init(hdmi);
-=======
-	hdmi->hdcp_ctrl = hdmi_hdcp_init(hdmi);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (IS_ERR(hdmi->hdcp_ctrl)) {
 		dev_warn(&pdev->dev, "failed to init hdcp: disabled\n");
 		hdmi->hdcp_ctrl = NULL;
 	}
-<<<<<<< HEAD
 	/*making it false currently to avoid ifdefs
 	 *will get rid of this flag when HDCP SW
 	 *support gets added to HDMI DRM driver
 	 */
 	hdmi->is_hdcp_supported = false;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return hdmi;
 
@@ -453,17 +424,12 @@ static struct hdmi_platform_config hdmi_tx_8994_config = {
 static struct hdmi_platform_config hdmi_tx_8996_config = {
 		.phy_init = NULL,
 		HDMI_CFG(pwr_reg, none),
-<<<<<<< HEAD
 		HDMI_CFG(hpd_reg, 8x74),
-=======
-		HDMI_CFG(hpd_reg, none),
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		HDMI_CFG(pwr_clk, 8x74),
 		HDMI_CFG(hpd_clk, 8x74),
 		.hpd_freq      = hpd_clk_freq_8x74,
 };
 
-<<<<<<< HEAD
 /*TO DO*/
 static const char *pwr_reg_names_8x98[] = {"core-vdda", "core-vcc"};
 /*TO DO*/
@@ -492,9 +458,6 @@ static struct hdmi_platform_config hdmi_tx_8998_config = {
 
 static const struct of_device_id dt_match[] = {
 	{ .compatible = "qcom,hdmi-tx-8998", .data = &hdmi_tx_8998_config },
-=======
-static const struct of_device_id dt_match[] = {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	{ .compatible = "qcom,hdmi-tx-8996", .data = &hdmi_tx_8996_config },
 	{ .compatible = "qcom,hdmi-tx-8994", .data = &hdmi_tx_8994_config },
 	{ .compatible = "qcom,hdmi-tx-8084", .data = &hdmi_tx_8084_config },
@@ -541,10 +504,7 @@ static int hdmi_bind(struct device *dev, struct device *master, void *data)
 
 	hdmi_cfg->mmio_name     = "core_physical";
 	hdmi_cfg->qfprom_mmio_name = "qfprom_physical";
-<<<<<<< HEAD
 	hdmi_cfg->hdcp_mmio_name = "hdcp_physical";
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	hdmi_cfg->ddc_clk_gpio  = get_gpio(dev, of_node, "qcom,hdmi-tx-ddc-clk");
 	hdmi_cfg->ddc_data_gpio = get_gpio(dev, of_node, "qcom,hdmi-tx-ddc-data");
 	hdmi_cfg->hpd_gpio      = get_gpio(dev, of_node, "qcom,hdmi-tx-hpd");

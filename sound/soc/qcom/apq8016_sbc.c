@@ -112,8 +112,7 @@ static struct apq8016_sbc_data *apq8016_sbc_parse_of(struct snd_soc_card *card)
 		link->codec_of_node = of_parse_phandle(codec, "sound-dai", 0);
 		if (!link->codec_of_node) {
 			dev_err(card->dev, "error getting codec phandle\n");
-			ret = -EINVAL;
-			goto error;
+			return ERR_PTR(-EINVAL);
 		}
 
 		ret = snd_soc_of_get_dai_name(cpu, &link->cpu_dai_name);

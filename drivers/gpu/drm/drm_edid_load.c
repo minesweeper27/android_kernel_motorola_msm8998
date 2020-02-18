@@ -265,7 +265,6 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
 {
 	const char *connector_name = connector->name;
 	char *edidname, *last, *colon, *fwstr, *edidstr, *fallback = NULL;
-<<<<<<< HEAD
 	struct edid *edid;
 
 	if (edid_firmware[0] == '\0')
@@ -291,34 +290,6 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
 			break;
 		}
 
-=======
-	int ret;
-	struct edid *edid;
-
-	if (edid_firmware[0] == '\0')
-		return 0;
-
-	/*
-	 * If there are multiple edid files specified and separated
-	 * by commas, search through the list looking for one that
-	 * matches the connector.
-	 *
-	 * If there's one or more that don't't specify a connector, keep
-	 * the last one found one as a fallback.
-	 */
-	fwstr = kstrdup(edid_firmware, GFP_KERNEL);
-	edidstr = fwstr;
-
-	while ((edidname = strsep(&edidstr, ","))) {
-		colon = strchr(edidname, ':');
-		if (colon != NULL) {
-			if (strncmp(connector_name, edidname, colon - edidname))
-				continue;
-			edidname = colon + 1;
-			break;
-		}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (*edidname != '\0') /* corner case: multiple ',' */
 			fallback = edidname;
 	}
@@ -326,11 +297,7 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
 	if (!edidname) {
 		if (!fallback) {
 			kfree(fwstr);
-<<<<<<< HEAD
 			return ERR_PTR(-ENOENT);
-=======
-			return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 		edidname = fallback;
 	}
@@ -341,12 +308,6 @@ struct edid *drm_load_edid_firmware(struct drm_connector *connector)
 
 	edid = edid_load(connector, edidname, connector_name);
 	kfree(fwstr);
-<<<<<<< HEAD
-=======
-
-	if (IS_ERR_OR_NULL(edid))
-		return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return edid;
 }

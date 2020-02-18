@@ -74,12 +74,8 @@ static noinline void __init kmalloc_node_oob_right(void)
 	kfree(ptr);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SLUB
 static noinline void __init kmalloc_pagealloc_oob_right(void)
-=======
-static noinline void __init kmalloc_large_oob_right(void)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	char *ptr;
 	size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
@@ -129,7 +125,6 @@ static noinline void __init kmalloc_oob_krealloc_more(void)
 	if (!ptr1 || !ptr2) {
 		pr_err("Allocation failed\n");
 		kfree(ptr1);
-		kfree(ptr2);
 		return;
 	}
 
@@ -456,12 +451,9 @@ static int __init kmalloc_tests_init(void)
 	kmalloc_oob_right();
 	kmalloc_oob_left();
 	kmalloc_node_oob_right();
-<<<<<<< HEAD
 #ifdef CONFIG_SLUB
 	kmalloc_pagealloc_oob_right();
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kmalloc_large_oob_right();
 	kmalloc_oob_krealloc_more();
 	kmalloc_oob_krealloc_less();

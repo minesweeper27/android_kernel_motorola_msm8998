@@ -764,7 +764,6 @@ void set_section_perms(struct section_perm *perms, int n, bool set,
 
 		for (addr = perms[i].start;
 		     addr < perms[i].end;
-<<<<<<< HEAD
 		     addr += SECTION_SIZE) {
 			pmd_t *pmd;
 
@@ -780,13 +779,6 @@ void set_section_perms(struct section_perm *perms, int n, bool set,
 					       mm);
 		}
 	}
-=======
-		     addr += SECTION_SIZE)
-			section_update(addr, perms[i].mask,
-				set ? perms[i].prot : perms[i].clear, mm);
-	}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void update_sections_early(struct section_perm perms[], int n)
@@ -804,7 +796,6 @@ static void update_sections_early(struct section_perm perms[], int n)
 	read_unlock(&tasklist_lock);
 	set_section_perms(perms, n, true, current->active_mm);
 	set_section_perms(perms, n, true, &init_mm);
-<<<<<<< HEAD
 }
 
 int __fix_kernmem_perms(void *unused)
@@ -815,18 +806,6 @@ int __fix_kernmem_perms(void *unused)
 
 void fix_kernmem_perms(void)
 {
-=======
-}
-
-int __fix_kernmem_perms(void *unused)
-{
-	update_sections_early(nx_perms, ARRAY_SIZE(nx_perms));
-	return 0;
-}
-
-void fix_kernmem_perms(void)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	stop_machine(__fix_kernmem_perms, NULL, NULL);
 }
 

@@ -90,11 +90,7 @@
 static inline void local_flush_tlb_all(void)
 {
 	dsb(nshst);
-<<<<<<< HEAD
 	__tlbi(vmalle1);
-=======
-	asm("tlbi	vmalle1");
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dsb(nsh);
 	isb();
 }
@@ -123,12 +119,8 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
 	unsigned long addr = uaddr >> 12 | (ASID(vma->vm_mm) << 48);
 
 	dsb(ishst);
-<<<<<<< HEAD
 	__tlbi(vale1is, addr);
 	__tlbi_user(vale1is, addr);
-=======
-	asm("tlbi	vale1is, %0" : : "r" (addr));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dsb(ish);
 }
 
@@ -155,7 +147,6 @@ static inline void __flush_tlb_range(struct vm_area_struct *vma,
 
 	dsb(ishst);
 	for (addr = start; addr < end; addr += 1 << (PAGE_SHIFT - 12)) {
-<<<<<<< HEAD
 		if (last_level) {
 			__tlbi(vale1is, addr);
 			__tlbi_user(vale1is, addr);
@@ -163,12 +154,6 @@ static inline void __flush_tlb_range(struct vm_area_struct *vma,
 			__tlbi(vae1is, addr);
 			__tlbi_user(vae1is, addr);
 		}
-=======
-		if (last_level)
-			asm("tlbi vale1is, %0" : : "r"(addr));
-		else
-			asm("tlbi vae1is, %0" : : "r"(addr));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 	dsb(ish);
 }
@@ -207,12 +192,8 @@ static inline void __flush_tlb_pgtable(struct mm_struct *mm,
 {
 	unsigned long addr = uaddr >> 12 | (ASID(mm) << 48);
 
-<<<<<<< HEAD
 	__tlbi(vae1is, addr);
 	__tlbi_user(vae1is, addr);
-=======
-	asm("tlbi	vae1is, %0" : : "r" (addr));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dsb(ish);
 }
 

@@ -47,7 +47,6 @@ static int devfreq_simple_ondemand_func(struct devfreq *df,
 	    dfso_upthreshold < dfso_downdifferential)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	/* Prevent overflow */
 	if (stat->busy_time >= (1 << 24) || stat->total_time >= (1 << 24)) {
 		stat->busy_time >>= 7;
@@ -71,18 +70,6 @@ static int devfreq_simple_ondemand_func(struct devfreq *df,
 	if (stat->total_time == 0) {
 		*freq = max;
 		return 0;
-=======
-	/* Assume MAX if it is going to be divided by zero */
-	if (stat->total_time == 0) {
-		*freq = max;
-		return 0;
-	}
-
-	/* Prevent overflow */
-	if (stat->busy_time >= (1 << 24) || stat->total_time >= (1 << 24)) {
-		stat->busy_time >>= 7;
-		stat->total_time >>= 7;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	/* Set MAX if it's busy enough */

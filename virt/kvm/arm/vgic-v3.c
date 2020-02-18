@@ -106,11 +106,7 @@ static void vgic_v3_set_lr(struct kvm_vcpu *vcpu, int lr,
 		lr_val |= ((u64)lr_desc.hwirq) << ICH_LR_PHYS_ID_SHIFT;
 	}
 
-<<<<<<< HEAD
 	vcpu->arch.vgic_cpu.vgic_v3.vgic_lr[VGIC_V3_LR_INDEX(lr)] = lr_val;
-=======
-	vcpu->arch.vgic_cpu.vgic_v3.vgic_lr[LR_INDEX(lr)] = lr_val;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!(lr_desc.state & LR_STATE_MASK))
 		vcpu->arch.vgic_cpu.vgic_v3.vgic_elrsr |= (1U << lr);

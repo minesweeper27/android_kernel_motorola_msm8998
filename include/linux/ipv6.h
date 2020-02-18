@@ -65,10 +65,7 @@ struct ipv6_devconf {
 		struct in6_addr secret;
 	} stable_secret;
 	__s32		use_oif_addrs_only;
-<<<<<<< HEAD
 	__s32		accept_ra_prefix_route;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	void		*sysctl;
 };
 

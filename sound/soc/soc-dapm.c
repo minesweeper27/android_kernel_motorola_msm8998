@@ -282,11 +282,8 @@ void dapm_mark_endpoints_dirty(struct snd_soc_card *card)
 	mutex_lock(&card->dapm_mutex);
 
 	list_for_each_entry(w, &card->widgets, list) {
-<<<<<<< HEAD
 		if (w->ignore_suspend)
 			continue;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (w->is_ep) {
 			dapm_mark_dirty(w, "Rechecking endpoints");
 			if (w->is_ep & SND_SOC_DAPM_EP_SINK)
@@ -1065,17 +1062,10 @@ static int dapm_widget_list_create(struct snd_soc_dapm_widget_list **list,
 	struct list_head *it;
 	unsigned int size = 0;
 	unsigned int i = 0;
-<<<<<<< HEAD
 
 	list_for_each(it, widgets)
 		size++;
 
-=======
-
-	list_for_each(it, widgets)
-		size++;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	*list = kzalloc(sizeof(**list) + size * sizeof(*w), GFP_KERNEL);
 	if (*list == NULL)
 		return -ENOMEM;
@@ -3939,12 +3929,9 @@ static void dapm_connect_dai_link_widgets(struct snd_soc_card *card,
 	for (i = 0; i < rtd->num_codecs; i++) {
 		struct snd_soc_dai *codec_dai = rtd->codec_dais[i];
 
-<<<<<<< HEAD
 		if (!cpu_dai->component->codec)
 			continue;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/* connect BE DAI playback if widgets are valid */
 		if (codec_dai->playback_widget && cpu_dai->playback_widget) {
 			source = cpu_dai->playback_widget;

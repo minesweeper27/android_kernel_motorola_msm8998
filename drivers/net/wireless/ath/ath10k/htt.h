@@ -99,15 +99,11 @@ struct htt_data_tx_desc_frag {
 } __packed;
 
 struct htt_msdu_ext_desc {
-<<<<<<< HEAD
 #ifdef CONFIG_ATH10K_SNOC
 	__le32 tso_flag[5];
 #else
 	__le32 tso_flag[3];
 #endif
-=======
-	__le32 tso_flag[3];
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__le16 ip_identification;
 	u8 flags;
 	u8 reserved;
@@ -126,7 +122,6 @@ struct htt_msdu_ext_desc {
 				 | HTT_MSDU_EXT_DESC_FLAG_TCP_IPV4_CSUM_ENABLE \
 				 | HTT_MSDU_EXT_DESC_FLAG_TCP_IPV6_CSUM_ENABLE)
 
-<<<<<<< HEAD
 #define HTT_TX_IPV4_CSUM_EN	BIT(16)
 #define HTT_TX_UDP_IPV4_CSUM_EN	BIT(17)
 #define HTT_TX_UDP_IPV6_CSUM_EN	BIT(18)
@@ -140,8 +135,6 @@ struct htt_msdu_ext_desc {
 				| HTT_TX_TCP_IPV4_CSUM_EN \
 				| HTT_TX_TCP_IPV6_CSUM_EN)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 enum htt_data_tx_desc_flags0 {
 	HTT_DATA_TX_DESC_FLAGS0_MAC_HDR_PRESENT = 1 << 0,
 	HTT_DATA_TX_DESC_FLAGS0_NO_AGGR         = 1 << 1,
@@ -451,17 +444,10 @@ enum htt_10_4_t2h_msg_type {
 	HTT_10_4_T2H_MSG_TYPE_EN_STATS               = 0x14,
 	HTT_10_4_T2H_MSG_TYPE_AGGR_CONF              = 0x15,
 	HTT_10_4_T2H_MSG_TYPE_TX_FETCH_IND           = 0x16,
-<<<<<<< HEAD
 	HTT_10_4_T2H_MSG_TYPE_TX_FETCH_CONFIRM       = 0x17,
 	HTT_10_4_T2H_MSG_TYPE_STATS_NOUPLOAD         = 0x18,
 	/* 0x19 to 0x2f are reserved */
 	HTT_10_4_T2H_MSG_TYPE_TX_MODE_SWITCH_IND     = 0x30,
-=======
-	HTT_10_4_T2H_MSG_TYPE_TX_FETCH_CONF          = 0x17,
-	HTT_10_4_T2H_MSG_TYPE_STATS_NOUPLOAD         = 0x18,
-	/* 0x19 to 0x2f are reserved */
-	HTT_10_4_T2H_MSG_TYPE_TX_LOW_LATENCY_IND     = 0x30,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* keep this last */
 	HTT_10_4_T2H_NUM_MSGS
 };
@@ -494,13 +480,8 @@ enum htt_t2h_msg_type {
 	HTT_T2H_MSG_TYPE_TEST,
 	HTT_T2H_MSG_TYPE_EN_STATS,
 	HTT_T2H_MSG_TYPE_TX_FETCH_IND,
-<<<<<<< HEAD
 	HTT_T2H_MSG_TYPE_TX_FETCH_CONFIRM,
 	HTT_T2H_MSG_TYPE_TX_MODE_SWITCH_IND,
-=======
-	HTT_T2H_MSG_TYPE_TX_FETCH_CONF,
-	HTT_T2H_MSG_TYPE_TX_LOW_LATENCY_IND,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* keep this last */
 	HTT_T2H_NUM_MSGS
 };
@@ -1626,10 +1607,6 @@ struct ath10k_htt {
 	u8 target_version_major;
 	u8 target_version_minor;
 	struct completion target_version_received;
-<<<<<<< HEAD
-=======
-	enum ath10k_fw_htt_op_version op_version;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u8 max_num_amsdu;
 	u8 max_num_ampdu;
 
@@ -1726,12 +1703,9 @@ struct ath10k_htt {
 	int num_pending_mgmt_tx;
 	struct idr pending_tx;
 	wait_queue_head_t empty_tx_wq;
-<<<<<<< HEAD
 
 	/* FIFO for storing tx done status {ack, no-ack, discard} and msdu id */
 	DECLARE_KFIFO_PTR(txdone_fifo, struct htt_tx_done);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* set if host-fw communication goes haywire
 	 * used to avoid further failures */
@@ -1756,7 +1730,6 @@ struct ath10k_htt {
 		dma_addr_t paddr;
 		struct ath10k_htt_txbuf *vaddr;
 	} txbuf;
-<<<<<<< HEAD
 
 	struct {
 		bool enabled;
@@ -1768,8 +1741,6 @@ struct ath10k_htt {
 		enum htt_tx_mode_switch_mode mode;
 		enum htt_q_depth_type type;
 	} tx_q_state;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define RX_HTT_HDR_STATUS_LEN 64
@@ -1855,7 +1826,6 @@ int ath10k_htt_h2t_aggr_cfg_msg(struct ath10k_htt *htt,
 				u8 max_subfrms_ampdu,
 				u8 max_subfrms_amsdu);
 void ath10k_htt_hif_tx_complete(struct ath10k *ar, struct sk_buff *skb);
-<<<<<<< HEAD
 int ath10k_htt_tx_fetch_resp(struct ath10k *ar,
 			     __le32 token,
 			     __le16 fetch_seq_num,
@@ -1873,10 +1843,6 @@ void ath10k_htt_tx_mgmt_dec_pending(struct ath10k_htt *htt);
 int ath10k_htt_tx_mgmt_inc_pending(struct ath10k_htt *htt, bool is_mgmt,
 				   bool is_presp);
 
-=======
-
-void __ath10k_htt_tx_dec_pending(struct ath10k_htt *htt, bool limit_mgmt_desc);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int ath10k_htt_tx_alloc_msdu_id(struct ath10k_htt *htt, struct sk_buff *skb);
 void ath10k_htt_tx_free_msdu_id(struct ath10k_htt *htt, u16 msdu_id);
 int ath10k_htt_mgmt_tx(struct ath10k_htt *htt, struct sk_buff *);

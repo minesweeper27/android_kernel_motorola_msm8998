@@ -286,7 +286,6 @@ static inline int gic_get_usm_range(struct resource *gic_usm_res)
 
 #endif /* CONFIG_MIPS_GIC */
 
-<<<<<<< HEAD
 /**
  * gic_read_local_vp_id() - read the local VPs VCNUM
  *
@@ -299,6 +298,4 @@ static inline int gic_get_usm_range(struct resource *gic_usm_res)
  */
 extern unsigned gic_read_local_vp_id(void);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* __LINUX_IRQCHIP_MIPS_GIC_H */

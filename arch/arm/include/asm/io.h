@@ -459,7 +459,6 @@ static inline void memcpy_toio(volatile void __iomem *to, const void *from,
  * The cache hint is only a performance hint: CPUs may alias these hints.
  * Eg, a CPU not implementing read allocate but implementing write allocate
  * will provide a write allocate mapping instead.
-<<<<<<< HEAD
  */
 void __iomem *ioremap(resource_size_t res_cookie, size_t size);
 #define ioremap ioremap
@@ -491,22 +490,6 @@ void iounmap(volatile void __iomem *iomem_cookie);
 #define iowrite64(v, p)	({ __iowmb(); __raw_writeq((__force __u64)cpu_to_le64(v), p); })
 
 #define iowrite64be(v, p) ({ __iowmb(); __raw_writeq((__force __u64)cpu_to_be64(v), p); })
-=======
- */
-void __iomem *ioremap(resource_size_t res_cookie, size_t size);
-#define ioremap ioremap
-#define ioremap_nocache ioremap
-
-void __iomem *ioremap_cache(resource_size_t res_cookie, size_t size);
-#define ioremap_cache ioremap_cache
-
-void __iomem *ioremap_wc(resource_size_t res_cookie, size_t size);
-#define ioremap_wc ioremap_wc
-#define ioremap_wt ioremap_wc
-
-void iounmap(volatile void __iomem *iomem_cookie);
-#define iounmap iounmap
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /*
  * io{read,write}{16,32}be() macros

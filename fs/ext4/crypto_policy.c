@@ -183,16 +183,11 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 		return 1;
 
 	/* Encrypted directories must not contain unencrypted files */
-<<<<<<< HEAD
 	if (!ext4_encrypted_inode(child)) {
 		pr_warn("EXT4-fs (%s): unencrypted file %lu in encrypted dir %lu\n",
 			child->i_sb->s_id, child->i_ino, parent->i_ino);
 		return 0;
 	}
-=======
-	if (!ext4_encrypted_inode(child))
-		return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Both parent and child are encrypted, so verify they use the same
@@ -210,7 +205,6 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 	 */
 
 	res = ext4_get_encryption_info(parent);
-<<<<<<< HEAD
 	if (res) {
 		pr_warn("%s: get parent encryption info %lu  dir\n", __func__,
 			parent->i_ino);
@@ -226,23 +220,11 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 	child_ci = EXT4_I(child)->i_crypt_info;
 	if (parent_ci && child_ci) {
 		res = memcmp(parent_ci->ci_master_key, child_ci->ci_master_key,
-=======
-	if (res)
-		return 0;
-	res = ext4_get_encryption_info(child);
-	if (res)
-		return 0;
-	parent_ci = EXT4_I(parent)->i_crypt_info;
-	child_ci = EXT4_I(child)->i_crypt_info;
-	if (parent_ci && child_ci) {
-		return memcmp(parent_ci->ci_master_key, child_ci->ci_master_key,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			      EXT4_KEY_DESCRIPTOR_SIZE) == 0 &&
 			(parent_ci->ci_data_mode == child_ci->ci_data_mode) &&
 			(parent_ci->ci_filename_mode ==
 			 child_ci->ci_filename_mode) &&
 			(parent_ci->ci_flags == child_ci->ci_flags);
-<<<<<<< HEAD
 		if (!res) {
 			pr_warn("EXT4-fs (%s): crypt info mismatch %d-%s\n",
 				child->i_sb->s_id, current->pid, current->comm);
@@ -256,22 +238,15 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 				child_ci->ci_filename_mode, child_ci->ci_flags);
 		}
 		return res;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	res = ext4_xattr_get(parent, EXT4_XATTR_INDEX_ENCRYPTION,
 			     EXT4_XATTR_NAME_ENCRYPTION_CONTEXT,
 			     &parent_ctx, sizeof(parent_ctx));
-<<<<<<< HEAD
 	if (res != sizeof(parent_ctx)) {
 		pr_warn("%s: parent ctx size error res:%d\n", __func__, res);
 		return 0;
 	}
-=======
-	if (res != sizeof(parent_ctx))
-		return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	res = ext4_xattr_get(child, EXT4_XATTR_INDEX_ENCRYPTION,
 			     EXT4_XATTR_NAME_ENCRYPTION_CONTEXT,
@@ -279,14 +254,9 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 	if (res != sizeof(child_ctx)) {
 		pr_warn("%s: child ctx size error res:%d\n", __func__, res);
 		return 0;
-<<<<<<< HEAD
 	}
 
 	res = memcmp(parent_ctx.master_key_descriptor,
-=======
-
-	return memcmp(parent_ctx.master_key_descriptor,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		      child_ctx.master_key_descriptor,
 		      EXT4_KEY_DESCRIPTOR_SIZE) == 0 &&
 		(parent_ctx.contents_encryption_mode ==
@@ -294,7 +264,6 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 		(parent_ctx.filenames_encryption_mode ==
 		 child_ctx.filenames_encryption_mode) &&
 		(parent_ctx.flags == child_ctx.flags);
-<<<<<<< HEAD
 	if (!res) {
 		pr_warn("EXT4-fs (%s): crypt context mismatch %d-%s\n",
 			child->i_sb->s_id, current->pid, current->comm);
@@ -310,8 +279,6 @@ int ext4_is_child_context_consistent_with_parent(struct inode *parent,
 			child_ctx.flags);
 	}
 	return res;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**
@@ -326,7 +293,6 @@ int ext4_inherit_context(struct inode *parent, struct inode *child)
 	struct ext4_encryption_context ctx;
 	struct ext4_crypt_info *ci;
 	int res;
-<<<<<<< HEAD
 
 	res = ext4_get_encryption_info(parent);
 	if (res < 0)
@@ -335,16 +301,6 @@ int ext4_inherit_context(struct inode *parent, struct inode *child)
 	if (ci == NULL)
 		return -ENOKEY;
 
-=======
-
-	res = ext4_get_encryption_info(parent);
-	if (res < 0)
-		return res;
-	ci = EXT4_I(parent)->i_crypt_info;
-	if (ci == NULL)
-		return -ENOKEY;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ctx.format = EXT4_ENCRYPTION_CONTEXT_FORMAT_V1;
 	if (DUMMY_ENCRYPTION_ENABLED(EXT4_SB(parent->i_sb))) {
 		ctx.contents_encryption_mode = EXT4_ENCRYPTION_MODE_AES_256_XTS;

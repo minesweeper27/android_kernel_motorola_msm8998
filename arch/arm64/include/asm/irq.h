@@ -1,7 +1,6 @@
 #ifndef __ASM_IRQ_H
 #define __ASM_IRQ_H
 
-<<<<<<< HEAD
 #define IRQ_STACK_SIZE			THREAD_SIZE
 #define IRQ_STACK_START_SP		THREAD_START_SP
 
@@ -9,14 +8,11 @@
 
 #include <linux/percpu.h>
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm-generic/irq.h>
 #include <asm/thread_info.h>
 
 struct pt_regs;
 
-<<<<<<< HEAD
 DECLARE_PER_CPU(unsigned long [IRQ_STACK_SIZE/sizeof(long)], irq_stack);
 
 /*
@@ -44,14 +40,11 @@ DECLARE_PER_CPU(unsigned long [IRQ_STACK_SIZE/sizeof(long)], irq_stack);
  */
 #define IRQ_STACK_TO_TASK_STACK(ptr) (*((unsigned long *)((ptr) - 0x08)))
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern void set_handle_irq(void (*handle_irq)(struct pt_regs *));
 
 static inline int nr_legacy_irqs(void)
 {
 	return 0;
-<<<<<<< HEAD
 }
 
 void arch_trigger_all_cpu_backtrace(void);
@@ -64,8 +57,6 @@ static inline bool on_irq_stack(unsigned long sp, int cpu)
 	unsigned long high = low + IRQ_STACK_START_SP;
 
 	return (low <= sp && sp <= high);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #endif /* !__ASSEMBLER__ */

@@ -579,11 +579,7 @@ static void blk_release_queue(struct kobject *kobj)
 	struct request_queue *q =
 		container_of(kobj, struct request_queue, kobj);
 
-<<<<<<< HEAD
 	bdi_put(q->backing_dev_info);
-=======
-	bdi_exit(&q->backing_dev_info);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	blkcg_exit_queue(q);
 
 	if (q->elevator) {

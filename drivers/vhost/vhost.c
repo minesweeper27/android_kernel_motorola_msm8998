@@ -27,10 +27,7 @@
 #include <linux/cgroup.h>
 #include <linux/module.h>
 #include <linux/sort.h>
-<<<<<<< HEAD
 #include <linux/interval_tree_generic.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/nospec.h>
 
 #include "vhost.h"
@@ -39,13 +36,10 @@ static ushort max_mem_regions = 64;
 module_param(max_mem_regions, ushort, 0444);
 MODULE_PARM_DESC(max_mem_regions,
 	"Maximum number of memory regions in memory map. (default: 64)");
-<<<<<<< HEAD
 static int max_iotlb_entries = 2048;
 module_param(max_iotlb_entries, int, 0444);
 MODULE_PARM_DESC(max_iotlb_entries,
 	"Maximum number of iotlb entries. (default: 2048)");
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 enum {
 	VHOST_MEMORY_F_LOG = 0x1,
@@ -54,22 +48,16 @@ enum {
 #define vhost_used_event(vq) ((__virtio16 __user *)&vq->avail->ring[vq->num])
 #define vhost_avail_event(vq) ((__virtio16 __user *)&vq->used->ring[vq->num])
 
-<<<<<<< HEAD
 INTERVAL_TREE_DEFINE(struct vhost_umem_node,
 		     rb, __u64, __subtree_last,
 		     START, LAST, , vhost_umem_interval_tree);
 
 #ifdef CONFIG_VHOST_CROSS_ENDIAN_LEGACY
 static void vhost_disable_cross_endian(struct vhost_virtqueue *vq)
-=======
-#ifdef CONFIG_VHOST_CROSS_ENDIAN_LEGACY
-static void vhost_vq_reset_user_be(struct vhost_virtqueue *vq)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	vq->user_be = !virtio_legacy_is_little_endian();
 }
 
-<<<<<<< HEAD
 static void vhost_enable_cross_endian_big(struct vhost_virtqueue *vq)
 {
 	vq->user_be = true;
@@ -80,8 +68,6 @@ static void vhost_enable_cross_endian_little(struct vhost_virtqueue *vq)
 	vq->user_be = false;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static long vhost_set_vring_endian(struct vhost_virtqueue *vq, int __user *argp)
 {
 	struct vhost_vring_state s;
@@ -96,14 +82,10 @@ static long vhost_set_vring_endian(struct vhost_virtqueue *vq, int __user *argp)
 	    s.num != VHOST_VRING_BIG_ENDIAN)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (s.num == VHOST_VRING_BIG_ENDIAN)
 		vhost_enable_cross_endian_big(vq);
 	else
 		vhost_enable_cross_endian_little(vq);
-=======
-	vq->user_be = s.num;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	return 0;
 }
@@ -132,11 +114,7 @@ static void vhost_init_is_le(struct vhost_virtqueue *vq)
 	vq->is_le = vhost_has_feature(vq, VIRTIO_F_VERSION_1) || !vq->user_be;
 }
 #else
-<<<<<<< HEAD
 static void vhost_disable_cross_endian(struct vhost_virtqueue *vq)
-=======
-static void vhost_vq_reset_user_be(struct vhost_virtqueue *vq)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 }
 
@@ -153,7 +131,6 @@ static long vhost_get_vring_endian(struct vhost_virtqueue *vq, u32 idx,
 
 static void vhost_init_is_le(struct vhost_virtqueue *vq)
 {
-<<<<<<< HEAD
 	vq->is_le = vhost_has_feature(vq, VIRTIO_F_VERSION_1)
 		|| virtio_legacy_is_little_endian();
 }
@@ -177,13 +154,6 @@ static void vhost_flush_work(struct vhost_work *work)
 	complete(&s->wait_event);
 }
 
-=======
-	if (vhost_has_feature(vq, VIRTIO_F_VERSION_1))
-		vq->is_le = true;
-}
-#endif /* CONFIG_VHOST_CROSS_ENDIAN_LEGACY */
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void vhost_poll_func(struct file *file, wait_queue_head_t *wqh,
 			    poll_table *pt)
 {
@@ -336,17 +306,11 @@ static void vhost_vq_reset(struct vhost_dev *dev,
 	vq->call_ctx = NULL;
 	vq->call = NULL;
 	vq->log_ctx = NULL;
-<<<<<<< HEAD
 	vhost_reset_is_le(vq);
 	vhost_disable_cross_endian(vq);
 	vq->busyloop_timeout = 0;
 	vq->umem = NULL;
 	vq->iotlb = NULL;
-=======
-	vq->memory = NULL;
-	vq->is_le = virtio_legacy_is_little_endian();
-	vhost_vq_reset_user_be(vq);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static int vhost_worker(void *data)
@@ -462,14 +426,11 @@ void vhost_dev_init(struct vhost_dev *dev,
 	dev->worker = NULL;
 	dev->weight = weight;
 	dev->byte_weight = byte_weight;
-<<<<<<< HEAD
 	init_llist_head(&dev->work_list);
 	init_waitqueue_head(&dev->wait);
 	INIT_LIST_HEAD(&dev->read_list);
 	INIT_LIST_HEAD(&dev->pending_list);
 	spin_lock_init(&dev->iotlb_lock);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	for (i = 0; i < dev->nvqs; ++i) {
 		vq = dev->vqs[i];
@@ -683,7 +644,6 @@ void vhost_dev_cleanup(struct vhost_dev *dev, bool locked)
 		fput(dev->log_file);
 	dev->log_file = NULL;
 	/* No one will access memory at this point */
-<<<<<<< HEAD
 	vhost_umem_clean(dev->umem);
 	dev->umem = NULL;
 	vhost_umem_clean(dev->iotlb);
@@ -691,11 +651,6 @@ void vhost_dev_cleanup(struct vhost_dev *dev, bool locked)
 	vhost_clear_msg(dev);
 	wake_up_interruptible_poll(&dev->wait, POLLIN | POLLRDNORM);
 	WARN_ON(!llist_empty(&dev->work_list));
-=======
-	kvfree(dev->memory);
-	dev->memory = NULL;
-	WARN_ON(!list_empty(&dev->work_list));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (dev->worker) {
 		kthread_stop(dev->worker);
 		dev->worker = NULL;
@@ -1252,7 +1207,6 @@ int vhost_vq_access_ok(struct vhost_virtqueue *vq)
 }
 EXPORT_SYMBOL_GPL(vhost_vq_access_ok);
 
-<<<<<<< HEAD
 static struct vhost_umem *vhost_umem_alloc(void)
 {
 	struct vhost_umem *umem = vhost_kvzalloc(sizeof(*umem));
@@ -1265,25 +1219,6 @@ static struct vhost_umem *vhost_umem_alloc(void)
 	INIT_LIST_HEAD(&umem->umem_list);
 
 	return umem;
-=======
-static int vhost_memory_reg_sort_cmp(const void *p1, const void *p2)
-{
-	const struct vhost_memory_region *r1 = p1, *r2 = p2;
-	if (r1->guest_phys_addr < r2->guest_phys_addr)
-		return 1;
-	if (r1->guest_phys_addr > r2->guest_phys_addr)
-		return -1;
-	return 0;
-}
-
-static void *vhost_kvzalloc(unsigned long size)
-{
-	void *n = kzalloc(size, GFP_KERNEL | __GFP_NOWARN | __GFP_REPEAT);
-
-	if (!n)
-		n = vzalloc(size);
-	return n;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static long vhost_set_memory(struct vhost_dev *d, struct vhost_memory __user *m)
@@ -1310,10 +1245,7 @@ static long vhost_set_memory(struct vhost_dev *d, struct vhost_memory __user *m)
 		kvfree(newmem);
 		return -EFAULT;
 	}
-	sort(newmem->regions, newmem->nregions, sizeof(*newmem->regions),
-		vhost_memory_reg_sort_cmp, NULL);
 
-<<<<<<< HEAD
 	newumem = vhost_umem_alloc();
 	if (!newumem) {
 		kvfree(newmem);
@@ -1331,11 +1263,6 @@ static long vhost_set_memory(struct vhost_dev *d, struct vhost_memory __user *m)
 					 region->userspace_addr,
 					 VHOST_ACCESS_RW))
 			goto err;
-=======
-	if (!memory_access_ok(d, newmem, 0)) {
-		kvfree(newmem);
-		return -EFAULT;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	if (!memory_access_ok(d, newumem, 0))
@@ -1350,13 +1277,9 @@ static long vhost_set_memory(struct vhost_dev *d, struct vhost_memory __user *m)
 		d->vqs[i]->umem = newumem;
 		mutex_unlock(&d->vqs[i]->mutex);
 	}
-<<<<<<< HEAD
 
 	kvfree(newmem);
 	vhost_umem_clean(oldumem);
-=======
-	kvfree(oldmem);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 
 err:
@@ -1548,7 +1471,6 @@ long vhost_vring_ioctl(struct vhost_dev *d, int ioctl, void __user *argp)
 	case VHOST_GET_VRING_ENDIAN:
 		r = vhost_get_vring_endian(vq, idx, argp);
 		break;
-<<<<<<< HEAD
 	case VHOST_SET_VRING_BUSYLOOP_TIMEOUT:
 		if (copy_from_user(&s, argp, sizeof(s))) {
 			r = -EFAULT;
@@ -1562,8 +1484,6 @@ long vhost_vring_ioctl(struct vhost_dev *d, int ioctl, void __user *argp)
 		if (copy_to_user(argp, &s, sizeof(s)))
 			r = -EFAULT;
 		break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	default:
 		r = -ENOIOCTLCMD;
 	}
@@ -1693,31 +1613,6 @@ done:
 }
 EXPORT_SYMBOL_GPL(vhost_dev_ioctl);
 
-<<<<<<< HEAD
-=======
-static const struct vhost_memory_region *find_region(struct vhost_memory *mem,
-						     __u64 addr, __u32 len)
-{
-	const struct vhost_memory_region *reg;
-	int start = 0, end = mem->nregions;
-
-	while (start < end) {
-		int slot = start + (end - start) / 2;
-		reg = mem->regions + slot;
-		if (addr >= reg->guest_phys_addr)
-			end = slot;
-		else
-			start = slot + 1;
-	}
-
-	reg = mem->regions + start;
-	if (addr >= reg->guest_phys_addr &&
-		reg->guest_phys_addr + reg->memory_size > addr)
-		return reg;
-	return NULL;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* TODO: This is really inefficient.  We need something like get_user()
  * (instruction directly accesses the data, with an exception table entry
  * returning -EFAULT). See Documentation/x86/exception-tables.txt.
@@ -1837,18 +1732,10 @@ int vhost_vq_init_access(struct vhost_virtqueue *vq)
 {
 	__virtio16 last_used_idx;
 	int r;
-<<<<<<< HEAD
 	bool is_le = vq->is_le;
 
 	if (!vq->private_data)
-=======
-	if (!vq->private_data) {
-		vq->is_le = virtio_legacy_is_little_endian();
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return 0;
-	}
-
-	vhost_init_is_le(vq);
 
 	vhost_init_is_le(vq);
 
@@ -2086,13 +1973,8 @@ int vhost_get_vq_desc(struct vhost_virtqueue *vq,
 
 	/* Grab the next descriptor number they're advertising, and increment
 	 * the index we've seen. */
-<<<<<<< HEAD
 	if (unlikely(vhost_get_user(vq, ring_head,
 		     &vq->avail->ring[last_avail_idx & (vq->num - 1)]))) {
-=======
-	if (unlikely(__get_user(ring_head,
-				&vq->avail->ring[last_avail_idx & (vq->num - 1)]))) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		vq_err(vq, "Failed to read head: idx %d address %p\n",
 		       last_avail_idx,
 		       &vq->avail->ring[last_avail_idx % vq->num]);

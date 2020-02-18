@@ -59,12 +59,6 @@ int ath10k_txrx_tx_unref(struct ath10k_htt *htt,
 	struct ath10k_skb_cb *skb_cb;
 	struct ath10k_txq *artxq;
 	struct sk_buff *msdu;
-<<<<<<< HEAD
-=======
-	struct ieee80211_hdr *hdr;
-	__le16 fc;
-	bool limit_mgmt_desc = false;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ath10k_dbg(ar, ATH10K_DBG_HTT,
 		   "htt tx completion msdu_id %u status %d\n",
@@ -82,7 +76,6 @@ int ath10k_txrx_tx_unref(struct ath10k_htt *htt,
 		ath10k_warn(ar, "received tx completion for invalid msdu_id: %d\n",
 			    tx_done->msdu_id);
 		spin_unlock_bh(&htt->tx_lock);
-<<<<<<< HEAD
 		return -ENOENT;
 	}
 
@@ -96,28 +89,10 @@ int ath10k_txrx_tx_unref(struct ath10k_htt *htt,
 
 	ath10k_htt_tx_free_msdu_id(htt, tx_done->msdu_id);
 	ath10k_htt_tx_dec_pending(htt);
-=======
-		return;
-	}
-
-	hdr = (struct ieee80211_hdr *)msdu->data;
-	fc = hdr->frame_control;
-
-	if (unlikely(ieee80211_is_mgmt(fc)) &&
-	    ar->hw_params.max_probe_resp_desc_thres)
-		limit_mgmt_desc = true;
-
-	ath10k_htt_tx_free_msdu_id(htt, tx_done->msdu_id);
-	__ath10k_htt_tx_dec_pending(htt, limit_mgmt_desc);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (htt->num_pending_tx == 0)
 		wake_up(&htt->empty_tx_wq);
 	spin_unlock_bh(&htt->tx_lock);
 
-<<<<<<< HEAD
-=======
-	skb_cb = ATH10K_SKB_CB(msdu);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dma_unmap_single(dev, skb_cb->paddr, msdu->len, DMA_TO_DEVICE);
 
 	ath10k_report_offchan_tx(htt->ar, msdu);
@@ -130,11 +105,7 @@ int ath10k_txrx_tx_unref(struct ath10k_htt *htt,
 
 	if (tx_done->status == HTT_TX_COMPL_STATE_DISCARD) {
 		ieee80211_free_txskb(htt->ar->hw, msdu);
-<<<<<<< HEAD
 		return 0;
-=======
-		return;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	if (!(info->flags & IEEE80211_TX_CTL_NO_ACK))
@@ -149,11 +120,8 @@ int ath10k_txrx_tx_unref(struct ath10k_htt *htt,
 
 	ieee80211_tx_status(htt->ar->hw, msdu);
 	/* we do not own the msdu anymore */
-<<<<<<< HEAD
 
 	return 0;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 struct ath10k_peer *ath10k_peer_find(struct ath10k *ar, int vdev_id,

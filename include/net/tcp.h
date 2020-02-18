@@ -289,10 +289,7 @@ extern int sysctl_tcp_autocorking;
 extern int sysctl_tcp_invalid_ratelimit;
 extern int sysctl_tcp_pacing_ss_ratio;
 extern int sysctl_tcp_pacing_ca_ratio;
-<<<<<<< HEAD
 extern int sysctl_tcp_default_init_rwnd;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 extern atomic_long_t tcp_memory_allocated;
 
@@ -390,7 +387,6 @@ ssize_t tcp_splice_read(struct socket *sk, loff_t *ppos,
 			struct pipe_inode_info *pipe, size_t len,
 			unsigned int flags);
 
-<<<<<<< HEAD
 /* sysctl master controller */
 extern int tcp_use_userconfig_sysctl_handler(struct ctl_table *, int,
 				void __user *, size_t *, loff_t *);
@@ -399,9 +395,6 @@ extern int tcp_proc_delayed_ack_control(struct ctl_table *, int,
 
 void tcp_enter_quickack_mode(struct sock *sk, unsigned int max_quickacks);
 
-=======
-void tcp_enter_quickack_mode(struct sock *sk, unsigned int max_quickacks);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void tcp_dec_quickack_mode(struct sock *sk,
 					 const unsigned int pkts)
 {

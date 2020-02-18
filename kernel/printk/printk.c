@@ -281,9 +281,6 @@ static u32 clear_idx;
 #define LOG_LEVEL(v)		((v) & 0x07)
 #define LOG_FACILITY(v)		((v) >> 3 & 0xff)
 
-#define LOG_LEVEL(v)		((v) & 0x07)
-#define LOG_FACILITY(v)		((v) >> 3 & 0xff)
-
 /* record buffer */
 #define LOG_ALIGN __alignof__(struct printk_log)
 #define __LOG_BUF_LEN (1 << CONFIG_LOG_BUF_SHIFT)
@@ -502,11 +499,7 @@ static int syslog_action_restricted(int type)
 	       type != SYSLOG_ACTION_SIZE_BUFFER;
 }
 
-<<<<<<< HEAD
 static int check_syslog_permissions(int type, int source)
-=======
-int check_syslog_permissions(int type, int source)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	/*
 	 * If this is from /proc/kmsg and we've already opened it, then we've
@@ -534,7 +527,6 @@ int check_syslog_permissions(int type, int source)
 ok:
 	return security_syslog(type);
 }
-EXPORT_SYMBOL_GPL(check_syslog_permissions);
 
 static void append_char(char **pp, char *e, char c)
 {
@@ -542,15 +534,6 @@ static void append_char(char **pp, char *e, char c)
 		*(*pp)++ = c;
 }
 
-<<<<<<< HEAD
-static void append_char(char **pp, char *e, char c)
-{
-	if (*pp < e)
-		*(*pp)++ = c;
-}
-
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static ssize_t msg_print_ext_header(char *buf, size_t size,
 				    struct printk_log *msg, u64 seq,
 				    enum log_flags prev_flags)

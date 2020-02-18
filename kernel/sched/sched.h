@@ -28,10 +28,7 @@ extern unsigned long calc_load_update;
 extern atomic_long_t calc_load_tasks;
 
 extern void calc_global_load_tick(struct rq *this_rq);
-<<<<<<< HEAD
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern long calc_load_fold_active(struct rq *this_rq);
 
 #ifdef CONFIG_SMP
@@ -479,10 +476,7 @@ struct cfs_rq {
 	unsigned long runnable_load_avg;
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	unsigned long tg_load_avg_contrib;
-<<<<<<< HEAD
 	unsigned long propagate_avg;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 	atomic_long_t removed_load_avg, removed_util_avg;
 #ifndef CONFIG_64BIT
@@ -741,10 +735,7 @@ struct rq {
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	/* list of leaf cfs_rq on this cpu: */
 	struct list_head leaf_cfs_rq_list;
-<<<<<<< HEAD
 	struct list_head *tmp_alone_branch;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_FAIR_GROUP_SCHED */
 
 	/*
@@ -1244,18 +1235,7 @@ static inline unsigned int cluster_max_freq(struct sched_cluster *cluster)
 	 * voting. So struct cluster saves both and return min() for current
 	 * cluster fmax.
 	 */
-<<<<<<< HEAD
 	return min(cluster->max_mitigated_freq, cluster->max_freq);
-=======
-	smp_wmb();
-#ifdef CONFIG_THREAD_INFO_IN_TASK
-	p->cpu = cpu;
-#else
-	task_thread_info(p)->cpu = cpu;
-#endif
-	p->wake_cpu = cpu;
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline unsigned int cpu_max_freq(int cpu)
@@ -1293,14 +1273,10 @@ static inline bool hmp_capable(void)
 	return max_possible_capacity != min_max_possible_capacity;
 }
 
-<<<<<<< HEAD
 static inline bool is_max_capacity_cpu(int cpu)
 {
 	return cpu_max_possible_capacity(cpu) == max_possible_capacity;
 }
-=======
-extern struct static_key_false sched_numa_balancing;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 static inline bool is_min_capacity_cpu(int cpu)
 {
@@ -1378,17 +1354,8 @@ fixup_cumulative_runnable_avg(struct hmp_sched_stats *stats,
 	BUG_ON((s64)stats->pred_demands_sum < 0);
 }
 
-<<<<<<< HEAD
 #define pct_to_real(tunable)	\
 		(div64_u64((u64)tunable * (u64)max_task_load(), 100))
-=======
-#ifndef prepare_arch_switch
-# define prepare_arch_switch(next)	do { } while (0)
-#endif
-#ifndef finish_arch_post_lock_switch
-# define finish_arch_post_lock_switch()	do { } while (0)
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define real_to_pct(tunable)	\
 		(div64_u64((u64)tunable * (u64)100, (u64)max_task_load()))
@@ -1415,7 +1382,6 @@ static inline u64 sched_irqload(int cpu)
 
 static inline int sched_cpu_high_irqload(int cpu)
 {
-<<<<<<< HEAD
 	return sched_irqload(cpu) >= sysctl_sched_cpu_high_irqload;
 }
 
@@ -1963,19 +1929,6 @@ static inline void finish_lock_switch(struct rq *rq, struct task_struct *prev)
 	 *
 	 * Pairs with the control dependency and rmb in try_to_wake_up().
 	 */
-=======
-#ifdef CONFIG_SMP
-	/*
-	 * After ->on_cpu is cleared, the task can be moved to a different CPU.
-	 * We must ensure this doesn't happen until the switch is completely
-	 * finished.
-	 *
-	 * In particular, the load of prev->state in finish_task_switch() must
-	 * happen before this.
-	 *
-	 * Pairs with the control dependency and rmb in try_to_wake_up().
-	 */
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	smp_store_release(&prev->on_cpu, 0);
 #endif
 #ifdef CONFIG_DEBUG_SPINLOCK
@@ -2053,7 +2006,6 @@ static const u32 prio_to_wmult[40] = {
  /*  15 */ 119304647, 148102320, 186737708, 238609294, 286331153,
 };
 
-<<<<<<< HEAD
 /*
  * {de,en}queue flags:
  *
@@ -2089,20 +2041,6 @@ static const u32 prio_to_wmult[40] = {
 #define ENQUEUE_WAKING		0x00
 #endif
 #define ENQUEUE_WAKEUP_NEW	0x40
-=======
-#define ENQUEUE_WAKEUP		0x01
-#define ENQUEUE_HEAD		0x02
-#ifdef CONFIG_SMP
-#define ENQUEUE_WAKING		0x04	/* sched_class::task_waking was called */
-#else
-#define ENQUEUE_WAKING		0x00
-#endif
-#define ENQUEUE_REPLENISH	0x08
-#define ENQUEUE_RESTORE	0x10
-
-#define DEQUEUE_SLEEP		0x01
-#define DEQUEUE_SAVE		0x02
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define RETRY_TASK		((void *)-1UL)
 
@@ -2129,12 +2067,8 @@ struct sched_class {
 	void (*put_prev_task) (struct rq *rq, struct task_struct *p);
 
 #ifdef CONFIG_SMP
-<<<<<<< HEAD
 	int  (*select_task_rq)(struct task_struct *p, int task_cpu, int sd_flag, int flags,
 			       int subling_count_hint);
-=======
-	int  (*select_task_rq)(struct task_struct *p, int task_cpu, int sd_flag, int flags);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	void (*migrate_task_rq)(struct task_struct *p);
 
 	void (*task_waking) (struct task_struct *task);
@@ -2171,7 +2105,6 @@ struct sched_class {
 #define TASK_MOVE_GROUP	1
 
 #ifdef CONFIG_FAIR_GROUP_SCHED
-<<<<<<< HEAD
 	void (*task_change_group)(struct task_struct *p, int type);
 #endif
 #ifdef CONFIG_SCHED_HMP
@@ -2179,9 +2112,6 @@ struct sched_class {
 	void (*dec_hmp_sched_stats)(struct rq *rq, struct task_struct *p);
 	void (*fixup_hmp_sched_stats)(struct rq *rq, struct task_struct *p,
 				      u32 new_task_load, u32 new_pred_demand);
-=======
-	void (*task_move_group) (struct task_struct *p);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 };
 
@@ -2289,14 +2219,9 @@ extern void init_dl_task_timer(struct sched_dl_entity *dl_se);
 unsigned long to_ratio(u64 period, u64 runtime);
 
 extern void init_entity_runnable_average(struct sched_entity *se);
-<<<<<<< HEAD
 extern void post_init_entity_util_avg(struct sched_entity *se);
 
 static inline void __add_nr_running(struct rq *rq, unsigned count)
-=======
-
-static inline void add_nr_running(struct rq *rq, unsigned count)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	unsigned prev_nr = rq->nr_running;
 
@@ -2440,7 +2365,6 @@ unsigned long arch_scale_cpu_capacity(struct sched_domain *sd, int cpu)
 }
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_SMP
 static inline unsigned long capacity_of(int cpu)
 {
@@ -2534,8 +2458,6 @@ static inline bool energy_aware(void)
 }
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void sched_rt_avg_update(struct rq *rq, u64 rt_delta)
 {
 	rq->rt_avg += rt_delta * arch_scale_freq_capacity(NULL, cpu_of(rq));

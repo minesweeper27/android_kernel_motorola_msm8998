@@ -183,7 +183,6 @@ static inline u32 skcipher_request_flags(struct skcipher_request *req)
 	return req->base.flags;
 }
 
-<<<<<<< HEAD
 static inline unsigned int crypto_skcipher_alg_min_keysize(
 	struct skcipher_alg *alg)
 {
@@ -210,7 +209,5 @@ static inline unsigned int crypto_skcipher_alg_max_keysize(
 	return alg->max_keysize;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif	/* _CRYPTO_INTERNAL_SKCIPHER_H */
 

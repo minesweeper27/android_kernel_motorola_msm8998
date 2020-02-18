@@ -357,7 +357,6 @@ of ftrace. Here is a list of some of the key files:
 		  to correlate events across hypervisor/guest if
 		  tb_offset is known.
 
-<<<<<<< HEAD
 	  mono: This uses the fast monotonic clock (CLOCK_MONOTONIC)
 		which is monotonic and is subject to NTP rate adjustments.
 
@@ -378,8 +377,6 @@ of ftrace. Here is a list of some of the key files:
 		processing should be able to handle them. See comments on
 		ktime_get_boot_fast_ns function for more information.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	To set a clock, simply echo the clock name into this file.
 
 	  echo global > trace_clock

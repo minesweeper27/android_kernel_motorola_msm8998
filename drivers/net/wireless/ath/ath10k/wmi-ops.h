@@ -55,11 +55,8 @@ struct wmi_ops {
 			    struct wmi_roam_ev_arg *arg);
 	int (*pull_wow_event)(struct ath10k *ar, struct sk_buff *skb,
 			      struct wmi_wow_ev_arg *arg);
-<<<<<<< HEAD
 	int (*pull_echo_ev)(struct ath10k *ar, struct sk_buff *skb,
 			    struct wmi_echo_ev_arg *arg);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	enum wmi_txbf_conf (*get_txbf_conf_scheme)(struct ath10k *ar);
 
 	struct sk_buff *(*gen_pdev_suspend)(struct ath10k *ar, u32 suspend_opt);
@@ -202,7 +199,6 @@ struct wmi_ops {
 							u8 enable,
 							u32 detect_level,
 							u32 detect_margin);
-<<<<<<< HEAD
 	struct sk_buff *(*gen_set_pdev_mac_addr)(struct ath10k *ar, u32 pdev_id,
 						 u8 *mac_addr);
 
@@ -217,8 +213,6 @@ struct wmi_ops {
 	struct sk_buff *(*gen_echo)(struct ath10k *ar, u32 value);
 	struct sk_buff *(*gen_csa_offload)(struct ath10k *ar,
 					   u32 vdev_id, bool enable);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 int ath10k_wmi_cmd_send(struct ath10k *ar, struct sk_buff *skb, u32 cmd_id);
@@ -392,15 +386,6 @@ ath10k_wmi_pull_wow_event(struct ath10k *ar, struct sk_buff *skb,
 		return -EOPNOTSUPP;
 
 	return ar->wmi.ops->pull_wow_event(ar, skb, arg);
-}
-
-static inline enum wmi_txbf_conf
-ath10k_wmi_get_txbf_conf_scheme(struct ath10k *ar)
-{
-	if (!ar->wmi.ops->get_txbf_conf_scheme)
-		return WMI_TXBF_CONF_UNSUPPORTED;
-
-	return ar->wmi.ops->get_txbf_conf_scheme(ar);
 }
 
 static inline int
@@ -1462,7 +1447,6 @@ ath10k_wmi_pdev_enable_adaptive_cca(struct ath10k *ar, u8 enable,
 				   ar->wmi.cmd->pdev_enable_adaptive_cca_cmdid);
 }
 
-<<<<<<< HEAD
 static inline int
 ath10k_wmi_ext_resource_config(struct ath10k *ar,
 			       enum wmi_host_platform_type type,
@@ -1564,6 +1548,4 @@ ath10k_gen_set_base_mac_addr(struct ath10k *ar, u8 *mac)
 	return 0;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

@@ -886,12 +886,9 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
 	    !blk_write_same_mergeable(rq->bio, bio))
 		return false;
 
-<<<<<<< HEAD
 	if (crypto_not_mergeable(rq->bio, bio))
 		return false;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return true;
 }
 

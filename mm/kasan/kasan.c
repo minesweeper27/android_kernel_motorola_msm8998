@@ -22,10 +22,7 @@
 #include <linux/kasan.h>
 #include <linux/kernel.h>
 #include <linux/kmemleak.h>
-<<<<<<< HEAD
 #include <linux/linkage.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <linux/memblock.h>
 #include <linux/memory.h>
 #include <linux/mm.h>
@@ -318,11 +315,7 @@ static __always_inline void check_memory_region_inline(unsigned long addr,
 
 	if (unlikely((void *)addr <
 		kasan_shadow_to_mem((void *)KASAN_SHADOW_START))) {
-<<<<<<< HEAD
 		kasan_report(addr, size, write, ret_ip);
-=======
-		kasan_report(addr, size, write, _RET_IP_);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		return;
 	}
 
@@ -818,13 +811,8 @@ static int kasan_mem_notifier(struct notifier_block *nb,
 
 static int __init kasan_memhotplug_init(void)
 {
-<<<<<<< HEAD
 	pr_info("WARNING: KASAN doesn't support memory hot-add\n");
 	pr_info("Memory hot-add will be disabled\n");
-=======
-	pr_err("WARNING: KASAN doesn't support memory hot-add\n");
-	pr_err("Memory hot-add will be disabled\n");
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	hotplug_memory_notifier(kasan_mem_notifier, 0);
 

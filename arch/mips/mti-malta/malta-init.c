@@ -302,14 +302,4 @@ mips_pci_controller:
 	if (!register_vsmp_smp_ops())
 		return;
 	register_up_smp_ops();
-<<<<<<< HEAD
-=======
-}
-
-void platform_early_l2_init(void)
-{
-	/* L2 configuration lives in the CM3 */
-	if (mips_cm_revision() >= CM_REV_CM3)
-		mips_cm_probe();
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }

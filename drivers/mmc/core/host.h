@@ -23,11 +23,8 @@ void mmc_retune_hold(struct mmc_host *host);
 void mmc_retune_release(struct mmc_host *host);
 int mmc_retune(struct mmc_host *host);
 
-<<<<<<< HEAD
 void mmc_latency_hist_sysfs_init(struct mmc_host *host);
 void mmc_latency_hist_sysfs_exit(struct mmc_host *host);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 

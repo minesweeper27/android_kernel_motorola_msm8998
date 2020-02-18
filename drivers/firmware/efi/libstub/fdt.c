@@ -147,7 +147,6 @@ efi_status_t update_fdt(efi_system_table_t *sys_table, void *orig_fdt,
 	if (status)
 		goto fdt_set_fail;
 
-<<<<<<< HEAD
 	if (IS_ENABLED(CONFIG_RANDOMIZE_BASE)) {
 		efi_status_t efi_status;
 
@@ -162,8 +161,6 @@ efi_status_t update_fdt(efi_system_table_t *sys_table, void *orig_fdt,
 			return efi_status;
 		}
 	}
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return EFI_SUCCESS;
 
 fdt_set_fail:

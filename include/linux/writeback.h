@@ -224,10 +224,7 @@ static inline void inode_attach_wb(struct inode *inode, struct page *page)
 static inline void inode_detach_wb(struct inode *inode)
 {
 	if (inode->i_wb) {
-<<<<<<< HEAD
 		WARN_ON_ONCE(!(inode->i_state & I_CLEAR));
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		wb_put(inode->i_wb);
 		inode->i_wb = NULL;
 	}

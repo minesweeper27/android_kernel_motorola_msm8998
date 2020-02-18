@@ -762,10 +762,7 @@ struct usb_gadget {
 	unsigned			is_selfpowered:1;
 	unsigned			deactivated:1;
 	unsigned			connected:1;
-<<<<<<< HEAD
 	bool                            remote_wakeup;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 #define work_to_gadget(w)	(container_of((w), struct usb_gadget, work))
 
@@ -1082,7 +1079,6 @@ static inline int usb_gadget_disconnect(struct usb_gadget *gadget)
 }
 
 /**
-<<<<<<< HEAD
  * usb_gadget_restart - software-controlled reset of USB peripheral connection
  * @gadget:the peripheral being reset
  *
@@ -1097,8 +1093,6 @@ static inline int usb_gadget_restart(struct usb_gadget *gadget)
 }
 
 /**
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * usb_gadget_deactivate - deactivate function which is not ready to work
  * @gadget: the peripheral being deactivated
  *
@@ -1129,7 +1123,6 @@ static inline int usb_gadget_deactivate(struct usb_gadget *gadget)
 	gadget->deactivated = true;
 
 	return 0;
-<<<<<<< HEAD
 }
 
 /**
@@ -1279,34 +1272,6 @@ static inline void usb_gadget_autopm_put_no_suspend(struct usb_gadget *gadget)
 {
 	if (gadget && gadget->dev.parent)
 		pm_runtime_put_noidle(gadget->dev.parent);
-=======
-}
-
-/**
- * usb_gadget_activate - activate function which is not ready to work
- * @gadget: the peripheral being activated
- *
- * This routine activates gadget which was previously deactivated with
- * usb_gadget_deactivate() call. It calls usb_gadget_connect() if needed.
- *
- * Returns zero on success, else negative errno.
- */
-static inline int usb_gadget_activate(struct usb_gadget *gadget)
-{
-	if (!gadget->deactivated)
-		return 0;
-
-	gadget->deactivated = false;
-
-	/*
-	 * If gadget has been connected before deactivation, or became connected
-	 * while it was being deactivated, we call usb_gadget_connect().
-	 */
-	if (gadget->connected)
-		return usb_gadget_connect(gadget);
-
-	return 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1517,7 +1482,6 @@ struct usb_descriptor_header *usb_otg_descriptor_alloc(
 				struct usb_gadget *gadget);
 int usb_otg_descriptor_init(struct usb_gadget *gadget,
 		struct usb_descriptor_header *otg_desc);
-<<<<<<< HEAD
 /*-------------------------------------------------------------------------*/
 
 /**
@@ -1536,8 +1500,6 @@ int usb_otg_descriptor_init(struct usb_gadget *gadget,
 int usb_func_ep_queue(struct usb_function *func, struct usb_ep *ep,
 				struct usb_request *req, gfp_t gfp_flags);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*-------------------------------------------------------------------------*/
 
 /* utility to simplify map/unmap of usb_requests to/from DMA */

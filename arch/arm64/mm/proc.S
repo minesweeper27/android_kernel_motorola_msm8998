@@ -24,16 +24,9 @@
 #include <asm/asm-offsets.h>
 #include <asm/hwcap.h>
 #include <asm/pgtable.h>
-<<<<<<< HEAD
 #include <asm/pgtable-hwdef.h>
 #include <asm/cpufeature.h>
 #include <asm/alternative.h>
-=======
-#include <asm/cpufeature.h>
-#include <asm/alternative.h>
-
-#include "proc-macros.S"
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_ARM64_64K_PAGES
 #define TCR_TG_FLAGS	TCR_TG0_64K | TCR_TG1_64K
@@ -49,6 +42,52 @@
 #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
 
 #define MAIR(attr, mt)	((attr) << ((mt) * 8))
+
+/*
+ *	cpu_cache_off()
+ *
+ *	Turn the CPU D-cache off.
+ */
+ENTRY(cpu_cache_off)
+	mrs	x0, sctlr_el1
+	bic	x0, x0, #1 << 2			// clear SCTLR.C
+	msr	sctlr_el1, x0
+	isb
+	ret
+ENDPROC(cpu_cache_off)
+
+/*
+ *	cpu_reset(loc)
+ *
+ *	Perform a soft reset of the system.  Put the CPU into the same state
+ *	as it would be if it had been reset, and branch to what would be the
+ *	reset vector. It must be executed with the flat identity mapping.
+ *
+ *	- loc   - location to jump to for soft reset
+ */
+	.align	5
+ENTRY(cpu_reset)
+	mrs	x1, sctlr_el1
+	bic	x1, x1, #1
+	msr	sctlr_el1, x1			// disable the MMU
+	isb
+	ret	x0
+ENDPROC(cpu_reset)
+
+ENTRY(cpu_soft_restart)
+	/* Save address of cpu_reset() and reset address */
+	mov	x19, x0
+	mov	x20, x1
+
+	/* Turn D-cache off */
+	bl	cpu_cache_off
+
+	/* Push out all dirty data, and ensure cache is empty */
+	bl	flush_cache_all
+
+	mov	x0, x20
+	ret	x19
+ENDPROC(cpu_soft_restart)
 
 /*
  *	cpu_do_idle()
@@ -122,11 +161,6 @@ ENTRY(cpu_do_resume)
 	ubfx	x11, x11, #1, #1
 	msr	oslar_el1, x11
 	reset_pmuserenr_el0 x0			// Disable PMU access from EL0
-<<<<<<< HEAD
-=======
-	mov	x0, x12
-	dsb	nsh		// Make sure local tlb invalidation completed
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	isb
 	ret
 ENDPROC(cpu_do_resume)
@@ -141,7 +175,6 @@ ENDPROC(cpu_do_resume)
  *	- pgd_phys - physical address of new TTB
  */
 ENTRY(cpu_do_switch_mm)
-<<<<<<< HEAD
 	mrs	x2, ttbr1_el1
 	mmid	x1, x1				// get mm->context.id
 #ifdef CONFIG_ARM64_SW_TTBR0_PAN
@@ -153,23 +186,6 @@ ENTRY(cpu_do_switch_mm)
 	msr	ttbr0_el1, x0			// now update TTBR0
 	isb
 	b	post_ttbr_update_workaround	// Back to C code...
-=======
-	mmid	x1, x1				// get mm->context.id
-	bfi	x0, x1, #48, #16		// set the ASID
-	msr	ttbr0_el1, x0			// set TTBR0
-	isb
-alternative_if_not ARM64_WORKAROUND_CAVIUM_27456
-	ret
-	nop
-	nop
-	nop
-alternative_else
-	ic	iallu
-	dsb	nsh
-	isb
-	ret
-alternative_endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 ENDPROC(cpu_do_switch_mm)
 
 	.pushsection ".idmap.text", "ax"

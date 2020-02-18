@@ -366,19 +366,12 @@ static inline void acpi_processor_throttling_init(void) {}
 #endif	/* CONFIG_ACPI_CPU_FREQ_PSS */
 
 /* in processor_idle.c */
-<<<<<<< HEAD
-=======
-extern struct cpuidle_driver acpi_idle_driver;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #ifdef CONFIG_ACPI_PROCESSOR_IDLE
 int acpi_processor_power_init(struct acpi_processor *pr);
 int acpi_processor_power_exit(struct acpi_processor *pr);
 int acpi_processor_cst_has_changed(struct acpi_processor *pr);
 int acpi_processor_hotplug(struct acpi_processor *pr);
-<<<<<<< HEAD
 int acpi_processor_using_idle_driver(void);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #else
 static inline int acpi_processor_power_init(struct acpi_processor *pr)
 {
@@ -389,33 +382,21 @@ static inline int acpi_processor_power_exit(struct acpi_processor *pr)
 {
 	return -ENODEV;
 }
-<<<<<<< HEAD
 
 static inline int acpi_processor_cst_has_changed(struct acpi_processor *pr)
 {
 	return -ENODEV;
 }
 
-=======
-
-static inline int acpi_processor_cst_has_changed(struct acpi_processor *pr)
-{
-	return -ENODEV;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline int acpi_processor_hotplug(struct acpi_processor *pr)
 {
 	return -ENODEV;
 }
-<<<<<<< HEAD
 
 static inline int acpi_processor_using_idle_driver(void)
 {
 	return 0;
 }
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* CONFIG_ACPI_PROCESSOR_IDLE */
 
 #if defined(CONFIG_PM_SLEEP) & defined(CONFIG_ACPI_PROCESSOR_IDLE)

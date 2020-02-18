@@ -671,15 +671,12 @@ struct Scsi_Host {
 	/* Host responded with short (<36 bytes) INQUIRY result */
 	unsigned short_inquiry:1;
 
-<<<<<<< HEAD
 	/*
 	 * Set "DBD" field in mode_sense caching mode page in case it is
 	 * mandatory by LLD standard.
 	 */
 	unsigned set_dbd_for_caching:1;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * Optional work queue to be utilized by the transport
 	 */

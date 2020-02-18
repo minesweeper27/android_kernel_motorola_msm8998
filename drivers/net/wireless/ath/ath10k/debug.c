@@ -129,7 +129,6 @@ EXPORT_SYMBOL(ath10k_info);
 
 void ath10k_debug_print_hwfw_info(struct ath10k *ar)
 {
-<<<<<<< HEAD
 	const struct firmware *firmware;
 	char fw_features[128] = {};
 	u32 crc = 0;
@@ -195,43 +194,6 @@ void ath10k_print_driver_info(struct ath10k *ar)
 	ath10k_debug_print_hwfw_info(ar);
 	ath10k_debug_print_board_info(ar);
 	ath10k_debug_print_boot_info(ar);
-=======
-	char fw_features[128] = {};
-	char boardinfo[100];
-
-	ath10k_core_get_fw_features_str(ar, fw_features, sizeof(fw_features));
-
-	if (ar->id.bmi_ids_valid)
-		scnprintf(boardinfo, sizeof(boardinfo), "bmi %d:%d",
-			  ar->id.bmi_chip_id, ar->id.bmi_board_id);
-	else
-		scnprintf(boardinfo, sizeof(boardinfo), "sub %04x:%04x",
-			  ar->id.subsystem_vendor, ar->id.subsystem_device);
-
-	ath10k_info(ar, "%s (0x%08x, 0x%08x %s) fw %s fwapi %d bdapi %d htt-ver %d.%d wmi-op %d htt-op %d cal %s max-sta %d raw %d hwcrypto %d features %s\n",
-		    ar->hw_params.name,
-		    ar->target_version,
-		    ar->chip_id,
-		    boardinfo,
-		    ar->hw->wiphy->fw_version,
-		    ar->fw_api,
-		    ar->bd_api,
-		    ar->htt.target_version_major,
-		    ar->htt.target_version_minor,
-		    ar->wmi.op_version,
-		    ar->htt.op_version,
-		    ath10k_cal_mode_str(ar->cal_mode),
-		    ar->max_num_stations,
-		    test_bit(ATH10K_FLAG_RAW_MODE, &ar->dev_flags),
-		    !test_bit(ATH10K_FLAG_HW_CRYPTO_DISABLED, &ar->dev_flags),
-		    fw_features);
-	ath10k_info(ar, "debug %d debugfs %d tracing %d dfs %d testmode %d\n",
-		    config_enabled(CONFIG_ATH10K_DEBUG),
-		    config_enabled(CONFIG_ATH10K_DEBUGFS),
-		    config_enabled(CONFIG_ATH10K_TRACING),
-		    config_enabled(CONFIG_ATH10K_DFS_CERTIFIED),
-		    config_enabled(CONFIG_NL80211_TESTMODE));
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 EXPORT_SYMBOL(ath10k_print_driver_info);
 
@@ -354,7 +316,6 @@ static void ath10k_fw_stats_peers_free(struct list_head *head)
 	}
 }
 
-<<<<<<< HEAD
 static void ath10k_fw_extd_stats_peers_free(struct list_head *head)
 {
 	struct ath10k_fw_extd_stats_peer *i, *tmp;
@@ -365,23 +326,15 @@ static void ath10k_fw_extd_stats_peers_free(struct list_head *head)
 	}
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static void ath10k_debug_fw_stats_reset(struct ath10k *ar)
 {
 	spin_lock_bh(&ar->data_lock);
 	ar->debug.fw_stats_done = false;
-<<<<<<< HEAD
 	ar->debug.fw_stats.extended = false;
 	ath10k_fw_stats_pdevs_free(&ar->debug.fw_stats.pdevs);
 	ath10k_fw_stats_vdevs_free(&ar->debug.fw_stats.vdevs);
 	ath10k_fw_stats_peers_free(&ar->debug.fw_stats.peers);
 	ath10k_fw_extd_stats_peers_free(&ar->debug.fw_stats.peers_extd);
-=======
-	ath10k_debug_fw_stats_pdevs_free(&ar->debug.fw_stats.pdevs);
-	ath10k_debug_fw_stats_vdevs_free(&ar->debug.fw_stats.vdevs);
-	ath10k_debug_fw_stats_peers_free(&ar->debug.fw_stats.peers);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	spin_unlock_bh(&ar->data_lock);
 }
 
@@ -2986,7 +2939,6 @@ int ath10k_debug_register(struct ath10k *ar)
 	debugfs_create_file("tpc_stats", S_IRUSR,
 			    ar->debug.debugfs_phy, ar, &fops_tpc_stats);
 
-<<<<<<< HEAD
 	if (test_bit(WMI_SERVICE_COEX_GPIO, ar->wmi.svc_map))
 		debugfs_create_file("btcoex", S_IRUGO | S_IWUSR,
 				    ar->debug.debugfs_phy, ar, &fops_btcoex);
@@ -2999,8 +2951,6 @@ int ath10k_debug_register(struct ath10k *ar)
 	debugfs_create_file("fw_checksums", S_IRUSR,
 			    ar->debug.debugfs_phy, ar, &fops_fw_checksums);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 

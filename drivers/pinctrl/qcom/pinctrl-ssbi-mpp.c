@@ -23,10 +23,7 @@
 #include <linux/gpio.h>
 #include <linux/interrupt.h>
 #include <linux/of_device.h>
-<<<<<<< HEAD
 #include <linux/of_irq.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <dt-bindings/pinctrl/qcom,pmic-mpp.h>
 
@@ -745,20 +742,12 @@ static int pm8xxx_pin_populate(struct pm8xxx_mpp *pctrl,
 }
 
 static const struct of_device_id pm8xxx_mpp_of_match[] = {
-<<<<<<< HEAD
 	{ .compatible = "qcom,pm8018-mpp" },
 	{ .compatible = "qcom,pm8038-mpp" },
 	{ .compatible = "qcom,pm8917-mpp" },
 	{ .compatible = "qcom,pm8821-mpp" },
 	{ .compatible = "qcom,pm8921-mpp" },
 	{ .compatible = "qcom,ssbi-mpp" },
-=======
-	{ .compatible = "qcom,pm8018-mpp", .data = (void *)6 },
-	{ .compatible = "qcom,pm8038-mpp", .data = (void *)6 },
-	{ .compatible = "qcom,pm8917-mpp", .data = (void *)10 },
-	{ .compatible = "qcom,pm8821-mpp", .data = (void *)4 },
-	{ .compatible = "qcom,pm8921-mpp", .data = (void *)12 },
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	{ },
 };
 MODULE_DEVICE_TABLE(of, pm8xxx_mpp_of_match);
@@ -769,27 +758,19 @@ static int pm8xxx_mpp_probe(struct platform_device *pdev)
 	struct pinctrl_pin_desc *pins;
 	struct pm8xxx_mpp *pctrl;
 	int ret;
-<<<<<<< HEAD
 	int i, npins;
-=======
-	int i;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pctrl = devm_kzalloc(&pdev->dev, sizeof(*pctrl), GFP_KERNEL);
 	if (!pctrl)
 		return -ENOMEM;
 
 	pctrl->dev = &pdev->dev;
-<<<<<<< HEAD
 	npins = platform_irq_count(pdev);
 	if (!npins)
 		return -EINVAL;
 	if (npins < 0)
 		return npins;
 	pctrl->npins = npins;
-=======
-	pctrl->npins = (unsigned long)of_device_get_match_data(&pdev->dev);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	pctrl->regmap = dev_get_regmap(pdev->dev.parent, NULL);
 	if (!pctrl->regmap) {

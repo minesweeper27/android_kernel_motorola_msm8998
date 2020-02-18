@@ -39,12 +39,9 @@
 #define EPOLLMSG	0x00000400
 #define EPOLLRDHUP	0x00002000
 
-<<<<<<< HEAD
 /* Set exclusive wakeup mode for the target file descriptor */
 #define EPOLLEXCLUSIVE (1U << 28)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Request the handling of system wakeup events so as to prevent system suspends
  * from happening while those events are being processed.

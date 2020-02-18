@@ -8,7 +8,6 @@ http://github.com/freedreno/envytools/
 git clone https://github.com/freedreno/envytools.git
 
 The rules-ng-ng source files this header was generated from are:
-<<<<<<< HEAD
 - ./adreno.xml               (    431 bytes, from 2016-10-24 21:12:27)
 - ./freedreno_copyright.xml  (   1572 bytes, from 2016-10-24 21:12:27)
 - ./adreno/a2xx.xml          (  32901 bytes, from 2016-10-24 21:12:27)
@@ -20,18 +19,6 @@ The rules-ng-ng source files this header was generated from are:
 - ./adreno/ocmem.xml         (   1773 bytes, from 2016-10-24 21:12:27)
 
 Copyright (C) 2013-2016 by the following authors:
-=======
-- /home/robclark/src/freedreno/envytools/rnndb/adreno.xml               (    398 bytes, from 2015-09-24 17:25:31)
-- /home/robclark/src/freedreno/envytools/rnndb/freedreno_copyright.xml  (   1453 bytes, from 2015-05-20 20:03:07)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/a2xx.xml          (  32901 bytes, from 2015-05-20 20:03:14)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/adreno_common.xml (  10755 bytes, from 2015-09-14 20:46:55)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/adreno_pm4.xml    (  14968 bytes, from 2015-05-20 20:12:27)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/a3xx.xml          (  67771 bytes, from 2015-09-14 20:46:55)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/a4xx.xml          (  63970 bytes, from 2015-09-14 20:50:12)
-- /home/robclark/src/freedreno/envytools/rnndb/adreno/ocmem.xml         (   1773 bytes, from 2015-09-24 17:30:00)
-
-Copyright (C) 2013-2015 by the following authors:
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 - Rob Clark <robdclark@gmail.com> (robclark)
 - Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
 
@@ -97,10 +84,6 @@ enum pc_di_primtype {
 	DI_PT_LINESTRIP_ADJ = 11,
 	DI_PT_TRI_ADJ = 12,
 	DI_PT_TRISTRIP_ADJ = 13,
-<<<<<<< HEAD
-=======
-	DI_PT_PATCHES = 34,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 enum pc_di_src_sel {
@@ -428,16 +411,12 @@ static inline uint32_t CP_DRAW_INDX_OFFSET_0_SOURCE_SELECT(enum pc_di_src_sel va
 {
 	return ((val) << CP_DRAW_INDX_OFFSET_0_SOURCE_SELECT__SHIFT) & CP_DRAW_INDX_OFFSET_0_SOURCE_SELECT__MASK;
 }
-<<<<<<< HEAD
 #define CP_DRAW_INDX_OFFSET_0_VIS_CULL__MASK			0x00000300
 #define CP_DRAW_INDX_OFFSET_0_VIS_CULL__SHIFT			8
 static inline uint32_t CP_DRAW_INDX_OFFSET_0_VIS_CULL(enum pc_di_vis_cull_mode val)
 {
 	return ((val) << CP_DRAW_INDX_OFFSET_0_VIS_CULL__SHIFT) & CP_DRAW_INDX_OFFSET_0_VIS_CULL__MASK;
 }
-=======
-#define CP_DRAW_INDX_OFFSET_0_TESSELLATE			0x00000100
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define CP_DRAW_INDX_OFFSET_0_INDEX_SIZE__MASK			0x00000c00
 #define CP_DRAW_INDX_OFFSET_0_INDEX_SIZE__SHIFT			10
 static inline uint32_t CP_DRAW_INDX_OFFSET_0_INDEX_SIZE(enum a4xx_index_size val)

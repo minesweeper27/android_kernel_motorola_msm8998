@@ -61,11 +61,8 @@ config SND_SOC_ALL_CODECS
 	select SND_SOC_CS4271_SPI if SPI_MASTER
 	select SND_SOC_CS42XX8_I2C if I2C
 	select SND_SOC_CS4349 if I2C
-<<<<<<< HEAD
 	select SND_SOC_CS47L35 if MFD_CS47L35
 	select SND_SOC_CS47L90 if MFD_CS47L90
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select SND_SOC_CX20442 if TTY
 	select SND_SOC_DA7210 if SND_SOC_I2C_AND_SPI
 	select SND_SOC_DA7213 if I2C
@@ -92,10 +89,7 @@ config SND_SOC_ALL_CODECS
 	select SND_SOC_MAX9877 if I2C
 	select SND_SOC_MC13783 if MFD_MC13XXX
 	select SND_SOC_ML26124 if I2C
-<<<<<<< HEAD
 	select SND_SOC_HDMI_CODEC
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	select SND_SOC_NAU8825 if I2C
 	select SND_SOC_PCM1681 if I2C
 	select SND_SOC_PCM1792A if SPI_MASTER
@@ -491,15 +485,12 @@ config SND_SOC_CS4349
 	tristate "Cirrus Logic CS4349 CODEC"
 	depends on I2C
 
-<<<<<<< HEAD
 config SND_SOC_CS47L35
 	tristate
 
 config SND_SOC_CS47L90
 	tristate
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config SND_SOC_CX20442
 	tristate
 	depends on TTY
@@ -531,6 +522,9 @@ config SND_SOC_BT_SCO
 
 config SND_SOC_DMIC
 	tristate
+
+config SND_SOC_HDMI_CODEC
+       tristate "HDMI stub CODEC"
 
 config SND_SOC_ES8328
 	tristate "Everest Semi ES8328 CODEC"

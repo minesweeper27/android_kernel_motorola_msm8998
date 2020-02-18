@@ -305,7 +305,6 @@ struct ufs_pwr_mode_info {
  *			to be set.
  * @suspend: called during host controller PM callback
  * @resume: called during host controller PM callback
-<<<<<<< HEAD
  * @full_reset:  called during link recovery for handling variant specific
  *		 implementations of resetting the hci
  * @dbg_register_dump: used to dump controller debug information
@@ -315,9 +314,6 @@ struct ufs_pwr_mode_info {
  * @set_bus_vote: called to vote for the required bus bandwidth
  * @add_debugfs: used to add debugfs entries
  * @remove_debugfs: used to remove debugfs entries
-=======
- * @dbg_register_dump: used to dump controller debug information
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  */
 struct ufs_hba_variant_ops {
 	int	(*init)(struct ufs_hba *);
@@ -325,13 +321,8 @@ struct ufs_hba_variant_ops {
 	u32	(*get_ufs_hci_version)(struct ufs_hba *);
 	int	(*clk_scale_notify)(struct ufs_hba *, bool,
 				    enum ufs_notify_change_status);
-<<<<<<< HEAD
 	int	(*setup_clocks)(struct ufs_hba *, bool, bool);
 	int	(*setup_regulators)(struct ufs_hba *, bool);
-=======
-	int	(*setup_clocks)(struct ufs_hba *, bool);
-	int     (*setup_regulators)(struct ufs_hba *, bool);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int	(*hce_enable_notify)(struct ufs_hba *,
 				     enum ufs_notify_change_status);
 	int	(*link_startup_notify)(struct ufs_hba *,
@@ -340,7 +331,6 @@ struct ufs_hba_variant_ops {
 					enum ufs_notify_change_status status,
 					struct ufs_pa_layer_attr *,
 					struct ufs_pa_layer_attr *);
-<<<<<<< HEAD
 	int	(*apply_dev_quirks)(struct ufs_hba *);
 	int	(*suspend)(struct ufs_hba *, enum ufs_pm_op);
 	int	(*resume)(struct ufs_hba *, enum ufs_pm_op);
@@ -395,11 +385,6 @@ struct ufs_hba_variant {
 	struct ufs_hba_variant_ops		*vops;
 	struct ufs_hba_crypto_variant_ops	*crypto_vops;
 	struct ufs_hba_pm_qos_variant_ops	*pm_qos_vops;
-=======
-	int     (*suspend)(struct ufs_hba *, enum ufs_pm_op);
-	int     (*resume)(struct ufs_hba *, enum ufs_pm_op);
-	void	(*dbg_register_dump)(struct ufs_hba *hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 /* clock gating state  */
@@ -932,11 +917,8 @@ struct ufs_hba {
 	 * CAUTION: Enabling this might reduce overall UFS throughput.
 	 */
 #define UFSHCD_CAP_INTR_AGGR (1 << 4)
-<<<<<<< HEAD
 	/* Allow standalone Hibern8 enter on idle */
 #define UFSHCD_CAP_HIBERN8_ENTER_ON_IDLE (1 << 5)
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/*
 	 * This capability allows the device auto-bkops to be always enabled
 	 * except during suspend (both runtime and suspend).
@@ -944,16 +926,12 @@ struct ufs_hba {
 	 * to do background operation when it's active but it might degrade
 	 * the performance of ongoing read/write operations.
 	 */
-<<<<<<< HEAD
 #define UFSHCD_CAP_KEEP_AUTO_BKOPS_ENABLED_EXCEPT_SUSPEND (1 << 6)
 	/*
 	 * If host controller hardware can be power collapsed when UFS link is
 	 * in hibern8 then enable this cap.
 	 */
 #define UFSHCD_CAP_POWER_COLLAPSE_DURING_HIBERN8 (1 << 7)
-=======
-#define UFSHCD_CAP_KEEP_AUTO_BKOPS_ENABLED_EXCEPT_SUSPEND (1 << 5)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	struct devfreq *devfreq;
 	struct ufs_clk_scaling clk_scaling;
@@ -1097,36 +1075,6 @@ static inline void *ufshcd_get_variant(struct ufs_hba *hba)
 	BUG_ON(!hba);
 	return hba->priv;
 }
-<<<<<<< HEAD
-=======
-
-/**
- * ufshcd_set_variant - set variant specific data to the hba
- * @hba - per adapter instance
- * @variant - pointer to variant specific data
- */
-static inline void ufshcd_set_variant(struct ufs_hba *hba, void *variant)
-{
-	BUG_ON(!hba);
-	hba->priv = variant;
-}
-
-/**
- * ufshcd_get_variant - get variant specific data from the hba
- * @hba - per adapter instance
- */
-static inline void *ufshcd_get_variant(struct ufs_hba *hba)
-{
-	BUG_ON(!hba);
-	return hba->priv;
-}
-static inline bool ufshcd_keep_autobkops_enabled_except_suspend(
-							struct ufs_hba *hba)
-{
-	return hba->caps & UFSHCD_CAP_KEEP_AUTO_BKOPS_ENABLED_EXCEPT_SUSPEND;
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int ufshcd_runtime_suspend(struct ufs_hba *hba);
 extern int ufshcd_runtime_resume(struct ufs_hba *hba);
 extern int ufshcd_runtime_idle(struct ufs_hba *hba);
@@ -1244,7 +1192,6 @@ int ufshcd_query_descriptor(struct ufs_hba *hba, enum query_opcode opcode,
 	enum desc_idn idn, u8 index, u8 selector, u8 *desc_buf, int *buf_len);
 
 int ufshcd_hold(struct ufs_hba *hba, bool async);
-<<<<<<< HEAD
 void ufshcd_release(struct ufs_hba *hba, bool no_sched);
 int ufshcd_wait_for_doorbell_clr(struct ufs_hba *hba, u64 wait_timeout_us);
 int ufshcd_change_power_mode(struct ufs_hba *hba,
@@ -1255,64 +1202,38 @@ u32 ufshcd_get_local_unipro_ver(struct ufs_hba *hba);
 
 void ufshcd_scsi_block_requests(struct ufs_hba *hba);
 void ufshcd_scsi_unblock_requests(struct ufs_hba *hba);
-=======
-void ufshcd_release(struct ufs_hba *hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* Wrapper functions for safely calling variant operations */
 static inline const char *ufshcd_get_var_name(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->name)
 		return hba->var->name;
-=======
-	if (hba->vops)
-		return hba->vops->name;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return "";
 }
 
 static inline int ufshcd_vops_init(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->init)
 		return hba->var->vops->init(hba);
-=======
-	if (hba->vops && hba->vops->init)
-		return hba->vops->init(hba);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
 static inline void ufshcd_vops_exit(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->exit)
 		hba->var->vops->exit(hba);
-=======
-	if (hba->vops && hba->vops->exit)
-		return hba->vops->exit(hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline u32 ufshcd_vops_get_ufs_hci_version(struct ufs_hba *hba)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->get_ufs_hci_version)
 		return hba->var->vops->get_ufs_hci_version(hba);
-=======
-	if (hba->vops && hba->vops->get_ufs_hci_version)
-		return hba->vops->get_ufs_hci_version(hba);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ufshcd_readl(hba, REG_UFS_VERSION);
 }
 
 static inline int ufshcd_vops_clk_scale_notify(struct ufs_hba *hba,
 			bool up, enum ufs_notify_change_status status)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->clk_scale_notify)
 		return hba->var->vops->clk_scale_notify(hba, up, status);
 	return 0;
@@ -1323,57 +1244,28 @@ static inline int ufshcd_vops_setup_clocks(struct ufs_hba *hba, bool on,
 {
 	if (hba->var && hba->var->vops && hba->var->vops->setup_clocks)
 		return hba->var->vops->setup_clocks(hba, on, is_gating_context);
-=======
-	if (hba->vops && hba->vops->clk_scale_notify)
-		return hba->vops->clk_scale_notify(hba, up, status);
-	return 0;
-}
-
-static inline int ufshcd_vops_setup_clocks(struct ufs_hba *hba, bool on)
-{
-	if (hba->vops && hba->vops->setup_clocks)
-		return hba->vops->setup_clocks(hba, on);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
 static inline int ufshcd_vops_setup_regulators(struct ufs_hba *hba, bool status)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->setup_regulators)
 		return hba->var->vops->setup_regulators(hba, status);
-=======
-	if (hba->vops && hba->vops->setup_regulators)
-		return hba->vops->setup_regulators(hba, status);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
 static inline int ufshcd_vops_hce_enable_notify(struct ufs_hba *hba,
 						bool status)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->hce_enable_notify)
 		hba->var->vops->hce_enable_notify(hba, status);
-=======
-	if (hba->vops && hba->vops->hce_enable_notify)
-		return hba->vops->hce_enable_notify(hba, status);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 static inline int ufshcd_vops_link_startup_notify(struct ufs_hba *hba,
 						bool status)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->link_startup_notify)
 		return hba->var->vops->link_startup_notify(hba, status);
-=======
-	if (hba->vops && hba->vops->link_startup_notify)
-		return hba->vops->link_startup_notify(hba, status);
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return 0;
 }
 
@@ -1382,7 +1274,6 @@ static inline int ufshcd_vops_pwr_change_notify(struct ufs_hba *hba,
 				  struct ufs_pa_layer_attr *dev_max_params,
 				  struct ufs_pa_layer_attr *dev_req_params)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->pwr_change_notify)
 		return hba->var->vops->pwr_change_notify(hba, status,
 					dev_max_params, dev_req_params);
@@ -1394,18 +1285,10 @@ static inline int ufshcd_vops_apply_dev_quirks(struct ufs_hba *hba)
 	if (hba->var && hba->var->vops && hba->var->vops->apply_dev_quirks)
 		return hba->var->vops->apply_dev_quirks(hba);
 	return 0;
-=======
-	if (hba->vops && hba->vops->pwr_change_notify)
-		return hba->vops->pwr_change_notify(hba, status,
-					dev_max_params, dev_req_params);
-
-	return -ENOTSUPP;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static inline int ufshcd_vops_suspend(struct ufs_hba *hba, enum ufs_pm_op op)
 {
-<<<<<<< HEAD
 	if (hba->var && hba->var->vops && hba->var->vops->suspend)
 		return hba->var->vops->suspend(hba, op);
 	return 0;
@@ -1541,26 +1424,6 @@ static inline void ufshcd_vops_pm_qos_req_end(struct ufs_hba *hba,
 {
 	if (hba->var && hba->var->pm_qos_vops && hba->var->pm_qos_vops->req_end)
 		hba->var->pm_qos_vops->req_end(hba, req, lock);
-=======
-	if (hba->vops && hba->vops->suspend)
-		return hba->vops->suspend(hba, op);
-
-	return 0;
-}
-
-static inline int ufshcd_vops_resume(struct ufs_hba *hba, enum ufs_pm_op op)
-{
-	if (hba->vops && hba->vops->resume)
-		return hba->vops->resume(hba, op);
-
-	return 0;
-}
-
-static inline void ufshcd_vops_dbg_register_dump(struct ufs_hba *hba)
-{
-	if (hba->vops && hba->vops->dbg_register_dump)
-		hba->vops->dbg_register_dump(hba);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #endif /* End of Header */

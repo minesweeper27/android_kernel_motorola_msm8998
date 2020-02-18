@@ -826,7 +826,6 @@ int __init_memblock memblock_mark_mirror(phys_addr_t base, phys_addr_t size)
 	return memblock_setclr_flag(base, size, 1, MEMBLOCK_MIRROR);
 }
 
-<<<<<<< HEAD
 /**
  * memblock_mark_nomap - Mark a memory region with flag MEMBLOCK_NOMAP.
  * @base: the base phys addr of the region
@@ -848,8 +847,6 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
 {
 	return memblock_setclr_flag(base, size, 0, MEMBLOCK_NOMAP);
 }
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /**
  * __next_reserved_mem_region - next function for for_each_reserved_region()
@@ -941,13 +938,10 @@ void __init_memblock __next_mem_range(u64 *idx, int nid, ulong flags,
 		if ((flags & MEMBLOCK_MIRROR) && !memblock_is_mirror(m))
 			continue;
 
-<<<<<<< HEAD
 		/* skip nomap memory unless we were asked for it explicitly */
 		if (!(flags & MEMBLOCK_NOMAP) && memblock_is_nomap(m))
 			continue;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!type_b) {
 			if (out_start)
 				*out_start = m_start;
@@ -1057,13 +1051,10 @@ void __init_memblock __next_mem_range_rev(u64 *idx, int nid, ulong flags,
 		if ((flags & MEMBLOCK_MIRROR) && !memblock_is_mirror(m))
 			continue;
 
-<<<<<<< HEAD
 		/* skip nomap memory unless we were asked for it explicitly */
 		if (!(flags & MEMBLOCK_NOMAP) && memblock_is_nomap(m))
 			continue;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		if (!type_b) {
 			if (out_start)
 				*out_start = m_start;

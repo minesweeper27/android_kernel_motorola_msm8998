@@ -2264,12 +2264,8 @@ struct page *ext4_encrypt(struct inode *inode,
 			  struct page *plaintext_page,
 			  gfp_t gfp_flags);
 int ext4_decrypt(struct page *page);
-<<<<<<< HEAD
 int ext4_encrypted_zeroout(struct inode *inode, ext4_lblk_t lblk,
 			   ext4_fsblk_t pblk, ext4_lblk_t len);
-=======
-int ext4_encrypted_zeroout(struct inode *inode, struct ext4_extent *ex);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern const struct dentry_operations ext4_encrypted_d_ops;
 
 #ifdef CONFIG_EXT4_FS_ENCRYPTION
@@ -2336,10 +2332,6 @@ void ext4_free_encryption_info(struct inode *inode, struct ext4_crypt_info *ci);
 
 #ifdef CONFIG_EXT4_FS_ENCRYPTION
 int ext4_has_encryption_key(struct inode *inode);
-<<<<<<< HEAD
-=======
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int ext4_get_encryption_info(struct inode *inode);
 
 static inline struct ext4_crypt_info *ext4_encryption_info(struct inode *inode)
@@ -2347,7 +2339,6 @@ static inline struct ext4_crypt_info *ext4_encryption_info(struct inode *inode)
 	return EXT4_I(inode)->i_crypt_info;
 }
 
-<<<<<<< HEAD
 static inline int ext4_using_hardware_encryption(struct inode *inode)
 {
 	struct ext4_crypt_info *ci = ext4_encryption_info(inode);
@@ -2356,8 +2347,6 @@ static inline int ext4_using_hardware_encryption(struct inode *inode)
 		ci->ci_data_mode == EXT4_ENCRYPTION_MODE_PRIVATE;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #else
 static inline int ext4_has_encryption_key(struct inode *inode)
 {
@@ -2371,13 +2360,10 @@ static inline struct ext4_crypt_info *ext4_encryption_info(struct inode *inode)
 {
 	return NULL;
 }
-<<<<<<< HEAD
 static inline int ext4_using_hardware_encryption(struct inode *inode)
 {
 	return 0;
 }
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 
 
@@ -2570,12 +2556,8 @@ extern int ext4_search_dir(struct buffer_head *bh,
 			   struct ext4_filename *fname,
 			   const struct qstr *d_name,
 			   unsigned int offset,
-<<<<<<< HEAD
 			   struct ext4_dir_entry_2 **res_dir,
 			   int flags);
-=======
-			   struct ext4_dir_entry_2 **res_dir);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int ext4_generic_delete_entry(handle_t *handle,
 				     struct inode *dir,
 				     struct ext4_dir_entry_2 *de_del,
@@ -3043,12 +3025,7 @@ extern int ext4_da_write_inline_data_end(struct inode *inode, loff_t pos,
 					 struct page *page);
 extern int ext4_try_add_inline_entry(handle_t *handle,
 				     struct ext4_filename *fname,
-<<<<<<< HEAD
 				     struct inode *dir, struct inode *inode);
-=======
-				     struct dentry *dentry,
-				     struct inode *inode);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 extern int ext4_try_create_inline_dir(handle_t *handle,
 				      struct inode *parent,
 				      struct inode *inode);

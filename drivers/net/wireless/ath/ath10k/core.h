@@ -119,29 +119,9 @@ struct ath10k_skb_cb {
 	dma_addr_t paddr;
 	u8 flags;
 	u8 eid;
-<<<<<<< HEAD
 	u16 msdu_id;
 	struct ieee80211_vif *vif;
 	struct ieee80211_txq *txq;
-=======
-	u8 vdev_id;
-	enum ath10k_hw_txrx_mode txmode;
-	bool is_protected;
-
-	struct {
-		u8 tid;
-		u16 freq;
-		bool is_offchan;
-		bool nohwcrypt;
-		struct ath10k_htt_txbuf *txbuf;
-		u32 txbuf_paddr;
-	} __packed htt;
-
-	struct {
-		bool dtim_zero;
-		bool deliver_cab;
-	} bcn;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 } __packed;
 
 struct ath10k_skb_rxcb {
@@ -342,30 +322,6 @@ struct ath10k_tpc_stats {
 	struct ath10k_tpc_table tpc_table[WMI_TPC_FLAG];
 };
 
-#define ATH10K_TPC_TABLE_TYPE_FLAG	1
-#define ATH10K_TPC_PREAM_TABLE_END	0xFFFF
-
-struct ath10k_tpc_table {
-	u32 pream_idx[WMI_TPC_RATE_MAX];
-	u8 rate_code[WMI_TPC_RATE_MAX];
-	char tpc_value[WMI_TPC_RATE_MAX][WMI_TPC_TX_N_CHAIN * WMI_TPC_BUF_SIZE];
-};
-
-struct ath10k_tpc_stats {
-	u32 reg_domain;
-	u32 chan_freq;
-	u32 phy_mode;
-	u32 twice_antenna_reduction;
-	u32 twice_max_rd_power;
-	s32 twice_antenna_gain;
-	u32 power_limit;
-	u32 num_tx_chain;
-	u32 ctl;
-	u32 rate_max;
-	u8 flag[WMI_TPC_FLAG];
-	struct ath10k_tpc_table tpc_table[WMI_TPC_FLAG];
-};
-
 struct ath10k_dfs_stats {
 	u32 phy_errors;
 	u32 pulses_total;
@@ -414,12 +370,8 @@ struct ath10k_sta {
 #endif
 };
 
-<<<<<<< HEAD
 #define ATH10K_VDEV_SETUP_TIMEOUT_HZ	(5 * HZ)
 #define ATH10K_VDEV_DELETE_TIMEOUT_HZ	(5 * HZ)
-=======
-#define ATH10K_VDEV_SETUP_TIMEOUT_HZ (5*HZ)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 enum ath10k_beacon_state {
 	ATH10K_BEACON_SCHEDULED = 0,
@@ -526,10 +478,7 @@ struct ath10k_debug {
 	enum ath10k_htc_ep_id eid;
 	u32 reg_addr;
 	u32 nf_cal_period;
-<<<<<<< HEAD
 	void *cal_data;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	struct ath10k_fw_crash_data *fw_crash_data;
 };
@@ -617,7 +566,6 @@ enum ath10k_fw_features {
 	/* Firmware Supports Adaptive CCA*/
 	ATH10K_FW_FEATURE_SUPPORTS_ADAPTIVE_CCA = 11,
 
-<<<<<<< HEAD
 	/* Firmware supports management frame protection */
 	ATH10K_FW_FEATURE_MFP_SUPPORT = 12,
 
@@ -644,8 +592,6 @@ enum ath10k_fw_features {
 	 */
 	ATH10K_FW_FEATURE_SKIP_NULL_FUNC_WAR = 15,
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* keep last */
 	ATH10K_FW_FEATURE_COUNT,
 };
@@ -668,15 +614,12 @@ enum ath10k_dev_flags {
 
 	/* Disable HW crypto engine */
 	ATH10K_FLAG_HW_CRYPTO_DISABLED,
-<<<<<<< HEAD
 
 	/* Bluetooth coexistance enabled */
 	ATH10K_FLAG_BTCOEX,
 
 	/* Per Station statistics service */
 	ATH10K_FLAG_PEER_STATS,
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 enum ath10k_cal_mode {
@@ -686,13 +629,6 @@ enum ath10k_cal_mode {
 	ATH10K_PRE_CAL_MODE_FILE,
 	ATH10K_PRE_CAL_MODE_DT,
 	ATH10K_CAL_MODE_EEPROM,
-};
-
-enum ath10k_crypt_mode {
-	/* Only use hardware crypto engine */
-	ATH10K_CRYPT_MODE_HW,
-	/* Only use software crypto engine */
-	ATH10K_CRYPT_MODE_SW,
 };
 
 enum ath10k_crypt_mode {
@@ -842,64 +778,16 @@ struct ath10k {
 	struct completion target_suspend;
 
 	const struct ath10k_hw_regs *regs;
-<<<<<<< HEAD
 	const struct ath10k_hw_ce_regs *hw_ce_regs;
 	const struct ath10k_hw_values *hw_values;
 	struct ath10k_shadow_reg_value *shadow_reg_value;
 	struct ath10k_shadow_reg_address *shadow_reg_address;
-=======
-	const struct ath10k_hw_values *hw_values;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct ath10k_bmi bmi;
 	struct ath10k_wmi wmi;
 	struct ath10k_htc htc;
 	struct ath10k_htt htt;
 
-<<<<<<< HEAD
 	struct ath10k_hw_params hw_params;
-=======
-	struct ath10k_hw_params {
-		u32 id;
-		u16 dev_id;
-		const char *name;
-		u32 patch_load_addr;
-		int uart_pin;
-		u32 otp_exe_param;
-
-		/* This is true if given HW chip has a quirky Cycle Counter
-		 * wraparound which resets to 0x7fffffff instead of 0. All
-		 * other CC related counters (e.g. Rx Clear Count) are divided
-		 * by 2 so they never wraparound themselves.
-		 */
-		bool has_shifted_cc_wraparound;
-
-		/* Some of chip expects fragment descriptor to be continuous
-		 * memory for any TX operation. Set continuous_frag_desc flag
-		 * for the hardware which have such requirement.
-		 */
-		bool continuous_frag_desc;
-
-		u32 channel_counters_freq_hz;
-
-		/* Mgmt tx descriptors threshold for limiting probe response
-		 * frames.
-		 */
-		u32 max_probe_resp_desc_thres;
-
-		struct ath10k_hw_params_fw {
-			const char *dir;
-			const char *fw;
-			const char *otp;
-			const char *board;
-			size_t board_size;
-			size_t board_ext_size;
-		} fw;
-
-		/* Number of bytes used for alignment in rx_hdr_status */
-		int decap_align_bytes;
-
-	} hw_params;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* contains the firmware images used with ATH10K_FIRMWARE_MODE_NORMAL */
 	struct ath10k_fw_components normal_mode_fw;
@@ -913,15 +801,6 @@ struct ath10k {
 	const struct firmware *cal_file;
 
 	struct {
-<<<<<<< HEAD
-=======
-		const void *firmware_codeswap_data;
-		size_t firmware_codeswap_len;
-		struct ath10k_swap_code_seg_info *firmware_swap_code_seg_info;
-	} swap;
-
-	struct {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		u32 vendor;
 		u32 device;
 		u32 subsystem_vendor;
@@ -1045,10 +924,7 @@ struct ath10k {
 	 * avoid reporting garbage data.
 	 */
 	bool ch_info_can_report_survey;
-<<<<<<< HEAD
 	struct completion bss_survey_done;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	struct dfs_pattern_detector *dfs_detector;
 
@@ -1071,18 +947,8 @@ struct ath10k {
 
 	struct {
 		/* protected by conf_mutex */
-<<<<<<< HEAD
 		struct ath10k_fw_components utf_mode_fw;
 
-=======
-		const struct firmware *utf;
-		char utf_version[32];
-		const void *utf_firmware_data;
-		size_t utf_firmware_len;
-		DECLARE_BITMAP(orig_fw_features, ATH10K_FW_FEATURE_COUNT);
-		enum ath10k_fw_wmi_op_version orig_wmi_op_version;
-		enum ath10k_fw_wmi_op_version op_version;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/* protected by data_lock */
 		bool utf_monitor;
 	} testmode;
@@ -1128,16 +994,11 @@ void ath10k_core_destroy(struct ath10k *ar);
 void ath10k_core_get_fw_features_str(struct ath10k *ar,
 				     char *buf,
 				     size_t max_len);
-<<<<<<< HEAD
 int ath10k_core_fetch_firmware_api_n(struct ath10k *ar, const char *name,
 				     struct ath10k_fw_file *fw_file);
 
 int ath10k_core_start(struct ath10k *ar, enum ath10k_firmware_mode mode,
 		      const struct ath10k_fw_components *fw_components);
-=======
-
-int ath10k_core_start(struct ath10k *ar, enum ath10k_firmware_mode mode);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 int ath10k_wait_for_suspend(struct ath10k *ar, u32 suspend_opt);
 void ath10k_core_stop(struct ath10k *ar);
 int ath10k_core_register(struct ath10k *ar, u32 chip_id);

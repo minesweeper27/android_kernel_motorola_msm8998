@@ -20,11 +20,8 @@
 #ifndef __ASM_SYSREG_H
 #define __ASM_SYSREG_H
 
-<<<<<<< HEAD
 #include <linux/stringify.h>
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #include <asm/opcodes.h>
 
 /*
@@ -75,17 +72,13 @@
 
 #define SYS_ID_AA64MMFR0_EL1		sys_reg(3, 0, 0, 7, 0)
 #define SYS_ID_AA64MMFR1_EL1		sys_reg(3, 0, 0, 7, 1)
-<<<<<<< HEAD
 #define SYS_ID_AA64MMFR2_EL1		sys_reg(3, 0, 0, 7, 2)
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define SYS_CNTFRQ_EL0			sys_reg(3, 3, 14, 0, 0)
 #define SYS_CTR_EL0			sys_reg(3, 3, 0, 0, 1)
 #define SYS_DCZID_EL0			sys_reg(3, 3, 0, 0, 7)
 
 #define REG_PSTATE_PAN_IMM		sys_reg(0, 0, 4, 0, 4)
-<<<<<<< HEAD
 #define REG_PSTATE_UAO_IMM		sys_reg(0, 0, 4, 0, 3)
 
 #define SET_PSTATE_PAN(x) __inst_arm(0xd5000000 | REG_PSTATE_PAN_IMM |\
@@ -108,16 +101,6 @@
 #define SCTLR_EL1_SPAN		(1 << 23)
 #define SCTLR_EL1_SED		(1 << 8)
 #define SCTLR_EL1_CP15BEN	(1 << 5)
-=======
-
-#define SET_PSTATE_PAN(x) __inst_arm(0xd5000000 | REG_PSTATE_PAN_IMM |\
-				     (!!x)<<8 | 0x1f)
-
-/* SCTLR_EL1 */
-#define SCTLR_EL1_CP15BEN	(0x1 << 5)
-#define SCTLR_EL1_SED		(0x1 << 8)
-#define SCTLR_EL1_SPAN		(0x1 << 23)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 
 /* id_aa64isar0 */
@@ -129,10 +112,7 @@
 #define ID_AA64ISAR0_AES_SHIFT		4
 
 /* id_aa64pfr0 */
-<<<<<<< HEAD
 #define ID_AA64PFR0_CSV2_SHIFT		56
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define ID_AA64PFR0_GIC_SHIFT		24
 #define ID_AA64PFR0_ASIMD_SHIFT		20
 #define ID_AA64PFR0_FP_SHIFT		16
@@ -174,12 +154,9 @@
 #define ID_AA64MMFR1_VMIDBITS_SHIFT	4
 #define ID_AA64MMFR1_HADBS_SHIFT	0
 
-<<<<<<< HEAD
 /* id_aa64mmfr2 */
 #define ID_AA64MMFR2_UAO_SHIFT		4
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* id_aa64dfr0 */
 #define ID_AA64DFR0_CTX_CMPS_SHIFT	28
 #define ID_AA64DFR0_WRPS_SHIFT		20
@@ -244,19 +221,11 @@
 	.equ	.L__reg_num_xzr, 31
 
 	.macro	mrs_s, rt, sreg
-<<<<<<< HEAD
 	.inst	0xd5200000|(\sreg)|(.L__reg_num_\rt)
 	.endm
 
 	.macro	msr_s, sreg, rt
 	.inst	0xd5000000|(\sreg)|(.L__reg_num_\rt)
-=======
-	.inst	0xd5200000|(\sreg)|(__reg_num_\rt)
-	.endm
-
-	.macro	msr_s, sreg, rt
-	.inst	0xd5000000|(\sreg)|(__reg_num_\rt)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	.endm
 
 #else
@@ -270,19 +239,11 @@ asm(
 "	.equ	.L__reg_num_xzr, 31\n"
 "\n"
 "	.macro	mrs_s, rt, sreg\n"
-<<<<<<< HEAD
 "	.inst	0xd5200000|(\\sreg)|(.L__reg_num_\\rt)\n"
 "	.endm\n"
 "\n"
 "	.macro	msr_s, sreg, rt\n"
 "	.inst	0xd5000000|(\\sreg)|(.L__reg_num_\\rt)\n"
-=======
-"	.inst	0xd5200000|(\\sreg)|(__reg_num_\\rt)\n"
-"	.endm\n"
-"\n"
-"	.macro	msr_s, sreg, rt\n"
-"	.inst	0xd5000000|(\\sreg)|(__reg_num_\\rt)\n"
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 "	.endm\n"
 );
 
@@ -295,7 +256,6 @@ static inline void config_sctlr_el1(u32 clear, u32 set)
 	val |= set;
 	asm volatile("msr sctlr_el1, %0" : : "r" (val));
 }
-<<<<<<< HEAD
 
 /*
  * Unlike read_cpuid, calls to read_sysreg are never expected to be
@@ -313,8 +273,6 @@ static inline void config_sctlr_el1(u32 clear, u32 set)
 		     : : "r" (__val));				\
 } while (0)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif
 
 #endif	/* __ASM_SYSREG_H */

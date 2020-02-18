@@ -1159,12 +1159,6 @@ void mark_rodata_ro(void)
 	free_init_pages("unused kernel",
 			(unsigned long) __va(__pa_symbol(rodata_end)),
 			(unsigned long) __va(__pa_symbol(_sdata)));
-<<<<<<< HEAD
-=======
-
-	debug_checkwx();
-}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	debug_checkwx();
 }

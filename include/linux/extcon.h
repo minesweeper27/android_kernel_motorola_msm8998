@@ -55,7 +55,6 @@
 #define EXTCON_JACK_SPDIF_IN	26	/* Sony Philips Digital InterFace */
 #define EXTCON_JACK_SPDIF_OUT	27
 
-<<<<<<< HEAD
 /* connector orientation 0 - CC1, 1 - CC2 */
 #define EXTCON_USB_CC		28
 
@@ -65,8 +64,6 @@
 /* connector type C current 0 - default current, 1 - medium or high current */
 #define EXTCON_USB_TYPEC_MED_HIGH_CURRENT	30
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* Display external connector */
 #define EXTCON_DISP_HDMI	40	/* High-Definition Multimedia Interface */
 #define EXTCON_DISP_MHL		41	/* Mobile High-Definition Link */

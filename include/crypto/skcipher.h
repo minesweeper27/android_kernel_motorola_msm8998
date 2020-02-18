@@ -60,7 +60,6 @@ struct crypto_skcipher {
 
 	unsigned int ivsize;
 	unsigned int reqsize;
-<<<<<<< HEAD
 	unsigned int keysize;
 
 	struct crypto_tfm base;
@@ -133,12 +132,6 @@ struct skcipher_alg {
 	unsigned int chunksize;
 
 	struct crypto_alg base;
-=======
-
-	bool has_setkey;
-
-	struct crypto_tfm base;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 #define SKCIPHER_REQUEST_ON_STACK(name, tfm) \
@@ -308,7 +301,6 @@ static inline int crypto_has_skcipher(const char *alg_name, u32 type,
 }
 
 /**
-<<<<<<< HEAD
  * crypto_has_skcipher2() - Search for the availability of an skcipher.
  * @alg_name: is the cra_name / name or cra_driver_name / driver name of the
  *	      skcipher
@@ -346,8 +338,6 @@ static inline unsigned int crypto_skcipher_alg_ivsize(struct skcipher_alg *alg)
 }
 
 /**
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * crypto_skcipher_ivsize() - obtain IV size
  * @tfm: cipher handle
  *
@@ -361,7 +351,6 @@ static inline unsigned int crypto_skcipher_ivsize(struct crypto_skcipher *tfm)
 	return tfm->ivsize;
 }
 
-<<<<<<< HEAD
 static inline unsigned int crypto_skcipher_alg_chunksize(
 	struct skcipher_alg *alg)
 {
@@ -392,8 +381,6 @@ static inline unsigned int crypto_skcipher_chunksize(
 	return crypto_skcipher_alg_chunksize(crypto_skcipher_alg(tfm));
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * crypto_skcipher_blocksize() - obtain block size of cipher
  * @tfm: cipher handle
@@ -457,7 +444,6 @@ static inline int crypto_skcipher_setkey(struct crypto_skcipher *tfm,
 
 static inline bool crypto_skcipher_has_setkey(struct crypto_skcipher *tfm)
 {
-<<<<<<< HEAD
 	return tfm->keysize;
 }
 
@@ -465,9 +451,6 @@ static inline unsigned int crypto_skcipher_default_keysize(
 	struct crypto_skcipher *tfm)
 {
 	return tfm->keysize;
-=======
-	return tfm->has_setkey;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**

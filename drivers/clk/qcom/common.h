@@ -62,7 +62,6 @@ extern struct clk_ops clk_dummy_ops;
 		WARN(cond, "%s: " fmt, name, ##__VA_ARGS__);	\
 } while (0)
 
-<<<<<<< HEAD
 #define clock_debug_output(m, c, fmt, ...)		\
 do {							\
 	if (m)						\
@@ -73,6 +72,4 @@ do {							\
 		pr_info(fmt, ##__VA_ARGS__);		\
 } while (0)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif

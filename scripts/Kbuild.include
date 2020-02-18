@@ -113,26 +113,20 @@ as-instr = $(call try-run,\
 __cc-option = $(call try-run,\
 	$(1) -Werror $(2) $(3) -c -x c /dev/null -o "$$TMP",$(3),$(4))
 
-<<<<<<< HEAD
 # Do not attempt to build with gcc plugins during cc-option tests.
 # (And this uses delayed resolution so the flags will be up to date.)
 CC_OPTION_CFLAGS = $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS))
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # cc-option
 # Usage: cflags-y += $(call cc-option,-march=winchip-c6,-march=i586)
 
 cc-option = $(call __cc-option, $(CC),\
 	$(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS),$(1),$(2))
-<<<<<<< HEAD
 
 # hostcc-option
 # Usage: cflags-y += $(call hostcc-option,-march=winchip-c6,-march=i586)
 hostcc-option = $(call __cc-option, $(HOSTCC),\
 	$(HOSTCFLAGS) $(HOST_EXTRACFLAGS),$(1),$(2))
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # cc-option-yn
 # Usage: flag := $(call cc-option-yn,-march=winchip-c6)
@@ -152,7 +146,6 @@ cc-disable-warning = $(call try-run,\
 # cc-name
 # Expands to either gcc or clang
 cc-name = $(shell $(CC) -v 2>&1 | grep -q "clang version" && echo clang || echo gcc)
-<<<<<<< HEAD
 
 # __cc-version
 # Returns compiler version
@@ -184,8 +177,6 @@ clang-ifversion =  $(call __cc-ifversion, clang, $(1), $(2), $(3), $(4))
 
 # clang-if-fullversion
 clang-if-fullversion = (call __cc-if-fullversion, clang, $(1), $(2), $(3), $(4))
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 # cc-version
 cc-version = $(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC))

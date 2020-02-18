@@ -1,7 +1,6 @@
 #
 # MMC core configuration
 #
-<<<<<<< HEAD
 
 config MMC_RING_BUFFER
 	bool "MMC_RING_BUFFER"
@@ -38,5 +37,3 @@ config MMC_CLKGATE
 	  support handling this in order for it to be of any use.
 
 	  If unsure, say N.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

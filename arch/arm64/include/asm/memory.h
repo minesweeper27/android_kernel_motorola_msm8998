@@ -52,17 +52,11 @@
 	(UL(1) << VA_BITS) + 1)
 #define PAGE_OFFSET		(UL(0xffffffffffffffff) - \
 	(UL(1) << (VA_BITS - 1)) + 1)
-<<<<<<< HEAD
 #define KIMAGE_VADDR		(MODULES_END)
 #define MODULES_END		(MODULES_VADDR + MODULES_VSIZE)
 #define MODULES_VADDR		(VA_START + KASAN_SHADOW_SIZE)
 #define MODULES_VSIZE		(SZ_128M)
 #define PCI_IO_END		(PAGE_OFFSET - SZ_2M)
-=======
-#define MODULES_END		(PAGE_OFFSET)
-#define MODULES_VADDR		(MODULES_END - SZ_64M)
-#define PCI_IO_END		(MODULES_VADDR - SZ_2M)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define PCI_IO_START		(PCI_IO_END - PCI_IO_SIZE)
 #define FIXADDR_TOP		(PCI_IO_START - SZ_2M)
 #define TASK_SIZE_64		(UL(1) << VA_BITS)
@@ -79,7 +73,6 @@
 
 #define TASK_UNMAPPED_BASE	(PAGE_ALIGN(TASK_SIZE / 4))
 
-<<<<<<< HEAD
 #define KERNEL_START      _text
 #define KERNEL_END        _end
 
@@ -93,8 +86,6 @@
 #define KASAN_SHADOW_SIZE	(0)
 #endif
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Physical vs virtual RAM address space conversion.  These are
  * private definitions which should NOT be used outside memory.h
@@ -105,12 +96,9 @@
 	__x & BIT(VA_BITS - 1) ? (__x & ~PAGE_OFFSET) + PHYS_OFFSET :	\
 				 (__x - kimage_voffset); })
 
-<<<<<<< HEAD
 #define __phys_to_virt(x)	((unsigned long)((x) - PHYS_OFFSET) | PAGE_OFFSET)
 #define __phys_to_kimg(x)	((unsigned long)((x) + kimage_voffset))
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /*
  * Convert a page to/from a physical address
  */
@@ -172,14 +160,6 @@ static inline unsigned long kaslr_offset(void)
  */
 #define MIN_MEMBLOCK_ADDR	0
 #define MAX_MEMBLOCK_ADDR	U64_MAX
-
-/*
- * The maximum physical address that the linear direct mapping
- * of system RAM can cover. (PAGE_OFFSET can be interpreted as
- * a 2's complement signed quantity and negated to derive the
- * maximum size of the linear mapping.)
- */
-#define MAX_MEMBLOCK_ADDR	({ memstart_addr - PAGE_OFFSET - 1; })
 
 /*
  * PFNs are used to describe any physical page; this means

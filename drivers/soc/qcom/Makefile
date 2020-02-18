@@ -59,7 +59,6 @@ obj-$(CONFIG_QCOM_PM)	+=	spm.o
 obj-$(CONFIG_QCOM_SMD) +=	smd.o
 obj-$(CONFIG_QCOM_SMD_RPM)	+= smd-rpm.o
 obj-$(CONFIG_QCOM_SMEM) +=	smem.o
-<<<<<<< HEAD
 obj-$(CONFIG_MSM_SPM) += msm-spm.o spm_devices.o
 CFLAGS_scm.o :=$(call as-instr,.arch_extension sec,-DREQUIRES_SEC=1)
 
@@ -120,5 +119,3 @@ obj-$(CONFIG_MMI_RAM_INFO) += mmi-ram-info.o
 obj-$(CONFIG_MMI_STORAGE_INFO) += mmi_storage_info.o
 obj-$(CONFIG_MMI_UNIT_INFO) += mmi-unit-info.o
 obj-$(CONFIG_BOOTINFO) += bootinfo.o
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

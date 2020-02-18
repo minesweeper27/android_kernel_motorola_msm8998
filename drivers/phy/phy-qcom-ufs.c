@@ -532,59 +532,6 @@ void ufs_qcom_phy_disable_ref_clk(struct phy *generic_phy)
 	}
 }
 EXPORT_SYMBOL_GPL(ufs_qcom_phy_disable_ref_clk);
-<<<<<<< HEAD
-=======
-
-#define UFS_REF_CLK_EN	(1 << 5)
-
-static void ufs_qcom_phy_dev_ref_clk_ctrl(struct phy *generic_phy, bool enable)
-{
-	struct ufs_qcom_phy *phy = get_ufs_qcom_phy(generic_phy);
-
-	if (phy->dev_ref_clk_ctrl_mmio &&
-	    (enable ^ phy->is_dev_ref_clk_enabled)) {
-		u32 temp = readl_relaxed(phy->dev_ref_clk_ctrl_mmio);
-
-		if (enable)
-			temp |= UFS_REF_CLK_EN;
-		else
-			temp &= ~UFS_REF_CLK_EN;
-
-		/*
-		 * If we are here to disable this clock immediately after
-		 * entering into hibern8, we need to make sure that device
-		 * ref_clk is active atleast 1us after the hibern8 enter.
-		 */
-		if (!enable)
-			udelay(1);
-
-		writel_relaxed(temp, phy->dev_ref_clk_ctrl_mmio);
-		/* ensure that ref_clk is enabled/disabled before we return */
-		wmb();
-		/*
-		 * If we call hibern8 exit after this, we need to make sure that
-		 * device ref_clk is stable for atleast 1us before the hibern8
-		 * exit command.
-		 */
-		if (enable)
-			udelay(1);
-
-		phy->is_dev_ref_clk_enabled = enable;
-	}
-}
-
-void ufs_qcom_phy_enable_dev_ref_clk(struct phy *generic_phy)
-{
-	ufs_qcom_phy_dev_ref_clk_ctrl(generic_phy, true);
-}
-EXPORT_SYMBOL_GPL(ufs_qcom_phy_enable_dev_ref_clk);
-
-void ufs_qcom_phy_disable_dev_ref_clk(struct phy *generic_phy)
-{
-	ufs_qcom_phy_dev_ref_clk_ctrl(generic_phy, false);
-}
-EXPORT_SYMBOL_GPL(ufs_qcom_phy_disable_dev_ref_clk);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* Turn ON M-PHY RMMI interface clocks */
 int ufs_qcom_phy_enable_iface_clk(struct phy *generic_phy)
@@ -663,7 +610,6 @@ int ufs_qcom_phy_set_tx_lane_enable(struct phy *generic_phy, u32 tx_lanes)
 	return ret;
 }
 EXPORT_SYMBOL_GPL(ufs_qcom_phy_set_tx_lane_enable);
-<<<<<<< HEAD
 
 int ufs_qcom_phy_ctrl_rx_linecfg(struct phy *generic_phy, bool ctrl)
 {
@@ -676,8 +622,6 @@ int ufs_qcom_phy_ctrl_rx_linecfg(struct phy *generic_phy, bool ctrl)
 	return ret;
 }
 EXPORT_SYMBOL_GPL(ufs_qcom_phy_ctrl_rx_linecfg);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 void ufs_qcom_phy_save_controller_version(struct phy *generic_phy,
 					  u8 major, u16 minor, u16 step)
@@ -710,7 +654,6 @@ int ufs_qcom_phy_calibrate_phy(struct phy *generic_phy, bool is_rate_B)
 	return ret;
 }
 EXPORT_SYMBOL_GPL(ufs_qcom_phy_calibrate_phy);
-<<<<<<< HEAD
 
 const char *ufs_qcom_phy_name(struct phy *phy)
 {
@@ -719,8 +662,6 @@ const char *ufs_qcom_phy_name(struct phy *phy)
 	return ufs_qcom_phy->name;
 }
 EXPORT_SYMBOL(ufs_qcom_phy_name);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int ufs_qcom_phy_remove(struct phy *generic_phy,
 			struct ufs_qcom_phy *ufs_qcom_phy)

@@ -30,7 +30,6 @@ $(warning LSE atomics not supported by binutils)
   endif
 endif
 
-<<<<<<< HEAD
 ifeq ($(CONFIG_COMPAT_VDSO), y)
   CROSS_COMPILE_ARM32 ?= $(CONFIG_CROSS_COMPILE_ARM32:"%"=%)
 
@@ -73,11 +72,6 @@ KBUILD_AFLAGS	+= $(lseinstr) $(vdso32)
 
 KBUILD_CFLAGS	+= $(call cc-option,-mabi=lp64)
 KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
-=======
-KBUILD_CFLAGS	+= -mgeneral-regs-only $(lseinstr)
-KBUILD_CFLAGS	+= $(call cc-option, -mpc-relative-literal-loads)
-KBUILD_AFLAGS	+= $(lseinstr)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
 KBUILD_CPPFLAGS	+= -mbig-endian
@@ -98,7 +92,6 @@ endif
 
 CHECKFLAGS	+= -D__aarch64__
 
-<<<<<<< HEAD
 ifeq ($(CONFIG_ARM64_MODULE_CMODEL_LARGE), y)
 KBUILD_CFLAGS_MODULE	+= -mcmodel=large
 endif
@@ -107,12 +100,6 @@ ifeq ($(CONFIG_ARM64_MODULE_PLTS),y)
 KBUILD_LDFLAGS_MODULE	+= -T $(srctree)/arch/arm64/kernel/module.lds
 endif
 
-=======
-ifeq ($(CONFIG_ARM64_ERRATUM_843419), y)
-KBUILD_CFLAGS_MODULE	+= -mcmodel=large
-endif
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 # Default value
 head-y		:= arch/arm64/kernel/head.o
 

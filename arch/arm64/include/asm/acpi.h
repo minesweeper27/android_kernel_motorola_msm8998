@@ -87,7 +87,6 @@ void __init acpi_init_cpus(void);
 static inline void acpi_init_cpus(void) { }
 #endif /* CONFIG_ACPI */
 
-<<<<<<< HEAD
 #ifdef CONFIG_ARM64_ACPI_PARKING_PROTOCOL
 bool acpi_parking_protocol_valid(int cpu);
 void __init
@@ -108,11 +107,6 @@ static inline const char *acpi_get_enable_method(int cpu)
 		return "parking-protocol";
 
 	return NULL;
-=======
-static inline const char *acpi_get_enable_method(int cpu)
-{
-	return acpi_psci_present() ? "psci" : NULL;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #ifdef	CONFIG_ACPI_APEI

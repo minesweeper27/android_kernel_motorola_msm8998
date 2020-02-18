@@ -247,11 +247,7 @@ static int __acpi_processor_start(struct acpi_device *device)
 	if (result)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	if (!cpuidle_get_driver() || acpi_processor_using_idle_driver())
-=======
-	if (!cpuidle_get_driver() || cpuidle_get_driver() == &acpi_idle_driver)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		acpi_processor_power_init(pr);
 
 	result = acpi_pss_perf_init(pr, device);

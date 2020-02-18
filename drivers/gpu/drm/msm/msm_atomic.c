@@ -406,38 +406,6 @@ static void msm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
 	SDE_ATRACE_END("msm_enable");
 }
 
-static void msm_atomic_wait_for_commit_done(struct drm_device *dev,
-		struct drm_atomic_state *old_state)
-{
-	struct drm_crtc *crtc;
-	struct msm_drm_private *priv = old_state->dev->dev_private;
-	struct msm_kms *kms = priv->kms;
-	int ncrtcs = old_state->dev->mode_config.num_crtc;
-	int i;
-
-	for (i = 0; i < ncrtcs; i++) {
-		crtc = old_state->crtcs[i];
-
-		if (!crtc)
-			continue;
-
-		if (!crtc->state->enable)
-			continue;
-
-		/* Legacy cursor ioctls are completely unsynced, and userspace
-		 * relies on that (by doing tons of cursor updates). */
-		if (old_state->legacy_cursor_update)
-			continue;
-
-		if (drm_crtc_vblank_get(crtc))
-			continue;
-
-		kms->funcs->wait_for_crtc_commit_done(kms, crtc);
-
-		drm_crtc_vblank_put(crtc);
-	}
-}
-
 /* The (potentially) asynchronous part of the commit.  At this point
  * nothing can fail short of armageddon.
  */
@@ -469,11 +437,7 @@ static void complete_commit(struct msm_commit *commit)
 	 * not be critical path)
 	 */
 
-<<<<<<< HEAD
 	msm_atomic_wait_for_commit_done(dev, state, 0);
-=======
-	msm_atomic_wait_for_commit_done(dev, state);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	drm_atomic_helper_cleanup_planes(dev, state);
 
@@ -510,7 +474,6 @@ static void _msm_drm_commit_work_cb(struct kthread_work *work)
 		return;
 	}
 
-<<<<<<< HEAD
 	commit = container_of(work, struct msm_commit, commit_work);
 
 	SDE_ATRACE_BEGIN("complete_commit");
@@ -519,10 +482,6 @@ static void _msm_drm_commit_work_cb(struct kthread_work *work)
 }
 
 static struct msm_commit *commit_init(struct drm_atomic_state *state)
-=======
-int msm_atomic_check(struct drm_device *dev,
-		     struct drm_atomic_state *state)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	struct msm_commit *commit = kzalloc(sizeof(*commit), GFP_KERNEL);
 
@@ -612,11 +571,7 @@ int msm_atomic_commit(struct drm_device *dev,
 	int nplanes = dev->mode_config.num_total_plane;
 	int ncrtcs = dev->mode_config.num_crtc;
 	ktime_t timeout;
-<<<<<<< HEAD
 	struct msm_commit *commit;
-=======
-	struct msm_commit *c;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int i, ret;
 
 	if (!priv || priv->shutdown_in_progress) {
@@ -631,16 +586,10 @@ int msm_atomic_commit(struct drm_device *dev,
 		return ret;
 	}
 
-<<<<<<< HEAD
 	commit = commit_init(state);
 	if (IS_ERR_OR_NULL(commit)) {
 		ret = PTR_ERR(commit);
 		DRM_ERROR("commit_init failed: %d\n", ret);
-=======
-	c = commit_init(state);
-	if (!c) {
-		ret = -ENOMEM;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto error;
 	}
 
@@ -677,12 +626,8 @@ int msm_atomic_commit(struct drm_device *dev,
 	ret = start_atomic(dev->dev_private, commit->crtc_mask,
 			commit->plane_mask);
 	if (ret) {
-<<<<<<< HEAD
 		DRM_ERROR("start_atomic failed: %d\n", ret);
 		commit_destroy(commit);
-=======
-		kfree(c);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto error;
 	}
 
@@ -729,11 +674,7 @@ int msm_atomic_commit(struct drm_device *dev,
 	timeout = ktime_add_ms(ktime_get(), 1000);
 
 	/* uninterruptible wait */
-<<<<<<< HEAD
 	msm_wait_fence(dev, commit->fence, &timeout, false);
-=======
-	msm_wait_fence(dev, c->fence, &timeout, false);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	complete_commit(commit);
 
@@ -742,9 +683,6 @@ int msm_atomic_commit(struct drm_device *dev,
 
 error:
 	drm_atomic_helper_cleanup_planes(dev, state);
-<<<<<<< HEAD
 	SDE_ATRACE_END("atomic_commit");
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return ret;
 }

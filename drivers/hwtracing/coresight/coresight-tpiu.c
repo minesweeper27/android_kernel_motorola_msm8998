@@ -195,8 +195,6 @@ static int tpiu_probe(struct amba_device *adev, const struct amba_id *id)
 
 #ifdef CONFIG_PM
 static int tpiu_runtime_suspend(struct device *dev)
-<<<<<<< HEAD
-=======
 {
 	struct tpiu_drvdata *drvdata = dev_get_drvdata(dev);
 
@@ -205,26 +203,6 @@ static int tpiu_runtime_suspend(struct device *dev)
 
 	return 0;
 }
-
-static int tpiu_runtime_resume(struct device *dev)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
-{
-	struct tpiu_drvdata *drvdata = dev_get_drvdata(dev);
-
-	if (drvdata && !IS_ERR(drvdata->atclk))
-<<<<<<< HEAD
-		clk_disable_unprepare(drvdata->atclk);
-=======
-		clk_prepare_enable(drvdata->atclk);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
-
-	return 0;
-}
-#endif
-
-static const struct dev_pm_ops tpiu_dev_pm_ops = {
-	SET_RUNTIME_PM_OPS(tpiu_runtime_suspend, tpiu_runtime_resume, NULL)
-};
 
 static int tpiu_runtime_resume(struct device *dev)
 {

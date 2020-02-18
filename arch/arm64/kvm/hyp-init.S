@@ -86,7 +86,6 @@ __do_hyp_init:
 	ldr_l	x5, idmap_t0sz
 	bfi	x4, x5, TCR_T0SZ_OFFSET, TCR_TxSZ_WIDTH
 #endif
-<<<<<<< HEAD
 	/*
 	 * Read the PARange bits from ID_AA64MMFR0_EL1 and set the PS bits in
 	 * TCR_EL2 and VTCR_EL2.
@@ -106,19 +105,6 @@ __do_hyp_init:
 	ubfx	x5, x5, #5, #1
 	lsl	x5, x5, #VTCR_EL2_VS
 	orr	x4, x4, x5
-=======
-	/*
-	 * Read the PARange bits from ID_AA64MMFR0_EL1 and set the PS bits in
-	 * TCR_EL2 and VTCR_EL2.
-	 */
-	mrs	x5, ID_AA64MMFR0_EL1
-	bfi	x4, x5, #16, #3
-
-	msr	tcr_el2, x4
-
-	ldr	x4, =VTCR_EL2_FLAGS
-	bfi	x4, x5, #16, #3
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	msr	vtcr_el2, x4
 

@@ -1167,15 +1167,10 @@ EXPORT_SYMBOL(flush_old_exec);
 void would_dump(struct linux_binprm *bprm, struct file *file)
 {
 	struct inode *inode = file_inode(file);
-<<<<<<< HEAD
 
 	if (inode_permission2(file->f_path.mnt, inode, MAY_READ) < 0) {
 		struct user_namespace *old, *user_ns;
 
-=======
-	if (inode_permission(inode, MAY_READ) < 0) {
-		struct user_namespace *old, *user_ns;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		bprm->interp_flags |= BINPRM_FLAGS_ENFORCE_NONDUMP;
 
 		/* Ensure mm->user_ns contains the executable */
@@ -1652,12 +1647,9 @@ static int do_execveat_common(int fd, struct filename *filename,
 
 	would_dump(bprm, bprm->file);
 
-<<<<<<< HEAD
 	/* exec_binprm can release file and it may be freed */
 	is_su = d_is_su(file->f_path.dentry);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	retval = exec_binprm(bprm);
 	if (retval < 0)
 		goto out;

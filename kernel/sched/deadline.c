@@ -291,17 +291,11 @@ static struct rq *dl_task_offline_migration(struct rq *rq, struct task_struct *p
 	/*
 	 * By now the task is replenished and enqueued; migrate it.
 	 */
-<<<<<<< HEAD
 	p->on_rq = TASK_ON_RQ_MIGRATING;
 	deactivate_task(rq, p, 0);
 	set_task_cpu(p, later_rq->cpu);
 	activate_task(later_rq, p, 0);
 	p->on_rq = TASK_ON_RQ_QUEUED;
-=======
-	deactivate_task(rq, p, 0);
-	set_task_cpu(p, later_rq->cpu);
-	activate_task(later_rq, p, 0);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (!fallback)
 		resched_curr(later_rq);
@@ -339,7 +333,6 @@ static inline bool need_pull_dl_task(struct rq *rq, struct task_struct *prev)
 }
 
 static inline void pull_dl_task(struct rq *rq)
-<<<<<<< HEAD
 {
 }
 
@@ -347,15 +340,6 @@ static inline void queue_push_tasks(struct rq *rq)
 {
 }
 
-=======
-{
-}
-
-static inline void queue_push_tasks(struct rq *rq)
-{
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void queue_pull_task(struct rq *rq)
 {
 }
@@ -559,7 +543,6 @@ update_dl_revised_wakeup(struct sched_dl_entity *dl_se, struct rq *rq)
  * We support constrained deadline tasks. However, there are some restrictions
  * applied only for tasks which do not have an implicit deadline. See
  * update_dl_entity() to know more about such restrictions.
-<<<<<<< HEAD
  *
  * The dl_is_implicit() returns true if the task has an implicit deadline.
  */
@@ -573,21 +556,6 @@ static inline bool dl_is_implicit(struct sched_dl_entity *dl_se)
  * might need to be updated. This is done by a CBS wake up rule. There are two
  * different rules: 1) the original CBS; and 2) the Revisited CBS.
  *
-=======
- *
- * The dl_is_implicit() returns true if the task has an implicit deadline.
- */
-static inline bool dl_is_implicit(struct sched_dl_entity *dl_se)
-{
-	return dl_se->dl_deadline == dl_se->dl_period;
-}
-
-/*
- * When a deadline entity is placed in the runqueue, its runtime and deadline
- * might need to be updated. This is done by a CBS wake up rule. There are two
- * different rules: 1) the original CBS; and 2) the Revisited CBS.
- *
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  * When the task is starting a new period, the Original CBS is used. In this
  * case, the runtime is replenished and a new absolute deadline is set.
  *
@@ -1473,11 +1441,8 @@ static void task_dead_dl(struct task_struct *p)
 	/* XXX we should retain the bw until 0-lag */
 	dl_b->total_bw -= p->dl.dl_bw;
 	raw_spin_unlock_irq(&dl_b->lock);
-<<<<<<< HEAD
 
 	clear_average_bw(&p->dl, &rq->dl);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void set_curr_task_dl(struct rq *rq)
@@ -1990,11 +1955,8 @@ static void switched_from_dl(struct rq *rq, struct task_struct *p)
 	 */
 	if (!start_dl_timer(p))
 		__dl_clear_params(p);
-<<<<<<< HEAD
 
 	clear_average_bw(&p->dl, &rq->dl);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/*
 	 * Since this might be the only -deadline task on the rq,

@@ -46,11 +46,7 @@ static void ieee80211_tdls_add_ext_capab(struct ieee80211_sub_if_data *sdata,
 			   NL80211_FEATURE_TDLS_CHANNEL_SWITCH;
 	bool wider_band = ieee80211_hw_check(&local->hw, TDLS_WIDER_BW) &&
 			  !ifmgd->tdls_wider_bw_prohibited;
-<<<<<<< HEAD
 	enum nl80211_band band = ieee80211_get_sdata_band(sdata);
-=======
-	enum ieee80211_band band = ieee80211_get_sdata_band(sdata);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	struct ieee80211_supported_band *sband = local->hw.wiphy->bands[band];
 	bool vht = sband && sband->vht_cap.vht_supported;
 	u8 *pos = (void *)skb_put(skb, 10);
@@ -613,11 +609,7 @@ ieee80211_tdls_add_setup_cfm_ies(struct ieee80211_sub_if_data *sdata,
 	ieee80211_tdls_add_link_ie(sdata, skb, peer, initiator);
 
 	/* only include VHT-operation if not on the 2.4GHz band */
-<<<<<<< HEAD
 	if (band != NL80211_BAND_2GHZ && sta->sta.vht_cap.vht_supported) {
-=======
-	if (band != IEEE80211_BAND_2GHZ && sta->sta.vht_cap.vht_supported) {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * if both peers support WIDER_BW, we can expand the chandef to
 		 * a wider compatible one, up to 80MHz

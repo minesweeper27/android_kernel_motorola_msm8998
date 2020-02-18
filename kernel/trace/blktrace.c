@@ -806,7 +806,6 @@ static void blk_add_trace_bio(struct request_queue *q, struct bio *bio,
 	if (likely(!bt))
 		return;
 
-<<<<<<< HEAD
 	/*
 	 * Not all the pages in the bio are dirtied by the same task but
 	 * most likely it will be, since the sectors accessed on the device
@@ -816,8 +815,6 @@ static void blk_add_trace_bio(struct request_queue *q, struct bio *bio,
 	    bio->bi_io_vec->bv_page->tsk_dirty)
 		tsk = bio->bi_io_vec->bv_page->tsk_dirty;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__blk_add_trace(bt, bio->bi_iter.bi_sector, bio->bi_iter.bi_size,
 			bio->bi_rw, what, error, 0, NULL, tsk);
 }
@@ -933,11 +930,7 @@ static void blk_add_trace_split(void *ignore,
 
 		__blk_add_trace(bt, bio->bi_iter.bi_sector,
 				bio->bi_iter.bi_size, bio->bi_rw, BLK_TA_SPLIT,
-<<<<<<< HEAD
 				bio->bi_error, sizeof(rpdu), &rpdu, tsk);
-=======
-				bio->bi_error, sizeof(rpdu), &rpdu);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 }
 
@@ -976,11 +969,7 @@ static void blk_add_trace_bio_remap(void *ignore,
 
 	__blk_add_trace(bt, bio->bi_iter.bi_sector, bio->bi_iter.bi_size,
 			bio->bi_rw, BLK_TA_REMAP, bio->bi_error,
-<<<<<<< HEAD
 			sizeof(r), &r, tsk);
-=======
-			sizeof(r), &r);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**

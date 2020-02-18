@@ -89,7 +89,6 @@ Note on raw_rpmb_size_mult:
 	"raw_rpmb_size_mult" is a mutliple of 128kB block.
 	RPMB size in byte is calculated by using the following equation:
 	RPMB partition size = 128kB x raw_rpmb_size_mult
-<<<<<<< HEAD
 
 SD/MMC/SDIO Clock Gating Attribute
 ==================================
@@ -138,5 +137,3 @@ echo <desired value> > /sys/class/mmc_host/mmcX/clk_scaling/polling_interval
 echo <desired value> > /sys/class/mmc_host/mmcX/clk_scaling/up_threshold
 echo <desired value> > /sys/class/mmc_host/mmcX/clk_scaling/down_threshold
 echo <desired value> > /sys/class/mmc_host/mmcX/clk_scaling/enable
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

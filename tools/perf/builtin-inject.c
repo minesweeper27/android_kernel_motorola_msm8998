@@ -626,10 +626,9 @@ static int __cmd_inject(struct perf_inject *inject)
 	ret = perf_session__process_events(session);
 
 	if (!file_out->is_pipe) {
-		if (inject->build_ids) {
+		if (inject->build_ids)
 			perf_header__set_feat(&session->header,
 					      HEADER_BUILD_ID);
-<<<<<<< HEAD
 		/*
 		 * Keep all buildids when there is unprocessed AUX data because
 		 * it is not known which ones the AUX trace hits.
@@ -637,11 +636,6 @@ static int __cmd_inject(struct perf_inject *inject)
 		if (perf_header__has_feat(&session->header, HEADER_BUILD_ID) &&
 		    inject->have_auxtrace && !inject->itrace_synth_opts.set)
 			dsos__hit_all(session);
-=======
-			if (inject->have_auxtrace)
-				dsos__hit_all(session);
-		}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * The AUX areas have been removed and replaced with
 		 * synthesized hardware events, so clear the feature flag and

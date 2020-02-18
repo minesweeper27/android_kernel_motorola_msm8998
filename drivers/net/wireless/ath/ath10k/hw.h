@@ -26,14 +26,10 @@
 #define QCA6164_2_1_DEVICE_ID   (0x0041)
 #define QCA6174_2_1_DEVICE_ID   (0x003e)
 #define QCA99X0_2_0_DEVICE_ID   (0x0040)
-<<<<<<< HEAD
 #define QCA9888_2_0_DEVICE_ID	(0x0056)
 #define QCA9984_1_0_DEVICE_ID	(0x0046)
 #define QCA9377_1_0_DEVICE_ID   (0x0042)
 #define QCA9887_1_0_DEVICE_ID   (0x0050)
-=======
-#define QCA9377_1_0_DEVICE_ID   (0x0042)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* QCA988X 1.0 definitions (unsupported) */
 #define QCA988X_HW_1_0_CHIP_ID_REV	0x0
@@ -102,7 +98,6 @@ enum qca9377_chip_id_rev {
 #define QCA99X0_HW_2_0_DEV_VERSION     0x01000000
 #define QCA99X0_HW_2_0_CHIP_ID_REV     0x1
 #define QCA99X0_HW_2_0_FW_DIR          ATH10K_FW_DIR "/QCA99X0/hw2.0"
-<<<<<<< HEAD
 #define QCA99X0_HW_2_0_BOARD_DATA_FILE "board.bin"
 #define QCA99X0_HW_2_0_PATCH_LOAD_ADDR	0x1234
 
@@ -137,20 +132,6 @@ enum qca9377_chip_id_rev {
 #define WCN3990_HW_1_0_DEV_VERSION     ATH10K_HW_WCN3990
 #define WCN3990_HW_1_0_FW_DIR          "/etc/firmware"
 
-=======
-#define QCA99X0_HW_2_0_FW_FILE         "firmware.bin"
-#define QCA99X0_HW_2_0_OTP_FILE        "otp.bin"
-#define QCA99X0_HW_2_0_BOARD_DATA_FILE "board.bin"
-#define QCA99X0_HW_2_0_PATCH_LOAD_ADDR	0x1234
-
-/* QCA9377 1.0 definitions */
-#define QCA9377_HW_1_0_FW_DIR          ATH10K_FW_DIR "/QCA9377/hw1.0"
-#define QCA9377_HW_1_0_FW_FILE         "firmware.bin"
-#define QCA9377_HW_1_0_OTP_FILE        "otp.bin"
-#define QCA9377_HW_1_0_BOARD_DATA_FILE "board.bin"
-#define QCA9377_HW_1_0_PATCH_LOAD_ADDR	0x1234
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define ATH10K_FW_API2_FILE		"firmware-2.bin"
 #define ATH10K_FW_API3_FILE		"firmware-3.bin"
 
@@ -166,11 +147,6 @@ enum qca9377_chip_id_rev {
 /* includes also the null byte */
 #define ATH10K_FIRMWARE_MAGIC               "QCA-ATH10K"
 #define ATH10K_BOARD_MAGIC                  "QCA-ATH10K-BOARD"
-<<<<<<< HEAD
-=======
-
-#define ATH10K_BOARD_API2_FILE         "board-2.bin"
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define ATH10K_BOARD_API2_FILE         "board-2.bin"
 
@@ -247,16 +223,12 @@ enum ath10k_hw_rev {
 	ATH10K_HW_QCA988X,
 	ATH10K_HW_QCA6174,
 	ATH10K_HW_QCA99X0,
-<<<<<<< HEAD
 	ATH10K_HW_QCA9888,
 	ATH10K_HW_QCA9984,
 	ATH10K_HW_QCA9377,
 	ATH10K_HW_QCA4019,
 	ATH10K_HW_QCA9887,
 	ATH10K_HW_WCN3990,
-=======
-	ATH10K_HW_QCA9377,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 struct ath10k_hw_regs {
@@ -293,7 +265,6 @@ struct ath10k_hw_regs {
 extern const struct ath10k_hw_regs qca988x_regs;
 extern const struct ath10k_hw_regs qca6174_regs;
 extern const struct ath10k_hw_regs qca99x0_regs;
-<<<<<<< HEAD
 extern const struct ath10k_hw_regs qca4019_regs;
 extern const struct ath10k_hw_regs wcn3990_regs;
 
@@ -400,31 +371,21 @@ extern struct fw_flag wcn3990_fw_flags;
 
 struct ath10k_hw_values {
 	u32 pdev_suspend_option;
-=======
-
-struct ath10k_hw_values {
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	u32 rtc_state_val_on;
 	u8 ce_count;
 	u8 msi_assign_ce_max;
 	u8 num_target_ce_config_wlan;
 	u16 ce_desc_meta_data_mask;
 	u8 ce_desc_meta_data_lsb;
-<<<<<<< HEAD
 	u8 default_listen_interval;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 };
 
 extern const struct ath10k_hw_values qca988x_values;
 extern const struct ath10k_hw_values qca6174_values;
 extern const struct ath10k_hw_values qca99x0_values;
-<<<<<<< HEAD
 extern const struct ath10k_hw_values qca9888_values;
 extern const struct ath10k_hw_values qca4019_values;
 extern const struct ath10k_hw_values wcn3990_values;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 void ath10k_hw_fill_survey_time(struct ath10k *ar, struct survey_info *survey,
 				u32 cc, u32 rcc, u32 cc_prev, u32 rcc_prev);
@@ -433,7 +394,6 @@ void ath10k_hw_fill_survey_time(struct ath10k *ar, struct survey_info *survey,
 #define QCA_REV_9887(ar) ((ar)->hw_rev == ATH10K_HW_QCA9887)
 #define QCA_REV_6174(ar) ((ar)->hw_rev == ATH10K_HW_QCA6174)
 #define QCA_REV_99X0(ar) ((ar)->hw_rev == ATH10K_HW_QCA99X0)
-<<<<<<< HEAD
 #define QCA_REV_9888(ar) ((ar)->hw_rev == ATH10K_HW_QCA9888)
 #define QCA_REV_9984(ar) ((ar)->hw_rev == ATH10K_HW_QCA9984)
 #define QCA_REV_9377(ar) ((ar)->hw_rev == ATH10K_HW_QCA9377)
@@ -441,11 +401,6 @@ void ath10k_hw_fill_survey_time(struct ath10k *ar, struct survey_info *survey,
 #define QCA_REV_WCN3990(ar) ((ar)->hw_rev == ATH10K_HW_WCN3990)
 
 /* Known peculiarities:
-=======
-#define QCA_REV_9377(ar) ((ar)->hw_rev == ATH10K_HW_QCA9377)
-
-/* Known pecularities:
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *  - raw appears in nwifi decap, raw and nwifi appear in ethernet decap
  *  - raw have FCS, nwifi doesn't
  *  - ethernet frames have 802.11 header decapped and parts (base hdr, cipher
@@ -746,71 +701,6 @@ ath10k_rx_desc_get_l3_pad_bytes(struct ath10k_hw_params *hw,
 #define TARGET_10_4_IPHDR_PAD_CONFIG		1
 #define TARGET_10_4_QWRAP_CONFIG		0
 
-<<<<<<< HEAD
-=======
-/* Diagnostic Window */
-#define CE_DIAG_PIPE	7
-
-#define NUM_TARGET_CE_CONFIG_WLAN ar->hw_values->num_target_ce_config_wlan
-
-/* Target specific defines for 10.4 firmware */
-#define TARGET_10_4_NUM_VDEVS			16
-#define TARGET_10_4_NUM_STATIONS		32
-#define TARGET_10_4_NUM_PEERS			((TARGET_10_4_NUM_STATIONS) + \
-						 (TARGET_10_4_NUM_VDEVS))
-#define TARGET_10_4_ACTIVE_PEERS		0
-
-#define TARGET_10_4_NUM_QCACHE_PEERS_MAX	512
-#define TARGET_10_4_QCACHE_ACTIVE_PEERS		50
-#define TARGET_10_4_NUM_OFFLOAD_PEERS		0
-#define TARGET_10_4_NUM_OFFLOAD_REORDER_BUFFS	0
-#define TARGET_10_4_NUM_PEER_KEYS		2
-#define TARGET_10_4_TGT_NUM_TIDS		((TARGET_10_4_NUM_PEERS) * 2)
-#define TARGET_10_4_AST_SKID_LIMIT		32
-#define TARGET_10_4_TX_CHAIN_MASK		(BIT(0) | BIT(1) | \
-						 BIT(2) | BIT(3))
-#define TARGET_10_4_RX_CHAIN_MASK		(BIT(0) | BIT(1) | \
-						 BIT(2) | BIT(3))
-
-/* 100 ms for video, best-effort, and background */
-#define TARGET_10_4_RX_TIMEOUT_LO_PRI		100
-
-/* 40 ms for voice */
-#define TARGET_10_4_RX_TIMEOUT_HI_PRI		40
-
-#define TARGET_10_4_RX_DECAP_MODE		ATH10K_HW_TXRX_NATIVE_WIFI
-#define TARGET_10_4_SCAN_MAX_REQS		4
-#define TARGET_10_4_BMISS_OFFLOAD_MAX_VDEV	3
-#define TARGET_10_4_ROAM_OFFLOAD_MAX_VDEV	3
-#define TARGET_10_4_ROAM_OFFLOAD_MAX_PROFILES   8
-
-/* Note: mcast to ucast is disabled by default */
-#define TARGET_10_4_NUM_MCAST_GROUPS		0
-#define TARGET_10_4_NUM_MCAST_TABLE_ELEMS	0
-#define TARGET_10_4_MCAST2UCAST_MODE		0
-
-#define TARGET_10_4_TX_DBG_LOG_SIZE		1024
-#define TARGET_10_4_NUM_WDS_ENTRIES		32
-#define TARGET_10_4_DMA_BURST_SIZE		0
-#define TARGET_10_4_MAC_AGGR_DELIM		0
-#define TARGET_10_4_RX_SKIP_DEFRAG_TIMEOUT_DUP_DETECTION_CHECK 1
-#define TARGET_10_4_VOW_CONFIG			0
-#define TARGET_10_4_GTK_OFFLOAD_MAX_VDEV	3
-#define TARGET_10_4_NUM_MSDU_DESC		(1024 + 400)
-#define TARGET_10_4_11AC_TX_MAX_FRAGS		2
-#define TARGET_10_4_MAX_PEER_EXT_STATS		16
-#define TARGET_10_4_SMART_ANT_CAP		0
-#define TARGET_10_4_BK_MIN_FREE			0
-#define TARGET_10_4_BE_MIN_FREE			0
-#define TARGET_10_4_VI_MIN_FREE			0
-#define TARGET_10_4_VO_MIN_FREE			0
-#define TARGET_10_4_RX_BATCH_MODE		1
-#define TARGET_10_4_THERMAL_THROTTLING_CONFIG	0
-#define TARGET_10_4_ATF_CONFIG			0
-#define TARGET_10_4_IPHDR_PAD_CONFIG		1
-#define TARGET_10_4_QWRAP_CONFIG		0
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /* Number of Copy Engines supported */
 #define CE_COUNT ar->hw_values->ce_count
 

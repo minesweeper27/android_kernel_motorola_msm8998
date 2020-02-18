@@ -15,7 +15,6 @@
  * with any version that can compile the kernel
  */
 #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-<<<<<<< HEAD
 
 /*
 * GCC does not warn about unused static inline functions for
@@ -24,5 +23,3 @@
 */
 #undef inline
 #define inline inline __attribute__((unused)) notrace
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

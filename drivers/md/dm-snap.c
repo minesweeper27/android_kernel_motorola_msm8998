@@ -1563,11 +1563,6 @@ out:
 	full_bio = pe->full_bio;
 	if (full_bio)
 		full_bio->bi_end_io = pe->full_bio_end_io;
-<<<<<<< HEAD
-=======
-		full_bio->bi_private = pe->full_bio_private;
-	}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	increment_pending_exceptions_done_count();
 
 	mutex_unlock(&s->lock);

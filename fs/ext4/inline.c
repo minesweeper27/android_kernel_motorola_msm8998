@@ -1024,19 +1024,11 @@ void ext4_show_inline_dir(struct inode *dir, struct buffer_head *bh,
  */
 static int ext4_add_dirent_to_inline(handle_t *handle,
 				     struct ext4_filename *fname,
-<<<<<<< HEAD
 				     struct inode *dir,
-=======
-				     struct dentry *dentry,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 				     struct inode *inode,
 				     struct ext4_iloc *iloc,
 				     void *inline_start, int inline_size)
 {
-<<<<<<< HEAD
-=======
-	struct inode	*dir = d_inode(dentry->d_parent);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int		err;
 	struct ext4_dir_entry_2 *de;
 
@@ -1280,11 +1272,7 @@ out:
  * the new created block.
  */
 int ext4_try_add_inline_entry(handle_t *handle, struct ext4_filename *fname,
-<<<<<<< HEAD
 			      struct inode *dir, struct inode *inode)
-=======
-			      struct dentry *dentry, struct inode *inode)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 {
 	int ret, inline_size, no_expand;
 	void *inline_start;
@@ -1302,11 +1290,7 @@ int ext4_try_add_inline_entry(handle_t *handle, struct ext4_filename *fname,
 						 EXT4_INLINE_DOTDOT_SIZE;
 	inline_size = EXT4_MIN_INLINE_DATA_SIZE - EXT4_INLINE_DOTDOT_SIZE;
 
-<<<<<<< HEAD
 	ret = ext4_add_dirent_to_inline(handle, fname, dir, inode, &iloc,
-=======
-	ret = ext4_add_dirent_to_inline(handle, fname, dentry, inode, &iloc,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 					inline_start, inline_size);
 	if (ret != -ENOSPC)
 		goto out;
@@ -1327,11 +1311,7 @@ int ext4_try_add_inline_entry(handle_t *handle, struct ext4_filename *fname,
 	if (inline_size) {
 		inline_start = ext4_get_inline_xattr_pos(dir, &iloc);
 
-<<<<<<< HEAD
 		ret = ext4_add_dirent_to_inline(handle, fname, dir,
-=======
-		ret = ext4_add_dirent_to_inline(handle, fname, dentry,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 						inode, &iloc, inline_start,
 						inline_size);
 
@@ -1678,11 +1658,7 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
 						EXT4_INLINE_DOTDOT_SIZE;
 	inline_size = EXT4_MIN_INLINE_DATA_SIZE - EXT4_INLINE_DOTDOT_SIZE;
 	ret = ext4_search_dir(iloc.bh, inline_start, inline_size,
-<<<<<<< HEAD
 			      dir, fname, d_name, 0, res_dir, flags);
-=======
-			      dir, fname, d_name, 0, res_dir);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret == 1)
 		goto out_find;
 	if (ret < 0)
@@ -1695,11 +1671,7 @@ struct buffer_head *ext4_find_inline_entry(struct inode *dir,
 	inline_size = ext4_get_inline_size(dir) - EXT4_MIN_INLINE_DATA_SIZE;
 
 	ret = ext4_search_dir(iloc.bh, inline_start, inline_size,
-<<<<<<< HEAD
 			      dir, fname, d_name, 0, res_dir, flags);
-=======
-			      dir, fname, d_name, 0, res_dir);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (ret == 1)
 		goto out_find;
 

@@ -17,11 +17,7 @@
 #include <linux/poll.h>
 #include <linux/dma-buf.h>
 
-<<<<<<< HEAD
 #define VB2_MAX_FRAME	(64)
-=======
-#define VB2_MAX_FRAME	(32)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #define VB2_MAX_PLANES	(8)
 
 enum vb2_memory {

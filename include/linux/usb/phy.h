@@ -93,11 +93,8 @@ struct usb_phy {
 	u16			port_status;
 	u16			port_change;
 
-<<<<<<< HEAD
 	bool			mods_usb_enabled;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* to support controllers that have multiple phys */
 	struct list_head	head;
 

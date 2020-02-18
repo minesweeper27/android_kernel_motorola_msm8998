@@ -260,11 +260,7 @@ static bool ath_is_radar_freq(u16 center_freq,
 {
 	if (reg->country_code == CTRY_INDIA)
 		return (center_freq >= 5500 && center_freq <= 5700);
-<<<<<<< HEAD
 	return (center_freq >= 5260 && center_freq <= 5720);
-=======
-	return (center_freq >= 5260 && center_freq <= 5700);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 static void ath_force_clear_no_ir_chan(struct wiphy *wiphy,
@@ -664,7 +660,6 @@ ath_regd_init_wiphy(struct ath_regulatory *reg,
 	}
 
 	wiphy_apply_custom_regulatory(wiphy, regd);
-<<<<<<< HEAD
 
 	/* For regulatory rules similar to the following:
 	 * REG_RULE(2412-10, 2462+10, 40, 0, 20, 0), channels 12/13 are enabled
@@ -679,8 +674,6 @@ ath_regd_init_wiphy(struct ath_regulatory *reg,
 			chan->flags |= IEEE80211_CHAN_DISABLED;
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	ath_reg_apply_radar_flags(wiphy, reg);
 	ath_reg_apply_world_flags(wiphy, NL80211_REGDOM_SET_BY_DRIVER, reg);
 	return 0;

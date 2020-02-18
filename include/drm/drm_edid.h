@@ -346,7 +346,6 @@ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb);
 int drm_av_sync_delay(struct drm_connector *connector,
 		      const struct drm_display_mode *mode);
 struct drm_connector *drm_select_eld(struct drm_encoder *encoder);
-<<<<<<< HEAD
 
 #ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
 struct edid *drm_load_edid_firmware(struct drm_connector *connector);
@@ -357,9 +356,6 @@ drm_load_edid_firmware(struct drm_connector *connector)
 	return ERR_PTR(-ENOENT);
 }
 #endif
-=======
-int drm_load_edid_firmware(struct drm_connector *connector);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 int
 drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,

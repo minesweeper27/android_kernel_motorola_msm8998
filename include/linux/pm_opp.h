@@ -34,11 +34,8 @@ bool dev_pm_opp_is_turbo(struct dev_pm_opp *opp);
 
 int dev_pm_opp_get_opp_count(struct device *dev);
 unsigned long dev_pm_opp_get_max_clock_latency(struct device *dev);
-<<<<<<< HEAD
 unsigned long dev_pm_opp_get_max_volt_latency(struct device *dev);
 unsigned long dev_pm_opp_get_max_transition_latency(struct device *dev);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 struct dev_pm_opp *dev_pm_opp_get_suspend_opp(struct device *dev);
 
 struct dev_pm_opp *dev_pm_opp_find_freq_exact(struct device *dev,
@@ -94,7 +91,6 @@ static inline unsigned long dev_pm_opp_get_max_clock_latency(struct device *dev)
 	return 0;
 }
 
-<<<<<<< HEAD
 static inline unsigned long dev_pm_opp_get_max_volt_latency(struct device *dev)
 {
 	return 0;
@@ -105,8 +101,6 @@ static inline unsigned long dev_pm_opp_get_max_transition_latency(struct device 
 	return 0;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline struct dev_pm_opp *dev_pm_opp_get_suspend_opp(struct device *dev)
 {
 	return NULL;

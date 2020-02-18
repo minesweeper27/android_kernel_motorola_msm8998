@@ -16,7 +16,4 @@ obj-$(CONFIG_NFC_ST21NFCA)  	+= st21nfca/
 obj-$(CONFIG_NFC_ST_NCI)	+= st-nci/
 obj-$(CONFIG_NFC_NXP_NCI)	+= nxp-nci/
 obj-$(CONFIG_NFC_S3FWRN5)	+= s3fwrn5/
-<<<<<<< HEAD
 obj-$(CONFIG_NFC_NQ)		+= nq-nci.o
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

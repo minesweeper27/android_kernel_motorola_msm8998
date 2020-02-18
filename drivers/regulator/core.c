@@ -708,8 +708,6 @@ static int drms_uA_update(struct regulator_dev *rdev)
 
 	lockdep_assert_held_once(&rdev->mutex);
 
-	lockdep_assert_held_once(&rdev->mutex);
-
 	/*
 	 * first check to see if we can set modes at all, otherwise just
 	 * tell the consumer everything is OK.
@@ -1556,19 +1554,6 @@ static int regulator_resolve_supply(struct regulator_dev *rdev)
 	if (ret < 0) {
 		put_device(&r->dev);
 		return ret;
-<<<<<<< HEAD
-=======
-	}
-
-	/* Cascade always-on state to supply */
-	if (_regulator_is_enabled(rdev) && rdev->supply) {
-		ret = regulator_enable(rdev->supply);
-		if (ret < 0) {
-			_regulator_put(rdev->supply);
-			rdev->supply = NULL;
-			return ret;
-		}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	}
 
 	return 0;
@@ -2963,7 +2948,6 @@ static int regulator_set_voltage_unlocked(struct regulator *regulator,
 		goto out2;
 
 	if (rdev->supply && (rdev->desc->min_dropout_uV ||
-<<<<<<< HEAD
 				!(rdev->desc->ops->get_voltage ||
 					rdev->desc->ops->get_voltage_sel))) {
 		int current_supply_uV;
@@ -3006,49 +2990,6 @@ static int regulator_set_voltage_unlocked(struct regulator *regulator,
 	if (ret < 0)
 		goto out2;
 
-=======
-				!rdev->desc->ops->get_voltage)) {
-		int current_supply_uV;
-		int selector;
-
-		selector = regulator_map_voltage(rdev, min_uV, max_uV);
-		if (selector < 0) {
-			ret = selector;
-			goto out2;
-		}
-
-		best_supply_uV = _regulator_list_voltage(regulator, selector, 0);
-		if (best_supply_uV < 0) {
-			ret = best_supply_uV;
-			goto out2;
-		}
-
-		best_supply_uV += rdev->desc->min_dropout_uV;
-
-		current_supply_uV = _regulator_get_voltage(rdev->supply->rdev);
-		if (current_supply_uV < 0) {
-			ret = current_supply_uV;
-			goto out2;
-		}
-
-		supply_change_uV = best_supply_uV - current_supply_uV;
-	}
-
-	if (supply_change_uV > 0) {
-		ret = regulator_set_voltage_unlocked(rdev->supply,
-				best_supply_uV, INT_MAX);
-		if (ret) {
-			dev_err(&rdev->dev, "Failed to increase supply voltage: %d\n",
-					ret);
-			goto out2;
-		}
-	}
-
-	ret = _regulator_do_set_voltage(rdev, min_uV, max_uV);
-	if (ret < 0)
-		goto out2;
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (supply_change_uV < 0) {
 		ret = regulator_set_voltage_unlocked(rdev->supply,
 				best_supply_uV, INT_MAX);
@@ -4472,10 +4413,7 @@ regulator_register(const struct regulator_desc *regulator_desc,
 		}
 	}
 
-<<<<<<< HEAD
 	mutex_unlock(&regulator_list_mutex);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	rdev_init_debugfs(rdev);
 	rdev->proxy_consumer = regulator_proxy_consumer_register(dev,
 							config->of_node);
@@ -4607,7 +4545,6 @@ int regulator_suspend_finish(void)
 {
 	return class_for_each_device(&regulator_class, NULL, NULL,
 				     _regulator_suspend_finish);
-<<<<<<< HEAD
 }
 EXPORT_SYMBOL_GPL(regulator_suspend_finish);
 
@@ -4756,8 +4693,6 @@ int vreg_before_sleep_dump_info(char *buf)
 	}
 
 	return data.pos;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 /**

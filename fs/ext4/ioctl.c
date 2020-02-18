@@ -603,12 +603,9 @@ resizefs_out:
 		if (!blk_queue_discard(q))
 			return -EOPNOTSUPP;
 
-<<<<<<< HEAD
 		if ((flags & BLKDEV_DISCARD_SECURE) && !blk_queue_secdiscard(q))
 			return -EOPNOTSUPP;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		/*
 		 * We haven't replayed the journal, so we cannot use our
 		 * block-bitmap-guided storage zapping commands.
@@ -638,9 +635,6 @@ resizefs_out:
 #ifdef CONFIG_EXT4_FS_ENCRYPTION
 		struct ext4_encryption_policy policy;
 		int err = 0;
-
-		if (!ext4_has_feature_encrypt(sb))
-			return -EOPNOTSUPP;
 
 		if (copy_from_user(&policy,
 				   (struct ext4_encryption_policy __user *)arg,

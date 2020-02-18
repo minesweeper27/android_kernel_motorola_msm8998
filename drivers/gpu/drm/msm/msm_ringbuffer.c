@@ -24,13 +24,8 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
 	struct msm_ringbuffer *ring;
 	int ret;
 
-<<<<<<< HEAD
 	/* We assume everwhere that MSM_GPU_RINGBUFFER_SZ is a power of 2 */
 	BUILD_BUG_ON(!is_power_of_2(MSM_GPU_RINGBUFFER_SZ));
-=======
-	if (WARN_ON(!is_power_of_2(size)))
-		return ERR_PTR(-EINVAL);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	ring = kzalloc(sizeof(*ring), GFP_KERNEL);
 	if (!ring) {
@@ -70,15 +65,10 @@ fail:
 
 void msm_ringbuffer_destroy(struct msm_ringbuffer *ring)
 {
-<<<<<<< HEAD
 	if (ring && ring->bo) {
 		msm_gem_put_iova(ring->bo, ring->gpu->aspace);
 		drm_gem_object_unreference_unlocked(ring->bo);
 	}
 
-=======
-	if (ring->bo)
-		drm_gem_object_unreference_unlocked(ring->bo);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	kfree(ring);
 }

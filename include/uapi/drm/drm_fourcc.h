@@ -234,7 +234,6 @@ extern "C" {
  */
 #define DRM_FORMAT_MOD_SAMSUNG_64_32_TILE	fourcc_mod_code(SAMSUNG, 1)
 
-<<<<<<< HEAD
 /*
  * Qualcomm Compressed Format
  *
@@ -270,6 +269,4 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* DRM_FOURCC_H */

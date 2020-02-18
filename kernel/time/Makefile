@@ -11,8 +11,5 @@ obj-$(CONFIG_GENERIC_SCHED_CLOCK)		+= sched_clock.o
 obj-$(CONFIG_TICK_ONESHOT)			+= tick-oneshot.o tick-sched.o
 obj-$(CONFIG_DEBUG_FS)				+= timekeeping_debug.o
 obj-$(CONFIG_TEST_UDELAY)			+= test_udelay.o
-<<<<<<< HEAD
 
 ccflags-y += -Idrivers/cpuidle
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

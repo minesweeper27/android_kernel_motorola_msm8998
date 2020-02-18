@@ -151,11 +151,7 @@ struct thread_info {
 /* work to do on any return to user space */
 #define _TIF_ALLWORK_MASK						\
 	((0x0000FFFF & ~_TIF_SECCOMP) | _TIF_SYSCALL_TRACEPOINT |	\
-<<<<<<< HEAD
 	_TIF_NOHZ | _TIF_FSCHECK)
-=======
-	_TIF_NOHZ)
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 /* flags to check in __switch_to() */
 #define _TIF_WORK_CTXSW_BASE						\
@@ -188,7 +184,6 @@ static inline struct thread_info *current_thread_info(void)
 	return (struct thread_info *)(current_top_of_stack() - THREAD_SIZE);
 }
 
-<<<<<<< HEAD
 /*
  * Walks up the stack frames to make sure that the specified object is
  * entirely contained by a single stack frame.
@@ -234,13 +229,6 @@ static inline int arch_within_stack_frames(const void * const stack,
 }
 
 #else /* !__ASSEMBLY__ */
-=======
-#else /* !__ASSEMBLY__ */
-
-#ifdef CONFIG_X86_64
-# define cpu_current_top_of_stack (cpu_tss + TSS_sp0)
-#endif
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #ifdef CONFIG_X86_64
 # define cpu_current_top_of_stack (cpu_tss + TSS_sp0)

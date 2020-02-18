@@ -472,7 +472,6 @@ int mmc_switch_status_error(struct mmc_host *host, u32 status)
 	return 0;
 }
 
-<<<<<<< HEAD
 /**
  *	mmc_prepare_switch - helper; prepare to modify EXT_CSD register
  *	@card: the MMC card associated with the data transfer
@@ -512,8 +511,6 @@ int __mmc_switch_cmdq_mode(struct mmc_command *cmd, u8 set, u8 index, u8 value,
 }
 EXPORT_SYMBOL(__mmc_switch_cmdq_mode);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  *	__mmc_switch - modify EXT_CSD register
  *	@card: the MMC card associated with the data transfer
@@ -539,8 +536,6 @@ int __mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value,
 	u32 status = 0;
 	bool use_r1b_resp = use_busy_signal;
 	int retries = 5;
-
-	mmc_retune_hold(host);
 
 	mmc_retune_hold(host);
 
@@ -616,7 +611,6 @@ int __mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value,
 
 		/* Timeout if the device never leaves the program state. */
 		if (time_after(jiffies, timeout)) {
-<<<<<<< HEAD
 			pr_err("%s: Card stuck in programming state! %s, timeout:%ums, retries:%d\n",
 				mmc_hostname(host), __func__,
 				timeout_ms, retries);
@@ -628,12 +622,6 @@ int __mmc_switch(struct mmc_card *card, u8 set, u8 index, u8 value,
 				goto out;
 			}
 			retries--;
-=======
-			pr_err("%s: Card stuck in programming state! %s\n",
-				mmc_hostname(host), __func__);
-			err = -ETIMEDOUT;
-			goto out;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		}
 	} while (R1_CURRENT_STATE(status) == R1_STATE_PRG);
 

@@ -16,11 +16,8 @@
 #ifndef __ASM_PERCPU_H
 #define __ASM_PERCPU_H
 
-<<<<<<< HEAD
 #include <asm/stack_pointer.h>
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void set_my_cpu_offset(unsigned long off)
 {
 	asm volatile("msr tpidr_el1, %0" :: "r" (off) : "memory");

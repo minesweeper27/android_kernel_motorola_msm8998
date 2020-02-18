@@ -670,7 +670,6 @@ nfulnl_log_packet(struct net *net,
 		  const struct nf_loginfo *li_user,
 		  const char *prefix)
 {
-<<<<<<< HEAD
 	__nfulnl_log_packet(net, pf, hooknum, skb, in, out,
 			    li_user, prefix, NF_LOG_ALL);
 }
@@ -688,8 +687,6 @@ __nfulnl_log_packet(struct net *net,
 		    const char *prefix,
 		    unsigned int layer)
 {
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	size_t size;
 	unsigned int data_len;
 	struct nfulnl_instance *inst;
@@ -798,15 +795,9 @@ __nfulnl_log_packet(struct net *net,
 
 	inst->qlen++;
 
-<<<<<<< HEAD
 	__build_packet_message(log, inst, skb, data_len, data_offset, pf,
 			       hooknum, in, out, prefix, plen,
 			       nfnl_ct, ct, ctinfo);
-=======
-	__build_packet_message(log, inst, skb, data_len, pf,
-				hooknum, in, out, prefix, plen,
-				nfnl_ct, ct, ctinfo);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (inst->qlen >= qthreshold)
 		__nfulnl_flush(inst);

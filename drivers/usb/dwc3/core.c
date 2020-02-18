@@ -35,10 +35,7 @@
 #include <linux/of.h>
 #include <linux/acpi.h>
 #include <linux/pinctrl/consumer.h>
-<<<<<<< HEAD
 #include <linux/irq.h>
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadget.h>
@@ -920,7 +917,6 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
 		break;
 	}
 
-<<<<<<< HEAD
 }
 
 /* XHCI reset, resets other CORE registers as well, re-init those */
@@ -1011,10 +1007,6 @@ err1:
 	dwc3_ulpi_exit(dwc);
 err0:
 	return ret;
-=======
-	/* de-assert DRVVBUS for HOST and OTG mode */
-	dwc3_set_mode(dwc, DWC3_GCTL_PRTCAP_DEVICE);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 }
 
 #define DWC3_ALIGN_MASK		(16 - 1)
@@ -1038,12 +1030,8 @@ static int dwc3_probe(struct platform_device *pdev)
 	u8			tx_de_emphasis;
 	u8			hird_threshold;
 	u32			fladj = 0;
-<<<<<<< HEAD
 	u32			num_evt_buffs;
 	int			irq;
-=======
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	int			ret;
 
 	void __iomem		*regs;
@@ -1123,10 +1111,7 @@ static int dwc3_probe(struct platform_device *pdev)
 	hird_threshold = 12;
 
 	dwc->maximum_speed = usb_get_maximum_speed(dev);
-<<<<<<< HEAD
 	dwc->max_hw_supp_speed = dwc->maximum_speed;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	dwc->dr_mode = usb_get_dr_mode(dev);
 
 	dwc->has_lpm_erratum = device_property_read_bool(dev,
@@ -1175,7 +1160,6 @@ static int dwc3_probe(struct platform_device *pdev)
 	device_property_read_u32(dev, "snps,quirk-frame-length-adjustment",
 				 &fladj);
 
-<<<<<<< HEAD
 	dwc->nominal_elastic_buffer = device_property_read_bool(dev,
 				"snps,nominal-elastic-buffer");
 	dwc->usb3_u1u2_disable = device_property_read_bool(dev,
@@ -1199,8 +1183,6 @@ static int dwc3_probe(struct platform_device *pdev)
 		pm_runtime_use_autosuspend(dev);
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (pdata) {
 		dwc->maximum_speed = pdata->maximum_speed;
 		dwc->max_hw_supp_speed = dwc->maximum_speed;
@@ -1282,15 +1264,6 @@ static int dwc3_probe(struct platform_device *pdev)
 
 	/* Adjust Frame Length */
 	dwc3_frame_length_adjustment(dwc, fladj);
-<<<<<<< HEAD
-=======
-
-	usb_phy_set_suspend(dwc->usb2_phy, 0);
-	usb_phy_set_suspend(dwc->usb3_phy, 0);
-	ret = phy_power_on(dwc->usb2_generic_phy);
-	if (ret < 0)
-		goto err2;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	/* Hardcode number of eps */
 	dwc->num_in_eps = 16;
@@ -1417,13 +1390,10 @@ static int dwc3_resume(struct device *dev)
 	unsigned long	flags;
 	int		ret;
 
-<<<<<<< HEAD
 	/* Check if platform glue driver handling PM, if not then handle here */
 	if (!dwc3_notify_event(dwc, DWC3_CORE_PM_RESUME_EVENT, 0))
 		return 0;
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	pinctrl_pm_select_default_state(dev);
 
 	usb_phy_init(dwc->usb3_phy);

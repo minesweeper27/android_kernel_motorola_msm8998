@@ -2040,7 +2040,6 @@ static int prctl_set_mm(int opt, unsigned long addr,
 			error = -EFAULT;
 			goto out;
 		}
-<<<<<<< HEAD
 	}
 
 	mm->start_code	= prctl_map.start_code;
@@ -2210,25 +2209,6 @@ static int prctl_set_vma(unsigned long opt, unsigned long start,
 
 	up_write(&mm->mmap_sem);
 
-=======
-	}
-
-	mm->start_code	= prctl_map.start_code;
-	mm->end_code	= prctl_map.end_code;
-	mm->start_data	= prctl_map.start_data;
-	mm->end_data	= prctl_map.end_data;
-	mm->start_brk	= prctl_map.start_brk;
-	mm->brk		= prctl_map.brk;
-	mm->start_stack	= prctl_map.start_stack;
-	mm->arg_start	= prctl_map.arg_start;
-	mm->arg_end	= prctl_map.arg_end;
-	mm->env_start	= prctl_map.env_start;
-	mm->env_end	= prctl_map.env_end;
-
-	error = 0;
-out:
-	up_write(&mm->mmap_sem);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	return error;
 }
 #else /* CONFIG_MMU */
@@ -2238,17 +2218,6 @@ static int prctl_set_vma(unsigned long opt, unsigned long start,
 	return -EINVAL;
 }
 #endif
-
-int __weak arch_prctl_spec_ctrl_get(struct task_struct *t, unsigned long which)
-{
-	return -EINVAL;
-}
-
-int __weak arch_prctl_spec_ctrl_set(struct task_struct *t, unsigned long which,
-				    unsigned long ctrl)
-{
-	return -EINVAL;
-}
 
 int __weak arch_prctl_spec_ctrl_get(struct task_struct *t, unsigned long which)
 {
@@ -2479,12 +2448,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 	case PR_GET_FP_MODE:
 		error = GET_FP_MODE(me);
 		break;
-<<<<<<< HEAD
 	case PR_SET_VMA:
 		error = prctl_set_vma(arg2, arg3, arg4, arg5);
 		break;
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	case PR_GET_SPECULATION_CTRL:
 		if (arg3 || arg4 || arg5)
 			return -EINVAL;

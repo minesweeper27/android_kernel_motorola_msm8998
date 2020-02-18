@@ -177,7 +177,6 @@ static int fdp_nci_i2c_read(struct fdp_i2c_phy *phy, struct sk_buff **skb)
 		/* Packet that contains a length */
 		if (tmp[0] == 0 && tmp[1] == 0) {
 			phy->next_read_size = (tmp[2] << 8) + tmp[3] + 3;
-<<<<<<< HEAD
 			/*
 			 * Ensure next_read_size does not exceed sizeof(tmp)
 			 * for reading that many bytes during next iteration
@@ -188,8 +187,6 @@ static int fdp_nci_i2c_read(struct fdp_i2c_phy *phy, struct sk_buff **skb)
 				phy->next_read_size = 5;
 				goto flush;
 			}
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		} else {
 			phy->next_read_size = FDP_NCI_I2C_MIN_PAYLOAD;
 

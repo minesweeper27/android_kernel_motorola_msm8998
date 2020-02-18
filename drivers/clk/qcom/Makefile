@@ -9,17 +9,12 @@ clk-qcom-y += clk-rcg2.o
 clk-qcom-y += clk-branch.o
 clk-qcom-y += clk-regmap-divider.o
 clk-qcom-y += clk-regmap-mux.o
-<<<<<<< HEAD
 clk-qcom-y += clk-regmap-mux-div.o
 clk-qcom-$(CONFIG_KRAIT_CLOCKS) += clk-krait.o
 clk-qcom-y += clk-hfpll.o
 clk-qcom-y += reset.o clk-voter.o
 clk-qcom-y += clk-dummy.o clk-debug.o
 clk-qcom-$(CONFIG_QCOM_GDSC) += gdsc.o gdsc-regulator.o
-=======
-clk-qcom-y += reset.o
-clk-qcom-$(CONFIG_QCOM_GDSC) += gdsc.o
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 obj-$(CONFIG_APQ_GCC_8084) += gcc-apq8084.o
 obj-$(CONFIG_APQ_MMCC_8084) += mmcc-apq8084.o

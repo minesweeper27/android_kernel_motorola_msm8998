@@ -24,14 +24,7 @@ inline unsigned long int_sqrt(unsigned long x)
 	if (x <= 1)
 		return x;
 
-<<<<<<< HEAD
 	place = 1UL << (BITS_PER_LONG - 2);
-=======
-	m = 1UL << (__fls(x) & ~1UL);
-	while (m != 0) {
-		b = y + m;
-		y >>= 1;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 		do{
 		place >>= 2;

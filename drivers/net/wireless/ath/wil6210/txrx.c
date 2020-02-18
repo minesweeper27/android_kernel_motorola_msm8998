@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
  * Copyright (c) 2012-2017 Qualcomm Atheros, Inc.
-=======
- * Copyright (c) 2012-2015 Qualcomm Atheros, Inc.
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -455,7 +451,6 @@ static inline int wil_is_back_req(u8 fc)
 	       (IEEE80211_FTYPE_CTL | IEEE80211_STYPE_BACK_REQ);
 }
 
-<<<<<<< HEAD
 bool wil_is_rx_idle(struct wil6210_priv *wil)
 {
 	struct vring_rx_desc *_d;
@@ -468,8 +463,6 @@ bool wil_is_rx_idle(struct wil6210_priv *wil)
 	return true;
 }
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 /**
  * reap 1 frame from @swhead
  *
@@ -648,15 +641,12 @@ static int wil_rx_refill(struct wil6210_priv *wil, int count)
 			break;
 		}
 	}
-<<<<<<< HEAD
 
 	/* make sure all writes to descriptors (shared memory) are done before
 	 * committing them to HW
 	 */
 	wmb();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	wil_w(wil, v->hwtail, v->swtail);
 
 	return rc;
@@ -993,25 +983,17 @@ int wil_vring_init_tx(struct wil6210_priv *wil, int id, int size,
 	spin_lock_bh(&txdata->lock);
 	vring->hwtail = le32_to_cpu(reply.cmd.tx_vring_tail_ptr);
 	txdata->enabled = 1;
-<<<<<<< HEAD
 	spin_unlock_bh(&txdata->lock);
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	if (txdata->dot1x_open && (agg_wsize >= 0))
 		wil_addba_tx_request(wil, id, agg_wsize);
 
 	return 0;
  out_free:
-<<<<<<< HEAD
 	spin_lock_bh(&txdata->lock);
 	txdata->dot1x_open = false;
 	txdata->enabled = 0;
 	spin_unlock_bh(&txdata->lock);
-=======
-	txdata->dot1x_open = false;
-	txdata->enabled = 0;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	wil_vring_free(wil, vring, 1);
 	wil->vring2cid_tid[id][0] = WIL6210_MAX_CID;
 	wil->vring2cid_tid[id][1] = 0;
@@ -1085,15 +1067,10 @@ int wil_vring_init_bcast(struct wil6210_priv *wil, int id, int size)
 
 	return 0;
  out_free:
-<<<<<<< HEAD
 	spin_lock_bh(&txdata->lock);
 	txdata->enabled = 0;
 	txdata->dot1x_open = false;
 	spin_unlock_bh(&txdata->lock);
-=======
-	txdata->enabled = 0;
-	txdata->dot1x_open = false;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	wil_vring_free(wil, vring, 1);
  out:
 
@@ -1231,9 +1208,6 @@ static struct vring *wil_find_tx_bcast_1(struct wil6210_priv *wil,
 	if (!wil->vring_tx_data[i].dot1x_open &&
 	    (skb->protocol != cpu_to_be16(ETH_P_PAE)))
 		return NULL;
-	if (!wil->vring_tx_data[i].dot1x_open &&
-	    (skb->protocol != cpu_to_be16(ETH_P_PAE)))
-		return NULL;
 
 	return v;
 }
@@ -1315,20 +1289,6 @@ found:
 	return v;
 }
 
-<<<<<<< HEAD
-=======
-static struct vring *wil_find_tx_bcast(struct wil6210_priv *wil,
-				       struct sk_buff *skb)
-{
-	struct wireless_dev *wdev = wil->wdev;
-
-	if (wdev->iftype != NL80211_IFTYPE_AP)
-		return wil_find_tx_bcast_2(wil, skb);
-
-	return wil_find_tx_bcast_1(wil, skb);
-}
-
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static int wil_tx_desc_map(struct vring_tx_desc *d, dma_addr_t pa, u32 len,
 			   int vring_index)
 {
@@ -1498,13 +1458,8 @@ static int __wil_tx_vring_tso(struct wil6210_priv *wil, struct vring *vring,
 	int gso_type;
 	int rc = -EINVAL;
 
-<<<<<<< HEAD
 	wil_dbg_txrx(wil, "tx_vring_tso: %d bytes to vring %d\n", skb->len,
 		     vring_index);
-=======
-	wil_dbg_txrx(wil, "%s() %d bytes to vring %d\n",
-		     __func__, skb->len, vring_index);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (unlikely(!txdata->enabled))
 		return -EINVAL;
@@ -1711,18 +1666,13 @@ static int __wil_tx_vring_tso(struct wil6210_priv *wil, struct vring *vring,
 
 	/* performance monitoring */
 	used = wil_vring_used_tx(vring);
-<<<<<<< HEAD
 	if (wil_val_in_range(wil->vring_idle_trsh,
-=======
-	if (wil_val_in_range(vring_idle_trsh,
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 			     used, used + descs_used)) {
 		txdata->idle += get_cycles() - txdata->last_idle;
 		wil_dbg_txrx(wil,  "Ring[%2d] not idle %d -> %d\n",
 			     vring_index, used, used + descs_used);
 	}
 
-<<<<<<< HEAD
 	/* Make sure to advance the head only after descriptor update is done.
 	 * This will prevent a race condition where the completion thread
 	 * will see the DU bit set from previous run and will handle the
@@ -1730,8 +1680,6 @@ static int __wil_tx_vring_tso(struct wil6210_priv *wil, struct vring *vring,
 	 */
 	wmb();
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	/* advance swhead */
 	wil_vring_advance_head(vring, descs_used);
 	wil_dbg_txrx(wil, "TSO: Tx swhead %d -> %d\n", swhead, vring->swhead);
@@ -1748,11 +1696,7 @@ mem_error:
 	while (descs_used > 0) {
 		struct wil_ctx *ctx;
 
-<<<<<<< HEAD
 		i = (swhead + descs_used - 1) % vring->size;
-=======
-		i = (swhead + descs_used) % vring->size;
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		d = (struct vring_tx_desc *)&vring->va[i].tx;
 		_desc = &vring->va[i].tx;
 		*d = *_desc;
@@ -1784,13 +1728,8 @@ static int __wil_tx_vring(struct wil6210_priv *wil, struct vring *vring,
 	bool mcast = (vring_index == wil->bcast_vring);
 	uint len = skb_headlen(skb);
 
-<<<<<<< HEAD
 	wil_dbg_txrx(wil, "tx_vring: %d bytes to vring %d\n", skb->len,
 		     vring_index);
-=======
-	wil_dbg_txrx(wil, "%s() %d bytes to vring %d\n",
-		     __func__, skb->len, vring_index);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 	if (unlikely(!txdata->enabled))
 		return -EINVAL;
@@ -1930,7 +1869,6 @@ static int wil_tx_vring(struct wil6210_priv *wil, struct vring *vring,
 
 	spin_lock(&txdata->lock);
 
-<<<<<<< HEAD
 	if (test_bit(wil_status_suspending, wil->status) ||
 	    test_bit(wil_status_suspended, wil->status) ||
 	    test_bit(wil_status_resuming, wil->status)) {
@@ -1940,8 +1878,6 @@ static int wil_tx_vring(struct wil6210_priv *wil, struct vring *vring,
 		return -EINVAL;
 	}
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	rc = (skb_is_gso(skb) ? __wil_tx_vring_tso : __wil_tx_vring)
 	     (wil, vring, skb);
 
@@ -2056,11 +1992,7 @@ netdev_tx_t wil_start_xmit(struct sk_buff *skb, struct net_device *ndev)
 		goto drop;
 	}
 	if (unlikely(!test_bit(wil_status_fwconnected, wil->status))) {
-<<<<<<< HEAD
 		wil_dbg_ratelimited(wil, "FW not connected, packet dropped\n");
-=======
-		wil_err_ratelimited(wil, "FW not connected\n");
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 		goto drop;
 	}
 	if (unlikely(wil->wdev->iftype == NL80211_IFTYPE_MONITOR)) {

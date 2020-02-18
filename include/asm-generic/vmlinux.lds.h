@@ -190,16 +190,6 @@
 #define ACPI_PROBE_TABLE(name)
 #endif
 
-#ifdef CONFIG_ACPI
-#define ACPI_PROBE_TABLE(name)						\
-	. = ALIGN(8);							\
-	VMLINUX_SYMBOL(__##name##_acpi_probe_table) = .;		\
-	*(__##name##_acpi_probe_table)					\
-	VMLINUX_SYMBOL(__##name##_acpi_probe_table_end) = .;
-#else
-#define ACPI_PROBE_TABLE(name)
-#endif
-
 #define KERNEL_DTB()							\
 	STRUCT_ALIGN();							\
 	VMLINUX_SYMBOL(__dtb_start) = .;				\
@@ -546,12 +536,7 @@
 	IRQCHIP_OF_MATCH_TABLE()					\
 	ACPI_PROBE_TABLE(irqchip)					\
 	ACPI_PROBE_TABLE(clksrc)					\
-<<<<<<< HEAD
 	EARLYCON_TABLE()
-=======
-	EARLYCON_TABLE()						\
-	EARLYCON_OF_TABLES()
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 #define INIT_TEXT							\
 	*(.init.text)							\

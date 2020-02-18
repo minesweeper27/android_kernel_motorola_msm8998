@@ -327,7 +327,6 @@ static inline void __cpu_init_hyp_mode(phys_addr_t boot_pgd_ptr,
 		       hyp_stack_ptr, vector_ptr);
 }
 
-<<<<<<< HEAD
 static inline void __cpu_init_stage2(void)
 {
 }
@@ -343,9 +342,6 @@ static inline void __cpu_reset_hyp_mode(phys_addr_t boot_pgd_ptr,
 		       boot_pgd_ptr, phys_idmap_start);
 }
 
-=======
-static inline void kvm_arch_hardware_disable(void) {}
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 static inline void kvm_arch_hardware_unsetup(void) {}
 static inline void kvm_arch_sync_events(struct kvm *kvm) {}
 static inline void kvm_arch_vcpu_uninit(struct kvm_vcpu *vcpu) {}
@@ -356,9 +352,6 @@ void kvm_arm_setup_debug(struct kvm_vcpu *vcpu);
 void kvm_arm_clear_debug(struct kvm_vcpu *vcpu);
 void kvm_arm_reset_debug_ptr(struct kvm_vcpu *vcpu);
 
-<<<<<<< HEAD
 #define kvm_call_hyp(f, ...) __kvm_call_hyp(kvm_ksym_ref(f), ##__VA_ARGS__)
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 #endif /* __ARM64_KVM_HOST_H__ */

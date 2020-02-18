@@ -16,7 +16,6 @@
 #include <linux/blk-cgroup.h>
 #include <linux/backing-dev-defs.h>
 #include <linux/slab.h>
-<<<<<<< HEAD
 
 int __must_check bdi_init(struct backing_dev_info *bdi);
 
@@ -27,11 +26,6 @@ static inline struct backing_dev_info *bdi_get(struct backing_dev_info *bdi)
 }
 
 void bdi_put(struct backing_dev_info *bdi);
-=======
-
-int __must_check bdi_init(struct backing_dev_info *bdi);
-void bdi_exit(struct backing_dev_info *bdi);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 __printf(3, 4)
 int bdi_register(struct backing_dev_info *bdi, struct device *parent,
@@ -42,10 +36,7 @@ void bdi_unregister(struct backing_dev_info *bdi);
 
 int __must_check bdi_setup_and_register(struct backing_dev_info *, char *);
 void bdi_destroy(struct backing_dev_info *bdi);
-<<<<<<< HEAD
 struct backing_dev_info *bdi_alloc_node(gfp_t gfp_mask, int node_id);
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 
 void wb_start_writeback(struct bdi_writeback *wb, long nr_pages,
 			bool range_cyclic, enum wb_reason reason);
@@ -59,7 +50,6 @@ extern struct list_head bdi_list;
 extern struct workqueue_struct *bdi_wq;
 
 static inline bool wb_has_dirty_io(struct bdi_writeback *wb)
-<<<<<<< HEAD
 {
 	return test_bit(WB_has_dirty_io, &wb->state);
 }
@@ -76,24 +66,6 @@ static inline bool bdi_has_dirty_io(struct backing_dev_info *bdi)
 static inline void __add_wb_stat(struct bdi_writeback *wb,
 				 enum wb_stat_item item, s64 amount)
 {
-=======
-{
-	return test_bit(WB_has_dirty_io, &wb->state);
-}
-
-static inline bool bdi_has_dirty_io(struct backing_dev_info *bdi)
-{
-	/*
-	 * @bdi->tot_write_bandwidth is guaranteed to be > 0 if there are
-	 * any dirty wbs.  See wb_update_write_bandwidth().
-	 */
-	return atomic_long_read(&bdi->tot_write_bandwidth);
-}
-
-static inline void __add_wb_stat(struct bdi_writeback *wb,
-				 enum wb_stat_item item, s64 amount)
-{
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	__percpu_counter_add(&wb->stat[item], amount, WB_STAT_BATCH);
 }
 

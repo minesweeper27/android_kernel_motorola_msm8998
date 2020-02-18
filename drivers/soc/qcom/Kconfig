@@ -242,7 +242,6 @@ config QCOM_SMEM
 	  The driver provides an interface to items in a heap shared among all
 	  processors in a Qualcomm platform.
 
-<<<<<<< HEAD
 config MSM_SERVICE_LOCATOR
 	bool "Service Locator"
 	depends on MSM_QMI_INTERFACE
@@ -347,8 +346,6 @@ config MSM_GLINK_PKT
 	  This enable the usersapce clients to read and write to
 	  some glink packets channel.
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 config QCOM_SMD
 	tristate "Qualcomm Shared Memory Driver (SMD)"
 	depends on QCOM_SMEM
@@ -370,7 +367,6 @@ config QCOM_SMD_RPM
 
 	  Say M here if you want to include support for the Qualcomm RPM as a
 	  module. This will build a module called "qcom-smd-rpm".
-<<<<<<< HEAD
 
 config MSM_SPM
 	bool "Driver support for SPM and AVS wrapper hardware"
@@ -1108,5 +1104,3 @@ config BOOTINFO
 	  from both kernel context (via function call) and user
 	  context (via /proc/bootinfo).
 
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22

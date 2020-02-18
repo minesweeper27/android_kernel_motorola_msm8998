@@ -131,11 +131,7 @@ static void *remove_element(mempool_t *pool, gfp_t flags)
 	void *element = pool->elements[--pool->curr_nr];
 
 	BUG_ON(pool->curr_nr < 0);
-<<<<<<< HEAD
 	kasan_unpoison_element(pool, element, flags);
-=======
-	kasan_unpoison_element(pool, element);
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
 	check_element(pool, element);
 	return element;
 }

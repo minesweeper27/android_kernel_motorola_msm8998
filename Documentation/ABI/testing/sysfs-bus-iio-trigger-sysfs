@@ -40,7 +40,6 @@ Description:
 		associated file, representing the id of the trigger that needs
 		to be removed. If the trigger can't be found, an invalid
 		argument message will be returned to the user.
-<<<<<<< HEAD
 
 What:		/sys/bus/iio/devices/triggerX/trigger_poll
 KernelVersion:	4.2.0
@@ -52,5 +51,3 @@ Description:
 		with this trigger. Writing this file with 0 will stop perioding
 		triggering.
 		X is the IIO index of the trigger.
-=======
->>>>>>> b67a656dc4bbb15e253c12fe55ba80d423c43f22
