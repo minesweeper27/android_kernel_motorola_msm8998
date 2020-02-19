@@ -7597,10 +7597,14 @@ static int ufshcd_probe_hba(struct ufs_hba *hba)
 			ufshcd_init_icc_levels(hba);
 
 		/* Add required well known logical units to scsi mid layer */
-                ret = ufshcd_scsi_add_wlus(hba);
+<<<<<<< HEAD
+		if (ufshcd_scsi_add_wlus(hba)) {
+			pr_err("%s: ufshcd_scsi_add_wlus failed\n", __func__);
+=======
+		ret = ufshcd_scsi_add_wlus(hba);
 		if (ret)
+>>>>>>> 2cd93a390fff... Merge tag 'v4.4.214' of https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux into unified
 			goto out;
-
 		}
 
 		/* Initialize devfreq after UFS device is detected */
