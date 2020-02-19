@@ -389,8 +389,8 @@ static int ufshcd_devfreq_get_dev_status(struct device *dev,
 
 #if IS_ENABLED(CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND)
 static struct devfreq_simple_ondemand_data ufshcd_ondemand_data = {
-	.upthreshold = 70,
-	.downdifferential = 65,
+	.upthreshold = 35,
+	.downdifferential = 30,
 	.simple_scaling = 1,
 };
 
@@ -400,7 +400,7 @@ static void *gov_data;
 #endif
 
 static struct devfreq_dev_profile ufs_devfreq_profile = {
-	.polling_ms	= 60,
+	.polling_ms	= 40,
 	.target		= ufshcd_devfreq_target,
 	.get_dev_status	= ufshcd_devfreq_get_dev_status,
 };
@@ -2419,9 +2419,6 @@ static inline void ufshcd_hba_capabilities(struct ufs_hba *hba)
 	hba->nutrs = (hba->capabilities & MASK_TRANSFER_REQUESTS_SLOTS) + 1;
 	hba->nutmrs =
 	((hba->capabilities & MASK_TASK_MANAGEMENT_REQUEST_SLOTS) >> 16) + 1;
-
-	/* disable auto hibern8 */
-	hba->capabilities &= ~MASK_AUTO_HIBERN8_SUPPORT;
 }
 
 /**
@@ -3819,11 +3816,6 @@ static inline int ufshcd_read_power_desc(struct ufs_hba *hba,
 int ufshcd_read_device_desc(struct ufs_hba *hba, u8 *buf, u32 size)
 {
 	return ufshcd_read_desc(hba, QUERY_DESC_IDN_DEVICE, 0, buf, size);
-}
-
-int ufshcd_read_health_desc(struct ufs_hba *hba, u8 *buf, u32 size)
-{
-	return ufshcd_read_desc(hba, QUERY_DESC_IDN_HEALTH, 0, buf, size);
 }
 
 /**
@@ -5413,15 +5405,8 @@ ufshcd_transfer_rsp_status(struct ufs_hba *hba, struct ufshcd_lrb *lrbp)
 			 * UFS device needs urgent BKOPs.
 			 */
 			if (!hba->pm_op_in_progress &&
-			    ufshcd_is_exception_event(lrbp->ucd_rsp_ptr)) {
-				/*
-				 * Prevent suspend once eeh_work is scheduled
-				 * to avoid deadlock between ufshcd_suspend
-				 * and exception event handler.
-				 */
-				if (schedule_work(&hba->eeh_work))
-					pm_runtime_get_noresume(hba->dev);
-			}
+			    ufshcd_is_exception_event(lrbp->ucd_rsp_ptr))
+				schedule_work(&hba->eeh_work);
 			break;
 		case UPIU_TRANSACTION_REJECT_UPIU:
 			/* TODO: handle Reject UPIU Response */
@@ -5998,13 +5983,6 @@ static void ufshcd_exception_event_handler(struct work_struct *work)
 
 out:
 	ufshcd_scsi_unblock_requests(hba);
-	/*
-	 * pm_runtime_get_noresume is called while scheduling
-	 * eeh_work to avoid suspend racing with exception work.
-	 * Hence decrement usage counter using pm_runtime_put_noidle
-	 * to allow suspend on completion of exception event handler.
-	 */
-	pm_runtime_put_noidle(hba->dev);
 	pm_runtime_put(hba->dev);
 	return;
 }
@@ -6985,13 +6963,12 @@ static int ufshcd_host_reset_and_restore(struct ufs_hba *hba)
 	ufshcd_set_clk_freq(hba, true);
 
 	err = ufshcd_hba_enable(hba);
-	pr_info("%s: ufshcd_hba_enable() = %d\n", __func__, err);
 	if (err)
 		goto out;
 
 	/* Establish the link again and restore the device */
 	err = ufshcd_probe_hba(hba);
-	pr_info("%s: ufshcd_probe_hba() = %d\n", __func__, err);
+
 	if (!err && (hba->ufshcd_state != UFSHCD_STATE_OPERATIONAL)) {
 		err = -EIO;
 		goto out;
@@ -7255,11 +7232,9 @@ static void ufshcd_init_icc_levels(struct ufs_hba *hba)
  * will take effect only when its sent to "UFS device" well known logical unit
  * hence we require the scsi_device instance to represent this logical unit in
  * order for the UFS host driver to send the SSU command for power management.
-
  * We also require the scsi_device instance for "RPMB" (Replay Protected Memory
  * Block) LU so user space process can control this LU. User space may also
  * want to have access to BOOT LU.
-
  * This function adds scsi device instances for each of all well known LUs
  * (except "REPORT LUNS" LU).
  *
@@ -7535,18 +7510,12 @@ static int ufshcd_probe_hba(struct ufs_hba *hba)
 	ufshcd_set_link_active(hba);
 
 	ret = ufshcd_verify_dev_init(hba);
-	if (ret) {
-		pr_err("%s: ufshcd_verify_dev_init failed = %d\n",
-			__func__, ret);
+	if (ret)
 		goto out;
-	}
 
 	ret = ufshcd_complete_dev_init(hba);
-	if (ret) {
-		pr_err("%s: ufshcd_complete_dev_init failed = %d\n",
-			__func__, ret);
+	if (ret)
 		goto out;
-	}
 
 	ufs_advertise_fixup_device(hba);
 	ufshcd_tune_unipro_params(hba);
@@ -7554,11 +7523,8 @@ static int ufshcd_probe_hba(struct ufs_hba *hba)
 	ufshcd_apply_pm_quirks(hba);
 	ret = ufshcd_set_vccq_rail_unused(hba,
 		(hba->dev_quirks & UFS_DEVICE_NO_VCCQ) ? true : false);
-	if (ret) {
-		pr_err("%s: ufshcd_set_vccq_rail_unused failed = %d\n",
-			__func__, ret);
+	if (ret)
 		goto out;
-	}
 
 	/* UFS device is also active now */
 	ufshcd_set_ufs_dev_active(hba);
@@ -7597,15 +7563,9 @@ static int ufshcd_probe_hba(struct ufs_hba *hba)
 			ufshcd_init_icc_levels(hba);
 
 		/* Add required well known logical units to scsi mid layer */
-<<<<<<< HEAD
-		if (ufshcd_scsi_add_wlus(hba)) {
-			pr_err("%s: ufshcd_scsi_add_wlus failed\n", __func__);
-=======
 		ret = ufshcd_scsi_add_wlus(hba);
 		if (ret)
->>>>>>> 2254478685c8... Merge 4.4.214 into kernel.lnx.4.4.r38-rel
 			goto out;
-		}
 
 		/* Initialize devfreq after UFS device is detected */
 		if (ufshcd_is_clkscaling_supported(hba)) {
@@ -7887,44 +7847,6 @@ out:
 	return err;
 }
 
-
-int ufshcd_get_serialnumber(struct ufs_hba *hba, char *serialnumber)
-{
-	int err;
-	u8 sn_index;
-	u8 *desc_buf;
-
-	desc_buf = kzalloc(QUERY_DESC_STRING_MAX_SIZE, GFP_KERNEL);
-	if (!desc_buf) {
-		err =  -ENOMEM;
-		return err;
-	}
-
-	err = ufshcd_read_device_desc(hba, desc_buf,
-				QUERY_DESC_DEVICE_MAX_SIZE);
-	if (err) {
-		dev_err(hba->dev, "%s: Read device desc failed\n", __func__);
-		goto out;
-	}
-
-	sn_index = desc_buf[DEVICE_DESC_PARAM_SN];
-	memset(desc_buf, 0, QUERY_DESC_STRING_MAX_SIZE);
-	err = ufshcd_read_string_desc(hba, sn_index, desc_buf,
-					QUERY_DESC_STRING_MAX_SIZE, ASCII_STD);
-	if (err) {
-		dev_err(hba->dev, "%s: Read SN string failed\n", __func__);
-		goto out;
-	}
-
-	strlcpy(serialnumber, (desc_buf + QUERY_DESC_HDR_SIZE),
-		min_t(u8, desc_buf[QUERY_DESC_LENGTH_OFFSET] - 2,
-		      QUERY_DESC_STRING_MAX_SIZE));
-out:
-	kfree(desc_buf);
-	return err;
-}
-
-
 /**
  * ufshcd_ioctl - ufs ioctl callback registered in scsi_host
  * @dev: scsi device required for per LUN queries
@@ -7938,7 +7860,6 @@ static int ufshcd_ioctl(struct scsi_device *dev, int cmd, void __user *buffer)
 {
 	struct ufs_hba *hba = shost_priv(dev->host);
 	int err = 0;
-	char *buf;
 
 	BUG_ON(!hba);
 	if (!buffer) {
@@ -7953,26 +7874,6 @@ static int ufshcd_ioctl(struct scsi_device *dev, int cmd, void __user *buffer)
 				buffer);
 		pm_runtime_put_sync(hba->dev);
 		break;
-	case UFS_IOCTL_GETSN:
-
-		buf = kzalloc(QUERY_DESC_STRING_MAX_SIZE, GFP_KERNEL);
-		pm_runtime_get_sync(hba->dev);
-		err = ufshcd_get_serialnumber(hba, buf);
-		pm_runtime_put_sync(hba->dev);
-
-		if (err) {
-			dev_err(hba->dev, "%s: Failed get serial number.\n", __func__);
-			kfree(buf);
-			return err;
-		}
-
-		err = copy_to_user(buffer, buf, strlen(buf));
-		if (err)
-			dev_err(hba->dev, "%s: Failed copying back to user.\n",
-				__func__);
-		kfree(buf);
-		break;
-
 	default:
 		err = -ENOIOCTLCMD;
 		dev_dbg(hba->dev, "%s: Unsupported ioctl cmd %d\n", __func__,
