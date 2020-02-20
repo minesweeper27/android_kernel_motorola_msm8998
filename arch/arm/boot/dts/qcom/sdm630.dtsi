@@ -34,7 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
+		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
 	};
 
 	psci {
@@ -401,7 +401,7 @@
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
-			size = <0x0 0x8000000>;
+			size = <0x0 0x2000000>;
 			linux,cma-default;
 		};
 
@@ -740,7 +740,7 @@
 			qcom,sensor-type = "llm";
 			qcom,sensor-name = "limits_sensor-01";
 		};
-                sensor_information20: qcom,sensor-information-20 {
+		sensor_information20: qcom,sensor-information-20 {
 			qcom,sensor-type = "adc";
 			qcom,sensor-name = "front_temp";
 			qcom,scaling-factor = <1000>;
@@ -788,8 +788,8 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
 		qcom,poll-ms = <100>;
-		qcom,therm-reset-temp = <90>;
-		qcom,core-limit-temp = <60>;
+		qcom,therm-reset-temp = <115>;
+		qcom,core-limit-temp = <70>;
 		qcom,core-temp-hysteresis = <10>;
 		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
@@ -1070,7 +1070,8 @@
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
 			< 648000000 7>,  /* TURBO  */
-			< 700000000 7>;  /* TURBO  */
+			< 700000000 7>,  /* TURBO  */
+			< 775000000 7>;  /* TURBO  */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
 	};
@@ -1237,7 +1238,6 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
-                        <  300000 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1251,8 +1251,7 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
-                        < 300000 >,
-                        <  614400 >,
+			<  614400 >,
 			<  883200 >,
 			< 1094400 >,
 			< 1382400 >,
@@ -1527,7 +1526,6 @@
 		qcom,irq-mask = <0x200>;
 		interrupts = <0 157 1>;
 		label = "lpass";
-                cpu-affinity = <1 2>;
 		qcom,qos-config = <&glink_qos_adsp>;
 		qcom,ramp-time = <0xaf>;
 	};
