@@ -214,11 +214,8 @@ source "drivers/sensors/Kconfig"
 
 source "drivers/tee/Kconfig"
 
-<<<<<<< HEAD
-=======
 source "drivers/gud/Kconfig"
 
 source "drivers/dts_eagle/Kconfig"
 
->>>>>>> 677bbe13a0ed... drivers: dts_eagle software driver port
 endmenu

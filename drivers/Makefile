@@ -185,8 +185,6 @@ obj-$(CONFIG_BIF)		+= bif/
 obj-$(CONFIG_SENSORS_SSC)	+= sensors/
 obj-$(CONFIG_ESOC)              += esoc/
 obj-$(CONFIG_TEE)		+= tee/
-<<<<<<< HEAD
-=======
 
 # <t-base drivers
 obj-$(CONFIG_TRUSTONIC_TEE)	+= gud/
@@ -194,4 +192,3 @@ obj-$(CONFIG_TRUSTONIC_TEE)	+= gud/
 # DTS_EAGLE START
 obj-$(CONFIG_AINUR_DTS_SW) += dts_eagle/
 # DTS_EAGLE END
->>>>>>> 677bbe13a0ed... drivers: dts_eagle software driver port
