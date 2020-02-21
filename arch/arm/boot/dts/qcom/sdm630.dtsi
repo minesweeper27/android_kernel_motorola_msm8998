@@ -34,7 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
+		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
 	};
 
 	psci {
@@ -401,7 +401,7 @@
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
-			size = <0x0 0x2000000>;
+			size = <0x0 0x8000000>;
 			linux,cma-default;
 		};
 
@@ -788,8 +788,8 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
 		qcom,poll-ms = <100>;
-		qcom,therm-reset-temp = <115>;
-		qcom,core-limit-temp = <70>;
+		qcom,therm-reset-temp = <90>;
+		qcom,core-limit-temp = <60>;
 		qcom,core-temp-hysteresis = <10>;
 		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
@@ -1238,6 +1238,7 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
+                        < 300000 >,
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1251,6 +1252,7 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
+                        < 300000 >,
 			<  614400 >,
 			<  883200 >,
 			< 1094400 >,
