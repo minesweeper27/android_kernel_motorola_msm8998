@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2011-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -123,6 +123,17 @@ static struct ion_heap_desc ion_heap_meta[] = {
 };
 #endif
 
+static int msm_ion_lowmem_notifier(struct notifier_block *nb,
+					unsigned long action, void *data)
+{
+	show_ion_usage(idev);
+	return 0;
+}
+
+static struct notifier_block msm_ion_nb = {
+	.notifier_call = msm_ion_lowmem_notifier,
+};
+
 struct ion_client *msm_ion_client_create(const char *name)
 {
 	/*
@@ -135,7 +146,7 @@ struct ion_client *msm_ion_client_create(const char *name)
 	if (IS_ERR(idev))
 		return (struct ion_client *)idev;
 
-	return ion_client_create(idev);
+	return ion_client_create(idev, name);
 }
 EXPORT_SYMBOL(msm_ion_client_create);
 
@@ -296,11 +307,7 @@ static int ion_pages_cache_ops(struct ion_client *client,
 	void (*op)(const void *, const void *);
 	struct ion_buffer *buffer;
 
-<<<<<<< HEAD
 	buffer = get_buffer(handle);
-=======
-	buffer = (typeof(buffer))handle;
->>>>>>> 5288bc2ed113... Import ION changes from romashka gang
 	table = buffer->sg_table;
 	if (IS_ERR_OR_NULL(table))
 		return PTR_ERR(table);
@@ -346,13 +353,12 @@ int ion_do_cache_op(struct ion_client *client, struct ion_handle *handle,
 			void *uaddr, unsigned long offset, unsigned long len,
 			unsigned int cmd)
 {
-	int ret = 0;
+	int ret = -EINVAL;
 	unsigned long flags;
 	struct sg_table *table;
 	struct page *page;
 	struct ion_buffer *buffer;
 
-<<<<<<< HEAD
 	if (!ion_handle_validate(client, handle)) {
 		pr_err("%s: invalid handle passed to %s.\n",
 		       __func__, __func__);
@@ -363,15 +369,11 @@ int ion_do_cache_op(struct ion_client *client, struct ion_handle *handle,
 	mutex_lock(&buffer->lock);
 	flags = buffer->flags;
 	mutex_unlock(&buffer->lock);
-=======
-	buffer = (typeof(buffer))handle;
-	flags = buffer->flags;
->>>>>>> 5288bc2ed113... Import ION changes from romashka gang
 
 	if (!ION_IS_CACHED(flags))
 		return 0;
 
-	if (flags & ION_FLAG_SECURE)
+	if (get_secure_vmid(flags) > 0)
 		return 0;
 
 	table = buffer->sg_table;
@@ -671,7 +673,8 @@ bool is_secure_vmid_valid(int vmid)
 		vmid == VMID_CP_CAMERA ||
 		vmid == VMID_CP_SEC_DISPLAY ||
 		vmid == VMID_CP_APP ||
-		vmid == VMID_CP_CAMERA_PREVIEW);
+		vmid == VMID_CP_CAMERA_PREVIEW ||
+		vmid == VMID_CP_SPSS_SP_SHARED);
 }
 
 int get_secure_vmid(unsigned long flags)
@@ -692,8 +695,25 @@ int get_secure_vmid(unsigned long flags)
 		return VMID_CP_APP;
 	if (flags & ION_FLAG_CP_CAMERA_PREVIEW)
 		return VMID_CP_CAMERA_PREVIEW;
+	if (flags & ION_FLAG_CP_SPSS_SP_SHARED)
+		return VMID_CP_SPSS_SP_SHARED;
 	return -EINVAL;
 }
+
+bool is_buffer_hlos_assigned(struct ion_buffer *buffer)
+{
+	bool is_hlos = false;
+
+	if (buffer->heap->type == (enum ion_heap_type)ION_HEAP_TYPE_HYP_CMA &&
+	    (buffer->flags & ION_FLAG_CP_HLOS))
+		is_hlos = true;
+
+	if (get_secure_vmid(buffer->flags) <= 0)
+		is_hlos = true;
+
+	return is_hlos;
+}
+
 /* fix up the cases where the ioctl direction bits are incorrect */
 static unsigned int msm_ion_ioctl_dir(unsigned int cmd)
 {
@@ -737,9 +757,7 @@ long msm_ion_custom_ioctl(struct ion_client *client,
 		struct ion_handle *handle = NULL;
 		int ret;
 		struct mm_struct *mm = current->active_mm;
-		bool handle_exists;
 
-<<<<<<< HEAD
 		lock_client(client);
 		if (data.flush_data.handle > 0) {
 			handle = ion_handle_get_by_id_nolock(
@@ -749,16 +767,6 @@ long msm_ion_custom_ioctl(struct ion_client *client,
 					__func__, (int)data.flush_data.handle);
 				unlock_client(client);
 				return PTR_ERR(handle);
-=======
-		handle_exists = data.flush_data.handle > 0;
-		if (handle_exists) {
-			handle = ion_handle_get_by_id(client,
-					  (int)data.flush_data.handle);
-			if (!handle) {
-				pr_info("%s: Could not find handle: %d\n",
-					__func__, (int)data.flush_data.handle);
-				return -EINVAL;
->>>>>>> 5288bc2ed113... Import ION changes from romashka gang
 			}
 		} else {
 			handle = ion_import_dma_buf_nolock(client,
@@ -773,31 +781,23 @@ long msm_ion_custom_ioctl(struct ion_client *client,
 
 		down_read(&mm->mmap_sem);
 
-		start = (unsigned long) data.flush_data.vaddr;
-		end = (unsigned long) data.flush_data.vaddr
-			+ data.flush_data.length;
+		start = (unsigned long)data.flush_data.vaddr +
+			data.flush_data.offset;
+		end = start + data.flush_data.length;
 
 		if (start && check_vaddr_bounds(start, end)) {
 			pr_err("%s: virtual address %pK is out of bounds\n",
 			       __func__, data.flush_data.vaddr);
 			ret = -EINVAL;
 		} else {
-			ret = ion_do_cache_op(client,
-				handle_exists ? (void *)handle->buffer : handle,
-				data.flush_data.vaddr,
+			ret = ion_do_cache_op(
+				client, handle, data.flush_data.vaddr,
 				data.flush_data.offset,
 				data.flush_data.length, cmd);
 		}
 		up_read(&mm->mmap_sem);
 
-<<<<<<< HEAD
 		ion_free_nolock(client, handle);
-=======
-		if (handle_exists)
-			ion_handle_put(handle, 1);
-		else
-			ion_free(client, handle);
->>>>>>> 5288bc2ed113... Import ION changes from romashka gang
 
 		unlock_client(client);
 		if (ret < 0)
@@ -1016,6 +1016,29 @@ static struct ion_heap *msm_ion_heap_create(struct ion_platform_heap *heap_data)
 	return heap;
 }
 
+static void msm_ion_heap_destroy(struct ion_heap *heap)
+{
+	if (!heap)
+		return;
+
+	switch ((int)heap->type) {
+#ifdef CONFIG_CMA
+	case ION_HEAP_TYPE_SECURE_DMA:
+		ion_secure_cma_heap_destroy(heap);
+		break;
+#endif
+	case ION_HEAP_TYPE_SYSTEM_SECURE:
+		ion_system_secure_heap_destroy(heap);
+		break;
+
+	case ION_HEAP_TYPE_HYP_CMA:
+		ion_cma_secure_heap_destroy(heap);
+		break;
+	default:
+		ion_heap_destroy(heap);
+	}
+}
+
 struct ion_heap *get_ion_heap(int heap_id)
 {
 	int i;
@@ -1103,6 +1126,7 @@ static int msm_ion_probe(struct platform_device *pdev)
 	 */
 	idev = new_dev;
 
+	show_mem_notifier_register(&msm_ion_nb);
 	return 0;
 
 freeheaps:
@@ -1113,6 +1137,19 @@ out:
 	return err;
 }
 
+static int msm_ion_remove(struct platform_device *pdev)
+{
+	struct ion_device *idev = platform_get_drvdata(pdev);
+	int i;
+
+	for (i = 0; i < num_heaps; i++)
+		msm_ion_heap_destroy(heaps[i]);
+
+	ion_device_destroy(idev);
+	kfree(heaps);
+	return 0;
+}
+
 static struct of_device_id msm_ion_match_table[] = {
 	{.compatible = ION_COMPAT_STR},
 	{},
@@ -1120,6 +1157,7 @@ static struct of_device_id msm_ion_match_table[] = {
 
 static struct platform_driver msm_ion_driver = {
 	.probe = msm_ion_probe,
+	.remove = msm_ion_remove,
 	.driver = {
 		.name = "ion-msm",
 		.of_match_table = msm_ion_match_table,
@@ -1130,4 +1168,11 @@ static int __init msm_ion_init(void)
 {
 	return platform_driver_register(&msm_ion_driver);
 }
+
+static void __exit msm_ion_exit(void)
+{
+	platform_driver_unregister(&msm_ion_driver);
+}
+
 subsys_initcall(msm_ion_init);
+module_exit(msm_ion_exit);
