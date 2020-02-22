@@ -28,7 +28,7 @@
  * to increment the sequence variables because an interrupt routine could
  * change the state of the data.
  *
- * Based on x86_64 vsyscall gettimeofday
+ * Based on x86_64 vsyscall gettimeofday 
  * by Keith Owens and Andrea Arcangeli
  */
 
@@ -37,7 +37,6 @@
 #include <linux/lockdep.h>
 #include <linux/compiler.h>
 #include <asm/processor.h>
-#include <asm-generic/processor.h>
 
 /*
  * Version using sequence counter only.
@@ -110,9 +109,9 @@ static inline unsigned __read_seqcount_begin(const seqcount_t *s)
 	unsigned ret;
 
 repeat:
-	ret = cpu_relaxed_read((volatile u32 *)&s->sequence);
+	ret = READ_ONCE(s->sequence);
 	if (unlikely(ret & 1)) {
-		cpu_read_relax();
+		cpu_relax();
 		goto repeat;
 	}
 	return ret;
