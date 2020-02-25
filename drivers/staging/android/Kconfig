@@ -105,11 +105,6 @@ config SYNC_DEBUG
 	depends on SYNC
 	---help---
 	  This makes the sync driver keep track of fence names.
-<<<<<<< HEAD
-=======
-
-source "drivers/staging/android/ion/Kconfig"
->>>>>>> 9e4792bfb352... staging: sync: Don't copy fence names by default
 
 source "drivers/staging/android/ion/Kconfig"
 

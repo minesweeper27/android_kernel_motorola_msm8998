@@ -168,10 +168,6 @@ static struct sync_fence *sync_fence_alloc(int size, const char *name)
 #ifdef CONFIG_SYNC_DEBUG
 	strlcpy(fence->name, name, sizeof(fence->name));
 #endif
-<<<<<<< HEAD
-=======
-
->>>>>>> 9e4792bfb352... staging: sync: Don't copy fence names by default
 	init_waitqueue_head(&fence->wq);
 
 	return fence;
