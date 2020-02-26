@@ -178,10 +178,7 @@ out:
 static unsigned long vmpressure_account_stall(unsigned long pressure,
 				unsigned long stall, unsigned long scanned)
 {
-<<<<<<< HEAD
 
-=======
->>>>>>> 06fffb15fa56... mm: vmpressure: account allocstalls only on higher pressures
 	unsigned long scale;
 
 	if (pressure < allocstall_threshold)
