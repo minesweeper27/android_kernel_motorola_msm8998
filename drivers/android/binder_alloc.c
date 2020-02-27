@@ -18,7 +18,7 @@
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
 #include <linux/list.h>
-#include <linux/sched/mm.h>
+#include <linux/mm.h>
 #include <linux/module.h>
 #include <linux/rtmutex.h>
 #include <linux/rbtree.h>
@@ -154,7 +154,7 @@ static struct binder_buffer *binder_alloc_prepare_to_free_locked(
 			 * Guard against user threads attempting to
 			 * free the buffer when in use by kernel or
 			 * after it's already been freed.
-			*/
+			 */
 			if (!buffer->allow_user_free)
 				return ERR_PTR(-EPERM);
 			buffer->allow_user_free = 0;
@@ -221,14 +221,6 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 
 	if (mm) {
 		down_read(&mm->mmap_sem);
-<<<<<<< HEAD
-		if (!mmget_still_valid(mm)) {
-			if (allocate == 0)
-				goto free_range;
-			goto err_no_vma;
-		}
-=======
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 		vma = alloc->vma;
 	}
 
@@ -326,8 +318,6 @@ err_no_vma:
 	return vma ? -ENOMEM : -ESRCH;
 }
 
-<<<<<<< HEAD
-=======
 
 static inline void binder_alloc_set_vma(struct binder_alloc *alloc,
 		struct vm_area_struct *vma)
@@ -357,7 +347,6 @@ static inline struct vm_area_struct *binder_alloc_get_vma(
 	return vma;
 }
 
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 static struct binder_buffer *binder_alloc_new_buf_locked(
 				struct binder_alloc *alloc,
 				size_t data_size,
@@ -708,19 +697,7 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 		goto err_already_mapped;
 	}
 
-<<<<<<< HEAD
-	area = get_vm_area(vma->vm_end - vma->vm_start, VM_ALLOC);
-	if (area == NULL) {
-		ret = -ENOMEM;
-		failure_string = "get_vm_area";
-		goto err_get_vm_area_failed;
-	}
-	alloc->buffer = area->addr;
-	alloc->user_buffer_offset =
-		vma->vm_start - (uintptr_t)alloc->buffer;
-=======
 	alloc->buffer = (void __user *)vma->vm_start;
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 	mutex_unlock(&binder_alloc_mmap_lock);
 
 	alloc->pages = kcalloc((vma->vm_end - vma->vm_start) / PAGE_SIZE,
@@ -746,7 +723,7 @@ int binder_alloc_mmap_handler(struct binder_alloc *alloc,
 	binder_insert_free_buffer(alloc, buffer);
 	alloc->free_async_space = alloc->buffer_size / 2;
 	binder_alloc_set_vma(alloc, vma);
-	mmgrab(alloc->vma_vm_mm);
+	atomic_inc(&alloc->vma_vm_mm->mm_count);
 
 	return 0;
 
@@ -971,7 +948,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
 	if (vma) {
 		trace_binder_unmap_user_start(alloc, index);
 
-		zap_page_range(vma, page_addr, PAGE_SIZE);
+		zap_page_range(vma, page_addr, PAGE_SIZE, NULL);
 
 		trace_binder_unmap_user_end(alloc, index);
 	}
@@ -1036,17 +1013,6 @@ void binder_alloc_init(struct binder_alloc *alloc)
 }
 
 int binder_alloc_shrinker_init(void)
-<<<<<<< HEAD
-{
-	int ret = list_lru_init(&binder_alloc_lru);
-
-	if (ret == 0) {
-		ret = register_shrinker(&binder_shrinker);
-		if (ret)
-			list_lru_destroy(&binder_alloc_lru);
-	}
-	return ret;
-=======
 {
 	int ret = list_lru_init(&binder_alloc_lru);
 
@@ -1167,7 +1133,6 @@ binder_alloc_copy_user_to_buffer(struct binder_alloc *alloc,
 		buffer_offset += size;
 	}
 	return 0;
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 }
 
 static void binder_alloc_do_buffer_copy(struct binder_alloc *alloc,

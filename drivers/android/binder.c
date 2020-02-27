@@ -63,20 +63,16 @@
 #include <linux/poll.h>
 #include <linux/debugfs.h>
 #include <linux/rbtree.h>
-#include <linux/sched/signal.h>
-#include <linux/sched/mm.h>
+#include <linux/sched.h>
 #include <linux/seq_file.h>
 #include <linux/uaccess.h>
 #include <linux/pid_namespace.h>
 #include <linux/security.h>
 #include <linux/spinlock.h>
-<<<<<<< HEAD
-=======
 #include <linux/ratelimit.h>
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 
 #include <uapi/linux/android/binder.h>
-#include <uapi/linux/sched/types.h>
+#include <uapi/linux/eventpoll.h>
 
 #include <asm/cacheflush.h>
 
@@ -84,7 +80,7 @@
 #include "binder_trace.h"
 
 static HLIST_HEAD(binder_deferred_list);
-static DEFINE_SPINLOCK(binder_deferred_lock);
+static DEFINE_MUTEX(binder_deferred_lock);
 
 static HLIST_HEAD(binder_devices);
 static HLIST_HEAD(binder_procs);
@@ -142,12 +138,8 @@ enum {
 	BINDER_DEBUG_PRIORITY_CAP           = 1U << 13,
 	BINDER_DEBUG_SPINLOCKS              = 1U << 14,
 };
-<<<<<<< HEAD
-static uint32_t binder_debug_mask = 0;
-=======
 static uint32_t binder_debug_mask = BINDER_DEBUG_USER_ERROR |
 	BINDER_DEBUG_FAILED_TRANSACTION | BINDER_DEBUG_DEAD_TRANSACTION;
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 module_param_named(debug_mask, binder_debug_mask, uint, 0644);
 
 static char *binder_devices_param = CONFIG_ANDROID_BINDER_DEVICES;
@@ -157,7 +149,7 @@ static DECLARE_WAIT_QUEUE_HEAD(binder_user_error_wait);
 static int binder_stop_on_user_error;
 
 static int binder_set_stop_on_user_error(const char *val,
-					 const struct kernel_param *kp)
+					 struct kernel_param *kp)
 {
 	int ret;
 
@@ -365,11 +357,6 @@ struct binder_error {
  * @min_priority:         minimum scheduling priority
  *                        (invariant after initialized)
  * @inherit_rt:           inherit RT scheduling policy from caller
-<<<<<<< HEAD
- * @txn_security_ctx:     require sender's security context
- *                        (invariant after initialized)
-=======
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
  * @txn_security_ctx:     require sender's security context
  *                        (invariant after initialized)
  * @async_todo:           list of async work items
@@ -2258,13 +2245,8 @@ static size_t binder_get_object(struct binder_proc *proc,
 	struct binder_object_header *hdr;
 	size_t object_size = 0;
 
-<<<<<<< HEAD
-	if (buffer->data_size < sizeof(*hdr) ||
-	    offset > buffer->data_size - sizeof(*hdr) ||
-=======
 	read_size = min_t(size_t, sizeof(*object), buffer->data_size - offset);
 	if (offset > buffer->data_size || read_size < sizeof(*hdr) ||
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 	    !IS_ALIGNED(offset, sizeof(u32)))
 		return 0;
 	binder_alloc_copy_from_buffer(&proc->alloc, object, buffer,
@@ -2435,11 +2417,7 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 	binder_size_t off_start_offset, buffer_offset, off_end_offset;
 
 	binder_debug(BINDER_DEBUG_TRANSACTION,
-<<<<<<< HEAD
-		     "%d buffer release %d, size %zd-%zd, failed at %pK\n",
-=======
 		     "%d buffer release %d, size %zd-%zd, failed at %llx\n",
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 		     proc->pid, buffer->debug_id,
 		     buffer->data_size, buffer->offsets_size,
 		     (unsigned long long)failed_at);
@@ -2557,11 +2535,6 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 				       debug_id, (u64)fda->num_fds);
 				continue;
 			}
-<<<<<<< HEAD
-			fd_array = (u32 *)(parent_buffer + (uintptr_t)fda->parent_offset);
-			for (fd_index = 0; fd_index < fda->num_fds; fd_index++)
-				task_close_fd(proc, fd_array[fd_index]);
-=======
 			/*
 			 * the source data for binder_buffer_object is visible
 			 * to user-space and the @buffer element is the user
@@ -2585,7 +2558,6 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 							      sizeof(fd));
 				task_close_fd(proc, fd);
 			}
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 		} break;
 		default:
 			pr_err("transaction release %d bad object type %x\n",
@@ -2807,16 +2779,9 @@ static int binder_translate_fd_array(struct binder_fd_array_object *fda,
 	 * Convert the address to an offset relative to
 	 * the base of the transaction buffer.
 	 */
-<<<<<<< HEAD
-	parent_buffer = parent->buffer -
-		binder_alloc_get_user_buffer_offset(&target_proc->alloc);
-	fd_array = (u32 *)(parent_buffer + (uintptr_t)fda->parent_offset);
-	if (!IS_ALIGNED((unsigned long)fd_array, sizeof(u32))) {
-=======
 	fda_offset = (parent->buffer - (uintptr_t)t->buffer->user_data) +
 		fda->parent_offset;
 	if (!IS_ALIGNED((unsigned long)fda_offset, sizeof(u32))) {
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 		binder_user_error("%d:%d parent offset not aligned correctly.\n",
 				  proc->pid, thread->pid);
 		return -EINVAL;
@@ -2899,17 +2864,10 @@ static int binder_fixup_parent(struct binder_transaction *t,
 				  proc->pid, thread->pid);
 		return -EINVAL;
 	}
-<<<<<<< HEAD
-	parent_buffer = (u8 *)((uintptr_t)parent->buffer -
-			binder_alloc_get_user_buffer_offset(
-				&target_proc->alloc));
-	*(binder_uintptr_t *)(parent_buffer + bp->parent_offset) = bp->buffer;
-=======
 	buffer_offset = bp->parent_offset +
 			(uintptr_t)parent->buffer - (uintptr_t)b->user_data;
 	binder_alloc_copy_to_buffer(&target_proc->alloc, b, buffer_offset,
 				    &bp->buffer, sizeof(bp->buffer));
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 
 	return 0;
 }
@@ -3151,11 +3109,7 @@ static void binder_transaction(struct binder_proc *proc,
 			else
 				return_error = BR_DEAD_REPLY;
 			mutex_unlock(&context->context_mgr_node_lock);
-<<<<<<< HEAD
-			if (target_node && target_proc == proc) {
-=======
 			if (target_node && target_proc->pid == proc->pid) {
->>>>>>> a739cb9af16d... binder: Import from android-4.19-q branch at 5b53a16789cc
 				binder_user_error("%d:%d got transaction to context manager from process owning it\n",
 						  proc->pid, thread->pid);
 				return_error = BR_FAILED_REPLY;
@@ -3610,8 +3564,8 @@ static void binder_transaction(struct binder_proc *proc,
 		BUG_ON(t->buffer->async_transaction != 0);
 		binder_pop_transaction_ilocked(target_thread, in_reply_to);
 		binder_enqueue_thread_work_ilocked(target_thread, &t->work);
-		wake_up_interruptible(&target_thread->wait);
 		binder_inner_proc_unlock(target_proc);
+		wake_up_interruptible_sync(&target_thread->wait);
 		binder_restore_priority(current, in_reply_to->saved_priority);
 		binder_free_transaction(in_reply_to);
 	} else if (!(t->flags & TF_ONE_WAY)) {
@@ -4859,7 +4813,7 @@ static int binder_thread_release(struct binder_proc *proc,
 	return active_transactions;
 }
 
-static __poll_t binder_poll(struct file *filp,
+static unsigned int binder_poll(struct file *filp,
 				struct poll_table_struct *wait)
 {
 	struct binder_proc *proc = filp->private_data;
@@ -5217,7 +5171,7 @@ static void binder_vma_close(struct vm_area_struct *vma)
 	binder_defer_work(proc, BINDER_DEFERRED_PUT_FILES);
 }
 
-static vm_fault_t binder_vm_fault(struct vm_fault *vmf)
+static int binder_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	return VM_FAULT_SIGBUS;
 }
@@ -5531,7 +5485,7 @@ static void binder_deferred_func(struct work_struct *work)
 	int defer;
 
 	do {
-		spin_lock(&binder_deferred_lock);
+		mutex_lock(&binder_deferred_lock);
 		if (!hlist_empty(&binder_deferred_list)) {
 			proc = hlist_entry(binder_deferred_list.first,
 					struct binder_proc, deferred_work_node);
@@ -5542,7 +5496,7 @@ static void binder_deferred_func(struct work_struct *work)
 			proc = NULL;
 			defer = 0;
 		}
-		spin_unlock(&binder_deferred_lock);
+		mutex_unlock(&binder_deferred_lock);
 
 		files = NULL;
 		if (defer & BINDER_DEFERRED_PUT_FILES) {
@@ -5568,14 +5522,14 @@ static DECLARE_WORK(binder_deferred_work, binder_deferred_func);
 static void
 binder_defer_work(struct binder_proc *proc, enum binder_deferred_state defer)
 {
-	spin_lock(&binder_deferred_lock);
+	mutex_lock(&binder_deferred_lock);
 	proc->deferred_work |= defer;
 	if (hlist_unhashed(&proc->deferred_work_node)) {
 		hlist_add_head(&proc->deferred_work_node,
 				&binder_deferred_list);
 		schedule_work(&binder_deferred_work);
 	}
-	spin_unlock(&binder_deferred_lock);
+	mutex_unlock(&binder_deferred_lock);
 }
 
 static void print_binder_transaction_ilocked(struct seq_file *m,
