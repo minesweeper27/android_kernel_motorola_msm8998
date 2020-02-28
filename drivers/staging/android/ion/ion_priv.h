@@ -98,10 +98,7 @@ struct ion_buffer {
 	int handle_count;
 	char task_comm[TASK_COMM_LEN];
 	pid_t pid;
-<<<<<<< HEAD
 	char alloc_client_name[ION_ALLOC_CLIENT_NAME_SIZE];
-=======
->>>>>>> ceddd2b47335... iommu: msm: Rewrite to improve clarity and performance
 	struct msm_iommu_data iommu_data;
 };
 void ion_buffer_destroy(struct ion_buffer *buffer);
