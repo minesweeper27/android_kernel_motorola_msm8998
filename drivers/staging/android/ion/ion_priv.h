@@ -37,77 +37,12 @@
 
 #include "ion.h"
 
-<<<<<<< HEAD
-#define ION_ALLOC_CLIENT_NAME_SIZE 64
-
-struct ion_buffer *ion_handle_buffer(struct ion_handle *handle);
-
-/**
- * struct ion_buffer - metadata for a particular buffer
- * @ref:		reference count
- * @node:		node in the ion_device buffers tree
- * @dev:		back pointer to the ion_device
- * @heap:		back pointer to the heap the buffer came from
- * @flags:		buffer specific flags
- * @private_flags:	internal buffer specific flags
- * @size:		size of the buffer
- * @priv_virt:		private data to the buffer representable as
- *			a void *
- * @priv_phys:		private data to the buffer representable as
- *			an ion_phys_addr_t (and someday a phys_addr_t)
- * @lock:		protects the buffers cnt fields
- * @kmap_cnt:		number of times the buffer is mapped to the kernel
- * @vaddr:		the kenrel mapping if kmap_cnt is not zero
- * @sg_table:		the sg table for the buffer.  Note that if you need
- *			an sg_table for this buffer, you should likely be
- *			using Ion as a DMA Buf exporter and using
- *			dma_buf_map_attachment rather than trying to use this
- *			field directly.
- * @pages:		flat array of pages in the buffer -- used by fault
- *			handler and only valid for buffers that are faulted in
- * @vmas:		list of vma's mapping this buffer
- * @handle_count:	count of handles referencing this buffer
- * @task_comm:		taskcomm of last client to reference this buffer in a
- *			handle, used for debugging
- * @pid:		pid of last client to reference this buffer in a
- *			handle, used for debugging
- * @alloc_client_name   name of original allocator, used for debugging
-*/
-struct ion_buffer {
-	struct kref ref;
-	union {
-		struct rb_node node;
-		struct list_head list;
-	};
-	struct ion_device *dev;
-	struct ion_heap *heap;
-	unsigned long flags;
-	unsigned long private_flags;
-	size_t size;
-	union {
-		void *priv_virt;
-		ion_phys_addr_t priv_phys;
-	};
-	struct mutex lock;
-	int kmap_cnt;
-	void *vaddr;
-	struct sg_table *sg_table;
-	struct page **pages;
-	struct list_head vmas;
-	/* used to track orphaned buffers */
-	int handle_count;
-	char task_comm[TASK_COMM_LEN];
-	pid_t pid;
-	char alloc_client_name[ION_ALLOC_CLIENT_NAME_SIZE];
-	struct msm_iommu_data iommu_data;
-=======
 struct ion_handle {
 	struct ion_buffer *buffer;
 	struct ion_client *client;
 	struct rb_node rnode;
 	atomic_t refcount;
 	int id;
->>>>>>> 186ba41073dc... ion: Rewrite to improve clarity and performance
 };
 
 /**
@@ -198,31 +133,14 @@ struct ion_heap_ops {
  */
 struct ion_heap {
 	struct plist_node node;
-<<<<<<< HEAD
-	struct ion_device *dev;
-	unsigned int type;
-=======
 	enum ion_heap_type type;
->>>>>>> 186ba41073dc... ion: Rewrite to improve clarity and performance
 	struct ion_heap_ops *ops;
 	unsigned long flags;
 	unsigned int id;
 	const char *name;
 	struct shrinker shrinker;
 	void *priv;
-<<<<<<< HEAD
-	struct list_head free_list;
-	size_t free_list_size;
-	spinlock_t free_lock;
-	wait_queue_head_t waitqueue;
-	struct task_struct *task;
-
-	int (*debug_show)(struct ion_heap *heap, struct seq_file *, void *);
-	atomic_long_t total_allocated;
-	atomic_long_t total_handles;
-=======
 	struct workqueue_struct *wq;
->>>>>>> 186ba41073dc... ion: Rewrite to improve clarity and performance
 };
 
 /**
@@ -439,7 +357,7 @@ static inline void ion_pages_sync_for_device(struct device *dev,
 }
 
 int ion_walk_heaps(struct ion_client *client, int heap_id,
-			unsigned int type, void *data,
+			enum ion_heap_type type, void *data,
 			int (*f)(struct ion_heap *heap, void *data));
 
 struct ion_handle *ion_handle_get_by_id(struct ion_client *client, int id);
