@@ -24,28 +24,6 @@ static const struct file_operations cmdline_proc_fops = {
 	.release	= single_release,
 };
 
-<<<<<<< HEAD
-static void remove_flag(char *cmd, const char *flag)
-{
-	char *start_addr, *end_addr;
-
-	/* Ensure all instances of a flag are removed */
-	while ((start_addr = strstr(cmd, flag))) {
-		end_addr = strchr(start_addr, ' ');
-		if (end_addr)
-			memmove(start_addr, end_addr + 1, strlen(end_addr));
-		else
-			*(start_addr - 1) = '\0';
-	}
-}
-
-static void remove_safetynet_flags(char *cmd)
-{
-	remove_flag(cmd, "androidboot.enable_dm_verity=");
-	remove_flag(cmd, "androidboot.secboot=");
-	remove_flag(cmd, "androidboot.verifiedbootstate=");
-	remove_flag(cmd, "androidboot.veritymode=");
-=======
 static void patch_flag(char *cmd, const char *flag, const char *val)
 {
 	size_t flag_len, val_len;
@@ -67,7 +45,6 @@ static void patch_safetynet_flags(char *cmd)
 	patch_flag(cmd, "androidboot.flash.locked=", "1");
 	patch_flag(cmd, "androidboot.verifiedbootstate=", "green");
 	patch_flag(cmd, "androidboot.veritymode=", "enforcing");
->>>>>>> 9196cb98f805... proc: cmdline: Patch SafetyNet flags
 }
 
 static int __init proc_cmdline_init(void)
@@ -75,17 +52,10 @@ static int __init proc_cmdline_init(void)
 	strcpy(new_command_line, saved_command_line);
 
 	/*
-<<<<<<< HEAD
-	 * Remove various flags from command line seen by userspace in order to
-	 * pass SafetyNet CTS check.
-	 */
-	remove_safetynet_flags(new_command_line);
-=======
 	 * Patch various flags from command line seen by userspace in order to
 	 * pass SafetyNet checks.
 	 */
 	patch_safetynet_flags(new_command_line);
->>>>>>> 9196cb98f805... proc: cmdline: Patch SafetyNet flags
 
 	proc_create("cmdline", 0, NULL, &cmdline_proc_fops);
 	return 0;
