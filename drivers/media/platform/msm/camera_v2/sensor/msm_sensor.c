@@ -17,7 +17,6 @@
 #include "msm_camera_i2c_mux.h"
 #include <linux/regulator/rpm-smd-regulator.h>
 #include <linux/regulator/consumer.h>
-#include <linux/drv2624.h>
 
 #undef CDBG
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
@@ -137,8 +136,6 @@ int msm_sensor_power_down(struct msm_sensor_ctrl_t *s_ctrl)
 		return -EINVAL;
 	}
 
-	drv2624_enable_haptics();
-
 	/* Power down secure session if it exist*/
 	if (s_ctrl->is_secure)
 		msm_camera_tz_i2c_power_down(sensor_i2c_client);
@@ -217,14 +214,6 @@ int msm_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	if (!rc)
-		drv2624_disable_haptics();
-
-	print_time(__func__, sensor_name);
-
->>>>>>> 34b6214a7bf5... drv2624: Disable haptics while camera is in use
 	return rc;
 }
 
