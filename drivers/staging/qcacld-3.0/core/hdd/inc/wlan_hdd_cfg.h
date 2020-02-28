@@ -15880,18 +15880,10 @@ enum hdd_external_acs_policy {
  *
  * </ini>
  */
-<<<<<<< HEAD
 #define CFG_ENABLE_PEER_UNMAP_CONF_NAME    "gEnablePeerUnmapConfSupport"
 #define CFG_ENABLE_PEER_UNMAP_CONF_MIN     (0)
 #define CFG_ENABLE_PEER_UNMAP_CONF_MAX     (1)
 #define CFG_ENABLE_PEER_UNMAP_CONF_DEFAULT (0)
-=======
-
-#define CFG_ENABLE_GCMP_NAME    "gcmp_enabled"
-#define CFG_ENABLE_GCMP_MIN     (0)
-#define CFG_ENABLE_GCMP_MAX     (1)
-#define CFG_ENABLE_GCMP_DEFAULT (0)
->>>>>>> 1bdb2101de0a... Revert "qcacld-3.0: Enable SAE and GCMP by default"
 
 /*
  * <ini>
@@ -16152,16 +16144,9 @@ enum hdd_external_acs_policy {
  */
 #define  CFG_BSS_LOAD_SAMPLE_TIME    "bss_load_sample_time"
 
-<<<<<<< HEAD
 #define CFG_BSS_LOAD_SAMPLE_TIME_DEFAULT    10000
 #define CFG_BSS_LOAD_SAMPLE_TIME_MIN        0
 #define CFG_BSS_LOAD_SAMPLE_TIME_MAX        0xffffffff
-=======
-#define CFG_IS_SAE_ENABLED_NAME    "sae_enabled"
-#define CFG_IS_SAE_ENABLED_DEFAULT (0)
-#define CFG_IS_SAE_ENABLED_MIN     (0)
-#define CFG_IS_SAE_ENABLED_MAX     (1)
->>>>>>> 1bdb2101de0a... Revert "qcacld-3.0: Enable SAE and GCMP by default"
 
 /*
  * gEnableRTTsupport
