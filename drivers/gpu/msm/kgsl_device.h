@@ -60,12 +60,9 @@ enum kgsl_event_results {
 	KGSL_EVENT_CANCELLED = 2,
 };
 
-<<<<<<< HEAD
 #define KGSL_FLAG_WAKE_ON_TOUCH BIT(0)
 #define KGSL_FLAG_SPARSE        BIT(1)
 
-=======
->>>>>>> 186f73333e88... msm: kgsl: Wake GPU upon receiving an ioctl rather than upon touch input
 /*
  * "list" of event types for ftrace symbolic magic
  */
