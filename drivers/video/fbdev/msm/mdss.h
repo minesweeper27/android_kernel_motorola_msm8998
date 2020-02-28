@@ -23,7 +23,6 @@
 #include <linux/irqdomain.h>
 #include <linux/mdss_io_util.h>
 #include <linux/mdss_smmu_ext.h>
-#include <linux/pm_qos.h>
 
 #include <linux/msm-bus.h>
 #include <linux/file.h>
@@ -556,6 +555,7 @@ struct mdss_data_type {
 	wait_queue_head_t secure_waitq;
 	struct cx_ipeak_client *mdss_cx_ipeak;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	struct mult_factor bus_throughput_factor;
 =======
 
@@ -563,6 +563,8 @@ struct mdss_data_type {
 	struct work_struct pm_unset_work;
 	bool pm_irq_set;
 >>>>>>> f22324c58177... msm: mdss: Speed up MDP interrupt processing for cmd mode panels
+=======
+>>>>>>> parent of f22324c58177... msm: mdss: Speed up MDP interrupt processing for cmd mode panels
 };
 
 extern struct mdss_data_type *mdss_res;
