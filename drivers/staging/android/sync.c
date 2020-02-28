@@ -29,6 +29,7 @@
 #include "sync.h"
 
 #define CREATE_TRACE_POINTS
+#define SYNC_DUMP_TIME_LIMIT 7000
 #include "trace/sync.h"
 
 static const struct fence_ops android_fence_ops;
@@ -167,7 +168,6 @@ static struct sync_fence *sync_fence_alloc(int size, const char *name)
 #ifdef CONFIG_SYNC_DEBUG
 	strlcpy(fence->name, name, sizeof(fence->name));
 #endif
-
 	init_waitqueue_head(&fence->wq);
 
 	return fence;
@@ -243,22 +243,24 @@ void sync_fence_install(struct sync_fence *fence, int fd)
 }
 EXPORT_SYMBOL(sync_fence_install);
 
-static int sync_fence_add_pt(struct sync_fence *fence, int i, struct fence *pt)
+static void sync_fence_add_pt(struct sync_fence *fence,
+			      int *i, struct fence *pt)
 {
-	fence->cbs[i].sync_pt = pt;
-	fence->cbs[i].fence = fence;
-	fence_get(pt);
-	return fence_add_callback(
-		pt, &fence->cbs[i].cb, fence_check_cb_func) ? 0 : 1;
+	fence->cbs[*i].sync_pt = pt;
+	fence->cbs[*i].fence = fence;
+
+	if (!fence_add_callback(pt, &fence->cbs[*i].cb, fence_check_cb_func)) {
+		fence_get(pt);
+		(*i)++;
+	}
 }
 
 struct sync_fence *sync_fence_merge(const char *name,
 				    struct sync_fence *a, struct sync_fence *b)
 {
 	int num_fences = a->num_fences + b->num_fences;
-	int status = 0;
 	struct sync_fence *fence;
-	int i = 0, i_a = 0, i_b = 0;
+	int i, i_a, i_b;
 	unsigned long size = offsetof(struct sync_fence, cbs[num_fences]);
 
 	fence = sync_fence_alloc(size, name);
@@ -274,26 +276,37 @@ struct sync_fence *sync_fence_merge(const char *name,
 	 * If a sync_fence can only be created with sync_fence_merge
 	 * and sync_fence_create, this is a reasonable assumption.
 	 */
-	while (i_a < a->num_fences && i_b < b->num_fences) {
+	for (i = i_a = i_b = 0; i_a < a->num_fences && i_b < b->num_fences; ) {
 		struct fence *pt_a = a->cbs[i_a].sync_pt;
 		struct fence *pt_b = b->cbs[i_b].sync_pt;
-		struct fence *pt =
-			(pt_a->context < pt_b->context) ? pt_a :
-			(pt_a->context > pt_b->context) ? pt_b :
-			fence_is_later(pt_a, pt_b) ? pt_a : pt_b;
-		status += sync_fence_add_pt(fence, i++, pt);
-		i_a += pt->context == pt_a->context ? 1 : 0;
-		i_b += pt->context == pt_b->context ? 1 : 0;
+
+		if (pt_a->context < pt_b->context) {
+			sync_fence_add_pt(fence, &i, pt_a);
+
+			i_a++;
+		} else if (pt_a->context > pt_b->context) {
+			sync_fence_add_pt(fence, &i, pt_b);
+
+			i_b++;
+		} else {
+			if (pt_a->seqno - pt_b->seqno <= INT_MAX)
+				sync_fence_add_pt(fence, &i, pt_a);
+			else
+				sync_fence_add_pt(fence, &i, pt_b);
+
+			i_a++;
+			i_b++;
+		}
 	}
 
 	for (; i_a < a->num_fences; i_a++)
-		status += sync_fence_add_pt(fence, i++, a->cbs[i_a].sync_pt);
+		sync_fence_add_pt(fence, &i, a->cbs[i_a].sync_pt);
 
 	for (; i_b < b->num_fences; i_b++)
-		status += sync_fence_add_pt(fence, i++, b->cbs[i_b].sync_pt);
+		sync_fence_add_pt(fence, &i, b->cbs[i_b].sync_pt);
 
-	if (num_fences > status)
-		atomic_sub(num_fences - status, &fence->status);
+	if (num_fences > i)
+		atomic_sub(num_fences - i, &fence->status);
 	fence->num_fences = i;
 
 	sync_fence_debug_add(fence);
@@ -387,7 +400,9 @@ int sync_fence_wait(struct sync_fence *fence, long timeout)
 		if (timeout) {
 			pr_info("fence timeout on [%pK] after %dms\n", fence,
 				jiffies_to_msecs(timeout));
-			sync_dump();
+			if (jiffies_to_msecs(timeout) >=
+				SYNC_DUMP_TIME_LIMIT)
+				sync_dump();
 		}
 		return -ETIME;
 	}
@@ -443,6 +458,8 @@ static bool android_fence_signaled(struct fence *fence)
 	int ret;
 
 	ret = parent->ops->has_signaled(pt);
+	if (!ret && parent->destroyed)
+		ret = -ENOENT;
 	if (ret < 0)
 		fence->status = ret;
 	return ret;
@@ -667,9 +684,15 @@ static long sync_fence_ioctl_fence_info(struct sync_fence *fence,
 	if (size > 4096)
 		size = 4096;
 
+<<<<<<< HEAD
+	data = kzalloc(size, GFP_KERNEL);
+	if (data == NULL)
+		return -ENOMEM;
+
+=======
 #ifdef CONFIG_SYNC_DEBUG
+>>>>>>> b2dd7aafbfed... staging: sync: Use an on-stack allocation for fence info ioctl
 	strlcpy(data->name, fence->name, sizeof(data->name));
-#endif
 	data->status = atomic_read(&fence->status);
 	if (data->status >= 0)
 		data->status = !data->status;
