@@ -781,14 +781,8 @@ retry:
 		kill_fasync(&fasync, SIGIO, POLL_IN);
 	}
 
-<<<<<<< HEAD
-	trace_credit_entropy_bits(r->name, nbits,
-				  entropy_count >> ENTROPY_SHIFT,
-				  r->entropy_total, _RET_IP_);
-=======
 //	trace_credit_entropy_bits(r->name, nbits,
 //				  entropy_count >> ENTROPY_SHIFT, _RET_IP_);
->>>>>>> 4a7a43b6e01d... random: squash update
 
 	if (r == &input_pool) {
 		int entropy_bits = entropy_count >> ENTROPY_SHIFT;
@@ -1139,11 +1133,7 @@ void add_device_randomness(const void *buf, unsigned int size)
 	unsigned long time = random_get_entropy() ^ jiffies;
 	unsigned long flags;
 
-<<<<<<< HEAD
-	trace_add_device_randomness(size, _RET_IP_);
-=======
 	// trace_add_device_randomness(size, _RET_IP_);
->>>>>>> 4a7a43b6e01d... random: squash update
 	spin_lock_irqsave(&input_pool.lock, flags);
 	_mix_pool_bytes(&input_pool, buf, size);
 	_mix_pool_bytes(&input_pool, &time, sizeof(time));
@@ -1590,16 +1580,12 @@ static ssize_t extract_entropy_user(struct entropy_store *r, void __user *buf,
 	__u8 tmp[EXTRACT_SIZE];
 	int large_request = (nbytes > 256);
 
-<<<<<<< HEAD
-	trace_extract_entropy_user(r->name, nbytes, ENTROPY_BITS(r), _RET_IP_);
-=======
 //	trace_extract_entropy_user(r->name, nbytes, ENTROPY_BITS(r), _RET_IP_);
 	if (!r->initialized && r->pull) {
 		xfer_secondary_pool(r, ENTROPY_BITS(r->pull)/8);
 		if (!r->initialized)
 			return 0;
 	}
->>>>>>> 4a7a43b6e01d... random: squash update
 	xfer_secondary_pool(r, nbytes);
 	nbytes = account(r, nbytes, 0, 0);
 
@@ -1804,13 +1790,8 @@ int __must_check get_random_bytes_arch(void *buf, int nbytes)
 	int left = nbytes;
 	char *p = buf;
 
-<<<<<<< HEAD
-	trace_get_random_bytes_arch(nbytes, _RET_IP_);
-	while (nbytes) {
-=======
 //	trace_get_random_bytes_arch(left, _RET_IP_);
 	while (left) {
->>>>>>> 4a7a43b6e01d... random: squash update
 		unsigned long v;
 		int chunk = min_t(int, left, sizeof(unsigned long));
 
@@ -1948,15 +1929,8 @@ urandom_read(struct file *file, char __user *buf, size_t nbytes, loff_t *ppos)
 		spin_unlock_irqrestore(&primary_crng.lock, flags);
 	}
 	nbytes = min_t(size_t, nbytes, INT_MAX >> (ENTROPY_SHIFT + 3));
-<<<<<<< HEAD
-	ret = extract_entropy_user(&nonblocking_pool, buf, nbytes);
-
-	trace_urandom_read(8 * nbytes, ENTROPY_BITS(&nonblocking_pool),
-			   ENTROPY_BITS(&input_pool));
-=======
 	ret = extract_crng_user(buf, nbytes);
 //	trace_urandom_read(8 * nbytes, 0, ENTROPY_BITS(&input_pool));
->>>>>>> 4a7a43b6e01d... random: squash update
 	return ret;
 }
 
