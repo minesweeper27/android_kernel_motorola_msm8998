@@ -652,11 +652,9 @@ static void rcu_eqs_enter_common(long long oldval, bool user)
 			idle_task(smp_processor_id());
 
 		trace_rcu_dyntick(TPS("Error on entry: not idle task"), oldval, 0);
-<<<<<<< HEAD
-		ftrace_dump(DUMP_ORIG);
-=======
+
 		rcu_ftrace_dump(DUMP_ORIG);
->>>>>>> c867074a380e... rcu: squash update
+
 		WARN_ONCE(1, "Current pid: %d comm: %s / Idle pid: %d comm: %s",
 			  current->pid, current->comm,
 			  idle->pid, idle->comm); /* must be idle task! */
@@ -824,11 +822,9 @@ static void rcu_eqs_exit_common(long long oldval, int user)
 
 		trace_rcu_dyntick(TPS("Error on exit: not idle task"),
 				  oldval, rdtp->dynticks_nesting);
-<<<<<<< HEAD
-		ftrace_dump(DUMP_ORIG);
-=======
+
 		rcu_ftrace_dump(DUMP_ORIG);
->>>>>>> c867074a380e... rcu: squash update
+
 		WARN_ONCE(1, "Current pid: %d comm: %s / Idle pid: %d comm: %s",
 			  current->pid, current->comm,
 			  idle->pid, idle->comm); /* must be idle task! */
@@ -1117,11 +1113,6 @@ static int dyntick_save_progress_counter(struct rcu_data *rdp,
 	rcu_sysidle_check_cpu(rdp, isidle, maxj);
 	if ((rdp->dynticks_snap & 0x1) == 0) {
 		trace_rcu_fqs(rdp->rsp->name, rdp->gpnum, rdp->cpu, TPS("dti"));
-<<<<<<< HEAD
-		return 1;
-	} else {
-=======
->>>>>>> c867074a380e... rcu: squash update
 		if (ULONG_CMP_LT(READ_ONCE(rdp->gpnum) + ULONG_MAX / 4,
 				 rdp->mynode->gpnum))
 			WRITE_ONCE(rdp->gpwrap, true);
@@ -1736,11 +1727,8 @@ static bool rcu_accelerate_cbs(struct rcu_state *rsp, struct rcu_node *rnp,
 		ret = rcu_start_future_gp(rnp, rdp, NULL);
 
 	/* Trace depending on how much we were able to accelerate. */
-<<<<<<< HEAD
-	if (!*rdp->nxttail[RCU_WAIT_TAIL])
-=======
 	if (rcu_segcblist_restempty(&rdp->cblist, RCU_WAIT_TAIL))
->>>>>>> c867074a380e... rcu: squash update
+
 		trace_rcu_grace_period(rsp->name, rdp->gpnum, TPS("AccWaitCB"));
 	else
 		trace_rcu_grace_period(rsp->name, rdp->gpnum, TPS("AccReadyCB"));
@@ -1811,12 +1799,8 @@ static bool __note_gp_changes(struct rcu_state *rsp, struct rcu_node *rnp,
 		 */
 		rdp->gpnum = rnp->gpnum;
 		trace_rcu_grace_period(rsp->name, rdp->gpnum, TPS("cpustart"));
-<<<<<<< HEAD
-		rdp->cpu_no_qs.b.norm = true;
-=======
 		need_gp = !!(rnp->qsmask & rdp->grpmask);
 		rdp->cpu_no_qs.b.norm = need_gp;
->>>>>>> c867074a380e... rcu: squash update
 		rdp->rcu_qs_ctr_snap = __this_cpu_read(rcu_qs_ctr);
 		rdp->core_needs_qs = need_gp;
 		zero_cpu_stall_ticks(rdp);
@@ -1885,11 +1869,8 @@ static bool rcu_gp_init(struct rcu_state *rsp)
 	/* Record GP times before starting GP, hence smp_store_release(). */
 	smp_store_release(&rsp->gpnum, rsp->gpnum + 1);
 	trace_rcu_grace_period(rsp->name, rsp->gpnum, TPS("start"));
-<<<<<<< HEAD
-	raw_spin_unlock_irq(&rnp->lock);
-=======
+
 	raw_spin_unlock_irq_rcu_node(rnp);
->>>>>>> c867074a380e... rcu: squash update
 
 	/*
 	 * Apply per-leaf buffered online and offline operations to the
@@ -1967,11 +1948,9 @@ static bool rcu_gp_init(struct rcu_state *rsp)
 		trace_rcu_grace_period_init(rsp->name, rnp->gpnum,
 					    rnp->level, rnp->grplo,
 					    rnp->grphi, rnp->qsmask);
-<<<<<<< HEAD
-		raw_spin_unlock_irq(&rnp->lock);
-=======
+
 		raw_spin_unlock_irq_rcu_node(rnp);
->>>>>>> c867074a380e... rcu: squash update
+
 		cond_resched_rcu_qs();
 		WRITE_ONCE(rsp->gp_activity, jiffies);
 	}
@@ -2154,12 +2133,11 @@ static int __noreturn rcu_gp_kthread(void *arg)
 		for (;;) {
 			if (!ret) {
 				rsp->jiffies_force_qs = jiffies + j;
-<<<<<<< HEAD
-=======
+
 				WRITE_ONCE(rsp->jiffies_kick_kthreads,
 					   jiffies + 3 * j);
 			}
->>>>>>> c867074a380e... rcu: squash update
+
 			trace_rcu_grace_period(rsp->name,
 					       READ_ONCE(rsp->gpnum),
 					       TPS("fqswait"));
@@ -2202,23 +2180,14 @@ static int __noreturn rcu_gp_kthread(void *arg)
 				trace_rcu_grace_period(rsp->name,
 						       READ_ONCE(rsp->gpnum),
 						       TPS("fqswaitsig"));
-<<<<<<< HEAD
-			}
-			j = jiffies_till_next_fqs;
-			if (j > HZ) {
-				j = HZ;
-				jiffies_till_next_fqs = HZ;
-			} else if (j < 1) {
-				j = 1;
-				jiffies_till_next_fqs = 1;
-=======
+
 				ret = 1; /* Keep old FQS timing. */
 				j = jiffies;
 				if (time_after(jiffies, rsp->jiffies_force_qs))
 					j = 1;
 				else
 					j = rsp->jiffies_force_qs - j;
->>>>>>> c867074a380e... rcu: squash update
+
 			}
 		}
 
@@ -2698,18 +2667,13 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 	long bl, count;
 
 	/* If no callbacks are ready, just return. */
-<<<<<<< HEAD
-	if (!cpu_has_callbacks_ready_to_invoke(rdp)) {
-		trace_rcu_batch_start(rsp->name, rdp->qlen_lazy, rdp->qlen, 0);
-		trace_rcu_batch_end(rsp->name, 0, !!READ_ONCE(rdp->nxtlist),
-=======
 	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
 		trace_rcu_batch_start(rsp->name,
 				      rcu_segcblist_n_lazy_cbs(&rdp->cblist),
 				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
 		trace_rcu_batch_end(rsp->name, 0,
 				    !rcu_segcblist_empty(&rdp->cblist),
->>>>>>> c867074a380e... rcu: squash update
+
 				    need_resched(), is_idle_task(current),
 				    rcu_is_callbacks_kthread());
 		return;
@@ -2723,20 +2687,9 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 	local_irq_save(flags);
 	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
 	bl = rdp->blimit;
-<<<<<<< HEAD
-	trace_rcu_batch_start(rsp->name, rdp->qlen_lazy, rdp->qlen, bl);
-	list = rdp->nxtlist;
-	rdp->nxtlist = *rdp->nxttail[RCU_DONE_TAIL];
-	*rdp->nxttail[RCU_DONE_TAIL] = NULL;
-	tail = rdp->nxttail[RCU_DONE_TAIL];
-	for (i = RCU_NEXT_SIZE - 1; i >= 0; i--)
-		if (rdp->nxttail[i] == rdp->nxttail[RCU_DONE_TAIL])
-			rdp->nxttail[i] = &rdp->nxtlist;
-=======
 	trace_rcu_batch_start(rsp->name, rcu_segcblist_n_lazy_cbs(&rdp->cblist),
 			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
 	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
->>>>>>> c867074a380e... rcu: squash update
 	local_irq_restore(flags);
 
 	/* Invoke callbacks. */
@@ -2756,22 +2709,6 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 	}
 
 	local_irq_save(flags);
-<<<<<<< HEAD
-	trace_rcu_batch_end(rsp->name, count, !!list, need_resched(),
-			    is_idle_task(current),
-			    rcu_is_callbacks_kthread());
-
-	/* Update count, and requeue any remaining callbacks. */
-	if (list != NULL) {
-		*tail = rdp->nxtlist;
-		rdp->nxtlist = list;
-		for (i = 0; i < RCU_NEXT_SIZE; i++)
-			if (&rdp->nxtlist == rdp->nxttail[i])
-				rdp->nxttail[i] = tail;
-			else
-				break;
-	}
-=======
 	count = -rcu_cblist_n_cbs(&rcl);
 	trace_rcu_batch_end(rsp->name, count, !rcu_cblist_empty(&rcl),
 			    need_resched(), is_idle_task(current),
@@ -2779,7 +2716,7 @@ static void rcu_do_batch(struct rcu_state *rsp, struct rcu_data *rdp)
 
 	/* Update counts and requeue any remaining callbacks. */
 	rcu_segcblist_insert_done_cbs(&rdp->cblist, &rcl);
->>>>>>> c867074a380e... rcu: squash update
+
 	smp_mb(); /* List handling before counting for rcu_barrier(). */
 	rdp->n_cbs_invoked += count;
 	rcu_segcblist_insert_count(&rdp->cblist, &rcl);
@@ -3152,18 +3089,12 @@ __call_rcu(struct rcu_head *head, rcu_callback_t func,
 
 	if (__is_kfree_rcu_offset((unsigned long)func))
 		trace_rcu_kfree_callback(rsp->name, head, (unsigned long)func,
-<<<<<<< HEAD
-					 rdp->qlen_lazy, rdp->qlen);
-	else
-		trace_rcu_callback(rsp->name, head, rdp->qlen_lazy, rdp->qlen);
-=======
 					 rcu_segcblist_n_lazy_cbs(&rdp->cblist),
 					 rcu_segcblist_n_cbs(&rdp->cblist));
 	else
 		trace_rcu_callback(rsp->name, head,
 				   rcu_segcblist_n_lazy_cbs(&rdp->cblist),
 				   rcu_segcblist_n_cbs(&rdp->cblist));
->>>>>>> c867074a380e... rcu: squash update
 
 	/* Go handle any RCU core processing required. */
 	__call_rcu_core(rsp, rdp, head, flags);
@@ -3791,11 +3722,7 @@ rcu_init_percpu_data(int cpu, struct rcu_state *rsp)
 	rdp->rcu_qs_ctr_snap = per_cpu(rcu_qs_ctr, cpu);
 	rdp->core_needs_qs = false;
 	trace_rcu_grace_period(rsp->name, rdp->gpnum, TPS("cpuonl"));
-<<<<<<< HEAD
-	raw_spin_unlock_irqrestore(&rnp->lock, flags);
-=======
 	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
->>>>>>> c867074a380e... rcu: squash update
 }
 
 static void rcu_prepare_cpu(int cpu)
