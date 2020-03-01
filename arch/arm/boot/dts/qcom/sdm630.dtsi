@@ -816,7 +816,7 @@
 
 		qcom,vdd-gfx-rstr{
 			qcom,vdd-rstr-reg = "vdd-gfx";
-			qcom,levels = <5 6 6>; /* Nominal, Turbo, Turbo */
+			qcom,levels = <5 9 9>; /* Nominal, Turbo, Turbo */
 			qcom,min-level = <1>; /* No Request */
 		};
 
@@ -1069,9 +1069,9 @@
 			< 465000000 4>,  /* SVS_L1 */
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
-			< 648000000 7>,  /* TURBO  */
-			< 700000000 7>,  /* TURBO  */
-			< 775000000 7>;  /* TURBO  */
+			< 648000000 7>,  /* LOW Turbo  */
+			< 700000000 8>,  /* TURBO  */
+			< 775000000 9>;  /* TURBO PLUS */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
 	};
