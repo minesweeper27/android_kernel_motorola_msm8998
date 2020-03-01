@@ -654,30 +654,6 @@ static void cpuidle_clear_idle_cpu(unsigned int cpu)
 static int cpuidle_latency_notify(struct notifier_block *b,
 		unsigned long l, void *v)
 {
-<<<<<<< HEAD
-	static unsigned long prev_latency[NR_CPUS] = {
-		[0 ... NR_CPUS - 1] = PM_QOS_CPU_DMA_LAT_DEFAULT_VALUE
-	};
-	struct cpumask update_mask = CPU_MASK_NONE;
-	unsigned int cpu;
-
-	/* Only send an IPI when the CPU latency requirement is tightened */
-	for_each_cpu(cpu, v) {
-		if (l < prev_latency[cpu])
-			cpumask_set_cpu(cpu, &update_mask);
-		prev_latency[cpu] = l;
-	}
-
-	if (!cpumask_empty(&update_mask)) {
-		unsigned long idle_cpus = atomic_read(&idle_cpu_mask);
-
-		cpumask_and(&update_mask, &update_mask, to_cpumask(&idle_cpus));
-		cpumask_andnot(&update_mask, &update_mask, cpu_isolated_mask);
-
-		/* Notifier is called with preemption disabled */
-		arch_send_call_function_ipi_mask(&update_mask);
-	}
-=======
 	static unsigned long prev_latency = ULONG_MAX;
 	struct cpumask cpus;
 
@@ -689,7 +665,6 @@ static int cpuidle_latency_notify(struct notifier_block *b,
 	}
 
 	prev_latency = l;
->>>>>>> ad1cbaf1a1ec... cpuidle: Eliminate significant overhead from pm_qos latency notifier
 
 	return NOTIFY_OK;
 }
