@@ -26,12 +26,6 @@
 # define __private	__attribute__((noderef))
 extern void __chk_user_ptr(const volatile void __user *);
 extern void __chk_io_ptr(const volatile void __iomem *);
-#else /* __CHECKER__ */
-# ifdef STRUCTLEAK_PLUGIN
-#  define __user __attribute__((user))
-# else
-#  define __user
-# endif
 # define ACCESS_PRIVATE(p, member) (*((typeof((p)->member) __force *) &(p)->member))
 #else /* __CHECKER__ */
 # define __user
