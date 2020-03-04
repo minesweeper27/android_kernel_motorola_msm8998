@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2017, 2019 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -150,8 +150,6 @@ void compute_work_load(struct devfreq_dev_status *stats,
 		struct devfreq_msm_adreno_tz_data *priv,
 		struct devfreq *devfreq)
 {
-	u64 busy;
-
 	spin_lock(&sample_lock);
 	/*
 	 * Keep collecting the stats till the client
@@ -159,10 +157,8 @@ void compute_work_load(struct devfreq_dev_status *stats,
 	 * is done when the entry is read
 	 */
 	acc_total += stats->total_time;
-	busy = (u64)stats->busy_time * stats->current_frequency;
-	do_div(busy, devfreq->profile->freq_table[0]);
-	acc_relative_busy += busy;
-
+	acc_relative_busy += (stats->busy_time * stats->current_frequency) /
+				devfreq->profile->freq_table[0];
 	spin_unlock(&sample_lock);
 }
 
@@ -370,10 +366,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 
 	*freq = stats.current_frequency;
-<<<<<<< HEAD
-
-=======
->>>>>>> 80e074426eca... Introduce Adreno idler for devfreq-based Adreno devices
 #ifdef CONFIG_ADRENO_IDLER
 	if (adreno_idler(stats, devfreq, freq)) {
 		/* adreno_idler has asked to bail out now */
