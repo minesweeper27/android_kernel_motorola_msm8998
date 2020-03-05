@@ -30,11 +30,8 @@
 #include <linux/security.h>
 #include <linux/compat.h>
 #include <linux/ctype.h>
-<<<<<<< HEAD
 #include <linux/adrenokgsl_state.h>
-=======
 #include <linux/ion.h>
->>>>>>> 01b1e7c37d9d... msm: kgsl: Record the cacheability attribute of ion buffers
 
 #include "kgsl.h"
 #include "kgsl_debugfs.h"
