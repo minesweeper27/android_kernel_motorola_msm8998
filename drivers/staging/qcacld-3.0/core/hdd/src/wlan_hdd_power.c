@@ -1810,8 +1810,8 @@ static int __wlan_hdd_cfg80211_suspend_wlan(struct wiphy *wiphy,
 		wlan_abort_scan(hdd_ctx->pdev, INVAL_PDEV_ID,
 				adapter->session_id, INVALID_SCAN_ID, false);
 
-		if (wlan_hdd_validate_session_id(adapter->session_id))
-			continue;
+		if (!wlan_hdd_validate_session_id(pAdapter->sessionId))
+			sme_ps_timer_flush_sync(pHddCtx->hHal, pAdapter->sessionId);
 
 		sme_ps_timer_flush_sync(mac_handle, adapter->session_id);
 	}
