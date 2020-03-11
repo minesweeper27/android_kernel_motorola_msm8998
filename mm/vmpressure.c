@@ -240,10 +240,6 @@ static void vmpressure_work_fn(struct work_struct *work)
 	} while ((vmpr = vmpressure_parent(vmpr)));
 }
 
-<<<<<<< HEAD
-void vmpressure_memcg(gfp_t gfp, struct mem_cgroup *memcg,
-		unsigned long scanned, unsigned long reclaimed)
-=======
 static unsigned long calculate_vmpressure_win(void)
 {
 	long x;
@@ -268,7 +264,7 @@ static unsigned long calculate_vmpressure_win(void)
 
 static void vmpressure_memcg(gfp_t gfp, struct mem_cgroup *memcg, bool critical,
 			     unsigned long scanned, unsigned long reclaimed)
->>>>>>> 514886034375... mm: vmpressure: Don't cache the window size
+
 {
 	struct vmpressure *vmpr = memcg_to_vmpressure(memcg);
 
@@ -298,7 +294,6 @@ static void vmpressure_memcg(gfp_t gfp, struct mem_cgroup *memcg, bool critical,
 	schedule_work(&vmpr->work);
 }
 
-<<<<<<< HEAD
 void calculate_vmpressure_win(void)
 {
 	long x;
@@ -322,12 +317,9 @@ void calculate_vmpressure_win(void)
 	vmpressure_win = x;
 }
 
-void vmpressure_global(gfp_t gfp, unsigned long scanned,
-		unsigned long reclaimed)
-=======
 static void vmpressure_global(gfp_t gfp, unsigned long scanned, bool critical,
 			      unsigned long reclaimed)
->>>>>>> 514886034375... mm: vmpressure: Don't cache the window size
+
 {
 	struct vmpressure *vmpr = &global_vmpressure;
 	unsigned long pressure;
