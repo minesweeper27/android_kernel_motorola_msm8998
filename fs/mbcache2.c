@@ -100,11 +100,8 @@ int mb2_cache_entry_create(struct mb2_cache *cache, gfp_t mask, u32 key,
 	*entry = (typeof(*entry)){
 		.e_lru_list = LIST_HEAD_INIT(entry->e_lru_list),
 		/* One ref for hash, one ref returned */
-<<<<<<< HEAD
-		.e_refcnt = ATOMIC_INIT(1),
-=======
+
 		.e_refcnt = ATOMIC_INIT(2),
->>>>>>> 5cf1d5dd12d3... mbcache2: Speed up cache entry creation
 		.e_key = key,
 		.e_block = block,
 		.e_hash_list_head = head
