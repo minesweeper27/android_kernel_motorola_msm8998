@@ -46,7 +46,7 @@ module_param_named(allocstall_threshold, allocstall_threshold,
 			ulong, S_IRUGO | S_IWUSR);
 
 static struct vmpressure global_vmpressure;
-BLOCKING_NOTIFIER_HEAD(vmpressure_notifier);
+static BLOCKING_NOTIFIER_HEAD(vmpressure_notifier);
 
 int vmpressure_notifier_register(struct notifier_block *nb)
 {
@@ -58,7 +58,7 @@ int vmpressure_notifier_unregister(struct notifier_block *nb)
 	return blocking_notifier_chain_unregister(&vmpressure_notifier, nb);
 }
 
-void vmpressure_notify(unsigned long pressure)
+static void vmpressure_notify(unsigned long pressure)
 {
 	blocking_notifier_call_chain(&vmpressure_notifier, pressure, NULL);
 }
@@ -162,7 +162,6 @@ out:
 static unsigned long vmpressure_account_stall(unsigned long pressure,
 				unsigned long stall, unsigned long scanned)
 {
-
 	unsigned long scale;
 
 	if (pressure < allocstall_threshold)
@@ -264,7 +263,6 @@ static unsigned long calculate_vmpressure_win(void)
 
 static void vmpressure_memcg(gfp_t gfp, struct mem_cgroup *memcg, bool critical,
 			     unsigned long scanned, unsigned long reclaimed)
-
 {
 	struct vmpressure *vmpr = memcg_to_vmpressure(memcg);
 
@@ -294,32 +292,8 @@ static void vmpressure_memcg(gfp_t gfp, struct mem_cgroup *memcg, bool critical,
 	schedule_work(&vmpr->work);
 }
 
-void calculate_vmpressure_win(void)
-{
-	long x;
-
-	x = global_page_state(NR_FILE_PAGES) -
-			global_page_state(NR_SHMEM) -
-			total_swapcache_pages() +
-			global_page_state(NR_FREE_PAGES);
-	if (x < 1)
-		x = 1;
-	/*
-	 * For low (free + cached), vmpressure window should be
-	 * small, and high for higher values of (free + cached).
-	 * But it should not be linear as well. This ensures
-	 * timely vmpressure notifications when system is under
-	 * memory pressure, and optimal number of events when
-	 * cached is high. The sqaure root function is empirically
-	 * found to serve the purpose.
-	 */
-	x = int_sqrt(x);
-	vmpressure_win = x;
-}
-
 static void vmpressure_global(gfp_t gfp, unsigned long scanned, bool critical,
 			      unsigned long reclaimed)
-
 {
 	struct vmpressure *vmpr = &global_vmpressure;
 	unsigned long pressure;
@@ -525,7 +499,7 @@ void vmpressure_cleanup(struct vmpressure *vmpr)
 	flush_work(&vmpr->work);
 }
 
-int vmpressure_global_init(void)
+static int __init vmpressure_global_init(void)
 {
 	vmpressure_init(&global_vmpressure);
 	return 0;
