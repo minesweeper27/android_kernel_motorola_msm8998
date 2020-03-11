@@ -1299,11 +1299,8 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 	char context_onstack[SZ_4K] __aligned(sizeof(long));
 	u32 sid;
 	struct dentry *dentry;
-<<<<<<< HEAD
-=======
 #define INITCONTEXTLEN 255
 	char context_onstack[INITCONTEXTLEN + 1];
->>>>>>> 99bbb1551d37... selinux: Avoid dynamic memory allocation for INITCONTEXTLEN buffers
 	char *context = NULL;
 	unsigned len = 0;
 	int rc = 0;
@@ -1358,13 +1355,9 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 			goto out_unlock;
 		}
 
-<<<<<<< HEAD
-		context_onstack[ARRAY_SIZE(context_onstack) - 1] = '\0';
-=======
 		len = INITCONTEXTLEN;
 		context = context_onstack;
 		context[len] = '\0';
->>>>>>> 99bbb1551d37... selinux: Avoid dynamic memory allocation for INITCONTEXTLEN buffers
 		rc = inode->i_op->getxattr(dentry, XATTR_NAME_SELINUX,
 					   context_onstack,
 					   ARRAY_SIZE(context_onstack));
