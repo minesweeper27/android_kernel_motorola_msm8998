@@ -27,8 +27,11 @@
 
 #define FEATURE_SUPPORTED(x)	((feature_mask << (i * 8)) & (1 << x))
 
+<<<<<<< HEAD
 uint16_t md_support;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* tracks which peripheral is undergoing SSR */
 static uint16_t reg_dirty;
 static void diag_notify_md_client(uint8_t peripheral, int data);
@@ -126,12 +129,15 @@ void diag_notify_md_client(uint8_t peripheral, int data)
 	struct pid *pid_struct;
 	struct task_struct *result;
 
+<<<<<<< HEAD
 	if (data == DIAG_STATUS_OPEN) {
 		md_support |= PERIPHERAL_MASK(peripheral);
 	} else if (data == DIAG_STATUS_CLOSED) {
 		md_support ^= PERIPHERAL_MASK(peripheral);
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (peripheral > NUM_PERIPHERALS) {
 		DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
 			"diag: Invalid peripheral (%d)\n", peripheral);
@@ -530,9 +536,14 @@ static void process_last_event_report(uint8_t *buf, uint32_t len,
 	header = (struct diag_ctrl_last_event_report *)ptr;
 	event_size = ((header->event_last_id / 8) + 1);
 	if (event_size >= driver->event_mask_size) {
+<<<<<<< HEAD
 		DIAG_LOG(DIAG_DEBUG_CONTROL,
 			"diag: In %s, receiving event mask size more that Apps can handle\n",
 			 __func__);
+=======
+		DIAG_LOG(DIAG_DEBUG_MASKS,
+		"diag: receiving event mask size more that Apps can handle\n");
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		temp = krealloc(driver->event_mask->ptr, event_size,
 				GFP_KERNEL);
 		if (!temp) {
@@ -676,6 +687,13 @@ static void process_ssid_range_report(uint8_t *buf, uint32_t len,
 		mask_ptr = (struct diag_msg_mask_t *)msg_mask.ptr;
 		found = 0;
 		for (j = 0; j < driver->msg_mask_tbl_count; j++, mask_ptr++) {
+<<<<<<< HEAD
+=======
+			if (!mask_ptr->ptr || !ssid_range) {
+				found = 1;
+				break;
+			}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			if (mask_ptr->ssid_first != ssid_range->ssid_first)
 				continue;
 			mutex_lock(&mask_ptr->lock);
@@ -694,6 +712,11 @@ static void process_ssid_range_report(uint8_t *buf, uint32_t len,
 
 		new_size = (driver->msg_mask_tbl_count + 1) *
 			   sizeof(struct diag_msg_mask_t);
+<<<<<<< HEAD
+=======
+		DIAG_LOG(DIAG_DEBUG_MASKS,
+			"diag: receiving msg mask size more that Apps can handle\n");
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		temp = krealloc(msg_mask.ptr, new_size, GFP_KERNEL);
 		if (!temp) {
 			pr_err("diag: In %s, Unable to add new ssid table to msg mask, ssid first: %d, last: %d\n",
@@ -702,6 +725,10 @@ static void process_ssid_range_report(uint8_t *buf, uint32_t len,
 			continue;
 		}
 		msg_mask.ptr = temp;
+<<<<<<< HEAD
+=======
+		mask_ptr = (struct diag_msg_mask_t *)msg_mask.ptr;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		err = diag_create_msg_mask_table_entry(mask_ptr, ssid_range);
 		if (err) {
 			pr_err("diag: In %s, Unable to create a new msg mask table entry, first: %d last: %d err: %d\n",
@@ -748,6 +775,13 @@ static void diag_build_time_mask_update(uint8_t *buf,
 	num_items = range->ssid_last - range->ssid_first + 1;
 
 	for (i = 0; i < driver->bt_msg_mask_tbl_count; i++, build_mask++) {
+<<<<<<< HEAD
+=======
+		if (!build_mask->ptr) {
+			found = 1;
+			break;
+		}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (build_mask->ssid_first != range->ssid_first)
 			continue;
 		found = 1;
@@ -758,7 +792,12 @@ static void diag_build_time_mask_update(uint8_t *buf,
 			       __func__);
 		}
 		dest_ptr = build_mask->ptr;
+<<<<<<< HEAD
 		for (j = 0; j < build_mask->range; j++, mask_ptr++, dest_ptr++)
+=======
+		for (j = 0; (j < build_mask->range) && mask_ptr && dest_ptr;
+			j++, mask_ptr++, dest_ptr++)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			*(uint32_t *)dest_ptr |= *mask_ptr;
 		mutex_unlock(&build_mask->lock);
 		break;
@@ -766,8 +805,17 @@ static void diag_build_time_mask_update(uint8_t *buf,
 
 	if (found)
 		goto end;
+<<<<<<< HEAD
 	new_size = (driver->bt_msg_mask_tbl_count + 1) *
 		   sizeof(struct diag_msg_mask_t);
+=======
+
+	new_size = (driver->bt_msg_mask_tbl_count + 1) *
+		   sizeof(struct diag_msg_mask_t);
+	DIAG_LOG(DIAG_DEBUG_MASKS,
+		"diag: receiving build time mask size more that Apps can handle\n");
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	temp = krealloc(driver->build_time_mask->ptr, new_size, GFP_KERNEL);
 	if (!temp) {
 		pr_err("diag: In %s, unable to create a new entry for build time mask\n",
@@ -775,6 +823,10 @@ static void diag_build_time_mask_update(uint8_t *buf,
 		goto end;
 	}
 	driver->build_time_mask->ptr = temp;
+<<<<<<< HEAD
+=======
+	build_mask = (struct diag_msg_mask_t *)driver->build_time_mask->ptr;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	err = diag_create_msg_mask_table_entry(build_mask, range);
 	if (err) {
 		pr_err("diag: In %s, Unable to create a new msg mask table entry, err: %d\n",

@@ -130,7 +130,10 @@ obj-y                             += msm/
 else
 obj-$(CONFIG_MSM_DBA)             += msm/msm_dba/
 endif
+<<<<<<< HEAD
 obj-y                             += slimport/
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_FB_NUC900)           += nuc900fb.o
 obj-$(CONFIG_FB_JZ4740)		  += jz4740_fb.o
 obj-$(CONFIG_FB_PUV3_UNIGFX)      += fb-puv3.o

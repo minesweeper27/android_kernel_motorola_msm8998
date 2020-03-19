@@ -24,7 +24,10 @@
 #include <linux/device.h>
 #include <linux/delay.h>
 #include <linux/workqueue.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include <soc/qcom/msm_qmi_interface.h>
 #include <soc/qcom/service-locator.h>
@@ -252,6 +255,10 @@ static int service_locator_send_msg(struct pd_qmi_client_data *pd)
 	req->domain_offset_valid = true;
 	req->domain_offset = 0;
 
+<<<<<<< HEAD
+=======
+	pd->domain_list = NULL;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	do {
 		req->domain_offset += domains_read;
 		rc = servreg_loc_send_msg(&req_desc, &resp_desc, req, resp,
@@ -281,7 +288,10 @@ static int service_locator_send_msg(struct pd_qmi_client_data *pd)
 			pr_err("Service Locator DB updated for client %s\n",
 				pd->client_name);
 			kfree(pd->domain_list);
+<<<<<<< HEAD
 			pd->domain_list = NULL;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			rc = -EAGAIN;
 			goto out;
 		}
@@ -361,7 +371,11 @@ int get_service_location(char *client_name, char *service_name,
 		goto err;
 	}
 
+<<<<<<< HEAD
 	pqcd = kzalloc(sizeof(struct pd_qmi_client_data), GFP_KERNEL);
+=======
+	pqcd = kmalloc(sizeof(struct pd_qmi_client_data), GFP_KERNEL);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!pqcd) {
 		rc = -ENOMEM;
 		pr_err("Allocation failed\n");
@@ -402,7 +416,11 @@ static void pd_locator_work(struct work_struct *work)
 		pr_err("Unable to connect to service locator!, rc = %d\n", rc);
 		pdqw->notifier->notifier_call(pdqw->notifier,
 			LOCATOR_DOWN, NULL);
+<<<<<<< HEAD
 		goto err_init_servloc;
+=======
+		goto err;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	rc = service_locator_send_msg(data);
 	if (rc) {
@@ -410,6 +428,7 @@ static void pd_locator_work(struct work_struct *work)
 			data->service_name, data->client_name, rc);
 		pdqw->notifier->notifier_call(pdqw->notifier,
 			LOCATOR_DOWN, NULL);
+<<<<<<< HEAD
 		goto err_servloc_send_msg;
 	}
 	pdqw->notifier->notifier_call(pdqw->notifier, LOCATOR_UP, data);
@@ -417,6 +436,13 @@ static void pd_locator_work(struct work_struct *work)
 err_servloc_send_msg:
 	kfree(data->domain_list);
 err_init_servloc:
+=======
+		goto err;
+	}
+	pdqw->notifier->notifier_call(pdqw->notifier, LOCATOR_UP, data);
+
+err:
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	kfree(data);
 	kfree(pdqw);
 }
@@ -440,6 +466,7 @@ int find_subsys(const char *pd_path, char *subsys)
 	return 0;
 }
 EXPORT_SYMBOL(find_subsys);
+<<<<<<< HEAD
 
 static struct pd_qmi_client_data test_data;
 
@@ -577,3 +604,5 @@ static void __exit service_locator_exit(void)
 }
 module_init(service_locator_init);
 module_exit(service_locator_exit);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

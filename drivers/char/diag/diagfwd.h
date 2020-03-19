@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2015, 2017 The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -30,10 +34,15 @@
 
 int diagfwd_init(void);
 void diagfwd_exit(void);
+<<<<<<< HEAD
 void diag_process_hdlc_pkt(void *data, unsigned len,
 			   struct diag_md_session_t *info);
 void diag_process_non_hdlc_pkt(unsigned char *data, int len,
 			       struct diag_md_session_t *info);
+=======
+void diag_process_hdlc_pkt(void *data, unsigned int len, int pid);
+void diag_process_non_hdlc_pkt(unsigned char *data, int len, int pid);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int chk_config_get_id(void);
 int chk_apps_only(void);
 int chk_apps_master(void);
@@ -45,9 +54,14 @@ int diag_cmd_get_mobile_id(unsigned char *src_buf, int src_len,
 int diag_check_common_cmd(struct diag_pkt_header_t *header);
 void diag_update_userspace_clients(unsigned int type);
 void diag_update_sleeping_process(int process_id, int data_type);
+<<<<<<< HEAD
 int diag_process_apps_pkt(unsigned char *buf, int len,
 			  struct diag_md_session_t *info);
 void diag_send_error_rsp(unsigned char *buf, int len);
+=======
+int diag_process_apps_pkt(unsigned char *buf, int len, int pid);
+void diag_send_error_rsp(unsigned char *buf, int len, int pid);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 void diag_update_pkt_buffer(unsigned char *buf, uint32_t len, int type);
 int diag_process_stm_cmd(unsigned char *buf, unsigned char *dest_buf);
 void diag_md_hdlc_reset_timer_func(unsigned long pid);

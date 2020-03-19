@@ -2303,6 +2303,10 @@ static void dm_init_md_queue(struct mapped_device *md)
 	 * - must do so here (in alloc_dev callchain) before queue is used
 	 */
 	md->queue->queuedata = md;
+<<<<<<< HEAD
+=======
+	md->queue->backing_dev_info->congested_data = md;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static void dm_init_old_md_queue(struct mapped_device *md)
@@ -2313,7 +2317,10 @@ static void dm_init_old_md_queue(struct mapped_device *md)
 	/*
 	 * Initialize aspects of queue that aren't relevant for blk-mq
 	 */
+<<<<<<< HEAD
 	md->queue->backing_dev_info->congested_data = md;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	md->queue->backing_dev_info->congested_fn = dm_any_congested;
 	blk_queue_bounce_limit(md->queue, BLK_BOUNCE_ANY);
 }

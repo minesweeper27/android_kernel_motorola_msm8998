@@ -111,6 +111,7 @@ static void sdhci_dump_state(struct sdhci_host *host)
 
 static void sdhci_dumpregs(struct sdhci_host *host)
 {
+<<<<<<< HEAD
 	if((host->mmc)&&(host->mmc->card)){
 		if (mmc_card_mmc(host->mmc->card)) {
 			if (host->mmc->card->ext_csd.rev < 7) {
@@ -124,6 +125,8 @@ static void sdhci_dumpregs(struct sdhci_host *host)
 		}
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	MMC_TRACE(host->mmc,
 		"%s: 0x04=0x%08x 0x06=0x%08x 0x0E=0x%08x 0x30=0x%08x 0x34=0x%08x 0x38=0x%08x\n",
 		__func__,
@@ -198,11 +201,14 @@ static void sdhci_dumpregs(struct sdhci_host *host)
 		host->ops->dump_vendor_regs(host);
 	sdhci_dump_state(host);
 	pr_info(DRIVER_NAME ": ===========================================\n");
+<<<<<<< HEAD
 
 #ifdef CONFIG_SDHCI_DUMPREG_DEBUG_PANIC
 	if (mmc_card_mmc(host->mmc->card))
 		BUG_ON(true);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /*****************************************************************************\
@@ -301,6 +307,7 @@ retry_reset:
 		}
 		timeout--;
 		udelay(1);
+<<<<<<< HEAD
 	}
 
 	if ((host->quirks2 & SDHCI_QUIRK2_USE_RESET_WORKAROUND) &&
@@ -312,6 +319,19 @@ retry_reset:
 		host->reset_wa_applied = 0;
 	}
 
+=======
+	}
+
+	if ((host->quirks2 & SDHCI_QUIRK2_USE_RESET_WORKAROUND) &&
+			host->ops->reset_workaround && host->reset_wa_applied) {
+		pr_info("%s: Reset 0x%x successful with workaround\n",
+				mmc_hostname(host->mmc), (int)mask);
+		/* clear the workaround */
+		host->ops->reset_workaround(host, 0);
+		host->reset_wa_applied = 0;
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 EXPORT_SYMBOL_GPL(sdhci_reset);
 
@@ -1740,6 +1760,7 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 
 	sdhci_runtime_pm_get(host);
 	if (sdhci_check_state(host)) {
+<<<<<<< HEAD
 		if (sdhci_do_get_cd(host)) {
 			sdhci_dump_state(host);
 			pr_err("%s: sdhci in bad state\n",
@@ -1747,6 +1768,11 @@ static void sdhci_request(struct mmc_host *mmc, struct mmc_request *mrq)
 		} else
 			pr_warn("%s(%s): card removed\n",
 				__func__, mmc_hostname(mmc));
+=======
+		sdhci_dump_state(host);
+		pr_err("%s: sdhci in bad state\n",
+			mmc_hostname(host->mmc));
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		mrq->cmd->error = -EIO;
 		if (mrq->data)
 			mrq->data->error = -EIO;
@@ -1941,6 +1967,7 @@ static void sdhci_do_set_ios(struct sdhci_host *host, struct mmc_ios *ios)
 	if (ios->clock && host->sdio_irq_async_status)
 		sdhci_enable_sdio_irq_nolock(host, false);
 	spin_unlock_irqrestore(&host->lock, flags);
+<<<<<<< HEAD
 
 	/*
 	 * The controller clocks may be off during power-up and we may end up
@@ -1976,6 +2003,43 @@ static void sdhci_do_set_ios(struct sdhci_host *host, struct mmc_ios *ios)
 						     MMC_POWER_ON)))
 		sdhci_set_power(host, ios->power_mode, ios->vdd);
 
+=======
+
+	/*
+	 * The controller clocks may be off during power-up and we may end up
+	 * enabling card clock before giving power to the card. Hence, during
+	 * MMC_POWER_UP enable the controller clock and turn-on the regulators.
+	 * The mmc_power_up would provide the necessary delay before turning on
+	 * the clocks to the card.
+	 */
+	if (ios->power_mode & MMC_POWER_UP) {
+		if (host->ops->enable_controller_clock) {
+			ret = host->ops->enable_controller_clock(host);
+			if (ret) {
+				pr_err("%s: enabling controller clock: failed: %d\n",
+				       mmc_hostname(host->mmc), ret);
+			} else {
+				sdhci_set_power(host, ios->power_mode, ios->vdd);
+			}
+		}
+	}
+
+	spin_lock_irqsave(&host->lock, flags);
+	if (!host->clock) {
+		if (host->mmc && host->mmc->card &&
+				mmc_card_sdio(host->mmc->card))
+			sdhci_cfg_irq(host, true, false);
+		spin_unlock_irqrestore(&host->lock, flags);
+		return;
+	}
+	spin_unlock_irqrestore(&host->lock, flags);
+
+	if (!host->ops->enable_controller_clock && (ios->power_mode &
+						    (MMC_POWER_UP |
+						     MMC_POWER_ON)))
+		sdhci_set_power(host, ios->power_mode, ios->vdd);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock_irqsave(&host->lock, flags);
 
 	if (host->ops->platform_send_init_74_clocks)
@@ -2400,6 +2464,22 @@ static int sdhci_prepare_hs400_tuning(struct mmc_host *mmc, struct mmc_ios *ios)
 }
 
 static int sdhci_enhanced_strobe(struct mmc_host *mmc)
+<<<<<<< HEAD
+=======
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	int err = 0;
+
+	sdhci_runtime_pm_get(host);
+	if (host->ops->enhanced_strobe)
+		err = host->ops->enhanced_strobe(host);
+	sdhci_runtime_pm_put(host);
+
+	return err;
+}
+
+static int sdhci_execute_tuning(struct mmc_host *mmc, u32 opcode)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	struct sdhci_host *host = mmc_priv(mmc);
 	int err = 0;
@@ -4453,6 +4533,7 @@ int sdhci_add_host(struct sdhci_host *host)
 		sdhci_writel(host, host->ier, SDHCI_INT_ENABLE);
 		sdhci_writel(host, host->ier, SDHCI_SIGNAL_ENABLE);
 	}
+<<<<<<< HEAD
 
 	if (mmc->caps2 &  MMC_CAP2_CMD_QUEUE) {
 		bool dma64 = (host->flags & SDHCI_USE_64_BIT_DMA) ?
@@ -4465,6 +4546,20 @@ int sdhci_add_host(struct sdhci_host *host)
 			host->cq_host->ops = &sdhci_cmdq_ops;
 	}
 
+=======
+
+	if (mmc->caps2 &  MMC_CAP2_CMD_QUEUE) {
+		bool dma64 = (host->flags & SDHCI_USE_64_BIT_DMA) ?
+			true : false;
+		ret = sdhci_cmdq_init(host, mmc, dma64);
+		if (ret)
+			pr_err("%s: CMDQ init: failed (%d)\n",
+			       mmc_hostname(host->mmc), ret);
+		else
+			host->cq_host->ops = &sdhci_cmdq_ops;
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pr_info("%s: SDHCI controller on %s [%s] using %s in %s mode\n",
 	mmc_hostname(mmc), host->hw_name, dev_name(mmc_dev(mmc)),
 		(host->flags & SDHCI_USE_ADMA) ?

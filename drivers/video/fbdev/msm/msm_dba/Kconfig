@@ -22,6 +22,7 @@ config MSM_DBA_ADV7533
 	  Support for ADV7533 DSI to HDMI display bridge driver. The driver
 	  controls the ADV7533 HW through the I2C interface and configures
 	  the DSI input and HDMI output video format.
+<<<<<<< HEAD
 
 config MSM_DBA_MOT_DBA
 	bool "MOT DBA driver support through MSM DBA interface"
@@ -38,3 +39,5 @@ config MSM_DBA_DSI_MOD_DISPLAY
 	select MSM_DBA_MOT_DBA
 	select PANEL_NOTIFICATIONS
 	default n
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

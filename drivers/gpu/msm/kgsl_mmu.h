@@ -40,7 +40,10 @@ struct kgsl_pagetable {
 	struct list_head list;
 	unsigned int name;
 	struct kobject *kobj;
+<<<<<<< HEAD
 	struct work_struct destroy_ws;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	struct {
 		atomic_t entries;

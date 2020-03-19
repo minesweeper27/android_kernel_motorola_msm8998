@@ -6,6 +6,10 @@ obj-$(CONFIG_SMB1351_USB_CHARGER) +=  battery.o smb1351-charger.o pmic-voter.o
 obj-$(CONFIG_MSM_BCL_CTL)	+= msm_bcl.o
 obj-$(CONFIG_MSM_BCL_PERIPHERAL_CTL) += bcl_peripheral.o
 obj-$(CONFIG_BATTERY_BCL) += battery_current_limit.o
+<<<<<<< HEAD
 obj-$(CONFIG_QPNP_SMB2)		+= step-chg-jeita.o battery.o qpnp-smb2.o smb-lib.o qpnp-smbcharger-mmi.o pmic-voter.o storm-watch.o
+=======
+obj-$(CONFIG_QPNP_SMB2)		+= step-chg-jeita.o battery.o qpnp-smb2.o smb-lib.o pmic-voter.o storm-watch.o
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_SMB138X_CHARGER)	+= battery.o smb138x-charger.o smb-lib.o pmic-voter.o storm-watch.o
 obj-$(CONFIG_QPNP_QNOVO)	+= battery.o qpnp-qnovo.o

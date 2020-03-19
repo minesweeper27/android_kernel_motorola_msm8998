@@ -27,7 +27,10 @@
 #include "mdss_mdp.h"
 #include "mdss_mdp_trace.h"
 #include "mdss_debug.h"
+<<<<<<< HEAD
 #include "mdss_dsi.h"
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define MDSS_MDP_QSEED3_VER_DOWNSCALE_LIM 2
 #define NUM_MIXERCFG_REGS 3
@@ -4235,6 +4238,7 @@ int mdss_mdp_ctl_destroy(struct mdss_mdp_ctl *ctl)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void mdss_mdp_wait_for_panel_on(struct mdss_panel_data *pdata)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata =
@@ -4244,6 +4248,8 @@ static void mdss_mdp_wait_for_panel_on(struct mdss_panel_data *pdata)
 		wait_for_completion(&ctrl_pdata->wake_comp);
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int mdss_mdp_ctl_intf_event(struct mdss_mdp_ctl *ctl, int event, void *arg,
 	u32 flags)
 {
@@ -4267,11 +4273,16 @@ int mdss_mdp_ctl_intf_event(struct mdss_mdp_ctl *ctl, int event, void *arg,
 	pr_debug("sending ctl=%d event=%d flag=0x%x\n", ctl->num, event, flags);
 
 	do {
+<<<<<<< HEAD
 		if (pdata->event_handler) {
 			rc = pdata->event_handler(pdata, event, arg);
 			if (event == MDSS_EVENT_LINK_READY)
 				mdss_mdp_wait_for_panel_on(pdata);
 		}
+=======
+		if (pdata->event_handler)
+			rc = pdata->event_handler(pdata, event, arg);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		pdata = pdata->next;
 	} while (rc == 0 && pdata && pdata->active &&
 		!(flags & CTL_INTF_EVENT_FLAG_SKIP_BROADCAST));
@@ -5940,9 +5951,12 @@ int mdss_mdp_display_commit(struct mdss_mdp_ctl *ctl, void *arg,
 
 	mutex_unlock(&ctl->flush_lock);
 
+<<<<<<< HEAD
 	if (ctl->ops.wait_pingpong && !mdata->serialize_wait4pp)
 		mdss_mdp_display_wait4pingpong(ctl, false);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ATRACE_BEGIN("frame_ready");
 	mdss_mdp_ctl_notify(ctl, MDP_NOTIFY_FRAME_CFG_DONE);
 	if (commit_cb)
@@ -5970,6 +5984,12 @@ int mdss_mdp_display_commit(struct mdss_mdp_ctl *ctl, void *arg,
 
 	ATRACE_END("frame_ready");
 
+<<<<<<< HEAD
+=======
+	if (ctl->ops.wait_pingpong && !mdata->serialize_wait4pp)
+		mdss_mdp_display_wait4pingpong(ctl, false);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Moved pp programming to post ping pong */
 	ATRACE_BEGIN("postproc_programming_deferred");
 	if (!ctl->is_video_mode && ctl->mfd &&

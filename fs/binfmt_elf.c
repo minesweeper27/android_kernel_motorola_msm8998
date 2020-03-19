@@ -826,8 +826,13 @@ static int load_elf_binary(struct linux_binprm *bprm)
 	 * still possible to return an error to the code that invoked
 	 * the exec syscall.
 	 */
+<<<<<<< HEAD
 	retval = arch_check_elf(&loc.elf_ex,
 				!!interpreter, &loc.interp_elf_ex,
+=======
+	retval = arch_check_elf(&loc->elf_ex,
+				!!interpreter, &loc->interp_elf_ex,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				&arch_state);
 	if (retval)
 		goto out_free_dentry;

@@ -91,6 +91,7 @@ config MMC_SIMULATE_MAX_SPEED
 	  control the write or read maximum KB/second speed behaviors.
 
 	  If unsure, say N here.
+<<<<<<< HEAD
 
 config MMC_FFU
 	bool "FFU SUPPORT"
@@ -99,3 +100,5 @@ config MMC_FFU
 	  This is an option to run firmware update on eMMC 5.0.
 	  Field firmware updates (FFU) enables features enhancment
 	  in the field.
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

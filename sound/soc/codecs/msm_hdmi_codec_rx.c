@@ -37,7 +37,10 @@ struct msm_ext_disp_audio_codec_rx_data {
 	struct msm_ext_disp_audio_codec_ops ext_disp_ops;
 	int cable_status;
 };
+<<<<<<< HEAD
 bool beckham_hw;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int msm_ext_disp_edid_ctl_info(struct snd_kcontrol *kcontrol,
 			struct snd_ctl_elem_info *uinfo)
@@ -270,6 +273,7 @@ static int msm_ext_disp_audio_codec_rx_dai_startup(
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (beckham_hw) {
 		codec_data->cable_status = 1;
 	} else {
@@ -287,6 +291,21 @@ static int msm_ext_disp_audio_codec_rx_dai_startup(
 				__func__, codec_data->cable_status);
 			ret = -ENODEV;
 		}
+=======
+	codec_data->cable_status =
+		codec_data->ext_disp_ops.cable_status(
+		codec_data->ext_disp_core_pdev, 1);
+	if (IS_ERR_VALUE(codec_data->cable_status)) {
+		dev_err(dai->dev,
+			"%s() ext disp core is not ready (ret val = %d)\n",
+			__func__, codec_data->cable_status);
+		ret = codec_data->cable_status;
+	} else if (!codec_data->cable_status) {
+		dev_err(dai->dev,
+			"%s() ext disp cable is not connected (ret val = %d)\n",
+			__func__, codec_data->cable_status);
+		ret = -ENODEV;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	return ret;
@@ -313,6 +332,7 @@ static int msm_ext_disp_audio_codec_rx_dai_hw_params(
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (beckham_hw) {
 		codec_data->cable_status = 1;
 	} else {
@@ -327,6 +347,18 @@ static int msm_ext_disp_audio_codec_rx_dai_hw_params(
 				__func__, codec_data->cable_status);
 			return -ENODEV;
 		}
+=======
+	if (IS_ERR_VALUE(codec_data->cable_status)) {
+		dev_err_ratelimited(dai->dev,
+			"%s() ext disp core is not ready (ret val = %d)\n",
+			__func__, codec_data->cable_status);
+		return codec_data->cable_status;
+	} else if (!codec_data->cable_status) {
+		dev_err_ratelimited(dai->dev,
+			"%s() ext disp cable is not connected (ret val = %d)\n",
+			__func__, codec_data->cable_status);
+		return -ENODEV;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	/*refer to HDMI spec CEA-861-E: Table 28 Audio InfoFrame Data Byte 4*/
@@ -443,12 +475,15 @@ static int msm_ext_disp_audio_codec_rx_probe(struct snd_soc_codec *codec)
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
 	if (of_property_read_bool(codec->dev->of_node, "qcom,beckham_ext_disp"))
 		beckham_hw = true;
 	else
 		beckham_hw = false;
 	dev_dbg(codec->dev, "%s(): beckham_hw: %d\n", __func__, beckham_hw);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (msm_ext_disp_register_audio_codec(codec_data->ext_disp_core_pdev,
 				&codec_data->ext_disp_ops)) {
 		dev_err(codec->dev, "%s(): can't register with ext disp core",

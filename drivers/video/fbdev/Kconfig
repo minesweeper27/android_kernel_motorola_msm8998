@@ -2332,6 +2332,7 @@ config FB_MSM
 	the display hardware and provide a way for users to display graphics
 	on connected display panels.
 
+<<<<<<< HEAD
 config SLIMPORT_COMMON
 	tristate "Analogix Slimport transmitter ANX support"
 	---help---
@@ -2350,6 +2351,8 @@ config PANEL_NOTIFICATIONS
 	---help---
 	  Panel notifications framework
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config FB_MX3
 	tristate "MX3 Framebuffer support"
 	depends on FB && MX3_IPU
@@ -2472,7 +2475,10 @@ source "drivers/video/fbdev/omap2/Kconfig"
 source "drivers/video/fbdev/exynos/Kconfig"
 source "drivers/video/fbdev/mmp/Kconfig"
 source "drivers/video/fbdev/msm/Kconfig"
+<<<<<<< HEAD
 source "drivers/video/fbdev/slimport/Kconfig"
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 config FB_SH_MOBILE_MERAM
 	tristate "SuperH Mobile MERAM read ahead support"

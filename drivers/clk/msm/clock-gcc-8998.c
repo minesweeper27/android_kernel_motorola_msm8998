@@ -44,7 +44,11 @@ static void __iomem *virt_dbgbase;
 #define gpll4_out_main_source_val 5
 #define gpll0_early_div_source_val 6
 
+<<<<<<< HEAD
 #define FIXDIV(div) (div != 0 ? (2 * (div) - 1) : (0))
+=======
+#define FIXDIV(div) (div ? (2 * (div) - 1) : (0))
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define F(f, s, div, m, n) \
 	{ \
@@ -246,7 +250,10 @@ static struct clk_freq_tbl ftbl_usb30_master_clk_src[] = {
 	F( 60000000, gpll0_out_main,    10,    0,     0),
 	F( 120000000, gpll0_out_main,    5,    0,     0),
 	F( 150000000, gpll0_out_main,    4,    0,     0),
+<<<<<<< HEAD
 	F( 240000000, gpll0_out_main,    2.5,    0,     0),
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	F_END
 };
 

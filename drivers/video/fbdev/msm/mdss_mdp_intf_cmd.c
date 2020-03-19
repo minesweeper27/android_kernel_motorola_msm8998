@@ -22,9 +22,14 @@
 #include "mdss_mdp_trace.h"
 #include "mdss_dsi_clk.h"
 #include <linux/interrupt.h>
+<<<<<<< HEAD
 #include "mdss_dropbox.h"
 
 #define MAX_RECOVERY_TRIALS 3
+=======
+
+#define MAX_RECOVERY_TRIALS 10
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define MAX_SESSIONS 2
 
 #define SPLIT_MIXER_OFFSET 0x800
@@ -83,7 +88,10 @@ struct mdss_mdp_cmd_ctx {
 	struct work_struct gate_clk_work;
 	struct delayed_work delayed_off_clk_work;
 	struct work_struct pp_done_work;
+<<<<<<< HEAD
 	struct workqueue_struct *early_wakeup_clk_wq;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct work_struct early_wakeup_clk_work;
 	atomic_t pp_done_cnt;
 	struct completion rdptr_done;
@@ -906,7 +914,11 @@ int mdss_mdp_resource_control(struct mdss_mdp_ctl *ctl, u32 sw_event)
 				schedule_work(&ctx->gate_clk_work);
 
 			/* start work item to shut down after delay */
+<<<<<<< HEAD
 			queue_delayed_work(system_power_efficient_wq,
+=======
+			schedule_delayed_work(
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					&ctx->delayed_off_clk_work,
 					CMD_MODE_IDLE_TIMEOUT);
 		}
@@ -1070,8 +1082,12 @@ int mdss_mdp_resource_control(struct mdss_mdp_ctl *ctl, u32 sw_event)
 			 * reached. This is to prevent the case where early wake
 			 * up is called but no frame update is sent.
 			 */
+<<<<<<< HEAD
 			queue_delayed_work(system_power_efficient_wq,
                                 &ctx->delayed_off_clk_work,
+=======
+			schedule_delayed_work(&ctx->delayed_off_clk_work,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				      CMD_MODE_IDLE_TIMEOUT);
 			pr_debug("off work scheduled\n");
 		}
@@ -1198,7 +1214,11 @@ static int mdss_mdp_cmd_wait4readptr(struct mdss_mdp_cmd_ctx *ctx)
 {
 	int rc = 0;
 
+<<<<<<< HEAD
 	rc = wait_event_interruptible_timeout(ctx->rdptr_waitq,
+=======
+	rc = wait_event_timeout(ctx->rdptr_waitq,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			atomic_read(&ctx->rdptr_cnt) == 0,
 			KOFF_TIMEOUT);
 	if (rc <= 0) {
@@ -2071,7 +2091,11 @@ static int __mdss_mdp_wait4pingpong(struct mdss_mdp_cmd_ctx *ctx)
 	s64 time;
 
 	do {
+<<<<<<< HEAD
 		rc = wait_event_interruptible_timeout(ctx->pp_waitq,
+=======
+		rc = wait_event_timeout(ctx->pp_waitq,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				atomic_read(&ctx->koff_cnt) == 0,
 				KOFF_TIMEOUT);
 		time = ktime_to_ms(ktime_get());
@@ -2172,12 +2196,15 @@ static int mdss_mdp_cmd_wait4pingpong(struct mdss_mdp_ctl *ctl, void *arg)
 			mdss_fb_report_panel_dead(ctl->mfd);
 		} else if (ctx->pp_timeout_report_cnt == 0) {
 			MDSS_XLOG(0xbad);
+<<<<<<< HEAD
 			MDSS_XLOG_TOUT_HANDLER_MMI("mdp",
 				"dsi0_ctrl", "dsi0_phy",
 				"dsi1_ctrl", "dsi1_phy");
 			mdss_dropbox_report_event_ratelimit(
 				MDSS_DROPBOX_MSG_PP_TO, 1,
 				&mdss_dropbox_global_rl);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else if (ctx->pp_timeout_report_cnt == MAX_RECOVERY_TRIALS) {
 			MDSS_XLOG(0xbad2);
 			MDSS_XLOG_TOUT_HANDLER("mdp", "dsi0_ctrl", "dsi0_phy",
@@ -3379,7 +3406,10 @@ int mdss_mdp_cmd_stop(struct mdss_mdp_ctl *ctl, int panel_power_state)
 
 	mutex_lock(&ctl->offlock);
 	mutex_lock(&cmd_off_mtx);
+<<<<<<< HEAD
 	mutex_lock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (mdss_panel_is_power_off(panel_power_state)) {
 		/* Transition to display off */
 		send_panel_events = true;
@@ -3525,7 +3555,10 @@ end:
 	}
 
 	MDSS_XLOG(ctl->num, atomic_read(&ctx->koff_cnt), XLOG_FUNC_EXIT);
+<<<<<<< HEAD
 	mutex_unlock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_unlock(&cmd_off_mtx);
 	mutex_unlock(&ctl->offlock);
 	pr_debug("%s:-\n", __func__);
@@ -3581,8 +3614,12 @@ static int mdss_mdp_cmd_early_wake_up(struct mdss_mdp_ctl *ctl)
 	 * Only schedule if the interface has not been stopped.
 	 */
 	if (ctx && !ctx->intf_stopped)
+<<<<<<< HEAD
 		queue_work(ctx->early_wakeup_clk_wq,
 			&ctx->early_wakeup_clk_work);
+=======
+		schedule_work(&ctx->early_wakeup_clk_work);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -3605,8 +3642,11 @@ static int mdss_mdp_cmd_ctx_setup(struct mdss_mdp_ctl *ctl,
 	ctx->aux_pp_num = aux_pp_num;
 	ctx->pingpong_split_slave = pingpong_split_slave;
 	ctx->pp_timeout_report_cnt = 0;
+<<<<<<< HEAD
 	ctx->early_wakeup_clk_wq
 		= alloc_workqueue("early_wakeup_clk_wq", WQ_HIGHPRI, 0);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	init_waitqueue_head(&ctx->pp_waitq);
 	init_waitqueue_head(&ctx->rdptr_waitq);
 	init_completion(&ctx->stop_comp);

@@ -149,7 +149,11 @@ void mhi_set_m_state(struct mhi_device_ctxt *mhi_dev_ctxt,
  * L3: LD_ERR_FATAL_DETECT <--> LD_ERR_FATAL_DETECT
  *     LD_ERR_FATAL_DETECT -> SHUTDOWN_PROCESS
  */
+<<<<<<< HEAD
 static const struct mhi_pm_transitions mhi_state_transitions[] = {
+=======
+static const struct mhi_pm_transitions const mhi_state_transitions[] = {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* L0 States */
 	{
 		MHI_PM_DISABLE,

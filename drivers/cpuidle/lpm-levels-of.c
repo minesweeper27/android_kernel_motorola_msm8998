@@ -359,9 +359,12 @@ bool lpm_cpu_mode_allow(unsigned int cpu,
 {
 	struct lpm_level_avail *avail = cpu_level_available[cpu];
 
+<<<<<<< HEAD
 	if (lpm_pdev && !index)
 		return 1;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!lpm_pdev || !avail)
 		return !from_idle;
 

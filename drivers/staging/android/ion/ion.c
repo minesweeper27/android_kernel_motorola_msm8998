@@ -219,9 +219,12 @@ static struct ion_buffer *ion_buffer_create(struct ion_heap *heap,
 	buffer->size = len;
 	buffer->flags = flags;
 	INIT_LIST_HEAD(&buffer->vmas);
+<<<<<<< HEAD
 
 	snprintf(buffer->alloc_client_name, ION_ALLOC_CLIENT_NAME_SIZE,
 		"%s", alloc_client_name);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	table = heap->ops->map_dma(heap, buffer);
 	if (WARN_ONCE(table == NULL,
@@ -300,7 +303,11 @@ static void _ion_buffer_destroy(struct kref *kref)
 	struct ion_heap *heap = buffer->heap;
 	struct ion_device *dev = buffer->dev;
 
+<<<<<<< HEAD
 	msm_dma_buf_freed(&buffer->iommu_data);
+=======
+	msm_dma_buf_freed(buffer);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	mutex_lock(&dev->buffer_lock);
 	rb_erase(&buffer->node, &dev->buffers);
@@ -591,8 +598,12 @@ static struct ion_handle *__ion_alloc(struct ion_client *client, size_t len,
 			continue;
 		trace_ion_alloc_buffer_start(client->name, heap->name, len,
 					     heap_id_mask, flags);
+<<<<<<< HEAD
 		buffer = ion_buffer_create(heap, dev,
 					   client->name, len, align, flags);
+=======
+		buffer = ion_buffer_create(heap, dev, len, align, flags);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		trace_ion_alloc_buffer_end(client->name, heap->name, len,
 					   heap_id_mask, flags);
 		if (!IS_ERR(buffer))
@@ -1197,7 +1208,11 @@ static struct sg_table *ion_map_dma_buf(struct dma_buf_attachment *attachment,
 					enum dma_data_direction direction)
 {
 	struct dma_buf *dmabuf = attachment->dmabuf;
+<<<<<<< HEAD
 	struct ion_buffer *buffer = container_of(dmabuf->priv, typeof(*buffer), iommu_data);
+=======
+	struct ion_buffer *buffer = dmabuf->priv;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct sg_table *table;
 
 	table = ion_dupe_sg_table(buffer->sg_table);
@@ -2111,7 +2126,11 @@ void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap)
 EXPORT_SYMBOL(ion_device_add_heap);
 
 int ion_walk_heaps(struct ion_client *client, int heap_id,
+<<<<<<< HEAD
 			unsigned int type, void *data,
+=======
+			enum ion_heap_type type, void *data,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			int (*f)(struct ion_heap *heap, void *data))
 {
 	int ret_val = 0;
@@ -2134,6 +2153,7 @@ int ion_walk_heaps(struct ion_client *client, int heap_id,
 }
 EXPORT_SYMBOL(ion_walk_heaps);
 
+<<<<<<< HEAD
 static int ion_debug_allbufs_show(struct seq_file *s, void *unused)
 {
 	struct ion_device *dev = s->private;
@@ -2203,6 +2223,8 @@ static const struct file_operations debug_allbufs_fops = {
 	.release = single_release,
 };
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct ion_device *ion_device_create(long (*custom_ioctl)
 				     (struct ion_client *client,
 				      unsigned int cmd,
@@ -2251,8 +2273,11 @@ debugfs_done:
 	idev->clients = RB_ROOT;
 	ion_root_client = &idev->clients;
 	mutex_init(&debugfs_mutex);
+<<<<<<< HEAD
 	debugfs_create_file("check_all_bufs", 0664, idev->debug_root, idev,
 			    &debug_allbufs_fops);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return idev;
 }
 EXPORT_SYMBOL(ion_device_create);

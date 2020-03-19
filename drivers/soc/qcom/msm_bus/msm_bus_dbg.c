@@ -577,6 +577,10 @@ static ssize_t  msm_bus_dbg_update_request_write(struct file *file,
 	list_for_each_entry(cldata, &cl_list, list) {
 		if (strnstr(chid, cldata->pdata->name, cnt)) {
 			found = 1;
+<<<<<<< HEAD
+=======
+			cldata = cldata;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			strsep(&chid, " ");
 			if (chid) {
 				ret = kstrtoul(chid, 10, &index);

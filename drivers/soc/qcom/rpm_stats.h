@@ -39,7 +39,10 @@ struct msm_rpm_master_stats_platform_data {
 	 u32 master_offset;
 	 u32 version;
 };
+<<<<<<< HEAD
 
 extern void msm_rpmstats_log_suspend_enter(void);
 extern void msm_rpmstats_log_suspend_exit(int error);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif

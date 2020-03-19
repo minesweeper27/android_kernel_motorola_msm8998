@@ -407,7 +407,7 @@ static int ovl_create_or_link(struct dentry *dentry, int mode, dev_t rdev,
 	if (!ovl_dentry_is_opaque(dentry)) {
 		err = ovl_create_upper(dentry, inode, &stat, link, hardlink);
 	} else {
-		const struct cred *old_cred;
+		const struct cred *old_cred, *hold_cred = NULL;
 		struct cred *override_cred;
 
 		old_cred = ovl_override_creds(dentry->d_sb);
@@ -422,13 +422,23 @@ static int ovl_create_or_link(struct dentry *dentry, int mode, dev_t rdev,
 				our_cred = current_cred();
 			override_cred->fsuid = our_cred->fsuid;
 			override_cred->fsgid = our_cred->fsgid;
+<<<<<<< HEAD
 			put_cred(override_creds(override_cred));
+=======
+			hold_cred = override_creds(override_cred);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			put_cred(override_cred);
 
 			err = ovl_create_over_whiteout(dentry, inode, &stat,
 						       link, hardlink);
 		}
+<<<<<<< HEAD
 		ovl_revert_creds(old_cred);
+=======
+		ovl_revert_creds(old_cred ?: hold_cred);
+		if (old_cred && hold_cred)
+			put_cred(hold_cred);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	if (!err)

@@ -122,4 +122,7 @@ obj-$(CONFIG_GPIO_ZEVIO)	+= gpio-zevio.o
 obj-$(CONFIG_GPIO_ZYNQ)		+= gpio-zynq.o
 obj-$(CONFIG_GPIO_ZX)		+= gpio-zx.o
 obj-$(CONFIG_MSM_SMP2P)		+= gpio-msm-smp2p.o
+<<<<<<< HEAD
 obj-$(CONFIG_GPIO_PCAL6416)	+= gpio-pcal6416.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

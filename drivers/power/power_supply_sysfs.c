@@ -83,9 +83,12 @@ static ssize_t power_supply_show_property(struct device *dev,
 	static char *typec_pr_text[] = {
 		"none", "dual power role", "sink", "source"
 	};
+<<<<<<< HEAD
 	static char *charge_rate[] = {
 		"None", "Normal", "Weak", "Turbo"
 	};
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ssize_t ret = 0;
 	struct power_supply *psy = dev_get_drvdata(dev);
 	const ptrdiff_t off = attr - power_supply_attrs;
@@ -257,7 +260,10 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(temp_cold),
 	POWER_SUPPLY_ATTR(temp_hot),
 	POWER_SUPPLY_ATTR(system_temp_level),
+<<<<<<< HEAD
 	POWER_SUPPLY_ATTR(num_system_temp_levels),
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	POWER_SUPPLY_ATTR(resistance),
 	POWER_SUPPLY_ATTR(resistance_capacitive),
 	POWER_SUPPLY_ATTR(resistance_id),
@@ -315,6 +321,7 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(sdp_current_max),
 	POWER_SUPPLY_ATTR(fcc_stepper_enable),
 	POWER_SUPPLY_ATTR(ignore_false_negative_isense),
+<<<<<<< HEAD
 	POWER_SUPPLY_ATTR(fg_reset_clock),
 	POWER_SUPPLY_ATTR(internal_send),
 	POWER_SUPPLY_ATTR(internal_receive),
@@ -322,11 +329,14 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(current_flow),
 	POWER_SUPPLY_ATTR(max_input_current),
 	POWER_SUPPLY_ATTR(max_output_current),
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	POWER_SUPPLY_ATTR(battery_info),
 	POWER_SUPPLY_ATTR(battery_info_id),
 	POWER_SUPPLY_ATTR(enable_jeita_detection),
 	POWER_SUPPLY_ATTR(allow_hvdcp3),
 	POWER_SUPPLY_ATTR(max_pulse_allowed),
+<<<<<<< HEAD
 	POWER_SUPPLY_ATTR(external_present),
 	POWER_SUPPLY_ATTR(power_required),
 	POWER_SUPPLY_ATTR(power_available),
@@ -336,6 +346,8 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(max_input_voltage),
 	POWER_SUPPLY_ATTR(input_voltage),
 	POWER_SUPPLY_ATTR(age),
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Local extensions of type int64_t */
 	POWER_SUPPLY_ATTR(charge_counter_ext),
 	/* Properties of type `const char *' */

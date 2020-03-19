@@ -209,14 +209,20 @@ static void *usbpd_ipc_log;
 #define SRC_CAP_TIME		120
 #define SRC_TRANSITION_TIME	25
 #define SRC_RECOVER_TIME	750
+<<<<<<< HEAD
 #define FAULT_RECOVER_TIME      10
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define PS_HARD_RESET_TIME	25
 #define PS_SOURCE_ON		400
 #define PS_SOURCE_OFF		750
 #define FIRST_SOURCE_CAP_TIME	200
 #define VDM_BUSY_TIME		50
 #define VCONN_ON_TIME		100
+<<<<<<< HEAD
 #define APSD_RECHECK_TIME	5000
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /* tPSHardReset + tSafe0V */
 #define SNK_HARD_RESET_VBUS_OFF_TIME	(35 + 650)
@@ -288,7 +294,10 @@ static void *usbpd_ipc_log;
 #define PD_SRC_PDO_FIXED_PEAK_CURR(pdo)		(((pdo) >> 20) & 3)
 #define PD_SRC_PDO_FIXED_VOLTAGE(pdo)		(((pdo) >> 10) & 0x3FF)
 #define PD_SRC_PDO_FIXED_MAX_CURR(pdo)		((pdo) & 0x3FF)
+<<<<<<< HEAD
 #define PD_SRC_PDO_FIXED_CURRENT_MASK		0x3FF
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define PD_SRC_PDO_VAR_BATT_MAX_VOLT(pdo)	(((pdo) >> 20) & 0x3FF)
 #define PD_SRC_PDO_VAR_BATT_MIN_VOLT(pdo)	(((pdo) >> 10) & 0x3FF)
@@ -337,6 +346,7 @@ module_param(check_vsafe0v, bool, S_IRUSR | S_IWUSR);
 static int min_sink_current = 900;
 module_param(min_sink_current, int, S_IRUSR | S_IWUSR);
 
+<<<<<<< HEAD
 static int vbus_off_delay = 0;
 module_param(vbus_off_delay, int, S_IRUSR | S_IWUSR);
 
@@ -347,6 +357,9 @@ static int start_usb_for_dcp;
 module_param(start_usb_for_dcp, int, 0600);
 
 static u32 default_src_caps[] = { 0x36019096 };	/* VSafe5V @ 1.5A */
+=======
+static const u32 default_src_caps[] = { 0x36019096 };	/* VSafe5V @ 1.5A */
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static const u32 default_snk_caps[] = { 0x2601912C };	/* VSafe5V @ 3A */
 
 struct vdm_tx {
@@ -687,6 +700,7 @@ static int pd_select_pdo(struct usbpd *pd, int pdo_pos, int uv, int ua)
 
 	pd->requested_current = curr;
 	pd->requested_pdo = pdo_pos;
+<<<<<<< HEAD
 	usbpd_warn(&pd->dev, "select_pdo: PDO:%d, %d uV, %d uA\n",
 		   pdo_pos, uv, ua);
 	return 0;
@@ -712,6 +726,8 @@ static int pd_get_pdo(struct usbpd *pd, int pdo_pos, int *uv_max, int *uv_min, i
 		usbpd_err(&pd->dev, "Only Fixed or Programmable PDOs supported\n");
 		return -ENOTSUPP;
 	}
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return 0;
 }
@@ -1249,7 +1265,11 @@ static void usbpd_set_state(struct usbpd *pd, enum usbpd_state next_state)
 			if (pd->psy_type == POWER_SUPPLY_TYPE_USB ||
 				pd->psy_type == POWER_SUPPLY_TYPE_USB_CDP ||
 				pd->psy_type == POWER_SUPPLY_TYPE_USB_FLOAT ||
+<<<<<<< HEAD
 				usb_compliance_mode || start_usb_for_dcp)
+=======
+				usb_compliance_mode)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				start_usb_peripheral(pd);
 		}
 
@@ -1841,11 +1861,14 @@ static int enable_vbus(struct usbpd *pd)
 	if (!check_vsafe0v)
 		goto enable_reg;
 
+<<<<<<< HEAD
 	if (vbus_off_delay > 0) {
 		msleep(vbus_off_delay);
 		goto enable_reg;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * Check to make sure there's no lingering charge on
 	 * VBUS before enabling it as a source. If so poll here
@@ -1869,11 +1892,14 @@ enable_reg:
 	else
 		pd->vbus_enabled = true;
 
+<<<<<<< HEAD
 	if (vbus_on_delay > 0) {
 		msleep(vbus_on_delay);
 		return ret;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	count = 10;
 	/*
 	 * Check to make sure VBUS voltage reaches above Vsafe5Vmin (4.75v)
@@ -1976,9 +2002,16 @@ static void usbpd_sm(struct work_struct *w)
 		power_supply_set_property(pd->usb_psy,
 				POWER_SUPPLY_PROP_PD_ACTIVE, &val);
 
+<<<<<<< HEAD
 		pd->vbus_enabled = false;
 		if (regulator_is_enabled(pd->vbus))
 			regulator_disable(pd->vbus);
+=======
+		if (pd->vbus_enabled) {
+			regulator_disable(pd->vbus);
+			pd->vbus_enabled = false;
+		}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		if (pd->current_dr == DR_UFP)
 			stop_usb_peripheral(pd);
@@ -2034,6 +2067,7 @@ static void usbpd_sm(struct work_struct *w)
 		power_supply_set_property(pd->usb_psy,
 				POWER_SUPPLY_PROP_PD_VOLTAGE_MIN, &val);
 
+<<<<<<< HEAD
 		if (pd->requested_current) {
 			val.intval = pd->requested_current = 0;
 			power_supply_set_property(pd->usb_psy,
@@ -2045,6 +2079,8 @@ static void usbpd_sm(struct work_struct *w)
 		power_supply_set_property(pd->usb_psy,
 				POWER_SUPPLY_PROP_VOLTAGE_MIN, &val);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		pd->in_pr_swap = false;
 		val.intval = 0;
 		power_supply_set_property(pd->usb_psy,
@@ -2090,7 +2126,10 @@ static void usbpd_sm(struct work_struct *w)
 
 		if (pd->current_pr == PR_SINK) {
 			usbpd_set_state(pd, PE_SNK_STARTUP);
+<<<<<<< HEAD
 			kick_sm(pd, APSD_RECHECK_TIME);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else if (pd->current_pr == PR_SRC) {
 			if (!pd->vconn_enabled &&
 					pd->typec_mode ==
@@ -2386,8 +2425,11 @@ static void usbpd_sm(struct work_struct *w)
 				int mv = max(pd->requested_voltage,
 						pd->current_voltage) / 1000;
 				val.intval = (2500000 / mv) * 1000;
+<<<<<<< HEAD
 				val.intval = min(val.intval,
 						pd->requested_current * 1000);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				power_supply_set_property(pd->usb_psy,
 					POWER_SUPPLY_PROP_PD_CURRENT_MAX, &val);
 			} else {
@@ -2453,10 +2495,13 @@ static void usbpd_sm(struct work_struct *w)
 			pd->src_cap_id++;
 
 			usbpd_set_state(pd, PE_SNK_EVALUATE_CAPABILITY);
+<<<<<<< HEAD
 
 			val.intval = 1;
 			power_supply_set_property(pd->usb_psy,
 					POWER_SUPPLY_PROP_PD_ACTIVE, &val);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else if (IS_CTRL(rx_msg, MSG_GET_SINK_CAP)) {
 			ret = pd_send_msg(pd, MSG_SINK_CAPABILITIES,
 					pd->sink_caps, pd->num_sink_caps,
@@ -2962,12 +3007,15 @@ static int psy_changed(struct notifier_block *nb, unsigned long evt, void *ptr)
 	if (pd->typec_mode == typec_mode)
 		return 0;
 
+<<<<<<< HEAD
 	if (pd->typec_mode == POWER_SUPPLY_TYPEC_SINK_AUDIO_ADAPTER &&
 		typec_mode != POWER_SUPPLY_TYPEC_SINK_AUDIO_ADAPTER) {
 		usbpd_dbg(&pd->dev, "Type-C Audio Disable\n");
 		pd_phy_audio_detect(false);
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pd->typec_mode = typec_mode;
 
 	usbpd_dbg(&pd->dev, "typec mode:%d present:%d type:%d orientation:%d\n",
@@ -3032,7 +3080,10 @@ static int psy_changed(struct notifier_block *nb, unsigned long evt, void *ptr)
 		break;
 	case POWER_SUPPLY_TYPEC_SINK_AUDIO_ADAPTER:
 		usbpd_info(&pd->dev, "Type-C Analog Audio Adapter connected\n");
+<<<<<<< HEAD
 		pd_phy_audio_detect(true);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		break;
 	default:
 		usbpd_warn(&pd->dev, "Unsupported typec mode:%d\n",
@@ -3261,6 +3312,10 @@ static int usbpd_dr_prop_writeable(struct dual_role_phy_instance *dual_role,
 
 	switch (prop) {
 	case DUAL_ROLE_PROP_MODE:
+<<<<<<< HEAD
+=======
+		return 1;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case DUAL_ROLE_PROP_DR:
 	case DUAL_ROLE_PROP_PR:
 		if (pd)
@@ -3497,6 +3552,7 @@ static ssize_t pdo_n_show(struct device *dev, struct device_attribute *attr,
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
 int usbpd_get_current_dr(struct usbpd *pd)
 {
 	if (!pd)
@@ -3724,6 +3780,8 @@ out:
 }
 EXPORT_SYMBOL(usbpd_select_pdo);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static ssize_t select_pdo_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t size)
 {
@@ -4131,7 +4189,10 @@ struct usbpd *usbpd_create(struct device *parent)
 {
 	int ret;
 	struct usbpd *pd;
+<<<<<<< HEAD
 	u32 source_current = 0;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pd = kzalloc(sizeof(*pd), GFP_KERNEL);
 	if (!pd)
@@ -4242,6 +4303,7 @@ struct usbpd *usbpd_create(struct device *parent)
 		pd->num_sink_caps = ARRAY_SIZE(default_snk_caps);
 	}
 
+<<<<<<< HEAD
 	device_property_read_u32(parent,
 					"qcom,vbus-off-delay",
 					&vbus_off_delay);
@@ -4264,6 +4326,8 @@ struct usbpd *usbpd_create(struct device *parent)
 					source_current;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * Register the Android dual-role class (/sys/class/dual_role_usb/).
 	 * The first instance should be named "otg_default" as that's what
@@ -4341,6 +4405,7 @@ void usbpd_destroy(struct usbpd *pd)
 }
 EXPORT_SYMBOL(usbpd_destroy);
 
+<<<<<<< HEAD
 /**
  * usbpd_handle_vbus_fault - Toggles the vbus if enabled
  * to recover from a fault condition.
@@ -4367,6 +4432,8 @@ void usbpd_handle_vbus_fault(struct usbpd *pd)
 }
 EXPORT_SYMBOL(usbpd_handle_vbus_fault);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int __init usbpd_init(void)
 {
 	usbpd_ipc_log = ipc_log_context_create(NUM_LOG_PAGES, "usb_pd", 0);

@@ -882,13 +882,20 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 	}
 
 	/* rerun AICL if new ICL is above settled ICL */
+<<<<<<< HEAD
 	if (icl_ua != INT_MAX && icl_ua > pval.intval)
+=======
+	if (icl_ua > pval.intval)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rerun_aicl = true;
 
 	if (rerun_aicl) {
 		/* set a lower ICL */
 		pval.intval = max(pval.intval - ICL_STEP_UA, ICL_STEP_UA);
+<<<<<<< HEAD
 		pr_debug("****initial step icl setting %d\n", pval.intval);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		power_supply_set_property(chip->main_psy,
 				POWER_SUPPLY_PROP_CURRENT_MAX,
 				&pval);
@@ -896,7 +903,10 @@ static int usb_icl_vote_callback(struct votable *votable, void *data,
 
 	/* set the effective ICL */
 	pval.intval = icl_ua;
+<<<<<<< HEAD
 	pr_debug("****final icl setting %d\n", pval.intval);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	power_supply_set_property(chip->main_psy,
 			POWER_SUPPLY_PROP_CURRENT_MAX,
 			&pval);
@@ -1361,7 +1371,11 @@ int qcom_batt_init(void)
 		goto release_wakeup_source;
 	}
 
+<<<<<<< HEAD
 	chip->fv_votable = create_votable("FV", VOTE_MIN,
+=======
+	chip->fv_votable = create_votable("FV", VOTE_MAX,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					pl_fv_vote_callback,
 					chip);
 	if (IS_ERR(chip->fv_votable)) {

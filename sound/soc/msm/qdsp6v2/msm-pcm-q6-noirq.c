@@ -53,6 +53,7 @@ struct snd_msm {
 #define CMD_EOS_MIN_TIMEOUT_LENGTH  50
 #define CMD_EOS_TIMEOUT_MULTIPLIER  (HZ * 50)
 
+<<<<<<< HEAD
 #if defined(CONFIG_TRACING) && defined(DEBUG)
 #define msm_trace_printk(...) trace_printk(__VA_ARGS__)
 #else
@@ -66,6 +67,15 @@ struct snd_msm {
 #define ATRACE_FUNC() ATRACE_BEGIN(__func__)
 #define ATRACE_INT(name, value) \
 	msm_trace_printk("tracing_mark_write: C|%d|%s|%d\n", \
+=======
+#define ATRACE_END() \
+	trace_printk("tracing_mark_write: E\n")
+#define ATRACE_BEGIN(name) \
+	trace_printk("tracing_mark_write: B|%d|%s\n", current->tgid, name)
+#define ATRACE_FUNC() ATRACE_BEGIN(__func__)
+#define ATRACE_INT(name, value) \
+	trace_printk("tracing_mark_write: C|%d|%s|%d\n", \
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			current->tgid, name, (int)(value))
 
 #define SIO_PLAYBACK_MAX_PERIOD_SIZE PLAYBACK_MAX_PERIOD_SIZE

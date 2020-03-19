@@ -646,11 +646,16 @@ bool kgsl_event_pending(struct kgsl_device *device,
 		kgsl_event_func func, void *priv);
 int kgsl_add_event(struct kgsl_device *device, struct kgsl_event_group *group,
 		unsigned int timestamp, kgsl_event_func func, void *priv);
+<<<<<<< HEAD
 int kgsl_add_low_prio_event(struct kgsl_device *device,
 		struct kgsl_event_group *group, unsigned int timestamp,
 		kgsl_event_func func, void *priv);
 void kgsl_process_event_group(struct kgsl_device *device,
 		struct kgsl_event_group *group);
+=======
+void kgsl_process_event_group(struct kgsl_device *device,
+	struct kgsl_event_group *group);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 void kgsl_flush_event_group(struct kgsl_device *device,
 		struct kgsl_event_group *group);
 void kgsl_process_event_groups(struct kgsl_device *device);

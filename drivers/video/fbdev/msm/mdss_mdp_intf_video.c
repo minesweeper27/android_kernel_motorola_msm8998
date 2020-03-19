@@ -992,7 +992,10 @@ static int mdss_mdp_video_ctx_stop(struct mdss_mdp_ctl *ctl,
 	u32 frame_rate = 0;
 
 	mutex_lock(&ctl->offlock);
+<<<<<<< HEAD
 	mutex_lock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (ctx->timegen_en) {
 		rc = mdss_mdp_ctl_intf_event(ctl, MDSS_EVENT_BLANK, NULL,
 			CTL_INTF_EVENT_FLAG_DEFAULT);
@@ -1026,7 +1029,10 @@ static int mdss_mdp_video_ctx_stop(struct mdss_mdp_ctl *ctl,
 
 	ctx->ref_cnt--;
 end:
+<<<<<<< HEAD
 	mutex_unlock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_unlock(&ctl->offlock);
 	return rc;
 }
@@ -1234,7 +1240,11 @@ static int mdss_mdp_video_wait4comp(struct mdss_mdp_ctl *ctl, void *arg)
 		if (rc == 0) {
 			pr_warn("vsync wait timeout %d, fallback to poll mode\n",
 					ctl->num);
+<<<<<<< HEAD
 			ctx->polling_en = true;
+=======
+			ctx->polling_en++;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			rc = mdss_mdp_video_pollwait(ctl);
 		} else {
 			rc = 0;
@@ -1491,7 +1501,10 @@ static int mdss_mdp_video_config_fps(struct mdss_mdp_ctl *ctl, int new_fps)
 	/* add HW recommended delay to handle panel_vsync */
 	udelay(2000);
 	mutex_lock(&ctl->offlock);
+<<<<<<< HEAD
 	mutex_lock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pdata = ctl->panel_data;
 	if (pdata == NULL) {
 		pr_err("%s: Invalid panel data\n", __func__);
@@ -1644,7 +1657,10 @@ exit_dfps:
 
 end:
 	MDSS_XLOG(ctl->num, new_fps, XLOG_FUNC_EXIT);
+<<<<<<< HEAD
 	mutex_unlock(&ctl->mfd->param_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_unlock(&ctl->offlock);
 	return rc;
 }

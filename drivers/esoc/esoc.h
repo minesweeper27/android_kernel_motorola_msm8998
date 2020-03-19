@@ -76,7 +76,11 @@ struct esoc_clink {
 	struct platform_device *pdev;
 	unsigned int id;
 	struct module *owner;
+<<<<<<< HEAD
 	const struct esoc_clink_ops *clink_ops;
+=======
+	const struct esoc_clink_ops const *clink_ops;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct esoc_eng *req_eng;
 	struct esoc_eng *cmd_eng;
 	spinlock_t notify_lock;

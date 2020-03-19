@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -175,7 +179,11 @@ static DEVICE_ATTR(__attr, 0644, show_list_##__attr, store_list_##__attr)
 #define MAX_MS	500U
 
 /* Returns MBps of read/writes for the sampling window. */
+<<<<<<< HEAD
 static unsigned long bytes_to_mbps(unsigned long long bytes, unsigned int us)
+=======
+static unsigned int bytes_to_mbps(long long bytes, unsigned int us)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	bytes *= USEC_PER_SEC;
 	do_div(bytes, us);
@@ -866,7 +874,10 @@ static int devfreq_bw_hwmon_ev_handler(struct devfreq *df,
 		if (ret) {
 			dev_err(df->dev.parent,
 				"Unable to resume HW monitor (%d)\n", ret);
+<<<<<<< HEAD
 			mutex_unlock(&sync_lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			return ret;
 		}
 		mutex_unlock(&sync_lock);

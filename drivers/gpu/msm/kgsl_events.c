@@ -32,6 +32,7 @@ static inline void signal_event(struct kgsl_device *device,
 {
 	list_del(&event->node);
 	event->result = result;
+<<<<<<< HEAD
 	if (event->prio == KGSL_EVENT_LOW_PRIORITY)
 		queue_kthread_work(&kgsl_driver.low_prio_worker, &event->work);
 	else
@@ -49,6 +50,9 @@ const char *prio_to_string(enum kgsl_priority prio)
 		return priorities[prio];
 	else
 		return "<invalid priority>";
+=======
+	queue_kthread_work(&kgsl_driver.worker, &event->work);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /**
@@ -64,7 +68,11 @@ static void _kgsl_event_worker(struct kthread_work *work)
 	int id = KGSL_CONTEXT_ID(event->context);
 
 	trace_kgsl_fire_event(id, event->timestamp, event->result,
+<<<<<<< HEAD
 		jiffies - event->created, event->func, event->prio);
+=======
+		jiffies - event->created, event->func);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	event->func(event->device, event->group, event->priv, event->result);
 
@@ -248,10 +256,23 @@ bool kgsl_event_pending(struct kgsl_device *device,
 	spin_unlock(&group->lock);
 	return result;
 }
+<<<<<<< HEAD
 
 static int kgsl_add_event_common(struct kgsl_device *device,
 		struct kgsl_event_group *group, unsigned int timestamp,
 		kgsl_event_func func, void *priv, enum kgsl_priority prio)
+=======
+/**
+ * kgsl_add_event() - Add a new GPU event to a group
+ * @device: Pointer to a KGSL device
+ * @group: Pointer to the group to add the event to
+ * @timestamp: Timestamp that the event will expire on
+ * @func: Callback function for the event
+ * @priv: Private data to send to the callback function
+ */
+int kgsl_add_event(struct kgsl_device *device, struct kgsl_event_group *group,
+		unsigned int timestamp, kgsl_event_func func, void *priv)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	unsigned int queued;
 	struct kgsl_context *context = group->context;
@@ -291,12 +312,19 @@ static int kgsl_add_event_common(struct kgsl_device *device,
 	event->func = func;
 	event->created = jiffies;
 	event->group = group;
+<<<<<<< HEAD
 	event->prio = prio;
 
 	init_kthread_work(&event->work, _kgsl_event_worker);
 
 	trace_kgsl_register_event(
 		KGSL_CONTEXT_ID(context), timestamp, func, prio);
+=======
+
+	init_kthread_work(&event->work, _kgsl_event_worker);
+
+	trace_kgsl_register_event(KGSL_CONTEXT_ID(context), timestamp, func);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	spin_lock(&group->lock);
 
@@ -309,11 +337,15 @@ static int kgsl_add_event_common(struct kgsl_device *device,
 
 	if (timestamp_cmp(retired, timestamp) >= 0) {
 		event->result = KGSL_EVENT_RETIRED;
+<<<<<<< HEAD
 		if (prio == KGSL_EVENT_LOW_PRIORITY)
 			queue_kthread_work(
 				&kgsl_driver.low_prio_worker, &event->work);
 		else
 			queue_kthread_work(&kgsl_driver.worker, &event->work);
+=======
+		queue_kthread_work(&kgsl_driver.worker, &event->work);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		spin_unlock(&group->lock);
 		return 0;
 	}
@@ -325,6 +357,7 @@ static int kgsl_add_event_common(struct kgsl_device *device,
 
 	return 0;
 }
+<<<<<<< HEAD
 
 /**
  * kgsl_add_event() - Add a new GPU event to a group
@@ -351,6 +384,10 @@ int kgsl_add_low_prio_event(
 }
 EXPORT_SYMBOL(kgsl_add_low_prio_event);
 
+=======
+EXPORT_SYMBOL(kgsl_add_event);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static DEFINE_RWLOCK(group_lock);
 static LIST_HEAD(group_list);
 
@@ -426,11 +463,19 @@ static void events_debugfs_print_group(struct seq_file *s,
 		group->readtimestamp(event->device, group->priv,
 			KGSL_TIMESTAMP_RETIRED, &retired);
 
+<<<<<<< HEAD
 		seq_printf(s, "\t%u:%u age=%lu func=%ps [retired=%d] prio=%s\n",
 			group->context ? group->context->id :
 				KGSL_MEMSTORE_GLOBAL,
 			event->timestamp, jiffies  - event->created,
 			event->func, retired, prio_to_string(event->prio));
+=======
+		seq_printf(s, "\t%d:%d age=%lu func=%ps [retired=%d]\n",
+			group->context ? group->context->id :
+						KGSL_MEMSTORE_GLOBAL,
+			event->timestamp, jiffies  - event->created,
+			event->func, retired);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	spin_unlock(&group->lock);
 }

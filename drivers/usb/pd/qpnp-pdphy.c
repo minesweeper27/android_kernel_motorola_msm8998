@@ -25,8 +25,11 @@
 #include <linux/seq_file.h>
 #include <linux/sched.h>
 #include <linux/wait.h>
+<<<<<<< HEAD
 #include <linux/gpio.h>
 #include <linux/of_gpio.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include "usbpd.h"
 
 #define USB_PDPHY_MAX_DATA_OBJ_LEN	28
@@ -86,11 +89,14 @@
 #define RECEIVER_RESPONSE_TIME		15	/* tReceiverResponse */
 #define HARD_RESET_COMPLETE_TIME	5	/* tHardResetComplete */
 
+<<<<<<< HEAD
 #define NUM_PD_GPIOS			3
 #define AUD_DET_INDEX			0
 #define USB_SW_SEL_INDEX		1
 #define OTG_FAULT_INDEX			2
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct usb_pdphy {
 	struct device *dev;
 	struct regmap *regmap;
@@ -136,11 +142,14 @@ struct usb_pdphy {
 	unsigned int msg_tx_failed_cnt;
 	unsigned int msg_tx_discarded_cnt;
 	unsigned int msg_rx_discarded_cnt;
+<<<<<<< HEAD
 
 	/* GPIO's for type C Audio Switches et al*/
 	int gpio_count;
 	struct gpio pd_gpios[NUM_PD_GPIOS];
 	int otg_fault_irq;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static struct usb_pdphy *__pdphy;
@@ -590,6 +599,7 @@ void pd_phy_close(void)
 }
 EXPORT_SYMBOL(pd_phy_close);
 
+<<<<<<< HEAD
 void pd_phy_audio_detect(bool enable)
 {
 	struct usb_pdphy *pdphy = __pdphy;
@@ -611,6 +621,8 @@ void pd_phy_audio_detect(bool enable)
 }
 EXPORT_SYMBOL(pd_phy_audio_detect);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static irqreturn_t pdphy_msg_tx_irq(int irq, void *data)
 {
 	struct usb_pdphy *pdphy = data;
@@ -767,6 +779,7 @@ done:
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 static irqreturn_t pdphy_otg_fault_handler(int irq, void *data)
 {
 	struct usb_pdphy *pdphy = data;
@@ -777,6 +790,8 @@ static irqreturn_t pdphy_otg_fault_handler(int irq, void *data)
 }
 
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int pdphy_request_irq(struct usb_pdphy *pdphy,
 				struct device_node *node,
 				int *irq_num, const char *irq_name,
@@ -809,16 +824,22 @@ static int pdphy_probe(struct platform_device *pdev)
 	int ret;
 	unsigned int base;
 	struct usb_pdphy *pdphy;
+<<<<<<< HEAD
 	int i;
 	enum of_gpio_flags flags;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pdphy = devm_kzalloc(&pdev->dev, sizeof(*pdphy), GFP_KERNEL);
 	if (!pdphy)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	for (i = 0; i < NUM_PD_GPIOS; i++)
 		pdphy->pd_gpios[i].gpio = ARCH_NR_GPIOS;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pdphy->regmap = dev_get_regmap(pdev->dev.parent, NULL);
 	if (!pdphy->regmap) {
 		dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
@@ -899,6 +920,7 @@ static int pdphy_probe(struct platform_device *pdev)
 
 	/* usbpd_create() could call back to us, so have __pdphy ready */
 	__pdphy = pdphy;
+<<<<<<< HEAD
 	pdphy->gpio_count = of_gpio_count(pdev->dev.of_node);
 
 	if (!pdphy->gpio_count) {
@@ -938,6 +960,9 @@ static int pdphy_probe(struct platform_device *pdev)
 	pd_phy_audio_detect(false);
 
 fail_gpio:
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pdphy->usbpd = usbpd_create(&pdev->dev);
 	if (IS_ERR(pdphy->usbpd)) {
 		dev_err(&pdev->dev, "usbpd_create failed: %ld\n",
@@ -948,6 +973,7 @@ fail_gpio:
 
 	pdphy_create_debugfs_entries(pdphy);
 
+<<<<<<< HEAD
 	/* Export the GPIO's here to avoid duplicate entries */
 	for (i = 0; i < pdphy->gpio_count &&
 		gpio_is_valid(pdphy->pd_gpios[i].gpio); i++) {
@@ -982,6 +1008,8 @@ fail_gpio:
 			dev_err(&pdev->dev, "irqreq otg fault failed\n");
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 

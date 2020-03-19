@@ -67,11 +67,18 @@ obj-$(CONFIG_QCOM_SCM)  +=      scm.o scm-boot.o
 obj-$(CONFIG_QCOM_SCM_QCPE)  += scm_qcpe.o
 obj-$(CONFIG_QCOM_SCM_XPU) += scm-xpu.o
 obj-$(CONFIG_QCOM_WATCHDOG_V2) += watchdog_v2.o
+<<<<<<< HEAD
 obj-$(CONFIG_QCOM_WATCHDOG_CTX_PRINT) += watchdog_cpu_ctx.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_QCOM_MEMORY_DUMP) += memory_dump.o
 obj-$(CONFIG_QCOM_MEMORY_DUMP_V2) += memory_dump_v2.o
 obj-$(CONFIG_QCOM_MINIDUMP) += msm_minidump.o
 obj-$(CONFIG_QCOM_DCC) += dcc.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_QCOM_WATCHDOG_V2) += watchdog_v2.o
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_QCOM_EARLY_DOMAIN)	+= early_dom.o
 obj-$(CONFIG_QCOM_COMMON_LOG) += common_log.o
 obj-$(CONFIG_QCOM_IRQ_HELPER) += irq-helper.o
@@ -113,9 +120,12 @@ obj-$(CONFIG_MSM_CACHE_M4M_ERP64) += cache_m4m_erp64.o
 obj-$(CONFIG_MSM_HAB) += hab/
 obj-$(CONFIG_QCOM_QDSS_BRIDGE) += qdss_bridge.o
 obj-$(CONFIG_MFSE_QMI) += mfse_qmi_v01.o mfse_qmi.o
+<<<<<<< HEAD
 obj-$(CONFIG_MSM_REMOTEQDSS) += remoteqdss.o
 obj-$(CONFIG_MMI_SOC_INFO) += mmi_soc_info.o
 obj-$(CONFIG_MMI_RAM_INFO) += mmi-ram-info.o
 obj-$(CONFIG_MMI_STORAGE_INFO) += mmi_storage_info.o
 obj-$(CONFIG_MMI_UNIT_INFO) += mmi-unit-info.o
 obj-$(CONFIG_BOOTINFO) += bootinfo.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

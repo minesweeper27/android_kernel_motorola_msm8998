@@ -1310,10 +1310,15 @@ static int _request_firmware(struct fw_desc *desc)
 	if (!desc->firmware_p)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	if (!desc->name || desc->name[0] == '\0') {
 		ret = -EINVAL;
 		goto out;
 	}
+=======
+	if (!desc->name || desc->name[0] == '\0')
+		return -EINVAL;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	ret = _request_firmware_prepare(&fw, desc);
 	if (ret <= 0) /* error or already assigned */
@@ -1505,6 +1510,7 @@ static void request_firmware_work_func(struct work_struct *work)
 {
 	const struct firmware *fw;
 	struct fw_desc *desc;
+<<<<<<< HEAD
 
 	desc = container_of(work, struct fw_desc, work);
 	desc->firmware_p = &fw;
@@ -1556,6 +1562,59 @@ _request_firmware_nowait(
 	if (nocache)
 		desc->opt_flags |= FW_OPT_NOCACHE;
 
+=======
+
+	desc = container_of(work, struct fw_desc, work);
+	desc->firmware_p = &fw;
+	_request_firmware(desc);
+	desc->cont(fw, desc->context);
+	put_device(desc->device); /* taken in request_firmware_nowait() */
+
+	module_put(desc->module);
+	kfree(desc);
+}
+
+int
+_request_firmware_nowait(
+	struct module *module, bool uevent,
+	const char *name, struct device *device, gfp_t gfp, void *context,
+	void (*cont)(const struct firmware *fw, void *context),
+	bool nocache, phys_addr_t dest_addr, size_t dest_size,
+	void * (*map_fw_mem)(phys_addr_t phys, size_t size, void *data),
+	void (*unmap_fw_mem)(void *virt, size_t size, void *data),
+	void *map_data)
+{
+	struct fw_desc *desc;
+
+	if (dest_addr && !map_fw_mem)
+		return -EINVAL;
+	if (dest_addr && dest_size <= 0)
+		return -EINVAL;
+
+	desc = kzalloc(sizeof(struct fw_desc), gfp);
+	if (!desc)
+		return -ENOMEM;
+
+	desc->module = module;
+	desc->name = name;
+	desc->device = device;
+	desc->context = context;
+	desc->cont = cont;
+	desc->dest_addr = dest_addr;
+	desc->dest_size = dest_size;
+	desc->map_fw_mem = map_fw_mem;
+	desc->unmap_fw_mem = unmap_fw_mem;
+	desc->map_data = map_data;
+	desc->opt_flags = FW_OPT_FALLBACK | FW_OPT_NOWAIT;
+
+	if (uevent)
+		desc->opt_flags |= FW_OPT_UEVENT;
+	else
+		desc->opt_flags |= FW_OPT_USERHELPER;
+	if (nocache)
+		desc->opt_flags |= FW_OPT_NOCACHE;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!try_module_get(module)) {
 		kfree(desc);
 		return -EFAULT;

@@ -226,7 +226,11 @@ static void q6lsm_session_free(struct lsm_client *client)
 	unsigned long flags;
 	pr_debug("%s: Freeing session ID %d\n", __func__, client->session);
 	spin_lock_irqsave(&lsm_session_lock, flags);
+<<<<<<< HEAD
 	lsm_session[client->session] = NULL;
+=======
+	lsm_session[client->session] = LSM_INVALID_SESSION_ID;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_unlock_irqrestore(&lsm_session_lock, flags);
 	client->session = LSM_INVALID_SESSION_ID;
 }

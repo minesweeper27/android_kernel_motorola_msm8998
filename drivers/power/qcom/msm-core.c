@@ -334,8 +334,12 @@ static __ref int do_sampling(void *data)
 		if (!poll_ms)
 			goto unlock;
 
+<<<<<<< HEAD
 		queue_delayed_work(system_power_efficient_wq,
 			&sampling_work,
+=======
+		schedule_delayed_work(&sampling_work,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			msecs_to_jiffies(poll_ms));
 unlock:
 		mutex_unlock(&kthread_update_mutex);

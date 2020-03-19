@@ -320,7 +320,10 @@ struct msm_fb_data_type {
 	u32 bl_level_usr;
 	struct mutex bl_lock;
 	struct mutex mdss_sysfs_lock;
+<<<<<<< HEAD
 	struct mutex param_lock;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	bool ipc_resume;
 
 	struct platform_device *pdev;

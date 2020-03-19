@@ -17,10 +17,17 @@
 #include <linux/uaccess.h>
 #include <linux/mount.h>
 #include <linux/pagevec.h>
+<<<<<<< HEAD
 #include <linux/uio.h>
 #include <linux/uuid.h>
 #include <linux/file.h>
 #include <linux/uuid.h>
+=======
+#include <linux/random.h>
+#include <linux/uio.h>
+#include <linux/uuid.h>
+#include <linux/file.h>
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include "f2fs.h"
 #include "node.h"

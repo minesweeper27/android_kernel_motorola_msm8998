@@ -371,8 +371,11 @@ static int verify_header(struct android_metadata_header *header)
 {
 	int retval = -EINVAL;
 
+<<<<<<< HEAD
 	return VERITY_STATE_DISABLE;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (is_userdebug() && le32_to_cpu(header->magic_number) ==
 			VERITY_METADATA_MAGIC_DISABLE)
 		return VERITY_STATE_DISABLE;

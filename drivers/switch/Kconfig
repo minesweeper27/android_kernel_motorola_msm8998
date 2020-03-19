@@ -12,6 +12,7 @@ config SWITCH_GPIO
 	help
 	  Say Y here to enable GPIO based switch support.
 
+<<<<<<< HEAD
 config SWITCH_MADERA
         tristate "Cirrus Logic Madera codec support"
         depends on MFD_MADERA && INPUT && SND_SOC
@@ -19,4 +20,6 @@ config SWITCH_MADERA
 	  Say Y here to enable support for external accessory detection
 	  on Cirrus Logic Madera class codecs.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endif # SWITCH

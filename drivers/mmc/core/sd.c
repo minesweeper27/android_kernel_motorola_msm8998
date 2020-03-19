@@ -456,30 +456,45 @@ static void sd_update_bus_speed_mode(struct mmc_card *card)
 	    (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_SDR104) &&
 	    (card->host->f_max > UHS_SDR104_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR104_BUS_SPEED;
+<<<<<<< HEAD
 		pr_err("%s: selected SDR104\n", mmc_hostname(card->host));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50)) && (card->sw_caps.sd3_bus_mode &
 		    SD_MODE_UHS_SDR50) &&
 		    (card->host->f_max > UHS_SDR50_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR50_BUS_SPEED;
+<<<<<<< HEAD
 		pr_err("%s: selected SDR50\n", mmc_hostname(card->host));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if ((card->host->caps & MMC_CAP_UHS_DDR50) &&
 		   (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_DDR50) &&
 		    (card->host->f_max > UHS_DDR50_MIN_DTR)) {
 		card->sd_bus_speed = UHS_DDR50_BUS_SPEED;
+<<<<<<< HEAD
 		pr_err("%s: selected DDR50\n", mmc_hostname(card->host));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50 | MMC_CAP_UHS_SDR25)) &&
 		   (card->sw_caps.sd3_bus_mode & SD_MODE_UHS_SDR25) &&
 		 (card->host->f_max > UHS_SDR25_MIN_DTR)) {
 		card->sd_bus_speed = UHS_SDR25_BUS_SPEED;
+<<<<<<< HEAD
 		pr_err("%s: selected SDR25\n", mmc_hostname(card->host));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if ((card->host->caps & (MMC_CAP_UHS_SDR104 |
 		    MMC_CAP_UHS_SDR50 | MMC_CAP_UHS_SDR25 |
 		    MMC_CAP_UHS_SDR12)) && (card->sw_caps.sd3_bus_mode &
 		    SD_MODE_UHS_SDR12)) {
 		card->sd_bus_speed = UHS_SDR12_BUS_SPEED;
+<<<<<<< HEAD
 		pr_err("%s: selected SDR12\n", mmc_hostname(card->host));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 }
 
@@ -1262,11 +1277,19 @@ static void mmc_sd_detect(struct mmc_host *host)
 		}
 		break;
 	}
+<<<<<<< HEAD
 	if (!retries)
 		printk(KERN_ERR "%s(%s): Unable to re-detect card (%d)\n",
 		       __func__, mmc_hostname(host), err);
 	if (err)
 		err = _mmc_detect_card_removed(host);
+=======
+	if (!retries) {
+		printk(KERN_ERR "%s(%s): Unable to re-detect card (%d)\n",
+		       __func__, mmc_hostname(host), err);
+		err = _mmc_detect_card_removed(host);
+	}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #else
 	err = _mmc_detect_card_removed(host);
 #endif
@@ -1386,8 +1409,11 @@ static int _mmc_sd_resume(struct mmc_host *host)
 		pr_err("%s: %s: mmc_sd_init_card_failed (%d)\n",
 				mmc_hostname(host), __func__, err);
 		mmc_power_off(host);
+<<<<<<< HEAD
                 // This will power on mmc at mmc_sd_detect card
                 host->bus_resume_flags |= MMC_BUSRESUME_NEEDS_RESUME;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		goto out;
 	}
 	mmc_card_clr_suspended(host->card);
@@ -1539,12 +1565,16 @@ int mmc_attach_sd(struct mmc_host *host)
 	 */
 #ifdef CONFIG_MMC_PARANOID_SD_INIT
 	retries = 5;
+<<<<<<< HEAD
 
 	/*
 	 * Some bad cards may take a long time to init, give preference to
 	 * suspend in those cases.
 	 */
 	while (retries && !host->rescan_disable) {
+=======
+	while (retries) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		err = mmc_sd_init_card(host, rocr, NULL);
 		if (err) {
 			retries--;
@@ -1557,6 +1587,7 @@ int mmc_attach_sd(struct mmc_host *host)
 		break;
 	}
 
+<<<<<<< HEAD
 	if (!retries)
 		printk(KERN_ERR "%s: mmc_sd_init_card() failure (err = %d)\n",
 		       mmc_hostname(host), err);
@@ -1566,6 +1597,13 @@ int mmc_attach_sd(struct mmc_host *host)
 
 	if (host->rescan_disable)
 		goto err;
+=======
+	if (!retries) {
+		printk(KERN_ERR "%s: mmc_sd_init_card() failure (err = %d)\n",
+		       mmc_hostname(host), err);
+		goto err;
+	}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #else
 	err = mmc_sd_init_card(host, rocr, NULL);
 	if (err)

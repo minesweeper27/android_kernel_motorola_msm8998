@@ -23,7 +23,10 @@
 #include <linux/hdcp_qseecom.h>
 #include <linux/msm_mdp.h>
 #include <linux/msm_ext_display.h>
+<<<<<<< HEAD
 #include <linux/pm_runtime.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define REG_DUMP 0
 
@@ -39,6 +42,7 @@
 #include "mdss_hdmi_mhl.h"
 #include "mdss_hdmi_util.h"
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_COMMON
 #include <video/slimport_device.h>
 #endif
@@ -47,6 +51,8 @@
 #include "mdss_hdmi_slimport.h"
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define DRV_NAME "hdmi-tx"
 #define COMPATIBLE_NAME "qcom,hdmi-tx"
 
@@ -113,9 +119,12 @@ enum hdmi_tx_hpd_states {
 };
 
 static int hdmi_tx_set_mhl_hpd(struct platform_device *pdev, uint8_t on);
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 static int hdmi_tx_set_slimport_hpd(struct platform_device *pdev, uint8_t on);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int hdmi_tx_sysfs_enable_hpd(struct hdmi_tx_ctrl *hdmi_ctrl, int on);
 static irqreturn_t hdmi_tx_isr(int irq, void *data);
 static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl);
@@ -1717,6 +1726,7 @@ static void hdmi_tx_hdcp_cb_work(struct work_struct *work)
 static u32 hdmi_tx_ddc_read(struct hdmi_tx_ddc_ctrl *ddc_ctrl,
 	u32 block, u8 *edid_buf)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_COMMON
 	int status = 0;
 #else /* QCT Original */
@@ -1724,14 +1734,23 @@ static u32 hdmi_tx_ddc_read(struct hdmi_tx_ddc_ctrl *ddc_ctrl,
 	struct hdmi_tx_ddc_data ddc_data;
 	u32 status = 0, retry_cnt = 0, i;
 #endif
+=======
+	u32 block_size = EDID_BLOCK_SIZE;
+	struct hdmi_tx_ddc_data ddc_data;
+	u32 status = 0, retry_cnt = 0, i;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!ddc_ctrl || !edid_buf) {
 		DEV_ERR("%s: invalid input\n", __func__);
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_COMMON
 	status = slimport_read_edid_block(block, edid_buf);
 #else
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	do {
 		DEV_DBG("EDID: reading block(%d) with block-size=%d\n",
 				block, block_size);
@@ -1763,7 +1782,11 @@ static u32 hdmi_tx_ddc_read(struct hdmi_tx_ddc_ctrl *ddc_ctrl,
 			block_size /= 2;
 
 	} while (status && (block_size >= 16));
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return status;
 }
 
@@ -3184,6 +3207,7 @@ int msm_hdmi_register_mhl(struct platform_device *pdev,
 	return 0;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 int msm_hdmi_sync_slimport(struct platform_device *pdev)
 {
@@ -3231,6 +3255,8 @@ int msm_hdmi_register_slimport(struct platform_device *pdev,
 }
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int hdmi_tx_get_cable_status(struct platform_device *pdev, u32 vote)
 {
 	struct hdmi_tx_ctrl *hdmi_ctrl = platform_get_drvdata(pdev);
@@ -3363,9 +3389,12 @@ static int hdmi_tx_power_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 		hdmi_ctrl->hdmi_tx_hpd_done(
 			hdmi_ctrl->downstream_data);
 end:
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	complete(&hdmi_ctrl->hdmi_panel_off);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	DEV_INFO("%s: HDMI Core: OFF\n", __func__);
 	return 0;
 } /* hdmi_tx_power_off */
@@ -3444,7 +3473,10 @@ static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 	int rc = 0;
 	struct dss_io_data *io = NULL;
 	unsigned long flags;
+<<<<<<< HEAD
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!hdmi_ctrl) {
 		DEV_ERR("%s: invalid input\n", __func__);
@@ -3462,10 +3494,13 @@ static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 		return;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_lock(&hdmi_ctrl->mutex_hpd);
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Turn off HPD interrupts */
 	DSS_REG_W(io, HDMI_HPD_INT_CTRL, 0);
 
@@ -3486,6 +3521,7 @@ static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 	hdmi_ctrl->hpd_state = false;
 	spin_unlock_irqrestore(&hdmi_ctrl->hpd_state_lock, flags);
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_unlock(&hdmi_ctrl->mutex_hpd);
 #endif
@@ -3493,6 +3529,8 @@ static void hdmi_tx_hpd_off(struct hdmi_tx_ctrl *hdmi_ctrl)
 	if (rc)
 		DEV_ERR("unable to suspend w/pm_runtime_put (%d)\n", rc);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	hdmi_ctrl->hpd_initialized = false;
 	hdmi_ctrl->hpd_off_pending = false;
 
@@ -3504,7 +3542,10 @@ static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 	u32 reg_val;
 	int rc = 0;
 	struct dss_io_data *io = NULL;
+<<<<<<< HEAD
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!hdmi_ctrl) {
 		DEV_ERR("%s: invalid input\n", __func__);
@@ -3517,6 +3558,7 @@ static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	/*
 	* Keep a reference to the runtime pm until the hpd is turned
 	* off.
@@ -3538,14 +3580,21 @@ static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 		rc = -EINVAL;
 #endif
+=======
+	if (hdmi_ctrl->hpd_initialized) {
+		DEV_DBG("%s: HPD is already ON\n", __func__);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else {
 		rc = hdmi_tx_enable_power(hdmi_ctrl, HDMI_TX_HPD_PM, true);
 		if (rc) {
 			DEV_ERR("%s: Failed to enable hpd power. rc=%d\n",
 				__func__, rc);
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 			mutex_unlock(&hdmi_ctrl->mutex_hpd);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			return rc;
 		}
 
@@ -3580,9 +3629,12 @@ static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 		DEV_DBG("%s: HPD is now ON\n", __func__);
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_unlock(&hdmi_ctrl->mutex_hpd);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return rc;
 } /* hdmi_tx_hpd_on */
 
@@ -3650,6 +3702,7 @@ end:
 	return rc;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 static int hdmi_tx_set_slimport_hpd(struct platform_device *pdev, uint8_t on)
 {
@@ -3687,6 +3740,8 @@ static int hdmi_tx_set_slimport_hpd(struct platform_device *pdev, uint8_t on)
 }
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static irqreturn_t hdmi_tx_isr(int irq, void *data)
 {
 	struct dss_io_data *io = NULL;
@@ -3784,9 +3839,12 @@ static void hdmi_tx_dev_deinit(struct hdmi_tx_ctrl *hdmi_ctrl)
 		destroy_workqueue(hdmi_ctrl->workq);
 	mutex_destroy(&hdmi_ctrl->tx_lock);
 	mutex_destroy(&hdmi_ctrl->mutex);
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_destroy(&hdmi_ctrl->mutex_hpd);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	hdmi_tx_hw.ptr = NULL;
 } /* hdmi_tx_dev_deinit */
@@ -3812,10 +3870,13 @@ static int hdmi_tx_dev_init(struct hdmi_tx_ctrl *hdmi_ctrl)
 	/* irq enable/disable will be handled in hpd on/off */
 	hdmi_tx_hw.ptr = (void *)hdmi_ctrl;
 
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_init(&hdmi_ctrl->mutex_hpd);
 	init_completion(&hdmi_ctrl->hdmi_panel_off);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_init(&hdmi_ctrl->mutex);
 	mutex_init(&hdmi_ctrl->tx_lock);
 
@@ -3853,9 +3914,12 @@ fail_create_workq:
 	if (hdmi_ctrl->workq)
 		destroy_workqueue(hdmi_ctrl->workq);
 	mutex_destroy(&hdmi_ctrl->mutex);
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_DYNAMIC_HPD
 	mutex_destroy(&hdmi_ctrl->mutex_hpd);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 fail_no_hdmi:
 	return rc;
 } /* hdmi_tx_dev_init */
@@ -4159,13 +4223,19 @@ static int hdmi_tx_evt_handle_resume(struct hdmi_tx_ctrl *hdmi_ctrl)
 	if (!hdmi_ctrl->hpd_feature_on)
 		goto end;
 
+<<<<<<< HEAD
 #ifndef CONFIG_SLIMPORT_DYNAMIC_HPD
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = hdmi_tx_hpd_on(hdmi_ctrl);
 	if (rc) {
 		DEV_ERR("%s: hpd_on failed. rc=%d\n", __func__, rc);
 		goto end;
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 end:
 	return rc;
@@ -5123,20 +5193,26 @@ static int hdmi_tx_probe(struct platform_device *pdev)
 	struct device_node *of_node = pdev->dev.of_node;
 	struct hdmi_tx_ctrl *hdmi_ctrl = NULL;
 	struct mdss_panel_cfg *pan_cfg = NULL;
+<<<<<<< HEAD
 	struct mdss_data_type *mdata = mdss_mdp_get_mdata();
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!of_node) {
 		DEV_ERR("%s: FAILED: of_node not found\n", __func__);
 		rc = -ENODEV;
 		return rc;
 	}
 
+<<<<<<< HEAD
 	if (!mdata) {
 		DEV_ERR("%s: FAILED: mdata not found\n", __func__);
 		rc = -ENODEV;
 		return rc;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	hdmi_ctrl = devm_kzalloc(&pdev->dev, sizeof(*hdmi_ctrl), GFP_KERNEL);
 	if (!hdmi_ctrl) {
 		DEV_ERR("%s: FAILED: cannot alloc hdmi tx ctrl\n", __func__);
@@ -5259,9 +5335,12 @@ static int hdmi_tx_probe(struct platform_device *pdev)
 		}
 	}
 
+<<<<<<< HEAD
 	pm_runtime_set_suspended(&mdata->pdev->dev);
 	pm_runtime_enable(&mdata->pdev->dev);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return rc;
 
 failed_reg_panel:

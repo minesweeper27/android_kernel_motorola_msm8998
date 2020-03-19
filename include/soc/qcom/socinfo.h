@@ -245,7 +245,10 @@ enum msm_cpu socinfo_get_msm_cpu(void);
 uint32_t socinfo_get_id(void);
 uint32_t socinfo_get_version(void);
 uint32_t socinfo_get_raw_id(void);
+<<<<<<< HEAD
 uint32_t socinfo_get_raw_version(void);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 char *socinfo_get_build_id(void);
 uint32_t socinfo_get_platform_type(void);
 uint32_t socinfo_get_platform_subtype(void);

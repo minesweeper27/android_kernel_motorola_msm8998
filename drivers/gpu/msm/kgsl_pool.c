@@ -65,6 +65,7 @@ _kgsl_get_pool_from_order(unsigned int order)
 
 /* Map the page into kernel and zero it out */
 static void
+<<<<<<< HEAD
 _kgsl_pool_zero_page(struct page *p, unsigned int pool_order)
 {
 	int i;
@@ -77,14 +78,26 @@ _kgsl_pool_zero_page(struct page *p, unsigned int pool_order)
 		dmac_flush_range(addr, addr + PAGE_SIZE);
 		kunmap_atomic(addr);
 	}
+=======
+_kgsl_pool_zero_page(struct page *p)
+{
+	void *addr = kmap_atomic(p);
+
+	memset(addr, 0, PAGE_SIZE);
+	dmac_flush_range(addr, addr + PAGE_SIZE);
+	kunmap_atomic(addr);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /* Add a page to specified pool */
 static void
 _kgsl_pool_add_page(struct kgsl_page_pool *pool, struct page *p)
 {
+<<<<<<< HEAD
 	_kgsl_pool_zero_page(p, pool->pool_order);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock(&pool->list_lock);
 	list_add_tail(&p->lru, &pool->page_list);
 	pool->page_count++;
@@ -329,7 +342,10 @@ int kgsl_pool_alloc_page(int *page_size, struct page **pages,
 			} else
 				return -ENOMEM;
 		}
+<<<<<<< HEAD
 		_kgsl_pool_zero_page(page, order);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		goto done;
 	}
 
@@ -349,7 +365,10 @@ int kgsl_pool_alloc_page(int *page_size, struct page **pages,
 			page = alloc_pages(gfp_mask, order);
 			if (page == NULL)
 				return -ENOMEM;
+<<<<<<< HEAD
 			_kgsl_pool_zero_page(page, order);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			goto done;
 		}
 	}
@@ -379,13 +398,20 @@ int kgsl_pool_alloc_page(int *page_size, struct page **pages,
 			} else
 				return -ENOMEM;
 		}
+<<<<<<< HEAD
 
 		_kgsl_pool_zero_page(page, order);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 done:
 	for (j = 0; j < (*page_size >> PAGE_SHIFT); j++) {
 		p = nth_page(page, j);
+<<<<<<< HEAD
+=======
+		_kgsl_pool_zero_page(p);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		pages[pcount] = p;
 		pcount++;
 	}
@@ -467,16 +493,23 @@ kgsl_pool_shrink_scan_objects(struct shrinker *shrinker,
 	/* nr represents number of pages to be removed*/
 	int nr = sc->nr_to_scan;
 	int total_pages = kgsl_pool_size_total();
+<<<<<<< HEAD
 	unsigned long ret;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Target pages represents new  pool size */
 	int target_pages = (nr > total_pages) ? 0 : (total_pages - nr);
 
 	/* Reduce pool size to target_pages */
+<<<<<<< HEAD
 	ret = kgsl_pool_reduce(target_pages, false);
 
 	/* If we are unable to shrink more, stop trying */
 	return (ret == 0) ? SHRINK_STOP : ret;
+=======
+	return kgsl_pool_reduce(target_pages, false);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static unsigned long

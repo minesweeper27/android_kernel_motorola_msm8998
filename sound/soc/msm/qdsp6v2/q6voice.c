@@ -5897,7 +5897,10 @@ int voc_set_device_config(uint32_t session_id, uint8_t path_dir,
 		break;
 	default:
 		pr_err("%s: Invalid path_dir %d\n", __func__, path_dir);
+<<<<<<< HEAD
 		mutex_unlock(&v->lock);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return -EINVAL;
 	}
 
@@ -7113,7 +7116,11 @@ static int32_t qdsp_cvp_callback(struct apr_client_data *data, void *priv)
 			}
 		}
 	} else if (data->opcode == VSS_ICOMMON_RSP_GET_PARAM ||
+<<<<<<< HEAD
 		   data->opcode == VSS_ICOMMON_RSP_GET_PARAM_V3) {
+=======
+		   VSS_ICOMMON_RSP_GET_PARAM_V3) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		pr_debug("%s: VSS_ICOMMON_RSP_GET_PARAM\n", __func__);
 		ptr = data->payload;
 		if (ptr[0] != 0) {

@@ -2477,7 +2477,11 @@ static void ath10k_peer_assoc_h_vht(struct ath10k *ar,
 
 	arg->peer_flags |= ar->wmi.peer_flags->vht;
 
+<<<<<<< HEAD
 	if (def.chan->band == NL80211_BAND_2GHZ)
+=======
+	if (def.chan->band == IEEE80211_BAND_2GHZ)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		arg->peer_flags |= ar->wmi.peer_flags->vht_2g;
 
 	arg->peer_vht_caps = vht_cap->cap;
@@ -8129,6 +8133,17 @@ int ath10k_mac_register(struct ath10k *ar)
 		band = &ar->mac.sbands[NL80211_BAND_2GHZ];
 		band->n_channels = ARRAY_SIZE(ath10k_2ghz_channels);
 		band->channels = channels;
+<<<<<<< HEAD
+=======
+
+		if (ar->hw_params.cck_rate_map_rev2) {
+			band->n_bitrates = ath10k_g_rates_rev2_size;
+			band->bitrates = ath10k_g_rates_rev2;
+		} else {
+			band->n_bitrates = ath10k_g_rates_size;
+			band->bitrates = ath10k_g_rates;
+		}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		if (ar->hw_params.cck_rate_map_rev2) {
 			band->n_bitrates = ath10k_g_rates_rev2_size;

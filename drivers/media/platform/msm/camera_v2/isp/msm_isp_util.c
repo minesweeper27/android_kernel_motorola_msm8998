@@ -927,6 +927,10 @@ static long msm_isp_ioctl_unlocked(struct v4l2_subdev *sd,
 	case VIDIOC_MSM_ISP_AXI_RESTART:
 		mutex_lock(&vfe_dev->core_mutex);
 		MSM_ISP_DUAL_VFE_MUTEX_LOCK(vfe_dev);
+<<<<<<< HEAD
+=======
+		mutex_lock(&vfe_dev->buf_mgr->lock);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (atomic_read(&vfe_dev->error_info.overflow_state)
 			!= HALT_ENFORCED) {
 			rc = msm_isp_stats_restart(vfe_dev);
@@ -937,6 +941,10 @@ static long msm_isp_ioctl_unlocked(struct v4l2_subdev *sd,
 			pr_err_ratelimited("%s: no AXI restart, halt enforced.\n",
 				__func__);
 		}
+<<<<<<< HEAD
+=======
+		mutex_unlock(&vfe_dev->buf_mgr->lock);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		MSM_ISP_DUAL_VFE_MUTEX_UNLOCK(vfe_dev);
 		mutex_unlock(&vfe_dev->core_mutex);
 		break;
@@ -1462,8 +1470,11 @@ static int msm_isp_send_hw_cmd(struct vfe_device *vfe_dev,
 int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 {
 	int rc = 0, i;
+<<<<<<< HEAD
 	uint32_t cfg_data_onstack[SZ_4K / sizeof(uint32_t)];
 	struct msm_vfe_reg_cfg_cmd cfg_cmd_onstack[20];
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct msm_vfe_cfg_cmd2 *proc_cmd = arg;
 	struct msm_vfe_reg_cfg_cmd *reg_cfg_cmd;
 	uint32_t *cfg_data = NULL;
@@ -1473,6 +1484,7 @@ int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (proc_cmd->num_cfg <= ARRAY_SIZE(cfg_cmd_onstack)) {
 		reg_cfg_cmd = cfg_cmd_onstack;
 	} else {
@@ -1483,6 +1495,14 @@ int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 			rc = -ENOMEM;
 			goto reg_cfg_failed;
 		}
+=======
+	reg_cfg_cmd = kzalloc(sizeof(struct msm_vfe_reg_cfg_cmd)*
+		proc_cmd->num_cfg, GFP_KERNEL);
+	if (!reg_cfg_cmd) {
+		pr_err("%s: reg_cfg alloc failed\n", __func__);
+		rc = -ENOMEM;
+		goto reg_cfg_failed;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	if (copy_from_user(reg_cfg_cmd,
@@ -1493,6 +1513,7 @@ int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 	}
 
 	if (proc_cmd->cmd_len > 0) {
+<<<<<<< HEAD
 		if (proc_cmd->cmd_len <= sizeof(cfg_data_onstack)) {
 			cfg_data = cfg_data_onstack;
 		} else {
@@ -1502,6 +1523,13 @@ int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 				rc = -ENOMEM;
 				goto cfg_data_failed;
 			}
+=======
+		cfg_data = kzalloc(proc_cmd->cmd_len, GFP_KERNEL);
+		if (!cfg_data) {
+			pr_err("%s: cfg_data alloc failed\n", __func__);
+			rc = -ENOMEM;
+			goto cfg_data_failed;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 
 		if (copy_from_user(cfg_data,
@@ -1523,11 +1551,17 @@ int msm_isp_proc_cmd(struct vfe_device *vfe_dev, void *arg)
 	}
 
 copy_cmd_failed:
+<<<<<<< HEAD
 	if (cfg_data != cfg_data_onstack)
 		kfree(cfg_data);
 cfg_data_failed:
 	if (reg_cfg_cmd != cfg_cmd_onstack)
 		kfree(reg_cfg_cmd);
+=======
+	kfree(cfg_data);
+cfg_data_failed:
+	kfree(reg_cfg_cmd);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 reg_cfg_failed:
 	return rc;
 }

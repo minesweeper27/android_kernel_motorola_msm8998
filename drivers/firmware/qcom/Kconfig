@@ -5,6 +5,7 @@ config MSM_TZ_LOG
           This option enables a driver with a debugfs interface for messages
           produced by the Secure code (Trust zone). These messages provide
           diagnostic information about TZ operation.
+<<<<<<< HEAD
 
 config MSM_TZ_LOG_WDOG_DUMP
 	bool "Dump TZ Log after watchdog reset"
@@ -17,3 +18,5 @@ config MSM_TZ_LOG_WDOG_DUMP
 	  reason. After enabling this option, kernel will reserve a buffer
 	  to get TZ log backup. After a watchdog reset, kernel can print
 	  the log out.
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

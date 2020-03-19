@@ -31,7 +31,11 @@
 
 static inline const char *mdss_mdp_pipetype2str(u32 ptype)
 {
+<<<<<<< HEAD
 	static const char *strings[] = {
+=======
+	static const char const *strings[] = {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define PIPE_TYPE(t) [MDSS_MDP_PIPE_TYPE_ ## t] = __stringify(t)
 		PIPE_TYPE(VIG),
 		PIPE_TYPE(RGB),
@@ -48,7 +52,11 @@ static inline const char *mdss_mdp_pipetype2str(u32 ptype)
 
 static inline const char *mdss_mdp_format2str(u32 format)
 {
+<<<<<<< HEAD
 	static const char *strings[] = {
+=======
+	static const char const *strings[] = {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define FORMAT_NAME(f) [MDP_ ## f] = __stringify(f)
 		FORMAT_NAME(RGB_565),
 		FORMAT_NAME(BGR_565),

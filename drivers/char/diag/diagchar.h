@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2017, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2018, The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -442,6 +446,10 @@ struct diag_md_session_t {
 	int pid;
 	int peripheral_mask;
 	uint8_t hdlc_disabled;
+<<<<<<< HEAD
+=======
+	uint8_t msg_mask_tbl_count;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct timer_list hdlc_reset_timer;
 	struct diag_mask_info *msg_mask;
 	struct diag_mask_info *log_mask;
@@ -580,6 +588,10 @@ struct diagchar_dev {
 	/* buffer for updating mask to peripherals */
 	unsigned char *buf_feature_mask_update;
 	uint8_t hdlc_disabled;
+<<<<<<< HEAD
+=======
+	uint8_t p_hdlc_disabled[NUM_MD_SESSIONS];
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct mutex hdlc_disable_mutex;
 	struct mutex hdlc_recovery_mutex;
 	struct timer_list hdlc_reset_timer;
@@ -604,6 +616,10 @@ struct diagchar_dev {
 	struct work_struct diag_drain_work;
 	struct work_struct update_user_clients;
 	struct work_struct update_md_clients;
+<<<<<<< HEAD
+=======
+	struct work_struct diag_hdlc_reset_work;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct workqueue_struct *diag_cntl_wq;
 	uint8_t log_on_demand_support;
 	uint8_t *apps_req_buf;
@@ -676,12 +692,20 @@ void diag_cmd_remove_reg_by_pid(int pid);
 void diag_cmd_remove_reg_by_proc(int proc);
 int diag_cmd_chk_polling(struct diag_cmd_reg_entry_t *entry);
 int diag_mask_param(void);
+<<<<<<< HEAD
 void diag_clear_masks(struct diag_md_session_t *info);
+=======
+void diag_clear_masks(int pid);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 uint8_t diag_mask_to_pd_value(uint32_t peripheral_mask);
 
 void diag_record_stats(int type, int flag);
 
 struct diag_md_session_t *diag_md_session_get_pid(int pid);
 struct diag_md_session_t *diag_md_session_get_peripheral(uint8_t peripheral);
+<<<<<<< HEAD
+=======
+int diag_md_session_match_pid_peripheral(int pid, uint8_t peripheral);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #endif

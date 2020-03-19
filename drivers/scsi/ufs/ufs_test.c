@@ -78,7 +78,10 @@ static const struct file_operations ufs_test_ ## test_name ## _ops = {	\
 	.open = ufs_test_ ## test_name ## _open,			\
 	.read = seq_read,						\
 	.write = ufs_test_ ## test_name ## _write,			\
+<<<<<<< HEAD
 	.release = single_release,					\
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 #define add_test(utd, test_name, upper_case_name)			\

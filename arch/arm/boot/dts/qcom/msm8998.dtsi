@@ -289,7 +289,11 @@
 				compatible = "android,fstab";
 				vendor {
 					compatible = "android,vendor";
+<<<<<<< HEAD
 					dev = "/dev/block/platform/soc/1da4000.ufshc/by-name/oem";
+=======
+					dev = "/dev/block/platform/soc/1da4000.ufshc/by-name/vendor";
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
 					fsmgr_flags = "wait,slotselect,verify";
@@ -310,6 +314,7 @@
 			reg = <0 0x85800000 0 0x3700000>;
 		};
 
+<<<<<<< HEAD
 		pil_ipa_gpu_mem: pil_ipa_gpu_region@95600000 {
 			compatible = "removed-dma-pool";
 			no-map;
@@ -332,12 +337,40 @@
 			compatible = "removed-dma-pool";
 			no-map;
 			reg = <0 0x94000000 0 0x500000>;
+=======
+		pil_ipa_gpu_mem: pil_ipa_gpu_region@95200000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x95200000 0 0x100000>;
+		};
+
+		pil_slpi_mem: pil_slpi_region@94300000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x94300000 0 0xf00000>;
+		};
+
+		pil_mba_mem: pil_mba_region@94100000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x94100000 0 0x200000>;
+		};
+
+		pil_video_mem: pil_video_region@93c00000 {
+			compatible = "removed-dma-pool";
+			no-map;
+			reg = <0 0x93c00000 0 0x500000>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		};
 
 		modem_mem: modem_region@8cc00000 {
 			compatible = "removed-dma-pool";
 			no-map;
+<<<<<<< HEAD
 			reg = <0 0x8cc00000 0 0x7400000>;
+=======
+			reg = <0 0x8cc00000 0 0x7000000>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		};
 
 		pil_adsp_mem: pil_adsp_region@0x8b200000 {
@@ -492,6 +525,7 @@
 		clock-names = "core", "iface";
 	};
 
+<<<<<<< HEAD
 	uartblsp2dm2: serial@0c1b1000 {
 		compatible = "qcom,msm-uartdm-v1.4", "qcom,msm-uartdm";
 		reg = <0xc1b1000 0x1000>;
@@ -502,12 +536,17 @@
 		clock-names = "core", "iface";
 	};
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	slim_aud: slim@171c0000 {
 		cell-index = <1>;
 		compatible = "qcom,slim-ngd";
 		reg = <0x171c0000 0x2C000>,
 			<0x17184000 0x32000>;
+<<<<<<< HEAD
 		status = "ok";
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		reg-names = "slimbus_physical", "slimbus_bam_physical";
 		interrupts = <0 163 0>, <0 164 0>;
 		interrupt-names = "slimbus_irq", "slimbus_bam_irq";
@@ -516,8 +555,13 @@
 	};
 
 	slim_qca: slim@17240000 {
+<<<<<<< HEAD
 		cell-index = <3>;
 		status = "ok";
+=======
+		status = "ok";
+		cell-index = <3>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		compatible = "qcom,slim-ngd";
 		reg = <0x17240000 0x2C000>,
 			<0x17204000 0x26000>;
@@ -1792,7 +1836,11 @@
 		clock-names = "core_clk", "iface_clk", "bus_aggr_clk",
 				"utmi_clk", "sleep_clk", "xo";
 
+<<<<<<< HEAD
 		qcom,core-clk-rate = <240000000>;
+=======
+		qcom,core-clk-rate = <120000000>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		qcom,core-clk-rate-hs = <60000000>;
 
 		resets = <&clock_gcc USB_30_BCR>;
@@ -1810,7 +1858,10 @@
 			snps,has-lpm-erratum;
 			snps,hird-threshold = /bits/ 8 <0x10>;
 			snps,num-gsi-evt-buffs = <0x3>;
+<<<<<<< HEAD
 			xhci-imod-value = <4000>;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		};
 
 		qcom,usbbam@a904000 {
@@ -2778,8 +2829,13 @@
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;
 		qcom,bcl-freq-control-list = <&CPU4 &CPU5 &CPU6 &CPU7>;
+<<<<<<< HEAD
 		qcom,bcl-hotplug-list = <>;
 		qcom,bcl-soc-hotplug-list = <>;
+=======
+		qcom,bcl-hotplug-list = <&CPU4 &CPU5 &CPU6 &CPU7>;
+		qcom,bcl-soc-hotplug-list = <&CPU4 &CPU5 &CPU6 &CPU7>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		qcom,ibat-monitor {
 			qcom,low-threshold-uamp = <3400000>;
 			qcom,high-threshold-uamp = <4200000>;
@@ -3263,6 +3319,7 @@
 			label = "spss";
 		};
 	};
+<<<<<<< HEAD
 
 	mcd {
 		compatible = "qcom,mcd";
@@ -3278,6 +3335,8 @@
 			<&clock_gcc clk_gcc_ce1_axi_m_clk>;
 			qcom,ce-opp-freq = <171430000>;
 	};
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 &clock_cpu {

@@ -158,7 +158,11 @@ static inline int ecryptfs_register_to_events(
 	return 1; /* dummy handle */
 }
 
+<<<<<<< HEAD
 static inline int ecryptfs_unregister_from_events(int user_handle)
+=======
+static int ecryptfs_unregister_from_events(int user_handle)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	return 0;
 }
@@ -189,14 +193,23 @@ static inline bool ecryptfs_cipher_match(const void *ecrytpfs_data,
 	return false;
 }
 
+<<<<<<< HEAD
 static inline bool ecryptfs_is_page_in_metadata(const void *ecrytpfs_data,
 						pgoff_t offset)
+=======
+bool ecryptfs_is_page_in_metadata(const void *ecrytpfs_data, pgoff_t offset)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	return false;
 }
 
+<<<<<<< HEAD
 static inline bool ecryptfs_is_data_equal(const void *ecrytpfs_data1,
 					  const void *ecrytpfs_data2)
+=======
+bool ecryptfs_is_data_equal(const void *ecrytpfs_data1,
+		const void *ecrytpfs_data2)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	return false;
 }

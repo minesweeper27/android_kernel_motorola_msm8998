@@ -2105,10 +2105,15 @@ static int qpnp_parse_dt_config(struct platform_device *pdev,
 	}
 
 	rc = of_property_read_u32(of_node, "qcom,mode-select", &mode);
+<<<<<<< HEAD
 	if (rc) {
 		chip->pwm_mode = -EINVAL;
 		goto read_opt_props;
 	}
+=======
+	if (rc)
+		goto read_opt_props;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (mode > PM_PWM_MODE_LPG ||
 		(mode == PM_PWM_MODE_PWM && found_pwm_subnode == 0) ||

@@ -1146,7 +1146,11 @@ static int ffs_aio_cancel(struct kiocb *kiocb)
 	ffs_log("enter:state %d setup_state %d flag %lu", epfile->ffs->state,
 		epfile->ffs->setup_state, epfile->ffs->flags);
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&epfile->ffs->eps_lock, flags);
+=======
+	spin_lock_irq(&epfile->ffs->eps_lock);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (likely(io_data && io_data->ep && io_data->req))
 		value = usb_ep_dequeue(io_data->ep, io_data->req);
@@ -1154,6 +1158,8 @@ static int ffs_aio_cancel(struct kiocb *kiocb)
 		value = -EINVAL;
 
 	spin_unlock_irqrestore(&epfile->ffs->eps_lock, flags);
+
+	ffs_log("exit: value %d", value);
 
 	ffs_log("exit: value %d", value);
 
@@ -2529,11 +2535,17 @@ static int __ffs_data_do_os_desc(enum ffs_os_desc_type type,
 		int i;
 
 		if (len < sizeof(*d) ||
+<<<<<<< HEAD
 		    d->bFirstInterfaceNumber >= ffs->interfaces_count) {
+=======
+		    d->bFirstInterfaceNumber >= ffs->interfaces_count ||
+		    d->Reserved1 != 1) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			pr_err("%s(): Invalid os_desct_ext_compat\n",
 							__func__);
 			return -EINVAL;
 		}
+<<<<<<< HEAD
 		if (d->Reserved1 != 1) {
 			/*
 			 * According to the spec, Reserved1 must be set to 1
@@ -2544,6 +2556,8 @@ static int __ffs_data_do_os_desc(enum ffs_os_desc_type type,
 			pr_debug("usb_ext_compat_desc::Reserved1 forced to 1\n");
 			d->Reserved1 = 1;
 		}
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		for (i = 0; i < ARRAY_SIZE(d->Reserved2); ++i)
 			if (d->Reserved2[i]) {
 				pr_err("%s(): Invalid Reserved2 of ext_compat\n",

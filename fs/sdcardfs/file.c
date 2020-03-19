@@ -236,10 +236,13 @@ static int sdcardfs_open(struct inode *inode, struct file *file)
 	struct dentry *parent = dget_parent(dentry);
 	struct sdcardfs_sb_info *sbi = SDCARDFS_SB(dentry->d_sb);
 	const struct cred *saved_cred = NULL;
+<<<<<<< HEAD
 #if defined(CONFIG_SDCARD_FS_DIR_WRITER) || defined(CONFIG_SDCARD_FS_PARTIAL_RELATIME)
 	uid_t writer_uid = current_fsuid().val;
 	struct sdcardfs_inode_data *pd = SDCARDFS_I(d_inode(parent))->data;
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* don't open unhashed/deleted files */
 	if (d_unhashed(dentry)) {
@@ -286,6 +289,7 @@ static int sdcardfs_open(struct inode *inode, struct file *file)
 	else
 		sdcardfs_copy_and_fix_attrs(inode, sdcardfs_lower_inode(inode));
 
+<<<<<<< HEAD
 #ifdef CONFIG_SDCARD_FS_PARTIAL_RELATIME
 	if (!err && pd->perm < PERM_ANDROID)
 		sdcardfs_update_relatime_flag(lower_file,
@@ -299,6 +303,8 @@ static int sdcardfs_open(struct inode *inode, struct file *file)
 			writer_uid);
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 out_revert_cred:
 	revert_fsids(saved_cred);
 out_err:

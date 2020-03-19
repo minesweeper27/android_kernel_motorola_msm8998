@@ -4150,6 +4150,7 @@ static void handle_slab(unsigned long *n, struct kmem_cache *c,
 		}
 
 		if (!active)
+<<<<<<< HEAD
 			continue;
 
 		/*
@@ -4161,6 +4162,19 @@ static void handle_slab(unsigned long *n, struct kmem_cache *c,
 		if (probe_kernel_read(&v, dbg_userword(c, p), sizeof(v)))
 			continue;
 
+=======
+			continue;
+
+		/*
+		 * probe_kernel_read() is used for DEBUG_PAGEALLOC. page table
+		 * mapping is established when actual object allocation and
+		 * we could mistakenly access the unmapped object in the cpu
+		 * cache.
+		 */
+		if (probe_kernel_read(&v, dbg_userword(c, p), sizeof(v)))
+			continue;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (!add_caller(n, v))
 			return;
 	}
@@ -4206,6 +4220,7 @@ static int leaks_show(struct seq_file *m, void *p)
 	do {
 		set_store_user_clean(cachep);
 		drain_cpu_caches(cachep);
+<<<<<<< HEAD
 
 		x[1] = 0;
 
@@ -4214,6 +4229,16 @@ static int leaks_show(struct seq_file *m, void *p)
 			check_irq_on();
 			spin_lock_irq(&n->list_lock);
 
+=======
+
+		x[1] = 0;
+
+		for_each_kmem_cache_node(cachep, node, n) {
+
+			check_irq_on();
+			spin_lock_irq(&n->list_lock);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			list_for_each_entry(page, &n->slabs_full, lru)
 				handle_slab(x, cachep, page);
 			list_for_each_entry(page, &n->slabs_partial, lru)

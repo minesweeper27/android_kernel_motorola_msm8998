@@ -106,7 +106,11 @@ static long audio_ioctl_shared(struct file *file, unsigned int cmd,
 			audio->enabled);
 		if (audio->stopped == 1)
 			audio->stopped = 0;
+<<<<<<< HEAD
 		break;
+=======
+			break;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 	default:
 		pr_err("%s: Unknown ioctl cmd = %d", __func__, cmd);

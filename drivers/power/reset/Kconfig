@@ -103,6 +103,7 @@ config QCOM_DLOAD_MODE
 		make the kernel reboot on a kernel panic - that must be
 		enabled via another mechanism.
 
+<<<<<<< HEAD
 config QCOM_PRESERVE_MEM
 	bool "Always preserve memory on restart"
 	depends on POWER_RESET_QCOM
@@ -112,6 +113,8 @@ config QCOM_PRESERVE_MEM
 	  persistent memory contents. Select this option to always perform
 	  a soft reset that preserves memory contents.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config POWER_RESET_QNAP
 	bool "QNAP power-off driver"
 	depends on OF_GPIO && PLAT_ORION

@@ -62,7 +62,11 @@ int mdss_mdp_acquire_wb(struct mdss_mdp_ctl *ctl)
 	int rc, ret = 0;
 
 	if (atomic_read(&mdp5_data->wb_busy)) {
+<<<<<<< HEAD
 		rc = wait_event_interruptible_timeout(mdp5_data->wb_waitq,
+=======
+		rc = wait_event_timeout(mdp5_data->wb_waitq,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			atomic_read(&mdp5_data->wb_busy) == 0, KOFF_TIMEOUT);
 		if (!rc) {
 			pr_err("%s: Wait for WB timed out. wb_busy=%d",

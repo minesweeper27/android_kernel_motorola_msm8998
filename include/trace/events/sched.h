@@ -1373,18 +1373,28 @@ TRACE_EVENT(core_ctl_set_busy,
 		__field(u32, busy)
 		__field(u32, old_is_busy)
 		__field(u32, is_busy)
+<<<<<<< HEAD
 		__field(bool, high_irqload)
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	),
 	TP_fast_assign(
 		__entry->cpu = cpu;
 		__entry->busy = busy;
 		__entry->old_is_busy = old_is_busy;
 		__entry->is_busy = is_busy;
+<<<<<<< HEAD
 		__entry->high_irqload = sched_cpu_high_irqload(cpu);
 	),
 	TP_printk("cpu=%u, busy=%u, old_is_busy=%u, new_is_busy=%u high_irqload=%d",
 		  __entry->cpu, __entry->busy, __entry->old_is_busy,
 		  __entry->is_busy, __entry->high_irqload)
+=======
+	),
+	TP_printk("cpu=%u, busy=%u, old_is_busy=%u, new_is_busy=%u",
+		  __entry->cpu, __entry->busy, __entry->old_is_busy,
+		  __entry->is_busy)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 );
 
 TRACE_EVENT(core_ctl_set_boost,

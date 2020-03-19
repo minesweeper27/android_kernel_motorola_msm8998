@@ -22,7 +22,10 @@
 #include <linux/module.h>
 #include <linux/types.h>
 #include <linux/parser.h>
+<<<<<<< HEAD
 #include <linux/xattr.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 enum {
 	Opt_fsuid,
@@ -378,6 +381,7 @@ static int sdcardfs_read_super(struct vfsmount *mnt, struct super_block *sb,
 	if (!silent)
 		pr_info("sdcardfs: mounted on top of %s type %s\n",
 				dev_name, lower_sb->s_type->name);
+<<<<<<< HEAD
 
 #ifdef CONFIG_SDCARD_FS_DIR_WRITER
 	if (vfs_setxattr(lower_path.dentry,
@@ -398,6 +402,8 @@ static int sdcardfs_read_super(struct vfsmount *mnt, struct super_block *sb,
 	}
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	goto out; /* all is well */
 
 	/* no longer needed: free_dentry_private_data(sb->s_root); */

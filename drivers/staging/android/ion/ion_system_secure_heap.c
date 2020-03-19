@@ -49,10 +49,17 @@ struct prefetch_info {
 
 static bool is_cp_flag_present(unsigned long flags)
 {
+<<<<<<< HEAD
 	return flags & (ION_FLAG_CP_TOUCH |
 			ION_FLAG_CP_BITSTREAM |
 			ION_FLAG_CP_PIXEL |
 			ION_FLAG_CP_NON_PIXEL |
+=======
+	return flags && (ION_FLAG_CP_TOUCH ||
+			ION_FLAG_CP_BITSTREAM ||
+			ION_FLAG_CP_PIXEL ||
+			ION_FLAG_CP_NON_PIXEL ||
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			ION_FLAG_CP_CAMERA);
 }
 

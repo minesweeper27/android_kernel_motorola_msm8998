@@ -3710,8 +3710,12 @@ err_no_work:
 	for (i = 0; !IS_ERR_OR_NULL(device->response_pkt) &&
 		i < num_responses; ++i) {
 		struct msm_vidc_cb_info *r = &device->response_pkt[i];
+<<<<<<< HEAD
 
 		if (!__core_in_valid_state(device)) {
+=======
+		 if (!__core_in_valid_state(device)) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			dprintk(VIDC_ERR,
 				"Ignore responses from %d to %d as device is in invalid state",
 				(i + 1), num_responses);

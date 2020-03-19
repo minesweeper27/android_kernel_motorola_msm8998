@@ -451,7 +451,11 @@ static void update_cpu_capacity(unsigned int cpu)
 
 	set_capacity_scale(cpu, capacity);
 
+<<<<<<< HEAD
 	pr_debug("CPU%d: update cpu_capacity %lu\n",
+=======
+	pr_info("CPU%d: update cpu_capacity %lu\n",
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		cpu, arch_scale_cpu_capacity(NULL, cpu));
 }
 

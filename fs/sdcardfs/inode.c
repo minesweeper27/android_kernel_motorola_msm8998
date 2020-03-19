@@ -21,8 +21,11 @@
 #include "sdcardfs.h"
 #include <linux/fs_struct.h>
 #include <linux/ratelimit.h>
+<<<<<<< HEAD
 #include <linux/sched.h>
 #include <linux/xattr.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 const struct cred *override_fsids(struct sdcardfs_sb_info *sbi,
 		struct sdcardfs_inode_data *data)
@@ -64,7 +67,11 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 			 umode_t mode, bool want_excl)
 {
 	int err;
+<<<<<<< HEAD
 	struct dentry *lower_dentry, *parent_dentry;
+=======
+	struct dentry *lower_dentry;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct vfsmount *lower_dentry_mnt;
 	struct dentry *lower_parent_dentry = NULL;
 	struct path lower_path;
@@ -77,6 +84,7 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 		goto out_eacces;
 	}
 
+<<<<<<< HEAD
 	parent_dentry = dget_parent(dentry);
 	if (!check_min_free_space(parent_dentry, 0, 1)) {
 		pr_err("sdcardfs: No minimum free space.\n");
@@ -86,6 +94,8 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 	}
 	dput(parent_dentry);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* save current_cred and override it */
 	saved_cred = override_fsids(SDCARDFS_SB(dir->i_sb),
 					SDCARDFS_I(dir)->data);
@@ -226,9 +236,12 @@ static int sdcardfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode
 	struct fs_struct *copied_fs;
 	struct qstr q_obb = QSTR_LITERAL("obb");
 	struct qstr q_data = QSTR_LITERAL("data");
+<<<<<<< HEAD
 #ifdef CONFIG_SDCARD_FS_DIR_WRITER
 	uid_t writer_uid = current_fsuid().val;
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!check_caller_access_to_name(dir, &dentry->d_name)) {
 		err = -EACCES;
@@ -339,10 +352,13 @@ static int sdcardfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode
 			goto out;
 		}
 	}
+<<<<<<< HEAD
 #ifdef CONFIG_SDCARD_FS_DIR_WRITER
 	if (pd->perm < PERM_ANDROID)
 		sdcardfs_update_xattr_dirwriter(lower_dentry, writer_uid);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 out:
 	task_lock(current);
 	current->fs = saved_fs;
@@ -566,6 +582,7 @@ void copy_attrs(struct inode *dest, const struct inode *src)
 #endif
 }
 
+<<<<<<< HEAD
 static int sdcardfs_permission_default(struct inode *inode, int mask)
 {
 	int err;
@@ -616,6 +633,8 @@ static int sdcardfs_permission_default(struct inode *inode, int mask)
 	return err;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int mask)
 {
 	int err;
@@ -624,6 +643,7 @@ static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int ma
 
 	if (IS_ERR(mnt))
 		return PTR_ERR(mnt);
+<<<<<<< HEAD
 #ifdef CONFIG_MULTISPACE_FEATURE_ENABLED
 	uid_t cred_userid;
 	uid_t inode_userid;
@@ -638,6 +658,11 @@ static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int ma
 	inode_userid = __kuid_val(inode->i_uid) / AID_USER_OFFSET;
 #endif
 
+=======
+	if (!top)
+		return -EINVAL;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * Permission check on sdcardfs inode.
 	 * Calling process should have AID_SDCARD_RW permission
@@ -652,6 +677,7 @@ static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int ma
 	copy_attrs(&tmp, inode);
 	tmp.i_uid = make_kuid(&init_user_ns, top->d_uid);
 	tmp.i_gid = make_kgid(&init_user_ns, get_gid(mnt, inode->i_sb, top));
+<<<<<<< HEAD
 #ifdef CONFIG_MULTISPACE_FEATURE_ENABLED
 	/* multispace allow uid >= 900 to access files of uid 0 */
 	if ((cred_userid >= 900 && cred_userid <= 999) &&
@@ -666,6 +692,8 @@ static int sdcardfs_permission(struct vfsmount *mnt, struct inode *inode, int ma
 		tmp.i_gid = current_cred()->fsgid;
 	}
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	tmp.i_mode = (inode->i_mode & S_IFMT)
 			| get_mode(mnt, SDCARDFS_I(inode), top);
 	data_put(top);
@@ -863,13 +891,17 @@ static int sdcardfs_getattr(struct vfsmount *mnt, struct dentry *dentry,
 		goto out;
 	sdcardfs_copy_and_fix_attrs(d_inode(dentry),
 			      d_inode(lower_path.dentry));
+<<<<<<< HEAD
 	fsstack_copy_inode_size(d_inode(dentry), d_inode(lower_path.dentry));
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	err = sdcardfs_fillattr(mnt, d_inode(dentry), &lower_stat, stat);
 out:
 	sdcardfs_put_lower_path(dentry, &lower_path);
 	return err;
 }
 
+<<<<<<< HEAD
 static int sdcardfs_setxattr(struct dentry *dentry, const char *name,
 	const void *value, size_t size, int flags)
 {
@@ -993,6 +1025,8 @@ void sdcardfs_update_relatime_flag(struct file *lower_file,
 }
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 const struct inode_operations sdcardfs_symlink_iops = {
 	.permission2	= sdcardfs_permission,
 	.setattr2	= sdcardfs_setattr,
@@ -1008,7 +1042,11 @@ const struct inode_operations sdcardfs_symlink_iops = {
 const struct inode_operations sdcardfs_dir_iops = {
 	.create		= sdcardfs_create,
 	.lookup		= sdcardfs_lookup,
+<<<<<<< HEAD
 	.permission	= sdcardfs_permission_default,
+=======
+	.permission	= sdcardfs_permission_wrn,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	.permission2	= sdcardfs_permission,
 	.unlink		= sdcardfs_unlink,
 	.mkdir		= sdcardfs_mkdir,
@@ -1017,8 +1055,11 @@ const struct inode_operations sdcardfs_dir_iops = {
 	.setattr	= sdcardfs_setattr_wrn,
 	.setattr2	= sdcardfs_setattr,
 	.getattr	= sdcardfs_getattr,
+<<<<<<< HEAD
 	.setxattr	= sdcardfs_setxattr,
 	.getxattr	= sdcardfs_getxattr,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 const struct inode_operations sdcardfs_main_iops = {

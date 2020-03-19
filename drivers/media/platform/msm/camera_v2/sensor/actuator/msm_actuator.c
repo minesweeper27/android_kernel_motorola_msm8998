@@ -96,8 +96,18 @@ static void msm_actuator_parse_i2c_params(struct msm_actuator_ctrl_t *a_ctrl,
 	struct msm_camera_i2c_reg_array *i2c_tbl = NULL;
 	CDBG("Enter\n");
 
+<<<<<<< HEAD
 	if (!a_ctrl || !a_ctrl->i2c_reg_tbl) {
 		pr_err("failed. NULL actuator pointers");
+=======
+	if (a_ctrl == NULL) {
+		pr_err("failed. actuator ctrl is NULL");
+		return;
+	}
+
+	if (a_ctrl->i2c_reg_tbl == NULL) {
+		pr_err("failed. i2c reg tabl is NULL");
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return;
 	}
 
@@ -1228,6 +1238,7 @@ static int32_t msm_actuator_set_position(
 	return rc;
 }
 
+<<<<<<< HEAD
 static int32_t msm_actuator_get_position(
 	struct msm_actuator_ctrl_t *a_ctrl,
 	struct msm_actuator_get_position_t *get_pos)
@@ -1288,6 +1299,8 @@ static int32_t msm_actuator_get_position(
 	return rc;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int32_t msm_actuator_bivcm_set_position(
 	struct msm_actuator_ctrl_t *a_ctrl,
 	struct msm_actuator_set_position_t *set_pos)
@@ -1462,6 +1475,7 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 		rc = a_ctrl->func_tbl->
 			actuator_init_step_table(a_ctrl, set_info);
 
+<<<<<<< HEAD
 	/* Get Position Config */
 	a_ctrl->get_pos_cfg.target_supported =
 		set_info->actuator_params.get_pos_cfg.target_supported;
@@ -1483,6 +1497,8 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 			a_ctrl->get_pos_cfg.actual_reg,
 			a_ctrl->get_pos_cfg.actual_data_shift);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	a_ctrl->curr_step_pos = 0;
 	a_ctrl->curr_region_index = 0;
 	CDBG("Exit\n");
@@ -1577,12 +1593,15 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 			pr_err("actuator_set_position failed %d\n", rc);
 		break;
 
+<<<<<<< HEAD
 	case CFG_GET_POSITION:
 		rc = msm_actuator_get_position(a_ctrl, &cdata->cfg.getpos);
 		if (rc < 0)
 			pr_err("msm_actuator_get_position failed %d\n", rc);
 		break;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case CFG_ACTUATOR_POWERUP:
 		rc = msm_actuator_power_up(a_ctrl);
 		if (rc < 0)
@@ -1794,9 +1813,12 @@ static long msm_actuator_subdev_do_ioctl(
 			actuator_data.cfg.set_info.actuator_params.park_lens =
 				u32->cfg.set_info.actuator_params.park_lens;
 
+<<<<<<< HEAD
 			actuator_data.cfg.set_info.actuator_params.get_pos_cfg =
 				u32->cfg.set_info.actuator_params.get_pos_cfg;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			parg = &actuator_data;
 			break;
 		case CFG_SET_DEFAULT_FOCUS:
@@ -1851,9 +1873,12 @@ static long msm_actuator_subdev_do_ioctl(
 			u32->cfg.move.curr_lens_pos =
 				actuator_data.cfg.move.curr_lens_pos;
 			break;
+<<<<<<< HEAD
 		case CFG_GET_POSITION:
 			u32->cfg.getpos = actuator_data.cfg.getpos;
 			break;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		default:
 			break;
 		}

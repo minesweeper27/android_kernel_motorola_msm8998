@@ -65,8 +65,11 @@
 
 #define CREATE_TRACE_POINTS
 #include "trace/lowmemorykiller.h"
+<<<<<<< HEAD
 
 extern int extra_free_kbytes;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static uint32_t lowmem_debug_level = 1;
 static short lowmem_adj[6] = {
@@ -84,6 +87,7 @@ static int lowmem_minfree[6] = {
 };
 static int lowmem_minfree_size = 4;
 static int lmk_fast_run = 1;
+<<<<<<< HEAD
 
 /*
  * This parameter tracks the kill count per minfree since boot.
@@ -91,6 +95,8 @@ static int lmk_fast_run = 1;
  * been killed
  */
 static int lowmem_per_minfree_count[7];
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static unsigned long lowmem_deathpending_timeout;
 
@@ -249,9 +255,15 @@ module_param_named(adj_max_shift, adj_max_shift, short,
                    S_IRUGO | S_IWUSR);
 
 /* User knob to enable/disable adaptive lmk feature */
+<<<<<<< HEAD
 static int enable_adaptive_lmk = 0;
 // module_param_named(enable_adaptive_lmk, enable_adaptive_lmk, int,
 //		   S_IRUGO | S_IWUSR);
+=======
+static int enable_adaptive_lmk;
+module_param_named(enable_adaptive_lmk, enable_adaptive_lmk, int,
+		   S_IRUGO | S_IWUSR);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /*
  * This parameter controls the behaviour of LMK when vmpressure is in
@@ -566,8 +578,11 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	int array_size = ARRAY_SIZE(lowmem_adj);
 	int other_free;
 	int other_file;
+<<<<<<< HEAD
 	int minfree_count_offset = 0;
 	int array_count = ARRAY_SIZE(lowmem_per_minfree_count);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!mutex_trylock(&scan_mutex))
 		return 0;
@@ -590,8 +605,12 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	if (lowmem_minfree_size < array_size)
 		array_size = lowmem_minfree_size;
 	for (i = 0; i < array_size; i++) {
+<<<<<<< HEAD
 		minfree = lowmem_minfree[i] +
 			  ((extra_free_kbytes * 1024) / PAGE_SIZE);
+=======
+		minfree = lowmem_minfree[i];
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (other_free < minfree && other_file < minfree) {
 			min_score_adj = lowmem_adj[i];
 			minfree_count_offset = i;
@@ -600,9 +619,12 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	}
 
 	ret = adjust_minadj(&min_score_adj);
+<<<<<<< HEAD
 	if (ret == VMPRESSURE_ADJUST_ENCROACH) {
 		minfree_count_offset = array_count-1;
 	}
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	lowmem_print(3, "lowmem_scan %lu, %x, ofree %d %d, ma %hd\n",
 			sc->nr_to_scan, sc->gfp_mask, other_free,
@@ -691,7 +713,10 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		cache_limit = minfree * (long)(PAGE_SIZE / 1024);
 		free = other_free * (long)(PAGE_SIZE / 1024);
 		trace_lowmemory_kill(selected, cache_size, cache_limit, free);
+<<<<<<< HEAD
 		lowmem_per_minfree_count[minfree_count_offset]++;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		lowmem_print(1, "Killing '%s' (%d) (tgid %d), adj %hd,\n" \
 			        "   to free %ldkB on behalf of '%s' (%d) because\n" \
 			        "   cache %ldkB is below limit %ldkB for oom_score_adj %hd\n" \

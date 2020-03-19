@@ -1995,6 +1995,7 @@ static void arm_smmu_destroy_domain_context(struct iommu_domain *domain)
 	writel_relaxed(0, cb_base + ARM_SMMU_CB_SCTLR);
 
 	arm_smmu_disable_clocks(smmu_domain->smmu);
+<<<<<<< HEAD
 
 	if (smmu_domain->pgtbl_ops) {
 		free_io_pgtable_ops(smmu_domain->pgtbl_ops);
@@ -2015,6 +2016,27 @@ free_irqs:
 	}
 
 	arm_smmu_free_pgtbl_ops(smmu_domain);
+=======
+
+	if (smmu_domain->pgtbl_ops) {
+		free_io_pgtable_ops(smmu_domain->pgtbl_ops);
+		/* unassign any freed page table memory */
+		if (arm_smmu_is_master_side_secure(smmu_domain)) {
+			arm_smmu_secure_domain_lock(smmu_domain);
+			arm_smmu_secure_pool_destroy(smmu_domain);
+			arm_smmu_unassign_table(smmu_domain);
+			arm_smmu_secure_domain_unlock(smmu_domain);
+		}
+		smmu_domain->pgtbl_ops = NULL;
+	}
+
+free_irqs:
+	if (cfg->irptndx != INVALID_IRPTNDX) {
+		irq = smmu->irqs[smmu->num_global_irqs + cfg->irptndx];
+		free_irq(irq, domain);
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	arm_smmu_free_context_idx(smmu, cfg->cbndx);
 	smmu_domain->smmu = NULL;
 	cfg->cbndx = INVALID_CBNDX;
@@ -2059,7 +2081,26 @@ static void arm_smmu_domain_free(struct iommu_domain *domain)
 {
 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
 
+<<<<<<< HEAD
 	arm_smmu_free_pgtbl_ops(smmu_domain);
+=======
+	/*
+	 * Free the domain resources. We assume that all devices have
+	 * already been detached.
+	 */
+	if (smmu_domain->pgtbl_ops) {
+		free_io_pgtable_ops(smmu_domain->pgtbl_ops);
+		/* unassign any freed page table memory */
+		if (arm_smmu_is_master_side_secure(smmu_domain)) {
+			arm_smmu_secure_domain_lock(smmu_domain);
+			arm_smmu_secure_pool_destroy(smmu_domain);
+			arm_smmu_unassign_table(smmu_domain);
+			arm_smmu_secure_domain_unlock(smmu_domain);
+		}
+		smmu_domain->pgtbl_ops = NULL;
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	kfree(smmu_domain);
 }
 

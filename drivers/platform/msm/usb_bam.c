@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2019, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1400,7 +1404,11 @@ void usb_bam_finish_suspend_(struct work_struct *w)
 
 	info_ptr = container_of(w, struct usb_bam_ipa_handshake_info,
 			finish_suspend_work);
+<<<<<<< HEAD
 	cur_bam = info_ptr->bam_type;
+=======
+	cur_bam = info_ptr->cur_bam_mode;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	log_event_dbg("%s: Finishing suspend sequence(BAM=%s)\n", __func__,
 			bam_enable_strings[cur_bam]);

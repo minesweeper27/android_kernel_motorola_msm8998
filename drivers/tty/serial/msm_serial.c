@@ -1096,6 +1096,7 @@ msm_find_best_baud(struct uart_port *port, unsigned int baud,
 			 */
 			if (target == old)
 				break;
+<<<<<<< HEAD
 
 			/* Start the divisor search over at this new rate */
 			entry = table;
@@ -1105,6 +1106,17 @@ msm_find_best_baud(struct uart_port *port, unsigned int baud,
 		entry++;
 	}
 
+=======
+
+			/* Start the divisor search over at this new rate */
+			entry = table;
+			divisor = DIV_ROUND_CLOSEST(target, 16 * baud);
+			continue;
+		}
+		entry++;
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	*rate = best_rate;
 	return best;
 }

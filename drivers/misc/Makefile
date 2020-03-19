@@ -67,6 +67,7 @@ obj-$(CONFIG_UID_SYS_STATS) += uid_sys_stats.o
 obj-y				+= qcom/
 obj-$(CONFIG_QPNP_MISC) 	+= qpnp-misc.o
 obj-$(CONFIG_MEMORY_STATE_TIME) += memory_state_time.o
+<<<<<<< HEAD
 obj-$(CONFIG_HAPTIC_DRV2624)	+= drv2624.o
 obj-$(CONFIG_HAPTIC_DRV2625)	+= drv2625.o
 obj-$(CONFIG_ALSA_TO_H2W) += alsa-to-h2w-headset.o
@@ -80,3 +81,5 @@ obj-$(CONFIG_MODS_CODEC_BUS) += mods_codec_bus.o
 obj-$(CONFIG_FSUSB42_MUX) += fsusb42_mux.o
 obj-$(CONFIG_MODS_MODBUS_SWITCH) += modbus_switch.o
 obj-$(CONFIG_MOTOMODS) += motomods/
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

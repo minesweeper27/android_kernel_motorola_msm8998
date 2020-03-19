@@ -108,6 +108,7 @@ config ARCH_SDM630
 	  If you do not wish to build a kernel that runs
 	  on this chipset,say 'N' here.
 
+<<<<<<< HEAD
 config ARCH_SDM636
 	bool "Enable Support for Qualcomm Technologies Inc SDM636"
 	depends on ARCH_QCOM
@@ -119,6 +120,8 @@ config ARCH_SDM636
 	  If you do not wish to build a kernel that runs
 	  on this chipset,say 'N' here.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config ARCH_ROCKCHIP
 	bool "Rockchip Platforms"
 	select ARCH_HAS_RESET_CONTROLLER

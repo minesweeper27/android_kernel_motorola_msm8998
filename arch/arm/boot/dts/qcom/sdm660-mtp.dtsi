@@ -90,6 +90,7 @@
 	};
 };
 
+<<<<<<< HEAD
 &tlmm {
 	fps: fps {
 		ldo_en_active: ldo_en_active {
@@ -217,6 +218,8 @@
 	};
 };
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 &mdss_mdp {
 	qcom,mdss-pref-prim-intf = "dsi";
 };
@@ -368,7 +371,11 @@
 			1 &intc 0 0 221 0
 			2 &tlmm 54 0>;
 	interrupt-names = "hc_irq", "pwr_irq", "status_irq";
+<<<<<<< HEAD
 	cd-gpios = <&tlmm 54 0x0>;
+=======
+	cd-gpios = <&tlmm 54 0x1>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	qcom,clk-rates = <400000 20000000 25000000 50000000 100000000
 								200000000>;
@@ -391,10 +398,13 @@
 	qcom,battery-data = <&mtp_batterydata>;
 };
 
+<<<<<<< HEAD
 &pm660l_l8 {
 	regulator-always-on;
 };
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 &i2c_2 {
 	status = "ok";
 	smb1351-charger@1d {

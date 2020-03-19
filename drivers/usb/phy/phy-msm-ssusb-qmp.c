@@ -57,6 +57,7 @@ enum ldo_levels {
 /* port select mux: 1 - sw control. 0 - HW control*/
 #define SW_PORTSELECT_MX	BIT(1)
 
+<<<<<<< HEAD
 #define USB3PHY_QSERDES_TXA_TX_DRV_LVL		0x21C
 #define USB3PHY_QSERDES_TXB_TX_DRV_LVL		0x61C
 #define USB3PHY_QSERDES_TXA_TX_EMP_POST1_LVL	0x20C
@@ -76,6 +77,8 @@ static bool max_tuning;
 module_param(max_tuning, bool, S_IRUGO|S_IWUSR);
 MODULE_PARM_DESC(max_tuning, "QMP PHY Max TX tuning");
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 enum qmp_phy_rev_reg {
 	USB3_PHY_PCS_STATUS,
 	USB3_PHY_AUTONOMOUS_MODE_CTRL,
@@ -302,6 +305,7 @@ static int configure_phy_regs(struct usb_phy *uphy,
 	return 0;
 }
 
+<<<<<<< HEAD
 #define MAX_OVERRIDE_CNT 15
 static void qmp_override_phy_init(struct msm_ssphy_qmp *qphy)
 {
@@ -342,6 +346,8 @@ static void qmp_override_phy_init(struct msm_ssphy_qmp *qphy)
 		readb_relaxed(qphy->base + USB3PHY_QSERDES_RXB_EQU_ADAPTOR_CNTRL4));
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* SSPHY Initialization */
 static int msm_ssphy_qmp_init(struct usb_phy *uphy)
 {
@@ -391,6 +397,7 @@ static int msm_ssphy_qmp_init(struct usb_phy *uphy)
 		return ret;
 	}
 
+<<<<<<< HEAD
 	qmp_override_phy_init(phy);
 
 	if (max_tuning) {
@@ -408,6 +415,8 @@ static int msm_ssphy_qmp_init(struct usb_phy *uphy)
 		}
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* perform lane selection */
 	val = -EINVAL;
 	if (phy->phy.flags & PHY_LANE_A)

@@ -91,6 +91,8 @@ static inline void persistent_ram_annotation_merge(
 
 void ramoops_console_write_buf(const char *buf, size_t size);
 
+void ramoops_console_write_buf(const char *buf, size_t size);
+
 /*
  * Ramoops platform data
  * @mem_size	memory size for ramoops

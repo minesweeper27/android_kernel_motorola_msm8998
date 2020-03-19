@@ -1761,17 +1761,30 @@ static int msm_spi_prepare_transfer_hardware(struct spi_master *master)
 	int resume_state = 0;
 
 	resume_state = pm_runtime_get_sync(dd->dev);
+<<<<<<< HEAD
 	if (resume_state < 0) {
+=======
+	if (resume_state < 0)
+		goto spi_finalize;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * Counter-part of system-suspend when runtime-pm is not enabled.
 	 * This way, resume can be left empty and device will be put in
 	 * active mode only if client requests anything on the bus
 	 */
+<<<<<<< HEAD
 		if (!pm_runtime_enabled(dd->dev))
 			resume_state = pm_runtime_force_resume(dd->dev);
 		if (resume_state < 0)
 			goto spi_finalize;
 	}
+=======
+	if (!pm_runtime_enabled(dd->dev))
+		resume_state = msm_spi_pm_resume_runtime(dd->dev);
+	if (resume_state < 0)
+		goto spi_finalize;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (dd->suspended) {
 		resume_state = -EBUSY;
 		goto spi_finalize;
@@ -2735,11 +2748,19 @@ skip_dma_resources:
 	pm_runtime_enable(&pdev->dev);
 
 	dd->suspended = 1;
+<<<<<<< HEAD
+=======
+	rc = spi_register_master(master);
+	if (rc)
+		goto err_probe_reg_master;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = sysfs_create_group(&(dd->dev->kobj), &dev_attr_grp);
 	if (rc) {
 		dev_err(&pdev->dev, "failed to create dev. attrs : %d\n", rc);
 		goto err_attrs;
 	}
+<<<<<<< HEAD
 
 	rc = spi_register_master(master);
 	if (rc)
@@ -2747,6 +2768,9 @@ skip_dma_resources:
 
 	rc = sysfs_create_file(&(dd->dev->kobj), &dev_attr_spi_qup_state.attr);
 
+=======
+	rc = sysfs_create_file(&(dd->dev->kobj), &dev_attr_spi_qup_state.attr);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spi_debugfs_init(dd);
 
 	snprintf(boot_marker, sizeof(boot_marker),
@@ -2755,9 +2779,15 @@ skip_dma_resources:
 
 	return 0;
 
+<<<<<<< HEAD
 err_probe_reg_master:
 	sysfs_remove_group(&pdev->dev.kobj, &dev_attr_grp);
 err_attrs:
+=======
+err_attrs:
+	spi_unregister_master(master);
+err_probe_reg_master:
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pm_runtime_disable(&pdev->dev);
 err_probe_reqmem:
 err_probe_res:
@@ -2908,12 +2938,21 @@ static int msm_spi_remove(struct platform_device *pdev)
 
 	if (dd->dma_teardown)
 		dd->dma_teardown(dd);
+<<<<<<< HEAD
 	pm_runtime_force_suspend(&pdev->dev);
+=======
+	pm_runtime_disable(&pdev->dev);
+	pm_runtime_set_suspended(&pdev->dev);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	clk_put(dd->clk);
 	clk_put(dd->pclk);
 	msm_spi_clk_path_teardown(dd);
 	platform_set_drvdata(pdev, 0);
 	spi_unregister_master(master);
+<<<<<<< HEAD
+=======
+	spi_master_put(master);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return 0;
 }

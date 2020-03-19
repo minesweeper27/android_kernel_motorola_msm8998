@@ -37,7 +37,10 @@
 #include <soc/qcom/kryo-l2-accessors.h>
 
 #include <dt-bindings/clock/msm-clocks-8996.h>
+<<<<<<< HEAD
 #include <soc/qcom/mmi_soc_info.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include "clock.h"
 #include "vdd-level-8996.h"
@@ -1331,7 +1334,10 @@ static int cpu_clock_8996_driver_probe(struct platform_device *pdev)
 	dev_info(&pdev->dev, "using perf/pwr/cbf speed bin %u and pvs_ver %d\n",
 		 perfclspeedbin, pvs_ver);
 
+<<<<<<< HEAD
 	mmi_acpu_bin_set(&perfclspeedbin, NULL, &pvs_ver);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	snprintf(perfclspeedbinstr, ARRAY_SIZE(perfclspeedbinstr),
 			"qcom,perfcl-speedbin%d-v%d", perfclspeedbin, pvs_ver);
 

@@ -313,7 +313,10 @@ int sps_bam_enable(struct sps_bam *dev)
 			SPS_DBG3(dev,
 				"sps:BAM %pa does not have an valid IRQ# %d\n",
 				BAM_ID(dev), dev->props.irq);
+<<<<<<< HEAD
 			return SPS_ERROR;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 
 		if (result) {

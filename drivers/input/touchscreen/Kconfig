@@ -12,10 +12,13 @@ menuconfig INPUT_TOUCHSCREEN
 if INPUT_TOUCHSCREEN
 
 source "drivers/input/touchscreen/synaptics_dsx/Kconfig"
+<<<<<<< HEAD
 source "drivers/input/touchscreen/synaptics_mmi/Kconfig"
 source "drivers/input/touchscreen/focaltech_mmi/Kconfig"
 source "drivers/input/touchscreen/synaptics_tcm/Kconfig"
 source "drivers/input/touchscreen/siw_mmi/Kconfig"
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 config OF_TOUCHSCREEN
 	def_tristate INPUT
@@ -1206,6 +1209,7 @@ config TOUCHSCREEN_FT5X06
          To compile this driver as a module, choose M here: the
          module will be called ft5x06_ts.
 
+<<<<<<< HEAD
 config TOUCHSCREEN_FOCALTECH_UPGRADE
 	bool "New firmware upgrade code for Focaltech Touchscreen"
 	depends on TOUCHSCREEN_FT5X06
@@ -1229,6 +1233,8 @@ config TOUCHSCREEN_FOCALTECH_UPGRADE_8716
 
 	  If unsure, say N.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config FT_SECURE_TOUCH
 	bool "Secure Touch support for Focaltech Touchscreen"
 	depends on TOUCHSCREEN_FT5X06
@@ -1260,6 +1266,10 @@ config TOUCHSCREEN_ST
 	  If unsure, say N.
 
 source "drivers/input/touchscreen/st/Kconfig"
+<<<<<<< HEAD
 source "drivers/input/touchscreen/gt9xx_mmi/Kconfig"
 source "drivers/input/touchscreen/nova_mmi/Kconfig"
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endif

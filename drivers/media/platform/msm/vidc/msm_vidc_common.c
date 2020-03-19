@@ -712,6 +712,7 @@ static void handle_sys_init_done(enum hal_command_response cmd, void *data)
 	return;
 }
 
+<<<<<<< HEAD
 static void put_inst_helper(struct kref *kref)
 {
 	struct msm_vidc_inst *inst = container_of(kref, struct msm_vidc_inst,
@@ -722,6 +723,18 @@ static void put_inst_helper(struct kref *kref)
 
 static void put_inst(struct msm_vidc_inst *inst)
 {
+=======
+static void put_inst(struct msm_vidc_inst *inst)
+{
+	void put_inst_helper(struct kref *kref)
+	{
+		struct msm_vidc_inst *inst = container_of(kref,
+				struct msm_vidc_inst, kref);
+
+		msm_vidc_destroy(inst);
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!inst)
 		return;
 
@@ -3858,17 +3871,28 @@ int msm_comm_qbuf(struct msm_vidc_inst *inst, struct vb2_buffer *vb)
 	 * Don't queue if:
 	 * 1) Hardware isn't ready (that's simple)
 	 */
+<<<<<<< HEAD
 	defer = defer || (inst->state != MSM_VIDC_START_DONE);
+=======
+	defer = defer ?: inst->state != MSM_VIDC_START_DONE;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/*
 	 * 2) The client explicitly tells us not to because it wants this
 	 * buffer to be batched with future frames.  The batch size (on both
 	 * capabilities) is completely determined by the client.
 	 */
+<<<<<<< HEAD
 	defer = defer || (vbuf && vbuf->flags & V4L2_MSM_BUF_FLAG_DEFER);
 
 	/* 3) If we're in batch mode, we must have full batches of both types */
 	defer = defer || (batch_mode && (!output_count || !capture_count));
+=======
+	defer = defer ?: vbuf && vbuf->flags & V4L2_MSM_BUF_FLAG_DEFER;
+
+	/* 3) If we're in batch mode, we must have full batches of both types */
+	defer = defer ?: batch_mode && (!output_count || !capture_count);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (defer) {
 		dprintk(VIDC_DBG, "Deferring queue of %pK\n", vb);

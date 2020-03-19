@@ -767,8 +767,12 @@ void wake_up_all_idle_cpus(void)
 	for_each_online_cpu(cpu) {
 		if (cpu == smp_processor_id())
 			continue;
+<<<<<<< HEAD
 		if (suspend_freeze_state == FREEZE_STATE_ENTER ||
 		    !cpu_isolated(cpu))
+=======
+		if (!cpu_isolated(cpu))
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			wake_up_if_idle(cpu);
 	}
 	preempt_enable();

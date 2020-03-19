@@ -236,7 +236,10 @@ struct printk_log {
 	u8 facility;		/* syslog facility */
 	u8 flags:5;		/* internal record flags */
 	u8 level:3;		/* syslog level */
+<<<<<<< HEAD
 	u8 cpu;			/* which cpu that print the message*/
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 #ifdef CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS
 __packed __aligned(4)

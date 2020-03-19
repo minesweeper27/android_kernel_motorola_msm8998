@@ -236,7 +236,10 @@
 
 #define QPNP_WLED_AVDD_MV_TO_REG(val) \
 		((val - QPNP_WLED_AVDD_MIN_MV) / QPNP_WLED_AVDD_STEP_MV)
+<<<<<<< HEAD
 #define SDM660l_DISABLE_OVP_CNT 10
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /* output feedback mode */
 enum qpnp_wled_fdbk_op {
@@ -425,8 +428,11 @@ struct qpnp_wled {
 	bool			auto_calib_done;
 	bool			module_dis_perm;
 	ktime_t			start_ovp_fault_time;
+<<<<<<< HEAD
 	bool			sdm660l_ovp_disable;
 	u32			ovp_cnt;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static int qpnp_wled_step_delay_us = 52000;
@@ -1554,6 +1560,7 @@ static irqreturn_t qpnp_wled_ovp_irq_handler(int irq, void *_wled)
 		}
 	}
 
+<<<<<<< HEAD
 	if (wled->sdm660l_ovp_disable) {
 		wled->ovp_cnt++;
 		if (wled->ovp_cnt > SDM660l_DISABLE_OVP_CNT) {
@@ -1563,6 +1570,8 @@ static irqreturn_t qpnp_wled_ovp_irq_handler(int irq, void *_wled)
 		}
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return IRQ_HANDLED;
 }
 
@@ -2629,9 +2638,12 @@ static int qpnp_wled_parse_dt(struct qpnp_wled *wled)
 
 	wled->auto_calib_enabled = of_property_read_bool(pdev->dev.of_node,
 					"qcom,auto-calibration-enable");
+<<<<<<< HEAD
 	wled->sdm660l_ovp_disable = of_property_read_bool(pdev->dev.of_node,
 					"en-sdm660l-ovp-disable");
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -2645,12 +2657,20 @@ static int qpnp_wled_probe(struct platform_device *pdev)
 	wled = devm_kzalloc(&pdev->dev, sizeof(*wled), GFP_KERNEL);
 	if (!wled)
 		return -ENOMEM;
+<<<<<<< HEAD
 
 	wled->regmap = dev_get_regmap(pdev->dev.parent, NULL);
 	if (!wled->regmap) {
 		dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
 		return -EINVAL;
 	}
+=======
+		wled->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+		if (!wled->regmap) {
+			dev_err(&pdev->dev, "Couldn't get parent's regmap\n");
+			return -EINVAL;
+		}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	wled->pdev = pdev;
 

@@ -179,7 +179,11 @@ static long esoc_dev_ioctl(struct file *file, unsigned int cmd,
 	struct esoc_uhandle *uhandle = file->private_data;
 	struct esoc_udev *esoc_udev = uhandle->esoc_udev;
 	struct esoc_clink *esoc_clink = uhandle->esoc_clink;
+<<<<<<< HEAD
 	const struct esoc_clink_ops *clink_ops = esoc_clink->clink_ops;
+=======
+	const struct esoc_clink_ops const *clink_ops = esoc_clink->clink_ops;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	void __user *uarg = (void __user *)arg;
 
 	switch (cmd) {

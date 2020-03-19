@@ -708,6 +708,7 @@ static void msm_gpio_irq_mask(struct irq_data *d)
 	spin_unlock_irqrestore(&pctrl->lock, flags);
 	if (pctrl->irq_chip_extn->irq_mask)
 		pctrl->irq_chip_extn->irq_mask(d);
+<<<<<<< HEAD
 }
 
 static void msm_gpio_irq_enable(struct irq_data *d)
@@ -741,6 +742,8 @@ static void msm_gpio_irq_enable(struct irq_data *d)
 	spin_unlock_irqrestore(&pctrl->lock, flags);
 	if (pctrl->irq_chip_extn->irq_enable)
 		pctrl->irq_chip_extn->irq_enable(d);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static void msm_gpio_irq_unmask(struct irq_data *d)

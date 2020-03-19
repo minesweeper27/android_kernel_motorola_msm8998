@@ -70,8 +70,12 @@ struct mdss_rot_hw_resource {
 };
 
 struct mdss_rot_queue {
+<<<<<<< HEAD
 	struct kthread_worker worker;
 	struct task_struct *thread;
+=======
+	struct workqueue_struct *rot_work_queue;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct mdss_rot_timeline timeline;
 
 	struct mutex hw_lock;
@@ -88,7 +92,11 @@ struct mdss_rot_entry_container {
 
 struct mdss_rot_entry {
 	struct mdp_rotation_item item;
+<<<<<<< HEAD
 	struct kthread_work commit_work;
+=======
+	struct work_struct commit_work;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	struct mdss_rot_queue *queue;
 	struct mdss_rot_entry_container *request;

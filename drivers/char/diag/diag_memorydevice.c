@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -139,7 +143,11 @@ void diag_md_close_all()
 
 int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 {
+<<<<<<< HEAD
 	int i;
+=======
+	int i, pid = 0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	uint8_t found = 0;
 	unsigned long flags;
 	struct diag_md_info *ch = NULL;
@@ -157,6 +165,7 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 	if (peripheral < 0)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	session_info =
 		diag_md_session_get_peripheral(peripheral);
 	if (!session_info)
@@ -165,6 +174,21 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 	ch = &diag_md[id];
 	if (!ch || !ch->md_info_inited)
 		return -EINVAL;
+=======
+	mutex_lock(&driver->md_session_lock);
+	session_info = diag_md_session_get_peripheral(peripheral);
+	if (!session_info) {
+		mutex_unlock(&driver->md_session_lock);
+		return -EIO;
+	}
+	pid = session_info->pid;
+
+	ch = &diag_md[id];
+	if (!ch || !ch->md_info_inited) {
+		mutex_unlock(&driver->md_session_lock);
+		return -EINVAL;
+	}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	spin_lock_irqsave(&ch->lock, flags);
 	for (i = 0; i < ch->num_tbl_entries && !found; i++) {
@@ -180,8 +204,15 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 	}
 	spin_unlock_irqrestore(&ch->lock, flags);
 
+<<<<<<< HEAD
 	if (found)
 		return -ENOMEM;
+=======
+	if (found) {
+		mutex_unlock(&driver->md_session_lock);
+		return -ENOMEM;
+	}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	spin_lock_irqsave(&ch->lock, flags);
 	for (i = 0; i < ch->num_tbl_entries && !found; i++) {
@@ -194,6 +225,10 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 		}
 	}
 	spin_unlock_irqrestore(&ch->lock, flags);
+<<<<<<< HEAD
+=======
+	mutex_unlock(&driver->md_session_lock);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!found) {
 		pr_err_ratelimited("diag: Unable to find an empty space in table, please reduce logging rate, proc: %d\n",
@@ -204,8 +239,12 @@ int diag_md_write(int id, unsigned char *buf, int len, int ctx)
 	found = 0;
 	mutex_lock(&driver->diagchar_mutex);
 	for (i = 0; i < driver->num_clients && !found; i++) {
+<<<<<<< HEAD
 		if ((driver->client_map[i].pid !=
 		     session_info->pid) ||
+=======
+		if ((driver->client_map[i].pid != pid) ||
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		    (driver->client_map[i].pid == 0))
 			continue;
 

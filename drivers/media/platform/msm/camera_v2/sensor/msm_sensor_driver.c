@@ -30,12 +30,15 @@ static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev);
 /* Static declaration */
 static struct msm_sensor_ctrl_t *g_sctrl[MAX_CAMERAS];
 
+<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_WENTAI
 extern int main_module_id;
 extern int sub_module_id;
 extern int aux_module_id;
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_sensor_platform_remove(struct platform_device *pdev)
 {
 	struct msm_sensor_ctrl_t  *s_ctrl;
@@ -880,6 +883,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 		goto free_slave_info;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_WENTAI
 	if (!strcmp(slave_info->sensor_name, "ov12a10_qtech")) {
 		if (sub_module_id != 0x0B) {
@@ -931,6 +935,8 @@ int32_t msm_sensor_driver_probe(void *setting,
 	       __func__, __LINE__, slave_info->sensor_name);
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Extract s_ctrl from camera id */
 	s_ctrl = g_sctrl[slave_info->camera_id];
 	if (!s_ctrl) {

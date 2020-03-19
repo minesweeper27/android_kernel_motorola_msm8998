@@ -860,6 +860,7 @@ config INPUT_STMVL53L0
 	 To compile this driver as a module, choose M here: the
 	 module will be called stmvl53l0.
 
+<<<<<<< HEAD
 config SENSORS_FPC_1020
 	tristate "fpc fingerprint sensor"
 	default n
@@ -885,4 +886,6 @@ config INPUT_SX9310_TRIPLE
 	  Say Y to enable the SAR detection application, if N here not to use the
 	  this SAR sensor.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endif

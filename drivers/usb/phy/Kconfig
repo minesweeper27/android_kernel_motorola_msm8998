@@ -271,6 +271,7 @@ config DUAL_ROLE_USB_INTF
 	  this interface to expose it capabilities to the userspace
 	  and thereby allowing userspace to change the port mode.
 
+<<<<<<< HEAD
 config USB_PHY_TUNE_FACTORY_OVERRIDE
 	bool "USB phy tune override for factory"
 	depends on USB_PHY
@@ -278,4 +279,6 @@ config USB_PHY_TUNE_FACTORY_OVERRIDE
 	help
 	  Select use USB phy tune override parameters for factory.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endmenu

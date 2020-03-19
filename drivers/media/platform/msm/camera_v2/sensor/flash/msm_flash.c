@@ -151,7 +151,10 @@ static int32_t msm_flash_i2c_write_table(
 	conf_array.delay = settings->delay;
 	conf_array.reg_setting = settings->reg_setting_a;
 	conf_array.size = settings->size;
+<<<<<<< HEAD
 	flash_ctrl->flash_i2c_client.addr_type = conf_array.addr_type;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Validate the settings size */
 	if ((!conf_array.size) || (conf_array.size > MAX_I2C_REG_SET)) {
@@ -286,6 +289,7 @@ static int32_t msm_flash_i2c_init(
 		goto msm_flash_i2c_init_fail;
 	}
 
+<<<<<<< HEAD
 	/* Parse and fill vreg params for powerup settings */
 	rc = msm_camera_fill_vreg_params(
 		flash_ctrl->power_info.cam_vreg,
@@ -310,6 +314,8 @@ static int32_t msm_flash_i2c_init(
 		return rc;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = msm_camera_power_up(&flash_ctrl->power_info,
 		flash_ctrl->flash_device_type,
 		&flash_ctrl->flash_i2c_client);
@@ -388,6 +394,16 @@ static int32_t msm_flash_i2c_release(
 {
 	int32_t rc = 0;
 
+<<<<<<< HEAD
+=======
+	if (!(&flash_ctrl->power_info) || !(&flash_ctrl->flash_i2c_client)) {
+		pr_err("%s:%d failed: %pK %pK\n",
+			__func__, __LINE__, &flash_ctrl->power_info,
+			&flash_ctrl->flash_i2c_client);
+		return -EINVAL;
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = msm_camera_power_down(&flash_ctrl->power_info,
 		flash_ctrl->flash_device_type,
 		&flash_ctrl->flash_i2c_client);
@@ -396,7 +412,10 @@ static int32_t msm_flash_i2c_release(
 			__func__, __LINE__);
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 	flash_ctrl->flash_state = MSM_CAMERA_FLASH_RELEASE;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -681,7 +700,11 @@ static int32_t msm_flash_high(
 		if (flash_ctrl->flash_trigger[i]) {
 			max_current = flash_ctrl->flash_max_current[i];
 			if (flash_data->flash_current[i] >= 0 &&
+<<<<<<< HEAD
 				flash_data->flash_current[i] <=
+=======
+				flash_data->flash_current[i] <
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				max_current) {
 				curr = flash_data->flash_current[i];
 			} else {
@@ -804,6 +827,7 @@ static int32_t msm_flash_config(struct msm_flash_ctrl_t *flash_ctrl,
 
 	mutex_unlock(flash_ctrl->flash_mutex);
 
+<<<<<<< HEAD
 	if (flash_ctrl->flash_driver_type == FLASH_DRIVER_PMIC) {
 		rc = msm_flash_prepare(flash_ctrl);
 		if (rc < 0) {
@@ -811,6 +835,13 @@ static int32_t msm_flash_config(struct msm_flash_ctrl_t *flash_ctrl,
 					__func__, __LINE__, rc);
 			return rc;
 		}
+=======
+	rc = msm_flash_prepare(flash_ctrl);
+	if (rc < 0) {
+		pr_err("%s:%d Enable/Disable Regulator failed ret = %d",
+			__func__, __LINE__, rc);
+		return rc;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	CDBG("Exit %s type %d\n", __func__, flash_data->cfg_type);
@@ -1164,6 +1195,7 @@ static int32_t msm_flash_get_dt_data(struct device_node *of_node,
 		return rc;
 	}
 
+<<<<<<< HEAD
 	/* Read the vreg information from device tree */
 	rc = msm_camera_get_dt_vreg_data(of_node, &fctrl->power_info.cam_vreg,
 		&fctrl->power_info.num_vreg);
@@ -1173,6 +1205,8 @@ static int32_t msm_flash_get_dt_data(struct device_node *of_node,
 		return rc;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (fctrl->flash_driver_type == FLASH_DRIVER_DEFAULT)
 		fctrl->flash_driver_type = FLASH_DRIVER_GPIO;
 	CDBG("%s:%d fctrl->flash_driver_type = %d", __func__, __LINE__,

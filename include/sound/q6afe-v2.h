@@ -528,6 +528,7 @@ int afe_i2s_port_start(u16 port_id, struct afe_i2s_port_config *i2s_port,
 int afe_port_group_mi2s_enable(u16 group_id,
 		union afe_port_group_mi2s_config *afe_group_config,
 		u16 enable);
+<<<<<<< HEAD
 
 #ifdef CONFIG_SND_SOC_OPALUM
 int ospl2xx_afe_set_callback(int32_t (*ospl2xx_callback_func)
@@ -545,4 +546,6 @@ int afe_set_tas25xx_params(u16 port_id, struct param_hdr_v3 param_hdr,
 int afe_get_tas25xx_params(u16 port_id, struct mem_mapping_hdr *mem_hdr,
 				struct param_hdr_v3 *param_hdr);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif /* __Q6AFE_V2_H__ */

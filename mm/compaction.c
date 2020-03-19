@@ -1978,9 +1978,12 @@ static int kcompactd(void *p)
 	struct task_struct *tsk = current;
 
 	const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
+<<<<<<< HEAD
 	struct sched_param param = { .sched_priority = 1 };
 
 	sched_setscheduler(current, SCHED_FIFO, &param);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!cpumask_empty(cpumask))
 		set_cpus_allowed_ptr(tsk, cpumask);

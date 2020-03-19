@@ -1693,6 +1693,7 @@ restore_opts:
 #endif
 	sbi->mount_opt = org_mount_opt;
 	sb->s_flags = old_sb_flags;
+<<<<<<< HEAD
 	return err;
 }
 
@@ -1880,6 +1881,195 @@ static int f2fs_quota_enable(struct super_block *sb, int type, int format_id,
 	return err;
 }
 
+=======
+	return err;
+}
+
+#ifdef CONFIG_QUOTA
+/* Read data from quotafile */
+static ssize_t f2fs_quota_read(struct super_block *sb, int type, char *data,
+			       size_t len, loff_t off)
+{
+	struct inode *inode = sb_dqopt(sb)->files[type];
+	struct address_space *mapping = inode->i_mapping;
+	block_t blkidx = F2FS_BYTES_TO_BLK(off);
+	int offset = off & (sb->s_blocksize - 1);
+	int tocopy;
+	size_t toread;
+	loff_t i_size = i_size_read(inode);
+	struct page *page;
+	char *kaddr;
+
+	if (off > i_size)
+		return 0;
+
+	if (off + len > i_size)
+		len = i_size - off;
+	toread = len;
+	while (toread > 0) {
+		tocopy = min_t(unsigned long, sb->s_blocksize - offset, toread);
+repeat:
+		page = read_cache_page_gfp(mapping, blkidx, GFP_NOFS);
+		if (IS_ERR(page)) {
+			if (PTR_ERR(page) == -ENOMEM) {
+				congestion_wait(BLK_RW_ASYNC, HZ/50);
+				goto repeat;
+			}
+			set_sbi_flag(F2FS_SB(sb), SBI_QUOTA_NEED_REPAIR);
+			return PTR_ERR(page);
+		}
+
+		lock_page(page);
+
+		if (unlikely(page->mapping != mapping)) {
+			f2fs_put_page(page, 1);
+			goto repeat;
+		}
+		if (unlikely(!PageUptodate(page))) {
+			f2fs_put_page(page, 1);
+			set_sbi_flag(F2FS_SB(sb), SBI_QUOTA_NEED_REPAIR);
+			return -EIO;
+		}
+
+		kaddr = kmap_atomic(page);
+		memcpy(data, kaddr + offset, tocopy);
+		kunmap_atomic(kaddr);
+		f2fs_put_page(page, 1);
+
+		offset = 0;
+		toread -= tocopy;
+		data += tocopy;
+		blkidx++;
+	}
+	return len;
+}
+
+/* Write to quotafile */
+static ssize_t f2fs_quota_write(struct super_block *sb, int type,
+				const char *data, size_t len, loff_t off)
+{
+	struct inode *inode = sb_dqopt(sb)->files[type];
+	struct address_space *mapping = inode->i_mapping;
+	const struct address_space_operations *a_ops = mapping->a_ops;
+	int offset = off & (sb->s_blocksize - 1);
+	size_t towrite = len;
+	struct page *page;
+	char *kaddr;
+	int err = 0;
+	int tocopy;
+
+	while (towrite > 0) {
+		tocopy = min_t(unsigned long, sb->s_blocksize - offset,
+								towrite);
+retry:
+		err = a_ops->write_begin(NULL, mapping, off, tocopy, 0,
+							&page, NULL);
+		if (unlikely(err)) {
+			if (err == -ENOMEM) {
+				congestion_wait(BLK_RW_ASYNC, HZ/50);
+				goto retry;
+			}
+			set_sbi_flag(F2FS_SB(sb), SBI_QUOTA_NEED_REPAIR);
+			break;
+		}
+
+		kaddr = kmap_atomic(page);
+		memcpy(kaddr + offset, data, tocopy);
+		kunmap_atomic(kaddr);
+		flush_dcache_page(page);
+
+		a_ops->write_end(NULL, mapping, off, tocopy, tocopy,
+						page, NULL);
+		offset = 0;
+		towrite -= tocopy;
+		off += tocopy;
+		data += tocopy;
+		cond_resched();
+	}
+
+	if (len == towrite)
+		return err;
+	inode->i_mtime = inode->i_ctime = current_time(inode);
+	f2fs_mark_inode_dirty_sync(inode, false);
+	return len - towrite;
+}
+
+static struct dquot **f2fs_get_dquots(struct inode *inode)
+{
+	return F2FS_I(inode)->i_dquot;
+}
+
+static qsize_t *f2fs_get_reserved_space(struct inode *inode)
+{
+	return &F2FS_I(inode)->i_reserved_quota;
+}
+
+static int f2fs_quota_on_mount(struct f2fs_sb_info *sbi, int type)
+{
+	if (is_set_ckpt_flags(sbi, CP_QUOTA_NEED_FSCK_FLAG)) {
+		f2fs_err(sbi, "quota sysfile may be corrupted, skip loading it");
+		return 0;
+	}
+
+	return dquot_quota_on_mount(sbi->sb, F2FS_OPTION(sbi).s_qf_names[type],
+					F2FS_OPTION(sbi).s_jquota_fmt, type);
+}
+
+int f2fs_enable_quota_files(struct f2fs_sb_info *sbi, bool rdonly)
+{
+	int enabled = 0;
+	int i, err;
+
+	if (f2fs_sb_has_quota_ino(sbi) && rdonly) {
+		err = f2fs_enable_quotas(sbi->sb);
+		if (err) {
+			f2fs_err(sbi, "Cannot turn on quota_ino: %d", err);
+			return 0;
+		}
+		return 1;
+	}
+
+	for (i = 0; i < MAXQUOTAS; i++) {
+		if (F2FS_OPTION(sbi).s_qf_names[i]) {
+			err = f2fs_quota_on_mount(sbi, i);
+			if (!err) {
+				enabled = 1;
+				continue;
+			}
+			f2fs_err(sbi, "Cannot turn on quotas: %d on %d",
+				 err, i);
+		}
+	}
+	return enabled;
+}
+
+static int f2fs_quota_enable(struct super_block *sb, int type, int format_id,
+			     unsigned int flags)
+{
+	struct inode *qf_inode;
+	unsigned long qf_inum;
+	int err;
+
+	BUG_ON(!f2fs_sb_has_quota_ino(F2FS_SB(sb)));
+
+	qf_inum = f2fs_qf_ino(sb, type);
+	if (!qf_inum)
+		return -EPERM;
+
+	qf_inode = f2fs_iget(sb, qf_inum);
+	if (IS_ERR(qf_inode)) {
+		f2fs_err(F2FS_SB(sb), "Bad quota inode %u:%lu", type, qf_inum);
+		return PTR_ERR(qf_inode);
+	}
+
+	/* Don't account quota for quota files to avoid recursion */
+	qf_inode->i_flags |= S_NOQUOTA;
+	err = dquot_enable(qf_inode, type, format_id, flags);
+	iput(qf_inode);
+	return err;
+}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int f2fs_enable_quotas(struct super_block *sb)
 {
 	struct f2fs_sb_info *sbi = F2FS_SB(sb);
@@ -2314,6 +2504,7 @@ static loff_t max_file_blocks(void)
 
 static int __f2fs_commit_super(struct buffer_head *bh,
 			struct f2fs_super_block *super)
+<<<<<<< HEAD
 {
 	lock_buffer(bh);
 	if (super)
@@ -2328,6 +2519,22 @@ static int __f2fs_commit_super(struct buffer_head *bh,
 static inline bool sanity_check_area_boundary(struct f2fs_sb_info *sbi,
 					struct buffer_head *bh)
 {
+=======
+{
+	lock_buffer(bh);
+	if (super)
+		memcpy(bh->b_data + F2FS_SUPER_OFFSET, super, sizeof(*super));
+	set_buffer_dirty(bh);
+	unlock_buffer(bh);
+
+	/* it's rare case, we can do fua all the time */
+	return __sync_dirty_buffer(bh, WRITE_FLUSH_FUA);
+}
+
+static inline bool sanity_check_area_boundary(struct f2fs_sb_info *sbi,
+					struct buffer_head *bh)
+{
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct f2fs_super_block *raw_super = (struct f2fs_super_block *)
 					(bh->b_data + F2FS_SUPER_OFFSET);
 	struct super_block *sb = sbi->sb;
@@ -2397,11 +2604,19 @@ static inline bool sanity_check_area_boundary(struct f2fs_sb_info *sbi,
 	} else if (main_end_blkaddr < seg_end_blkaddr) {
 		int err = 0;
 		char *res;
+<<<<<<< HEAD
 
 		/* fix in-memory information all the time */
 		raw_super->segment_count = cpu_to_le32((main_end_blkaddr -
 				segment0_blkaddr) >> log_blocks_per_seg);
 
+=======
+
+		/* fix in-memory information all the time */
+		raw_super->segment_count = cpu_to_le32((main_end_blkaddr -
+				segment0_blkaddr) >> log_blocks_per_seg);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (f2fs_readonly(sb) || bdev_read_only(sb->s_bdev)) {
 			set_sbi_flag(sbi, SBI_NEED_SB_WRITE);
 			res = "internally";
@@ -2673,7 +2888,7 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
 		for (j = 0; j < NR_CURSEG_DATA_TYPE; j++) {
 			if (le32_to_cpu(ckpt->cur_node_segno[i]) ==
 				le32_to_cpu(ckpt->cur_data_segno[j])) {
-				f2fs_msg(sbi->sb, KERN_ERR,
+				f2fs_err(sbi,
 					"Node segment (%u) and Data segment (%u)"
 					" has the same segno: %u", i, j,
 					le32_to_cpu(ckpt->cur_node_segno[i]));
@@ -2786,7 +3001,81 @@ static int init_percpu_info(struct f2fs_sb_info *sbi)
 		percpu_counter_destroy(&sbi->alloc_valid_block_count);
 
 	return err;
+<<<<<<< HEAD
 }
+
+#ifdef CONFIG_BLK_DEV_ZONED
+static int init_blkz_info(struct f2fs_sb_info *sbi, int devi)
+{
+	struct block_device *bdev = FDEV(devi).bdev;
+	sector_t nr_sectors = bdev->bd_part->nr_sects;
+	sector_t sector = 0;
+	struct blk_zone *zones;
+	unsigned int i, nr_zones;
+	unsigned int n = 0;
+	int err = -EIO;
+
+	if (!f2fs_sb_has_blkzoned(sbi))
+		return 0;
+
+	if (sbi->blocks_per_blkz && sbi->blocks_per_blkz !=
+				SECTOR_TO_BLOCK(bdev_zone_sectors(bdev)))
+		return -EINVAL;
+	sbi->blocks_per_blkz = SECTOR_TO_BLOCK(bdev_zone_sectors(bdev));
+	if (sbi->log_blocks_per_blkz && sbi->log_blocks_per_blkz !=
+				__ilog2_u32(sbi->blocks_per_blkz))
+		return -EINVAL;
+	sbi->log_blocks_per_blkz = __ilog2_u32(sbi->blocks_per_blkz);
+	FDEV(devi).nr_blkz = SECTOR_TO_BLOCK(nr_sectors) >>
+					sbi->log_blocks_per_blkz;
+	if (nr_sectors & (bdev_zone_sectors(bdev) - 1))
+		FDEV(devi).nr_blkz++;
+
+	FDEV(devi).blkz_seq = f2fs_kzalloc(sbi,
+					BITS_TO_LONGS(FDEV(devi).nr_blkz)
+					* sizeof(unsigned long),
+					GFP_KERNEL);
+	if (!FDEV(devi).blkz_seq)
+		return -ENOMEM;
+
+#define F2FS_REPORT_NR_ZONES   4096
+
+	zones = f2fs_kzalloc(sbi,
+			     array_size(F2FS_REPORT_NR_ZONES,
+					sizeof(struct blk_zone)),
+			     GFP_KERNEL);
+	if (!zones)
+		return -ENOMEM;
+
+	/* Get block zones type */
+	while (zones && sector < nr_sectors) {
+
+		nr_zones = F2FS_REPORT_NR_ZONES;
+		err = blkdev_report_zones(bdev, sector,
+					  zones, &nr_zones,
+					  GFP_KERNEL);
+		if (err)
+			break;
+		if (!nr_zones) {
+			err = -EIO;
+			break;
+		}
+
+		for (i = 0; i < nr_zones; i++) {
+			if (zones[i].type != BLK_ZONE_TYPE_CONVENTIONAL)
+				set_bit(n, FDEV(devi).blkz_seq);
+			sector += zones[i].len;
+			n++;
+		}
+	}
+
+	kvfree(zones);
+
+	return err;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
+}
+#endif
 
 #ifdef CONFIG_BLK_DEV_ZONED
 static int init_blkz_info(struct f2fs_sb_info *sbi, int devi)
@@ -2930,6 +3219,7 @@ int f2fs_commit_super(struct f2fs_sb_info *sbi, bool recover)
 		set_sbi_flag(sbi, SBI_NEED_SB_WRITE);
 		return -EROFS;
 	}
+<<<<<<< HEAD
 
 	/* we should update superblock crc here */
 	if (!recover && f2fs_sb_has_sb_chksum(sbi)) {
@@ -2938,6 +3228,16 @@ int f2fs_commit_super(struct f2fs_sb_info *sbi, bool recover)
 		F2FS_RAW_SUPER(sbi)->crc = cpu_to_le32(crc);
 	}
 
+=======
+
+	/* we should update superblock crc here */
+	if (!recover && f2fs_sb_has_sb_chksum(sbi)) {
+		crc = f2fs_crc32(sbi, F2FS_RAW_SUPER(sbi),
+				offsetof(struct f2fs_super_block, crc));
+		F2FS_RAW_SUPER(sbi)->crc = cpu_to_le32(crc);
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* write back-up superblock first */
 	bh = sb_bread(sbi->sb, sbi->valid_super_block ? 0 : 1);
 	if (!bh)
@@ -3282,11 +3582,19 @@ try_onemore:
 		spin_lock_init(&sbi->inode_lock[i]);
 	}
 	mutex_init(&sbi->flush_lock);
+<<<<<<< HEAD
 
 	f2fs_init_extent_cache_info(sbi);
 
 	f2fs_init_ino_entry_info(sbi);
 
+=======
+
+	f2fs_init_extent_cache_info(sbi);
+
+	f2fs_init_ino_entry_info(sbi);
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	f2fs_init_fsync_node_info(sbi);
 
 	/* setup f2fs internal modules */
@@ -3663,3 +3971,4 @@ module_exit(exit_f2fs_fs)
 MODULE_AUTHOR("Samsung Electronics's Praesto Team");
 MODULE_DESCRIPTION("Flash Friendly File System");
 MODULE_LICENSE("GPL");
+

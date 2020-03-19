@@ -40,6 +40,7 @@ config ANDROID_BINDER_IPC_SELFTEST
 	  Binder selftest checks the allocation and free of binder buffers
 	  exhaustively with combinations of various buffer sizes and
 	  alignments.
+<<<<<<< HEAD
 
 config ANDROID_SIMPLE_LMK
 	bool "Simple Android Low Memory Killer"
@@ -95,6 +96,8 @@ config ANDROID_SIMPLE_LMK_TIMEOUT_MSEC
 	  waiting and make itself available to kill more processes.
 
 endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 endif # if ANDROID
 

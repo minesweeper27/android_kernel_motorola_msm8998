@@ -412,7 +412,11 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 	struct msm_ois_set_info_t *set_info)
 {
 	struct reg_settings_ois_t *settings = NULL;
+<<<<<<< HEAD
 	int32_t rc = 0;
+=======
+	int32_t rc = 0, i = 0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct msm_camera_cci_client *cci_client = NULL;
 	CDBG("Enter\n");
 
@@ -455,6 +459,7 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 			set_info->ois_params.setting_size,
 			settings);
 
+<<<<<<< HEAD
 		if (copy_to_user((void *)set_info->ois_params.settings,
 			settings,
 			set_info->ois_params.setting_size *
@@ -462,6 +467,17 @@ static int32_t msm_ois_control(struct msm_ois_ctrl_t *o_ctrl,
 			kfree(settings);
 			pr_err("Error copying\n");
 			return -EFAULT;
+=======
+		for (i = 0; i < set_info->ois_params.setting_size; i++) {
+			if (set_info->ois_params.settings[i].i2c_operation
+				== MSM_OIS_READ) {
+				set_info->ois_params.settings[i].reg_data =
+					settings[i].reg_data;
+				CDBG("ois_data at addr 0x%x is 0x%x",
+				set_info->ois_params.settings[i].reg_addr,
+				set_info->ois_params.settings[i].reg_data);
+			}
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 
 		kfree(settings);
@@ -966,7 +982,11 @@ static int32_t msm_ois_platform_probe(struct platform_device *pdev)
 
 	rc = msm_sensor_driver_get_gpio_data(&(msm_ois_t->gconf),
 		(&pdev->dev)->of_node);
+<<<<<<< HEAD
 	if (rc <= 0) {
+=======
+	if (rc < 0) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		pr_err("%s: No/Error OIS GPIO\n", __func__);
 	} else {
 		msm_ois_t->cam_pinctrl_status = 1;

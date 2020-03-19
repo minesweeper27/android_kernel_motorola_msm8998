@@ -117,6 +117,9 @@ all.config
 
 # fetched Android config fragments
 android/configs/android-*.cfg
+<<<<<<< HEAD
 
 tests
 configs
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

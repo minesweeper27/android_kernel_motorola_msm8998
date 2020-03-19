@@ -20,7 +20,10 @@ obj-$(CONFIG_MSM_VIDC_V4L2) := msm-vidc.o
 obj-$(CONFIG_MSM_VIDC_V4L2) += governors/
 
 obj-$(CONFIG_MSM_VIDC_VMEM) += vmem/
+<<<<<<< HEAD
 
 # TODO: remove me b/62058353
 subdir-ccflags-y += \
    $(call cc-option,-Wno-frame-larger-than=)
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

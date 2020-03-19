@@ -1,6 +1,9 @@
 
 config SND_SOC_SDM660_CDC
 	tristate "MSM Internal PMIC based codec"
+<<<<<<< HEAD
 
 config SOUND_CONTROL
 	bool "Sound Control for msm89xx"
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

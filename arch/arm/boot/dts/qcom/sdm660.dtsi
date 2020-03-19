@@ -34,7 +34,11 @@
 
 	chosen {
 		stdout-path = "serial0";
+<<<<<<< HEAD
 		bootargs = "quiet noirqdebug rcupdate.rcu_normal_after_boot=1";
+=======
+		bootargs = "rcupdate.rcu_expedited=1";
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	psci {
@@ -310,6 +314,7 @@
 					fsmgr_flags = "wait,slotselect,verify";
 					status = "ok";
 				};
+<<<<<<< HEAD
 				oem {
 					compatible = "android,oem";
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/oem";
@@ -318,6 +323,8 @@
 					fsmgr_flags = "wait,slotselect,verify";
 					status = "ok";
 				};
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			};
 		};
 	};
@@ -407,7 +414,11 @@
 			alloc-ranges = <0 0x00000000 0 0xffffffff>;
 			reusable;
 			alignment = <0 0x400000>;
+<<<<<<< HEAD
 			size = <0 0x8000000>;
+=======
+			size = <0 0x2c00000>;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			linux,cma-default;
 		};
 
@@ -877,7 +888,11 @@
 		reg = <0x1fe5040 0x28>;
 	};
 
+<<<<<<< HEAD
 	pm660_bcl: qcom,bcl {
+=======
+	qcom,bcl {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		compatible = "qcom,bcl";
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;
@@ -2128,6 +2143,13 @@
 		/* GPIO output to mss */
 		qcom,gpio-force-stop = <&smp2pgpio_ssr_smp2p_1_out 0 0>;
 		status = "ok";
+<<<<<<< HEAD
+=======
+		qcom,mba-mem@0 {
+			compatible = "qcom,pil-mba-mem";
+			memory-region = <&pil_mba_mem>;
+		};
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	qcom,msm-rtb {
@@ -2394,6 +2416,10 @@
 		lanes-per-direction = <1>;
 		spm-level = <5>;
 
+<<<<<<< HEAD
+=======
+		non-removable;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		qcom,msm-bus,name = "ufs1";
 		qcom,msm-bus,num-cases = <12>;
 		qcom,msm-bus,num-paths = <2>;

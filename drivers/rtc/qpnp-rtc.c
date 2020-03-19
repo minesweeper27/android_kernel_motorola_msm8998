@@ -19,11 +19,17 @@
 #include <linux/idr.h>
 #include <linux/of_device.h>
 #include <linux/of_irq.h>
+<<<<<<< HEAD
 #include <linux/input/qpnp-power-on.h>
 #include <linux/spmi.h>
 #include <linux/platform_device.h>
 #include <linux/spinlock.h>
 #include <linux/alarmtimer.h>
+=======
+#include <linux/spmi.h>
+#include <linux/platform_device.h>
+#include <linux/spinlock.h>
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /* RTC/ALARM Register offsets */
 #define REG_OFFSET_ALARM_RW	0x40
@@ -336,8 +342,13 @@ qpnp_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alarm)
 
 	rtc_dd->alarm_ctrl_reg1 = ctrl_reg;
 
+<<<<<<< HEAD
 	dev_dbg(dev, "Alarm Set Enabled: %d for h:r:s=%d:%d:%d, d/m/y=%d/%d/%d\n",
 			alarm->enabled, alarm->time.tm_hour, alarm->time.tm_min,
+=======
+	dev_dbg(dev, "Alarm Set for h:r:s=%d:%d:%d, d/m/y=%d/%d/%d\n",
+			alarm->time.tm_hour, alarm->time.tm_min,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			alarm->time.tm_sec, alarm->time.tm_mday,
 			alarm->time.tm_mon, alarm->time.tm_year);
 rtc_rw_fail:
@@ -487,8 +498,11 @@ static int qpnp_rtc_probe(struct platform_device *pdev)
 	struct qpnp_rtc *rtc_dd;
 	unsigned int base;
 	struct device_node *child;
+<<<<<<< HEAD
 	u8 value[4] = {0};
 	u8 reg;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	rtc_dd = devm_kzalloc(&pdev->dev, sizeof(*rtc_dd), GFP_KERNEL);
 	if (rtc_dd == NULL)
@@ -611,6 +625,7 @@ static int qpnp_rtc_probe(struct platform_device *pdev)
 		goto fail_rtc_enable;
 	}
 
+<<<<<<< HEAD
 	/* Init power_on_alarm after adding rtc device */
 	power_on_alarm_init();
 
@@ -636,6 +651,8 @@ static int qpnp_rtc_probe(struct platform_device *pdev)
 
 	qpnp_pon_store_shipmode_info(RESET_SHIPMODE_INFO_SHPMOD_REASON |
 				     RESET_SHIPMODE_INFO_ARMED_REASON, 0);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Request the alarm IRQ */
 	rc = request_any_context_irq(rtc_dd->rtc_alarm_irq,
 				 qpnp_alarm_trigger, IRQF_TRIGGER_RISING,
@@ -672,6 +689,7 @@ static int qpnp_rtc_remove(struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int qpnp_rtc_is_rtc_alarm_enabled(struct qpnp_rtc *rtc_dd)
 {
 	return (rtc_dd->alarm_ctrl_reg1 & BIT_RTC_ALARM_ENABLE) ? 1 : 0;
@@ -682,6 +700,8 @@ static unsigned int shipmode_delay = 2592000;
 module_param(shipmode_delay, uint, 0644);
 MODULE_PARM_DESC(shipmode_delay, "shipmode delay time in second");
 EXPORT_SYMBOL(shipmode_delay);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void qpnp_rtc_shutdown(struct platform_device *pdev)
 {
 	u8 value[4] = {0};
@@ -691,10 +711,13 @@ static void qpnp_rtc_shutdown(struct platform_device *pdev)
 	struct qpnp_rtc *rtc_dd;
 	bool rtc_alarm_powerup;
 
+<<<<<<< HEAD
 	unsigned long secs_rtc;
 	struct rtc_time rtc_tm;
 	struct rtc_wkalrm shipmode_alarm;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!pdev) {
 		pr_err("qpnp-rtc: spmi device not found\n");
 		return;
@@ -729,6 +752,7 @@ static void qpnp_rtc_shutdown(struct platform_device *pdev)
 fail_alarm_disable:
 		spin_unlock_irqrestore(&rtc_dd->alarm_ctrl_lock, irq_flags);
 	}
+<<<<<<< HEAD
 
 	if ((power_on_alarm_empty() != 1) ||
 		qpnp_rtc_is_rtc_alarm_enabled(rtc_dd)) {
@@ -755,6 +779,8 @@ fail_alarm_disable:
 	rtc_time_to_tm(secs_rtc, &shipmode_alarm.time);
 	dev_warn(&pdev->dev, "Setup Shipmode trigger %ld secs\n", secs_rtc);
 	qpnp_rtc_set_alarm(&pdev->dev, &shipmode_alarm);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static const struct of_device_id spmi_match_table[] = {

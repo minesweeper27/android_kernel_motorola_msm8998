@@ -49,15 +49,22 @@
 /* Macro for constructing the REGDMA command */
 #define SDE_REGDMA_WRITE(p, off, data) \
 	do { \
+<<<<<<< HEAD
 		writel_relaxed(REGDMA_OP_REGWRITE | \
 			((off) & REGDMA_ADDR_OFFSET_MASK), (p)); \
 		(p)++; \
 		writel_relaxed((data), (p)); \
 		(p)++; \
+=======
+		*p++ = REGDMA_OP_REGWRITE | \
+			((off) & REGDMA_ADDR_OFFSET_MASK); \
+		*p++ = (data); \
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} while (0)
 
 #define SDE_REGDMA_MODIFY(p, off, mask, data) \
 	do { \
+<<<<<<< HEAD
 		writel_relaxed(REGDMA_OP_REGMODIFY | \
 			((off) & REGDMA_ADDR_OFFSET_MASK), (p)); \
 		(p)++; \
@@ -65,20 +72,36 @@
 		(p)++; \
 		writel_relaxed((data), (p)); \
 		(p)++; \
+=======
+		*p++ = REGDMA_OP_REGMODIFY | \
+			((off) & REGDMA_ADDR_OFFSET_MASK); \
+		*p++ = (mask); \
+		*p++ = (data); \
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} while (0)
 
 #define SDE_REGDMA_BLKWRITE_INC(p, off, len) \
 	do { \
+<<<<<<< HEAD
 		writel_relaxed(REGDMA_OP_BLKWRITE_INC | \
 			((off) & REGDMA_ADDR_OFFSET_MASK), (p)); \
 		(p)++; \
 		writel_relaxed((len), (p)); \
 		(p)++; \
+=======
+		*p++ = REGDMA_OP_BLKWRITE_INC | \
+			((off) & REGDMA_ADDR_OFFSET_MASK); \
+		*p++ = (len); \
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} while (0)
 
 #define SDE_REGDMA_BLKWRITE_DATA(p, data) \
 	do { \
+<<<<<<< HEAD
 		writel_relaxed((data), (p)); \
+=======
+		*(p) = (data); \
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		(p)++; \
 	} while (0)
 
@@ -1105,7 +1128,11 @@ static u32 sde_hw_rotator_wait_done_regdma(
 	if (rot->irq_num >= 0) {
 		SDEROT_DBG("Wait for REGDMA completion, ctx:%p, ts:%X\n",
 				ctx, ctx->timestamp);
+<<<<<<< HEAD
 		rc = wait_event_interruptible_timeout(ctx->regdma_waitq,
+=======
+		rc = wait_event_timeout(ctx->regdma_waitq,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				!sde_hw_rotator_pending_swts(rot, ctx, &swts),
 				KOFF_TIMEOUT);
 

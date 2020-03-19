@@ -72,7 +72,11 @@ static int mdss_smmu_secure_wait(int State, int request)
 	  * Case1: MDP in Secure Display and Rotator in Non Secure
 	  */
 	if (!State && !request && mdss_get_sd_client_cnt()) {
+<<<<<<< HEAD
 		rc = wait_event_interruptible_timeout(mdata->secure_waitq,
+=======
+		rc = wait_event_timeout(mdata->secure_waitq,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				(mdss_get_sd_client_cnt() == 0),
 				KOFF_TIMEOUT);
 		if (rc <= 0) {
@@ -643,10 +647,14 @@ int mdss_smmu_fault_handler(struct iommu_domain *domain, struct device *dev,
 	} else {
 		pr_err("mdss_smmu: iova:0x%lx flags:0x%x\n",
 			iova, flags);
+<<<<<<< HEAD
 		MDSS_XLOG_TOUT_HANDLER_MMI("mdp", "dsi0_ctrl", "dsi0_phy",
 		    "dsi1_ctrl", "dsi1_phy", "vbif", "vbif_nrt",
 		    "dbg_bus", "vbif_dbg_bus",
 		    "dsi_dbg_bus");
+=======
+		MDSS_XLOG_TOUT_HANDLER("mdp");
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 end:
 	return -ENOSYS;

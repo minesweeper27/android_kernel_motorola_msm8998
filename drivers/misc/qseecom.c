@@ -2773,11 +2773,14 @@ static int qseecom_unload_app(struct qseecom_dev_handle *data,
 		goto unload_exit;
 	}
 
+<<<<<<< HEAD
 	if (!memcmp(data->client.app_name, "prov", strlen("prov"))) {
 		pr_debug("Do not unload prov app from tz\n");
 		goto unload_exit;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	__qseecom_cleanup_app(data);
 	__qseecom_reentrancy_check_if_no_app_blocked(TZ_OS_APP_SHUTDOWN_ID);
 
@@ -3737,7 +3740,11 @@ static int __qseecom_update_cmd_buf(void *msg, bool cleanup,
 				data->client.app_arch == ELFCLASS64)) ||
 				(data->type == QSEECOM_LISTENER_SERVICE)) {
 				update = (struct qseecom_sg_entry *)field;
+<<<<<<< HEAD
 				for_each_sg(sg, sg, sg_ptr->nents, j) {
+=======
+				for (j = 0; j < sg_ptr->nents; j++) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					/*
 					 * Check if sg list PA is under 4GB
 					 */
@@ -3757,6 +3764,10 @@ static int __qseecom_update_cmd_buf(void *msg, bool cleanup,
 					update->len = cleanup ? 0 : sg->length;
 					update++;
 					len += sg->length;
+<<<<<<< HEAD
+=======
+					sg = sg_next(sg);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				}
 			} else {
 				pr_err("QSEE app arch %u is not supported\n",
@@ -3846,10 +3857,18 @@ static int __qseecom_allocate_sg_list_buffer(struct qseecom_dev_handle *data,
 	buf_hdr->nents_total = sg_ptr->nents;
 	/* save the left sg entries into new allocated buf */
 	sg_entry = (struct qseecom_sg_entry_64bit *)buf;
+<<<<<<< HEAD
 	for_each_sg(sg, sg, sg_ptr->nents, i) {
 		sg_entry->phys_addr = (uint64_t)sg_dma_address(sg);
 		sg_entry->len = sg->length;
 		sg_entry++;
+=======
+	for (i = 0; i < sg_ptr->nents; i++) {
+		sg_entry->phys_addr = (uint64_t)sg_dma_address(sg);
+		sg_entry->len = sg->length;
+		sg_entry++;
+		sg = sg_next(sg);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	data->client.sec_buf_fd[fd_idx].is_sec_buf_fd = true;
@@ -3993,13 +4012,21 @@ static int __qseecom_update_cmd_buf_64(void *msg, bool cleanup,
 			}
 			/* 64bit app uses 64bit address */
 			update_64bit = (struct qseecom_sg_entry_64bit *)field;
+<<<<<<< HEAD
 			for_each_sg(sg, sg, sg_ptr->nents, j) {
+=======
+			for (j = 0; j < sg_ptr->nents; j++) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				update_64bit->phys_addr = cleanup ? 0 :
 					(uint64_t)sg_dma_address(sg);
 				update_64bit->len = cleanup ? 0 :
 						(uint32_t)sg->length;
 				update_64bit++;
 				len += sg->length;
+<<<<<<< HEAD
+=======
+				sg = sg_next(sg);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			}
 		}
 cleanup:
@@ -6773,10 +6800,18 @@ static int __qseecom_qteec_handle_pre_alc_fd(struct qseecom_dev_handle *data,
 	}
 	*(uint32_t *)buf = sg_ptr->nents;
 	sg_entry = (struct qseecom_sg_entry *) (buf + sizeof(uint32_t));
+<<<<<<< HEAD
 	for_each_sg(sg, sg, sg_ptr->nents, i) {
 		sg_entry->phys_addr = (uint32_t)sg_dma_address(sg);
 		sg_entry->len = sg->length;
 		sg_entry++;
+=======
+	for (i = 0; i < sg_ptr->nents; i++) {
+		sg_entry->phys_addr = (uint32_t)sg_dma_address(sg);
+		sg_entry->len = sg->length;
+		sg_entry++;
+		sg = sg_next(sg);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	data->client.sec_buf_fd[fd_idx].is_sec_buf_fd = true;
 	data->client.sec_buf_fd[fd_idx].vbase = buf;

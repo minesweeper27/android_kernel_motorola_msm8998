@@ -17,9 +17,12 @@
 #include <linux/device.h>
 #include "mdss_fb.h"
 #include "mdss_hdmi_edid.h"
+<<<<<<< HEAD
 #ifdef CONFIG_SLIMPORT_COMMON
 #include <video/slimport_device.h>
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define DBC_START_OFFSET 4
 #define EDID_DTD_LEN 18
@@ -826,6 +829,7 @@ static ssize_t hdmi_edid_sysfs_rda_hdr_data(struct device *dev,
 }
 static DEVICE_ATTR(hdr_data, S_IRUGO, hdmi_edid_sysfs_rda_hdr_data, NULL);
 
+<<<<<<< HEAD
 static int force_format;
 
 static ssize_t hdmi_edid_sysfs_wta_force_format(struct device *dev,
@@ -854,6 +858,8 @@ static ssize_t hdmi_edid_sysfs_wta_force_format(struct device *dev,
 static DEVICE_ATTR(force_format, S_IWUSR, NULL,
 			hdmi_edid_sysfs_wta_force_format);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static struct attribute *hdmi_edid_fs_attrs[] = {
 	&dev_attr_edid_modes.attr,
 	&dev_attr_pa.attr,
@@ -868,7 +874,10 @@ static struct attribute *hdmi_edid_fs_attrs[] = {
 	&dev_attr_res_info_data.attr,
 	&dev_attr_add_res.attr,
 	&dev_attr_hdr_data.attr,
+<<<<<<< HEAD
 	&dev_attr_force_format.attr,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	NULL,
 };
 
@@ -1738,6 +1747,7 @@ static void hdmi_edid_add_sink_3d_format(struct hdmi_edid_sink_data *sink_data,
 		string, added ? "added" : "NOT added");
 } /* hdmi_edid_add_sink_3d_format */
 
+<<<<<<< HEAD
 static u32 hdmi_edid_filter_mode_format(u32 video_format,
 	struct msm_hdmi_mode_timing_info *timing, u32 rx_bandwidth_khz,
 	const char *color, u32 bits_per_pixel)
@@ -1829,6 +1839,8 @@ static void hdmi_edid_filter_modes(struct hdmi_edid_ctrl *edid_ctrl)
 	}
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void hdmi_edid_add_sink_video_format(struct hdmi_edid_ctrl *edid_ctrl,
 	u32 video_format)
 {
@@ -1842,9 +1854,12 @@ static void hdmi_edid_add_sink_video_format(struct hdmi_edid_ctrl *edid_ctrl,
 	struct disp_mode_info *disp_mode_list = sink_data->disp_mode_list;
 	u32 i = 0;
 
+<<<<<<< HEAD
 	if (force_format)
 		video_format = force_format;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (video_format >= HDMI_VFRMT_MAX) {
 		DEV_ERR("%s: video format: %s is not supported\n", __func__,
 			msm_hdmi_mode_2string(video_format));
@@ -2500,8 +2515,11 @@ bail:
 	if (edid_ctrl->keep_resv_timings)
 		hdmi_edid_add_resv_timings(edid_ctrl);
 
+<<<<<<< HEAD
 	hdmi_edid_filter_modes(edid_ctrl);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 
 err_invalid_header:
@@ -2642,6 +2660,7 @@ u8 hdmi_edid_get_deep_color(void *input)
 		return 0;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * ANX7816 is NOT supporting deep color mode.
 	 * QCOM's HDMI SW will check "deep color info supported by sink's EDID"
@@ -2652,6 +2671,9 @@ u8 hdmi_edid_get_deep_color(void *input)
 	 */
  /*	return edid_ctrl->deep_color; */
 	return 0;
+=======
+	return edid_ctrl->deep_color;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /**
@@ -2819,6 +2841,7 @@ void hdmi_edid_set_video_resolution(void *input, u32 resolution, bool reset)
 	edid_ctrl->video_resolution = resolution;
 
 	if (reset) {
+<<<<<<< HEAD
 		if (resolution == HDMI_VFRMT_UNKNOWN)
 			edid_ctrl->sink_data.num_of_elements = 0;
 		else {
@@ -2829,6 +2852,13 @@ void hdmi_edid_set_video_resolution(void *input, u32 resolution, bool reset)
 			edid_ctrl->sink_data.disp_mode_list[0].rgb_support =
 				true;
 		}
+=======
+		edid_ctrl->default_vic = resolution;
+		edid_ctrl->sink_data.num_of_elements = 1;
+		edid_ctrl->sink_data.disp_mode_list[0].video_format =
+			resolution;
+		edid_ctrl->sink_data.disp_mode_list[0].rgb_support = true;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 } /* hdmi_edid_set_video_resolution */
 

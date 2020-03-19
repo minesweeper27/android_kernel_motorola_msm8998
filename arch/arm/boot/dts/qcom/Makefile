@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Only include Motorola DTBs
 ifeq ($(CONFIG_MMI_DEVICE_DTBS),y)
 # Add 1k of padding to the DTBs to allow for environment variables
@@ -81,6 +82,35 @@ endif
 
 else
 # Only include QC architecture specific DTBs
+=======
+ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
+dtbo-$(CONFIG_ARCH_MSM8996) += \
+	msm8996-mtp-overlay.dtbo \
+	msm8996-cdp-overlay.dtbo \
+	apq8096pro-v1.1-auto-adp-overlay.dtbo \
+	apq8096pro-v1.1-auto-adp-lite-overlay.dtbo \
+	msm8996pro-auto-adp-overlay.dtbo \
+	msm8996pro-auto-adp-lite-overlay.dtbo \
+	apq8096pro-auto-cdp-overlay.dtbo \
+	msm8996pro-v1.1-auto-cdp-overlay.dtbo
+
+msm8996-mtp-overlay.dtbo-base :=  msm8996pro-v1.1-pmi8996.dtb \
+				msm8996-v3-pmi8996.dtb \
+				msm8996pro-v1.1-pmi8994.dtb \
+				msm8996-v313-pmi8994.dtb \
+				msm8996-v30-pm8994-pmi8994-pm8004.dtb
+
+msm8996-cdp-overlay.dtbo-base :=  msm8996-v3-pmi8994.dtb \
+				 msm8996pro-pmi8994-pm8004.dtb
+
+apq8096pro-v1.1-auto-adp-overlay.dtbo-base := apq8096pro-v1.1-auto.dtb
+apq8096pro-v1.1-auto-adp-lite-overlay.dtbo-base := apq8096pro-v1.1-auto.dtb
+msm8996pro-auto-adp-overlay.dtbo-base := msm8996pro-auto.dtb
+msm8996pro-auto-adp-lite-overlay.dtbo-base := msm8996pro-auto.dtb
+apq8096pro-auto-cdp-overlay.dtbo-base := apq8096pro-auto.dtb
+msm8996pro-v1.1-auto-cdp-overlay.dtbo-base := msm8996pro-v1.1-auto.dtb
+else
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 dtb-$(CONFIG_ARCH_MSM8996) += msm8996-v2-pmi8994-cdp.dtb \
 	msm8996-v2-pmi8994-mtp.dtb \
 	msm8996-v2-pmi8994-pmk8001-cdp.dtb \
@@ -198,6 +228,10 @@ dtb-$(CONFIG_ARCH_MSM8996) += msm8996-v2-pmi8994-cdp.dtb \
 	apq8096-v3-pmi8996-mdm9x55-slimbus-mtp.dtb \
 	apq8096-v3-pmi8996-dragonboard.dtb \
 	msm8996-auto-mizar.dtb
+<<<<<<< HEAD
+=======
+endif
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 dtb-$(CONFIG_MSM_GVM_QUIN) += vplatform-lfv-msm8996-telematics.dtb \
 	vplatform-lfv-msm8996-ivi.dtb \
@@ -228,6 +262,44 @@ msm8998-v2.1-mtp-overlay.dtbo-base :=  msm8998-v2.1.dtb
 msm8998-qrd-overlay.dtbo-base :=  msm8998-qrd.dtb
 msm8998-qrd-vr1-overlay.dtbo-base :=  msm8998-qrd-vr1.dtb
 msm8998-qrd-skuk-overlay.dtbo-base :=  msm8998-qrd-skuk.dtb
+<<<<<<< HEAD
+=======
+else
+dtb-$(CONFIG_ARCH_MSM8998) += msm8998-sim.dtb \
+	msm8998-rumi.dtb \
+	msm8998-cdp.dtb \
+	msm8998-mtp.dtb \
+	msm8998-qrd.dtb \
+	msm8998-v2-sim.dtb \
+	msm8998-v2-rumi.dtb \
+	msm8998-v2-mtp.dtb \
+	msm8998-v2-cdp.dtb \
+	msm8998-v2-qrd.dtb \
+	msm8998-qrd-skuk.dtb \
+	msm8998-v2-qrd-skuk.dtb \
+	msm8998-qrd-vr1.dtb \
+	msm8998-v2-qrd-vr1.dtb \
+	msm8998-v2-qrd-skuk-evt3.dtb \
+	msm8998-v2-qrd-skuk-hdk.dtb \
+	apq8098-mtp.dtb \
+	apq8098-cdp.dtb \
+	apq8098-v2-mtp.dtb \
+	apq8098-v2-cdp.dtb \
+	apq8098-v2-qrd.dtb \
+	apq8098-v2-qrd-skuk-hdk.dtb \
+	msm8998-v2.1-mtp.dtb \
+	msm8998-v2.1-mtp-4k-display.dtb \
+	msm8998-v2.1-cdp.dtb \
+	msm8998-v2.1-qrd.dtb \
+	apq8098-v2.1-mtp.dtb \
+	apq8098-v2.1-cdp.dtb \
+	apq8098-v2.1-qrd.dtb \
+	apq8098-v2.1-mediabox.dtb \
+	apq8098-v2.1-svr20.dtb \
+	msm8998-v2.1-interposer-sdm660-cdp.dtb \
+	msm8998-v2.1-interposer-sdm660-mtp.dtb \
+	msm8998-v2.1-interposer-sdm660-qrd.dtb
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endif
 
 dtb-$(CONFIG_ARCH_MSMHAMSTER) += msmhamster-rumi.dtb
@@ -309,7 +381,11 @@ dtb-$(CONFIG_ARCH_SDM660) += sdm660-sim.dtb \
 	sda636-pm660a-cdp.dtb \
 	sda636-pm660a-mtp.dtb \
 	sda636-pm660a-qrd-hdk.dtb \
+<<<<<<< HEAD
 	sda658-pm660a-rcm.dtb
+=======
+	sda636-pm660a-rcm.dtb
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 dtb-$(CONFIG_ARCH_SDM630) += sdm630-rumi.dtb \
 	sdm630-pm660a-rumi.dtb \
@@ -344,7 +420,10 @@ dtb-$(CONFIG_ARCH_SDM630) += sdm630-rumi.dtb \
 	sdm455-cdp.dtb \
 	sdm455-rcm.dtb \
 	sdm455-internal-codec-rcm.dtb
+<<<<<<< HEAD
 endif # CONFIG_MMI_DEVICE_DTBS
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 ifeq ($(CONFIG_ARM64),y)
 always          := $(dtb-y)

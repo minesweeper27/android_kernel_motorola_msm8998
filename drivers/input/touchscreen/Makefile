@@ -38,6 +38,7 @@ obj-$(CONFIG_TOUCHSCREEN_ELO)		+= elo.o
 obj-$(CONFIG_TOUCHSCREEN_EGALAX)	+= egalax_ts.o
 obj-$(CONFIG_TOUCHSCREEN_FT6236)	+= ft6236.o
 obj-$(CONFIG_TOUCHSCREEN_FT5X06)	+= ft5x06_ts.o
+<<<<<<< HEAD
 obj-$(CONFIG_TOUCHSCREEN_FOCALTECH_MMI) += focaltech_mmi/
 obj-$(CONFIG_TOUCHSCREEN_FOCALTECH_UPGRADE) += focaltech_flash.o
 obj-$(CONFIG_TOUCHSCREEN_FOCALTECH_UPGRADE) += focaltech_upgrade_idc.o
@@ -46,6 +47,10 @@ obj-$(CONFIG_TOUCHSCREEN_SIW_MMI)	+= siw_mmi/
 obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
 obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix.o
 obj-$(CONFIG_TOUCHSCREEN_GT9XX_MMI)	+= gt9xx_mmi/
+=======
+obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
+obj-$(CONFIG_TOUCHSCREEN_GOODIX)	+= goodix.o
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_TOUCHSCREEN_GEN_VKEYS)	+= gen_vkeys.o
 obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
 obj-$(CONFIG_TOUCHSCREEN_IMX6UL_TSC)	+= imx6ul_tsc.o
@@ -76,7 +81,10 @@ obj-$(CONFIG_TOUCHSCREEN_STMPE)		+= stmpe-ts.o
 obj-$(CONFIG_TOUCHSCREEN_SUN4I)		+= sun4i-ts.o
 obj-$(CONFIG_TOUCHSCREEN_SUR40)		+= sur40.o
 obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_v21) += synaptics_dsx/
+<<<<<<< HEAD
 obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_MMI) += synaptics_mmi/
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_TOUCHSCREEN_TI_AM335X_TSC)	+= ti_am335x_tsc.o
 obj-$(CONFIG_TOUCHSCREEN_TOUCHIT213)	+= touchit213.o
 obj-$(CONFIG_TOUCHSCREEN_TOUCHRIGHT)	+= touchright.o
@@ -105,5 +113,8 @@ obj-$(CONFIG_TOUCHSCREEN_ZFORCE)	+= zforce_ts.o
 obj-$(CONFIG_TOUCHSCREEN_COLIBRI_VF50)	+= colibri-vf50-ts.o
 obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
 obj-$(CONFIG_TOUCHSCREEN_ST)		+= st/
+<<<<<<< HEAD
 obj-$(CONFIG_TOUCHSCREEN_NT36xxx)	+= nova_mmi/
 obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_TCM) += synaptics_tcm/
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

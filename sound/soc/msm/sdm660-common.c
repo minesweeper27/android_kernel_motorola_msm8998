@@ -9,6 +9,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include <linux/input.h>
 #include <linux/of_gpio.h>
 #include <linux/mfd/msm-cdc-pinctrl.h>
@@ -20,9 +24,12 @@
 #include "sdm660-external.h"
 #include "../codecs/sdm660_cdc/msm-analog-cdc.h"
 #include "../codecs/wsa881x.h"
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_SND_SOC_AOV_TRIGGER)
 #include "../codecs/aov_trigger.h"
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define __CHIPSET__ "SDM660 "
 #define MSM_DAILINK_NAME(name) (__CHIPSET__#name)
@@ -32,7 +39,11 @@
 #define PMIC_INT_ANALOG_CODEC "analog-codec"
 
 #define DEV_NAME_STR_LEN  32
+<<<<<<< HEAD
 #define DEFAULT_MCLK_RATE 24576000
+=======
+#define DEFAULT_MCLK_RATE 9600000
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define MSM_LL_QOS_VALUE 300 /* time in us to ensure LPM doesn't go in C3/C4 */
 
 struct dev_config {
@@ -187,7 +198,11 @@ static u32 mi2s_ebit_clk[MI2S_MAX] = {
 	Q6AFE_LPASS_CLK_ID_TER_MI2S_EBIT,
 	Q6AFE_LPASS_CLK_ID_QUAD_MI2S_EBIT
 };
+<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct msm_wsa881x_dev_info {
 	struct device_node *of_node;
 	u32 index;
@@ -196,7 +211,10 @@ static struct snd_soc_aux_dev *msm_aux_dev;
 static struct snd_soc_codec_conf *msm_codec_conf;
 
 static bool msm_swap_gnd_mic(struct snd_soc_codec *codec);
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static struct wcd_mbhc_config mbhc_cfg = {
 	.read_fw_bin = false,
@@ -431,7 +449,10 @@ static int proxy_rx_ch_put(struct snd_kcontrol *kcontrol,
 	return 1;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int tdm_get_sample_rate(int value)
 {
 	int sample_rate = 0;
@@ -703,7 +724,10 @@ static int tdm_get_format_val(int format)
 	}
 	return value;
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int mi2s_get_format(int value)
 {
@@ -753,7 +777,10 @@ static int mi2s_get_format_value(int format)
 	return value;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int tdm_rx_format_get(struct snd_kcontrol *kcontrol,
 			     struct snd_ctl_elem_value *ucontrol)
 {
@@ -914,7 +941,10 @@ static int tdm_tx_ch_put(struct snd_kcontrol *kcontrol,
 	}
 	return ret;
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int aux_pcm_get_sample_rate(int value)
 {
@@ -1991,7 +2021,10 @@ const struct snd_kcontrol_new msm_common_snd_controls[] = {
 	SOC_ENUM_EXT("Display Port RX SampleRate", ext_disp_rx_sample_rate,
 			ext_disp_rx_sample_rate_get,
 			ext_disp_rx_sample_rate_put),
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	SOC_ENUM_EXT("PRI_TDM_RX_0 SampleRate", tdm_rx_sample_rate,
 			tdm_rx_sample_rate_get,
 			tdm_rx_sample_rate_put),
@@ -2064,7 +2097,11 @@ const struct snd_kcontrol_new msm_common_snd_controls[] = {
 	SOC_ENUM_EXT("QUAT_TDM_TX_0 Channels", tdm_tx_chs,
 			tdm_tx_ch_get,
 			tdm_tx_ch_put),
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	SOC_ENUM_EXT("MultiMedia5_RX QOS Vote", qos_vote, msm_qos_ctl_get,
 			msm_qos_ctl_put),
 
@@ -2373,6 +2410,7 @@ int msm_common_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 EXPORT_SYMBOL(msm_common_be_hw_params_fixup);
 
 /**
+<<<<<<< HEAD
  * msm_tert_mi2s_params_fixup - Setting of tert_mi2s HDMI dai params.
  *
  * @rtd: runtime dailink instance
@@ -2397,6 +2435,8 @@ int msm_tert_mi2s_params_fixup(struct snd_soc_pcm_runtime *rtd,
 EXPORT_SYMBOL(msm_tert_mi2s_params_fixup);
 
 /**
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * msm_aux_pcm_snd_startup - startup ops of auxpcm.
  *
  * @substream: PCM stream pointer of associated backend dailink
@@ -2557,10 +2597,13 @@ int msm_mi2s_snd_startup(struct snd_pcm_substream *substream)
 	int index = cpu_dai->id;
 	unsigned int fmt = SND_SOC_DAIFMT_CBS_CFS;
 
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 	struct msm_asoc_mach_data *pdata = snd_soc_card_get_drvdata(rtd->card);
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	dev_dbg(rtd->card->dev,
 		"%s: substream = %s  stream = %d, dai name %s, dai ID %d\n",
 		__func__, substream->name, substream->stream,
@@ -2611,10 +2654,13 @@ int msm_mi2s_snd_startup(struct snd_pcm_substream *substream)
 				goto clk_off;
 			}
 		}
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 		if (index == TERT_MI2S)
 			msm_cdc_pinctrl_select_active_state(pdata->tert_mi2s_gpio_p);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	mutex_unlock(&mi2s_intf_conf[index].lock);
 	return 0;
@@ -2641,9 +2687,13 @@ void msm_mi2s_snd_shutdown(struct snd_pcm_substream *substream)
 	struct snd_soc_pcm_runtime *rtd = substream->private_data;
 	int port_id = msm_get_port_id(rtd->dai_link->be_id);
 	int index = rtd->cpu_dai->id;
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 	struct msm_asoc_mach_data *pdata = snd_soc_card_get_drvdata(rtd->card);
 #endif
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pr_debug("%s(): substream = %s  stream = %d\n", __func__,
 		 substream->name, substream->stream);
 	if (index < PRIM_MI2S || index > QUAT_MI2S) {
@@ -2653,10 +2703,13 @@ void msm_mi2s_snd_shutdown(struct snd_pcm_substream *substream)
 
 	mutex_lock(&mi2s_intf_conf[index].lock);
 	if (--mi2s_intf_conf[index].ref_cnt == 0) {
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 		if (index == TERT_MI2S)
 			msm_cdc_pinctrl_select_sleep_state(pdata->tert_mi2s_gpio_p);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		ret = msm_mi2s_set_sclk(substream, false);
 		if (ret < 0)
 			pr_err("%s:clock disable failed for MI2S (%d); ret=%d\n",
@@ -2677,7 +2730,10 @@ void msm_mi2s_snd_shutdown(struct snd_pcm_substream *substream)
 }
 EXPORT_SYMBOL(msm_mi2s_snd_shutdown);
 
+<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* Validate whether US EU switch is present or not */
 static int msm_prepare_us_euro(struct snd_soc_card *card)
 {
@@ -2721,7 +2777,10 @@ static bool msm_swap_gnd_mic(struct snd_soc_codec *codec)
 	pr_debug("%s: swap select switch %d to %d\n", __func__, value, !value);
 	return true;
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int msm_populate_dai_link_component_of_node(
 		struct msm_asoc_mach_data *pdata,
@@ -2834,7 +2893,10 @@ err:
 	return ret;
 }
 
+<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_wsa881x_init(struct snd_soc_component *component)
 {
 	u8 spkleft_ports[WSA881X_MAX_SWR_PORTS] = {100, 101, 102, 106};
@@ -3085,7 +3147,10 @@ static void msm_free_auxdev_mem(struct platform_device *pdev)
 		}
 	}
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static void i2s_auxpcm_init(struct platform_device *pdev)
 {
@@ -3132,8 +3197,11 @@ static const struct of_device_id sdm660_asoc_machine_of_match[]  = {
 	  .data = "tasha_codec"},
 	{ .compatible = "qcom,sdm660-asoc-snd-tavil",
 	  .data = "tavil_codec"},
+<<<<<<< HEAD
 	{ .compatible = "qcom,sdm660-asoc-snd-madera",
 	  .data = "madera_codec"},
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	{},
 };
 
@@ -3165,11 +3233,16 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 	pdata->mclk_freq = id;
 
 	if (!strcmp(match->data, "tasha_codec") ||
+<<<<<<< HEAD
 	    !strcmp(match->data, "tavil_codec") ||
 	    !strcmp(match->data, "madera_codec")) {
 		if (!strcmp(match->data, "madera_codec"))
 			pdata->snd_card_val = EXT_SND_CARD_MADERA;
 		else if (!strcmp(match->data, "tasha_codec"))
+=======
+	    !strcmp(match->data, "tavil_codec")) {
+		if (!strcmp(match->data, "tasha_codec"))
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			pdata->snd_card_val = EXT_SND_CARD_TASHA;
 		else
 			pdata->snd_card_val = EXT_SND_CARD_TAVIL;
@@ -3199,6 +3272,7 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 					"qcom,cdc-dmic-gpios", 0);
 		pdata->ext_spk_gpio_p = of_parse_phandle(pdev->dev.of_node,
 					"qcom,cdc-ext-spk-gpios", 0);
+<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 		pdata->tert_mi2s_gpio_p = of_parse_phandle(pdev->dev.of_node,
 					"qcom,tert-mi2s-gpios", 0);
@@ -3206,6 +3280,10 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 	}
 
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * Parse US-Euro gpio info from DT. Report no error if us-euro
 	 * entry is not found in DT file as some targets do not support
@@ -3229,30 +3307,43 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 	if (ret)
 		dev_dbg(&pdev->dev, "msm_prepare_us_euro failed (%d)\n",
 			ret);
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	i2s_auxpcm_init(pdev);
 
 	ret = snd_soc_of_parse_audio_routing(card, "qcom,audio-routing");
 	if (ret)
 		goto err;
 
+<<<<<<< HEAD
 #if IS_ENABLED(CONFIG_SND_SOC_AOV_TRIGGER)
 	aov_trigger_init();
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = msm_populate_dai_link_component_of_node(pdata, card);
 	if (ret) {
 		ret = -EPROBE_DEFER;
 		goto err;
 	}
 
+<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!of_property_read_bool(pdev->dev.of_node, "qcom,wsa-disable")) {
 		ret = msm_init_wsa_dev(pdev, card);
 		if (ret)
 			goto err;
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	ret = devm_snd_soc_register_card(&pdev->dev, card);
 	if (ret == -EPROBE_DEFER) {
@@ -3273,11 +3364,16 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 	if (pdata->snd_card_val != INT_SND_CARD)
 		msm_ext_register_audio_notifier(pdev);
 
+<<<<<<< HEAD
 	dev_info(&pdev->dev, "%s: snd_soc_register_card sucessfully\n",
 		__func__);
 	return 0;
 err:
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+	return 0;
+err:
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (pdata->us_euro_gpio > 0) {
 		dev_dbg(&pdev->dev, "%s free us_euro gpio %d\n",
 			__func__, pdata->us_euro_gpio);
@@ -3295,7 +3391,10 @@ err:
 		gpio_free(pdata->hph_en0_gpio);
 		pdata->hph_en0_gpio = 0;
 	}
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (pdata->snd_card_val != INT_SND_CARD)
 		msm_ext_cdc_deinit(pdata);
 	devm_kfree(&pdev->dev, pdata);
@@ -3311,13 +3410,19 @@ static int msm_asoc_machine_remove(struct platform_device *pdev)
 		mutex_destroy(&pdata->cdc_int_mclk0_mutex);
 	else
 		msm_ext_cdc_deinit(pdata);
+<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_MADERA
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	msm_free_auxdev_mem(pdev);
 
 	gpio_free(pdata->us_euro_gpio);
 	gpio_free(pdata->hph_en1_gpio);
 	gpio_free(pdata->hph_en0_gpio);
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	snd_soc_unregister_card(card);
 	return 0;
 }

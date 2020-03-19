@@ -6,7 +6,10 @@ obj-$(CONFIG_DEVFREQ_GOV_POWERSAVE)	+= governor_powersave.o
 obj-$(CONFIG_DEVFREQ_GOV_USERSPACE)	+= governor_userspace.o
 obj-$(CONFIG_DEVFREQ_GOV_QCOM_ADRENO_TZ) += governor_msm_adreno_tz.o
 obj-$(CONFIG_DEVFREQ_GOV_CPUFREQ)	+= governor_cpufreq.o
+<<<<<<< HEAD
 obj-$(CONFIG_ADRENO_IDLER)		+= adreno_idler.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 obj-$(CONFIG_QCOM_BIMC_BWMON)		+= bimc-bwmon.o
 obj-$(CONFIG_ARMBW_HWMON)		+= armbw-pm.o
 obj-$(CONFIG_ARM_MEMLAT_MON)		+= arm-memlat-mon.o

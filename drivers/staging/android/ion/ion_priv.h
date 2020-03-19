@@ -34,7 +34,10 @@
 #include <asm/cacheflush.h>
 #endif
 #include <linux/device.h>
+<<<<<<< HEAD
 #include <linux/msm_dma_iommu_mapping.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include "ion.h"
 
@@ -508,7 +511,11 @@ void ion_pages_sync_for_device(struct device *dev, struct page *page,
 		size_t size, enum dma_data_direction dir);
 
 int ion_walk_heaps(struct ion_client *client, int heap_id,
+<<<<<<< HEAD
 			unsigned int type, void *data,
+=======
+			enum ion_heap_type type, void *data,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			int (*f)(struct ion_heap *heap, void *data));
 
 struct ion_handle *ion_handle_get_by_id_nolock(struct ion_client *client,

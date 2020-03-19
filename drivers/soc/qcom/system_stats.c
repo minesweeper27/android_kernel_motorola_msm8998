@@ -377,8 +377,13 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 			pr_err("%s:Failed to get memory\n", __func__);
 			return -ENOMEM;
 		}
+<<<<<<< HEAD
 		strscpy(ss.master[i], master_name,
 					sizeof(ss.master[i]));
+=======
+		strlcpy(ss.master[i], master_name,
+					strlen(master_name) + 1);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	dent = debugfs_create_file("system_stats", S_IRUGO, NULL,

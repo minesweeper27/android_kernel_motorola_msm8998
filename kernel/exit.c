@@ -440,12 +440,17 @@ static void exit_mm(struct task_struct *tsk)
 	mm_update_next_owner(mm);
 
 	mm_released = mmput(mm);
+<<<<<<< HEAD
 #ifdef CONFIG_ANDROID_SIMPLE_LMK
 	clear_thread_flag(TIF_MEMDIE);
 #else
 	if (test_thread_flag(TIF_MEMDIE))
 		exit_oom_victim();
 #endif
+=======
+	if (test_thread_flag(TIF_MEMDIE))
+		exit_oom_victim();
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (mm_released)
 		set_tsk_thread_flag(tsk, TIF_MM_RELEASED);
 }
@@ -729,10 +734,13 @@ void do_exit(long code)
 	sched_exit(tsk);
 	schedtune_exit_task(tsk);
 
+<<<<<<< HEAD
 	if (tsk->flags & PF_SU) {
 		su_exit();
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * tsk->flags are checked in the futex code to protect against
 	 * an exiting task cleaning up the robust pi futexes.

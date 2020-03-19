@@ -430,7 +430,10 @@ static int msm_afe_sec_mi2s_lb_vol_ctrl;
 static int msm_afe_tert_mi2s_lb_vol_ctrl;
 static int msm_afe_quat_mi2s_lb_vol_ctrl;
 static int msm_afe_slimbus_7_lb_vol_ctrl;
+<<<<<<< HEAD
 static int msm_afe_slimbus_0_lb_vol_ctrl;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_afe_slimbus_8_lb_vol_ctrl;
 static const DECLARE_TLV_DB_LINEAR(fm_rx_vol_gain, 0, INT_RX_VOL_MAX_STEPS);
 static const DECLARE_TLV_DB_LINEAR(afe_lb_vol_gain, 0, INT_RX_VOL_MAX_STEPS);
@@ -526,6 +529,7 @@ static int msm_qti_pp_set_slimbus_7_lb_vol_mixer(struct snd_kcontrol *kcontrol,
 	return ret;
 }
 
+<<<<<<< HEAD
 static int msm_qti_pp_get_slimbus_0_lb_vol_mixer(struct snd_kcontrol *kcontrol,
 				       struct snd_ctl_elem_value *ucontrol)
 {
@@ -550,6 +554,8 @@ static int msm_qti_pp_set_slimbus_0_lb_vol_mixer(struct snd_kcontrol *kcontrol,
 	return ret;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_qti_pp_get_slimbus_8_lb_vol_mixer(struct snd_kcontrol *kcontrol,
 				       struct snd_ctl_elem_value *ucontrol)
 {
@@ -1246,12 +1252,15 @@ static const struct snd_kcontrol_new slimbus_7_lb_vol_mixer_controls[] = {
 				afe_lb_vol_gain),
 };
 
+<<<<<<< HEAD
 static const struct snd_kcontrol_new slimbus_0_lb_vol_mixer_controls[] = {
 	SOC_SINGLE_EXT_TLV("SLIMBUS_0 LOOPBACK Volume", SND_SOC_NOPM, 0,
 	INT_RX_VOL_GAIN, 0, msm_qti_pp_get_slimbus_0_lb_vol_mixer,
 	msm_qti_pp_set_slimbus_0_lb_vol_mixer, afe_lb_vol_gain),
 };
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static const struct snd_kcontrol_new slimbus_8_lb_vol_mixer_controls[] = {
 	SOC_SINGLE_EXT_TLV("SLIMBUS_8 LOOPBACK Volume", SND_SOC_NOPM, 0,
 	INT_RX_VOL_GAIN, 0, msm_qti_pp_get_slimbus_8_lb_vol_mixer,
@@ -1472,9 +1481,12 @@ void msm_qti_pp_add_controls(struct snd_soc_platform *platform)
 	snd_soc_add_platform_controls(platform, slimbus_7_lb_vol_mixer_controls,
 			ARRAY_SIZE(slimbus_7_lb_vol_mixer_controls));
 
+<<<<<<< HEAD
 	snd_soc_add_platform_controls(platform, slimbus_0_lb_vol_mixer_controls,
 			ARRAY_SIZE(slimbus_0_lb_vol_mixer_controls));
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	snd_soc_add_platform_controls(platform, slimbus_8_lb_vol_mixer_controls,
 			ARRAY_SIZE(slimbus_8_lb_vol_mixer_controls));
 

@@ -2627,7 +2627,11 @@ static int i2c_msm_rsrcs_gpio_pinctrl_init(struct i2c_msm_ctrl *ctrl)
 {
 	ctrl->rsrcs.pinctrl = devm_pinctrl_get(ctrl->dev);
 	if (IS_ERR_OR_NULL(ctrl->rsrcs.pinctrl)) {
+<<<<<<< HEAD
 		dev_warn(ctrl->dev, "devm_pinctrl_get() failed err:%ld\n",
+=======
+		dev_err(ctrl->dev, "error devm_pinctrl_get() failed err:%ld\n",
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				PTR_ERR(ctrl->rsrcs.pinctrl));
 		return PTR_ERR(ctrl->rsrcs.pinctrl);
 	}
@@ -2661,6 +2665,13 @@ static void i2c_msm_pm_pinctrl_state(struct i2c_msm_ctrl *ctrl,
 			dev_err(ctrl->dev,
 			"error pinctrl_select_state(%s) err:%d\n",
 			pins_state_name, ret);
+<<<<<<< HEAD
+=======
+	} else {
+		dev_err(ctrl->dev,
+			"error pinctrl state-name:'%s' is not configured\n",
+			pins_state_name);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 }
 
@@ -2867,7 +2878,11 @@ static const struct i2c_algorithm i2c_msm_frmwrk_algrtm = {
 	.functionality	= i2c_msm_frmwrk_func,
 };
 
+<<<<<<< HEAD
 static const char *i2c_msm_adapter_name = "MSM-I2C-v2-adapter";
+=======
+static const char const *i2c_msm_adapter_name = "MSM-I2C-v2-adapter";
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int i2c_msm_frmwrk_reg(struct platform_device *pdev,
 						struct i2c_msm_ctrl *ctrl)
@@ -2882,7 +2897,10 @@ static int i2c_msm_frmwrk_reg(struct platform_device *pdev,
 	ctrl->adapter.nr = pdev->id;
 	ctrl->adapter.dev.parent = &pdev->dev;
 	ctrl->adapter.dev.of_node = pdev->dev.of_node;
+<<<<<<< HEAD
 	ctrl->adapter.retries = I2C_MSM_MAX_RETRIES;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = i2c_add_numbered_adapter(&ctrl->adapter);
 	if (ret) {
 		dev_err(ctrl->dev, "error i2c_add_adapter failed\n");
@@ -2957,7 +2975,15 @@ static int i2c_msm_probe(struct platform_device *pdev)
 	i2c_msm_pm_clk_disable(ctrl);
 	i2c_msm_pm_clk_unprepare(ctrl);
 	i2c_msm_clk_path_unvote(ctrl);
+<<<<<<< HEAD
 	i2c_msm_rsrcs_gpio_pinctrl_init(ctrl);
+=======
+
+	ret = i2c_msm_rsrcs_gpio_pinctrl_init(ctrl);
+	if (ret)
+		goto err_no_pinctrl;
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	i2c_msm_pm_rt_init(ctrl->dev);
 
 	ret = i2c_msm_rsrcs_irq_init(pdev, ctrl);
@@ -2978,6 +3004,10 @@ reg_err:
 	i2c_msm_rsrcs_irq_teardown(ctrl);
 irq_err:
 	i2x_msm_blk_free_cache(ctrl);
+<<<<<<< HEAD
+=======
+err_no_pinctrl:
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	i2c_msm_rsrcs_clk_teardown(ctrl);
 clk_err:
 	i2c_msm_rsrcs_mem_teardown(ctrl);
@@ -2990,7 +3020,10 @@ mem_err:
 static int i2c_msm_remove(struct platform_device *pdev)
 {
 	struct i2c_msm_ctrl *ctrl = platform_get_drvdata(pdev);
+<<<<<<< HEAD
 	int ret;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Grab mutex to ensure ongoing transaction is over */
 	mutex_lock(&ctrl->xfer.mtx);
@@ -3004,6 +3037,7 @@ static int i2c_msm_remove(struct platform_device *pdev)
 	i2c_msm_dma_teardown(ctrl);
 	i2c_msm_dbgfs_teardown(ctrl);
 	i2c_msm_rsrcs_irq_teardown(ctrl);
+<<<<<<< HEAD
 
 	/* vote for clock to allow reset of core */
 	i2c_msm_clk_path_vote(ctrl);
@@ -3032,6 +3066,8 @@ static int i2c_msm_remove(struct platform_device *pdev)
 clk_err:
 	i2c_msm_clk_path_unvote(ctrl);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	i2c_msm_rsrcs_clk_teardown(ctrl);
 	i2c_msm_rsrcs_mem_teardown(ctrl);
 	i2x_msm_blk_free_cache(ctrl);

@@ -20,7 +20,11 @@
 
 #include <linux/pmic-voter.h>
 
+<<<<<<< HEAD
 #define NUM_MAX_CLIENTS		32
+=======
+#define NUM_MAX_CLIENTS		16
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define DEBUG_FORCE_CLIENT	"DEBUG_FORCE_CLIENT"
 
 static DEFINE_SPINLOCK(votable_list_slock);
@@ -362,7 +366,10 @@ int vote(struct votable *votable, const char *client_str, bool enabled, int val)
 	client_id = get_client_id(votable, client_str);
 	if (client_id < 0) {
 		rc = client_id;
+<<<<<<< HEAD
 		pr_err("%s client id not found for %s\n", __func__, client_str);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		goto out;
 	}
 
@@ -430,11 +437,15 @@ int vote(struct votable *votable, const char *client_str, bool enabled, int val)
 					get_client_str(votable, effective_id));
 	}
 
+<<<<<<< HEAD
 #ifdef QCOM_BASE
 	votable->voted_on = true;
 #else
 	votable->voted_on = (rc >= 0);
 #endif
+=======
+	votable->voted_on = true;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 out:
 	unlock_votable(votable);
 	return rc;

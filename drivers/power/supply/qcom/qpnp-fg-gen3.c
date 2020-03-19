@@ -79,9 +79,12 @@
 #define ESR_TIMER_CHG_INIT_OFFSET	2
 #define ESR_EXTRACTION_ENABLE_WORD	19
 #define ESR_EXTRACTION_ENABLE_OFFSET	0
+<<<<<<< HEAD
 #define SAT_CC_CLR_VCTIBTRSLWEN_WORD    19
 #define SAT_CC_CLR_OFFSET               0
 #define VCTIBTRSLWEN_OFFSET             1
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define PROFILE_LOAD_WORD		24
 #define PROFILE_LOAD_OFFSET		0
 #define ESR_RSLOW_DISCHG_WORD		34
@@ -92,8 +95,11 @@
 #define NOM_CAP_OFFSET			0
 #define ACT_BATT_CAP_BKUP_WORD		74
 #define ACT_BATT_CAP_BKUP_OFFSET	0
+<<<<<<< HEAD
 #define PROFILE_REVISION_WORD		74
 #define PROFILE_REVISION_OFFSET		3
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define CYCLE_COUNT_WORD		75
 #define CYCLE_COUNT_OFFSET		0
 #define PROFILE_INTEGRITY_WORD		79
@@ -637,6 +643,7 @@ static int fg_get_jeita_threshold(struct fg_chip *chip,
 	return 0;
 }
 
+<<<<<<< HEAD
 static int fg_get_rectified_battery_temp(struct fg_chip *chip, int temp)
 {
 	int i;
@@ -689,6 +696,8 @@ static int fg_get_rectified_battery_temp(struct fg_chip *chip, int temp)
 	return temp + offset;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define BATT_TEMP_NUMR		1
 #define BATT_TEMP_DENR		1
 static int fg_get_battery_temp(struct fg_chip *chip, int *val)
@@ -709,10 +718,13 @@ static int fg_get_battery_temp(struct fg_chip *chip, int *val)
 
 	/* Value is in Kelvin; Convert it to deciDegC */
 	temp = (temp - 273) * 10;
+<<<<<<< HEAD
 
 	if (chip->dt.batt_therm_high_lut_len > 0 ||
 	    chip->dt.batt_therm_low_lut_len > 0)
 		temp = fg_get_rectified_battery_temp(chip, temp);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	*val = temp;
 	return 0;
 }
@@ -1039,6 +1051,7 @@ out:
 	return rc;
 }
 
+<<<<<<< HEAD
 static const char *fg_get_mmi_battid(void)
 {
 	struct device_node *np = of_find_node_by_path("/chosen");
@@ -1122,6 +1135,8 @@ static struct device_node *fg_get_serialnumber(struct fg_chip *chip,
 	return node;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int fg_get_batt_profile(struct fg_chip *chip)
 {
 	struct device_node *node = chip->dev->of_node;
@@ -1135,6 +1150,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		return -ENXIO;
 	}
 
+<<<<<<< HEAD
 	profile_node = fg_get_serialnumber(chip, batt_node);
 
 	if (!profile_node) {
@@ -1143,17 +1159,26 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		if (IS_ERR(profile_node))
 			return PTR_ERR(profile_node);
 	}
+=======
+	profile_node = of_batterydata_get_best_profile(batt_node,
+				chip->batt_id_ohms / 1000, NULL);
+	if (IS_ERR(profile_node))
+		return PTR_ERR(profile_node);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!profile_node) {
 		pr_err("couldn't find profile handle\n");
 		return -ENODATA;
 	}
 
+<<<<<<< HEAD
 	rc = of_property_read_u8(profile_node, "qcom,profile-revision",
 			&chip->bp.profile_revision);
 	if (rc < 0)
 		pr_debug("battery profile revision not specified\n");
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = of_property_read_string(profile_node, "qcom,battery-type",
 			&chip->bp.batt_type_str);
 	if (rc < 0) {
@@ -1182,6 +1207,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		chip->bp.vbatt_full_mv = -EINVAL;
 	}
 
+<<<<<<< HEAD
 	/*
 	 *parse thermal coefficience value from battery profile
 	 *for one project multi NTC
@@ -1211,6 +1237,8 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		}
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	data = of_get_property(profile_node, "qcom,fg-profile-data", &len);
 	if (!data) {
 		pr_err("No profile data available\n");
@@ -1497,9 +1525,12 @@ static int fg_save_learned_cap_to_sram(struct fg_chip *chip)
 		return rc;
 	}
 
+<<<<<<< HEAD
 	if (!chip->dt.cl_feedback)
 		goto cl_fb_bms_exit;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* Write to actual capacity register for coulomb counter operation */
 	rc = fg_sram_write(chip, ACT_BATT_CAP_WORD, ACT_BATT_CAP_OFFSET,
 			(u8 *)&cc_mah, chip->sp[FG_SRAM_ACT_BATT_CAP].len,
@@ -1509,7 +1540,10 @@ static int fg_save_learned_cap_to_sram(struct fg_chip *chip)
 		return rc;
 	}
 
+<<<<<<< HEAD
 cl_fb_bms_exit:
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	fg_dbg(chip, FG_CAP_LEARN, "learned capacity %llduah/%dmah stored\n",
 		chip->cl.learned_cc_uah, cc_mah);
 	return 0;
@@ -2755,6 +2789,7 @@ static void fg_ttf_update(struct fg_chip *chip)
 	chip->ttf.last_ttf = 0;
 	chip->ttf.last_ms = 0;
 	mutex_unlock(&chip->ttf.lock);
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->ttf_work, msecs_to_jiffies(delay_ms));
 }
@@ -2839,6 +2874,11 @@ static ssize_t fg_set_cycle_counts_bins(struct device *dev,
 static DEVICE_ATTR(cycle_counts_bins, 0660,
 		   fg_get_cycle_counts_bins, fg_set_cycle_counts_bins);
 
+=======
+	schedule_delayed_work(&chip->ttf_work, msecs_to_jiffies(delay_ms));
+}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void restore_cycle_counter(struct fg_chip *chip)
 {
 	int rc = 0, i;
@@ -2965,13 +3005,17 @@ static int fg_get_cycle_count(struct fg_chip *chip)
 	if (!chip->cyc_ctr.en)
 		return 0;
 
+<<<<<<< HEAD
 #ifdef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if ((chip->cyc_ctr.id <= 0) || (chip->cyc_ctr.id > BUCKET_COUNT))
 		return -EINVAL;
 
 	mutex_lock(&chip->cyc_ctr.lock);
 	count = chip->cyc_ctr.count[chip->cyc_ctr.id - 1];
 	mutex_unlock(&chip->cyc_ctr.lock);
+<<<<<<< HEAD
 #else
 	mutex_lock(&chip->cyc_ctr.lock);
 	{
@@ -2984,6 +3028,8 @@ static int fg_get_cycle_count(struct fg_chip *chip)
 	}
 	mutex_unlock(&chip->cyc_ctr.lock);
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return count;
 }
 
@@ -3067,13 +3113,17 @@ out:
 	pm_relax(chip->dev);
 }
 
+<<<<<<< HEAD
 #define SAT_CC_CLR_AUTO_BIT BIT(3)
 #define VCTIBTRSLWEN_MASK   GENMASK(7, 6)
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int fg_bp_params_config(struct fg_chip *chip)
 {
 	int rc = 0;
 	u8 buf;
 
+<<<<<<< HEAD
 	/* Set CC_SOC saturation auto-clear */
 	rc = fg_sram_masked_write(chip, SAT_CC_CLR_VCTIBTRSLWEN_WORD,
 				SAT_CC_CLR_OFFSET, SAT_CC_CLR_AUTO_BIT,
@@ -3092,6 +3142,8 @@ static int fg_bp_params_config(struct fg_chip *chip)
 		return rc;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* This SRAM register is only present in v2.0 and above */
 	if (!(chip->wa_flags & PMI8998_V1_REV_WA) &&
 					chip->bp.float_volt_uv > 0) {
@@ -3116,6 +3168,7 @@ static int fg_bp_params_config(struct fg_chip *chip)
 	return rc;
 }
 
+<<<<<<< HEAD
 static bool has_profile_revision_changed(struct fg_chip *chip)
 {
 	u8 val;
@@ -3142,6 +3195,8 @@ static bool has_profile_revision_changed(struct fg_chip *chip)
 	}
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define PROFILE_LOAD_BIT	BIT(0)
 #define BOOTLOADER_LOAD_BIT	BIT(1)
 #define BOOTLOADER_RESTART_BIT	BIT(2)
@@ -3181,7 +3236,11 @@ static bool is_profile_load_required(struct fg_chip *chip)
 		}
 		profiles_same = memcmp(chip->batt_profile, buf,
 					PROFILE_COMP_LEN) == 0;
+<<<<<<< HEAD
 		if (profiles_same && !has_profile_revision_changed(chip)) {
+=======
+		if (profiles_same) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			fg_dbg(chip, FG_STATUS, "Battery profile is same, not loading it\n");
 			return false;
 		}
@@ -3381,6 +3440,7 @@ static void profile_load_work(struct work_struct *work)
 		goto out;
 	}
 
+<<<<<<< HEAD
 	/* Update Profile Revision */
 	if (chip->bp.profile_revision) {
 		rc = fg_sram_write(chip, PROFILE_REVISION_WORD,
@@ -3393,6 +3453,8 @@ static void profile_load_work(struct work_struct *work)
 
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 done:
 	rc = fg_bp_params_config(chip);
 	if (rc < 0)
@@ -3450,8 +3512,12 @@ static void sram_dump_work(struct work_struct *work)
 	fg_dbg(chip, FG_STATUS, "SRAM Dump done at %lld.%d\n",
 		quotient, remainder);
 resched:
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->sram_dump_work,
+=======
+	schedule_delayed_work(&chip->sram_dump_work,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			msecs_to_jiffies(fg_sram_dump_period_ms));
 }
 
@@ -3479,8 +3545,12 @@ static int fg_sram_dump_sysfs(const char *val, const struct kernel_param *kp)
 
 	chip = power_supply_get_drvdata(bms_psy);
 	if (fg_sram_dump)
+<<<<<<< HEAD
 		queue_delayed_work(system_power_efficient_wq,
 			&chip->sram_dump_work,
+=======
+		schedule_delayed_work(&chip->sram_dump_work,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				msecs_to_jiffies(fg_sram_dump_period_ms));
 	else
 		cancel_delayed_work_sync(&chip->sram_dump_work);
@@ -4043,8 +4113,13 @@ static void ttf_work(struct work_struct *work)
 		/* keep the wake lock and prime the IBATT and VBATT buffers */
 		if (ttf < 0) {
 			/* delay for one FG cycle */
+<<<<<<< HEAD
 			queue_delayed_work(system_power_efficient_wq,
 				&chip->ttf_work, msecs_to_jiffies(1500));
+=======
+			schedule_delayed_work(&chip->ttf_work,
+							msecs_to_jiffies(1500));
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			mutex_unlock(&chip->ttf.lock);
 			return;
 		}
@@ -4060,8 +4135,12 @@ static void ttf_work(struct work_struct *work)
 	}
 
 	/* recurse every 10 seconds */
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->ttf_work, msecs_to_jiffies(10000));
+=======
+	schedule_delayed_work(&chip->ttf_work, msecs_to_jiffies(10000));
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 end_work:
 	vote(chip->awake_votable, TTF_PRIMING, false, 0);
 	mutex_unlock(&chip->ttf.lock);
@@ -4144,11 +4223,17 @@ static int fg_psy_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CYCLE_COUNT:
 		pval->intval = fg_get_cycle_count(chip);
 		break;
+<<<<<<< HEAD
 #ifdef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
 		pval->intval = chip->cyc_ctr.id;
 		break;
 #endif
+=======
+	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
+		pval->intval = chip->cyc_ctr.id;
+		break;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case POWER_SUPPLY_PROP_CHARGE_NOW_RAW:
 		rc = fg_get_charge_raw(chip, &pval->intval);
 		break;
@@ -4193,9 +4278,12 @@ static int fg_psy_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CC_STEP_SEL:
 		pval->intval = chip->ttf.cc_step.sel;
 		break;
+<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_FG_RESET_CLOCK:
 		pval->intval = 0;
 		break;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	default:
 		pr_err("unsupported property %d\n", psp);
 		rc = -EINVAL;
@@ -4208,6 +4296,7 @@ static int fg_psy_get_property(struct power_supply *psy,
 	return 0;
 }
 
+<<<<<<< HEAD
 #define BCL_RESET_RETRY_COUNT 4
 static int fg_bcl_reset(struct fg_chip *chip)
 {
@@ -4302,15 +4391,23 @@ unlock:
 		return rc;
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int fg_psy_set_property(struct power_supply *psy,
 				  enum power_supply_property psp,
 				  const union power_supply_propval *pval)
 {
 	struct fg_chip *chip = power_supply_get_drvdata(psy);
+<<<<<<< HEAD
 	int rc = -EINVAL;
 
 	switch (psp) {
 #ifdef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
+=======
+	int rc = 0;
+
+	switch (psp) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
 		if ((pval->intval > 0) && (pval->intval <= BUCKET_COUNT)) {
 			chip->cyc_ctr.id = pval->intval;
@@ -4320,7 +4417,10 @@ static int fg_psy_set_property(struct power_supply *psy,
 			return -EINVAL;
 		}
 		break;
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
 		rc = fg_set_constant_chg_voltage(chip, pval->intval);
 		break;
@@ -4392,6 +4492,7 @@ static int fg_psy_set_property(struct power_supply *psy,
 			return rc;
 		}
 		break;
+<<<<<<< HEAD
 	case POWER_SUPPLY_PROP_FG_RESET_CLOCK:
 		rc = fg_bcl_reset(chip);
 		if (rc < 0) {
@@ -4399,6 +4500,8 @@ static int fg_psy_set_property(struct power_supply *psy,
 			return rc;
 		}
 		break;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	default:
 		break;
 	}
@@ -4410,9 +4513,13 @@ static int fg_property_is_writeable(struct power_supply *psy,
 						enum power_supply_property psp)
 {
 	switch (psp) {
+<<<<<<< HEAD
 #ifdef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
 #endif
+=======
+	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
 	case POWER_SUPPLY_PROP_CC_STEP:
 	case POWER_SUPPLY_PROP_CC_STEP_SEL:
@@ -4485,9 +4592,13 @@ static enum power_supply_property fg_psy_props[] = {
 	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
 	POWER_SUPPLY_PROP_VOLTAGE_MAX_DESIGN,
 	POWER_SUPPLY_PROP_CYCLE_COUNT,
+<<<<<<< HEAD
 #ifdef CONFIG_QPNP_FG_GEN3_LEGACY_CYCLE_COUNT
 	POWER_SUPPLY_PROP_CYCLE_COUNT_ID,
 #endif
+=======
+	POWER_SUPPLY_PROP_CYCLE_COUNT_ID,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	POWER_SUPPLY_PROP_CHARGE_NOW_RAW,
 	POWER_SUPPLY_PROP_CHARGE_NOW,
 	POWER_SUPPLY_PROP_CHARGE_FULL,
@@ -4500,7 +4611,10 @@ static enum power_supply_property fg_psy_props[] = {
 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE,
 	POWER_SUPPLY_PROP_CC_STEP,
 	POWER_SUPPLY_PROP_CC_STEP_SEL,
+<<<<<<< HEAD
 	POWER_SUPPLY_PROP_FG_RESET_CLOCK,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static const struct power_supply_desc fg_psy_desc = {
@@ -4789,6 +4903,7 @@ static int fg_hw_init(struct fg_chip *chip)
 		}
 	}
 
+<<<<<<< HEAD
 	/*
 	*set ibat_cutoff from 500ma to 200ma
 	*val = ibat_cutoff / 0.00012207
@@ -4803,6 +4918,8 @@ static int fg_hw_init(struct fg_chip *chip)
 	if (rc < 0)
 		pr_err("Error in configuring Sram, rc=%d\n", rc);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -4909,8 +5026,12 @@ static irqreturn_t fg_batt_missing_irq_handler(int irq, void *data)
 	}
 
 	clear_battery_profile(chip);
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->profile_load_work, 0);
+=======
+	schedule_delayed_work(&chip->profile_load_work, 0);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (chip->fg_psy)
 		power_supply_changed(chip->fg_psy);
@@ -5554,9 +5675,12 @@ static int fg_parse_dt(struct fg_chip *chip)
 	chip->dt.force_load_profile = of_property_read_bool(node,
 					"qcom,fg-force-load-profile");
 
+<<<<<<< HEAD
 	chip->dt.cl_feedback = of_property_read_bool(node,
 					"qcom,cl-feedback");
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rc = of_property_read_u32(node, "qcom,cl-start-capacity", &temp);
 	if (rc < 0)
 		chip->dt.cl_start_soc = DEFAULT_CL_START_SOC;
@@ -5707,6 +5831,7 @@ static int fg_parse_dt(struct fg_chip *chip)
 			chip->dt.esr_meas_curr_ma = temp;
 	}
 
+<<<<<<< HEAD
 	chip->dt.batt_therm_high_lut_len =
 		of_property_count_elems_of_size(node,
 		"qcom,battery-thermal-high-lut",
@@ -5753,6 +5878,8 @@ static int fg_parse_dt(struct fg_chip *chip)
 	} else
 		chip->dt.batt_therm_low_lut_len = -EINVAL;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -5857,12 +5984,15 @@ static int fg_gen3_probe(struct platform_device *pdev)
 		goto exit;
 	}
 
+<<<<<<< HEAD
 	rc = device_create_file(chip->dev, &dev_attr_cycle_counts_bins);
 	if (rc != 0) {
 		dev_err(chip->dev,
 			"Failed to create cycle_counts_bins files: %d\n", rc);
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_init(&chip->bus_lock);
 	mutex_init(&chip->sram_rw_lock);
 	mutex_init(&chip->cyc_ctr.lock);
@@ -5957,8 +6087,12 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	}
 
 	device_init_wakeup(chip->dev, true);
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->profile_load_work, 0);
+=======
+	schedule_delayed_work(&chip->profile_load_work, 0);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pr_debug("FG GEN3 driver probed successfully\n");
 	return 0;
@@ -5995,11 +6129,17 @@ static int fg_gen3_resume(struct device *dev)
 	if (rc < 0)
 		pr_err("Error in configuring ESR timer, rc=%d\n", rc);
 
+<<<<<<< HEAD
 	queue_delayed_work(system_power_efficient_wq,
 		&chip->ttf_work, 0);
 	if (fg_sram_dump)
 		queue_delayed_work(system_power_efficient_wq,
 			&chip->sram_dump_work,
+=======
+	schedule_delayed_work(&chip->ttf_work, 0);
+	if (fg_sram_dump)
+		schedule_delayed_work(&chip->sram_dump_work,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				msecs_to_jiffies(fg_sram_dump_period_ms));
 
 	if (!work_pending(&chip->status_change_work)) {

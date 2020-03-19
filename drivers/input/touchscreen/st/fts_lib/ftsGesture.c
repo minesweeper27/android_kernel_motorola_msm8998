@@ -334,7 +334,11 @@ int addCustomGesture(u8 *data, int size, u8 gestureID)
 	index = gestureID - GESTURE_CUSTOM_OFFSET;
 
 	logError(0, "%s Starting Custom Gesture Adding procedure...\n", tag);
+<<<<<<< HEAD
 	if (size != GESTURE_CUSTOM_POINTS && gestureID != GES_ID_CUST1 && gestureID != GES_ID_CUST2 && gestureID != GES_ID_CUST3 && gestureID != GES_ID_CUST4 && gestureID != GES_ID_CUST5) {
+=======
+	if (size != GESTURE_CUSTOM_POINTS && gestureID != GES_ID_CUST1 && gestureID != GES_ID_CUST2 && gestureID != GES_ID_CUST3 && gestureID != GES_ID_CUST4 && gestureID && GES_ID_CUST5) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		logError(1, "%s addCustomGesture: Invalid size (%d) or Custom GestureID (%02X)! ERROR %08X\n", tag, size, gestureID, ERROR_OP_NOT_ALLOW);
 		return ERROR_OP_NOT_ALLOW;
 	}
@@ -364,7 +368,11 @@ int removeCustomGesture(u8 gestureID)
 	index = gestureID - GESTURE_CUSTOM_OFFSET;
 
 	logError(0, "%s Starting Custom Gesture Removing procedure...\n", tag);
+<<<<<<< HEAD
 	if (gestureID != GES_ID_CUST1 && gestureID != GES_ID_CUST2 && gestureID != GES_ID_CUST3 && gestureID != GES_ID_CUST4 && gestureID != GES_ID_CUST5) {
+=======
+	if (gestureID != GES_ID_CUST1 && gestureID != GES_ID_CUST2 && gestureID != GES_ID_CUST3 && gestureID != GES_ID_CUST4 && gestureID && GES_ID_CUST5) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		logError(1, "%s removeCustomGesture: Invalid size (%d) or Custom GestureID (%02X)! ERROR %08X\n", tag, gestureID, ERROR_OP_NOT_ALLOW);
 		return ERROR_OP_NOT_ALLOW;
 	}

@@ -772,6 +772,7 @@ config PERF_EVENTS_USERMODE
 	  counters to be accessed from user-mode are set.
 
 	  If you want user-mode programs to access perf events, say Y
+<<<<<<< HEAD
 
 config PERF_EVENTS_RESET_PMU_DEBUGFS
 	bool "Reset PMU via debugfs node"
@@ -783,6 +784,19 @@ config PERF_EVENTS_RESET_PMU_DEBUGFS
 		If you want to reset PMU and PMU related internal Perf variables
 		via debugfs then say Y.
 
+=======
+
+config PERF_EVENTS_RESET_PMU_DEBUGFS
+	bool "Reset PMU via debugfs node"
+	depends on PERF_EVENTS
+	help
+		Enable the debugfs node that can be used to reset PMUs and all
+		state variables associated with PMUs. If enabled, PMU and internal
+		state variable are cleared.
+		If you want to reset PMU and PMU related internal Perf variables
+		via debugfs then say Y.
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config SYS_SUPPORTS_HUGETLBFS
 	def_bool y
 

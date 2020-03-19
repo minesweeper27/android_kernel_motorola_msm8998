@@ -205,7 +205,11 @@ int msm_camera_get_clk_info(struct platform_device *pdev,
 {
 	int rc = 0;
 
+<<<<<<< HEAD
 	if (!pdev || !clk_info || !clk_ptr || !num_clk)
+=======
+	if (!pdev || !&pdev->dev || !clk_info || !clk_ptr || !num_clk)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return -EINVAL;
 
 	rc = msm_camera_get_clk_info_internal(&pdev->dev,
@@ -507,7 +511,11 @@ int msm_camera_put_clk_info(struct platform_device *pdev,
 {
 	int rc = 0;
 
+<<<<<<< HEAD
 	if (!pdev || !clk_info || !clk_ptr)
+=======
+	if (!pdev || !&pdev->dev || !clk_info || !clk_ptr)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return -EINVAL;
 
 	rc = msm_camera_put_clk_info_internal(&pdev->dev,

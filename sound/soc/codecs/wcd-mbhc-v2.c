@@ -49,7 +49,11 @@
 #define FW_READ_ATTEMPTS 15
 #define FW_READ_TIMEOUT 4000000
 #define FAKE_REM_RETRY_ATTEMPTS 3
+<<<<<<< HEAD
 #define MAX_IMPED 100000
+=======
+#define MAX_IMPED 60000
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define WCD_MBHC_BTN_PRESS_COMPL_TIMEOUT_MS  50
 #define ANC_DETECT_RETRY_CNT 7
@@ -649,7 +653,11 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 
 		mbhc->hph_type = WCD_MBHC_HPH_NONE;
 		mbhc->zl = mbhc->zr = 0;
+<<<<<<< HEAD
 		pr_info("%s: Reporting removal %d(%x)\n", __func__,
+=======
+		pr_debug("%s: Reporting removal %d(%x)\n", __func__,
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			 jack_type, mbhc->hph_status);
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				mbhc->hph_status, WCD_MBHC_JACK_MASK);
@@ -763,9 +771,14 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 
 		mbhc->hph_status |= jack_type;
 
+<<<<<<< HEAD
 		pr_info("%s: Reporting insertion %d(%x),zl %d ohm,zr %d ohm\n",
 			__func__, jack_type, mbhc->hph_status,
 			mbhc->zl, mbhc->zr);
+=======
+		pr_debug("%s: Reporting insertion %d(%x)\n", __func__,
+			 jack_type, mbhc->hph_status);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				    (mbhc->hph_status | SND_JACK_MECHANICAL),
 				    WCD_MBHC_JACK_MASK);
@@ -1706,7 +1719,11 @@ static irqreturn_t wcd_mbhc_mech_plug_detect_irq(int irq, void *data)
 	int r = IRQ_HANDLED;
 	struct wcd_mbhc *mbhc = data;
 
+<<<<<<< HEAD
 	pr_info("%s: enter\n", __func__);
+=======
+	pr_debug("%s: enter\n", __func__);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (unlikely((mbhc->mbhc_cb->lock_sleep(mbhc, true)) == false)) {
 		pr_warn("%s: failed to hold suspend\n", __func__);
 		r = IRQ_NONE;
@@ -2078,8 +2095,13 @@ static irqreturn_t wcd_mbhc_release_handler(int irq, void *data)
 	if (mbhc->buttons_pressed & WCD_MBHC_JACK_BUTTON_MASK) {
 		ret = wcd_cancel_btn_work(mbhc);
 		if (ret == 0) {
+<<<<<<< HEAD
 			pr_info("%s: Reporting long button release event,buttons_pressed,%x\n",
 				 __func__, mbhc->buttons_pressed);
+=======
+			pr_debug("%s: Reporting long button release event\n",
+				 __func__);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			wcd_mbhc_jack_report(mbhc, &mbhc->button_jack,
 					0, mbhc->buttons_pressed);
 		} else {
@@ -2087,14 +2109,23 @@ static irqreturn_t wcd_mbhc_release_handler(int irq, void *data)
 				pr_debug("%s: Switch irq kicked in, ignore\n",
 					__func__);
 			} else {
+<<<<<<< HEAD
 				pr_info("%s: Reporting btn press\n",
+=======
+				pr_debug("%s: Reporting btn press\n",
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					 __func__);
 				wcd_mbhc_jack_report(mbhc,
 						     &mbhc->button_jack,
 						     mbhc->buttons_pressed,
 						     mbhc->buttons_pressed);
+<<<<<<< HEAD
 				pr_info("%s: Reporting btn release,buttons_pressed,%x\n",
 					 __func__, mbhc->buttons_pressed);
+=======
+				pr_debug("%s: Reporting btn release\n",
+					 __func__);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				wcd_mbhc_jack_report(mbhc,
 						&mbhc->button_jack,
 						0, mbhc->buttons_pressed);
@@ -2787,7 +2818,10 @@ int wcd_mbhc_init(struct wcd_mbhc *mbhc, struct snd_soc_codec *codec,
 	struct snd_soc_card *card = codec->component.card;
 	const char *hph_switch = "qcom,msm-mbhc-hphl-swh";
 	const char *gnd_switch = "qcom,msm-mbhc-gnd-swh";
+<<<<<<< HEAD
 	impedance_det_en = true;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pr_debug("%s: enter\n", __func__);
 

@@ -75,8 +75,11 @@ struct dsi_phy_t_clk_param {
 	u32 hs_trail_buf;
 	u32 hs_rqst_buf;
 	u32 hs_exit_buf;
+<<<<<<< HEAD
 	u32 clk_post_buf;
 	u32 clk_pre_buf;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static int  mdss_dsi_phy_common_validate_and_set(struct timing_entry *te,
@@ -128,6 +131,7 @@ static int mdss_dsi_phy_initialize_defaults(struct dsi_phy_t_clk_param *t_clk,
 		t_clk->clk_prep_buf = 0;
 		t_clk->clk_zero_buf = 0;
 		t_clk->clk_trail_buf = 0;
+<<<<<<< HEAD
 		t_clk->hs_prep_buf = 1;
 		t_clk->hs_zero_buf = 2;
 		t_clk->hs_trail_buf = 0;
@@ -136,6 +140,13 @@ static int mdss_dsi_phy_initialize_defaults(struct dsi_phy_t_clk_param *t_clk,
 		t_clk->clk_post_buf = 0;
 		t_clk->clk_pre_buf = 1;
 
+=======
+		t_clk->hs_prep_buf = 0;
+		t_clk->hs_zero_buf = 0;
+		t_clk->hs_trail_buf = 0;
+		t_clk->hs_rqst_buf = 0;
+		t_clk->hs_exit_buf = 0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if (phy_rev == DSI_PHY_REV_20) {
 		t_param->hs_rqst.mipi_min = HS_RQST_SPEC_MIN;
 		t_param->hs_rqst_clk.mipi_min = HS_RQST_SPEC_MIN;
@@ -148,8 +159,11 @@ static int mdss_dsi_phy_initialize_defaults(struct dsi_phy_t_clk_param *t_clk,
 		t_clk->hs_trail_buf = 30;
 		t_clk->hs_rqst_buf = 0;
 		t_clk->hs_exit_buf = 10;
+<<<<<<< HEAD
 		t_clk->clk_post_buf = 10;
 		t_clk->clk_pre_buf = 10;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else if (phy_rev == DSI_PHY_REV_10) {
 		t_param->clk_prepare.rec_min =
 			(DIV_ROUND_UP(t_param->clk_prepare.mipi_min *
@@ -226,6 +240,7 @@ error:
 }
 
 /**
+<<<<<<< HEAD
  * calc_clk_post - calculates T_CLK_POST timing params for clk lane.
  */
 static int calc_clk_post(struct dsi_phy_t_clk_param *clk_params,
@@ -335,25 +350,36 @@ error:
 }
 
 /**
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * calc_clk_zero - calculates zero timing params for clk lane.
  */
 static int calc_clk_zero(struct dsi_phy_t_clk_param *clk_params,
 			 struct dsi_phy_timing *desc,
 			 s32 actual_frac,
+<<<<<<< HEAD
 			 s64 actual_intermediate,
 			 s32 *clk_zero_frac,
 			 s64 *clk_zero_intermediate)
+=======
+			 s64 actual_intermediate)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	u64 const multiplier = BIT(20);
 	int rc = 0;
 	struct timing_entry *t = &desc->clk_zero;
 	s64 mipi_min, rec_temp1, rec_temp2, rec_temp3, rec_min;
+<<<<<<< HEAD
 	u64 temp_multiple;
 	s32 frac = 0;
 	s64 intermediate;
 	s64 clk_zero_actual;
 
 	if (!clk_params || !desc || !clk_zero_frac || !clk_zero_intermediate) {
+=======
+
+	if (!clk_params || !desc || !actual_frac || !actual_intermediate) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rc = -EINVAL;
 		goto error;
 	}
@@ -385,6 +411,7 @@ static int calc_clk_zero(struct dsi_phy_t_clk_param *clk_params,
 	if (rc)
 		goto error;
 
+<<<<<<< HEAD
 	/*calculate theoretical value*/
 	temp_multiple = (t->program_value + 1) * 8 * clk_params->tlpx_numer_ns
 		* multiplier;
@@ -400,6 +427,11 @@ static int calc_clk_zero(struct dsi_phy_t_clk_param *clk_params,
 
 	*clk_zero_frac = frac;
 	*clk_zero_intermediate = intermediate;
+=======
+	pr_debug("CLK_ZERO:mipi_min=%d, mipi_max=%d, rec_min=%d, rec_max=%d, reg_val=%d\n",
+		 t->mipi_min, t->mipi_max, t->rec_min, t->rec_max,
+		 t->program_value);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 error:
 	return rc;
@@ -676,7 +708,11 @@ error:
  * calc_hs_rqst - calculates rqst timing params for data lanes in HS.
  */
 static int calc_hs_rqst(struct dsi_phy_t_clk_param *clk_params,
+<<<<<<< HEAD
 						struct dsi_phy_timing *desc)
+=======
+			struct dsi_phy_timing *desc)
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	int rc = 0;
 	struct timing_entry *t = &desc->hs_rqst;
@@ -742,6 +778,7 @@ error:
  * calc_hs_rqst_clk - calculates rqst timing params for clock lane..
  */
 static int calc_hs_rqst_clk(struct dsi_phy_t_clk_param *clk_params,
+<<<<<<< HEAD
 					struct dsi_phy_timing *desc,
 					s32 *hs_rqst_frac,
 					s64 *hs_rqst_intermediate)
@@ -753,6 +790,12 @@ static int calc_hs_rqst_clk(struct dsi_phy_t_clk_param *clk_params,
 	s32 frac = 0;
 	s64 intermediate;
 	s64 hs_rqst_actual;
+=======
+			    struct dsi_phy_timing *desc)
+{
+	int rc = 0;
+	struct timing_entry *t = &desc->hs_rqst_clk;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!clk_params || !desc) {
 		rc = -EINVAL;
@@ -772,6 +815,7 @@ static int calc_hs_rqst_clk(struct dsi_phy_t_clk_param *clk_params,
 		 t->mipi_min, t->mipi_max, t->rec_min, t->rec_max,
 		 t->program_value);
 
+<<<<<<< HEAD
 	/*calculate theoretical value*/
 	if (!t->program_value)
 		temp_multiple = (t->program_value + 1) * 8 *
@@ -787,6 +831,8 @@ static int calc_hs_rqst_clk(struct dsi_phy_t_clk_param *clk_params,
 	*hs_rqst_frac = frac;
 	*hs_rqst_intermediate = intermediate;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 error:
 	return rc;
 }
@@ -796,12 +842,17 @@ static int mdss_dsi_phy_calc_param_phy_cmn(
 					struct dsi_phy_timing *desc)
 {
 	int rc = 0;
+<<<<<<< HEAD
 	s32 clk_prepare_frac = 0;
 	s64 clk_prepare_intermediate = 0;
 	s32 clk_zero_frac = 0;
 	s64 clk_zero_intermediate = 0;
 	s32 hs_rqst_frac = 0;
 	s64 hs_rqst_intermediate = 0;
+=======
+	s32 actual_frac = 0;
+	s64 actual_intermediate = 0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	u64 temp_multiple;
 	s64 teot_clk_lane;
 
@@ -810,16 +861,25 @@ static int mdss_dsi_phy_calc_param_phy_cmn(
 		goto error;
 	}
 
+<<<<<<< HEAD
 	rc = calc_clk_prepare(clk_params, desc, &clk_prepare_frac,
 			      &clk_prepare_intermediate);
+=======
+	rc = calc_clk_prepare(clk_params, desc, &actual_frac,
+			      &actual_intermediate);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (rc) {
 		pr_err("clk_prepare calculations failed, rc=%d\n", rc);
 		goto error;
 	}
 
+<<<<<<< HEAD
 	rc = calc_clk_zero(clk_params, desc, clk_prepare_frac,
 			clk_prepare_intermediate, &clk_zero_frac,
 			&clk_zero_intermediate);
+=======
+	rc = calc_clk_zero(clk_params, desc, actual_frac, actual_intermediate);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (rc) {
 		pr_err("clk_zero calculations failed, rc=%d\n", rc);
 		goto error;
@@ -861,12 +921,17 @@ static int mdss_dsi_phy_calc_param_phy_cmn(
 		goto error;
 	}
 
+<<<<<<< HEAD
 	rc = calc_hs_rqst_clk(clk_params, desc,
 				  &hs_rqst_frac, &hs_rqst_intermediate);
+=======
+	rc = calc_hs_rqst_clk(clk_params, desc);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (rc) {
 		pr_err("hs_rqst_clk calculations failed, rc=%d\n", rc);
 		goto error;
 	}
+<<<<<<< HEAD
 
 	rc = calc_clk_post(clk_params, desc);
 	if (rc) {
@@ -883,6 +948,8 @@ static int mdss_dsi_phy_calc_param_phy_cmn(
 		goto error;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 error:
 	return rc;
 }
@@ -1166,9 +1233,12 @@ static void mdss_dsi_phy_update_timing_param_v2(struct mdss_panel_info *pinfo,
 
 	reg = &(pinfo->mipi.dsi_phy_db);
 
+<<<<<<< HEAD
 	pinfo->mipi.t_clk_post = t_param->clk_post.program_value;
 	pinfo->mipi.t_clk_pre = t_param->clk_pre.program_value;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	for (i = 0; i < TIMING_PARAM_DLANE_COUNT; i += 8) {
 		reg->timing_8996[i] = t_param->hs_exit.program_value;
 		reg->timing_8996[i + 1] = t_param->hs_zero.program_value;
@@ -1201,9 +1271,12 @@ static void mdss_dsi_phy_update_timing_param_v3(struct mdss_panel_info *pinfo,
 
 	pd = &(pinfo->mipi.dsi_phy_db);
 
+<<<<<<< HEAD
 	pinfo->mipi.t_clk_post = t_param->clk_post.program_value;
 	pinfo->mipi.t_clk_pre = t_param->clk_pre.program_value;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pd->timing[0] = 0x00;
 	pd->timing[1] = t_param->clk_zero.program_value;
 	pd->timing[2] = t_param->clk_prepare.program_value;
@@ -1216,6 +1289,7 @@ static void mdss_dsi_phy_update_timing_param_v3(struct mdss_panel_info *pinfo,
 	pd->timing[9] = 0x03;
 	pd->timing[10] = 0x04;
 	pd->timing[11] = 0x00;
+<<<<<<< HEAD
 
 	pr_debug("%s: [%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x]\n",
 		__func__,
@@ -1223,6 +1297,8 @@ static void mdss_dsi_phy_update_timing_param_v3(struct mdss_panel_info *pinfo,
 	pd->timing[4], pd->timing[5], pd->timing[6], pd->timing[7],
 	pd->timing[8], pd->timing[9], pd->timing[10],
 	pd->timing[11]);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 int mdss_dsi_phy_calc_timing_param(struct mdss_panel_info *pinfo, u32 phy_rev,

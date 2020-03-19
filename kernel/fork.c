@@ -79,9 +79,12 @@
 #include <linux/sysctl.h>
 #include <linux/kcov.h>
 #include <linux/cpufreq_times.h>
+<<<<<<< HEAD
 #include <linux/simple_lmk.h>
 #include <linux/cpu_input_boost.h>
 #include <linux/devfreq_boost.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>
@@ -368,9 +371,12 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
 	err = kaiser_map_thread_stack(tsk->stack);
 	if (err)
 		goto free_stack;
+<<<<<<< HEAD
 
 	tsk->flags &= ~PF_SU;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #ifdef CONFIG_SECCOMP
 	/*
 	 * We must handle setting up seccomp filters once we're under
@@ -723,7 +729,10 @@ static inline void __mmput(struct mm_struct *mm)
 	ksm_exit(mm);
 	khugepaged_exit(mm); /* must run before exit_mmap */
 	exit_mmap(mm);
+<<<<<<< HEAD
         simple_lmk_mm_freed(mm);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	set_mm_exe_file(mm, NULL);
 	if (!list_empty(&mm->mmlist)) {
 		spin_lock(&mmlist_lock);

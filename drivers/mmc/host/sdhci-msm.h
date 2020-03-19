@@ -155,7 +155,10 @@ struct sdhci_msm_pltfm_data {
 	u32 ice_clk_min;
 	struct sdhci_msm_pm_qos_data pm_qos_data;
 	bool sdr104_wa;
+<<<<<<< HEAD
 	bool clk_scale_disabled;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct sdhci_msm_bus_vote {

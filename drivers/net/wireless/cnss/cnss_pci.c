@@ -1835,7 +1835,11 @@ static int cnss_wlan_runtime_suspend(struct device *dev)
 	if (wdrv && wdrv->runtime_ops && wdrv->runtime_ops->runtime_suspend)
 		ret = wdrv->runtime_ops->runtime_suspend(to_pci_dev(dev));
 
+<<<<<<< HEAD
 	pr_debug("cnss: runtime suspend status: %d\n", ret);
+=======
+	pr_info("cnss: runtime suspend status: %d\n", ret);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return ret;
 
@@ -1861,7 +1865,11 @@ static int cnss_wlan_runtime_resume(struct device *dev)
 	if (wdrv && wdrv->runtime_ops && wdrv->runtime_ops->runtime_resume)
 		ret = wdrv->runtime_ops->runtime_resume(to_pci_dev(dev));
 
+<<<<<<< HEAD
 	pr_debug("cnss: runtime resume status: %d\n", ret);
+=======
+	pr_info("cnss: runtime resume status: %d\n", ret);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return ret;
 }

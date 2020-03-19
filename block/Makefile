@@ -19,7 +19,10 @@ obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
 obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
+<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_BFQ)	+= bfq-iosched.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o

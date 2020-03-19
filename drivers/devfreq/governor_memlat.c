@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -245,11 +249,15 @@ static int devfreq_memlat_get_freq(struct devfreq *df,
 					hw->core_stats[i].mem_count,
 					hw->core_stats[i].freq, ratio);
 
+<<<<<<< HEAD
 		if (!hw->core_stats[i].inst_count
 		    || !hw->core_stats[i].freq)
 			continue;
 
 		if (ratio <= node->ratio_ceil
+=======
+		if (ratio && ratio <= node->ratio_ceil
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		    && hw->core_stats[i].freq > max_freq) {
 			lat_dev = i;
 			max_freq = hw->core_stats[i].freq;

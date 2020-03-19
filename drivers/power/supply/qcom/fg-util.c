@@ -420,7 +420,11 @@ int fg_write(struct fg_chip *chip, int addr, u8 *val, int len)
 		return -ENXIO;
 
 	mutex_lock(&chip->bus_lock);
+<<<<<<< HEAD
 	sec_access = (addr & 0x00FF) > 0xBA;
+=======
+	sec_access = (addr & 0x00FF) > 0xD0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (sec_access) {
 		rc = regmap_write(chip->regmap, (addr & 0xFF00) | 0xD0, 0xA5);
 		if (rc < 0) {
@@ -460,7 +464,11 @@ int fg_masked_write(struct fg_chip *chip, int addr, u8 mask, u8 val)
 		return -ENXIO;
 
 	mutex_lock(&chip->bus_lock);
+<<<<<<< HEAD
 	sec_access = (addr & 0x00FF) > 0xBA;
+=======
+	sec_access = (addr & 0x00FF) > 0xD0;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (sec_access) {
 		rc = regmap_write(chip->regmap, (addr & 0xFF00) | 0xD0, 0xA5);
 		if (rc < 0) {
@@ -554,6 +562,7 @@ static int fg_sram_dfs_open(struct inode *inode, struct file *file)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int fg_sram_dfs_dump_open(struct inode *inode, struct file *file)
 {
 	dbgfs_data.addr = 0;
@@ -561,6 +570,8 @@ static int fg_sram_dfs_dump_open(struct inode *inode, struct file *file)
 	return fg_sram_dfs_open(inode, file);
 }
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int fg_sram_dfs_close(struct inode *inode, struct file *file)
 {
 	struct fg_trans *trans = file->private_data;
@@ -837,12 +848,15 @@ static const struct file_operations fg_sram_dfs_reg_fops = {
 	.write		= fg_sram_dfs_reg_write,
 };
 
+<<<<<<< HEAD
 static const struct file_operations fg_sram_dfs_dump_fops = {
 	.open		= fg_sram_dfs_dump_open,
 	.release	= fg_sram_dfs_close,
 	.read		= fg_sram_dfs_reg_read,
 };
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * fg_debugfs_create: adds new fg_sram debugfs entry
  * @return zero on success
@@ -892,6 +906,7 @@ static int fg_sram_debugfs_create(struct fg_chip *chip)
 		goto err_remove_fs;
 	}
 
+<<<<<<< HEAD
 	file = debugfs_create_file("sram_dump",
 				    S_IFREG | S_IWUSR | S_IRUGO,
 				    dfs_sram, chip,
@@ -901,6 +916,8 @@ static int fg_sram_debugfs_create(struct fg_chip *chip)
 		goto err_remove_fs;
 	}
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 
 err_remove_fs:

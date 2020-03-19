@@ -722,8 +722,12 @@ static int ipa3_wwan_add_ul_flt_rule_to_ipa(void)
 		retval = -EFAULT;
 	}
 
+<<<<<<< HEAD
 	req->install_status = (enum ipa_qmi_result_type_v01)
 							QMI_RESULT_SUCCESS_V01;
+=======
+	req->install_status = QMI_RESULT_SUCCESS_V01;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	req->rule_id_valid = 1;
 	req->rule_id_len = rmnet_ipa3_ctx->num_q6_rules;
 	for (i = 0; i < rmnet_ipa3_ctx->num_q6_rules; i++) {

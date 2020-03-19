@@ -22,6 +22,7 @@ config DIAG_OVER_USB
 	 This feature helps segregate code required for DIAG traffic to go over USB.
 endmenu
 
+<<<<<<< HEAD
 menu "DIAG traffic over TTY"
 
 config DIAG_OVER_TTY
@@ -32,6 +33,8 @@ config DIAG_OVER_TTY
 	 This feature helps segregate code required for DIAG traffic to go over a TTY to userspace.
 endmenu
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 menu "HSIC/SMUX support for DIAG"
 
 config DIAGFWD_BRIDGE_CODE

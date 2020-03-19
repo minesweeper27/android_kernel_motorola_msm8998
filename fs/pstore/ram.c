@@ -597,11 +597,14 @@ static int ramoops_parse_dt(struct platform_device *pdev,
 	if (ret < 0)
 		return ret;
 
+<<<<<<< HEAD
 	ret = ramoops_parse_dt_size(pdev, "ramoops-annotate-size",
 				&pdata->annotate_size);
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = of_property_read_u32(of_node, "ecc-size", &ecc_size);
 	if (ret == 0) {
 		if (ecc_size > INT_MAX) {

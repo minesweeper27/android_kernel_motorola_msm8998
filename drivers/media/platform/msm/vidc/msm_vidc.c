@@ -1542,6 +1542,7 @@ int msm_vidc_destroy(struct msm_vidc_inst *inst)
 	return 0;
 }
 
+<<<<<<< HEAD
 static void close_helper(struct kref *kref)
 {
 	struct msm_vidc_inst *inst = container_of(kref,
@@ -1552,6 +1553,18 @@ static void close_helper(struct kref *kref)
 
 int msm_vidc_close(void *instance)
 {
+=======
+int msm_vidc_close(void *instance)
+{
+	void close_helper(struct kref *kref)
+	{
+		struct msm_vidc_inst *inst = container_of(kref,
+				struct msm_vidc_inst, kref);
+
+		msm_vidc_destroy(inst);
+	}
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct msm_vidc_inst *inst = instance;
 	struct buffer_info *bi, *dummy;
 	int rc = 0, i = 0;

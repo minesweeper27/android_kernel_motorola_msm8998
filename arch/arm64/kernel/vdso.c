@@ -57,6 +57,7 @@ struct vdso_data *vdso_data = &vdso_data_store.data;
 /*
  * Create and map the vectors page for AArch32 tasks.
  */
+<<<<<<< HEAD
 #if !defined(CONFIG_VDSO32) || defined(CONFIG_KUSER_HELPERS)
 static struct page *vectors_page[] __ro_after_init;
 static const struct vm_special_mapping compat_vdso_spec[] = {
@@ -74,6 +75,9 @@ static const struct vm_special_mapping compat_vdso_spec[] = {
 };
 static struct page *vectors_page[ARRAY_SIZE(compat_vdso_spec)] __ro_after_init;
 #endif
+=======
+static struct page *vectors_page[1];
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int __init alloc_vectors_page(void)
 {
@@ -127,7 +131,16 @@ arch_initcall(alloc_vectors_page);
 int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
 {
 	struct mm_struct *mm = current->mm;
+<<<<<<< HEAD
 	unsigned long addr;
+=======
+	unsigned long addr = AARCH32_VECTORS_BASE;
+	static const struct vm_special_mapping spec = {
+		.name	= "[vectors]",
+		.pages	= vectors_page,
+
+	};
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	void *ret;
 
 	down_write(&mm->mmap_sem);
@@ -166,8 +179,12 @@ static int __init vdso_mappings_init(const char *name,
 				     const char *code_end,
 				     struct vdso_mappings *mappings)
 {
+<<<<<<< HEAD
 	unsigned long i, vdso_pages;
 	struct page **vdso_pagelist;
+=======
+	int i;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned long pfn;
 
 	if (memcmp(code_start, "\177ELF", 4)) {
@@ -195,9 +212,16 @@ static int __init vdso_mappings_init(const char *name,
 
 	/* Grab the vDSO data page. */
 	vdso_pagelist[0] = phys_to_page(__pa_symbol(vdso_data));
+<<<<<<< HEAD
 
 	/* Grab the vDSO code pages. */
 	pfn = sym_to_pfn(code_start);
+=======
+
+
+	/* Grab the vDSO code pages. */
+	pfn = sym_to_pfn(vdso_start);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	for (i = 0; i < vdso_pages; i++)
 		vdso_pagelist[i + 1] = pfn_to_page(pfn + i);
@@ -331,14 +355,21 @@ void update_vsyscall(struct timekeeper *tk)
 	vdso_data->wtm_clock_nsec		= tk->wall_to_monotonic.tv_nsec;
 
 	if (!use_syscall) {
+<<<<<<< HEAD
 		struct timespec btm = ktime_to_timespec(tk->offs_boot);
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		/* tkr_mono.cycle_last == tkr_raw.cycle_last */
 		vdso_data->cs_cycle_last	= tk->tkr_mono.cycle_last;
 		vdso_data->raw_time_sec         = tk->raw_sec;
 		vdso_data->raw_time_nsec        = tk->tkr_raw.xtime_nsec;
 		vdso_data->xtime_clock_sec	= tk->xtime_sec;
+<<<<<<< HEAD
 		vdso_data->xtime_clock_snsec	= tk->tkr_mono.xtime_nsec;
+=======
+		vdso_data->xtime_clock_nsec	= tk->tkr_mono.xtime_nsec;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		vdso_data->cs_mono_mult		= tk->tkr_mono.mult;
 		vdso_data->cs_raw_mult		= tk->tkr_raw.mult;
 		/* tkr_mono.shift == tkr_raw.shift */

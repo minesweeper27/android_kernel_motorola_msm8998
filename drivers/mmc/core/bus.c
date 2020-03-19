@@ -399,14 +399,18 @@ int mmc_add_card(struct mmc_card *card)
 			pr_err("%s: %s: failed to init wakeup: %d\n",
 			       mmc_hostname(card->host), __func__, ret);
 	}
+<<<<<<< HEAD
 
 	/* wait for user space to consume the event */
 	__pm_wakeup_event(&card->host->pm_ws, CARD_ADD_REMOVE_DELAY);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = device_add(&card->dev);
 	if (ret)
 		return ret;
 
 	mmc_card_set_present(card);
+	device_enable_async_suspend(&card->dev);
 
 	return 0;
 }

@@ -186,7 +186,10 @@ static const struct file_operations ufs_qcom_dbg_testbus_cfg_desc = {
 	.open		= ufs_qcom_dbg_testbus_cfg_open,
 	.read		= seq_read,
 	.write		= ufs_qcom_dbg_testbus_cfg_write,
+<<<<<<< HEAD
 	.release	= single_release,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static int ufs_qcom_dbg_testbus_bus_read(void *data, u64 *attr_val)
@@ -241,7 +244,10 @@ static int ufs_qcom_dbg_dbg_regs_open(struct inode *inode,
 static const struct file_operations ufs_qcom_dbg_dbg_regs_desc = {
 	.open		= ufs_qcom_dbg_dbg_regs_open,
 	.read		= seq_read,
+<<<<<<< HEAD
 	.release	= single_release,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static int ufs_qcom_dbg_pm_qos_show(struct seq_file *file, void *data)
@@ -275,7 +281,10 @@ static int ufs_qcom_dbg_pm_qos_open(struct inode *inode,
 static const struct file_operations ufs_qcom_dbg_pm_qos_desc = {
 	.open		= ufs_qcom_dbg_pm_qos_open,
 	.read		= seq_read,
+<<<<<<< HEAD
 	.release	= single_release,
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 void ufs_qcom_dbg_add_debugfs(struct ufs_hba *hba, struct dentry *root)

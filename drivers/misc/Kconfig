@@ -590,6 +590,7 @@ config MEMORY_STATE_TIME
 	help
 	  Memory time statistics exported to /sys/kernel/memory_state_time
 
+<<<<<<< HEAD
 config HAPTIC_DRV2624
 	tristate "TI DRV2624 haptic driver"
 	depends on I2C && SYSFS
@@ -686,6 +687,8 @@ config MODS_2ND_GEN
 	help
 	  This option enables the mods 2nd generation hw designation.
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"

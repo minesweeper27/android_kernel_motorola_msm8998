@@ -118,10 +118,13 @@ config OF_OVERLAY
 	  While this option is selected automatically when needed, you can
 	  enable it manually to improve device tree unit test coverage.
 
+<<<<<<< HEAD
 config OF_DMA_DEFAULT_COHERENT
 	# arches should select this if DMA is coherent by default for OF devices
 	bool
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config OF_BATTERYDATA
 	def_bool y
 	help

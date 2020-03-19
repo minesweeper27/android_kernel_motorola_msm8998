@@ -375,6 +375,7 @@ struct msm_dba_video_cfg {
 };
 
 /**
+<<<<<<< HEAD
  * struct msm_dba_dsi_cfg - dsi configuration data
  * TODO
  */
@@ -429,6 +430,8 @@ struct msm_dba_dsi_cfg {
 };
 
 /**
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * struct msm_dba_ops- operation supported by bridge chip
  * @get_caps: returns the bridge chip capabilities
  *	      DEFER and ASYNC flags are not supported.
@@ -629,10 +632,13 @@ struct msm_dba_ops {
 	int (*check_hpd)(void *client, u32 flags);
 	void (*set_audio_block)(void *client, u32 size, void *buf);
 	void (*get_audio_block)(void *client, u32 size, void *buf);
+<<<<<<< HEAD
 	int (*get_dsi_config)(void *client,
 			       struct msm_dba_dsi_cfg *dsi_config);
 	u32 (*get_default_resolution)(void *client);
 	bool (*get_dsi_hs_clk_always_on)(void *client);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 /**

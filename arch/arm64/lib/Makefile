@@ -17,5 +17,8 @@ CFLAGS_atomic_ll_sc.o	:= -fcall-used-x0 -ffixed-x1 -ffixed-x2		\
 		   -fcall-saved-x10 -fcall-saved-x11 -fcall-saved-x12	\
 		   -fcall-saved-x13 -fcall-saved-x14 -fcall-saved-x15	\
 		   -fcall-saved-x18
+<<<<<<< HEAD
 
 obj-$(CONFIG_CRC32) += crc32.o
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

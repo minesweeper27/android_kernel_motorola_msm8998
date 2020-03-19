@@ -710,7 +710,11 @@ struct cfg80211_bitrate_mask {
 		u8 ht_mcs[IEEE80211_HT_MCS_MASK_LEN];
 		u16 vht_mcs[NL80211_VHT_NSS_MAX];
 		enum nl80211_txrate_gi gi;
+<<<<<<< HEAD
 	} control[NUM_NL80211_BANDS];
+=======
+	} control[IEEE80211_NUM_BANDS];
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 /**
@@ -1974,7 +1978,11 @@ struct cfg80211_ibss_params {
 struct cfg80211_bss_selection {
 	enum nl80211_bss_select_attr behaviour;
 	union {
+<<<<<<< HEAD
 		enum nl80211_band band_pref;
+=======
+		enum ieee80211_band band_pref;
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		struct cfg80211_bss_select_adjust adjust;
 	} param;
 };
@@ -5931,4 +5939,8 @@ int cfg80211_external_auth_request(struct net_device *netdev,
 void cfg80211_update_owe_info_event(struct net_device *netdev,
 				    struct cfg80211_update_owe_info *owe_info,
 				    gfp_t gfp);
+<<<<<<< HEAD
+=======
+
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif /* __NET_CFG80211_H */

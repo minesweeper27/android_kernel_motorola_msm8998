@@ -3733,7 +3733,10 @@ static inline unsigned long rlimit_max(unsigned int limit)
 #define SCHED_CPUFREQ_RT        (1U << 0)
 #define SCHED_CPUFREQ_DL        (1U << 1)
 #define SCHED_CPUFREQ_IOWAIT    (1U << 2)
+<<<<<<< HEAD
 #define SCHED_CPUFREQ_INTERCLUSTER_MIG (1U << 3)
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #ifdef CONFIG_CPU_FREQ
 struct update_util_data {

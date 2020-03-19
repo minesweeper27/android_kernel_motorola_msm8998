@@ -200,11 +200,14 @@ config INPUT_KEYCOMBO
 	---help---
 	  Say Y here if you want to take action when some keys are pressed;
 
+<<<<<<< HEAD
 config HOMEBUTTON
 	tristate "Home button driver"
 	help
 	  Say Y here if you want home button to be visible to apps
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 comment "Input Device Drivers"
 
 source "drivers/input/keyboard/Kconfig"
@@ -218,6 +221,8 @@ source "drivers/input/tablet/Kconfig"
 source "drivers/input/touchscreen/Kconfig"
 
 source "drivers/input/misc/Kconfig"
+
+source "drivers/input/sensors/bmi160/Kconfig"
 
 endif
 

@@ -28,7 +28,10 @@
 #include <linux/spinlock.h>
 #include <linux/device.h>
 #include <linux/idr.h>
+<<<<<<< HEAD
 #include <linux/debugfs.h>
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include <linux/interrupt.h>
 #include <linux/of_gpio.h>
 #include <linux/cdev.h>
@@ -150,7 +153,10 @@ struct restart_log {
  * @restart_level: restart level (0 - panic, 1 - related, 2 - independent, etc.)
  * @restart_order: order of other devices this devices restarts with
  * @crash_count: number of times the device has crashed
+<<<<<<< HEAD
  * @dentry: debugfs directory for this device
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * @do_ramdump_on_put: ramdump on subsystem_put() if true
  * @err_ready: completion variable to record error ready from subsystem
  * @crashed: indicates if subsystem has crashed
@@ -173,9 +179,12 @@ struct subsys_device {
 	int restart_level;
 	int crash_count;
 	struct subsys_soc_restart_order *restart_order;
+<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS
 	struct dentry *dentry;
 #endif
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	bool do_ramdump_on_put;
 	struct cdev char_dev;
 	dev_t dev_no;
@@ -361,10 +370,18 @@ static struct device_attribute subsys_attrs[] = {
 	__ATTR_NULL,
 };
 
+<<<<<<< HEAD
 static struct bus_type subsys_bus_type = {
 	.name		= "msm_subsys",
 	.dev_attrs	= subsys_attrs,
 };
+=======
+struct bus_type subsys_bus_type = {
+	.name		= "msm_subsys",
+	.dev_attrs	= subsys_attrs,
+};
+EXPORT_SYMBOL(subsys_bus_type);
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static DEFINE_IDA(subsys_ida);
 
@@ -1233,6 +1250,7 @@ void notify_proxy_unvote(struct device *device)
 		notify_each_subsys_device(&dev, 1, SUBSYS_PROXY_UNVOTE, NULL);
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_DEBUG_FS
 static ssize_t subsys_debugfs_read(struct file *filp, char __user *ubuf,
 		size_t cnt, loff_t *ppos)
@@ -1314,6 +1332,8 @@ static int subsys_debugfs_add(struct subsys_device *subsys) { return 0; }
 static void subsys_debugfs_remove(struct subsys_device *subsys) { }
 #endif
 
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int subsys_device_open(struct inode *inode, struct file *file)
 {
 	struct subsys_device *device, *subsys_dev = 0;
@@ -1753,6 +1773,7 @@ struct subsys_device *subsys_register(struct subsys_desc *desc)
 
 	mutex_init(&subsys->track.lock);
 
+<<<<<<< HEAD
 	ret = subsys_debugfs_add(subsys);
 	if (ret) {
 		ida_simple_remove(&subsys_ida, subsys->id);
@@ -1764,6 +1785,10 @@ struct subsys_device *subsys_register(struct subsys_desc *desc)
 	ret = device_register(&subsys->dev);
 	if (ret) {
 		subsys_debugfs_remove(subsys);
+=======
+	ret = device_register(&subsys->dev);
+	if (ret) {
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		put_device(&subsys->dev);
 		return ERR_PTR(ret);
 	}
@@ -1825,7 +1850,10 @@ err_setup_irqs:
 	if (ofnode)
 		subsys_remove_restart_order(ofnode);
 err_register:
+<<<<<<< HEAD
 	subsys_debugfs_remove(subsys);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	device_unregister(&subsys->dev);
 	return ERR_PTR(ret);
 }
@@ -1854,7 +1882,10 @@ void subsys_unregister(struct subsys_device *subsys)
 		WARN_ON(subsys->count);
 		device_unregister(&subsys->dev);
 		mutex_unlock(&subsys->track.lock);
+<<<<<<< HEAD
 		subsys_debugfs_remove(subsys);
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		subsys_char_device_remove(subsys);
 		sysmon_notifier_unregister(subsys->desc);
 		if (subsys->desc->edge)
@@ -1894,9 +1925,12 @@ static int __init subsys_restart_init(void)
 	ret = bus_register(&subsys_bus_type);
 	if (ret)
 		goto err_bus;
+<<<<<<< HEAD
 	ret = subsys_debugfs_init();
 	if (ret)
 		goto err_debugfs;
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	char_class = class_create(THIS_MODULE, "subsys");
 	if (IS_ERR(char_class)) {
@@ -1915,8 +1949,11 @@ static int __init subsys_restart_init(void)
 err_soc:
 	class_destroy(char_class);
 err_class:
+<<<<<<< HEAD
 	subsys_debugfs_exit();
 err_debugfs:
+=======
+>>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	bus_unregister(&subsys_bus_type);
 err_bus:
 	destroy_workqueue(ssr_wq);
