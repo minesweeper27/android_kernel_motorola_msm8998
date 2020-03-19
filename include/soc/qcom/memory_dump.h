@@ -29,10 +29,7 @@ enum dump_client_type {
 	MSM_TMC1_REG, /* TMC_ETF */
 	MSM_LOG_BUF,
 	MSM_LOG_BUF_FIRST_IDX,
-<<<<<<< HEAD
 	MSM_TZ_LOG,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	MAX_NUM_CLIENTS,
 };
 
@@ -90,10 +87,7 @@ enum msm_dump_data_ids {
 	MSM_DUMP_DATA_TMC_REG = 0x100,
 	MSM_DUMP_DATA_LOG_BUF = 0x110,
 	MSM_DUMP_DATA_LOG_BUF_FIRST_IDX = 0x111,
-<<<<<<< HEAD
 	MSM_DUMP_DATA_TZ_LOG = 0x11F,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	MSM_DUMP_DATA_MAX = MAX_NUM_ENTRIES,
 };
 
@@ -113,15 +107,11 @@ struct msm_dump_data {
 	char name[32];
 	uint64_t addr;
 	uint64_t len;
-<<<<<<< HEAD
 	/* Version of this structure */
 	/* Updated according to XBL sysdbg.h*/
 	uint32_t structfmt_version;
 	uint64_t arg0;
 	uint64_t arg1;
-=======
-	uint32_t reserved;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct msm_dump_entry {

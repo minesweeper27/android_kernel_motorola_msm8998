@@ -746,7 +746,6 @@ out:
 	return rc;
 }
 
-<<<<<<< HEAD
 int fg_dma_mem_req(struct fg_chip *chip, bool request)
 {
 	int ret, rc = 0, retry_count  = RETRY_COUNT;
@@ -805,8 +804,6 @@ release_mem:
 	return rc;
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int fg_ima_init(struct fg_chip *chip)
 {
 	int rc;

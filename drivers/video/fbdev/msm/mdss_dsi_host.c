@@ -29,10 +29,7 @@
 #include "mdss_debug.h"
 #include "mdss_smmu.h"
 #include "mdss_dsi_phy.h"
-<<<<<<< HEAD
 #include "mdss_dropbox.h"
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define VSYNC_PERIOD 17
 #define DMA_TX_TIMEOUT 200
@@ -1190,19 +1187,12 @@ static int mdss_dsi_read_status(struct mdss_dsi_ctrl_pdata *ctrl)
  * Return: positive value if the panel is in good state, negative value or
  * zero otherwise.
  */
-<<<<<<< HEAD
 int mdss_dsi_reg_status_check(struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 				u8 *reg_val)
 {
 	int ret = 0;
 	struct mdss_dsi_ctrl_pdata *sctrl_pdata = NULL;
 	*reg_val = 0;
-=======
-int mdss_dsi_reg_status_check(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
-{
-	int ret = 0;
-	struct mdss_dsi_ctrl_pdata *sctrl_pdata = NULL;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (ctrl_pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
@@ -1244,15 +1234,10 @@ int mdss_dsi_reg_status_check(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	 */
 	if (ret > 0) {
 		if (!mdss_dsi_sync_wait_enable(ctrl_pdata) ||
-<<<<<<< HEAD
 			mdss_dsi_sync_wait_trigger(ctrl_pdata)) {
 			ret = ctrl_pdata->check_read_status(ctrl_pdata);
 			*reg_val = ctrl_pdata->status_buf.data[0];
 		}
-=======
-			mdss_dsi_sync_wait_trigger(ctrl_pdata))
-			ret = ctrl_pdata->check_read_status(ctrl_pdata);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		else if (sctrl_pdata)
 			ret = ctrl_pdata->check_read_status(sctrl_pdata);
 	} else {
@@ -1591,7 +1576,6 @@ static void mdss_dsi_wait4active_region(struct mdss_dsi_ctrl_pdata *ctrl)
 			"vbif_dbg_bus", "dsi_dbg_bus", "panic");
 }
 
-<<<<<<< HEAD
 int mdss_dsi_reg_status_check_dropbox(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	static bool dropbox_sent;
@@ -1619,8 +1603,6 @@ int mdss_dsi_reg_status_check_dropbox(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	return ret;
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /**
  * mdss_dsi_bta_status_check() - Check dsi panel status through bta check
  * @ctrl_pdata: pointer to the dsi controller structure
@@ -1973,7 +1955,6 @@ do_send:
 	return len;
 }
 
-<<<<<<< HEAD
 static void mdss_dsi_cmd_rx_data_log(struct mdss_dsi_ctrl_pdata *ctrl)
 {
 	pr_warn("%s: read_cnt = %d, DATA3 = 0x%08x, DATA2 = 0x%08x, DATA1 = 0x%08x, DATA0 = 0x%08x\n",
@@ -1985,8 +1966,6 @@ static void mdss_dsi_cmd_rx_data_log(struct mdss_dsi_ctrl_pdata *ctrl)
 			MIPI_INP((ctrl->ctrl_base) + 0x06c));
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* MIPI_DSI_MRPS, Maximum Return Packet Size */
 static char max_pktsize[2] = {0x00, 0x00}; /* LSB tx first, 10 bytes */
 
@@ -2054,12 +2033,8 @@ int mdss_dsi_cmds_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 do_send:
 	ctrl->cmd_cfg_restore = __mdss_dsi_cmd_mode_config(ctrl, 1);
 
-<<<<<<< HEAD
 	if ((rlen <= 2) &&
 		!ctrl->panel_data.panel_info.panel_reply_long_response) {
-=======
-	if (rlen <= 2) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		short_response = 1;
 		pkt_size = rlen;
 		rx_byte = 4;
@@ -2207,11 +2182,7 @@ skip_max_pkt_size:
 	cmd = rp->data[0];
 	switch (cmd) {
 	case DTYPE_ACK_ERR_RESP:
-<<<<<<< HEAD
 		pr_info("%s: rx ACK_ERR_PACLAGE\n", __func__);
-=======
-		pr_debug("%s: rx ACK_ERR_PACLAGE\n", __func__);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rp->len = 0;
 		rp->read_cnt = 0;
 	case DTYPE_GEN_READ1_RESP:
@@ -2342,12 +2313,9 @@ static int mdss_dsi_cmd_dma_tx(struct mdss_dsi_ctrl_pdata *ctrl,
 			pr_warn("%s: dma tx done but irq not triggered\n",
 				__func__);
 		} else {
-<<<<<<< HEAD
 			pr_err("%s(%d): wait for dma_comp timed out. ret = 0x%x\n",
 					__func__, ctrl->ndx, ret);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			ret = -ETIMEDOUT;
 		}
 	}
@@ -2429,7 +2397,6 @@ static int mdss_dsi_cmd_dma_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 		rp->read_cnt = (max_pktsize[0] + 6);
 	}
 
-<<<<<<< HEAD
 	/* Sometimes target/display responds with the MIPI DSI acknowledge
 	 * and Error report after returning MIPI DSI read value, that cause
 	 * mdss_dsi_cmd_dma_rx() fails to parse. Print out all read registers
@@ -2438,8 +2405,6 @@ static int mdss_dsi_cmd_dma_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 	if (ack_error && (rx_byte == 4))
 		mdss_dsi_cmd_rx_data_log(ctrl);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * In case of multiple reads from the panel, after the first read, there
 	 * is possibility that there are some bytes in the payload repeating in
@@ -2747,14 +2712,11 @@ int mdss_dsi_cmdlist_rx(struct mdss_dsi_ctrl_pdata *ctrl,
 				(req->flags & CMD_REQ_DMA_TPG));
 		memcpy(req->rbuf, rp->data, rp->len);
 		ctrl->rx_len = len;
-<<<<<<< HEAD
 		if (len != req->rlen) {
 			pr_err("%s: Tried to read %d bytes, actually read %d bytes\n",
 					__func__, req->rlen, len);
 			len = 0;
 		}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} else {
 		pr_err("%s: No rx buffer provided\n", __func__);
 	}
@@ -2818,22 +2780,14 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 	int rc = 0;
 	bool hs_req = false;
 	bool cmd_mutex_acquired = false;
-<<<<<<< HEAD
 	u32 forced_mode;
 
 	pinfo = &ctrl->panel_data.panel_info;
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (from_mdp) {	/* from mdp kickoff */
 		if (!ctrl->burst_mode_enabled) {
 			mutex_lock(&ctrl->cmd_mutex);
 			cmd_mutex_acquired = true;
 		}
-<<<<<<< HEAD
-=======
-		pinfo = &ctrl->panel_data.panel_info;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (pinfo->partial_update_enabled)
 			roi = &pinfo->roi;
 	}
@@ -2847,7 +2801,6 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 	MDSS_XLOG(ctrl->ndx, from_mdp, ctrl->mdp_busy, current->pid,
 							XLOG_FUNC_ENTRY);
 
-<<<<<<< HEAD
 	if (req) {
 		forced_mode = mdss_dsi_panel_forced_tx_mode_get(pinfo);
 		if (forced_mode) {
@@ -2857,10 +2810,6 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 		if (req->flags & CMD_REQ_HS_MODE)
 			hs_req = true;
 	}
-=======
-	if (req && (req->flags & CMD_REQ_HS_MODE))
-		hs_req = true;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if ((!ctrl->burst_mode_enabled) || from_mdp) {
 		/* make sure dsi_cmd_mdp is idle */
@@ -3071,11 +3020,7 @@ static int dsi_event_thread(void *data)
 	spin_lock_init(&ev->event_lock);
 
 	while (1) {
-<<<<<<< HEAD
 		wait_event_interruptible(ev->event_q, (ev->event_pndx != ev->event_gndx));
-=======
-		wait_event(ev->event_q, (ev->event_pndx != ev->event_gndx));
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		spin_lock_irqsave(&ev->event_lock, flag);
 		evq = &ev->todo_list[ev->event_gndx++];
 		todo = evq->todo;

@@ -329,13 +329,8 @@ static int ipa_prep_rt_tbl_for_cmt(enum ipa_ip_type ip,
 
 	if ((tbl->sz[IPA_RULE_HASHABLE] +
 		tbl->sz[IPA_RULE_NON_HASHABLE]) == 0) {
-<<<<<<< HEAD
 		IPADBG("rt tbl %s is with zero total size\n", tbl->name);
 		return 0;
-=======
-		WARN_ON_RATELIMIT_IPA(1);
-		IPAERR_RL("rt tbl %s is with zero total size\n", tbl->name);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	hdr_width = ipahal_get_hw_tbl_hdr_width();
@@ -1248,11 +1243,7 @@ int ipa3_add_rt_rule_after(struct ipa_ioc_add_rt_rule_after *rules)
 	tbl = __ipa3_find_rt_tbl(rules->ip, rules->rt_tbl_name);
 	if (tbl == NULL || (tbl->cookie != IPA_RT_TBL_COOKIE)) {
 		IPAERR_RL("failed finding rt tbl name = %s\n",
-<<<<<<< HEAD
 			(rules->rt_tbl_name != NULL) ? rules->rt_tbl_name : "");
-=======
-			rules->rt_tbl_name ? rules->rt_tbl_name : "");
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		ret = -EINVAL;
 		goto bail;
 	}

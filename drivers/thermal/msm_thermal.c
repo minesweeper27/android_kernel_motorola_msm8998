@@ -178,12 +178,9 @@ static bool vdd_rstr_nodes_called;
 static bool vdd_rstr_probed;
 static bool sensor_info_nodes_called;
 static bool sensor_info_probed;
-<<<<<<< HEAD
 static bool config_info_nodes_called;
 static bool config_info_probed;
 static char *config_info;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static bool psm_enabled;
 static bool psm_nodes_called;
 static bool psm_probed;
@@ -2809,11 +2806,7 @@ static int do_vdd_mx(void)
 		}
 	}
 
-<<<<<<< HEAD
 	if (dis_cnt == thresh[MSM_VDD_MX_RESTRICTION].thresh_ct) {
-=======
-	if ((dis_cnt == thresh[MSM_VDD_MX_RESTRICTION].thresh_ct)) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		ret = remove_vdd_mx_restriction();
 		if (ret)
 			pr_err("Failed to remove vdd mx restriction\n");
@@ -5617,7 +5610,6 @@ static int msm_thermal_add_sensor_info_nodes(void)
 	return ret;
 }
 
-<<<<<<< HEAD
 static ssize_t config_info_show(
 	struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
@@ -5655,8 +5647,6 @@ static int msm_thermal_add_config_info_nodes(void)
 	return ret;
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_thermal_add_vdd_rstr_nodes(void)
 {
 	struct kobject *module_kobj = NULL;
@@ -6401,13 +6391,8 @@ static int fetch_cpu_mitigaiton_info(struct msm_thermal_data *data,
 			err = -ENOMEM;
 			goto fetch_mitig_exit;
 		}
-<<<<<<< HEAD
 		strscpy((char *) cpus[_cpu].sensor_type, sensor_name,
 			sizeof(cpus[_cpu].sensor_type));
-=======
-		strlcpy((char *) cpus[_cpu].sensor_type, sensor_name,
-			strlen(sensor_name) + 1);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		create_alias_name(_cpu, limits, pdev);
 	}
 
@@ -6570,7 +6555,6 @@ read_node_fail:
 	}
 }
 
-<<<<<<< HEAD
 static void probe_config_info(struct device_node *node,
 		struct msm_thermal_data *data, struct platform_device *pdev)
 {
@@ -6589,8 +6573,6 @@ static void probe_config_info(struct device_node *node,
 		snprintf(config_info, size, "%s", tmp_str);
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int probe_ocr(struct device_node *node, struct msm_thermal_data *data,
 		struct platform_device *pdev)
 {
@@ -7457,13 +7439,10 @@ static void msm_thermal_late_sysfs_init(void)
 		msm_thermal_add_sensor_info_nodes();
 		sensor_info_nodes_called = false;
 	}
-<<<<<<< HEAD
 	if (config_info_nodes_called) {
 		msm_thermal_add_config_info_nodes();
 		config_info_nodes_called = false;
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (ocr_nodes_called) {
 		msm_thermal_add_ocr_nodes();
 		ocr_nodes_called = false;
@@ -7533,11 +7512,8 @@ static int msm_thermal_dev_probe(struct platform_device *pdev)
 	probe_therm_reset(node, &data, pdev);
 	probe_cxip_lm(node, &data, pdev);
 	update_cpu_topology(&pdev->dev);
-<<<<<<< HEAD
 	probe_config_info(node, &data, pdev);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = fetch_cpu_mitigaiton_info(&data, pdev);
 	if (ret) {
 		pr_err("Error fetching CPU mitigation information. err:%d\n",
@@ -7627,11 +7603,8 @@ static int msm_thermal_dev_exit(struct platform_device *inp_dev)
 		}
 		kfree(thresh);
 		thresh = NULL;
-<<<<<<< HEAD
 
 		devm_kfree(&inp_dev->dev, config_info);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	kfree(table);
 	if (core_ptr) {
@@ -7675,11 +7648,7 @@ int __init msm_thermal_device_init(void)
 {
 	return platform_driver_register(&msm_thermal_device_driver);
 }
-<<<<<<< HEAD
 subsys_initcall(msm_thermal_device_init);
-=======
-arch_initcall(msm_thermal_device_init);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 int __init msm_thermal_late_init(void)
 {
@@ -7691,10 +7660,7 @@ int __init msm_thermal_late_init(void)
 	msm_thermal_add_psm_nodes();
 	msm_thermal_add_vdd_rstr_nodes();
 	msm_thermal_add_sensor_info_nodes();
-<<<<<<< HEAD
 	msm_thermal_add_config_info_nodes();
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (ocr_reg_init_defer) {
 		if (!ocr_reg_init(msm_thermal_info.pdev)) {
 			ocr_enabled = true;

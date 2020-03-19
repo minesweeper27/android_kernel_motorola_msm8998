@@ -6487,19 +6487,12 @@ int cpr3_regulator_unregister(struct cpr3_controller *ctrl)
 	if (ctrl->irq && !cpumask_empty(&ctrl->irq_affinity_mask))
 		unregister_hotcpu_notifier(&ctrl->cpu_hotplug_notifier);
 
-<<<<<<< HEAD
 	if (ctrl->ctrl_type == CPR_CTRL_TYPE_CPR4) {
-=======
-	if (ctrl->ctrl_type == CPR_CTRL_TYPE_CPR4)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rc = cpr3_ctrl_clear_cpr4_config(ctrl);
 		if (rc)
 			cpr3_err(ctrl, "failed to clear CPR4 configuration,rc=%d\n",
 				rc);
-<<<<<<< HEAD
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	cpr3_ctrl_loop_disable(ctrl);
 

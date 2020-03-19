@@ -31,10 +31,6 @@
 #include "lpm-levels.h"
 #endif
 
-#ifdef CONFIG_MSM_PM
-#include "lpm-levels.h"
-#endif
-
 /**
  * struct alarm_base - Alarm timer bases
  * @lock:		Lock for syncrhonized access to the base
@@ -195,13 +191,6 @@ static void alarmtimer_triggered_func(void *p)
 {
 	struct rtc_device *rtc = rtcdev;
 
-<<<<<<< HEAD
-=======
-static void alarmtimer_triggered_func(void *p)
-{
-	struct rtc_device *rtc = rtcdev;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!(rtc->irq_data & RTC_AF))
 		return;
 	__pm_wakeup_event(ws, 2 * MSEC_PER_SEC);
@@ -414,10 +403,7 @@ static int alarmtimer_suspend(struct device *dev)
 	int i;
 	int ret = 0;
 
-<<<<<<< HEAD
 	alarmtimer_in_suspend = true;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock_irqsave(&freezer_delta_lock, flags);
 	min = freezer_delta;
 	freezer_delta = ktime_set(0, 0);
@@ -531,20 +517,14 @@ static int alarmtimer_resume(struct device *dev)
 {
 	struct rtc_device *rtc;
 
-<<<<<<< HEAD
 	alarmtimer_in_suspend = false;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	rtc = alarmtimer_get_rtcdev();
 	/* If we have no rtcdev, just return */
 	if (!rtc)
 		return 0;
 	rtc_timer_cancel(rtc, &rtctimer);
 
-<<<<<<< HEAD
 	queue_delayed_work(power_off_alarm_workqueue, &work, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 

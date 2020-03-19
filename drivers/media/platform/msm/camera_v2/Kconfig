@@ -253,7 +253,6 @@ config MSM_SEC_CCI_DEBUG
 	---help---
 	  Enables simulation of secure camera for Secure CCI Realy
 	  debugging.
-<<<<<<< HEAD
 
 config MSM_CAMERA_VENDOR_WENTAI
 	bool "enable wentai camera features"
@@ -264,5 +263,3 @@ config MSM_CAMERA_VENDOR_BST_FACTORY
         bool "enable bst camera factory build"
         ---help---
                 enable bst factory build.
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

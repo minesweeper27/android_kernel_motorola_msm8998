@@ -30,13 +30,8 @@
 #include "mdss_panel.h"
 #include "mdss_mdp.h"
 
-<<<<<<< HEAD
 #define STATUS_CHECK_INTERVAL_MS 8000
 #define STATUS_CHECK_INTERVAL_MIN_MS 200
-=======
-#define STATUS_CHECK_INTERVAL_MS 5000
-#define STATUS_CHECK_INTERVAL_MIN_MS 50
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define DSI_STATUS_CHECK_INIT -1
 #define DSI_STATUS_CHECK_DISABLE 1
 

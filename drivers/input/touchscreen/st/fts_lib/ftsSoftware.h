@@ -15,13 +15,6 @@
 
 #include "ftsHardware.h"
 
-<<<<<<< HEAD
-=======
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define ECHO_ENABLED	0x00000001
 
 /* chipInfo	ftsInfo; */

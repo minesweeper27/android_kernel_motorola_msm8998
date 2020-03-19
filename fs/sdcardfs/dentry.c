@@ -20,10 +20,7 @@
 
 #include "sdcardfs.h"
 #include "linux/ctype.h"
-<<<<<<< HEAD
 #include <linux/xattr.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /*
  * returns: -ERRNO if error (returned to user)
@@ -190,7 +187,6 @@ static void sdcardfs_canonical_path(const struct path *path,
 	sdcardfs_get_real_lower(path->dentry, actual_path);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SDCARD_FS_DIR_WRITER
 void sdcardfs_update_xattr_dirwriter(struct dentry *lower_dentry,
 	uid_t writer_uid)
@@ -267,8 +263,6 @@ out_unlock:
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 const struct dentry_operations sdcardfs_ci_dops = {
 	.d_revalidate	= sdcardfs_d_revalidate,
 	.d_delete	= sdcardfs_d_delete,

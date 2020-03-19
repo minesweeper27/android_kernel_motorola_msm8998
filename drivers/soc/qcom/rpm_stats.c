@@ -58,11 +58,7 @@ struct msm_rpmstats_private_data {
 	u32 num_records;
 	u32 read_idx;
 	u32 len;
-<<<<<<< HEAD
 	char buf[480];
-=======
-	char buf[320];
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct msm_rpmstats_platform_data *platform_data;
 };
 
@@ -116,7 +112,6 @@ static inline int msm_rpmstats_append_data_to_buf(char *buf,
 	return snprintf(buf, buflength,
 		"RPM Mode:%s\n\t count:%d\ntime in last mode(msec):%llu\n"
 		"time since last mode(sec):%llu\nactual last sleep(msec):%llu\n"
-<<<<<<< HEAD
 		"client votes: %#010x\n"
 		"reserved[0]: 0x%08x\n"
 		"reserved[1]: 0x%08x\n"
@@ -125,12 +120,6 @@ static inline int msm_rpmstats_append_data_to_buf(char *buf,
 		time_since_last_mode, actual_last_sleep,
 		data->client_votes,
 		data->reserved[0], data->reserved[1], data->reserved[2]);
-=======
-		"client votes: %#010x\n\n",
-		stat_type, data->count, time_in_last_mode,
-		time_since_last_mode, actual_last_sleep,
-		data->client_votes);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static inline u32 msm_rpmstats_read_long_register_v2(void __iomem *regbase,
@@ -180,7 +169,6 @@ static inline int msm_rpmstats_copy_stats_v2(
 		data.client_votes = msm_rpmstats_read_long_register_v2(reg,
 				i, offsetof(struct msm_rpm_stats_data_v2,
 					client_votes));
-<<<<<<< HEAD
 		data.reserved[0] = msm_rpmstats_read_long_register_v2(reg,
 				i, offsetof(struct msm_rpm_stats_data_v2,
 					reserved));
@@ -190,8 +178,6 @@ static inline int msm_rpmstats_copy_stats_v2(
 		data.reserved[2] = msm_rpmstats_read_long_register_v2(reg,
 				i, offsetof(struct msm_rpm_stats_data_v2,
 					reserved) + 8);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		length += msm_rpmstats_append_data_to_buf(prvdata->buf + length,
 				&data, sizeof(prvdata->buf) - length);
 		prvdata->read_idx++;
@@ -303,11 +289,7 @@ static ssize_t msm_rpmstats_file_read(struct file *file, char __user *bufu,
 			prvdata->len = msm_rpmstats_copy_stats(prvdata);
 		else if (prvdata->platform_data->version == 2)
 			prvdata->len = msm_rpmstats_copy_stats_v2(prvdata);
-<<<<<<< HEAD
 		*ppos = 0;
-=======
-			*ppos = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	ret = simple_read_from_buffer(bufu, count, ppos,
 			prvdata->buf, prvdata->len);
@@ -369,7 +351,6 @@ static int msm_rpmstats_file_close(struct inode *inode, struct file *file)
 	return 0;
 }
 
-<<<<<<< HEAD
 #define MAX_MASTER_NUM 5
 
 enum {
@@ -441,8 +422,6 @@ void msm_rpmstats_log_suspend_exit(int error)
 	}
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static const struct file_operations msm_rpmstats_fops = {
 	.owner	  = THIS_MODULE,
 	.open	  = msm_rpmstats_file_open,
@@ -667,10 +646,7 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 	msm_rpmstats_create_sysfs(pdata);
 
 	platform_set_drvdata(pdev, dent);
-<<<<<<< HEAD
 	rpmstats = pdata;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -682,10 +658,7 @@ static int msm_rpmstats_remove(struct platform_device *pdev)
 	debugfs_remove(dent);
 	debugfs_remove(heap_dent);
 	platform_set_drvdata(pdev, NULL);
-<<<<<<< HEAD
 	rpmstats = NULL;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 

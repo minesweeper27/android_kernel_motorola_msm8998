@@ -182,7 +182,6 @@ static inline int wbc_to_write_flags(struct writeback_control *wbc)
 		return REQ_SYNC | REQ_NOIDLE;
 	return 0;
 }
-<<<<<<< HEAD
 
 /**
  * wq_has_sleeper - check if there are any waiting processes
@@ -224,49 +223,6 @@ static inline struct timespec current_time(struct inode *inode)
 		return now; 
 	}    
 
-=======
-
-/**
- * wq_has_sleeper - check if there are any waiting processes
- * @wq: wait queue head
- *
- * Returns true if wq has waiting processes
- *
- * Please refer to the comment for waitqueue_active.
- */
-static inline bool wq_has_sleeper(wait_queue_head_t *wq)
-{
-	/*
-	 * We need to be sure we are in sync with the
-	 * add_wait_queue modifications to the wait queue.
-	 *
-	 * This memory barrier should be paired with one on the
-	 * waiting side.
-	 */
-	smp_mb();
-	return waitqueue_active(wq);
-}
-
-/**
- * current_time - Return FS time
- * @inode: inode.
- *
- * Return the current time truncated to the time granularity supported by
- * the fs.
- *
- * Note that inode and inode->sb cannot be NULL.
- * Otherwise, the function warns and returns time without truncation.
- */
-static inline struct timespec current_time(struct inode *inode)
-{
-	struct timespec now = current_kernel_time();
-
-	if (unlikely(!inode->i_sb)) {
-		WARN(1, "current_time() called with uninitialized super_block in the inode");
-		return now; 
-	}    
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return timespec_trunc(now, inode->i_sb->s_time_gran);
 }
 
@@ -558,7 +514,6 @@ struct f2fs_gc_range {
 struct f2fs_defragment {
 	u64 start;
 	u64 len;
-<<<<<<< HEAD
 };
 
 struct f2fs_move_range {
@@ -568,17 +523,6 @@ struct f2fs_move_range {
 	u64 len;		/* size to move */
 };
 
-=======
-};
-
-struct f2fs_move_range {
-	u32 dst_fd;		/* destination fd */
-	u64 pos_in;		/* start position in src_fd */
-	u64 pos_out;		/* start position in dst_fd */
-	u64 len;		/* size to move */
-};
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct f2fs_flush_device {
 	u32 dev_num;		/* device number to flush */
 	u32 segments;		/* # of segments to flush */
@@ -857,7 +801,6 @@ static inline bool __is_discard_mergeable(struct discard_info *back,
 
 static inline bool __is_discard_back_mergeable(struct discard_info *cur,
 			struct discard_info *back, unsigned int max_len)
-<<<<<<< HEAD
 {
 	return __is_discard_mergeable(back, cur, max_len);
 }
@@ -865,15 +808,6 @@ static inline bool __is_discard_back_mergeable(struct discard_info *cur,
 static inline bool __is_discard_front_mergeable(struct discard_info *cur,
 			struct discard_info *front, unsigned int max_len)
 {
-=======
-{
-	return __is_discard_mergeable(back, cur, max_len);
-}
-
-static inline bool __is_discard_front_mergeable(struct discard_info *cur,
-			struct discard_info *front, unsigned int max_len)
-{
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return __is_discard_mergeable(cur, front, max_len);
 }
 
@@ -1255,7 +1189,6 @@ enum {
 	DISABLE_TIME,
 	UMOUNT_DISCARD_TIMEOUT,
 	MAX_TIME,
-<<<<<<< HEAD
 };
 
 enum {
@@ -1282,34 +1215,6 @@ enum fsync_mode {
 	FSYNC_MODE_NOBARRIER,	/* fsync behaves nobarrier based on posix */
 };
 
-=======
-};
-
-enum {
-	GC_NORMAL,
-	GC_IDLE_CB,
-	GC_IDLE_GREEDY,
-	GC_URGENT,
-};
-
-enum {
-	WHINT_MODE_OFF,		/* not pass down write hints */
-	WHINT_MODE_USER,	/* try to pass down hints given by users */
-	WHINT_MODE_FS,		/* pass down hints with F2FS policy */
-};
-
-enum {
-	ALLOC_MODE_DEFAULT,	/* stay default */
-	ALLOC_MODE_REUSE,	/* reuse segments as much as possible */
-};
-
-enum fsync_mode {
-	FSYNC_MODE_POSIX,	/* fsync follows posix semantics */
-	FSYNC_MODE_STRICT,	/* fsync behaves in line with ext4 */
-	FSYNC_MODE_NOBARRIER,	/* fsync behaves nobarrier based on posix */
-};
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #ifdef CONFIG_F2FS_FS_ENCRYPTION
 #define DUMMY_ENCRYPTION_ENABLED(sbi) \
 			(unlikely(F2FS_OPTION(sbi).test_dummy_encryption))
@@ -1500,7 +1405,6 @@ struct f2fs_sb_info {
 
 	/* Precomputed FS UUID checksum for seeding other checksums */
 	__u32 s_chksum_seed;
-<<<<<<< HEAD
 };
 
 struct f2fs_private_dio {
@@ -1510,17 +1414,6 @@ struct f2fs_private_dio {
 	bool write;
 };
 
-=======
-};
-
-struct f2fs_private_dio {
-	struct inode *inode;
-	void *orig_private;
-	bio_end_io_t *orig_end_io;
-	bool write;
-};
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #ifdef CONFIG_F2FS_FAULT_INJECTION
 #define f2fs_show_injection_info(type)					\
 	printk_ratelimited("%sF2FS-fs : inject %s in %s of %pF\n",	\
@@ -1798,70 +1691,6 @@ static inline void __clear_ckpt_flags(struct f2fs_checkpoint *cp, unsigned int f
 }
 
 static inline void clear_ckpt_flags(struct f2fs_sb_info *sbi, unsigned int f)
-<<<<<<< HEAD
-=======
-{
-	unsigned long flags;
-
-	spin_lock_irqsave(&sbi->cp_lock, flags);
-	__clear_ckpt_flags(F2FS_CKPT(sbi), f);
-	spin_unlock_irqrestore(&sbi->cp_lock, flags);
-}
-
-static inline void disable_nat_bits(struct f2fs_sb_info *sbi, bool lock)
-{
-	unsigned long flags;
-
-	/*
-	 * In order to re-enable nat_bits we need to call fsck.f2fs by
-	 * set_sbi_flag(sbi, SBI_NEED_FSCK). But it may give huge cost,
-	 * so let's rely on regular fsck or unclean shutdown.
-	 */
-
-	if (lock)
-		spin_lock_irqsave(&sbi->cp_lock, flags);
-	__clear_ckpt_flags(F2FS_CKPT(sbi), CP_NAT_BITS_FLAG);
-	kvfree(NM_I(sbi)->nat_bits);
-	NM_I(sbi)->nat_bits = NULL;
-	if (lock)
-		spin_unlock_irqrestore(&sbi->cp_lock, flags);
-}
-
-static inline bool enabled_nat_bits(struct f2fs_sb_info *sbi,
-					struct cp_control *cpc)
-{
-	bool set = is_set_ckpt_flags(sbi, CP_NAT_BITS_FLAG);
-
-	return (cpc) ? (cpc->reason & CP_UMOUNT) && set : set;
-}
-
-static inline void f2fs_lock_op(struct f2fs_sb_info *sbi)
-{
-	down_read(&sbi->cp_rwsem);
-}
-
-static inline int f2fs_trylock_op(struct f2fs_sb_info *sbi)
-{
-	return down_read_trylock(&sbi->cp_rwsem);
-}
-
-static inline void f2fs_unlock_op(struct f2fs_sb_info *sbi)
-{
-	up_read(&sbi->cp_rwsem);
-}
-
-static inline void f2fs_lock_all(struct f2fs_sb_info *sbi)
-{
-	down_write(&sbi->cp_rwsem);
-}
-
-static inline void f2fs_unlock_all(struct f2fs_sb_info *sbi)
-{
-	up_write(&sbi->cp_rwsem);
-}
-
-static inline int __get_cp_reason(struct f2fs_sb_info *sbi)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	unsigned long flags;
 
@@ -2719,7 +2548,6 @@ static inline void f2fs_i_blocks_write(struct inode *inode,
 	f2fs_mark_inode_dirty_sync(inode, true);
 	if (clean || recover)
 		set_inode_flag(inode, FI_AUTO_RECOVER);
-<<<<<<< HEAD
 }
 
 static inline void f2fs_i_size_write(struct inode *inode, loff_t i_size)
@@ -2757,45 +2585,6 @@ static inline void f2fs_i_xnid_write(struct inode *inode, nid_t xnid)
 
 static inline void f2fs_i_pino_write(struct inode *inode, nid_t pino)
 {
-=======
-}
-
-static inline void f2fs_i_size_write(struct inode *inode, loff_t i_size)
-{
-	bool clean = !is_inode_flag_set(inode, FI_DIRTY_INODE);
-	bool recover = is_inode_flag_set(inode, FI_AUTO_RECOVER);
-
-	if (i_size_read(inode) == i_size)
-		return;
-
-	i_size_write(inode, i_size);
-	f2fs_mark_inode_dirty_sync(inode, true);
-	if (clean || recover)
-		set_inode_flag(inode, FI_AUTO_RECOVER);
-}
-
-static inline void f2fs_i_depth_write(struct inode *inode, unsigned int depth)
-{
-	F2FS_I(inode)->i_current_depth = depth;
-	f2fs_mark_inode_dirty_sync(inode, true);
-}
-
-static inline void f2fs_i_gc_failures_write(struct inode *inode,
-					unsigned int count)
-{
-	F2FS_I(inode)->i_gc_failures[GC_FAILURE_PIN] = count;
-	f2fs_mark_inode_dirty_sync(inode, true);
-}
-
-static inline void f2fs_i_xnid_write(struct inode *inode, nid_t xnid)
-{
-	F2FS_I(inode)->i_xattr_nid = xnid;
-	f2fs_mark_inode_dirty_sync(inode, true);
-}
-
-static inline void f2fs_i_pino_write(struct inode *inode, nid_t pino)
-{
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	F2FS_I(inode)->i_pino = pino;
 	f2fs_mark_inode_dirty_sync(inode, true);
 }
@@ -3015,7 +2804,6 @@ static inline bool f2fs_may_extent_tree(struct inode *inode)
 
 	if (!test_opt(sbi, EXTENT_CACHE) ||
 			is_inode_flag_set(inode, FI_NO_EXTENT))
-<<<<<<< HEAD
 		return false;
 
 	/*
@@ -3025,17 +2813,6 @@ static inline bool f2fs_may_extent_tree(struct inode *inode)
 	if (list_empty(&sbi->s_list))
 		return false;
 
-=======
-		return false;
-
-	/*
-	 * for recovered files during mount do not create extents
-	 * if shrinker is not registered.
-	 */
-	if (list_empty(&sbi->s_list))
-		return false;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return S_ISREG(inode->i_mode);
 }
 

@@ -1614,10 +1614,6 @@ static int lo_compat_ioctl(struct block_device *bdev, fmode_t mode,
 	case LOOP_SET_FD:
 	case LOOP_CHANGE_FD:
 	case LOOP_SET_BLOCK_SIZE:
-<<<<<<< HEAD
-=======
-	case LOOP_SET_DIRECT_IO:
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		err = lo_ioctl(bdev, mode, cmd, arg);
 		break;
 	default:

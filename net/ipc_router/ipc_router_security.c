@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2012-2014,2020, The Linux Foundation. All rights reserved.
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -105,11 +101,7 @@ EXPORT_SYMBOL(check_permissions);
 int msm_ipc_config_sec_rules(void *arg)
 {
 	struct config_sec_rules_args sec_rules_arg;
-<<<<<<< HEAD
 	struct security_rule *rule, *temp_rule;
-=======
-	struct security_rule *rule;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	int key;
 	size_t kgroup_info_sz;
 	int ret;
@@ -125,13 +117,6 @@ int msm_ipc_config_sec_rules(void *arg)
 	if (ret)
 		return -EFAULT;
 
-<<<<<<< HEAD
-=======
-	/* Default rule change from config util not allowed */
-	if (sec_rules_arg.service_id == ALL_SERVICE)
-		return -EINVAL;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (sec_rules_arg.num_group_info <= 0)
 		return -EINVAL;
 
@@ -189,7 +174,6 @@ int msm_ipc_config_sec_rules(void *arg)
 
 	key = rule->service_id & (SEC_RULES_HASH_SZ - 1);
 	down_write(&security_rules_lock_lha4);
-<<<<<<< HEAD
 	if (rule->service_id == ALL_SERVICE) {
 		temp_rule = list_first_entry(&security_rules[key],
 					     struct security_rule, list);
@@ -205,13 +189,6 @@ int msm_ipc_config_sec_rules(void *arg)
 	else
 		msm_ipc_sync_sec_rule(rule->service_id, rule->instance_id,
 				      (void *)rule);
-=======
-	list_add_tail(&rule->list, &security_rules[key]);
-	up_write(&security_rules_lock_lha4);
-
-	msm_ipc_sync_sec_rule(rule->service_id,
-			      rule->instance_id, (void *)rule);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return 0;
 }

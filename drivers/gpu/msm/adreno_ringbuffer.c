@@ -784,10 +784,7 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	struct kgsl_memobj_node *ib;
 	unsigned int numibs = 0;
 	unsigned int *link;
-<<<<<<< HEAD
 	unsigned int link_onstack[SZ_256] __aligned(sizeof(long));
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned int *cmds;
 	struct kgsl_context *context;
 	struct adreno_context *drawctxt;
@@ -905,7 +902,6 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 				adreno_is_preemption_enabled(adreno_dev))
 		dwords += 8;
 
-<<<<<<< HEAD
 	if (dwords <= ARRAY_SIZE(link_onstack)) {
 		link = link_onstack;
 	} else {
@@ -914,12 +910,6 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 			ret = -ENOMEM;
 			goto done;
 		}
-=======
-	link = kzalloc(sizeof(unsigned int) *  dwords, GFP_KERNEL);
-	if (!link) {
-		ret = -ENOMEM;
-		goto done;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	cmds = link;
@@ -1071,12 +1061,8 @@ done:
 	trace_kgsl_issueibcmds(device, context->id, numibs, drawobj->timestamp,
 			drawobj->flags, ret, drawctxt->type);
 
-<<<<<<< HEAD
 	if (link != link_onstack)
 		kfree(link);
-=======
-	kfree(link);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return ret;
 }
 
@@ -1135,11 +1121,7 @@ int adreno_ringbuffer_waittimestamp(struct adreno_ringbuffer *rb,
 	mutex_unlock(&device->mutex);
 
 	wait_time = msecs_to_jiffies(msecs);
-<<<<<<< HEAD
 	if (0 == wait_event_interruptible_timeout(rb->ts_expire_waitq,
-=======
-	if (0 == wait_event_timeout(rb->ts_expire_waitq,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		!kgsl_event_pending(device, &rb->events, timestamp,
 				adreno_ringbuffer_wait_callback, NULL),
 		wait_time))

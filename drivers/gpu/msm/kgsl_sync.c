@@ -156,10 +156,6 @@ int kgsl_add_fence_event(struct kgsl_device *device,
 	struct sync_pt *pt;
 	struct sync_fence *fence = NULL;
 	int ret = -EINVAL;
-<<<<<<< HEAD
-=======
-	char fence_name[sizeof(fence->name)] = {};
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned int cur;
 
 	priv.fence_fd = -1;
@@ -181,18 +177,8 @@ int kgsl_add_fence_event(struct kgsl_device *device,
 		ret = -ENOMEM;
 		goto out;
 	}
-<<<<<<< HEAD
 
 	fence = sync_fence_create("", pt);
-=======
-	snprintf(fence_name, sizeof(fence_name),
-		"%s-pid-%d-ctx-%d-ts-%u",
-		device->name, current->group_leader->pid,
-		context_id, timestamp);
-
-
-	fence = sync_fence_create(fence_name, pt);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (fence == NULL) {
 		/* only destroy pt when not added to fence */
 		kgsl_sync_pt_destroy(pt);
@@ -393,14 +379,11 @@ struct kgsl_sync_fence_waiter *kgsl_sync_fence_async_wait(int fd,
 	if (fence == NULL)
 		return ERR_PTR(-EINVAL);
 
-<<<<<<< HEAD
 	if (sync_fence_signaled(fence)) {
 		sync_fence_put(fence);
 		return NULL;
 	}
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* create the waiter */
 	kwaiter = kzalloc(sizeof(*kwaiter), GFP_ATOMIC);
 	if (kwaiter == NULL) {

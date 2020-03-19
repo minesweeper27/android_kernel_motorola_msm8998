@@ -283,7 +283,6 @@ vreg_set_opt_mode_fail:
 } /* msm_dss_enable_vreg */
 EXPORT_SYMBOL(msm_dss_enable_vreg);
 
-<<<<<<< HEAD
 int msm_dss_enable_lcdb(struct dss_vreg *in_vreg, int num_vreg)
 {
 	int i = 1, rc = 0;
@@ -343,8 +342,6 @@ vreg_set_opt_mode_fail:
 } /* msm_dss_enable_lcdb */
 EXPORT_SYMBOL(msm_dss_enable_lcdb);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int msm_dss_enable_gpio(struct dss_gpio *in_gpio, int num_gpio, int enable)
 {
 	int i = 0, rc = 0;

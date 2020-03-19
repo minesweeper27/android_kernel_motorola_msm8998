@@ -36,10 +36,7 @@ enum usbpd_svdm_cmd_type {
 #define USBPD_SVDM_EXIT_MODE		0x5
 #define USBPD_SVDM_ATTENTION		0x6
 
-<<<<<<< HEAD
 #define PD_MAX_PDO_NUM		7
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * Implemented by client
  */
@@ -64,7 +61,6 @@ struct usbpd_svid_handler {
 	bool discovered;
 };
 
-<<<<<<< HEAD
 struct usbpd_pdo_info {
 	int pdo_pos;
 	int uv_max;
@@ -73,8 +69,6 @@ struct usbpd_pdo_info {
 	int type;
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 enum plug_orientation {
 	ORIENTATION_NONE,
 	ORIENTATION_CC1,
@@ -110,7 +104,6 @@ int usbpd_send_svdm(struct usbpd *pd, u16 svid, u8 cmd,
 		const u32 *vdos, int num_vdos);
 
 /*
-<<<<<<< HEAD
  * Look for best match for PDO selection in Source Mode.
  */
 int usbpd_select_pdo_match(struct usbpd *pd);
@@ -131,8 +124,6 @@ int usbpd_select_pdo(struct usbpd *pd, int pdo_pos, int uv, int ua);
 int usbpd_get_pdo_info(struct usbpd *pd, struct usbpd_pdo_info *pdo_info);
 
 /*
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * Get current status of CC pin orientation.
  *
  * Return: ORIENTATION_CC1 or ORIENTATION_CC2 if attached,

@@ -400,17 +400,10 @@ static bool __wcd9xxx_switch_micbias(struct wcd9xxx_mbhc *mbhc,
 		    restartpolling)
 			wcd9xxx_pause_hs_polling(mbhc);
 
-<<<<<<< HEAD
 		snd_soc_update_bits(codec, WCD9XXX_A_MAD_ANA_CTRL,
 				    0x10, 0x10);
 		snd_soc_update_bits(codec, WCD9XXX_A_LDO_H_MODE_1,
 				    0x20, 0x20);
-=======
-			snd_soc_update_bits(codec, WCD9XXX_A_MAD_ANA_CTRL,
-					    0x10, 0x10);
-			snd_soc_update_bits(codec, WCD9XXX_A_LDO_H_MODE_1,
-					    0x20, 0x20);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		/* Reprogram thresholds */
 		if (d->micb_mv != VDDIO_MICBIAS_MV) {
 			cfilt_k_val =

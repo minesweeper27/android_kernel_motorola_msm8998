@@ -2647,22 +2647,15 @@ static int msm_cpe_lsm_ioctl_compat(struct snd_pcm_substream *substream,
 				u_event_status32.payload_size;
 			err = msm_cpe_lsm_ioctl_shared(substream,
 						       cmd, event_status);
-<<<<<<< HEAD
 			if (err) {
-=======
-			if (err)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				dev_err(rtd->dev,
 					"%s: %s failed, error = %d\n",
 					__func__,
 					"SNDRV_LSM_EVENT_STATUS_V3_32",
 					err);
-<<<<<<< HEAD
 				kfree(event_status);
 				goto done;
 			}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 
 		if (!err) {

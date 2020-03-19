@@ -25,7 +25,6 @@ struct compat_sigcontext {
 	compat_ulong_t			trap_no;
 	compat_ulong_t			error_code;
 
-<<<<<<< HEAD
 	compat_ulong_t			oldmask;
 	compat_ulong_t			arm_r0;
 	compat_ulong_t			arm_r1;
@@ -67,8 +66,6 @@ struct compat_rt_sigframe {
 	struct compat_sigframe		sig;
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int compat_setup_frame(int usig, struct ksignal *ksig, sigset_t *set,
 		       struct pt_regs *regs);
 int compat_setup_rt_frame(int usig, struct ksignal *ksig, sigset_t *set,

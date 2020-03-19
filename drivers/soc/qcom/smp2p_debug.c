@@ -89,13 +89,8 @@ static int smp2p_item_header1(char *buf, int max, struct smp2p_smem *item_ptr,
 	i += scnprintf(buf + i, max - i,
 		"%-14s LPID %d RPID %d",
 		state_text,
-<<<<<<< HEAD
 		SMP2P_GET_LOCAL_PID(item_ptr, rem_loc_proc_id),
 		SMP2P_GET_REMOTE_PID(item_ptr, rem_loc_proc_id)
-=======
-		SMP2P_GET_LOCAL_PID(item_ptr->rem_loc_proc_id),
-		SMP2P_GET_REMOTE_PID(item_ptr->rem_loc_proc_id)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		);
 
 	return i;
@@ -120,13 +115,8 @@ static int smp2p_item_header2(char *buf, int max, struct smp2p_smem *item_ptr)
 
 	i += scnprintf(buf + i, max - i,
 		"Version: %08x Features: %08x",
-<<<<<<< HEAD
 		SMP2P_GET_VERSION(item_ptr, feature_version),
 		SMP2P_GET_FEATURES(item_ptr, feature_version)
-=======
-		SMP2P_GET_VERSION(item_ptr->feature_version),
-		SMP2P_GET_FEATURES(item_ptr->feature_version)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		);
 
 	return i;
@@ -152,13 +142,8 @@ static int smp2p_item_header3(char *buf, int max, struct smp2p_smem *item_ptr)
 
 	i += scnprintf(buf + i, max - i,
 		"Entries #/Max: %d/%d Flags: %c%c",
-<<<<<<< HEAD
 		SMP2P_GET_ENT_VALID(item_ptr, valid_total_ent),
 		SMP2P_GET_ENT_TOTAL(item_ptr, valid_total_ent),
-=======
-		SMP2P_GET_ENT_VALID(item_ptr->valid_total_ent),
-		SMP2P_GET_ENT_TOTAL(item_ptr->valid_total_ent),
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		item_ptr->flags & SMP2P_FLAGS_RESTART_ACK_MASK ? 'A' : 'a',
 		item_ptr->flags & SMP2P_FLAGS_RESTART_DONE_MASK ? 'D' : 'd'
 		);
@@ -245,21 +230,13 @@ static void smp2p_item(struct seq_file *s, int remote_pid)
 	if (out_ptr) {
 		out_entries = (struct smp2p_entry_v1 *)((void *)out_ptr +
 				sizeof(struct smp2p_smem));
-<<<<<<< HEAD
 		out_valid = SMP2P_GET_ENT_VALID(out_ptr, valid_total_ent);
-=======
-		out_valid = SMP2P_GET_ENT_VALID(out_ptr->valid_total_ent);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	if (in_ptr) {
 		in_entries = (struct smp2p_entry_v1 *)((void *)in_ptr +
 				sizeof(struct smp2p_smem));
-<<<<<<< HEAD
 		in_valid = SMP2P_GET_ENT_VALID(in_ptr, valid_total_ent);
-=======
-		in_valid = SMP2P_GET_ENT_VALID(in_ptr->valid_total_ent);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	for (entry = 0; out_entries || in_entries; ++entry) {

@@ -98,10 +98,7 @@ struct gadget_info {
 	struct work_struct work;
 	struct device *dev;
 #endif
-<<<<<<< HEAD
 	bool secure;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static inline struct gadget_info *to_gadget_info(struct config_item *item)
@@ -290,7 +287,6 @@ static int unregister_gadget(struct gadget_info *gi)
 	if (!gi->udc_name)
 		return -ENODEV;
 
-<<<<<<< HEAD
 	if (gi->secure) {
 		gi->unbinding = false;
 		kfree(gi->udc_name);
@@ -298,17 +294,12 @@ static int unregister_gadget(struct gadget_info *gi)
 		return 0;
 	}
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	gi->unbinding = true;
 	ret = usb_gadget_unregister_driver(&gi->composite.gadget_driver);
 	if (ret) {
 		log_event_dbg("unregister gadget failed, ret = %d\n", ret);
 		return ret;
-<<<<<<< HEAD
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	gi->unbinding = false;
 	kfree(gi->udc_name);
 	gi->udc_name = NULL;
@@ -1752,7 +1743,6 @@ out:
 
 static DEVICE_ATTR(state, S_IRUGO, state_show, NULL);
 
-<<<<<<< HEAD
 static ssize_t secure_show(struct device *pdev, struct device_attribute *attr,
 			char *buf)
 {
@@ -1818,10 +1808,6 @@ static DEVICE_ATTR(secure, S_IRUGO | S_IWUSR, secure_show, secure_store);
 static struct device_attribute *android_usb_attributes[] = {
 	&dev_attr_state,
 	&dev_attr_secure,
-=======
-static struct device_attribute *android_usb_attributes[] = {
-	&dev_attr_state,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	NULL
 };
 

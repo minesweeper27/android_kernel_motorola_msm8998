@@ -230,9 +230,6 @@ static unsigned int ksm_thread_sleep_millisecs = 1000;
 /* Boolean to indicate whether to use deferred timer or not */
 static bool use_deferred_timer;
 
-/* Boolean to indicate whether to use deferred timer or not */
-static bool use_deferred_timer;
-
 #ifdef CONFIG_NUMA
 /* Zeroed when merging across nodes is not allowed */
 static unsigned int ksm_merge_across_nodes = 1;

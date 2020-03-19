@@ -214,9 +214,6 @@ source "drivers/sensors/Kconfig"
 
 source "drivers/tee/Kconfig"
 
-<<<<<<< HEAD
 source "drivers/dts_eagle/Kconfig"
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endmenu

@@ -266,13 +266,10 @@ enum eeprom_cfg_type_t {
 	CFG_EEPROM_WRITE_DATA,
 	CFG_EEPROM_GET_MM_INFO,
 	CFG_EEPROM_INIT,
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 	BST_CFG_EEPROM_WRITE_DUALCAM_CALI_DATA,
 	BST_CFG_EEPROM_READ_DUALCAM_CALI_DATA,
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct eeprom_get_t {
@@ -289,7 +286,6 @@ struct eeprom_write_t {
 	uint32_t num_bytes;
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 struct bst_eeprom_read_t {
 	uint32_t offset_addr;
@@ -304,8 +300,6 @@ struct bst_eeprom_write_t {
 };
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct eeprom_get_cmm_t {
 	uint32_t cmm_support;
 	uint32_t cmm_compression;
@@ -347,13 +341,10 @@ struct msm_eeprom_cfg_data {
 		struct eeprom_write_t write_data;
 		struct eeprom_get_cmm_t get_cmm_data;
 		struct msm_eeprom_info_t eeprom_info;
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 		struct bst_eeprom_read_t bst_read_data;
 		struct bst_eeprom_write_t bst_write_data;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	} cfg;
 };
 
@@ -399,10 +390,7 @@ enum msm_actuator_cfg_type_t {
 	CFG_ACTUATOR_POWERDOWN,
 	CFG_ACTUATOR_POWERUP,
 	CFG_ACTUATOR_INIT,
-<<<<<<< HEAD
 	CFG_GET_POSITION,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct msm_ois_opcode {
@@ -479,7 +467,6 @@ struct park_lens_data_t {
 	uint32_t max_step;
 };
 
-<<<<<<< HEAD
 struct msm_actuator_get_pos_cfg_t {
 	uint16_t target_supported;
 	uint16_t target_reg;
@@ -489,8 +476,6 @@ struct msm_actuator_get_pos_cfg_t {
 	uint16_t actual_data_shift;
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct msm_actuator_params_t {
 	enum actuator_type act_type;
 	uint8_t reg_tbl_size;
@@ -503,10 +488,7 @@ struct msm_actuator_params_t {
 	struct msm_actuator_reg_params_t *reg_tbl_params;
 	struct reg_settings_t *init_settings;
 	struct park_lens_data_t park_lens;
-<<<<<<< HEAD
 	struct msm_actuator_get_pos_cfg_t get_pos_cfg;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct msm_actuator_set_info_t {
@@ -566,7 +548,6 @@ struct msm_actuator_set_position_t {
 	uint16_t delay[MAX_NUMBER_OF_STEPS];
 };
 
-<<<<<<< HEAD
 struct msm_actuator_get_position_t {
 	uint16_t target_supported;
 	int32_t  target;
@@ -574,8 +555,6 @@ struct msm_actuator_get_position_t {
 	int32_t  actual;
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct msm_actuator_cfg_data {
 	int cfgtype;
 	uint8_t is_af_supported;
@@ -584,10 +563,7 @@ struct msm_actuator_cfg_data {
 		struct msm_actuator_set_info_t set_info;
 		struct msm_actuator_get_info_t get_info;
 		struct msm_actuator_set_position_t setpos;
-<<<<<<< HEAD
 		struct msm_actuator_get_position_t getpos;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		enum af_camera_name cam_name;
 	} cfg;
 };

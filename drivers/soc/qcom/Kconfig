@@ -198,19 +198,6 @@ config MSM_QMI_INTERFACE
 	  to perform QMI message marshaling and transport them over IPC
 	  Router.
 
-<<<<<<< HEAD
-=======
-config MSM_L2_IA_DEBUG
-       bool "Enable MSM L2 Indirect Access Debug"
-       depends on DEBUG_FS
-       default n
-       help
-         This option enables L2 indirect access debug
-         capability. It exposes L2 indirect access
-         debugfs interface to get/set data, address,
-         and target cpus.
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config MSM_RPM_SMD
 	bool "RPM driver using SMD protocol"
 	help
@@ -453,7 +440,6 @@ config QCOM_WATCHDOG_V2
 	  deadlocks. It does not run during the bootup process, so it will
 	  not catch any early lockups.
 
-<<<<<<< HEAD
 config QCOM_WATCHDOG_CTX_PRINT
 	bool "Print context dump saved by secure mode watchdog handler"
 	default n
@@ -466,8 +452,6 @@ config QCOM_WATCHDOG_CTX_PRINT
 	   try to print the info if it looks valid.
 	   If unsure, say N
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config QCOM_IRQ_HELPER
 	bool "QCOM Irq Helper"
 	help
@@ -764,17 +748,6 @@ config MSM_PERFORMANCE
 	  given point in time. It also provides CPU/IO intensive workload
 	  detection for userspace.
 
-<<<<<<< HEAD
-=======
-config MSM_PERFORMANCE_HOTPLUG_ON
-	bool "Hotplug functionality through msm_performance turned on"
-	depends on MSM_PERFORMANCE
-	help
-	 Setting this flag to true will enable the nodes needed for core-control
-	 functionality of hot plugging cores through msm_performance if there is
-	 no default core-control driver available.
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endif # ARCH_QCOM
 
 config MSM_SUBSYSTEM_RESTART
@@ -840,7 +813,6 @@ config QCOM_FORCE_WDOG_BITE_ON_PANIC
 	  kernel panic. On certain MSM SoCs, this provides us
 	  additional debugging information.
 
-<<<<<<< HEAD
 config MMI_DEVICE_DTBS
 	depends on ARCH_QCOM
 	default n
@@ -905,8 +877,6 @@ config BECKHAM_DTB
 	  Only include Beckham specific DTBs to limit the number that
 	  get built during kernel compilation.
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config MSM_MPM_OF
        bool "Modem Power Manager"
        depends on OF
@@ -1101,7 +1071,6 @@ config MFSE_QMI
 	 This option enables the QMI client driver for MFSE service.
 
 source "drivers/soc/qcom/memshare/Kconfig"
-<<<<<<< HEAD
 
 config MMI_SOC_INFO
 	default n
@@ -1135,5 +1104,3 @@ config BOOTINFO
 	  from both kernel context (via function call) and user
 	  context (via /proc/bootinfo).
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

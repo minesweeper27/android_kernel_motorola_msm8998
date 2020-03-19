@@ -522,10 +522,7 @@ static int handle_alloc_generic_req(void *req_h, void *req, void *conn_h)
 				alloc_req->proc_id);
 		kfree(alloc_resp);
 		alloc_resp = NULL;
-<<<<<<< HEAD
 		mutex_unlock(&memsh_drv->mem_share);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return -EINVAL;
 	}
 

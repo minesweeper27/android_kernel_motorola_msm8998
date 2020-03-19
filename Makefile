@@ -348,7 +348,7 @@ include scripts/Kbuild.include
 # Make variables (CC, etc...)
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-REAL_CC		= $(CROSS_COMPILE)gcc
+CC		= $(CROSS_COMPILE)gcc
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -363,10 +363,6 @@ PERL		= perl
 PYTHON		= python
 CHECK		= sparse
 
-# Use the wrapper for the compiler.  This wrapper scans for new
-# warnings and causes the build to stop upon encountering them.
-CC		= $(PYTHON) $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
-
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
@@ -375,11 +371,7 @@ LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
-<<<<<<< HEAD
 CFLAGS_KCOV     := $(call cc-option,-fsanitize-coverage=trace-pc,)
-=======
-CFLAGS_KCOV	= -fsanitize-coverage=trace-pc
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 
 ifeq ($(cc-name),clang)
@@ -421,11 +413,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-<<<<<<< HEAD
 		   -std=gnu89 $(call cc-option,-fno-PIE) $(CLANG_FLAGS)
-=======
-		   -std=gnu89 $(call cc-option,-fno-PIE)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 ifeq ($(TARGET_BOARD_TYPE),auto)
 KBUILD_CFLAGS    += -DCONFIG_PLATFORM_AUTO
@@ -768,19 +756,10 @@ endif
 endif
 KBUILD_CFLAGS += $(stackp-flag)
 
-ifdef CONFIG_KCOV
-  ifeq ($(call cc-option, $(CFLAGS_KCOV)),)
-    $(warning Cannot use CONFIG_KCOV: \
-             -fsanitize-coverage=trace-pc is not supported by compiler)
-    CFLAGS_KCOV =
-  endif
-endif
-
 ifeq ($(cc-name),clang)
 KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
-<<<<<<< HEAD
 KBUILD_CFLAGS += $(call cc-disable-warning, pointer-bool-conversion)
 KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
 KBUILD_CFLAGS += $(call cc-disable-warning, duplicate-decl-specifier)
@@ -788,9 +767,6 @@ KBUILD_CFLAGS += -Wno-asm-operand-widths
 KBUILD_CFLAGS += -Wno-initializer-overrides
 KBUILD_CFLAGS += -fno-builtin
 
-=======
-KBUILD_CFLAGS += $(call cc-disable-warning, duplicate-decl-specifier)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 # Quiet clang warning: comparison of unsigned expression < 0 is always false
 
 KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
@@ -1123,11 +1099,7 @@ prepare1: prepare2 $(version_h) include/generated/utsrelease.h \
 
 archprepare: archheaders archscripts prepare1 scripts_basic
 
-<<<<<<< HEAD
 prepare0: archprepare gcc-plugins
-=======
-prepare0: archprepare
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	$(Q)$(MAKE) $(build)=.
 
 # All the preparing..

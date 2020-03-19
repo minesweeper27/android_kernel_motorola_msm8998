@@ -1260,11 +1260,7 @@ struct qpnp_adc_amux_properties {
 	uint32_t				fast_avg_setup;
 	enum qpnp_vadc_trigger			trigger_channel;
 	enum qpnp_adc_calib_type		calib_type;
-<<<<<<< HEAD
 	uint32_t				cal_val;
-=======
-	enum qpnp_adc_cal_val			cal_val;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct qpnp_vadc_chan_properties	chan_prop[0];
 };
 

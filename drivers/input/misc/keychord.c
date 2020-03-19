@@ -370,15 +370,10 @@ static ssize_t keychord_write(struct file *file, const char __user *buffer,
 
 	ret = input_register_handler(&kdev->input_handler);
 	if (ret) {
-<<<<<<< HEAD
 		spin_lock_irqsave(&kdev->lock, flags);
 		kfree(keychords);
 		kdev->keychords = 0;
 		spin_unlock_irqrestore(&kdev->lock, flags);
-=======
-		kfree(keychords);
-		kdev->keychords = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		keychord_write_unlock(kdev);
 		return ret;
 	}

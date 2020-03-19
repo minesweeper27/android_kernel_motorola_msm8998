@@ -332,12 +332,8 @@ static int msm_rng_probe(struct platform_device *pdev)
 	msm_rng_class = class_create(THIS_MODULE, "msm-rng");
 	if (IS_ERR(msm_rng_class)) {
 		pr_err("class_create failed\n");
-<<<<<<< HEAD
 		error = PTR_ERR(msm_rng_class);
 		goto unregister_chrdev;
-=======
-		return PTR_ERR(msm_rng_class);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	dev = device_create(msm_rng_class, NULL, MKDEV(QRNG_IOC_MAGIC, 0),

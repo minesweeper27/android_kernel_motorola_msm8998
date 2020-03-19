@@ -735,7 +735,6 @@ static int snd_compr_stop(struct snd_compr_stream *stream)
 	return retval;
 }
 
-<<<<<<< HEAD
 static void error_delayed_work(struct work_struct *work)
 {
 	struct snd_compr_stream *stream;
@@ -775,8 +774,6 @@ int snd_compr_stop_error(struct snd_compr_stream *stream,
 }
 EXPORT_SYMBOL_GPL(snd_compr_stop_error);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* this fn is called without lock being held and we change stream states here
  * so while using the stream state auquire the lock but relase before invoking
  * DSP as the call will possibly take a while

@@ -716,11 +716,7 @@ void enable_nonboot_cpus(void)
 		error = _cpu_up(cpu, 1);
 		trace_suspend_resume(TPS("CPU_ON"), cpu, false);
 		if (!error) {
-<<<<<<< HEAD
 			pr_debug("CPU%d is up\n", cpu);
-=======
-			pr_info("CPU%d is up\n", cpu);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			cpu_device = get_cpu_device(cpu);
 			if (!cpu_device)
 				pr_err("%s: failed to get cpu%d device\n",
@@ -871,7 +867,6 @@ static DECLARE_BITMAP(cpu_isolated_bits, CONFIG_NR_CPUS) __read_mostly;
 const struct cpumask *const cpu_isolated_mask = to_cpumask(cpu_isolated_bits);
 EXPORT_SYMBOL(cpu_isolated_mask);
 
-<<<<<<< HEAD
 #if CONFIG_LITTLE_CPU_MASK
 static const unsigned long lp_cpu_bits = CONFIG_LITTLE_CPU_MASK;
 const struct cpumask *const cpu_lp_mask = to_cpumask(&lp_cpu_bits);
@@ -888,8 +883,6 @@ const struct cpumask *const cpu_perf_mask = cpu_possible_mask;
 #endif
 EXPORT_SYMBOL(cpu_perf_mask);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 void set_cpu_possible(unsigned int cpu, bool possible)
 {
 	if (possible)

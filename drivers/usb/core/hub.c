@@ -3454,18 +3454,11 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
 		/* drive resume for USB_RESUME_TIMEOUT msec */
 		dev_dbg(&udev->dev, "usb %sresume\n",
 				(PMSG_IS_AUTO(msg) ? "auto-" : ""));
-<<<<<<< HEAD
 		if (!skip_extended_resume_delay ||
 		    udev->parent != udev->bus->root_hub)
 			usleep_range(USB_RESUME_TIMEOUT * 1000,
 					(USB_RESUME_TIMEOUT + 1) * 1000);
  U_retry:
-=======
-		if (!skip_extended_resume_delay)
-			usleep_range(USB_RESUME_TIMEOUT * 1000,
-					(USB_RESUME_TIMEOUT + 1) * 1000);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		/* Virtual root hubs can trigger on GET_PORT_STATUS to
 		 * stop resume signaling.  Then finish the resume
 		 * sequence.
@@ -3475,7 +3468,6 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
 			__func__, k, status, portstatus, portchange);
 		/* TRSMRCY = 10 msec */
 		usleep_range(10000, 10500);
-<<<<<<< HEAD
 
 		/* Some Devices Take longer to Wake
 		 * This will spin until a port change
@@ -3485,8 +3477,6 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
 			k++;
 			goto U_retry;
 		}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
  SuspendCleared:

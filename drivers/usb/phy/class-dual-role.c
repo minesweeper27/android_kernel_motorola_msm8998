@@ -70,19 +70,7 @@ static char *kstrdupcase(const char *str, gfp_t gfp, bool to_upper)
 	return ret;
 }
 
-<<<<<<< HEAD
 static void dual_role_changed_work(struct work_struct *work);
-=======
-static void dual_role_changed_work(struct work_struct *work)
-{
-	struct dual_role_phy_instance *dual_role =
-	    container_of(work, struct dual_role_phy_instance,
-			 changed_work);
-
-	dev_dbg(&dual_role->dev, "%s\n", __func__);
-	kobject_uevent(&dual_role->dev.kobj, KOBJ_CHANGE);
-}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 void dual_role_instance_changed(struct dual_role_phy_instance *dual_role)
 {
@@ -509,7 +497,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static void dual_role_changed_work(struct work_struct *work)
 {
 	struct dual_role_phy_instance *dual_role =
@@ -521,8 +508,6 @@ static void dual_role_changed_work(struct work_struct *work)
 	kobject_uevent(&dual_role->dev.kobj, KOBJ_CHANGE);
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /******************* Module Init ***********************************/
 
 static int __init dual_role_class_init(void)

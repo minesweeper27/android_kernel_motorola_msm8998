@@ -189,12 +189,9 @@ do {									\
 	set_thread_flag(TIF_32BIT);					\
 } while (0)
 
-<<<<<<< HEAD
 #ifdef CONFIG_VDSO32
 #define COMPAT_ARCH_DLINFO		_SET_AUX_ENT_VDSO
 #else
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define COMPAT_ARCH_DLINFO
 #endif
 extern int aarch32_setup_vectors_page(struct linux_binprm *bprm,

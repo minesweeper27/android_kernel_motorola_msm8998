@@ -27,18 +27,8 @@ msm_adreno-y += \
 	adreno_snapshot.o \
 	adreno_coresight.o \
 	adreno_trace.o \
-<<<<<<< HEAD
 	adreno_a5xx.o \
 	adreno_a5xx_snapshot.o \
-=======
-	adreno_a3xx.o \
-	adreno_a4xx.o \
-	adreno_a5xx.o \
-	adreno_a3xx_snapshot.o \
-	adreno_a4xx_snapshot.o \
-	adreno_a5xx_snapshot.o \
-	adreno_a4xx_preempt.o \
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	adreno_a5xx_preempt.o \
 	adreno_sysfs.o \
 	adreno.o \

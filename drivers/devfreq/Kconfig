@@ -172,7 +172,6 @@ config DEVFREQ_GOV_MEMLAT
 	  this uses target specific counters it can conflict with existing profiling
 	  tools.
 
-<<<<<<< HEAD
 config ADRENO_IDLER
 	tristate "MSM Adreno idler"
 	depends on DEVFREQ_GOV_MSM_ADRENO_TZ
@@ -182,8 +181,6 @@ config ADRENO_IDLER
 	  wasted power coming from stock Adreno TZ while
 	  maintaining high-performance.
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 comment "DEVFREQ Drivers"
 
 config ARM_EXYNOS4_BUS_DEVFREQ
@@ -222,10 +219,6 @@ config DEVFREQ_SIMPLE_DEV
 	tristate "Device driver for simple clock device with no status info"
 	select DEVFREQ_GOV_PERFORMANCE
 	select DEVFREQ_GOV_POWERSAVE
-<<<<<<< HEAD
-=======
-	select DEVFREQ_GOV_USERSPACE
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	select DEVFREQ_GOV_CPUFREQ
 	help
 	  Device driver for simple devices that control their frequency using
@@ -236,10 +229,6 @@ config QCOM_DEVFREQ_DEVBW
 	depends on ARCH_QCOM
 	select DEVFREQ_GOV_PERFORMANCE
 	select DEVFREQ_GOV_POWERSAVE
-<<<<<<< HEAD
-=======
-	select DEVFREQ_GOV_USERSPACE
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	select DEVFREQ_GOV_CPUFREQ
 	default n
 	help
@@ -266,7 +255,6 @@ config DEVFREQ_SPDM
 	  This driver allows any SPDM based client to vote for bandwidth.
 	  Used with the QCOM SPDM Hypervisor Governor.
 
-<<<<<<< HEAD
 config DEVFREQ_BOOST
 	bool "Devfreq Boost"
 	help
@@ -300,8 +288,6 @@ config DEVFREQ_MSM_CPUBW_BOOST_FREQ
 
 endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 source "drivers/devfreq/event/Kconfig"
 
 endif # PM_DEVFREQ

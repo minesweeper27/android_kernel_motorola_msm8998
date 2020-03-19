@@ -99,7 +99,6 @@ config ANDROID_VSOC
 	  a 'cuttlefish' Android image inside QEmu. The driver interacts with
 	  a QEmu ivshmem device. If built as a module, it will be called vsoc.
 
-<<<<<<< HEAD
 config SYNC_DEBUG
 	bool "Debug software synchronization"
 	default n
@@ -107,8 +106,6 @@ config SYNC_DEBUG
 	---help---
 	  This makes the sync driver keep track of fence names.
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 source "drivers/staging/android/ion/Kconfig"
 
 endif # if ANDROID

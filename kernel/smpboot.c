@@ -159,15 +159,9 @@ static int smpboot_thread_fn(void *data)
 			 *     p->state = TASK_RUNNING;
 			 *                                   schedule();
 			 */
-<<<<<<< HEAD
 			raw_spin_lock_irqsave(&current->pi_lock, flags);
 			__set_current_state(TASK_RUNNING);
 			raw_spin_unlock_irqrestore(&current->pi_lock, flags);
-=======
-			raw_spin_lock(&current->pi_lock);
-			__set_current_state(TASK_RUNNING);
-			raw_spin_unlock(&current->pi_lock);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			preempt_enable();
 			if (ht->park && td->status == HP_THREAD_ACTIVE) {
 				BUG_ON(td->cpu != smp_processor_id());

@@ -1082,14 +1082,11 @@ config SND_SOC_TPA6130A2
 config SND_SOC_MSM_STUB
 	tristate
 
-<<<<<<< HEAD
 
 config SND_SOC_MODS_CODEC_SHIM
 	tristate "shim codec for mods"
 	depends on MODS_CODEC_BUS
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config SND_SOC_MSM_HDMI_CODEC_RX
 	bool "HDMI Audio Playback"
 	depends on FB_MSM_MDSS_HDMI_PANEL && (SND_SOC_APQ8084 || SND_SOC_MSM8994 || SND_SOC_MSM8996 || SND_SOC_MSM8998 || SND_SOC_SDM660_COMMON)
@@ -1097,7 +1094,6 @@ config SND_SOC_MSM_HDMI_CODEC_RX
 	HDMI audio drivers should be built only if the platform
         supports hdmi panel.
 
-<<<<<<< HEAD
 config SND_SOC_FSA8500
 	tristate
 
@@ -1107,8 +1103,6 @@ config MODS_USE_EXTCODEC_MI2S
 	help
 	  Say Y if mods audio signals connect to external codec directly
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 source "sound/soc/codecs/sdm660_cdc/Kconfig"
 source "sound/soc/codecs/msm_sdw/Kconfig"
 

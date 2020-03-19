@@ -213,12 +213,7 @@ asmlinkage void post_ttbr_update_workaround(void)
 
 static int asids_init(void)
 {
-<<<<<<< HEAD
 	int fld = cpuid_feature_extract_field(read_cpuid(SYS_ID_AA64MMFR0_EL1), 4);
-=======
-	int fld = cpuid_feature_extract_unsigned_field(read_cpuid(SYS_ID_AA64MMFR0_EL1),
-						       ID_AA64MMFR0_ASID_SHIFT);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	switch (fld) {
 	default:

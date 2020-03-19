@@ -3217,7 +3217,6 @@ void sched_get_cpus_busy(struct sched_load *busy,
 		update_task_ravg(rq->curr, rq, TASK_UPDATE, sched_ktime_clock(),
 				 0);
 
-<<<<<<< HEAD
 		/*
 		 * Ensure that we don't report load for 'cpu' again via the
 		 * cpufreq_update_util path in the window that started at
@@ -3225,8 +3224,6 @@ void sched_get_cpus_busy(struct sched_load *busy,
 		 */
 		rq->load_reported_window = rq->window_start;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		account_load_subtractions(rq);
 		load[i] = rq->prev_runnable_sum;
 		nload[i] = rq->nt_prev_runnable_sum;
@@ -3659,14 +3656,11 @@ void fixup_busy_time(struct task_struct *p, int new_cpu)
 
 	migrate_top_tasks(p, src_rq, dest_rq);
 
-<<<<<<< HEAD
 	if (!same_freq_domain(new_cpu, task_cpu(p))) {
 		cpufreq_update_util(dest_rq, SCHED_CPUFREQ_INTERCLUSTER_MIG);
 		cpufreq_update_util(src_rq, SCHED_CPUFREQ_INTERCLUSTER_MIG);
 	}
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (p == src_rq->ed_task) {
 		src_rq->ed_task = NULL;
 		if (!dest_rq->ed_task)

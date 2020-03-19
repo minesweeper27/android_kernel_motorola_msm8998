@@ -71,10 +71,7 @@ obj-$(CONFIG_LEDS_KTD2692)		+= leds-ktd2692.o
 obj-$(CONFIG_LEDS_POWERNV)		+= leds-powernv.o
 obj-$(CONFIG_LEDS_SEAD3)		+= leds-sead3.o
 obj-$(CONFIG_LEDS_QPNP_HAPTICS)	+= leds-qpnp-haptics.o
-<<<<<<< HEAD
 obj-$(CONFIG_LEDS_ATC)			+= leds-atc.o
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 # LED SPI Drivers
 obj-$(CONFIG_LEDS_DAC124S085)		+= leds-dac124s085.o

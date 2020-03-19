@@ -446,7 +446,6 @@ int q6core_get_service_version(uint32_t service_id,
 
 	ret = q6core_get_fwk_version_size(service_id);
 	if (ret < 0) {
-<<<<<<< HEAD
 		if (ret == -EOPNOTSUPP) {
 			pr_debug("%s: Failed to get service size for service id %d with error %d\n",
 				__func__, service_id, ret);
@@ -454,10 +453,6 @@ int q6core_get_service_version(uint32_t service_id,
 			pr_err("%s: Failed to get service size for service id %d with error %d\n",
 				__func__, service_id, ret);
 		}
-=======
-		pr_err("%s: Failed to get service size for service id %d with error %d\n",
-		       __func__, service_id, ret);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return ret;
 	}
 

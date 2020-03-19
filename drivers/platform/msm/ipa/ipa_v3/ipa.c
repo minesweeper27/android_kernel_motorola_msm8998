@@ -3786,11 +3786,6 @@ void ipa3_inc_acquire_wakelock(void)
 
 	spin_lock_irqsave(&ipa3_ctx->wakelock_ref_cnt.spinlock, flags);
 	ipa3_ctx->wakelock_ref_cnt.cnt++;
-<<<<<<< HEAD
-=======
-	if (ipa3_ctx->wakelock_ref_cnt.cnt == 1)
-		__pm_stay_awake(&ipa3_ctx->w_lock);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	IPADBG_LOW("active wakelock ref cnt = %d\n",
 		ipa3_ctx->wakelock_ref_cnt.cnt);
 	spin_unlock_irqrestore(&ipa3_ctx->wakelock_ref_cnt.spinlock, flags);
@@ -3812,11 +3807,6 @@ void ipa3_dec_release_wakelock(void)
 	ipa3_ctx->wakelock_ref_cnt.cnt--;
 	IPADBG_LOW("active wakelock ref cnt = %d\n",
 		ipa3_ctx->wakelock_ref_cnt.cnt);
-<<<<<<< HEAD
-=======
-	if (ipa3_ctx->wakelock_ref_cnt.cnt == 0)
-		__pm_relax(&ipa3_ctx->w_lock);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_unlock_irqrestore(&ipa3_ctx->wakelock_ref_cnt.spinlock, flags);
 }
 

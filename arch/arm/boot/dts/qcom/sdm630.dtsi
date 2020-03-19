@@ -34,11 +34,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-<<<<<<< HEAD
 		bootargs = "quiet rcupdate.rcu_normal_after_boot=1 core_ctl_disable_cpumask=0-7";
-=======
-		bootargs = "rcupdate.rcu_expedited=1 core_ctl_disable_cpumask=0-7";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	psci {
@@ -310,11 +306,7 @@
 				compatible = "android,fstab";
 				vendor {
 					compatible = "android,vendor";
-<<<<<<< HEAD
 					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/oem";
-=======
-					dev = "/dev/block/platform/soc/c0c4000.sdhci/by-name/vendor";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					type = "ext4";
 					mnt_flags = "ro,barrier=1,discard";
 					fsmgr_flags = "wait,slotselect,verify";
@@ -409,7 +401,6 @@
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
-<<<<<<< HEAD
 			size = <0x0 0x8000000>;
 			linux,cma-default;
 		};
@@ -417,15 +408,6 @@
 		cont_splash_mem: cont_splash_region@9d400000 {
 			reg = <0x0 0x9d400000 0x0 0x23ff000>;
 			label = "cont_splash_region";
-=======
-			size = <0x0 0x2000000>;
-			linux,cma-default;
-		};
-
-		cont_splash_mem: splash_region@9d400000 {
-			reg = <0x0 0x9d400000 0x0 0x23ff000>;
-			label = "cont_splash_mem";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		};
 
 		dfps_data_mem: dfps_data_mem@0x9f7ff000 {
@@ -758,7 +740,6 @@
 			qcom,sensor-type = "llm";
 			qcom,sensor-name = "limits_sensor-01";
 		};
-<<<<<<< HEAD
 		sensor_information20: qcom,sensor-information-20 {
 			qcom,sensor-type = "adc";
 			qcom,sensor-name = "front_temp";
@@ -776,8 +757,6 @@
 		mmi,temperature-names = "front_temp",
 					"back_temp";
 		status = "ok";
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	mitigation_profile0: qcom,limit_info-0 {
@@ -809,13 +788,8 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <3>;
 		qcom,poll-ms = <100>;
-<<<<<<< HEAD
 		qcom,therm-reset-temp = <90>;
 		qcom,core-limit-temp = <60>;
-=======
-		qcom,therm-reset-temp = <115>;
-		qcom,core-limit-temp = <70>;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		qcom,core-temp-hysteresis = <10>;
 		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <20>;
@@ -858,11 +832,7 @@
 		interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
 	};
 
-<<<<<<< HEAD
 	pm660_bcl: qcom,bcl {
-=======
-	qcom,bcl {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		compatible = "qcom,bcl";
 		qcom,bcl-enable;
 		qcom,bcl-framework-interface;
@@ -1099,12 +1069,8 @@
 			< 465000000 4>,  /* SVS_L1 */
 			< 588000000 5>,  /* NOM    */
 			< 647000000 6>,  /* NOM_L1 */
-<<<<<<< HEAD
 			< 648000000 7>,  /* TURBO  */
 			< 700000000 7>,  /* TURBO  */
-=======
-			< 700000000 7>,  /* TURBO */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			< 775000000 7>;  /* TURBO  */
 		#clock-cells = <1>;
 		#reset-cells = <1>;
@@ -1272,10 +1238,7 @@
 		qcom,governor-per-policy;
 
 		qcom,cpufreq-table-0 =
-<<<<<<< HEAD
                         < 300000 >,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			<  787200 >,
 			< 1113600 >,
 			< 1344000 >,
@@ -1289,10 +1252,7 @@
 			< 2515200 >;
 
 		qcom,cpufreq-table-4 =
-<<<<<<< HEAD
                         < 300000 >,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			<  614400 >,
 			<  883200 >,
 			< 1094400 >,

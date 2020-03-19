@@ -453,11 +453,7 @@ static void sde_rotator_stop_streaming(struct vb2_queue *q)
 			atomic_read(&ctx->command_pending));
 	ctx->abort_pending = 1;
 	mutex_unlock(q->lock);
-<<<<<<< HEAD
 	ret = wait_event_interruptible_timeout(ctx->wait_queue,
-=======
-	ret = wait_event_timeout(ctx->wait_queue,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			(atomic_read(&ctx->command_pending) == 0),
 			msecs_to_jiffies(rot_dev->streamoff_timeout));
 	mutex_lock(q->lock);

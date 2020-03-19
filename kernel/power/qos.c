@@ -353,12 +353,6 @@ int pm_qos_update_target(struct pm_qos_constraints *c,
 	pm_qos_set_value(c, curr_value);
 	pm_qos_set_value_for_cpus(c, &cpus);
 
-<<<<<<< HEAD
-=======
-	spin_unlock_irqrestore(&pm_qos_lock, flags);
-
-	trace_pm_qos_update_target(action, prev_value, curr_value);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/*
 	 * if cpu mask bits are set, call the notifier call chain
 	 * to update the new qos restriction for the cores
@@ -534,10 +528,6 @@ static void pm_qos_work_fn(struct work_struct *work)
 #ifdef CONFIG_SMP
 static void pm_qos_irq_release(struct kref *ref)
 {
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct irq_affinity_notify *notify = container_of(ref,
 					struct irq_affinity_notify, kref);
 	struct pm_qos_request *req = container_of(notify,
@@ -545,15 +535,9 @@ static void pm_qos_irq_release(struct kref *ref)
 	struct pm_qos_constraints *c =
 				pm_qos_array[req->pm_qos_class]->constraints;
 
-<<<<<<< HEAD
 	spin_lock(&pm_qos_lock);
 	cpumask_setall(&req->cpus_affine);
 	spin_unlock(&pm_qos_lock);
-=======
-	spin_lock_irqsave(&pm_qos_lock, flags);
-	cpumask_setall(&req->cpus_affine);
-	spin_unlock_irqrestore(&pm_qos_lock, flags);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pm_qos_update_target(c, req, PM_QOS_UPDATE_REQ, c->default_value);
 }
@@ -561,24 +545,14 @@ static void pm_qos_irq_release(struct kref *ref)
 static void pm_qos_irq_notify(struct irq_affinity_notify *notify,
 		const cpumask_t *mask)
 {
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct pm_qos_request *req = container_of(notify,
 					struct pm_qos_request, irq_notify);
 	struct pm_qos_constraints *c =
 				pm_qos_array[req->pm_qos_class]->constraints;
 
-<<<<<<< HEAD
 	spin_lock(&pm_qos_lock);
 	cpumask_copy(&req->cpus_affine, mask);
 	spin_unlock(&pm_qos_lock);
-=======
-	spin_lock_irqsave(&pm_qos_lock, flags);
-	cpumask_copy(&req->cpus_affine, mask);
-	spin_unlock_irqrestore(&pm_qos_lock, flags);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pm_qos_update_target(c, req, PM_QOS_UPDATE_REQ, req->node.prio);
 }

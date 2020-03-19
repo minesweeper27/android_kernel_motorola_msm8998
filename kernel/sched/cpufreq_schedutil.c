@@ -666,13 +666,8 @@ static int sugov_init(struct cpufreq_policy *policy)
 	} else {
 		unsigned int lat;
 
-<<<<<<< HEAD
                 tunables->up_rate_limit_us = LATENCY_MULTIPLIER / 2;
                 tunables->down_rate_limit_us = LATENCY_MULTIPLIER * 20;
-=======
-                tunables->up_rate_limit_us = LATENCY_MULTIPLIER;
-                tunables->down_rate_limit_us = LATENCY_MULTIPLIER;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		lat = policy->cpuinfo.transition_latency / NSEC_PER_USEC;
 		if (lat) {
                         tunables->up_rate_limit_us *= lat;

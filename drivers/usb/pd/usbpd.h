@@ -20,20 +20,14 @@ struct usbpd;
 #if IS_ENABLED(CONFIG_USB_PD_POLICY)
 struct usbpd *usbpd_create(struct device *parent);
 void usbpd_destroy(struct usbpd *pd);
-<<<<<<< HEAD
 void usbpd_handle_vbus_fault(struct usbpd *pd);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #else
 static inline struct usbpd *usbpd_create(struct device *parent)
 {
 	return ERR_PTR(-ENODEV);
 }
 static inline void usbpd_destroy(struct usbpd *pd) { }
-<<<<<<< HEAD
 static inline void usbpd_handle_vbus_fault(struct usbpd *pd) { }
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif
 
 enum data_role {
@@ -85,10 +79,7 @@ int pd_phy_write(u16 hdr, const u8 *data, size_t data_len,
 		enum pd_sop_type sop);
 int pd_phy_update_roles(enum data_role dr, enum power_role pr);
 void pd_phy_close(void);
-<<<<<<< HEAD
 void pd_phy_audio_detect(bool enable);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #else
 static inline int pd_phy_open(struct pd_phy_params *params)
 {
@@ -114,12 +105,9 @@ static inline int pd_phy_update_roles(enum data_role dr, enum power_role pr)
 static inline void pd_phy_close(void)
 {
 }
-<<<<<<< HEAD
 
 static inline void pd_phy_audio_detect(bool enable)
 {
 }
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif
 #endif /* _USBPD_H */

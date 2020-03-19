@@ -134,7 +134,6 @@ config CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
 	  Use the 'schedutil' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
 	  governor will be 'performance'.
-<<<<<<< HEAD
 
 config CPU_FREQ_DEFAULT_GOV_NEBULA
 	bool "interactive"
@@ -154,8 +153,6 @@ config CPU_FREQ_DEFAULT_GOV_ALUCARD
 	  loading your cpufreq low-level hardware driver, using the
 	  'alucard' governor for latency-sensitive workloads.
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -271,12 +268,9 @@ config CPU_FREQ_GOV_ONDEMAND
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_FREQ_GOV_DARKNESS
  	tristate "'darkness' cpufreq policy governor"
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config CPU_FREQ_GOV_INTERACTIVE
 	bool "'interactive' cpufreq policy governor"
 	help
@@ -315,20 +309,6 @@ config CPU_FREQ_GOV_CONSERVATIVE
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
-=======
-config CPU_BOOST
-	tristate "Event base short term CPU freq boost"
-	depends on CPU_FREQ
-	help
-	  This driver boosts the frequency of one or more CPUs based on
-	  various events that might occur in the system. As of now, the
-	  events it reacts to are:
-	  - Migration of important threads from one CPU to another.
-
-	  If in doubt, say N.
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 config CPU_FREQ_GOV_SCHEDUTIL
 	bool "'schedutil' cpufreq policy governor"
 	depends on CPU_FREQ && SMP
@@ -346,7 +326,6 @@ config CPU_FREQ_GOV_SCHEDUTIL
 
 	  If in doubt, say N.
 
-<<<<<<< HEAD
 config CPU_INPUT_BOOST
 	bool "CPU Input Boost"
 	help
@@ -397,8 +376,6 @@ config MAX_BOOST_FREQ_PERF
 
 endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 comment "CPU frequency scaling drivers"
 
 config CPUFREQ_DT

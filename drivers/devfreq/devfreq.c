@@ -195,7 +195,6 @@ int update_devfreq(struct devfreq *devfreq)
 	if (!devfreq->governor)
 		return -EINVAL;
 
-<<<<<<< HEAD
 	if (devfreq->max_boost) {
 		/* Use the max freq for max boosts */
 		freq = ULONG_MAX;
@@ -205,12 +204,6 @@ int update_devfreq(struct devfreq *devfreq)
 		if (err)
 			return err;
 	}
-=======
-	/* Reevaluate the proper frequency */
-	err = devfreq->governor->get_target_freq(devfreq, &freq, &flags);
-	if (err)
-		return err;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/*
 	 * Adjust the frequency with user freq and QoS.

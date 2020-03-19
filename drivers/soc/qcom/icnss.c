@@ -77,14 +77,11 @@ module_param(qmi_timeout, ulong, 0600);
 
 #define PROBE_TIMEOUT			15000
 
-<<<<<<< HEAD
 #define WLAN_DETUNE_REG_NAME		"wlan-detune-reg"
 #define WLAN_DETUNE_REG_VOLT_MAX	2704000
 #define WLAN_DETUNE_REG_VOLT_MIN	2704000
 #define WLAN_DETUNE_REG_CURRENT		500
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define icnss_ipc_log_string(_x...) do {				\
 	if (icnss_ipc_log_context)					\
 		ipc_log_string(icnss_ipc_log_context, _x);		\
@@ -508,10 +505,7 @@ static struct icnss_priv {
 	char function_name[QMI_WLFW_FUNCTION_NAME_LEN_V01 + 1];
 	struct completion unblock_shutdown;
 	bool is_ssr;
-<<<<<<< HEAD
 	struct regulator *wlan_reg_detune;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 } *penv;
 
 #ifdef CONFIG_ICNSS_DEBUG
@@ -636,7 +630,6 @@ static void icnss_pm_relax(struct icnss_priv *priv)
 	priv->stats.pm_relax++;
 }
 
-<<<<<<< HEAD
 static int icnss_wlan_detune_enable(struct icnss_priv *priv, int on)
 {
 	int rc = 0;
@@ -695,8 +688,6 @@ put_vreg_lpm:
 	return rc < 0 ? rc : 0;
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static char *icnss_driver_event_to_str(enum icnss_driver_event_type type)
 {
 	switch (type) {
@@ -1599,11 +1590,7 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
 static int wlfw_wlan_mode_send_sync_msg(u32 mode)
-=======
-static int wlfw_wlan_mode_send_sync_msg(enum wlfw_driver_mode_enum_v01 mode)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	int ret;
 	struct wlfw_wlan_mode_req_msg_v01 req;
@@ -3130,13 +3117,10 @@ int __icnss_register_driver(struct icnss_driver_ops *ops,
 		goto out;
 	}
 
-<<<<<<< HEAD
 	ret = icnss_wlan_detune_enable(penv, true);
 	if (ret)
 		icnss_pr_dbg("Failed to enable WLAN detune, ret=%d\n", ret);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = icnss_driver_event_post(ICNSS_DRIVER_EVENT_REGISTER_DRIVER,
 				      0, ops);
 
@@ -3165,13 +3149,10 @@ int icnss_unregister_driver(struct icnss_driver_ops *ops)
 		goto out;
 	}
 
-<<<<<<< HEAD
 	ret = icnss_wlan_detune_enable(penv, false);
 	if (ret)
 		icnss_pr_dbg("Failed to disable WLAN detune, ret=%d\n", ret);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ret = icnss_driver_event_post(ICNSS_DRIVER_EVENT_UNREGISTER_DRIVER,
 				      ICNSS_EVENT_SYNC_UNINTERRUPTIBLE, NULL);
 out:
@@ -4889,13 +4870,10 @@ static int icnss_probe(struct platform_device *pdev)
 		}
 	}
 
-<<<<<<< HEAD
 	if (of_get_property(dev->of_node, WLAN_DETUNE_REG_NAME "-supply", NULL))
 		priv->wlan_reg_detune =
 			devm_regulator_get(&pdev->dev, WLAN_DETUNE_REG_NAME);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock_init(&priv->event_lock);
 	spin_lock_init(&priv->on_off_lock);
 	mutex_init(&priv->dev_lock);

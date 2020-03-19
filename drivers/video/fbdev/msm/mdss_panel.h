@@ -41,7 +41,6 @@ struct panel_id {
 #define SIM_SW_TE_PANEL	"sim-swte"
 #define SIM_HW_TE_PANEL	"sim-hwte"
 
-<<<<<<< HEAD
 #define BRIGHTNESS_HBM_ON	0xFFFFFFFE
 #define BRIGHTNESS_HBM_OFF	(BRIGHTNESS_HBM_ON - 1)
 #define HBM_BRIGHTNESS(value) ((value) == HBM_ON_STATE ?\
@@ -104,8 +103,6 @@ struct panel_param {
 	bool is_supported;
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* panel type list */
 #define NO_PANEL		0xffff	/* No Panel */
 #define MDDI_PANEL		1	/* MDDI */
@@ -129,11 +126,7 @@ struct panel_param {
 
 static inline const char *mdss_panel2str(u32 panel)
 {
-<<<<<<< HEAD
 	static const char *names[] = {
-=======
-	static const char const *names[] = {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define PANEL_NAME(n) [n ## _PANEL] = __stringify(n)
 		PANEL_NAME(MIPI_VIDEO),
 		PANEL_NAME(MIPI_CMD),
@@ -341,10 +334,7 @@ struct mdss_intf_ulp_clamp {
  *			avr mode passed as argument
  *			0 - disable AVR support
  *			1 - enable AVR support
-<<<<<<< HEAD
  * @MDSS_EVENT_ENABLE_TE: Change TE state, used for factory testing only
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  */
 enum mdss_intf_events {
 	MDSS_EVENT_RESET = 1,
@@ -383,11 +373,8 @@ enum mdss_intf_events {
 	MDSS_EVENT_REGISTER_CLAMP_HANDLER,
 	MDSS_EVENT_DSI_DYNAMIC_BITCLK,
 	MDSS_EVENT_MAX,
-<<<<<<< HEAD
 	MDSS_EVENT_ENABLE_TE,
 	MDSS_EVENT_UPDATE_LIVEDISPLAY,
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 /**
@@ -612,21 +599,15 @@ struct mipi_panel_info {
 	char hw_vsync_mode;
 
 	char lp11_init;
-<<<<<<< HEAD
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	u32  init_delay;
 	u32  post_init_delay;
 	u32  num_of_sublinks;
 	u32  lanes_per_sublink;
-<<<<<<< HEAD
 
 	char lp11_reset_lcdb;
 	char lp11_lcdb_reset;
 	char bl_shutdown_dcs;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct edp_panel_info {
@@ -850,11 +831,8 @@ struct mdss_dsi_dual_pu_roi {
 	bool enabled;
 };
 
-<<<<<<< HEAD
 struct mdss_livedisplay_ctx;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct mdss_panel_hdr_properties {
 	bool hdr_enabled;
 
@@ -892,10 +870,7 @@ struct mdss_panel_info {
 	u32 out_format;
 	u32 rst_seq[MDSS_DSI_RST_SEQ_LEN];
 	u32 rst_seq_len;
-<<<<<<< HEAD
 	bool panel_reg_read_lp_enable;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	u32 vic; /* video identification code */
 	u32 deep_color;
 	struct mdss_rect roi;
@@ -988,13 +963,10 @@ struct mdss_panel_info {
 	void *hdcp_1x_data;
 
 	char panel_name[MDSS_MAX_PANEL_LEN];
-<<<<<<< HEAD
 	char panel_family_name[MDSS_MAX_PANEL_LEN];
 	u32 panel_ver;
 	char panel_supplier[8];
 	char panel_vendor_id[16];
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct mdss_mdp_pp_tear_check te;
 	struct mdss_mdp_pp_tear_check te_cached;
 
@@ -1026,11 +998,8 @@ struct mdss_panel_info {
 	 */
 	u32 adjust_timer_delay_ms;
 
-<<<<<<< HEAD
 	struct mdss_livedisplay_ctx *livedisplay;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* debugfs structure for the panel */
 	struct mdss_panel_debugfs_info *debugfs_info;
 
@@ -1045,7 +1014,6 @@ struct mdss_panel_info {
 
 	/* esc clk recommended for the panel */
 	u32 esc_clk_rate_hz;
-<<<<<<< HEAD
 
 	u32 disp_on_check_val;
 	bool no_panel_read_support;
@@ -1058,8 +1026,6 @@ struct mdss_panel_info {
 	u32 forced_tx_mode_ftr_enabled;
 	u32 forced_tx_mode_state;
 	bool bklt_dcs_2bytes_enabled;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 struct mdss_panel_timing {
@@ -1100,11 +1066,8 @@ struct mdss_panel_data {
 	struct mdss_panel_info panel_info;
 	void (*set_backlight) (struct mdss_panel_data *pdata, u32 bl_level);
 	int (*apply_display_setting)(struct mdss_panel_data *pdata, u32 mode);
-<<<<<<< HEAD
 	int (*set_param)(struct mdss_panel_data *pdata, u16 id, u16 value);
 	void (*set_dcs_backlight)(struct mdss_panel_data *pdata, u32 bl_level);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned char *mmss_cc_base;
 
 	/**
@@ -1544,7 +1507,6 @@ static inline struct mdss_panel_timing *mdss_panel_get_timing_by_name(
 		struct mdss_panel_data *pdata,
 		const char *name) { return NULL; };
 #endif
-<<<<<<< HEAD
 
 static inline bool mdss_panel_param_is_supported(struct mdss_panel_info *p,
 	u16 id)
@@ -1566,6 +1528,4 @@ static inline bool mdss_panel_param_is_hbm_on(struct mdss_panel_info *p)
 
 	return false;
 };
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif /* MDSS_PANEL_H */

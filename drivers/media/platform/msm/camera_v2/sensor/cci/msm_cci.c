@@ -32,11 +32,7 @@
 #define CYCLES_PER_MICRO_SEC_DEFAULT 4915
 #define CCI_MAX_DELAY 1000000
 
-<<<<<<< HEAD
 #define CCI_TIMEOUT msecs_to_jiffies(1000)
-=======
-#define CCI_TIMEOUT msecs_to_jiffies(100)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /* TODO move this somewhere else */
 #define MSM_CCI_DRV_NAME "msm_cci"
@@ -849,11 +845,7 @@ static int32_t msm_cci_i2c_read(struct v4l2_subdev *sd,
 	if (rc < 0) {
 		pr_err("%s:%d msm_cci_set_clk_param failed rc = %d\n",
 			__func__, __LINE__, rc);
-<<<<<<< HEAD
 		goto ERROR;
-=======
-		return rc;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	/*
@@ -1434,7 +1426,6 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 	}
 
 	/* Re-initialize the completion */
-<<<<<<< HEAD
 	reinit_completion(&cci_dev->cci_master_info[MASTER_0].reset_complete);
 	for (i = 0; i < NUM_QUEUES; i++)
 		reinit_completion(&cci_dev->cci_master_info[MASTER_0].
@@ -1442,11 +1433,6 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 	reinit_completion(&cci_dev->cci_master_info[MASTER_1].reset_complete);
 	for (i = 0; i < NUM_QUEUES; i++)
 		reinit_completion(&cci_dev->cci_master_info[MASTER_1].
-=======
-	reinit_completion(&cci_dev->cci_master_info[master].reset_complete);
-	for (i = 0; i < NUM_QUEUES; i++)
-		reinit_completion(&cci_dev->cci_master_info[master].
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			report_q[i]);
 	rc = msm_camera_enable_irq(cci_dev->irq, true);
 	if (rc < 0)

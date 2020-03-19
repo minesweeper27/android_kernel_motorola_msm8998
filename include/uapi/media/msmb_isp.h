@@ -33,11 +33,6 @@ struct isp_kstate {
 	uint32_t kernel_sofid;
 	uint32_t drop_reconfig;
 	uint32_t vfeid;
-<<<<<<< HEAD
-=======
-	uint32_t dual_cam_drop_detected;
-	uint32_t dual_cam_drop;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 enum ISP_START_PIXEL_PATTERN {

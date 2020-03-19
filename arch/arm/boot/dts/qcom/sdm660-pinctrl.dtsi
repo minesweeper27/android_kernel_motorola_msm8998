@@ -36,38 +36,16 @@
 		led_enable: led_enable {
 			mux {
 				pins = "gpio40";
-<<<<<<< HEAD
 				drive_strength = <16>;
 				output-high;
-=======
-				function = "gpio";
-			};
-
-			config {
-				pins = "gpio40";
-				drive_strength = <2>;
-				output-high;
-				bias-disable;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			};
 		};
 
 		led_disable: led_disable {
 			mux {
 				pins = "gpio40";
-<<<<<<< HEAD
 				drive_strength = <2>;
 				output-low;
-=======
-				function = "gpio";
-			};
-
-			config {
-				pins = "gpio40";
-				drive_strength = <2>;
-				output-low;
-				bias-disable;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			};
 		};
 
@@ -349,7 +327,6 @@
 				};
 			};
 		};
-<<<<<<< HEAD
 		
 		sx9310_irq_default: sx9310_irq_default {  //cap sense inturrupt
 			mux {
@@ -363,8 +340,6 @@
 				bias-pull-up;
 			};
 		}; 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		i2c_3 {
 			i2c_3_active: i2c_3_active {
@@ -1859,7 +1834,6 @@
 					bias-disable;
 				};
 			};
-<<<<<<< HEAD
 
 			ts_release: ts_release {
 				mux {
@@ -1873,8 +1847,6 @@
 					bias-pull-down;
 				};
 			};
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		};
 	};
 };

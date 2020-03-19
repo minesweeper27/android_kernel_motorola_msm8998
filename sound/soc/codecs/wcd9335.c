@@ -2580,10 +2580,7 @@ static int slim_tx_mixer_put(struct snd_kcontrol *kcontrol,
 		if (dai_id >= ARRAY_SIZE(vport_i2s_check_table)) {
 			dev_err(codec->dev, "%s: dai_id: %d, out of bounds\n",
 				__func__, dai_id);
-<<<<<<< HEAD
 			mutex_unlock(&tasha_p->codec_mutex);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			return -EINVAL;
 		}
 		vtable = vport_i2s_check_table[dai_id];

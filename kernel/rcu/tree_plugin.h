@@ -233,11 +233,7 @@ static void rcu_preempt_ctxt_queue(struct rcu_node *rnp, struct rcu_data *rdp)
 		rnp->gp_tasks = &t->rcu_node_entry;
 	if (!rnp->exp_tasks && (blkd_state & RCU_EXP_BLKD))
 		rnp->exp_tasks = &t->rcu_node_entry;
-<<<<<<< HEAD
 	raw_spin_unlock_rcu_node(rnp); /* interrupts remain disabled. */
-=======
-	raw_spin_unlock(&rnp->lock); /* rrupts remain disabled. */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/*
 	 * Report the quiescent state for the expedited GP.  This expedited
@@ -300,12 +296,7 @@ static void rcu_preempt_note_context_switch(void)
 		/* Possibly blocking in an RCU read-side critical section. */
 		rdp = this_cpu_ptr(rcu_state_p->rda);
 		rnp = rdp->mynode;
-<<<<<<< HEAD
 		raw_spin_lock_rcu_node(rnp);
-=======
-		raw_spin_lock(&rnp->lock);
-		smp_mb__after_unlock_lock();
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		t->rcu_read_unlock_special.b.blocked = true;
 		t->rcu_blocked_node = rnp;
 

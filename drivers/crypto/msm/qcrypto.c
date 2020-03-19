@@ -740,23 +740,13 @@ static size_t qcrypto_sg_copy_from_buffer(struct scatterlist *sgl,
 				unsigned int nents, void *buf, size_t buflen)
 {
 	int i;
-<<<<<<< HEAD
 	size_t offset = 0, len;
 
 	for_each_sg(sgl, sgl, nents, i) {
-=======
-	size_t offset, len;
-
-	for (i = 0, offset = 0; i < nents; ++i) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		len = sg_copy_from_buffer(sgl, 1, buf, buflen);
 		buf += len;
 		buflen -= len;
 		offset += len;
-<<<<<<< HEAD
-=======
-		sgl = sg_next(sgl);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	return offset;
@@ -766,23 +756,13 @@ static size_t qcrypto_sg_copy_to_buffer(struct scatterlist *sgl,
 				unsigned int nents, void *buf, size_t buflen)
 {
 	int i;
-<<<<<<< HEAD
 	size_t offset = 0, len;
 
 	for_each_sg(sgl, sgl, nents, i) {
-=======
-	size_t offset, len;
-
-	for (i = 0, offset = 0; i < nents; ++i) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		len = sg_copy_to_buffer(sgl, 1, buf, buflen);
 		buf += len;
 		buflen -= len;
 		offset += len;
-<<<<<<< HEAD
-=======
-		sgl = sg_next(sgl);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	return offset;

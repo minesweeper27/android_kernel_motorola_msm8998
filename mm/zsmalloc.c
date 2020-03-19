@@ -479,11 +479,7 @@ static bool is_zspage_isolated(struct zspage *zspage)
 	return zspage->isolated;
 }
 
-<<<<<<< HEAD
 static __maybe_unused int is_first_page(struct page *page)
-=======
-static int is_first_page(struct page *page)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	return PagePrivate(page);
 }

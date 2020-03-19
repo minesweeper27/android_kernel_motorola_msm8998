@@ -208,11 +208,7 @@ static int xhci_plat_probe(struct platform_device *pdev)
 	pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
 	pm_runtime_set_active(&pdev->dev);
 	pm_runtime_enable(&pdev->dev);
-<<<<<<< HEAD
 	pm_runtime_get_noresume(&pdev->dev);
-=======
-	pm_runtime_get_sync(&pdev->dev);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (of_device_is_compatible(pdev->dev.of_node,
 				    "marvell,armada-375-xhci") ||
@@ -314,11 +310,6 @@ static int xhci_plat_remove(struct platform_device *dev)
 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
 	struct clk *clk = xhci->clk;
 
-<<<<<<< HEAD
-=======
-	pm_runtime_disable(&dev->dev);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	device_remove_file(&dev->dev, &dev_attr_config_imod);
 	xhci->xhc_state |= XHCI_STATE_REMOVING;
 	usb_remove_hcd(xhci->shared_hcd);

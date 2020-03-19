@@ -21,10 +21,7 @@
 #include <linux/slab.h>
 #include <linux/of.h>
 #include <linux/err.h>
-<<<<<<< HEAD
 #include <linux/debugfs.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include <linux/uaccess.h>
 
 #include <soc/qcom/subsystem_restart.h>
@@ -753,7 +750,6 @@ int service_notif_unregister_notifier(void *service_notif_handle,
 				&service_notif->service_notif_rcvr_list, nb);
 }
 EXPORT_SYMBOL(service_notif_unregister_notifier);
-<<<<<<< HEAD
 
 struct service_notifier_test_data {
 	char service_path[MAX_STRING_LEN];
@@ -930,5 +926,3 @@ static void __exit service_notifier_exit(void)
 }
 module_init(service_notifier_init);
 module_exit(service_notifier_exit);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

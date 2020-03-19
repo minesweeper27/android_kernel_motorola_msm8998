@@ -96,23 +96,14 @@
 		asoc-platform = <&pcm0>, <&pcm1>, <&pcm2>, <&voip>, <&voice>,
 				<&loopback>, <&compress>, <&hostless>,
 				<&afe>, <&lsm>, <&routing>, <&cpe>, <&compr>,
-<<<<<<< HEAD
 				<&pcm_noirq>;
-=======
-				<&pcm_noirq>, <&cpe3>, <&trans_loopback>;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		asoc-platform-names = "msm-pcm-dsp.0", "msm-pcm-dsp.1",
 				"msm-pcm-dsp.2", "msm-voip-dsp",
 				"msm-pcm-voice", "msm-pcm-loopback",
 				"msm-compress-dsp", "msm-pcm-hostless",
 				"msm-pcm-afe", "msm-lsm-client",
 				"msm-pcm-routing", "msm-cpe-lsm",
-<<<<<<< HEAD
 				"msm-compr-dsp", "msm-pcm-dsp-noirq";
-=======
-				"msm-compr-dsp", "msm-pcm-dsp-noirq",
-				"msm-cpe-lsm.3", "msm-transcode-loopback";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		asoc-cpu = <&dai_hdmi>, <&dai_dp>,
 				<&dai_mi2s0>, <&dai_mi2s1>,
 				<&dai_mi2s2>, <&dai_mi2s3>,
@@ -230,33 +221,17 @@
 		qcom,hph-en0-gpio = <&tavil_hph_en0>;
 		qcom,hph-en1-gpio = <&tavil_hph_en1>;
 		qcom,tavil-mclk-clk-freq = <9600000>;
-<<<<<<< HEAD
 		asoc-platform = <&pcm0>, <&pcm1>, <&pcm2>, <&voip>, <&voice>,
 				<&loopback>, <&compress>, <&hostless>,
 				<&afe>, <&lsm>, <&routing>, <&cpe>, <&compr>,
 				<&pcm_noirq>;
-=======
-
-		qcom,usbc-analog-en1_gpio = <&wcd_usbc_analog_en1_gpio>;
-		qcom,usbc-analog-en2_n_gpio = <&wcd_usbc_analog_en2n_gpio>;
-
-		asoc-platform = <&pcm0>, <&pcm1>, <&pcm2>, <&voip>, <&voice>,
-				<&loopback>, <&compress>, <&hostless>,
-				<&afe>, <&lsm>, <&routing>, <&cpe>, <&compr>,
-				<&pcm_noirq>, <&trans_loopback>;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		asoc-platform-names = "msm-pcm-dsp.0", "msm-pcm-dsp.1",
 				"msm-pcm-dsp.2", "msm-voip-dsp",
 				"msm-pcm-voice", "msm-pcm-loopback",
 				"msm-compress-dsp", "msm-pcm-hostless",
 				"msm-pcm-afe", "msm-lsm-client",
 				"msm-pcm-routing", "msm-cpe-lsm",
-<<<<<<< HEAD
 				"msm-compr-dsp", "msm-pcm-dsp-noirq";
-=======
-				"msm-compr-dsp", "msm-pcm-dsp-noirq",
-				"msm-transcode-loopback";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		asoc-cpu = <&dai_hdmi>, <&dai_dp>,
 				<&dai_mi2s0>, <&dai_mi2s1>,
 				<&dai_mi2s2>, <&dai_mi2s3>,
@@ -309,23 +284,6 @@
 
 	cpe: qcom,msm-cpe-lsm {
 		compatible = "qcom,msm-cpe-lsm";
-<<<<<<< HEAD
-=======
-		qcom,msm-cpe-lsm-id = <1>;
-	};
-
-	cpe3: qcom,msm-cpe-lsm@3 {
-		compatible = "qcom,msm-cpe-lsm";
-		qcom,msm-cpe-lsm-id = <3>;
-	};
-
-	qcom,wcd-dsp-mgr {
-		compatible = "qcom,wcd-dsp-mgr";
-		qcom,wdsp-components = <&wcd934x_cdc 0>,
-				       <&wcd_spi_0 1>,
-				       <&glink_spi_xprt_wdsp 2>;
-		qcom,img-filename = "cpe_9340";
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	wcd_us_euro_gpio: msm_cdc_pinctrl@75 {
@@ -335,23 +293,6 @@
 		pinctrl-1 = <&wcd_gnd_mic_swap_idle>;
 	};
 
-<<<<<<< HEAD
-=======
-	wcd_usbc_analog_en1_gpio: msm_cdc_pinctrl@59 {
-		compatible = "qcom,msm-cdc-pinctrl";
-		pinctrl-names = "aud_active", "aud_sleep";
-		pinctrl-0 = <&wcd_usbc_analog_en1_active>;
-		pinctrl-1 = <&wcd_usbc_analog_en1_idle>;
-	};
-
-	wcd_usbc_analog_en2n_gpio: msm_cdc_pinctrl@60 {
-		compatible = "qcom,msm-cdc-pinctrl";
-		pinctrl-names = "aud_active", "aud_sleep";
-		pinctrl-0 = <&wcd_usbc_analog_en2n_active>;
-		pinctrl-1 = <&wcd_usbc_analog_en2n_idle>;
-	};
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	wcd9xxx_intc: wcd9xxx-irq {
 		status = "ok";
 		compatible = "qcom,wcd9xxx-irq";
@@ -371,12 +312,6 @@
 		clocks = <&clock_gcc clk_div_clk1>;
 		qcom,node_has_rpm_clock;
 		#clock-cells = <1>;
-<<<<<<< HEAD
-=======
-		pinctrl-names = "sleep", "active";
-		pinctrl-0 = <&spkr_i2s_clk_sleep>;
-		pinctrl-1 = <&spkr_i2s_clk_active>;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	};
 
 	clock_audio_lnbb: audio_ext_clk_lnbb {

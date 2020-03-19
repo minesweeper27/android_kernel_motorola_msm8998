@@ -27,7 +27,6 @@
 #include <soc/qcom/scm.h>
 #include <soc/qcom/qseecomi.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_TZ_LOG_WDOG_DUMP
 #include <linux/of_address.h>
 #include <linux/ctype.h>
@@ -39,8 +38,6 @@
 #include <soc/qcom/bootinfo.h>
 #endif /* CONFIG_MSM_TZ_LOG_WDOG_DUMP */
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* QSEE_LOG_BUF_SIZE = 32K */
 #define QSEE_LOG_BUF_SIZE 0x8000
 
@@ -62,11 +59,7 @@
 /*
  * Number of Interrupts
  */
-<<<<<<< HEAD
 #define TZBSP_DIAG_INT_NUM  64
-=======
-#define TZBSP_DIAG_INT_NUM  32
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * Length of descriptive name associated with Interrupt
  */
@@ -99,11 +92,8 @@ struct tzdbg_boot_info_t {
 	uint32_t wb_exit_cnt;	/* Warmboot exit CPU Counter */
 	uint32_t pc_entry_cnt;	/* Power Collapse entry CPU Counter */
 	uint32_t pc_exit_cnt;	/* Power Collapse exit CPU counter */
-<<<<<<< HEAD
 	uint32_t psci_entry_cnt;  /* PSCI entry CPU Counter */
 	uint32_t psci_exit_cnt;   /* PSCI exit CPU counter */
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	uint32_t warm_jmp_addr;	/* Last Warmboot Jump Address */
 	uint32_t spare;	/* Reserved for future use. */
 };
@@ -118,11 +108,7 @@ struct tzdbg_boot_info64_t {
 	uint32_t psci_entry_cnt;/* PSCI syscall entry CPU Counter */
 	uint32_t psci_exit_cnt;   /* PSCI syscall exit CPU Counter */
 	uint64_t warm_jmp_addr; /* Last Warmboot Jump Address */
-<<<<<<< HEAD
 	uint64_t warm_jmp_instr; /* Last Warmboot Jump Address Instruction */
-=======
-	uint32_t warm_jmp_instr; /* Last Warmboot Jump Address Instruction */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 /*
  * Reset Info Table
@@ -131,10 +117,7 @@ struct tzdbg_reset_info_t {
 	uint32_t reset_type;	/* Reset Reason */
 	uint32_t reset_cnt;	/* Number of resets occured/CPU */
 };
-<<<<<<< HEAD
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * Interrupt Info Table
  */
@@ -434,11 +417,7 @@ static int _disp_tz_boot_stats(void)
 					"     Power Collapse exit CPU counter : 0x%x\n"
 					"     Psci entry CPU counter : 0x%x\n"
 					"     Psci exit CPU counter : 0x%x\n"
-<<<<<<< HEAD
 					"     Warmboot Jump Address Instruction : 0x%llx\n",
-=======
-					"     Warmboot Jump Address Instruction : 0x%x\n",
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					i, (uint64_t)ptr_64->warm_jmp_addr,
 					ptr_64->wb_entry_cnt,
 					ptr_64->wb_exit_cnt,
@@ -1075,7 +1054,6 @@ static int __update_hypdbg_base(struct platform_device *pdev,
 	hyp->log_pos.wrap = hyp->log_pos.offset = 0;
 	return 0;
 }
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_TZ_LOG_WDOG_DUMP
 
 #define MSMDBG(fmt, args...) persistent_ram_annotation_append(fmt, ##args)
@@ -1169,8 +1147,6 @@ static void tzlog_bck_show_log(struct tzdbg_t *diag_buf)
 	}
 	MSMWDTD("\n--- TZ Log end ---\n");
 }
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static void tzdbg_get_tz_version(void)
 {
@@ -1199,7 +1175,6 @@ static void tzdbg_get_tz_version(void)
 
 }
 
-<<<<<<< HEAD
 static void tzlog_bck_show(struct tzdbg_t *diag_buf)
 {
 	memcpy_fromio((void *)tzdbg.diag_buf, tzdbg.virt_iobase,
@@ -1301,8 +1276,6 @@ static inline void tzlog_bck_check(struct platform_device *pdev)
 }
 
 #endif /* CONFIG_MSM_TZ_LOG_WDOG_DUMP */
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * Driver functions
  */
@@ -1313,10 +1286,7 @@ static int tz_log_probe(struct platform_device *pdev)
 	phys_addr_t tzdiag_phy_iobase;
 	uint32_t *ptr = NULL;
 	int ret = 0;
-<<<<<<< HEAD
 	uint32_t tmp_debug_buf_size;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/*
 	 * Get address that stores the physical location diagnostic data
@@ -1381,7 +1351,6 @@ static int tz_log_probe(struct platform_device *pdev)
 			debug_rw_buf_size);
 		return -ENXIO;
 	}
-<<<<<<< HEAD
 	tmp_debug_buf_size = readl_relaxed(tzdbg.virt_iobase +
 				offsetof(struct tzdbg_t, ring_off)) +
 			readl_relaxed(tzdbg.virt_iobase +
@@ -1400,9 +1369,6 @@ static int tz_log_probe(struct platform_device *pdev)
 		}
 		debug_rw_buf_size = tmp_debug_buf_size;
 	}
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	ptr = kzalloc(debug_rw_buf_size, GFP_KERNEL);
 	if (ptr == NULL) {
 		pr_err("%s: Can't Allocate memory: ptr\n",
@@ -1419,10 +1385,7 @@ static int tz_log_probe(struct platform_device *pdev)
 
 	tzdbg_get_tz_version();
 
-<<<<<<< HEAD
 	tzlog_bck_check(pdev);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 err:
 	kfree(tzdbg.diag_buf);

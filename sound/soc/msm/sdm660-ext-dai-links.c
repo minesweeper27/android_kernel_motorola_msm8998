@@ -9,10 +9,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-<<<<<<< HEAD
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include <linux/mfd/wcd9xxx/core.h>
 #include <linux/of.h>
 #include <sound/core.h>
@@ -22,21 +18,15 @@
 #include <sound/pcm_params.h>
 #include "qdsp6v2/msm-pcm-routing-v2.h"
 #include "../codecs/wcd9335.h"
-<<<<<<< HEAD
 #include "../codecs/madera.h"
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include "sdm660-common.h"
 #include "sdm660-external.h"
 #include <linux/pm_qos.h>
 
-<<<<<<< HEAD
 #ifdef CONFIG_MODS_USE_EXTCODEC_MI2S
 #include <linux/mods/modbus_ext.h>
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define DEV_NAME_STR_LEN            32
 #define __CHIPSET__ "SDM660 "
 #define MSM_DAILINK_NAME(name) (__CHIPSET__#name)
@@ -119,10 +109,7 @@ static struct snd_soc_ops msm_wcn_ops = {
 	.hw_params = msm_wcn_hw_params,
 };
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*TDM default offset currently only supporting TDM_RX_0 and TDM_TX_0 */
 static unsigned int tdm_slot_offset[TDM_PORT_MAX][TDM_SLOT_OFFSET_MAX] = {
 	{0, 4, 8, 12, 16, 20, 24, 28},/* TX_0 | RX_0 */
@@ -289,10 +276,7 @@ end:
 static struct snd_soc_ops msm_tdm_be_ops = {
 	.hw_params = msm_tdm_snd_hw_params
 };
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int msm_fe_qos_prepare(struct snd_pcm_substream *substream)
 {
@@ -318,7 +302,6 @@ static struct snd_soc_ops msm_fe_qos_ops = {
 	.prepare = msm_fe_qos_prepare,
 };
 
-<<<<<<< HEAD
 static struct snd_soc_dai_link msm_ext_madera_fe_dai[] = {
 	{
 		.name = LPASS_BE_SLIMBUS_4_TX,
@@ -494,8 +477,6 @@ static struct snd_soc_dai_link msm_ext_madera_fe_dai[] = {
 #endif
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static struct snd_soc_dai_link msm_ext_tasha_fe_dai[] = {
 	/* tasha_vifeedback for speaker protection */
 	{
@@ -626,7 +607,6 @@ static struct snd_soc_dai_link msm_ext_tavil_fe_dai[] = {
 	},
 };
 
-<<<<<<< HEAD
 static const struct snd_soc_pcm_stream cs35l35_params = {
 	.formats = SNDRV_PCM_FMTBIT_S16_LE,
 	.rate_min = 48000,
@@ -1126,8 +1106,6 @@ static struct snd_soc_dai_link msm_ext_madera_be_dai[] = {
 #endif
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static struct snd_soc_dai_link msm_ext_tasha_be_dai[] = {
 	/* Backend DAI Links */
 	{
@@ -2178,10 +2156,7 @@ static struct snd_soc_dai_link msm_ext_common_be_dai[] = {
 		.be_hw_params_fixup = msm_common_be_hw_params_fixup,
 		.ignore_suspend = 1,
 	},
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_QCOM_TDM
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	{
 		.name = LPASS_BE_PRI_TDM_RX_0,
 		.stream_name = "Primary TDM0 Playback",
@@ -2294,10 +2269,7 @@ static struct snd_soc_dai_link msm_ext_common_be_dai[] = {
 		.ops = &msm_tdm_be_ops,
 		.ignore_suspend = 1,
 	},
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static struct snd_soc_dai_link msm_mi2s_be_dai_links[] = {
@@ -2419,7 +2391,6 @@ static struct snd_soc_dai_link msm_mi2s_be_dai_links[] = {
 	},
 };
 
-<<<<<<< HEAD
 static struct snd_soc_dai_link msm_hdmi_dba_dai_links[] = {
 	{
 		.name = LPASS_BE_TERT_MI2S_RX,
@@ -2438,8 +2409,6 @@ static struct snd_soc_dai_link msm_hdmi_dba_dai_links[] = {
 	},
 };
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static struct snd_soc_dai_link msm_auxpcm_be_dai_links[] = {
 	/* Primary AUX PCM Backend DAI Links */
 	{
@@ -2637,7 +2606,6 @@ static struct snd_soc_dai_link ext_disp_be_dai_link[] = {
 	},
 };
 
-<<<<<<< HEAD
 static struct snd_soc_dai_link msm_ext_madera_dai_links[
 ARRAY_SIZE(msm_ext_common_fe_dai) +
 ARRAY_SIZE(msm_ext_madera_fe_dai) +
@@ -2648,8 +2616,6 @@ ARRAY_SIZE(msm_auxpcm_be_dai_links) +
 ARRAY_SIZE(msm_wcn_be_dai_links) +
 ARRAY_SIZE(msm_hdmi_dba_dai_links)];
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static struct snd_soc_dai_link msm_ext_tasha_dai_links[
 ARRAY_SIZE(msm_ext_common_fe_dai) +
 ARRAY_SIZE(msm_ext_tasha_fe_dai) +
@@ -2670,14 +2636,11 @@ ARRAY_SIZE(msm_auxpcm_be_dai_links) +
 ARRAY_SIZE(msm_wcn_be_dai_links) +
 ARRAY_SIZE(ext_disp_be_dai_link)];
 
-<<<<<<< HEAD
 struct snd_soc_card snd_soc_card_msm_card_madera = {
 	.name		= "sdm660-madera-snd-card",
 	.codec_conf		= cs35l41_codec_conf,
 	.num_configs	= ARRAY_SIZE(cs35l41_codec_conf),
 };
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /**
  * populate_snd_card_dailinks - prepares dailink array and initializes card.
  *
@@ -2693,13 +2656,9 @@ struct snd_soc_card *populate_snd_card_dailinks(struct device *dev,
 	int ret, len1, len2, len3, len4;
 	enum codec_variant codec_ver = 0;
 
-<<<<<<< HEAD
 	if (snd_card_val == EXT_SND_CARD_MADERA) {
 		card = &snd_soc_card_msm_card_madera;
 	} else if (snd_card_val == EXT_SND_CARD_TASHA) {
-=======
-	if (snd_card_val == EXT_SND_CARD_TASHA) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		card = &snd_soc_card_msm_card_tasha;
 	} else if (snd_card_val == EXT_SND_CARD_TAVIL) {
 		card = &snd_soc_card_msm_card_tavil;
@@ -2717,7 +2676,6 @@ struct snd_soc_card *populate_snd_card_dailinks(struct device *dev,
 		return NULL;
 	}
 
-<<<<<<< HEAD
 	if (strnstr(card->name, "madera", strlen(card->name))) {
 		len1 = ARRAY_SIZE(msm_ext_common_fe_dai);
 		len2 = len1 + ARRAY_SIZE(msm_ext_madera_fe_dai);
@@ -2765,9 +2723,6 @@ struct snd_soc_card *populate_snd_card_dailinks(struct device *dev,
 		}
 		msm_ext_dai_links = msm_ext_madera_dai_links;
 	} else if (strnstr(card->name, "tasha", strlen(card->name))) {
-=======
-	if (strnstr(card->name, "tasha", strlen(card->name))) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		codec_ver = tasha_codec_ver();
 		if (codec_ver == WCD9326)
 			card->name = "sdm660-tashalite-snd-card";

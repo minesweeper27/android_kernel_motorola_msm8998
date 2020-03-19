@@ -544,11 +544,7 @@ static int qpnp_tm_probe(struct platform_device *pdev)
 	int rc = 0;
 	u8 raw_type[2], type, subtype;
 
-<<<<<<< HEAD
 	if (!pdev || !pdev->dev.of_node) {
-=======
-	if (!pdev || !(&pdev->dev) || !pdev->dev.of_node) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		dev_err(&pdev->dev, "%s: device tree node not found\n",
 			__func__);
 		return -EINVAL;

@@ -1323,15 +1323,10 @@ int slim_config_mgrports(struct slim_device *sb, u32 *ph, int nports,
 	for (i = 0; i < nports; i++) {
 		u8 pn = SLIM_HDL_TO_PORT(ph[i]);
 
-<<<<<<< HEAD
 		if (ctrl->ports[pn].state == SLIM_P_CFG) {
 			mutex_unlock(&ctrl->sched.m_reconf);
 			return -EISCONN;
 		}
-=======
-		if (ctrl->ports[pn].state == SLIM_P_CFG)
-			return -EISCONN;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		ctrl->ports[pn].cfg = *cfg;
 	}
 	mutex_unlock(&ctrl->sched.m_reconf);
@@ -2760,16 +2755,10 @@ static void slim_change_existing_chans(struct slim_controller *ctrl, int coeff)
 	for (i = 0; i < len; i++) {
 		struct slim_ich *slc = arr[i];
 		if (slc->state == SLIM_CH_ACTIVE ||
-<<<<<<< HEAD
 			slc->state == SLIM_CH_SUSPENDED) {
 			slc->offset = slc->newoff;
 			slc->interval = slc->newintr;
 		}
-=======
-			slc->state == SLIM_CH_SUSPENDED)
-			slc->offset = slc->newoff;
-			slc->interval = slc->newintr;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 }
 static void slim_chan_changes(struct slim_device *sb, bool revert)

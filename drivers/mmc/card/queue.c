@@ -99,11 +99,7 @@ static inline void mmc_cmdq_ready_wait(struct mmc_host *host,
 	 * 6. free tag available to process the new request.
 	 *    (This must be the last condtion to check)
 	 */
-<<<<<<< HEAD
 	wait_event_interruptible(ctx->wait, kthread_should_stop()
-=======
-	wait_event(ctx->wait, kthread_should_stop()
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		|| (mmc_peek_request(mq) &&
 		!((mq->cmdq_req_peeked->cmd_flags & (REQ_FLUSH | REQ_DISCARD))
 		  && test_bit(CMDQ_STATE_DCMD_ACTIVE, &ctx->curr_state))

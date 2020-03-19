@@ -576,12 +576,9 @@ int pm_suspend(suspend_state_t state)
 		return -EINVAL;
 
 	pm_suspend_marker("entry");
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_RPM_STATS_LOG
 	msm_rpmstats_log_suspend_enter();
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	error = enter_state(state);
 	if (error) {
 		suspend_stats.fail++;
@@ -589,12 +586,9 @@ int pm_suspend(suspend_state_t state)
 	} else {
 		suspend_stats.success++;
 	}
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_RPM_STATS_LOG
 	msm_rpmstats_log_suspend_exit(error);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pm_suspend_marker("exit");
 	return error;
 }

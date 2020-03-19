@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2010-2017, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2010-2017, 2019 The Linux Foundation. All rights reserved.
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -154,11 +150,6 @@ void compute_work_load(struct devfreq_dev_status *stats,
 		struct devfreq_msm_adreno_tz_data *priv,
 		struct devfreq *devfreq)
 {
-<<<<<<< HEAD
-=======
-	u64 busy;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock(&sample_lock);
 	/*
 	 * Keep collecting the stats till the client
@@ -166,15 +157,8 @@ void compute_work_load(struct devfreq_dev_status *stats,
 	 * is done when the entry is read
 	 */
 	acc_total += stats->total_time;
-<<<<<<< HEAD
 	acc_relative_busy += (stats->busy_time * stats->current_frequency) /
 				devfreq->profile->freq_table[0];
-=======
-	busy = (u64)stats->busy_time * stats->current_frequency;
-	do_div(busy, devfreq->profile->freq_table[0]);
-	acc_relative_busy += busy;
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_unlock(&sample_lock);
 }
 
@@ -354,13 +338,10 @@ static int tz_init(struct devfreq_msm_adreno_tz_data *priv,
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_ADRENO_IDLER
 extern int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		 unsigned long *freq);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 								u32 *flag)
 {
@@ -378,7 +359,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		return result;
 	}
 
-<<<<<<< HEAD
 	/* Prevent overflow */
 	if (stats.busy_time >= (1 << 24) || stats.total_time >= (1 << 24)) {
 		stats.busy_time >>= 7;
@@ -393,9 +373,6 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 	}
 #endif
 
-=======
-	*freq = stats.current_frequency;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	priv->bin.total_time += stats.total_time;
 	priv->bin.busy_time += stats.busy_time;
 

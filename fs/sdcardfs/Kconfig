@@ -11,7 +11,6 @@ config SDCARD_FS_FADV_NOACTIVE
 	default y
 	help
 	  Sdcardfs supports fadvise noactive mode.
-<<<<<<< HEAD
 
 config SDCARD_FS_PARTIAL_RELATIME
 	string "sdcardfs partial relatime update support"
@@ -40,5 +39,3 @@ config MULTISPACE_FEATURE_ENABLED
 	default n
 	help
 	  Sdcardfs supports multispace feature.
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

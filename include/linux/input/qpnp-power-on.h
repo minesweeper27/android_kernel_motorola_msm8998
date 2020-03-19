@@ -56,13 +56,9 @@ enum pon_restart_reason {
 	PON_RESTART_REASON_RECOVERY		= 0x01,
 	PON_RESTART_REASON_BOOTLOADER		= 0x02,
 	PON_RESTART_REASON_RTC			= 0x03,
-<<<<<<< HEAD
 #if 0
 	PON_RESTART_REASON_DMVERITY_CORRUPTED	= 0x04,
 #endif
-=======
-	PON_RESTART_REASON_DMVERITY_CORRUPTED	= 0x04,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	PON_RESTART_REASON_DMVERITY_ENFORCE	= 0x05,
 	PON_RESTART_REASON_KEYS_CLEAR		= 0x06,
 
@@ -71,7 +67,6 @@ enum pon_restart_reason {
 	PON_RESTART_REASON_OEM_MAX		= 0x3f,
 };
 
-<<<<<<< HEAD
 #define RESET_SHIPMODE_INFO_ARMED_REASON        BIT(1)
 #define RESET_SHIPMODE_INFO_SHPMOD_REASON        BIT(0)
 #define RESET_EXTRA_RESET_KUNPOW_REASON        BIT(9)
@@ -85,8 +80,6 @@ enum pon_restart_reason {
 #define QPNP_PON_KEY_RESIN_BIT         BIT(1)
 extern int qpnp_pon_key_status;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #ifdef CONFIG_INPUT_QPNP_POWER_ON
 int qpnp_pon_system_pwr_off(enum pon_power_off_type type);
 int qpnp_pon_is_warm_reset(void);
@@ -94,13 +87,9 @@ int qpnp_pon_trigger_config(enum pon_trigger_source pon_src, bool enable);
 int qpnp_pon_wd_config(bool enable);
 int qpnp_pon_set_restart_reason(enum pon_restart_reason reason);
 bool qpnp_pon_check_hard_reset_stored(void);
-<<<<<<< HEAD
 int qpnp_pon_store_extra_reset_info(u16 mask, u16 val);
 int qpnp_pon_store_shipmode_info(u16 mask, u16 val);
 bool qpnp_pon_check_shipmode_info(void);
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #else
 static int qpnp_pon_system_pwr_off(enum pon_power_off_type type)
 {
@@ -124,7 +113,6 @@ static inline bool qpnp_pon_check_hard_reset_stored(void)
 {
 	return false;
 }
-<<<<<<< HEAD
 static inline int qpnp_pon_store_extra_reset_info(u16 mask, u16 val)
 {
 	return -ENODEV;
@@ -137,8 +125,6 @@ static inline bool qpnp_pon_check_shipmode_info(void)
 {
 	return false;
 }
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif
 
 #endif

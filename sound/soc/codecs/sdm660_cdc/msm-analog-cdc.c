@@ -1631,19 +1631,11 @@ static int msm_anlg_cdc_pa_gain_get(struct snd_kcontrol *kcontrol,
 		if (ear_pa_gain == 0x00) {
 			ucontrol->value.integer.value[0] = 3;
 		} else if (ear_pa_gain == 0x01) {
-<<<<<<< HEAD
 			ucontrol->value.integer.value[0] = 2;
 		} else if (ear_pa_gain == 0x02) {
 			ucontrol->value.integer.value[0] = 1;
 		} else if (ear_pa_gain == 0x03) {
 			ucontrol->value.integer.value[0] = 0;
-=======
-			ucontrol->value.integer.value[1] = 2;
-		} else if (ear_pa_gain == 0x02) {
-			ucontrol->value.integer.value[2] = 1;
-		} else if (ear_pa_gain == 0x03) {
-			ucontrol->value.integer.value[3] = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else {
 			dev_err(codec->dev,
 				"%s: ERROR: Unsupported Ear Gain = 0x%x\n",
@@ -1665,10 +1657,6 @@ static int msm_anlg_cdc_pa_gain_get(struct snd_kcontrol *kcontrol,
 			return -EINVAL;
 		}
 	}
-<<<<<<< HEAD
-=======
-	ucontrol->value.integer.value[0] = ear_pa_gain;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	dev_dbg(codec->dev, "%s: ear_pa_gain = 0x%x\n", __func__, ear_pa_gain);
 	return 0;
 }

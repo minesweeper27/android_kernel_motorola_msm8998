@@ -496,11 +496,7 @@ static int msm_voice_sidetone_put(struct snd_kcontrol *kcontrol,
 					struct snd_ctl_elem_value *ucontrol)
 {
 	int ret;
-<<<<<<< HEAD
 	int sidetone_enable = ucontrol->value.integer.value[0];
-=======
-	bool sidetone_enable = ucontrol->value.integer.value[0];
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	uint32_t session_id = ALL_SESSION_VSID;
 
 	if (sidetone_enable < 0) {
@@ -627,11 +623,7 @@ done:
 
 
 
-<<<<<<< HEAD
 static const char *tty_mode[] = {"OFF", "HCO", "VCO", "FULL"};
-=======
-static const char const *tty_mode[] = {"OFF", "HCO", "VCO", "FULL"};
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static const struct soc_enum msm_tty_mode_enum[] = {
 		SOC_ENUM_SINGLE_EXT(4, tty_mode),
 };

@@ -703,11 +703,8 @@ config KCOV
 	bool "Code coverage for fuzzing"
 	depends on ARCH_HAS_KCOV
 	select DEBUG_FS
-<<<<<<< HEAD
 	select GCC_PLUGINS
 	select GCC_PLUGIN_SANCOV
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	help
 	  KCOV exposes kernel code coverage information in a form suitable
 	  for coverage-guided fuzzing (randomized testing).
@@ -2060,7 +2057,6 @@ config BUG_ON_DATA_CORRUPTION
 
 	  If unsure, say N.
 
-<<<<<<< HEAD
 config SOFTLOCKUP_WATCHDOG_TEST
 	bool "To test softlockup watchdog"
 	depends on LOCKUP_DETECTOR && DEBUG_FS
@@ -2083,8 +2079,6 @@ config CC_WERROR
 
 	 If unsure, say N.
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 source "samples/Kconfig"
 
 source "lib/Kconfig.kgdb"

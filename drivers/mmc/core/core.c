@@ -1378,235 +1378,6 @@ int mmc_set_auto_bkops(struct mmc_card *card, bool enable)
 			mmc_card_clr_auto_bkops(card);
 			mmc_update_bkops_auto_off(&card->bkops.stats);
 		}
-<<<<<<< HEAD
-#ifdef CONFIG_MMC_PERF_PROFILING
-		if (host->perf_enable)
-			host->perf.start = ktime_get();
-#endif
-	}
-	mmc_host_clk_hold(host);
-	led_trigger_event(host->led, LED_FULL);
-
-	if (mmc_is_data_request(mrq)) {
-		mmc_deferred_scaling(host);
-		mmc_clk_scaling_start_busy(host, true);
-	}
-
-	__mmc_start_request(host, mrq);
-
-	return 0;
-=======
-		card->ext_csd.bkops_en = bkops_en;
-		pr_debug("%s: %s: bkops state %x\n",
-				mmc_hostname(card->host), __func__, bkops_en);
-	}
-out:
-	return ret;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
-}
-EXPORT_SYMBOL(mmc_set_auto_bkops);
-
-static int mmc_cmdq_check_retune(struct mmc_host *host)
-{
-	bool cmdq_mode;
-	int err = 0;
-
-	if (!host->need_retune || host->doing_retune || !host->card ||
-			mmc_card_hs400es(host->card) ||
-			(host->ios.clock <= MMC_HIGH_DDR_MAX_DTR))
-		return 0;
-
-	cmdq_mode = mmc_card_cmdq(host->card);
-	if (cmdq_mode) {
-		err = mmc_cmdq_halt(host, true);
-		if (err) {
-			pr_err("%s: %s: failed halting queue (%d)\n",
-				mmc_hostname(host), __func__, err);
-			host->cmdq_ops->dumpstate(host);
-			goto halt_failed;
-		}
-	}
-
-	mmc_retune_hold(host);
-	err = mmc_retune(host);
-	mmc_retune_release(host);
-
-	if (cmdq_mode) {
-		if (mmc_cmdq_halt(host, false)) {
-			pr_err("%s: %s: cmdq unhalt failed\n",
-			mmc_hostname(host), __func__);
-			host->cmdq_ops->dumpstate(host);
-		}
-	}
-
-halt_failed:
-	pr_debug("%s: %s: Retuning done err: %d\n",
-				mmc_hostname(host), __func__, err);
-
-	return err;
-}
-
-static int mmc_start_cmdq_request(struct mmc_host *host,
-				   struct mmc_request *mrq)
-{
-	int ret = 0;
-
-	if (mrq->data) {
-		pr_debug("%s:     blksz %d blocks %d flags %08x tsac %lu ms nsac %d\n",
-			mmc_hostname(host), mrq->data->blksz,
-			mrq->data->blocks, mrq->data->flags,
-			mrq->data->timeout_ns / NSEC_PER_MSEC,
-			mrq->data->timeout_clks);
-
-		BUG_ON(mrq->data->blksz > host->max_blk_size);
-		BUG_ON(mrq->data->blocks > host->max_blk_count);
-		BUG_ON(mrq->data->blocks * mrq->data->blksz >
-			host->max_req_size);
-		mrq->data->error = 0;
-		mrq->data->mrq = mrq;
-	}
-
-	if (mrq->cmd) {
-		mrq->cmd->error = 0;
-		mrq->cmd->mrq = mrq;
-	}
-
-	mmc_host_clk_hold(host);
-	mmc_cmdq_check_retune(host);
-	if (likely(host->cmdq_ops->request)) {
-		ret = host->cmdq_ops->request(host, mrq);
-	} else {
-		ret = -ENOENT;
-		pr_err("%s: %s: cmdq request host op is not available\n",
-			mmc_hostname(host), __func__);
-	}
-
-	if (ret) {
-		mmc_host_clk_release(host);
-		pr_err("%s: %s: issue request failed, err=%d\n",
-			mmc_hostname(host), __func__, ret);
-	}
-
-	return ret;
-}
-
-/**
- *	mmc_blk_init_bkops_statistics - initialize bkops statistics
- *	@card: MMC card to start BKOPS
- *
- *	Initialize and enable the bkops statistics
- */
-void mmc_blk_init_bkops_statistics(struct mmc_card *card)
-{
-	int i;
-	struct mmc_bkops_stats *stats;
-
-	if (!card)
-		return;
-
-	stats = &card->bkops.stats;
-	spin_lock(&stats->lock);
-
-	stats->manual_start = 0;
-	stats->hpi = 0;
-	stats->auto_start = 0;
-	stats->auto_stop = 0;
-	for (i = 0 ; i < MMC_BKOPS_NUM_SEVERITY_LEVELS ; i++)
-		stats->level[i] = 0;
-	stats->enabled = true;
-
-	spin_unlock(&stats->lock);
-}
-EXPORT_SYMBOL(mmc_blk_init_bkops_statistics);
-
-static void mmc_update_bkops_hpi(struct mmc_bkops_stats *stats)
-{
-	spin_lock_irq(&stats->lock);
-	if (stats->enabled)
-		stats->hpi++;
-	spin_unlock_irq(&stats->lock);
-}
-
-static void mmc_update_bkops_start(struct mmc_bkops_stats *stats)
-{
-	spin_lock_irq(&stats->lock);
-	if (stats->enabled)
-		stats->manual_start++;
-	spin_unlock_irq(&stats->lock);
-}
-
-static void mmc_update_bkops_auto_on(struct mmc_bkops_stats *stats)
-{
-	spin_lock_irq(&stats->lock);
-	if (stats->enabled)
-		stats->auto_start++;
-	spin_unlock_irq(&stats->lock);
-}
-
-static void mmc_update_bkops_auto_off(struct mmc_bkops_stats *stats)
-{
-	spin_lock_irq(&stats->lock);
-	if (stats->enabled)
-		stats->auto_stop++;
-	spin_unlock_irq(&stats->lock);
-}
-
-static void mmc_update_bkops_level(struct mmc_bkops_stats *stats,
-					unsigned level)
-{
-	BUG_ON(level >= MMC_BKOPS_NUM_SEVERITY_LEVELS);
-	spin_lock_irq(&stats->lock);
-	if (stats->enabled)
-		stats->level[level]++;
-	spin_unlock_irq(&stats->lock);
-}
-
-/**
-<<<<<<< HEAD
- *	mmc_set_auto_bkops - set auto BKOPS for supported cards
- *	@card: MMC card to start BKOPS
- *	@enable: enable/disable flag
- *	Configure the card to run automatic BKOPS.
- *
- *	Should be called when host is claimed.
-*/
-int mmc_set_auto_bkops(struct mmc_card *card, bool enable)
-{
-	int ret = 0;
-	u8 bkops_en;
-
-	BUG_ON(!card);
-	enable = !!enable;
-
-	if (unlikely(!mmc_card_support_auto_bkops(card))) {
-		pr_err("%s: %s: card doesn't support auto bkops\n",
-				mmc_hostname(card->host), __func__);
-		return -EPERM;
-	}
-
-	if (enable) {
-		if (mmc_card_doing_auto_bkops(card))
-			goto out;
-		bkops_en = card->ext_csd.bkops_en | EXT_CSD_BKOPS_AUTO_EN;
-	} else {
-		if (!mmc_card_doing_auto_bkops(card))
-			goto out;
-		bkops_en = card->ext_csd.bkops_en & ~EXT_CSD_BKOPS_AUTO_EN;
-	}
-
-	ret = mmc_switch(card, EXT_CSD_CMD_SET_NORMAL, EXT_CSD_BKOPS_EN,
-			bkops_en, 0);
-	if (ret) {
-		pr_err("%s: %s: error in setting auto bkops to %d (%d)\n",
-			mmc_hostname(card->host), __func__, enable, ret);
-	} else {
-		if (enable) {
-			mmc_card_set_auto_bkops(card);
-			mmc_update_bkops_auto_on(&card->bkops.stats);
-		} else {
-			mmc_card_clr_auto_bkops(card);
-			mmc_update_bkops_auto_off(&card->bkops.stats);
-		}
 		card->ext_csd.bkops_en = bkops_en;
 		pr_debug("%s: %s: bkops state %x\n",
 				mmc_hostname(card->host), __func__, bkops_en);
@@ -1617,8 +1388,6 @@ out:
 EXPORT_SYMBOL(mmc_set_auto_bkops);
 
 /**
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *	mmc_check_bkops - check BKOPS for supported cards
  *	@card: MMC card to check BKOPS
  *
@@ -1649,7 +1418,6 @@ void mmc_check_bkops(struct mmc_card *card)
 	card->bkops.needs_bkops = card->ext_csd.raw_bkops_status > 0;
 }
 EXPORT_SYMBOL(mmc_check_bkops);
-<<<<<<< HEAD
 
 /**
  *	mmc_start_manual_bkops - start BKOPS for supported cards
@@ -1664,22 +1432,6 @@ void mmc_start_manual_bkops(struct mmc_card *card)
 
 	BUG_ON(!card);
 
-=======
-
-/**
- *	mmc_start_manual_bkops - start BKOPS for supported cards
- *	@card: MMC card to start BKOPS
- *
- *      Send START_BKOPS to the card.
- *      The function should be called with claimed host.
-*/
-void mmc_start_manual_bkops(struct mmc_card *card)
-{
-	int err;
-
-	BUG_ON(!card);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (unlikely(!mmc_card_configured_manual_bkops(card)))
 		return;
 
@@ -2029,7 +1781,6 @@ int mmc_cmdq_wait_for_dcmd(struct mmc_host *host,
 		mmc_host_clk_release(host);
 	}
 	return err;
-<<<<<<< HEAD
 }
 EXPORT_SYMBOL(mmc_cmdq_wait_for_dcmd);
 
@@ -2039,17 +1790,6 @@ int mmc_cmdq_prepare_flush(struct mmc_command *cmd)
 				     EXT_CSD_FLUSH_CACHE, 1,
 				     0, true, true);
 }
-=======
-}
-EXPORT_SYMBOL(mmc_cmdq_wait_for_dcmd);
-
-int mmc_cmdq_prepare_flush(struct mmc_command *cmd)
-{
-	return   __mmc_switch_cmdq_mode(cmd, EXT_CSD_CMD_SET_NORMAL,
-				     EXT_CSD_FLUSH_CACHE, 1,
-				     0, true, true);
-}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 EXPORT_SYMBOL(mmc_cmdq_prepare_flush);
 
 /**
@@ -3833,7 +3573,6 @@ static unsigned int mmc_erase_timeout(struct mmc_card *card,
 }
 
 static u32 mmc_get_erase_qty(struct mmc_card *card, u32 from, u32 to)
-<<<<<<< HEAD
 {
 	u32 qty = 0;
 
@@ -3969,143 +3708,6 @@ static int mmc_do_erase(struct mmc_card *card, unsigned int from,
 	nr = to - from + 1;
 	trace_mmc_blk_erase_start(arg, fr, nr);
 
-=======
-{
-	u32 qty = 0;
-
-	/*
-	 * qty is used to calculate the erase timeout which depends on how many
-	 * erase groups (or allocation units in SD terminology) are affected.
-	 * We count erasing part of an erase group as one erase group.
-	 * For SD, the allocation units are always a power of 2.  For MMC, the
-	 * erase group size is almost certainly also power of 2, but it does not
-	 * seem to insist on that in the JEDEC standard, so we fall back to
-	 * division in that case.  SD may not specify an allocation unit size,
-	 * in which case the timeout is based on the number of write blocks.
-	 *
-	 * Note that the timeout for secure trim 2 will only be correct if the
-	 * number of erase groups specified is the same as the total of all
-	 * preceding secure trim 1 commands.  Since the power may have been
-	 * lost since the secure trim 1 commands occurred, it is generally
-	 * impossible to calculate the secure trim 2 timeout correctly.
-	 */
-	if (card->erase_shift)
-		qty += ((to >> card->erase_shift) -
-			(from >> card->erase_shift)) + 1;
-	else if (mmc_card_sd(card))
-		qty += to - from + 1;
-	else
-		qty += ((to / card->erase_size) -
-			(from / card->erase_size)) + 1;
-	return qty;
-}
-
-static int mmc_cmdq_send_erase_cmd(struct mmc_cmdq_req *cmdq_req,
-		struct mmc_card *card, u32 opcode, u32 arg, u32 qty)
-{
-	struct mmc_command *cmd = cmdq_req->mrq.cmd;
-	int err;
-
-	memset(cmd, 0, sizeof(struct mmc_command));
-
-	cmd->opcode = opcode;
-	cmd->arg = arg;
-	if (cmd->opcode == MMC_ERASE) {
-		cmd->flags = MMC_RSP_SPI_R1B | MMC_RSP_R1B | MMC_CMD_AC;
-		cmd->busy_timeout = mmc_erase_timeout(card, arg, qty);
-	} else {
-		cmd->flags = MMC_RSP_SPI_R1 | MMC_RSP_R1 | MMC_CMD_AC;
-	}
-
-	err = mmc_cmdq_wait_for_dcmd(card->host, cmdq_req);
-	if (err) {
-		pr_err("mmc_erase: group start error %d, status %#x\n",
-				err, cmd->resp[0]);
-		return -EIO;
-	}
-	return 0;
-}
-
-static int mmc_cmdq_do_erase(struct mmc_cmdq_req *cmdq_req,
-			struct mmc_card *card, unsigned int from,
-			unsigned int to, unsigned int arg)
-{
-	struct mmc_command *cmd = cmdq_req->mrq.cmd;
-	unsigned int qty = 0;
-	unsigned long timeout;
-	unsigned int fr, nr;
-	int err;
-
-	fr = from;
-	nr = to - from + 1;
-	trace_mmc_blk_erase_start(arg, fr, nr);
-
-	qty = mmc_get_erase_qty(card, from, to);
-
-	if (!mmc_card_blockaddr(card)) {
-		from <<= 9;
-		to <<= 9;
-	}
-
-	err = mmc_cmdq_send_erase_cmd(cmdq_req, card, MMC_ERASE_GROUP_START,
-			from, qty);
-	if (err)
-		goto out;
-
-	err = mmc_cmdq_send_erase_cmd(cmdq_req, card, MMC_ERASE_GROUP_END,
-			to, qty);
-	if (err)
-		goto out;
-
-	err = mmc_cmdq_send_erase_cmd(cmdq_req, card, MMC_ERASE,
-			arg, qty);
-	if (err)
-		goto out;
-
-	timeout = jiffies + msecs_to_jiffies(MMC_CORE_TIMEOUT_MS);
-	do {
-		memset(cmd, 0, sizeof(struct mmc_command));
-		cmd->opcode = MMC_SEND_STATUS;
-		cmd->arg = card->rca << 16;
-		cmd->flags = MMC_RSP_R1 | MMC_CMD_AC;
-		/* Do not retry else we can't see errors */
-		err = mmc_cmdq_wait_for_dcmd(card->host, cmdq_req);
-		if (err || (cmd->resp[0] & 0xFDF92000)) {
-			pr_err("error %d requesting status %#x\n",
-				err, cmd->resp[0]);
-			err = -EIO;
-			goto out;
-		}
-		/* Timeout if the device never becomes ready for data and
-		 * never leaves the program state.
-		 */
-		if (time_after(jiffies, timeout)) {
-			pr_err("%s: Card stuck in programming state! %s\n",
-				mmc_hostname(card->host), __func__);
-			err =  -EIO;
-			goto out;
-		}
-	} while (!(cmd->resp[0] & R1_READY_FOR_DATA) ||
-		 (R1_CURRENT_STATE(cmd->resp[0]) == R1_STATE_PRG));
-out:
-	trace_mmc_blk_erase_end(arg, fr, nr);
-	return err;
-}
-
-static int mmc_do_erase(struct mmc_card *card, unsigned int from,
-			unsigned int to, unsigned int arg)
-{
-	struct mmc_command cmd = {0};
-	unsigned int qty = 0;
-	unsigned long timeout;
-	unsigned int fr, nr;
-	int err;
-
-	fr = from;
-	nr = to - from + 1;
-	trace_mmc_blk_erase_start(arg, fr, nr);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	qty = mmc_get_erase_qty(card, from, to);
 
 	if (!mmc_card_blockaddr(card)) {

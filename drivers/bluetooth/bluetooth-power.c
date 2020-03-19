@@ -295,7 +295,6 @@ static int bluetooth_power(int on)
 				goto chip_pwd_fail;
 			}
 		}
-<<<<<<< HEAD
 		if (bt_power_pdata->bt_detune) {
 			rc = bt_configure_vreg(bt_power_pdata->bt_detune);
 			if (rc < 0) {
@@ -303,8 +302,6 @@ static int bluetooth_power(int on)
 				goto detune_fail;
 			}
 		}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		/* Parse dt_info and check if a target requires clock voting.
 		 * Enable BT clock when BT is on and disable it when BT is off
 		 */
@@ -331,12 +328,9 @@ gpio_fail:
 		if (bt_power_pdata->bt_chip_clk)
 			bt_clk_disable(bt_power_pdata->bt_chip_clk);
 clk_fail:
-<<<<<<< HEAD
 		if (bt_power_pdata->bt_detune)
 			bt_vreg_disable(bt_power_pdata->bt_detune);
 detune_fail:
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (bt_power_pdata->bt_chip_pwd)
 			bt_vreg_disable(bt_power_pdata->bt_chip_pwd);
 chip_pwd_fail:
@@ -610,7 +604,6 @@ static int bt_power_populate_dt_pinfo(struct platform_device *pdev)
 		if (rc < 0)
 			BT_PWR_ERR("bt-chip-pwd not provided in device tree");
 
-<<<<<<< HEAD
 		rc = bt_dt_parse_vreg_info(&pdev->dev,
 					&bt_power_pdata->bt_detune,
 					"qca,bt-detune");
@@ -618,8 +611,6 @@ static int bt_power_populate_dt_pinfo(struct platform_device *pdev)
 			BT_PWR_ERR("bt-detune not provided in device tree");
 
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rc = bt_dt_parse_clk_info(&pdev->dev,
 					&bt_power_pdata->bt_chip_clk);
 		if (rc < 0)

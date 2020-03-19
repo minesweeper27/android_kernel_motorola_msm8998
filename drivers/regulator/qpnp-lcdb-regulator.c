@@ -1671,12 +1671,7 @@ static int qpnp_lcdb_init_bst(struct qpnp_lcdb *lcdb)
 
 		if (lcdb->bst.ps != -EINVAL) {
 			rc = qpnp_lcdb_masked_write(lcdb, lcdb->base +
-<<<<<<< HEAD
 					LCDB_PS_CTL_REG, EN_PS_BIT, EN_PS_BIT);
-=======
-					LCDB_PS_CTL_REG, EN_PS_BIT,
-					&lcdb->bst.ps ? EN_PS_BIT : 0);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			if (rc < 0) {
 				pr_err("Failed to disable BST PS rc=%d", rc);
 				return rc;

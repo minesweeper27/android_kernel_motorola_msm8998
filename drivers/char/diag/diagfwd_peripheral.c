@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
-=======
-/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -195,10 +191,6 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 {
 	int i, ctx = 0;
 	uint32_t max_size = 0;
-<<<<<<< HEAD
-=======
-	unsigned long flags;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned char *temp_buf = NULL;
 	struct diag_md_info *ch = NULL;
 
@@ -213,24 +205,11 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 			max_size = MAX_PERIPHERAL_HDLC_BUF_SZ;
 		}
 
-<<<<<<< HEAD
 		if (buf->len < max_size) {
 			if (driver->logging_mode == DIAG_MEMORY_DEVICE_MODE) {
 				ch = &diag_md[DIAG_LOCAL_PROC];
 				for (i = 0; ch != NULL &&
 						i < ch->num_tbl_entries; i++) {
-=======
-		mutex_lock(&driver->md_session_lock);
-		if (buf->len < max_size) {
-			if (driver->logging_mode == DIAG_MEMORY_DEVICE_MODE) {
-				ch = &diag_md[DIAG_LOCAL_PROC];
-				if (!ch || !ch->md_info_inited) {
-					mutex_unlock(&driver->md_session_lock);
-					return -EINVAL;
-				}
-				spin_lock_irqsave(&ch->lock, flags);
-				for (i = 0; i < ch->num_tbl_entries; i++) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					if (ch->tbl[i].buf == buf->data) {
 						ctx = ch->tbl[i].ctx;
 						ch->tbl[i].buf = NULL;
@@ -243,33 +222,18 @@ static int check_bufsize_for_encoding(struct diagfwd_buf_t *buf, uint32_t len)
 						break;
 					}
 				}
-<<<<<<< HEAD
-=======
-				spin_unlock_irqrestore(&ch->lock, flags);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			}
 			temp_buf = krealloc(buf->data, max_size +
 						APF_DIAG_PADDING,
 					    GFP_KERNEL);
-<<<<<<< HEAD
 			if (!temp_buf)
 				return -ENOMEM;
-=======
-			if (!temp_buf) {
-				mutex_unlock(&driver->md_session_lock);
-				return -ENOMEM;
-			}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			DIAG_LOG(DIAG_DEBUG_PERIPHERALS,
 			"Reallocated data buffer: %pK with size: %d\n",
 			temp_buf, max_size);
 			buf->data = temp_buf;
 			buf->len = max_size;
 		}
-<<<<<<< HEAD
-=======
-		mutex_unlock(&driver->md_session_lock);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	return buf->len;
@@ -320,10 +284,7 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 	int err = 0;
 	int write_len = 0, peripheral = 0;
 	unsigned char *write_buf = NULL;
-<<<<<<< HEAD
 	struct diag_md_session_t *session_info = NULL;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	uint8_t hdlc_disabled = 0;
 
 	if (!fwd_info || !buf || len <= 0) {
@@ -356,16 +317,12 @@ static void diagfwd_data_process_done(struct diagfwd_info *fwd_info,
 		return;
 	}
 
-<<<<<<< HEAD
 	session_info =
 		diag_md_session_get_peripheral(peripheral);
 	if (session_info)
 		hdlc_disabled = session_info->hdlc_disabled;
 	else
 		hdlc_disabled = driver->hdlc_disabled;
-=======
-	hdlc_disabled = driver->p_hdlc_disabled[peripheral];
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (hdlc_disabled) {
 		/* The data is raw and and on APPS side HDLC is disabled */
@@ -494,21 +451,14 @@ static void diagfwd_data_read_untag_done(struct diagfwd_info *fwd_info,
 					fwd_info->buf_2->data_raw == buf) {
 			flag_buf_2 = 1;
 			temp_ptr_cpd = fwd_info->buf_2;
-<<<<<<< HEAD
 			if (fwd_info->type == TYPE_DATA) {
-=======
-			if (fwd_info->type == TYPE_DATA)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				temp_buf_upd_1 =
 				fwd_info->buf_upd_1_b->data_raw;
 				if (peripheral ==
 					PERIPHERAL_LPASS)
 					temp_buf_upd_2 =
 					fwd_info->buf_upd_2_b->data_raw;
-<<<<<<< HEAD
 			}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else {
 			pr_err("diag: In %s, no match for buffer %pK, peripheral %d, type: %d\n",
 			       __func__, buf, peripheral,
@@ -669,10 +619,7 @@ static void diagfwd_data_read_done(struct diagfwd_info *fwd_info,
 	int write_len = 0;
 	unsigned char *write_buf = NULL;
 	struct diagfwd_buf_t *temp_buf = NULL;
-<<<<<<< HEAD
 	struct diag_md_session_t *session_info = NULL;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	uint8_t hdlc_disabled = 0;
 
 	if (!fwd_info || !buf || len <= 0) {
@@ -694,16 +641,11 @@ static void diagfwd_data_read_done(struct diagfwd_info *fwd_info,
 
 	mutex_lock(&driver->hdlc_disable_mutex);
 	mutex_lock(&fwd_info->data_mutex);
-<<<<<<< HEAD
 	session_info = diag_md_session_get_peripheral(fwd_info->peripheral);
 	if (session_info)
 		hdlc_disabled = session_info->hdlc_disabled;
 	else
 		hdlc_disabled = driver->hdlc_disabled;
-=======
-
-	hdlc_disabled = driver->p_hdlc_disabled[fwd_info->peripheral];
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (!driver->feature[fwd_info->peripheral].encode_hdlc) {
 		if (fwd_info->buf_1 && fwd_info->buf_1->data == buf) {

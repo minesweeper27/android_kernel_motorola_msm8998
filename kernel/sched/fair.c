@@ -55,9 +55,6 @@ unsigned int normalized_sysctl_sched_latency = 10000000ULL;
 unsigned int sysctl_sched_sync_hint_enable = 1;
 unsigned int sysctl_sched_cstate_aware = 1;
 
-unsigned int sysctl_sched_sync_hint_enable = 1;
-unsigned int sysctl_sched_cstate_aware = 1;
-
 /*
  * The initial- and re-scaling of tunables is configurable
  * (default SCHED_TUNABLESCALING_LOG = *(1+ilog(ncpus))
@@ -3004,11 +3001,8 @@ struct cpu_select_env *env, struct cluster_cpu_stats *stats)
 	int i;
 	struct cpumask search_cpus;
 
-<<<<<<< HEAD
 	extern int num_clusters;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	while (!bitmap_empty(env->backup_list, num_clusters)) {
 		next = next_candidate(env->backup_list, 0, num_clusters);
 		__clear_bit(next->id, env->backup_list);
@@ -3032,11 +3026,8 @@ next_best_cluster(struct sched_cluster *cluster, struct cpu_select_env *env,
 {
 	struct sched_cluster *next = NULL;
 
-<<<<<<< HEAD
 	extern int num_clusters;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	__clear_bit(cluster->id, env->candidate_list);
 
 	if (env->rtg && preferred_cluster(cluster, env->p))
@@ -4324,17 +4315,10 @@ static inline void update_load_avg(struct sched_entity *se, int flags)
 			  se->on_rq * scale_load_down(se->load.weight),
 			  cfs_rq->curr == se, NULL);
 	}
-<<<<<<< HEAD
 
 	decayed  = update_cfs_rq_load_avg(now, cfs_rq, true);
 	decayed |= propagate_entity_load_avg(se);
 
-=======
-
-	decayed  = update_cfs_rq_load_avg(now, cfs_rq, true);
-	decayed |= propagate_entity_load_avg(se);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (decayed && (flags & UPDATE_TG))
 		update_tg_load_avg(cfs_rq, 0);
 
@@ -5968,7 +5952,6 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		add_nr_running(rq, 1);
 		inc_rq_hmp_stats(rq, p, 1);
 	}
-<<<<<<< HEAD
 
 #ifdef CONFIG_SMP
 
@@ -5999,38 +5982,6 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
 		}
 	}
 
-=======
-
-#ifdef CONFIG_SMP
-
-	/*
-	 * Update SchedTune accounting.
-	 *
-	 * We do it before updating the CPU capacity to ensure the
-	 * boost value of the current task is accounted for in the
-	 * selection of the OPP.
-	 *
-	 * We do it also in the case where we enqueue a throttled task;
-	 * we could argue that a throttled task should not boost a CPU,
-	 * however:
-	 * a) properly implementing CPU boosting considering throttled
-	 *    tasks will increase a lot the complexity of the solution
-	 * b) it's not easy to quantify the benefits introduced by
-	 *    such a more complex solution.
-	 * Thus, for the time being we go for the simple solution and boost
-	 * also for throttled RQs.
-	 */
-	schedtune_enqueue_task(p, cpu_of(rq));
-
-	if (energy_aware() && !se) {
-		if (!task_new && !rq->rd->overutilized &&
-		    cpu_overutilized(rq->cpu)) {
-			rq->rd->overutilized = true;
-			trace_sched_overutilized(true);
-		}
-	}
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif /* CONFIG_SMP */
 	hrtick_update(rq);
 }
@@ -7213,7 +7164,6 @@ schedtune_task_margin(struct task_struct *task)
 }
 
 #else /* CONFIG_SCHED_TUNE */
-<<<<<<< HEAD
 
 static inline int
 schedtune_cpu_margin(unsigned long util, int cpu)
@@ -7248,42 +7198,6 @@ boosted_task_util(struct task_struct *task)
 
 	trace_sched_boost_task(task, util, margin);
 
-=======
-
-static inline int
-schedtune_cpu_margin(unsigned long util, int cpu)
-{
-	return 0;
-}
-
-static inline int
-schedtune_task_margin(struct task_struct *task)
-{
-	return 0;
-}
-
-#endif /* CONFIG_SCHED_TUNE */
-
-unsigned long
-boosted_cpu_util(int cpu)
-{
-	unsigned long util = cpu_util_freq(cpu);
-	long margin = schedtune_cpu_margin(util, cpu);
-
-	trace_sched_boost_cpu(cpu, util, margin);
-
-	return util + margin;
-}
-
-static inline unsigned long
-boosted_task_util(struct task_struct *task)
-{
-	unsigned long util = task_util(task);
-	long margin = schedtune_task_margin(task);
-
-	trace_sched_boost_task(task, util, margin);
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return util + margin;
 }
 
@@ -8037,17 +7951,10 @@ static int select_energy_cpu_brute(struct task_struct *p, int prev_cpu, int sync
 
 	schedstat_inc(p, se.statistics.nr_wakeups_secb_count);
 	schedstat_inc(this_rq(), eas_stats.secb_count);
-<<<<<<< HEAD
 
 unlock:
 	rcu_read_unlock();
 
-=======
-
-unlock:
-	rcu_read_unlock();
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return target_cpu;
 }
 
@@ -9407,22 +9314,9 @@ static void update_cpu_capacity(struct sched_domain *sd, int cpu)
 	    (max_capacity < capacity)) {
 		mcc->val = capacity;
 		mcc->cpu = cpu;
-<<<<<<< HEAD
 	}
 	raw_spin_unlock_irqrestore(&mcc->lock, flags);
 
-=======
-#ifdef CONFIG_SCHED_DEBUG
-		raw_spin_unlock_irqrestore(&mcc->lock, flags);
-		printk_deferred(KERN_INFO "CPU%d: update max cpu_capacity %lu\n",
-				cpu, capacity);
-		goto skip_unlock;
-#endif
-	}
-	raw_spin_unlock_irqrestore(&mcc->lock, flags);
-
-skip_unlock: __attribute__ ((unused));
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	capacity *= scale_rt_capacity(cpu);
 	capacity >>= SCHED_CAPACITY_SHIFT;
 
@@ -9780,7 +9674,6 @@ static bool update_sd_pick_busiest_active_balance(struct lb_env *env,
 	}
 
 	return false;
-<<<<<<< HEAD
 }
 #else
 static bool update_sd_pick_busiest_active_balance(struct lb_env *env,
@@ -9790,17 +9683,6 @@ static bool update_sd_pick_busiest_active_balance(struct lb_env *env,
 {
 	return false;
 }
-=======
-}
-#else
-static bool update_sd_pick_busiest_active_balance(struct lb_env *env,
-						  struct sd_lb_stats *sds,
-						  struct sched_group *sg,
-						  struct sg_lb_stats *sgs)
-{
-	return false;
-}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif
 
 /**
@@ -9843,7 +9725,6 @@ static bool update_sd_pick_busiest(struct lb_env *env,
 
 		if (sgs->avg_load <= busiest->avg_load)
 			return false;
-<<<<<<< HEAD
 
 		if (!(env->sd->flags & SD_ASYM_CPUCAPACITY))
 			goto asym_packing;
@@ -9859,23 +9740,6 @@ static bool update_sd_pick_busiest(struct lb_env *env,
 			return false;
 	}
 
-=======
-
-		if (!(env->sd->flags & SD_ASYM_CPUCAPACITY))
-			goto asym_packing;
-
-		/*
-		 * Candidate sg has no more than one task per CPU and
-		 * has higher per-CPU capacity. Migrating tasks to less
-		 * capable CPUs may harm throughput. Maximize throughput,
-		 * power/energy consequences are not considered.
-		 */
-		if (sgs->sum_nr_running <= sgs->group_weight &&
-		    group_smaller_cpu_capacity(sds->local, sg))
-			return false;
-	}
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 asym_packing:
 	/* This is the busiest node in its class. */
 	if (!(env->sd->flags & SD_ASYM_PACKING))
@@ -10688,15 +10552,12 @@ more_balance:
 			env.flags &= ~LBF_ALL_PINNED;
 			goto no_move;
 		}
-<<<<<<< HEAD
 
 		/*
 		 * Set loop_max when rq's lock is taken to prevent a race.
 		 */
 		env.loop_max = min(sysctl_sched_nr_migrate,
 							busiest->nr_running);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		/*
 		 * cur_ld_moved - load moved in current iteration

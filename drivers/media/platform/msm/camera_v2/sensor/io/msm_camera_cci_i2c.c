@@ -61,11 +61,6 @@ int32_t msm_camera_cci_i2c_read_seq(struct msm_camera_i2c_client *client,
 	uint32_t addr, uint8_t *data, uint32_t num_byte)
 {
 	int32_t rc = -EFAULT;
-<<<<<<< HEAD
-=======
-	unsigned char *buf = NULL;
-	int i;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct msm_camera_cci_ctrl cci_ctrl;
 
 	if ((client->addr_type != MSM_CAMERA_I2C_BYTE_ADDR
@@ -81,23 +76,11 @@ int32_t msm_camera_cci_i2c_read_seq(struct msm_camera_i2c_client *client,
 		return rc;
 	}
 
-<<<<<<< HEAD
-=======
-	buf = kzalloc(num_byte, GFP_KERNEL);
-	if (!buf) {
-		pr_err("%s:%d no memory\n", __func__, __LINE__);
-		return -ENOMEM;
-	}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	cci_ctrl.cmd = MSM_CCI_I2C_READ;
 	cci_ctrl.cci_info = client->cci_client;
 	cci_ctrl.cfg.cci_i2c_read_cfg.addr = addr;
 	cci_ctrl.cfg.cci_i2c_read_cfg.addr_type = client->addr_type;
-<<<<<<< HEAD
 	cci_ctrl.cfg.cci_i2c_read_cfg.data = data;
-=======
-	cci_ctrl.cfg.cci_i2c_read_cfg.data = buf;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	cci_ctrl.cfg.cci_i2c_read_cfg.num_byte = num_byte;
 	cci_ctrl.status = -EFAULT;
 	rc = v4l2_subdev_call(client->cci_client->cci_subdev,
@@ -106,15 +89,6 @@ int32_t msm_camera_cci_i2c_read_seq(struct msm_camera_i2c_client *client,
 	rc = cci_ctrl.status;
 
 	S_I2C_DBG("%s addr = 0x%x", __func__, addr);
-<<<<<<< HEAD
-=======
-	for (i = 0; i < num_byte; i++) {
-		data[i] = buf[i];
-		S_I2C_DBG("Byte %d: 0x%x\n", i, buf[i]);
-		S_I2C_DBG("Data: 0x%x\n", data[i]);
-	}
-	kfree(buf);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return rc;
 }
 
@@ -160,11 +134,8 @@ int32_t msm_camera_cci_i2c_write_seq(struct msm_camera_i2c_client *client,
 	uint32_t i = 0;
 	struct msm_camera_cci_ctrl cci_ctrl;
 	struct msm_camera_i2c_reg_array *reg_conf_tbl = NULL;
-<<<<<<< HEAD
 	struct msm_camera_i2c_reg_array reg_tbl_onstack[
 		SZ_4K / sizeof(struct msm_camera_i2c_reg_array)];
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if ((client->addr_type != MSM_CAMERA_I2C_BYTE_ADDR
 		&& client->addr_type != MSM_CAMERA_I2C_WORD_ADDR)
@@ -180,7 +151,6 @@ int32_t msm_camera_cci_i2c_write_seq(struct msm_camera_i2c_client *client,
 	S_I2C_DBG("%s reg addr = 0x%x num bytes: %d\n",
 		__func__, addr, num_byte);
 
-<<<<<<< HEAD
 	if (num_byte <= ARRAY_SIZE(reg_tbl_onstack)) {
 		reg_conf_tbl = reg_tbl_onstack;
 	} else {
@@ -200,19 +170,6 @@ int32_t msm_camera_cci_i2c_write_seq(struct msm_camera_i2c_client *client,
 		reg_conf_tbl[i] = (typeof(*reg_conf_tbl)){
 			.reg_data = data[i]
 		};
-=======
-	reg_conf_tbl = kzalloc(num_byte *
-		(sizeof(struct msm_camera_i2c_reg_array)), GFP_KERNEL);
-	if (!reg_conf_tbl) {
-		pr_err("%s:%d no memory\n", __func__, __LINE__);
-		return -ENOMEM;
-	}
-
-	reg_conf_tbl[0].reg_addr = addr;
-	for (i = 0; i < num_byte; i++) {
-		reg_conf_tbl[i].reg_data = data[i];
-		reg_conf_tbl[i].delay = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 	cci_ctrl.cmd = MSM_CCI_I2C_WRITE_SEQ;
 	cci_ctrl.cci_info = client->cci_client;
@@ -225,13 +182,8 @@ int32_t msm_camera_cci_i2c_write_seq(struct msm_camera_i2c_client *client,
 			core, ioctl, VIDIOC_MSM_CCI_CFG, &cci_ctrl);
 	CDBG("%s line %d rc = %d\n", __func__, __LINE__, rc);
 	rc = cci_ctrl.status;
-<<<<<<< HEAD
 	if (reg_conf_tbl != reg_tbl_onstack)
 		kfree(reg_conf_tbl);
-=======
-	kfree(reg_conf_tbl);
-	reg_conf_tbl = NULL;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return rc;
 }
 

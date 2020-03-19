@@ -1273,7 +1273,6 @@ static void sdm660_tx_mute_update_callback(struct work_struct *work)
 	}
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 struct snd_soc_codec *sound_control_codec_ptr;
 
@@ -1323,15 +1322,12 @@ static struct attribute_group sound_control_attr_group = {
 static struct kobject *sound_control_kobj;
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_dig_cdc_soc_probe(struct snd_soc_codec *codec)
 {
 	struct msm_dig_priv *msm_dig_cdc = dev_get_drvdata(codec->dev);
 	struct snd_soc_dapm_context *dapm = snd_soc_codec_get_dapm(codec);
 	int i, ret;
 
-<<<<<<< HEAD
 /*zhiguang.su@MultiMedia.AudioDrv, 2017-03-27, add for debug*/
 pr_err("%s enter\n", __func__);
 
@@ -1339,8 +1335,6 @@ pr_err("%s enter\n", __func__);
 	sound_control_codec_ptr = codec;
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	msm_dig_cdc->codec = codec;
 
 	snd_soc_add_codec_controls(codec, compander_kcontrols,
@@ -2186,7 +2180,6 @@ static int msm_dig_cdc_probe(struct platform_device *pdev)
 		return ret;
 	}
 
-<<<<<<< HEAD
 #ifdef CONFIG_SOUND_CONTROL
 	sound_control_kobj = kobject_create_and_add("sound_control", kernel_kobj);
 	if (sound_control_kobj == NULL) {
@@ -2199,8 +2192,6 @@ static int msm_dig_cdc_probe(struct platform_device *pdev)
 	}
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	msm_dig_cdc->dig_base = ioremap(dig_cdc_addr,
 					MSM89XX_CDC_CORE_MAX_REGISTER);
 	if (msm_dig_cdc->dig_base == NULL) {

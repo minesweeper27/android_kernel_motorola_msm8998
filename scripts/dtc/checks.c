@@ -179,7 +179,6 @@ static void check_is_string(struct check *c, struct dt_info *dti,
 	WARNING(nm, check_is_string, (propname))
 #define ERROR_IF_NOT_STRING(nm, propname) \
 	ERROR(nm, check_is_string, (propname))
-<<<<<<< HEAD
 
 static void check_is_null_terminated(struct check *c, struct dt_info *dti,
 			    struct node *node)
@@ -200,9 +199,6 @@ static void check_is_null_terminated(struct check *c, struct dt_info *dti,
 #define ERROR_IF_NOT_NULL_TERMINATED(nm, propname) \
 	ERROR(nm, check_is_null_terminated, (propname))
 
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void check_is_cell(struct check *c, struct dt_info *dti,
 			  struct node *node)
 {
@@ -282,7 +278,6 @@ static void check_node_name_format(struct check *c, struct dt_info *dti,
 		     node->fullpath);
 }
 ERROR(node_name_format, check_node_name_format, NULL, &node_name_chars);
-<<<<<<< HEAD
 
 static void check_unit_address_vs_reg(struct check *c, struct dt_info *dti,
 				      struct node *node)
@@ -321,46 +316,6 @@ static void check_property_name_chars(struct check *c, struct dt_info *dti,
 			     prop->name[n], prop->name, node->fullpath);
 	}
 }
-=======
-
-static void check_unit_address_vs_reg(struct check *c, struct dt_info *dti,
-				      struct node *node)
-{
-	const char *unitname = get_unitname(node);
-	struct property *prop = get_property(node, "reg");
-
-	if (!prop) {
-		prop = get_property(node, "ranges");
-		if (prop && !prop->val.len)
-			prop = NULL;
-	}
-
-	if (prop) {
-		if (!unitname[0])
-			FAIL(c, "Node %s has a reg or ranges property, but no unit name",
-			    node->fullpath);
-	} else {
-		if (unitname[0])
-			FAIL(c, "Node %s has a unit name, but no reg property",
-			    node->fullpath);
-	}
-}
-WARNING(unit_address_vs_reg, check_unit_address_vs_reg, NULL);
-
-static void check_property_name_chars(struct check *c, struct dt_info *dti,
-				      struct node *node)
-{
-	struct property *prop;
-
-	for_each_property(node, prop) {
-		int n = strspn(prop->name, c->data);
-
-		if (n < strlen(prop->name))
-			FAIL(c, "Bad character '%c' in property name \"%s\", node %s",
-			     prop->name[n], prop->name, node->fullpath);
-	}
-}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 ERROR(property_name_chars, check_property_name_chars, PROPNODECHARS);
 
 #define DESCLABEL_FMT	"%s%s%s%s%s"

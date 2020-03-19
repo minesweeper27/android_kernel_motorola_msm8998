@@ -97,11 +97,7 @@ struct mmc_ext_csd {
 	bool			boot_ro_lockable;
 	u8			raw_ext_csd_cmdq;	/* 15 */
 	u8			raw_ext_csd_cache_ctrl;	/* 33 */
-<<<<<<< HEAD
 
-=======
-	bool			ffu_capable;	/* Firmware upgrade support */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define MMC_FIRMWARE_LEN 8
 	u8			fwrev[MMC_FIRMWARE_LEN];  /* FW version */
 	u8			raw_exception_status;	/* 54 */
@@ -146,11 +142,8 @@ struct mmc_ext_csd {
 	u8			barrier_en;
 
 	u8			fw_version;		/* 254 */
-<<<<<<< HEAD
 #define MMC_DEVICE_VERSION_LEN 2
 	u8			device_version[MMC_FIRMWARE_LEN];  /* 262, device version */
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned int            feature_support;
 #define MMC_DISCARD_FEATURE	BIT(0)                  /* CMD38 feature */
 };

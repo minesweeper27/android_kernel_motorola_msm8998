@@ -946,11 +946,7 @@ struct file {
 #ifdef CONFIG_FILE_TABLE_DEBUG
 	struct hlist_node f_hash;
 #endif /* #ifdef CONFIG_FILE_TABLE_DEBUG */
-<<<<<<< HEAD
 } __attribute__((aligned(8)));
-=======
-} __attribute__((aligned(4)));	/* lest something weird decides that 2 is OK */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 struct file_handle {
 	__u32 handle_bytes;
@@ -1842,10 +1838,7 @@ struct super_operations {
 #define S_DAX		0	/* Make all the DAX code disappear */
 #endif
 #define S_ENCRYPTED	16384	/* Encrypted file (using fs/crypto/) */
-<<<<<<< HEAD
 #define S_RELATIME	(1 << 31)	/* Update relative access times */
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /*
  * Note that nosuid etc flags are inode-specific: setting some file-system

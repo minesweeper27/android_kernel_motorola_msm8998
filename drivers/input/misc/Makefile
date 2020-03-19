@@ -79,7 +79,6 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
 obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
 obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
 obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
-<<<<<<< HEAD
 obj-$(CONFIG_INPUT_SX9310)              += sx9310.o
 obj-$(CONFIG_INPUT_SX9310_TRIPLE)	+= sx9310_triple.o
 obj-$(CONFIG_INPUT_SX933x)		+= sx933x.o
@@ -88,7 +87,3 @@ obj-$(CONFIG_INPUT_STMVL53L0)                 += vl53L0/
 obj-$(CONFIG_SENSORS_FPC_1020)          += fpc1020_tee.o
 obj-$(CONFIG_INPUT_EGISTEC_FPS)         += ets_fps.o ets_navi_input.o
 obj-$(CONFIG_STMVL53L1)	+= vl53L1/
-=======
-obj-$(CONFIG_INPUT_PIXART_OTS_PAT9125_SWITCH)	+= ots_pat9125/
-obj-$(CONFIG_INPUT_STMVL53L0)                 += vl53L0/
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

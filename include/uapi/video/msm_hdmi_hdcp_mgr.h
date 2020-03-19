@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 #ifndef _UAPI__MSM_HDMI_HDCP_MGR_H
-=======
-#ifndef _UAPI__HDMI_HDCP_MGR_H
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define _UAPI__MSM_HDMI_HDCP_MGR_H
 
 enum DS_TYPE {  /* type of downstream device */

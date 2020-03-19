@@ -448,15 +448,11 @@ static int cmdq_enable(struct mmc_host *mmc)
 	cmdq_writel(cq_host, mmc->card->rca, CQSSC2);
 
 	/* send QSR at lesser intervals than the default */
-<<<<<<< HEAD
 	if ((mmc->card->cid.oemid == 0x14E) && (mmc->card->cid.manfid == 0x13)) {
 		cmdq_writel(cq_host, 0x70028, CQSSC1);
 	} else
 		cmdq_writel(cq_host, SEND_QSR_INTERVAL, CQSSC1);
 
-=======
-	cmdq_writel(cq_host, SEND_QSR_INTERVAL, CQSSC1);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* enable bkops exception indication */
 	if (mmc_card_configured_manual_bkops(mmc->card) &&
@@ -876,10 +872,6 @@ static void cmdq_finish_data(struct mmc_host *mmc, unsigned int tag)
 	struct mmc_request *mrq;
 	struct cmdq_host *cq_host = (struct cmdq_host *)mmc_cmdq_private(mmc);
 	int offset = 0;
-<<<<<<< HEAD
-=======
-	int err = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (cq_host->offset_changed)
 		offset = CQ_V5_VENDOR_CFG;
@@ -894,16 +886,6 @@ static void cmdq_finish_data(struct mmc_host *mmc, unsigned int tag)
 
 	cmdq_runtime_pm_put(cq_host);
 
-<<<<<<< HEAD
-=======
-	if (cq_host->ops->crypto_cfg_end) {
-		err = cq_host->ops->crypto_cfg_end(mmc, mrq);
-		if (err) {
-			pr_err("%s: failed to end ice config: err %d tag %d\n",
-					mmc_hostname(mmc), err, tag);
-		}
-	}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!(cq_host->caps & CMDQ_CAP_CRYPTO_SUPPORT) &&
 			cq_host->ops->crypto_cfg_reset)
 		cq_host->ops->crypto_cfg_reset(mmc, tag);
@@ -1118,11 +1100,7 @@ skip_cqterri:
 		/* read CQTCN and complete the request */
 		comp_status = cmdq_readl(cq_host, CQTCN);
 		if (!comp_status)
-<<<<<<< HEAD
 			goto hac;
-=======
-			goto out;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		/*
 		 * The CQTCN must be cleared before notifying req completion
 		 * to upper layers to avoid missing completion notification
@@ -1149,11 +1127,7 @@ skip_cqterri:
 			}
 		}
 	}
-<<<<<<< HEAD
 hac:
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (status & CQIS_HAC) {
 		if (cq_host->ops->post_cqe_halt)
 			cq_host->ops->post_cqe_halt(mmc);
@@ -1164,11 +1138,7 @@ hac:
 		complete(&cq_host->halt_comp);
 	}
 
-<<<<<<< HEAD
 
-=======
-out:
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return IRQ_HANDLED;
 }
 EXPORT_SYMBOL(cmdq_irq);
@@ -1292,15 +1262,12 @@ static void cmdq_post_req(struct mmc_host *mmc, int tag, int err)
 	mrq = get_req_by_tag(cq_host, tag);
 	data = mrq->data;
 
-<<<<<<< HEAD
 	if (cq_host->ops->crypto_cfg_end) {
 		if (cq_host->ops->crypto_cfg_end(mmc, mrq)) {
 			pr_err("%s: failed to end ice config: err %d tag %d\n",
 			mmc_hostname(mmc), err, tag);
 		}
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (data) {
 		data->error = err;
 		dma_unmap_sg(mmc_dev(mmc), data->sg, data->sg_len,

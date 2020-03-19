@@ -227,15 +227,8 @@ static int qce_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
 {
 	int i;
 
-<<<<<<< HEAD
 	for_each_sg(sg, sg, nents, i)
 		dma_map_sg(dev, sg, 1, direction);
-=======
-	for (i = 0; i < nents; ++i) {
-		dma_map_sg(dev, sg, 1, direction);
-		sg = sg_next(sg);
-	}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return nents;
 }
@@ -245,15 +238,8 @@ static int qce_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
 {
 	int i;
 
-<<<<<<< HEAD
 	for_each_sg(sg, sg, nents, i)
 		dma_unmap_sg(dev, sg, 1, direction);
-=======
-	for (i = 0; i < nents; ++i) {
-		dma_unmap_sg(dev, sg, 1, direction);
-		sg = sg_next(sg);
-	}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return nents;
 }
@@ -4688,11 +4674,7 @@ again:
 			pce_dev->intr_cadence = 0;
 			atomic_set(&pce_dev->bunch_cmd_seq, 0);
 			atomic_set(&pce_dev->last_intr_seq, 0);
-<<<<<<< HEAD
 			pce_dev->cadence_flag = !pce_dev->cadence_flag;
-=======
-			pce_dev->cadence_flag = ~pce_dev->cadence_flag;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 	}
 

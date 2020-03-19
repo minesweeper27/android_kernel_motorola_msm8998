@@ -780,10 +780,6 @@ static int gs_start_io(struct gs_port *port)
 	if (!port->port_usb)
 		return -EIO;
 
-<<<<<<< HEAD
-=======
-	/* unblock any pending writes into our circular buffer */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (started) {
 		gs_start_tx(port);
 		/* Unblock any pending writes into our circular buffer, in case

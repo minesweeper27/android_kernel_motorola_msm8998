@@ -32,7 +32,6 @@
 
 #define MAX_INST_NAME_LEN	40
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 #include <linux/usb/tty_diag.h>
 #include <linux/of.h>
@@ -42,8 +41,6 @@ static bool tty_mode;
 module_param(tty_mode, bool, S_IRUGO);
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* for configfs support */
 struct diag_opts {
 	struct usb_function_instance func_inst;
@@ -203,7 +200,6 @@ static inline struct diag_context *func_to_diag(struct usb_function *f)
 	return container_of(f, struct diag_context, function);
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 static bool factory_cable_present(void)
 {
@@ -215,8 +211,6 @@ static bool factory_cable_present(void)
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* Called with ctxt->lock held; i.e. only use with kref_put_spinlock_irqsave */
 static void diag_context_release(struct kref *kref)
 {
@@ -358,7 +352,6 @@ struct usb_diag_ch *usb_diag_open(const char *name, void *priv,
 	unsigned long flags;
 	int found = 0;
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 	static bool init;
 
@@ -370,8 +363,6 @@ struct usb_diag_ch *usb_diag_open(const char *name, void *priv,
 	if (tty_mode)
 		return tty_diag_channel_open(name, priv, notify);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock_irqsave(&ch_lock, flags);
 	/* Check if we already have a channel with this name */
 	list_for_each_entry(ch, &usb_diag_ch_list, list) {
@@ -414,13 +405,10 @@ void usb_diag_close(struct usb_diag_ch *ch)
 	struct diag_context *dev = NULL;
 	unsigned long flags;
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 	if (tty_mode)
 		return tty_diag_channel_close(ch);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	spin_lock_irqsave(&ch_lock, flags);
 	ch->priv = NULL;
 	ch->notify = NULL;
@@ -471,13 +459,10 @@ int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read)
 	int i;
 	unsigned long flags;
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 	if (tty_mode)
 		return 0;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!ctxt)
 		return -ENODEV;
 
@@ -545,13 +530,10 @@ int usb_diag_read(struct usb_diag_ch *ch, struct diag_request *d_req)
 	struct usb_ep *out;
 	static DEFINE_RATELIMIT_STATE(rl, 10*HZ, 1);
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 	if (tty_mode)
 		return tty_diag_channel_read(ch, d_req);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!ctxt)
 		return -ENODEV;
 
@@ -629,14 +611,11 @@ int usb_diag_write(struct usb_diag_ch *ch, struct diag_request *d_req)
 	struct usb_ep *in;
 	static DEFINE_RATELIMIT_STATE(rl, 10*HZ, 1);
 
-<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_TTY
 	if (tty_mode)
 		return tty_diag_channel_write(ch, d_req);
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!ctxt)
 		return -ENODEV;
 

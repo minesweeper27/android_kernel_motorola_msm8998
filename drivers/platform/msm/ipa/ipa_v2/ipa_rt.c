@@ -54,11 +54,7 @@ int __ipa_generate_rt_hw_rule_v2(enum ipa_ip_type ip,
 	struct ipa_hdr_entry *hdr_entry;
 
 	if (buf == NULL) {
-<<<<<<< HEAD
 		memset(tmp, 0, sizeof(tmp));
-=======
-		memset(tmp, 0, (IPA_RT_FLT_HW_RULE_BUF_SIZE/4));
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		buf = (u8 *)tmp;
 	}
 

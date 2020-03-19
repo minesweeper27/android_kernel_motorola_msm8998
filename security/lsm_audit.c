@@ -220,10 +220,7 @@ static void dump_common_audit_data(struct audit_buffer *ab,
 	 */
 	BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	audit_log_format(ab, " pid=%d comm=", task_tgid_nr(current));
 	audit_log_untrustedstring(ab, memcpy(comm, current->comm, sizeof(comm)));
 

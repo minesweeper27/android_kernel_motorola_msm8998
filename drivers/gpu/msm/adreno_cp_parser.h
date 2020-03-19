@@ -15,12 +15,6 @@
 
 #include "adreno.h"
 
-<<<<<<< HEAD
-=======
-extern const unsigned int a3xx_cp_addr_regs[];
-extern const unsigned int a4xx_cp_addr_regs[];
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * struct adreno_ib_object - Structure containing information about an
  * address range found in an IB
@@ -137,19 +131,7 @@ static inline void adreno_ib_init_ib_obj(uint64_t gpuaddr,
 static inline int adreno_cp_parser_getreg(struct adreno_device *adreno_dev,
 					enum adreno_cp_addr_regs reg_enum)
 {
-<<<<<<< HEAD
 	return -EEXIST;
-=======
-	if (reg_enum == ADRENO_CP_ADDR_MAX)
-		return -EEXIST;
-
-	if (adreno_is_a3xx(adreno_dev))
-		return a3xx_cp_addr_regs[reg_enum];
-	else if (adreno_is_a4xx(adreno_dev))
-		return a4xx_cp_addr_regs[reg_enum];
-	else
-		return -EEXIST;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /*
@@ -167,21 +149,6 @@ static inline int adreno_cp_parser_regindex(struct adreno_device *adreno_dev,
 				enum adreno_cp_addr_regs start,
 				enum adreno_cp_addr_regs end)
 {
-<<<<<<< HEAD
-=======
-	int i;
-	const unsigned int *regs;
-	if (adreno_is_a4xx(adreno_dev))
-		regs = a4xx_cp_addr_regs;
-	else if (adreno_is_a3xx(adreno_dev))
-		regs = a3xx_cp_addr_regs;
-	else
-		return -EEXIST;
-
-	for (i = start; i <= end && i < ADRENO_CP_ADDR_MAX; i++)
-		if (regs[i] == offset)
-			return i;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return -EEXIST;
 }
 

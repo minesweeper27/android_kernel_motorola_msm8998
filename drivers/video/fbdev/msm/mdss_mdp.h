@@ -959,10 +959,7 @@ struct mdss_overlay_private {
 	struct list_head rot_proc_list;
 	bool mixer_swap;
 	u32 resources_state;
-<<<<<<< HEAD
 	bool fb_rot_180;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* list of buffers that can be reused */
 	struct list_head bufs_chunks;
@@ -1966,11 +1963,7 @@ void rect_copy_mdp_to_mdss(struct mdp_rect *user, struct mdss_rect *kernel);
 bool mdss_rect_overlap_check(struct mdss_rect *rect1, struct mdss_rect *rect2);
 void mdss_rect_split(struct mdss_rect *in_roi, struct mdss_rect *l_roi,
 	struct mdss_rect *r_roi, u32 splitpoint);
-<<<<<<< HEAD
 int mdss_dsi_ioctl_handler(struct mdss_panel_data *pdata, u32 cmd, void *arg);
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 int mdss_mdp_get_ctl_mixers(u32 fb_num, u32 *mixer_id);
 bool mdss_mdp_mixer_reg_has_pipe(struct mdss_mdp_mixer *mixer,

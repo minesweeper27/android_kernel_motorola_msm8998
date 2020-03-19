@@ -23,8 +23,4 @@ obj-y				+= broadcom/
 obj-$(CONFIG_GOOGLE_FIRMWARE)	+= google/
 obj-$(CONFIG_EFI)		+= efi/
 obj-$(CONFIG_UEFI_CPER)		+= efi/
-<<<<<<< HEAD
 obj-$(CONFIG_MSM_TZ_LOG)        += qcom/
-=======
-obj-$(CONFIG_MSM_TZ_LOG)        += qcom/
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

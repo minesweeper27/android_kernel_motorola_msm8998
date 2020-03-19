@@ -280,7 +280,6 @@ static int notrace persistent_ram_update_user(struct persistent_ram_zone *prz,
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_PSTORE_RAM_ANNOTATION_APPEND
 struct praa_buf {
 	struct list_head list;
@@ -422,8 +421,6 @@ void persistent_ram_annotation_merge(struct persistent_ram_zone *prz)
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 void persistent_ram_save_old(struct persistent_ram_zone *prz)
 {
 	struct persistent_ram_buffer *buffer = prz->buffer;

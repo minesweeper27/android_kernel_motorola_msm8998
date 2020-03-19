@@ -3379,11 +3379,7 @@ static int mdss_dp_event_thread(void *data)
 
 	pr_debug("starting\n");
 	while (!kthread_should_stop()) {
-<<<<<<< HEAD
 		wait_event_interruptible(ev_data->event_q,
-=======
-		wait_event(ev_data->event_q,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			(ev_data->pndx != ev_data->gndx) ||
 			kthread_should_stop() ||
 			kthread_should_park());

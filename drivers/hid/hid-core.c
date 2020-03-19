@@ -206,20 +206,7 @@ static int hid_add_usage(struct hid_parser *parser, unsigned usage)
 		hid_err(parser->device, "usage index exceeded\n");
 		return -1;
 	}
-<<<<<<< HEAD
 	parser->local.usage[parser->local.usage_index] = usage;
-=======
-	if (!parser->local.usage_index && parser->global.usage_page)
-		parser->local.usage_page_preceding = 1;
-	if (parser->local.usage_page_preceding == 2)
-		parser->local.usage_page_preceding = 3;
-	if (size <= 2 && parser->global.usage_page)
-		parser->local.usage[parser->local.usage_index] =
-			(usage & 0xffff) + (parser->global.usage_page << 16);
-	else
-		parser->local.usage[parser->local.usage_index] = usage;
-	parser->local.usage_size[parser->local.usage_index] = size;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	parser->local.collection_index[parser->local.usage_index] =
 		parser->collection_stack_ptr ?
 		parser->collection_stack[parser->collection_stack_ptr - 1] : 0;
@@ -546,32 +533,6 @@ static int hid_parser_local(struct hid_parser *parser, struct hid_item *item)
 }
 
 /*
-<<<<<<< HEAD
-=======
- * Concatenate Usage Pages into Usages where relevant:
- * As per specification, 6.2.2.8: "When the parser encounters a main item it
- * concatenates the last declared Usage Page with a Usage to form a complete
- * usage value."
- */
-
-static void hid_concatenate_usage_page(struct hid_parser *parser)
-{
-	int i;
-
-	if (parser->local.usage_page_preceding == 3) {
-		dbg_hid("Using preceding usage page for final usage\n");
-		return;
-	}
-
-	for (i = 0; i < parser->local.usage_index; i++)
-		if (parser->local.usage_size[i] <= 2)
-			parser->local.usage[i] =
-				(parser->global.usage_page << 16)
-				+ (parser->local.usage[i] & 0xffff);
-}
-
-/*
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * Process a main item.
  */
 

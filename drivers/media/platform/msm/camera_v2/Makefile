@@ -22,7 +22,4 @@ obj-$(CONFIG_MSMB_JPEG) += jpeg_10/
 obj-$(CONFIG_MSM_JPEGDMA) += jpeg_dma/
 obj-$(CONFIG_MSMB_CAMERA) += msm_buf_mgr/
 obj-$(CONFIG_MSM_FD) += fd/
-<<<<<<< HEAD
 obj-$(CONFIG_MSMB_CAMERA) += cci_intf.o
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

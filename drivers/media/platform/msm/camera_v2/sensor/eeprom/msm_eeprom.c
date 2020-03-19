@@ -26,7 +26,6 @@ DEFINE_MSM_MUTEX(msm_eeprom_mutex);
 static struct v4l2_file_operations msm_eeprom_v4l2_subdev_fops;
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_WENTAI
 static int module_id;
 int main_module_id; /*main camera*/
@@ -37,8 +36,6 @@ int aux_module_id;  /*aux camera*/
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 static int otp_w_sleep = 10;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /**
   * msm_get_read_mem_size - Get the total size for allocation
   * @eeprom_map_array:	mem map
@@ -626,7 +623,6 @@ static int eeprom_config_read_cal_data(struct msm_eeprom_ctrl_t *e_ctrl,
 	return rc;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 #define GT24C64_PAGE_SIZE 32
 static int bst_eeprom_read_dualcam_cal_data(struct msm_eeprom_ctrl_t *e_ctrl,
@@ -742,8 +738,6 @@ struct msm_eeprom_cfg_data *cdata)
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
 	void __user *argp)
 {
@@ -786,7 +780,6 @@ static int msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
 		CDBG("%s E CFG_EEPROM_GET_MM_INFO\n", __func__);
 		rc = msm_eeprom_get_cmm_data(e_ctrl, cdata);
 		break;
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 	case BST_CFG_EEPROM_WRITE_DUALCAM_CALI_DATA:
 		CDBG("%s E BST_CFG_EEPROM_WRITE_DUALCAM_CALI_DATA\n", __func__);
@@ -797,8 +790,6 @@ static int msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
 		rc = bst_eeprom_read_dualcam_cal_data(e_ctrl, cdata);
 		break;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	case CFG_EEPROM_INIT:
 		if (e_ctrl->userspace_probe == 0) {
 			pr_err("%s:%d Eeprom already probed at kernel boot",
@@ -1109,11 +1100,7 @@ static int msm_eeprom_get_dt_data(struct msm_eeprom_ctrl_t *e_ctrl)
 		of_node = e_ctrl->pdev->dev.of_node;
 
 	if (!of_node) {
-<<<<<<< HEAD
 		pr_err("%s: %d of_node is NULL\n", __func__, __LINE__);
-=======
-		pr_err("%s: %d of_node is NULL\n", __func__ , __LINE__);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return -ENOMEM;
 	}
 	rc = msm_camera_get_dt_vreg_data(of_node, &power_info->cam_vreg,
@@ -1627,7 +1614,6 @@ free_mem:
 	return rc;
 }
 
-<<<<<<< HEAD
 
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 #define CHECK_WRITE_PROTECTION
@@ -1868,8 +1854,6 @@ static int bst_eeprom_write_dualcam_cal_data32(
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static int msm_eeprom_config32(struct msm_eeprom_ctrl_t *e_ctrl,
 	void __user *argp)
 {
@@ -1908,7 +1892,6 @@ static int msm_eeprom_config32(struct msm_eeprom_ctrl_t *e_ctrl,
 		CDBG("%s E CFG_EEPROM_READ_CAL_DATA\n", __func__);
 		rc = eeprom_config_read_cal_data32(e_ctrl, argp);
 		break;
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_BST_FACTORY
 	case BST_CFG_EEPROM_WRITE_DUALCAM_CALI_DATA:
 		CDBG("%s E BST_CFG_EEPROM_WRITE_DUALCAM_CALI_DATA\n", __func__);
@@ -1923,19 +1906,13 @@ static int msm_eeprom_config32(struct msm_eeprom_ctrl_t *e_ctrl,
 #ifdef CONFIG_MSM_CAMERA_VENDOR_WENTAI
 		pr_err("CONFIG_MSM_CAMERA_VENDOR_WENTAI is set");
 #else
-=======
-	case CFG_EEPROM_INIT:
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (e_ctrl->userspace_probe == 0) {
 			pr_err("%s:%d Eeprom already probed at kernel boot",
 				__func__, __LINE__);
 			rc = -EINVAL;
 			break;
 		}
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (e_ctrl->cal_data.num_data == 0) {
 			rc = eeprom_init_config32(e_ctrl, argp);
 			if (rc < 0)
@@ -2140,7 +2117,6 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 			CDBG("memory_data[%d] = 0x%X\n", j,
 				e_ctrl->cal_data.mapdata[j]);
 
-<<<<<<< HEAD
 #ifdef CONFIG_MSM_CAMERA_VENDOR_WENTAI
 		if (!strcmp(eb_info->eeprom_name, "ov12a10_qtech")) {
 			CDBG("match id for %s\n", eb_info->eeprom_name);
@@ -2222,8 +2198,6 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 		}
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		e_ctrl->is_supported |= msm_eeprom_match_crc(&e_ctrl->cal_data);
 
 		rc = msm_camera_power_down(power_info,

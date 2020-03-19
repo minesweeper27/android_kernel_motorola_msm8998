@@ -373,14 +373,11 @@ static void kc_clear_entry(struct kc_entry *entry)
 
 	entry->time_stamp = 0;
 	entry->scm_error = 0;
-<<<<<<< HEAD
 
 	entry->state = FREE;
 
 	entry->loaded_ref_cnt = 0;
 	entry->thread_pending = NULL;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /**

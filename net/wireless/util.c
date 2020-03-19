@@ -1908,7 +1908,6 @@ bool cfg80211_is_gratuitous_arp_unsolicited_na(struct sk_buff *skb)
 	return false;
 }
 EXPORT_SYMBOL(cfg80211_is_gratuitous_arp_unsolicited_na);
-<<<<<<< HEAD
 
 /* Layer 2 Update frame (802.2 Type 1 LLC XID Update response) */
 struct iapp_layer2_update {
@@ -1954,5 +1953,3 @@ void cfg80211_send_layer2_update(struct net_device *dev, const u8 *addr)
 	netif_rx_ni(skb);
 }
 EXPORT_SYMBOL(cfg80211_send_layer2_update);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

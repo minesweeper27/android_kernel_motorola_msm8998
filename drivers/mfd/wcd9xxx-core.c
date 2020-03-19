@@ -603,11 +603,7 @@ static void wcd9xxx_device_exit(struct wcd9xxx *wcd9xxx)
 }
 
 
-<<<<<<< HEAD
 #if defined(CONFIG_DEBUG_FS) && defined(WCD9XXX_CORE_DEBUG)
-=======
-#ifdef CONFIG_DEBUG_FS
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct wcd9xxx *debugCodec;
 
 static struct dentry *debugfs_wcd9xxx_dent;
@@ -1396,11 +1392,7 @@ static int wcd9xxx_slim_probe(struct slim_device *slim)
 			__func__, ret);
 		goto err_slim_add;
 	}
-<<<<<<< HEAD
 #if defined(CONFIG_DEBUG_FS) && defined(WCD9XXX_CORE_DEBUG)
-=======
-#ifdef CONFIG_DEBUG_FS
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	debugCodec = wcd9xxx;
 
 	debugfs_wcd9xxx_dent = debugfs_create_dir
@@ -1445,11 +1437,7 @@ static int wcd9xxx_slim_remove(struct slim_device *pdev)
 	struct wcd9xxx *wcd9xxx;
 	struct wcd9xxx_pdata *pdata = pdev->dev.platform_data;
 
-<<<<<<< HEAD
 #if defined(CONFIG_DEBUG_FS) && defined(WCD9XXX_CORE_DEBUG)
-=======
-#ifdef CONFIG_DEBUG_FS
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	debugfs_remove_recursive(debugfs_wcd9xxx_dent);
 #endif
 	wcd9xxx = slim_get_devicedata(pdev);

@@ -51,11 +51,7 @@ static void __iomem *virt_base;
 #define ext_dp_phy_pll_link_mm_source_val	1
 #define ext_dp_phy_pll_vco_mm_source_val	2
 
-<<<<<<< HEAD
 #define FIXDIV(div) (div != 0 ? (2 * (div) - 1) : (0))
-=======
-#define FIXDIV(div) (div ? (2 * (div) - 1) : (0))
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define F_MM(f, s, div, m, n) \
 	{ \

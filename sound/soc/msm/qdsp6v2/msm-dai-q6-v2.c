@@ -114,7 +114,6 @@ struct msm_dai_q6_spdif_dai_data {
 	struct afe_spdif_port_config spdif_port;
 };
 
-<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_TAS2560
 struct msm_dai_mi2s_pinctrl_info {
 	struct pinctrl *pinctrl;
@@ -123,8 +122,6 @@ struct msm_dai_mi2s_pinctrl_info {
 };
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 struct msm_dai_q6_mi2s_dai_config {
 	u16 pdata_mi2s_lines;
 	struct msm_dai_q6_dai_data mi2s_dai_data;
@@ -133,12 +130,9 @@ struct msm_dai_q6_mi2s_dai_config {
 struct msm_dai_q6_mi2s_dai_data {
 	struct msm_dai_q6_mi2s_dai_config tx_dai;
 	struct msm_dai_q6_mi2s_dai_config rx_dai;
-<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_TAS2560
 	struct msm_dai_mi2s_pinctrl_info pinctrl_info;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 static DEFINE_MUTEX(group_mi2s_mutex);
@@ -3753,7 +3747,6 @@ static int msm_dai_q6_dai_mi2s_remove(struct snd_soc_dai *dai)
 static int msm_dai_q6_mi2s_startup(struct snd_pcm_substream *substream,
 				   struct snd_soc_dai *dai)
 {
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_TAS2560
 	return 0;
 #else
@@ -3769,10 +3762,6 @@ static int msm_dai_q6_mi2s_startup(struct snd_pcm_substream *substream,
 
 	return rc;
 #endif
-=======
-
-	return 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 
@@ -3942,7 +3931,6 @@ static int msm_dai_q6_mi2s_hw_params(struct snd_pcm_substream *substream,
 	struct msm_dai_q6_dai_data *dai_data = &mi2s_dai_config->mi2s_dai_data;
 	struct afe_param_id_i2s_cfg *i2s = &dai_data->port_config.i2s;
 
-<<<<<<< HEAD
 	/*hack I2S DAI config for packed 16x4 mode*/
 	if (params_channels(params) == 4 &&
 	    params_format(params) == SNDRV_PCM_FORMAT_S16_LE) {
@@ -3953,9 +3941,6 @@ static int msm_dai_q6_mi2s_hw_params(struct snd_pcm_substream *substream,
 		dai_data->channels = params_channels(params);
 	}
 
-=======
-	dai_data->channels = params_channels(params);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	switch (dai_data->channels) {
 	case 8:
 	case 7:
@@ -4023,7 +4008,6 @@ static int msm_dai_q6_mi2s_hw_params(struct snd_pcm_substream *substream,
 	switch (params_format(params)) {
 	case SNDRV_PCM_FORMAT_S16_LE:
 	case SNDRV_PCM_FORMAT_SPECIAL:
-<<<<<<< HEAD
 		/*hack I2S config for packed 16x4 mode*/
 		if (params_channels(params) > 2) {
 			pr_debug("%s: using 32-bit I2S for 16x4 capture\n",
@@ -4034,23 +4018,16 @@ static int msm_dai_q6_mi2s_hw_params(struct snd_pcm_substream *substream,
 			dai_data->port_config.i2s.bit_width = 16;
 			dai_data->bitwidth = 16;
 		}
-=======
-		dai_data->port_config.i2s.bit_width = 16;
-		dai_data->bitwidth = 16;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
 	case SNDRV_PCM_FORMAT_S24_3LE:
 		dai_data->port_config.i2s.bit_width = 24;
 		dai_data->bitwidth = 24;
 		break;
-<<<<<<< HEAD
 	case SNDRV_PCM_FORMAT_S32_LE:
 		dai_data->port_config.i2s.bit_width = 32;
 		dai_data->bitwidth = 32;
 		break;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	default:
 		pr_err("%s: format %d\n",
 			__func__, params_format(params));
@@ -4103,7 +4080,6 @@ error_invalid_data:
 
 static int msm_dai_q6_mi2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 {
-<<<<<<< HEAD
 	int rx_port_started;
 	int tx_port_started;
 	struct msm_dai_q6_mi2s_dai_data *mi2s_dai_data =
@@ -4129,15 +4105,6 @@ static int msm_dai_q6_mi2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 				&& !mi2s_dai_data->tx_dai.mi2s_dai_data.port_config.i2s.ws_src))
 					return 0;
 		}
-=======
-	struct msm_dai_q6_mi2s_dai_data *mi2s_dai_data =
-	dev_get_drvdata(dai->dev);
-
-	if (test_bit(STATUS_PORT_STARTED,
-	    mi2s_dai_data->rx_dai.mi2s_dai_data.status_mask) ||
-	    test_bit(STATUS_PORT_STARTED,
-	    mi2s_dai_data->tx_dai.mi2s_dai_data.status_mask)) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		dev_err(dai->dev, "%s: err chg i2s mode while dai running",
 			__func__);
 		return -EPERM;
@@ -4189,12 +4156,9 @@ static void msm_dai_q6_mi2s_shutdown(struct snd_pcm_substream *substream,
 		 &mi2s_dai_data->tx_dai.mi2s_dai_data);
 	 u16 port_id = 0;
 	int rc = 0;
-<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_TAS2560
 	int port_started;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (msm_mi2s_get_port_id(dai->id, substream->stream,
 				 &port_id) != 0) {
@@ -4213,7 +4177,6 @@ static void msm_dai_q6_mi2s_shutdown(struct snd_pcm_substream *substream,
 	}
 	if (test_bit(STATUS_PORT_STARTED, dai_data->hwfree_status))
 		clear_bit(STATUS_PORT_STARTED, dai_data->hwfree_status);
-<<<<<<< HEAD
 
 #ifndef CONFIG_SND_SOC_TAS2560
 	port_started =
@@ -4230,8 +4193,6 @@ static void msm_dai_q6_mi2s_shutdown(struct snd_pcm_substream *substream,
 		}
 	}
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static struct snd_soc_dai_ops msm_dai_q6_mi2s_ops = {
@@ -4316,12 +4277,8 @@ static struct snd_soc_dai_driver msm_dai_q6_mi2s_dai[] = {
 				 SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
 				 SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
 				 SNDRV_PCM_RATE_192000,
-<<<<<<< HEAD
 			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
 				   SNDRV_PCM_FMTBIT_S32_LE,
-=======
-			.formats = SNDRV_PCM_FMTBIT_S16_LE,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			.rate_min =     8000,
 			.rate_max =     192000,
 		},
@@ -4333,13 +4290,8 @@ static struct snd_soc_dai_driver msm_dai_q6_mi2s_dai[] = {
 				 SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
 				 SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
 				 SNDRV_PCM_RATE_192000,
-<<<<<<< HEAD
 			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
 				   SNDRV_PCM_FMTBIT_S32_LE,
-=======
-			.formats = SNDRV_PCM_FMTBIT_S16_LE |
-				SNDRV_PCM_FMTBIT_S24_LE,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			.rate_min =     8000,
 			.rate_max =     192000,
 		},
@@ -5650,7 +5602,6 @@ static int msm_dai_q6_mi2s_platform_data_validation(
 		dai_driver->capture.channels_max = 0;
 	}
 
-<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_TAS2560
 	dai_data->pinctrl_info.pinctrl = devm_pinctrl_get(&pdev->dev);
 	if (IS_ERR(dai_data->pinctrl_info.pinctrl)) {
@@ -5689,8 +5640,6 @@ static int msm_dai_q6_mi2s_platform_data_validation(
 	}
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	dev_dbg(&pdev->dev, "%s: playback sdline 0x%x capture sdline 0x%x\n",
 		__func__, dai_data->rx_dai.pdata_mi2s_lines,
 		dai_data->tx_dai.pdata_mi2s_lines);
@@ -5809,14 +5758,11 @@ rtn:
 
 static int msm_dai_q6_mi2s_dev_remove(struct platform_device *pdev)
 {
-<<<<<<< HEAD
 #ifndef CONFIG_SND_SOC_TAS2560
 	struct msm_dai_q6_mi2s_dai_data *dai_data = dev_get_drvdata(&pdev->dev);
 
 	devm_pinctrl_put(dai_data->pinctrl_info.pinctrl);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	snd_soc_unregister_component(&pdev->dev);
 	return 0;
 }

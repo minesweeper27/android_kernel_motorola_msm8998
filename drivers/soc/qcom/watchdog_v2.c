@@ -31,10 +31,7 @@
 #include <soc/qcom/memory_dump.h>
 #include <soc/qcom/minidump.h>
 #include <soc/qcom/watchdog.h>
-<<<<<<< HEAD
 #include "watchdog_cpu_ctx.h"
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define MODULE_NAME "msm_watchdog"
 #define WDT0_ACCSCSSNBARK_INT 0
@@ -56,10 +53,7 @@
 #define MAX_CPU_CTX_SIZE	2048
 
 static struct msm_watchdog_data *wdog_data;
-<<<<<<< HEAD
 static struct msm_watchdog_data *g_wdog_dd;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static int cpu_idle_pc_state[NR_CPUS];
 
@@ -100,11 +94,8 @@ struct msm_watchdog_data {
 	bool timer_expired;
 	bool user_pet_complete;
 	unsigned int scandump_size;
-<<<<<<< HEAD
 	phys_addr_t cpu_ctx_addr;
 	size_t cpu_ctx_size_percpu;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 };
 
 /*
@@ -365,14 +356,11 @@ static void pet_watchdog(struct msm_watchdog_data *wdog_dd)
 	wdog_dd->last_pet = time_ns;
 }
 
-<<<<<<< HEAD
 void g_pet_watchdog(void)
 {
 	pet_watchdog(g_wdog_dd);
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void keep_alive_response(void *info)
 {
 	int cpu = smp_processor_id();
@@ -621,19 +609,15 @@ static void configure_bark_dump(struct msm_watchdog_data *wdog_dd)
 			 */
 		}
 	} else {
-<<<<<<< HEAD
 		phys_addr_t cpu_buf_phys;
 		size_t buf_size_percpu;
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		cpu_data = kzalloc(sizeof(struct msm_dump_data) *
 				   num_present_cpus(), GFP_KERNEL);
 		if (!cpu_data) {
 			pr_err("cpu dump data structure allocation failed\n");
 			goto out0;
 		}
-<<<<<<< HEAD
 		if (wdog_dd->cpu_ctx_addr && wdog_dd->cpu_ctx_size_percpu) {
 			cpu_buf_phys = wdog_dd->cpu_ctx_addr;
 			buf_size_percpu = wdog_dd->cpu_ctx_size_percpu;
@@ -655,18 +639,6 @@ static void configure_bark_dump(struct msm_watchdog_data *wdog_dd)
 			 * This is to avoid TZ Zero-initialize the whole
 			 * dump structure including the other header contents.
 			 */
-=======
-		cpu_buf = kzalloc(MAX_CPU_CTX_SIZE * num_present_cpus(),
-				  GFP_KERNEL);
-		if (!cpu_buf) {
-			pr_err("cpu reg context space allocation failed\n");
-			goto out1;
-		}
-
-		for_each_cpu(cpu, cpu_present_mask) {
-			cpu_data[cpu].addr = virt_to_phys(cpu_buf +
-							cpu * MAX_CPU_CTX_SIZE);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			cpu_data[cpu].len = MAX_CPU_CTX_SIZE;
 			snprintf(cpu_data[cpu].name, sizeof(cpu_data[cpu].name),
 				"KCPU_CTX%d", cpu);
@@ -900,11 +872,8 @@ static int msm_watchdog_probe(struct platform_device *pdev)
 	wdog_data = wdog_dd;
 	wdog_dd->dev = &pdev->dev;
 	platform_set_drvdata(pdev, wdog_dd);
-<<<<<<< HEAD
 	msm_wdog_get_cpu_ctx(pdev, &wdog_dd->cpu_ctx_addr,
 				&wdog_dd->cpu_ctx_size_percpu);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	cpumask_clear(&wdog_dd->alive_mask);
 	wdog_dd->watchdog_task = kthread_create(watchdog_kthread, wdog_dd,
 			"msm_watchdog");
@@ -913,10 +882,7 @@ static int msm_watchdog_probe(struct platform_device *pdev)
 		goto err;
 	}
 	init_watchdog_data(wdog_dd);
-<<<<<<< HEAD
 	g_wdog_dd = wdog_dd;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Add wdog info to minidump table */
 	strlcpy(md_entry.name, "KWDOGDATA", sizeof(md_entry.name));

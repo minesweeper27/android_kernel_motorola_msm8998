@@ -4254,7 +4254,6 @@ static void rdev_init_debugfs(struct regulator_dev *rdev)
 	if (mode)
 		debugfs_create_file("load", mode, rdev->debugfs, regulator,
 					&reg_set_load_fops);
-<<<<<<< HEAD
 }
 
 #else
@@ -4267,20 +4266,6 @@ static inline void rdev_init_debugfs(struct regulator_dev *rdev)
 {
 }
 
-=======
-}
-
-#else
-
-static inline void rdev_deinit_debugfs(struct regulator_dev *rdev)
-{
-}
-
-static inline void rdev_init_debugfs(struct regulator_dev *rdev)
-{
-}
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif
 
 /**

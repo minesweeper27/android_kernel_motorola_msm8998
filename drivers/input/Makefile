@@ -28,10 +28,6 @@ obj-$(CONFIG_INPUT_MISC)	+= misc/
 obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
-<<<<<<< HEAD
 obj-$(CONFIG_HOMEBUTTON)	+= homebutton.o
 
 subdir-ccflags-y := -O3
-=======
-obj-y   += sensors/bmi160/
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

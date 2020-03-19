@@ -534,37 +534,24 @@ int kgsl_drawobj_sync_add_sync(struct kgsl_device *device,
 	struct kgsl_cmd_syncpoint *sync)
 {
 	void *priv;
-<<<<<<< HEAD
 	int psize;
-=======
-	int ret, psize;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct kgsl_drawobj *drawobj = DRAWOBJ(syncobj);
 	int (*func)(struct kgsl_device *device,
 			struct kgsl_drawobj_sync *syncobj,
 			void *priv);
-<<<<<<< HEAD
 	struct kgsl_cmd_syncpoint_timestamp sync_timestamp;
 	struct kgsl_cmd_syncpoint_fence sync_fence;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	switch (sync->type) {
 	case KGSL_CMD_SYNCPOINT_TYPE_TIMESTAMP:
 		psize = sizeof(struct kgsl_cmd_syncpoint_timestamp);
 		func = drawobj_add_sync_timestamp;
-<<<<<<< HEAD
 		priv = &sync_timestamp;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		break;
 	case KGSL_CMD_SYNCPOINT_TYPE_FENCE:
 		psize = sizeof(struct kgsl_cmd_syncpoint_fence);
 		func = drawobj_add_sync_fence;
-<<<<<<< HEAD
 		priv = &sync_fence;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		break;
 	default:
 		KGSL_DRV_ERR(device,
@@ -580,26 +567,10 @@ int kgsl_drawobj_sync_add_sync(struct kgsl_device *device,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
 	if (copy_from_user(priv, sync->priv, sync->size))
 		return -EFAULT;
 
 	return func(device, syncobj, priv);
-=======
-	priv = kzalloc(sync->size, GFP_KERNEL);
-	if (priv == NULL)
-		return -ENOMEM;
-
-	if (copy_from_user(priv, sync->priv, sync->size)) {
-		kfree(priv);
-		return -EFAULT;
-	}
-
-	ret = func(device, syncobj, priv);
-	kfree(priv);
-
-	return ret;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static void add_profiling_buffer(struct kgsl_device *device,

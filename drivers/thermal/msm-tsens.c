@@ -199,15 +199,9 @@ enum tsens_tm_trip_type {
 #define TSENS_TM_WRITABLE_TRIPS_MASK ((1 << TSENS_TM_TRIP_NUM) - 1)
 
 struct tsens_thrshld_state {
-<<<<<<< HEAD
 	unsigned int			high_th_state;
 	unsigned int			low_th_state;
 	unsigned int			crit_th_state;
-=======
-	enum thermal_device_mode	high_th_state;
-	enum thermal_device_mode	low_th_state;
-	enum thermal_device_mode	crit_th_state;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned int			high_adc_code;
 	unsigned int			low_adc_code;
 	int				high_temp;
@@ -2253,19 +2247,11 @@ static int get_device_tree_data(struct platform_device *pdev,
 		tmdev->wd_bark_val = wd_bark;
 	}
 
-<<<<<<< HEAD
 	if (!strcmp(id->compatible, "qcom,msm8996-tsens"))
 		tmdev->tsens_type = TSENS_TYPE3;
 	else if (!strcmp(id->compatible, "qcom,msmtitanium-tsens") ||
 		(!strcmp(id->compatible, "qcom,sdm660-tsens")) ||
 		(!strcmp(id->compatible, "qcom,msm8998-tsens")) ||
-=======
-	if (!strcmp(id->compatible, "qcom,msm8996-tsens") ||
-		(!strcmp(id->compatible, "qcom,msm8998-tsens")))
-		tmdev->tsens_type = TSENS_TYPE3;
-	else if (!strcmp(id->compatible, "qcom,msmtitanium-tsens") ||
-		(!strcmp(id->compatible, "qcom,sdm660-tsens")) ||
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		(!strcmp(id->compatible, "qcom,sdm630-tsens")) ||
 		(!strcmp(id->compatible, "qcom,msmhamster-tsens"))) {
 		tmdev->tsens_type = TSENS_TYPE3;
@@ -2433,11 +2419,7 @@ static int tsens_tm_probe(struct platform_device *pdev)
 	tmdev->pdev = pdev;
 
 	tmdev->tsens_critical_wq = alloc_workqueue("tsens_critical_wq",
-<<<<<<< HEAD
 							WQ_UNBOUND, 1);
-=======
-							WQ_HIGHPRI, 0);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	if (!tmdev->tsens_critical_wq) {
 		rc = -ENOMEM;
 		goto fail;

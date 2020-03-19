@@ -1,11 +1,7 @@
 /*
  * MDSS MDP Interface (used by framebuffer core)
  *
-<<<<<<< HEAD
  * Copyright (c) 2007-2018, The Linux Foundation. All rights reserved.
-=======
- * Copyright (c) 2007-2019, The Linux Foundation. All rights reserved.
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  * Copyright (C) 2007 Google Incorporated
  *
  * This software is licensed under the terms of the GNU General Public
@@ -3121,12 +3117,7 @@ static int mdss_mdp_probe(struct platform_device *pdev)
 		MDSS_MDP_REG_SPLIT_DISPLAY_EN);
 	if (intf_sel != 0) {
 		for (i = 0; i < 4; i++)
-<<<<<<< HEAD
 			num_of_display_on += ((intf_sel >> i*8) & 0x000000FF);
-=======
-			num_of_display_on +=
-				(((intf_sel >> i*8) & 0x000000FF) ? 1 : 0);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		/*
 		 * For split display enabled - DSI0, DSI1 interfaces are

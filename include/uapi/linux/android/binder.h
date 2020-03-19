@@ -66,10 +66,7 @@ enum flat_binder_object_flags {
 	 * @FLAT_BINDER_FLAG_ACCEPTS_FDS: whether the node accepts fds.
 	 */
 	FLAT_BINDER_FLAG_ACCEPTS_FDS = 0x100,
-<<<<<<< HEAD
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/**
 	 * @FLAT_BINDER_FLAG_SCHED_POLICY_MASK: bit-mask for scheduling policy
 	 *

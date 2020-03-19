@@ -1218,13 +1218,10 @@ static int mmc_blk_ioctl_cmd(struct block_device *bdev,
 		goto cmd_done;
 	}
 
-<<<<<<< HEAD
 	if (idata->ic.opcode == MMC_FFU_INVOKE_OP) {
 		err = mmc_ffu_invoke(card, idata->buf);
 		goto cmd_done;
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mmc_get_card(card);
 
 	if (mmc_card_cmdq(card)) {
@@ -1985,72 +1982,6 @@ out:
 }
 
 static int mmc_blk_cmdq_issue_secdiscard_rq(struct mmc_queue *mq,
-<<<<<<< HEAD
-=======
-				       struct request *req)
-{
-	struct mmc_blk_data *md = mq->data;
-	struct mmc_card *card = md->queue.card;
-	struct mmc_cmdq_req *cmdq_req = NULL;
-	unsigned int from, nr, arg;
-	int err = 0;
-
-	if (!(mmc_can_secure_erase_trim(card))) {
-		err = -EOPNOTSUPP;
-		blk_end_request(req, err, blk_rq_bytes(req));
-		goto out;
-	}
-
-	from = blk_rq_pos(req);
-	nr = blk_rq_sectors(req);
-
-	if (mmc_can_trim(card) && !mmc_erase_group_aligned(card, from, nr))
-		arg = MMC_SECURE_TRIM1_ARG;
-	else
-		arg = MMC_SECURE_ERASE_ARG;
-
-	cmdq_req = mmc_blk_cmdq_prep_discard_req(mq, req);
-	if (card->quirks & MMC_QUIRK_INAND_CMD38) {
-		__mmc_switch_cmdq_mode(cmdq_req->mrq.cmd,
-				EXT_CSD_CMD_SET_NORMAL,
-				INAND_CMD38_ARG_EXT_CSD,
-				arg == MMC_SECURE_TRIM1_ARG ?
-				INAND_CMD38_ARG_SECTRIM1 :
-				INAND_CMD38_ARG_SECERASE,
-				0, true, false);
-		err = mmc_cmdq_wait_for_dcmd(card->host, cmdq_req);
-		if (err)
-			goto clear_dcmd;
-	}
-
-	err = mmc_cmdq_erase(cmdq_req, card, from, nr, arg);
-	if (err)
-		goto clear_dcmd;
-
-	if (arg == MMC_SECURE_TRIM1_ARG) {
-		if (card->quirks & MMC_QUIRK_INAND_CMD38) {
-			__mmc_switch_cmdq_mode(cmdq_req->mrq.cmd,
-					EXT_CSD_CMD_SET_NORMAL,
-					INAND_CMD38_ARG_EXT_CSD,
-					INAND_CMD38_ARG_SECTRIM2,
-					0, true, false);
-			err = mmc_cmdq_wait_for_dcmd(card->host, cmdq_req);
-			if (err)
-				goto clear_dcmd;
-		}
-
-		err = mmc_cmdq_erase(cmdq_req, card, from, nr,
-				MMC_SECURE_TRIM2_ARG);
-	}
-clear_dcmd:
-	mmc_host_clk_hold(card->host);
-	blk_complete_request(req);
-out:
-	return err ? 1 : 0;
-}
-
-static int mmc_blk_issue_secdiscard_rq(struct mmc_queue *mq,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				       struct request *req)
 {
 	struct mmc_blk_data *md = mq->data;
@@ -2886,7 +2817,6 @@ static u8 mmc_blk_prep_packed_list(struct mmc_queue *mq, struct request *req)
 			MMC_BLK_UPDATE_STOP_REASON(stats, FLUSH_OR_DISCARD);
 			break;
 		}
-<<<<<<< HEAD
 
 		if (next->cmd_flags & REQ_FUA) {
 			MMC_BLK_UPDATE_STOP_REASON(stats, FUA);
@@ -2897,18 +2827,6 @@ static u8 mmc_blk_prep_packed_list(struct mmc_queue *mq, struct request *req)
 			MMC_BLK_UPDATE_STOP_REASON(stats, WRONG_DATA_DIR);
 			break;
 		}
-=======
-
-		if (next->cmd_flags & REQ_FUA) {
-			MMC_BLK_UPDATE_STOP_REASON(stats, FUA);
-			break;
-		}
-
-		if (rq_data_dir(cur) != rq_data_dir(next)) {
-			MMC_BLK_UPDATE_STOP_REASON(stats, WRONG_DATA_DIR);
-			break;
-		}
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 		if (mmc_req_rel_wr(next) &&
 		    (md->flags & MMC_BLK_REL_WR) && !en_rel_wr) {
@@ -4778,11 +4696,8 @@ static const struct mmc_fixup blk_fixups[] =
 		  MMC_QUIRK_SEC_ERASE_TRIM_BROKEN),
 	MMC_FIXUP("VZL00M", CID_MANFID_SAMSUNG, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_SEC_ERASE_TRIM_BROKEN),
-<<<<<<< HEAD
 	MMC_FIXUP(CID_NAME_ANY, CID_MANFID_MICRON, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_BROKEN_CLK_GATING),
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	END_FIXUP
 };

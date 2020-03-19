@@ -30,10 +30,7 @@
 #include <linux/security.h>
 #include <linux/compat.h>
 #include <linux/ctype.h>
-<<<<<<< HEAD
 #include <linux/adrenokgsl_state.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include "kgsl.h"
 #include "kgsl_debugfs.h"
@@ -82,7 +79,6 @@ struct kgsl_dma_buf_meta {
 	struct sg_table *table;
 };
 
-<<<<<<< HEAD
 bool adrenokgsl_on = false;
 
 bool is_adrenokgsl_on()
@@ -90,8 +86,6 @@ bool is_adrenokgsl_on()
 	return adrenokgsl_on;
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static inline struct kgsl_pagetable *_get_memdesc_pagetable(
 		struct kgsl_pagetable *pt, struct kgsl_mem_entry *entry)
 {
@@ -769,10 +763,7 @@ static int kgsl_suspend_device(struct kgsl_device *device, pm_message_t state)
 	if (status == 0)
 		device->ftbl->suspend_device(device, state);
 	mutex_unlock(&device->mutex);
-<<<<<<< HEAD
 	adrenokgsl_on = false;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	return status;
 }
@@ -802,10 +793,7 @@ static int kgsl_resume_device(struct kgsl_device *device)
 	}
 
 	mutex_unlock(&device->mutex);
-<<<<<<< HEAD
 	adrenokgsl_on = true;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 
@@ -1935,11 +1923,7 @@ static long gpumem_free_entry_on_timestamp(struct kgsl_device *device,
 	kgsl_readtimestamp(device, context, KGSL_TIMESTAMP_RETIRED, &temp);
 	trace_kgsl_mem_timestamp_queue(device, entry, context->id, temp,
 		timestamp);
-<<<<<<< HEAD
 	ret = kgsl_add_low_prio_event(device, &context->events,
-=======
-	ret = kgsl_add_event(device, &context->events,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		timestamp, gpumem_free_func, entry);
 
 	if (ret)
@@ -2589,11 +2573,7 @@ static int kgsl_setup_dma_buf(struct kgsl_device *device,
 				struct kgsl_mem_entry *entry,
 				struct dma_buf *dmabuf)
 {
-<<<<<<< HEAD
 	int i, ret = 0;
-=======
-	int ret = 0;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	struct scatterlist *s;
 	struct sg_table *sg_table;
 	struct dma_buf_attachment *attach = NULL;
@@ -2633,11 +2613,7 @@ static int kgsl_setup_dma_buf(struct kgsl_device *device,
 	entry->memdesc.sgt = sg_table;
 
 	/* Calculate the size of the memdesc from the sglist */
-<<<<<<< HEAD
 	for_each_sg(sg_table->sgl, s, sg_table->nents, i) {
-=======
-	for (s = entry->memdesc.sgt->sgl; s != NULL; s = sg_next(s)) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		int priv = (entry->memdesc.priv & KGSL_MEMDESC_SECURE) ? 1 : 0;
 
 		/*
@@ -5003,7 +4979,6 @@ static void kgsl_core_exit(void)
 	unregister_chrdev_region(kgsl_driver.major, KGSL_DEVICE_MAX);
 }
 
-<<<<<<< HEAD
 static long kgsl_run_one_worker(struct kthread_worker *worker,
 		struct task_struct **thread, const char *name)
 {
@@ -5020,12 +4995,6 @@ static int __init kgsl_core_init(void)
 {
 	int result = 0;
 	struct sched_param param = { .sched_priority = 16 };
-=======
-static int __init kgsl_core_init(void)
-{
-	int result = 0;
-	struct sched_param param = { .sched_priority = 2 };
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* alloc major and minor device numbers */
 	result = alloc_chrdev_region(&kgsl_driver.major, 0, KGSL_DEVICE_MAX,
@@ -5087,11 +5056,7 @@ static int __init kgsl_core_init(void)
 	INIT_LIST_HEAD(&kgsl_driver.pagetable_list);
 
 	kgsl_driver.workqueue = alloc_workqueue("kgsl-workqueue",
-<<<<<<< HEAD
 		WQ_HIGHPRI | WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-=======
-		WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	kgsl_driver.mem_workqueue = alloc_workqueue("kgsl-mementry",
 		WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
@@ -5101,7 +5066,6 @@ static int __init kgsl_core_init(void)
 	kgsl_driver.worker_thread = kthread_run(kthread_worker_fn,
 		&kgsl_driver.worker, "kgsl_worker_thread");
 
-<<<<<<< HEAD
 	if (IS_ERR_VALUE(kgsl_run_one_worker(&kgsl_driver.worker,
 			&kgsl_driver.worker_thread,
 			"kgsl_worker_thread")) ||
@@ -5112,14 +5076,6 @@ static int __init kgsl_core_init(void)
 
 	sched_setscheduler(kgsl_driver.worker_thread, SCHED_FIFO, &param);
 	/* kgsl_driver.low_prio_worker_thread should not be SCHED_FIFO */
-=======
-	if (IS_ERR(kgsl_driver.worker_thread)) {
-		pr_err("unable to start kgsl thread\n");
-		goto err;
-	}
-
-	sched_setscheduler(kgsl_driver.worker_thread, SCHED_FIFO, &param);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	kgsl_events_init();
 

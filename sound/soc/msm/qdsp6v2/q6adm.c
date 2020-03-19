@@ -2931,12 +2931,8 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 
 	if ((topology == VPM_TX_SM_ECNS_COPP_TOPOLOGY) ||
 	    (topology == VPM_TX_DM_FLUENCE_COPP_TOPOLOGY) ||
-<<<<<<< HEAD
 	    (topology == VPM_TX_DM_RFECNS_COPP_TOPOLOGY) ||
 	    (topology == VPM_TX_MOT_COPP_TOPOLOGY))
-=======
-	    (topology == VPM_TX_DM_RFECNS_COPP_TOPOLOGY))
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		rate = 16000;
 
 	/*

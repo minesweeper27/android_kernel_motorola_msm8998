@@ -16,10 +16,7 @@
 #include <linux/sched.h>
 #include <linux/jiffies.h>
 #include <linux/err.h>
-<<<<<<< HEAD
 #include <linux/dropbox.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #include "kgsl.h"
 #include "kgsl_cffdump.h"
@@ -1480,13 +1477,7 @@ int adreno_dispatcher_queue_cmds(struct kgsl_device_private *dev_priv,
 
 	spin_unlock(&drawctxt->lock);
 
-<<<<<<< HEAD
 	kgsl_pwrctrl_update_l2pc(&adreno_dev->dev);
-=======
-	if (device->pwrctrl.l2pc_update_queue)
-		kgsl_pwrctrl_update_l2pc(&adreno_dev->dev,
-				KGSL_L2PC_QUEUE_TIMEOUT);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Add the context to the dispatcher pending list */
 	dispatcher_queue_context(adreno_dev, drawctxt);
@@ -1700,7 +1691,6 @@ static inline const char *_kgsl_context_comm(struct kgsl_context *context)
 	return _pidname;
 }
 
-<<<<<<< HEAD
 #define GPU_FT_REPORT_LEN 256
 static char gpu_ft_report[GPU_FT_REPORT_LEN];
 static int gpu_ft_report_pos;
@@ -1715,12 +1705,6 @@ static int gpu_ft_report_pos;
 		_kgsl_context_comm((_c)->context), \
 		(_c)->context->proc_priv->pid, ##args); \
 		pr_gpu_ft_report(fmt, ##args)
-=======
-#define pr_fault(_d, _c, fmt, args...) \
-		dev_err((_d)->dev, "%s[%d]: " fmt, \
-		_kgsl_context_comm((_c)->context), \
-		(_c)->context->proc_priv->pid, ##args)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 
 static void adreno_fault_header(struct kgsl_device *device,
@@ -1780,11 +1764,7 @@ void adreno_fault_skipcmd_detached(struct adreno_device *adreno_dev,
 {
 	if (test_bit(ADRENO_CONTEXT_SKIP_CMD, &drawctxt->base.priv) &&
 			kgsl_context_detached(&drawctxt->base)) {
-<<<<<<< HEAD
 		pr_fault(KGSL_DEVICE(adreno_dev), drawobj,
-=======
-		pr_context(KGSL_DEVICE(adreno_dev), drawobj->context,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			"gpu detached context %d\n", drawobj->context->id);
 		clear_bit(ADRENO_CONTEXT_SKIP_CMD, &drawctxt->base.priv);
 	}
@@ -1832,11 +1812,7 @@ static void process_cmdobj_fault(struct kgsl_device *device,
 					_fault_throttle_burst) {
 				set_bit(KGSL_FT_DISABLE,
 						&cmdobj->fault_policy);
-<<<<<<< HEAD
 				pr_fault(device, drawobj,
-=======
-				pr_context(device, drawobj->context,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					 "gpu fault threshold exceeded %d faults in %d msecs\n",
 					 _fault_throttle_burst,
 					 _fault_throttle_time);
@@ -1962,11 +1938,7 @@ static void process_cmdobj_fault(struct kgsl_device *device,
 
 	/* If we get here then all the policies failed */
 
-<<<<<<< HEAD
 	pr_fault(device, drawobj, "gpu %s ctx %d ts %d\n",
-=======
-	pr_context(device, drawobj->context, "gpu %s ctx %d ts %d\n",
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		state, drawobj->context->id, drawobj->timestamp);
 
 	/* Mark the context as failed */
@@ -1974,13 +1946,10 @@ static void process_cmdobj_fault(struct kgsl_device *device,
 
 	/* Invalidate the context */
 	adreno_drawctxt_invalidate(device, drawobj->context);
-<<<<<<< HEAD
 
 	/* Log GPU FT report for failed recovery */
 	dropbox_queue_event_text("gpu_ft_report", gpu_ft_report,
 		gpu_ft_report_pos);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 /**
@@ -2082,11 +2051,7 @@ replay:
 		 */
 
 		if (ret) {
-<<<<<<< HEAD
 			pr_fault(device, &(replay[i]->base),
-=======
-			pr_context(device, replay[i]->base.context,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				"gpu reset failed ctx %d ts %d\n",
 				replay[i]->base.context->id,
 				replay[i]->base.timestamp);
@@ -2109,7 +2074,6 @@ replay:
 }
 
 static void do_header_and_snapshot(struct kgsl_device *device,
-<<<<<<< HEAD
 		struct adreno_ringbuffer *rb, struct kgsl_drawobj_cmd *cmdobj,
 		int fault)
 {
@@ -2125,21 +2089,13 @@ static void do_header_and_snapshot(struct kgsl_device *device,
 	path = kobject_get_path(&device->snapshot_kobj, GFP_KERNEL);
 	snprintf(sys_path, sizeof(sys_path), "/sys%s/dump", path);
 	kfree(path);
-=======
-		struct adreno_ringbuffer *rb, struct kgsl_drawobj_cmd *cmdobj)
-{
-	struct kgsl_drawobj *drawobj = DRAWOBJ(cmdobj);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Always dump the snapshot on a non-drawobj failure */
 	if (cmdobj == NULL) {
 		adreno_fault_header(device, rb, NULL);
 		kgsl_device_snapshot(device, NULL);
-<<<<<<< HEAD
 
 		dropbox_queue_event_binaryfile("gpu_snapshot", sys_path);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		return;
 	}
 
@@ -2150,16 +2106,11 @@ static void do_header_and_snapshot(struct kgsl_device *device,
 	/* Print the fault header */
 	adreno_fault_header(device, rb, cmdobj);
 
-<<<<<<< HEAD
 	if (!(drawobj->context->flags & KGSL_CONTEXT_NO_SNAPSHOT)) {
 		kgsl_device_snapshot(device, drawobj->context);
 
 		dropbox_queue_event_binaryfile("gpu_snapshot", sys_path);
 	}
-=======
-	if (!(drawobj->context->flags & KGSL_CONTEXT_NO_SNAPSHOT))
-		kgsl_device_snapshot(device, drawobj->context);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static int dispatcher_do_fault(struct adreno_device *adreno_dev)
@@ -2268,11 +2219,7 @@ static int dispatcher_do_fault(struct adreno_device *adreno_dev)
 	adreno_readreg64(adreno_dev, ADRENO_REG_CP_IB1_BASE,
 		ADRENO_REG_CP_IB1_BASE_HI, &base);
 
-<<<<<<< HEAD
 	do_header_and_snapshot(device, hung_rb, cmdobj, fault);
-=======
-	do_header_and_snapshot(device, hung_rb, cmdobj);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	/* Terminate the stalled transaction and resume the IOMMU */
 	if (fault & ADRENO_IOMMU_PAGE_FAULT)
@@ -2352,11 +2299,7 @@ static void _print_recovery(struct kgsl_device *device,
 		}
 	}
 
-<<<<<<< HEAD
 	pr_fault(device, drawobj,
-=======
-	pr_context(device, drawobj->context,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		"gpu %s ctx %d ts %d policy %lX\n",
 		result, drawobj->context->id, drawobj->timestamp,
 		cmdobj->fault_recovery);
@@ -2387,13 +2330,10 @@ static void retire_cmdobj(struct adreno_device *adreno_dev,
 	if (cmdobj->fault_recovery != 0) {
 		set_bit(ADRENO_CONTEXT_FAULT, &drawobj->context->priv);
 		_print_recovery(KGSL_DEVICE(adreno_dev), cmdobj);
-<<<<<<< HEAD
 
 		/* Log GPU FT report for successful recovery */
 		dropbox_queue_event_text("gpu_ft_report",
 			gpu_ft_report, gpu_ft_report_pos);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	if (test_bit(CMDOBJ_PROFILE, &cmdobj->priv))
@@ -2474,11 +2414,7 @@ static void _adreno_dispatch_check_timeout(struct adreno_device *adreno_dev,
 	if (drawobj->context->flags & KGSL_CONTEXT_NO_FAULT_TOLERANCE)
 		return;
 
-<<<<<<< HEAD
 	pr_fault(device, drawobj, "gpu timeout ctx %d ts %d\n",
-=======
-	pr_context(device, drawobj->context, "gpu timeout ctx %d ts %d\n",
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		drawobj->context->id, drawobj->timestamp);
 
 	adreno_set_gpu_fault(adreno_dev, ADRENO_TIMEOUT_FAULT);

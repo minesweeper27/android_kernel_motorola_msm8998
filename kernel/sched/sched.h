@@ -430,10 +430,6 @@ struct related_thread_group {
 };
 
 extern struct list_head cluster_head;
-<<<<<<< HEAD
-=======
-extern int num_clusters;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 extern struct sched_cluster *sched_cluster[NR_CPUS];
 
 struct cpu_cycle {
@@ -444,10 +440,7 @@ struct cpu_cycle {
 #define for_each_sched_cluster(cluster) \
 	list_for_each_entry_rcu(cluster, &cluster_head, list)
 
-<<<<<<< HEAD
 extern unsigned int sched_disable_window_stats;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #endif /* CONFIG_SCHED_HMP */
 
 /* CFS-related fields in a runqueue */
@@ -800,10 +793,7 @@ struct rq {
 
 	int cstate, wakeup_latency, wakeup_energy;
 	u64 window_start;
-<<<<<<< HEAD
 	u64 load_reported_window;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	unsigned long hmp_flags;
 
 	u64 cur_irqload;
@@ -2864,7 +2854,6 @@ static inline void cpufreq_update_util(struct rq *rq, unsigned int flags)
 {
         struct update_util_data *data;
 
-<<<<<<< HEAD
 #ifdef CONFIG_SCHED_HMP
 	/*
 	 * Skip if we've already reported, but not if this is an inter-cluster
@@ -2877,8 +2866,6 @@ static inline void cpufreq_update_util(struct rq *rq, unsigned int flags)
 	rq->load_reported_window = rq->window_start;
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
         data = rcu_dereference_sched(*this_cpu_ptr(&cpufreq_update_util_data));
         if (data)
                 data->func(data, rq_clock(rq), flags);

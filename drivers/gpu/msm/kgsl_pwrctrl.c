@@ -43,7 +43,6 @@
 
 #define DEFAULT_BUS_P 25
 
-<<<<<<< HEAD
 /*
  * The effective duration of qos request in usecs. After
  * timeout, qos request is cancelled automatically.
@@ -51,8 +50,6 @@
  */
 #define KGSL_L2PC_CPU_TIMEOUT	(80 * 1000)
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /* Order deeply matters here because reasons. New entries go on the end */
 static const char * const clocks[] = {
 	"src_clk",
@@ -524,21 +521,12 @@ EXPORT_SYMBOL(kgsl_pwrctrl_set_constraint);
 /**
  * kgsl_pwrctrl_update_l2pc() - Update existing qos request
  * @device: Pointer to the kgsl_device struct
-<<<<<<< HEAD
-=======
- * @timeout_us: the effective duration of qos request in usecs.
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
  *
  * Updates an existing qos request to avoid L2PC on the
  * CPUs (which are selected through dtsi) on which GPU
  * thread is running. This would help for performance.
  */
-<<<<<<< HEAD
 void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device)
-=======
-void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device,
-			unsigned long timeout_us)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 {
 	int cpu;
 
@@ -552,11 +540,7 @@ void kgsl_pwrctrl_update_l2pc(struct kgsl_device *device,
 		pm_qos_update_request_timeout(
 				&device->pwrctrl.l2pc_cpus_qos,
 				device->pwrctrl.pm_qos_cpu_mask_latency,
-<<<<<<< HEAD
 				KGSL_L2PC_CPU_TIMEOUT);
-=======
-				timeout_us);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 }
 EXPORT_SYMBOL(kgsl_pwrctrl_update_l2pc);
@@ -2219,13 +2203,6 @@ int kgsl_pwrctrl_init(struct kgsl_device *device)
 	kgsl_property_read_u32(device, "qcom,l2pc-cpu-mask",
 			&pwr->l2pc_cpus_mask);
 
-<<<<<<< HEAD
-=======
-	pwr->l2pc_update_queue = of_property_read_bool(
-				device->pdev->dev.of_node,
-				"qcom,l2pc-update-queue");
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pm_runtime_enable(&pdev->dev);
 
 	ocmem_bus_node = of_find_node_by_name(
@@ -3034,11 +3011,7 @@ int kgsl_active_count_wait(struct kgsl_device *device, int count)
 	while (atomic_read(&device->active_cnt) > count) {
 		long ret;
 		mutex_unlock(&device->mutex);
-<<<<<<< HEAD
 		ret = wait_event_interruptible_timeout(device->active_cnt_wq,
-=======
-		ret = wait_event_timeout(device->active_cnt_wq,
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			_check_active_count(device, count), wait_jiffies);
 		mutex_lock(&device->mutex);
 		result = ret == 0 ? -ETIMEDOUT : 0;

@@ -4885,10 +4885,7 @@ do_more:
 		if (test_opt(sb, DISCARD) && IS_FORCE_NODISCARD_CONDITION(count)) {
 #else
 		if (test_opt(sb, DISCARD)) {
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			err = ext4_issue_discard(sb, block_group, bit, count,
 						 0);
 			if (err && err != -EOPNOTSUPP)

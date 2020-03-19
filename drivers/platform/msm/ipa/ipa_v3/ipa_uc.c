@@ -550,16 +550,8 @@ send_cmd:
 					break;
 				}
 			}
-<<<<<<< HEAD
 			usleep_range(IPA_UC_POLL_SLEEP_USEC,
 				IPA_UC_POLL_SLEEP_USEC * 1.2);
-=======
-			if (ipa3_ctx->apply_rg10_wa)
-				udelay(IPA_UC_POLL_SLEEP_USEC);
-			else
-				usleep_range(IPA_UC_POLL_SLEEP_USEC,
-					IPA_UC_POLL_SLEEP_USEC);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		}
 
 		if (index == IPA_UC_POLL_MAX_RETRY) {

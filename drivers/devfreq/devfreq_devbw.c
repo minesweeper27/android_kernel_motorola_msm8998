@@ -29,10 +29,7 @@
 #include <trace/events/power.h>
 #include <linux/msm-bus.h>
 #include <linux/msm-bus-board.h>
-<<<<<<< HEAD
 #include <linux/devfreq_boost.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 /* Has to be ULL to prevent overflow where this macro is used. */
 #define MBYTE (1ULL << 20)
@@ -235,12 +232,9 @@ int devfreq_add_devbw(struct device *dev)
 		return PTR_ERR(d->df);
 	}
 
-<<<<<<< HEAD
 	if (!strcmp(dev_name(dev), "soc:qcom,cpubw"))
 		devfreq_register_boost_device(DEVFREQ_MSM_CPUBW, d->df);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return 0;
 }
 

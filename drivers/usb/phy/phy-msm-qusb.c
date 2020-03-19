@@ -158,13 +158,10 @@ struct qusb_phy {
 	int			tune2_efuse_bit_pos;
 	int			tune2_efuse_num_of_bits;
 	int			tune2_efuse_correction;
-<<<<<<< HEAD
 	int			tune2_efuse_correction_host;
 #ifdef CONFIG_USB_PHY_TUNE_FACTORY_OVERRIDE
 	u32			tune_factory_override;
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	bool			power_enabled;
 	bool			clocks_enabled;
@@ -652,11 +649,7 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 	u8 num_of_bits;
 	u32 bit_mask = 1;
 	u8 reg_val;
-<<<<<<< HEAD
 	int temp_correction = 0;
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pr_debug("%s(): num_of_bits:%d bit_pos:%d\n", __func__,
 				qphy->tune2_efuse_num_of_bits,
 				qphy->tune2_efuse_bit_pos);
@@ -678,7 +671,6 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 
 	qphy->tune2_val = TUNE2_HIGH_NIBBLE_VAL(qphy->tune2_val,
 				qphy->tune2_efuse_bit_pos, bit_mask);
-<<<<<<< HEAD
 	if (qphy->phy.flags & PHY_HOST_MODE) {
 		temp_correction = qphy->tune2_efuse_correction_host;
 	} else {
@@ -693,18 +685,6 @@ static void qusb_phy_get_tune2_param(struct qusb_phy *qphy)
 		else
 			qphy->tune2_val = qphy->tune2_val +
 						temp_correction;
-=======
-
-	/* Update higher nibble of TUNE2 value for better rise/fall times */
-	if (qphy->tune2_efuse_correction && qphy->tune2_val) {
-		if (qphy->tune2_efuse_correction > 5 ||
-				qphy->tune2_efuse_correction < -10)
-			pr_warn("Correction value is out of range : %d\n",
-					qphy->tune2_efuse_correction);
-		else
-			qphy->tune2_val = qphy->tune2_val +
-						qphy->tune2_efuse_correction;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	}
 
 	reg_val = readb_relaxed(qphy->base + QUSB2PHY_PORT_TUNE2);
@@ -822,10 +802,6 @@ static int qusb_phy_init(struct usb_phy *phy)
 	 * cable connect case.
 	 */
 	if (qphy->tune2_efuse_reg && !tune2) {
-<<<<<<< HEAD
-=======
-		if (!qphy->tune2_val)
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			qusb_phy_get_tune2_param(qphy);
 
 		pr_debug("%s(): Programming TUNE2 parameter as:%x\n", __func__,
@@ -834,7 +810,6 @@ static int qusb_phy_init(struct usb_phy *phy)
 				qphy->base + QUSB2PHY_PORT_TUNE2);
 	}
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_PHY_TUNE_FACTORY_OVERRIDE
 	if (qphy->tune_factory_override) {
 		pr_debug("%s():Factory TUNEX val:0x%x %x %x %x\n", __func__,
@@ -853,8 +828,6 @@ static int qusb_phy_init(struct usb_phy *phy)
 	}
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	/* If tune modparam set, override tune value */
 
 	pr_debug("%s():userspecified modparams TUNEX val:0x%x %x %x %x %x\n",
@@ -1184,14 +1157,11 @@ static int qusb_phy_dpdm_regulator_enable(struct regulator_dev *rdev)
 	struct qusb_phy *qphy = rdev_get_drvdata(rdev);
 
 	dev_dbg(qphy->phy.dev, "%s\n", __func__);
-<<<<<<< HEAD
 	if (qphy->phy.mods_usb_enabled) {
 		pr_info("%s in mods usb mode, do not operate dpdm, return\n", __func__);
 		return 0;
 	}
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return qusb_phy_update_dpdm(&qphy->phy, POWER_SUPPLY_DP_DM_DPF_DMF);
 }
 
@@ -1200,13 +1170,10 @@ static int qusb_phy_dpdm_regulator_disable(struct regulator_dev *rdev)
 	struct qusb_phy *qphy = rdev_get_drvdata(rdev);
 
 	dev_dbg(qphy->phy.dev, "%s\n", __func__);
-<<<<<<< HEAD
 	if (qphy->phy.mods_usb_enabled) {
 		pr_info("%s in mods usb mode, do not operate dpdm, return\n", __func__);
 		return 0;
 	}
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return qusb_phy_update_dpdm(&qphy->phy, POWER_SUPPLY_DP_DM_DPR_DMR);
 }
 
@@ -1301,13 +1268,9 @@ static int qusb_phy_probe(struct platform_device *pdev)
 			of_property_read_u32(dev->of_node,
 						"qcom,tune2-efuse-correction",
 						&qphy->tune2_efuse_correction);
-<<<<<<< HEAD
 			of_property_read_u32(dev->of_node,
 						"qcom,tune2-efuse-correction-host",
 						&qphy->tune2_efuse_correction_host);
-=======
-
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			if (ret) {
 				dev_err(dev, "DT Value for tune2 efuse is invalid.\n");
 				return -EINVAL;
@@ -1315,15 +1278,12 @@ static int qusb_phy_probe(struct platform_device *pdev)
 		}
 	}
 
-<<<<<<< HEAD
 #ifdef CONFIG_USB_PHY_TUNE_FACTORY_OVERRIDE
 	of_property_read_u32(dev->of_node,
 			"qcom,tune-factory-override",
 			&qphy->tune_factory_override);
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
 							"ref_clk_addr");
 	if (res) {

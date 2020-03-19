@@ -1386,14 +1386,7 @@ static void print_other_cpu_stall(struct rcu_state *rsp, unsigned long gpnum)
 
 	rcu_check_gp_kthread_starvation(rsp);
 
-<<<<<<< HEAD
 	panic_on_rcu_stall();
-=======
-#ifdef CONFIG_RCU_STALL_WATCHDOG_BITE
-	/* Induce watchdog bite */
-	msm_trigger_wdog_bite();
-#endif
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	force_quiescent_state(rsp);  /* Kick them all. */
 }
@@ -1437,11 +1430,6 @@ static void print_cpu_stall(struct rcu_state *rsp)
 	raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
 
 	panic_on_rcu_stall();
-
-#ifdef CONFIG_RCU_STALL_WATCHDOG_BITE
-	/* Induce non secure watchdog bite to collect context */
-	msm_trigger_wdog_bite();
-#endif
 
 	/*
 	 * Attempt to revive the RCU machinery by forcing a context switch.

@@ -32,10 +32,7 @@
 #include <linux/regulator/of_regulator.h>
 #include <linux/input/qpnp-power-on.h>
 #include <linux/power_supply.h>
-<<<<<<< HEAD
 #include <linux/time.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define PMIC_VER_8941           0x01
 #define PMIC_VERSION_REG        0x0105
@@ -94,11 +91,8 @@
 #define QPNP_PON_S3_DBC_CTL(pon)		((pon)->base + 0x75)
 #define QPNP_PON_SMPL_CTL(pon)			((pon)->base + 0x7F)
 #define QPNP_PON_TRIGGER_EN(pon)		((pon)->base + 0x80)
-<<<<<<< HEAD
 #define QPNP_PON_PERPH_RB_SPARE(pon)		((pon)->base + 0x8C)
 #define QPNP_PON_DVDD_RB_SPARE(pon)		((pon)->base + 0x8D)
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define QPNP_PON_XVDD_RB_SPARE(pon)		((pon)->base + 0x8E)
 #define QPNP_PON_SOFT_RB_SPARE(pon)		((pon)->base + 0x8F)
 #define QPNP_PON_SEC_ACCESS(pon)		((pon)->base + 0xD0)
@@ -237,14 +231,10 @@ module_param_named(
 	ship_mode_en, pon_ship_mode_en, int, 0600
 );
 
-<<<<<<< HEAD
 int qpnp_pon_key_status;
 
 static struct qpnp_pon *sys_reset_dev;
 static struct qpnp_pon *shipmode_dev;
-=======
-static struct qpnp_pon *sys_reset_dev;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static DEFINE_SPINLOCK(spon_list_slock);
 static LIST_HEAD(spon_dev_list);
 
@@ -376,7 +366,6 @@ int qpnp_pon_set_restart_reason(enum pon_restart_reason reason)
 }
 EXPORT_SYMBOL(qpnp_pon_set_restart_reason);
 
-<<<<<<< HEAD
 /**
  * qpnp_pon_store_extra_reset_info - Store extra reset info in PMIC register.
  *
@@ -485,8 +474,6 @@ bool qpnp_pon_check_shipmode_info(void)
 }
 EXPORT_SYMBOL(qpnp_pon_check_shipmode_info);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 /*
  * qpnp_pon_check_hard_reset_stored - Checks if the PMIC need to
  * store hard reset reason.
@@ -929,12 +916,9 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 	u32 key_status;
 	uint pon_rt_sts;
 	u64 elapsed_us;
-<<<<<<< HEAD
 	struct timeval timestamp;
 	struct tm tm;
 	char buff[255];
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	cfg = qpnp_get_cfg(pon, pon_type);
 	if (!cfg)
@@ -960,7 +944,6 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 		return rc;
 	}
 
-<<<<<<< HEAD
 	qpnp_pon_key_status = pon_rt_sts;
 
 	switch (cfg->pon_type) {
@@ -977,11 +960,6 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 
 	pr_info("Report pwrkey %s event at: %s\n", pon_rt_bit &
 		pon_rt_sts ? "press" : "release", buff);
-=======
-	switch (cfg->pon_type) {
-	case PON_KPDPWR:
-		pon_rt_bit = QPNP_PON_KPDPWR_N_SET;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		break;
 	case PON_RESIN:
 		pon_rt_bit = QPNP_PON_RESIN_N_SET;
@@ -2144,11 +2122,7 @@ static int qpnp_pon_probe(struct platform_device *pdev)
 	unsigned int base;
 	struct device_node *node = NULL;
 	u32 delay = 0, s3_debounce = 0;
-<<<<<<< HEAD
 	int rc, sys_reset, index, shipmode;
-=======
-	int rc, sys_reset, index;
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	int reason_index_offset = 0;
 	u8 buf[2];
 	uint pon_sts = 0;
@@ -2178,7 +2152,6 @@ static int qpnp_pon_probe(struct platform_device *pdev)
 		sys_reset_dev = pon;
 	}
 
-<<<<<<< HEAD
 	shipmode = of_property_read_bool(pdev->dev.of_node,
 						"qcom,shipmode");
 	if (shipmode && shipmode_dev) {
@@ -2188,8 +2161,6 @@ static int qpnp_pon_probe(struct platform_device *pdev)
 		shipmode_dev = pon;
 	}
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	pon->pdev = pdev;
 
 	rc = of_property_read_u32(pdev->dev.of_node, "reg", &base);

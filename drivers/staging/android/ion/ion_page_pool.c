@@ -23,11 +23,8 @@
 #include <linux/slab.h>
 #include <linux/swap.h>
 #include <linux/vmalloc.h>
-<<<<<<< HEAD
 #include <linux/vmstat.h>
 #include <linux/mmzone.h>
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #include "ion_priv.h"
 
 static void *ion_page_pool_alloc_pages(struct ion_page_pool *pool)
@@ -75,13 +72,10 @@ static int ion_page_pool_add(struct ion_page_pool *pool, struct page *page)
 
 	mod_zone_page_state(page_zone(page), NR_INDIRECTLY_RECLAIMABLE_BYTES,
 			    (1 << (PAGE_SHIFT + pool->order)));
-<<<<<<< HEAD
 
 	mod_zone_page_state(page_zone(page), NR_FILE_PAGES, page_count);
 	mod_zone_page_state(page_zone(page), NR_INACTIVE_FILE, page_count);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	mutex_unlock(&pool->mutex);
 	return 0;
 }
@@ -104,13 +98,10 @@ static struct page *ion_page_pool_remove(struct ion_page_pool *pool, bool high)
 	list_del(&page->lru);
 	mod_zone_page_state(page_zone(page), NR_INDIRECTLY_RECLAIMABLE_BYTES,
 			    -(1 << (PAGE_SHIFT + pool->order)));
-<<<<<<< HEAD
 
 	mod_zone_page_state(page_zone(page), NR_INACTIVE_FILE, -page_count);
 	mod_zone_page_state(page_zone(page), NR_FILE_PAGES, -page_count);
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	return page;
 }
 

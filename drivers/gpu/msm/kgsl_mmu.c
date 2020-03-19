@@ -26,7 +26,6 @@
 
 static void pagetable_remove_sysfs_objects(struct kgsl_pagetable *pagetable);
 
-<<<<<<< HEAD
 static void _deferred_destroy(struct work_struct *ws)
 {
 	struct kgsl_pagetable *pagetable = container_of(ws,
@@ -38,8 +37,6 @@ static void _deferred_destroy(struct work_struct *ws)
 	kfree(pagetable);
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 static void kgsl_destroy_pagetable(struct kref *kref)
 {
 	struct kgsl_pagetable *pagetable = container_of(kref,
@@ -47,14 +44,7 @@ static void kgsl_destroy_pagetable(struct kref *kref)
 
 	kgsl_mmu_detach_pagetable(pagetable);
 
-<<<<<<< HEAD
 	kgsl_schedule_work(&pagetable->destroy_ws);
-=======
-	if (PT_OP_VALID(pagetable, mmu_destroy_pagetable))
-		pagetable->pt_ops->mmu_destroy_pagetable(pagetable);
-
-	kfree(pagetable);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 }
 
 static inline void kgsl_put_pagetable(struct kgsl_pagetable *pagetable)
@@ -319,10 +309,7 @@ kgsl_mmu_createpagetableobject(struct kgsl_mmu *mmu, unsigned int name)
 	kref_init(&pagetable->refcount);
 
 	spin_lock_init(&pagetable->lock);
-<<<<<<< HEAD
 	INIT_WORK(&pagetable->destroy_ws, _deferred_destroy);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	pagetable->mmu = mmu;
 	pagetable->name = name;

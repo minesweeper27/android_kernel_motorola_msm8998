@@ -14,8 +14,5 @@ obj-$(CONFIG_PM_WAKELOCKS)	+= wakelock.o
 obj-$(CONFIG_MAGIC_SYSRQ)	+= poweroff.o
 
 obj-$(CONFIG_SUSPEND)	+= wakeup_reason.o
-<<<<<<< HEAD
 
 obj-$(CONFIG_SUSPEND_DEBUG)	+= user_sysfs_private.o
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d

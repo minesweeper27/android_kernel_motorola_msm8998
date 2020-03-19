@@ -29,7 +29,6 @@
 #include <sound/adsp_err.h>
 #include <linux/qdsp6v2/apr_tal.h>
 #include <sound/q6core.h>
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_OPALUM
 #include <sound/ospl2xx.h>
 #endif
@@ -39,8 +38,6 @@
 #ifdef CONFIG_CIRRUS_PLAYBACK
 #include "msm-cirrus-playback.h"
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 #define WAKELOCK_TIMEOUT	5000
 enum {
@@ -147,7 +144,6 @@ static unsigned long afe_configured_cmd;
 
 static struct afe_ctl this_afe;
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_OPALUM
 int32_t (*ospl2xx_callback)(struct apr_client_data *data);
 
@@ -169,8 +165,6 @@ int tas2560_algo_afe_set_callback(
 	return 0;
 }
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 #define TIMEOUT_MS 1000
 #define Q6AFE_MAX_VOLUME 0x3FFF
 
@@ -633,7 +627,6 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 		if (param_id == AFE_PARAM_ID_DEV_TIMING_STATS) {
 			av_dev_drift_afe_cb_handler(data->opcode, data->payload,
 						    data->payload_size);
-<<<<<<< HEAD
 #if defined (CONFIG_SND_SOC_TAS2560)
 		} else if (payload[1] == AFE_TAS2560_ALGO_MODULE_RX ||
 			payload[1] == AFE_TAS2560_ALGO_MODULE_TX) {
@@ -651,8 +644,6 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 			crus_afe_callback(data->payload, data->payload_size);
 			atomic_set(&this_afe.state, 0);
 #endif
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		} else {
 			if (sp_make_afe_callback(data->opcode, data->payload,
 						 data->payload_size))
@@ -687,7 +678,6 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 			/* payload[1] contains the error status for response */
 			if (payload[1] != 0) {
 				atomic_set(&this_afe.status, payload[1]);
-<<<<<<< HEAD
 				if (payload[0] == AFE_PORT_CMD_SET_PARAM_V2) {
 					pr_debug("%s: cmd = 0x%x returned error = 0x%x\n",
 						__func__, payload[0], payload[1]);
@@ -695,10 +685,6 @@ static int32_t afe_callback(struct apr_client_data *data, void *priv)
 					pr_err("%s: cmd = 0x%x returned error = 0x%x\n",
 						__func__, payload[0], payload[1]);
 				}
-=======
-				pr_err("%s: cmd = 0x%x returned error = 0x%x\n",
-					__func__, payload[0], payload[1]);
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			}
 			switch (payload[0]) {
 			case AFE_PORT_CMD_SET_PARAM_V2:
@@ -1107,10 +1093,7 @@ int afe_q6_interface_prepare(void)
 static int afe_apr_send_pkt(void *data, wait_queue_head_t *wait)
 {
 	int ret;
-<<<<<<< HEAD
 	struct apr_hdr *hdr = (struct apr_hdr *)data;
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	if (wait)
 		atomic_set(&this_afe.state, 1);
@@ -1124,7 +1107,6 @@ static int afe_apr_send_pkt(void *data, wait_queue_head_t *wait)
 			if (!ret) {
 				ret = -ETIMEDOUT;
 			} else if (atomic_read(&this_afe.status) > 0) {
-<<<<<<< HEAD
 				if (hdr->opcode == AFE_PORT_CMD_SET_PARAM_V2) {
 					pr_debug("%s: DSP returned error[%s]\n", __func__,
 						adsp_err_get_err_str(atomic_read(
@@ -1134,11 +1116,6 @@ static int afe_apr_send_pkt(void *data, wait_queue_head_t *wait)
 						adsp_err_get_err_str(atomic_read(
 							&this_afe.status)));
 				}
-=======
-				pr_err("%s: DSP returned error[%s]\n", __func__,
-					adsp_err_get_err_str(atomic_read(
-					&this_afe.status)));
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 				ret = adsp_err_get_lnx_err_code(
 						atomic_read(&this_afe.status));
 			} else {
@@ -2085,11 +2062,7 @@ static int afe_send_port_topology_id(u16 port_id)
 					       q6audio_get_port_index(port_id),
 					       param_info, (u8 *) &topology);
 	if (ret) {
-<<<<<<< HEAD
 		pr_debug("%s: AFE set topology id enable for port 0x%x failed %d\n",
-=======
-		pr_err("%s: AFE set topology id enable for port 0x%x failed %d\n",
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 			__func__, port_id, ret);
 		goto done;
 	}
@@ -6312,7 +6285,6 @@ int afe_enable_lpass_core_shared_clock(u16 port_id, u32 enable)
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_OPALUM
 int afe_set_ospl2xx_params(u16 port_id, struct param_hdr_v3 param_hdr,
 				u8 *param_data)
@@ -6370,8 +6342,6 @@ int afe_set_tas25xx_params(u16 port_id, struct param_hdr_v3 param_hdr,
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int q6afe_check_osr_clk_freq(u32 freq)
 {
 	int ret = 0;
@@ -6541,7 +6511,6 @@ fail_cmd:
 	return ret;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_SND_SOC_OPALUM
 int afe_get_ospl2xx_params(u16 port_id, struct mem_mapping_hdr *mem_hdr,
 				struct param_hdr_v3 *param_hdr)
@@ -6578,8 +6547,6 @@ int afe_get_tas25xx_params(u16 port_id, struct mem_mapping_hdr *mem_hdr,
 }
 #endif
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 int afe_spk_prot_feed_back_cfg(int src_port, int dst_port,
 	int l_ch, int r_ch, u32 enable)
 {

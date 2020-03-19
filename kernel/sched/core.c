@@ -98,7 +98,6 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/sched.h>
 
-<<<<<<< HEAD
 static atomic_t __su_instances;
 
 int su_instances(void)
@@ -131,8 +130,6 @@ void su_exit(void)
 	atomic_dec(&__su_instances);
 }
 
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 ATOMIC_NOTIFIER_HEAD(load_alert_notifier_head);
 
 DEFINE_MUTEX(sched_domains_mutex);
@@ -1311,11 +1308,8 @@ static int __set_cpus_allowed_ptr(struct task_struct *p,
 	unsigned int dest_cpu;
 	int ret = 0;
 	cpumask_t allowed_mask;
-<<<<<<< HEAD
 
 	new_mask = adjust_cpumask(p, new_mask);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 	rq = task_rq_lock(p, &flags);
 
@@ -2189,10 +2183,7 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags,
 	wallclock = sched_ktime_clock();
 	update_task_ravg(rq->curr, rq, TASK_UPDATE, wallclock, 0);
 	update_task_ravg(p, rq, TASK_WAKE, wallclock, 0);
-<<<<<<< HEAD
 	cpufreq_update_util(rq, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	raw_spin_unlock(&rq->lock);
 
 	rcu_read_lock();
@@ -2286,10 +2277,7 @@ static void try_to_wake_up_local(struct task_struct *p)
 
 		update_task_ravg(rq->curr, rq, TASK_UPDATE, wallclock, 0);
 		update_task_ravg(p, rq, TASK_WAKE, wallclock, 0);
-<<<<<<< HEAD
 		cpufreq_update_util(rq, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		ttwu_activate(rq, p, ENQUEUE_WAKEUP);
 		note_task_waking(p, wallclock);
 	}
@@ -3261,11 +3249,8 @@ void scheduler_tick(void)
 	calc_global_load_tick(rq);
 	wallclock = sched_ktime_clock();
 	update_task_ravg(rq->curr, rq, TASK_UPDATE, wallclock, 0);
-<<<<<<< HEAD
 
 	cpufreq_update_util(rq, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 	early_notif = early_detection_notify(rq, wallclock);
 	raw_spin_unlock(&rq->lock);
 
@@ -3634,10 +3619,7 @@ static void __sched notrace __schedule(bool preempt)
 	if (likely(prev != next)) {
 		update_task_ravg(prev, rq, PUT_PREV_TASK, wallclock, 0);
 		update_task_ravg(next, rq, PICK_NEXT_TASK, wallclock, 0);
-<<<<<<< HEAD
 		cpufreq_update_util(rq, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		if (!is_idle_task(prev) && !prev->on_rq)
 			update_avg_burst(prev);
 
@@ -3656,10 +3638,7 @@ static void __sched notrace __schedule(bool preempt)
 		cpu = cpu_of(rq);
 	} else {
 		update_task_ravg(prev, rq, TASK_UPDATE, wallclock, 0);
-<<<<<<< HEAD
 		cpufreq_update_util(rq, 0);
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 		lockdep_unpin_lock(&rq->lock);
 		raw_spin_unlock_irq(&rq->lock);
 	}
@@ -5864,247 +5843,7 @@ static void migrate_tasks(struct rq *dead_rq, bool migrate_pinned_tasks)
 
 	if (num_pinned_kthreads > 1)
 		attach_tasks(&tasks, rq);
-<<<<<<< HEAD
 }
-=======
-}
-
-static void set_rq_online(struct rq *rq);
-static void set_rq_offline(struct rq *rq);
-
-int do_isolation_work_cpu_stop(void *data)
-{
-	unsigned int cpu = smp_processor_id();
-	struct rq *rq = cpu_rq(cpu);
-
-	watchdog_disable(cpu);
-
-	irq_migrate_all_off_this_cpu();
-
-	local_irq_disable();
-
-	sched_ttwu_pending();
-
-	raw_spin_lock(&rq->lock);
-
-	/*
-	 * Temporarily mark the rq as offline. This will allow us to
-	 * move tasks off the CPU.
-	 */
-	if (rq->rd) {
-		BUG_ON(!cpumask_test_cpu(cpu, rq->rd->span));
-		set_rq_offline(rq);
-	}
-
-	migrate_tasks(rq, false);
-
-	if (rq->rd)
-		set_rq_online(rq);
-	raw_spin_unlock(&rq->lock);
-
-	/*
-	 * We might have been in tickless state. Clear NOHZ flags to avoid
-	 * us being kicked for helping out with balancing
-	 */
-	nohz_balance_clear_nohz_mask(cpu);
-
-	clear_hmp_request(cpu);
-	local_irq_enable();
-	return 0;
-}
-
-int do_unisolation_work_cpu_stop(void *data)
-{
-	watchdog_enable(smp_processor_id());
-	return 0;
-}
-
-static void init_sched_groups_capacity(int cpu, struct sched_domain *sd);
-
-static void sched_update_group_capacities(int cpu)
-{
-	struct sched_domain *sd;
-
-	mutex_lock(&sched_domains_mutex);
-	rcu_read_lock();
-
-	for_each_domain(cpu, sd) {
-		int balance_cpu = group_balance_cpu(sd->groups);
-
-		init_sched_groups_capacity(cpu, sd);
-		/*
-		 * Need to ensure this is also called with balancing
-		 * cpu.
-		*/
-		if (cpu != balance_cpu)
-			init_sched_groups_capacity(balance_cpu, sd);
-	}
-
-	rcu_read_unlock();
-	mutex_unlock(&sched_domains_mutex);
-}
-
-static unsigned int cpu_isolation_vote[NR_CPUS];
-
-int sched_isolate_count(const cpumask_t *mask, bool include_offline)
-{
-	cpumask_t count_mask = CPU_MASK_NONE;
-
-	if (include_offline) {
-		cpumask_complement(&count_mask, cpu_online_mask);
-		cpumask_or(&count_mask, &count_mask, cpu_isolated_mask);
-		cpumask_and(&count_mask, &count_mask, mask);
-	} else {
-		cpumask_and(&count_mask, mask, cpu_isolated_mask);
-	}
-
-	return cpumask_weight(&count_mask);
-}
-
-/*
- * 1) CPU is isolated and cpu is offlined:
- *	Unisolate the core.
- * 2) CPU is not isolated and CPU is offlined:
- *	No action taken.
- * 3) CPU is offline and request to isolate
- *	Request ignored.
- * 4) CPU is offline and isolated:
- *	Not a possible state.
- * 5) CPU is online and request to isolate
- *	Normal case: Isolate the CPU
- * 6) CPU is not isolated and comes back online
- *	Nothing to do
- *
- * Note: The client calling sched_isolate_cpu() is repsonsible for ONLY
- * calling sched_unisolate_cpu() on a CPU that the client previously isolated.
- * Client is also responsible for unisolating when a core goes offline
- * (after CPU is marked offline).
- */
-int sched_isolate_cpu(int cpu)
-{
-	struct rq *rq = cpu_rq(cpu);
-	cpumask_t avail_cpus;
-	int ret_code = 0;
-	u64 start_time = 0;
-
-	if (trace_sched_isolate_enabled())
-		start_time = sched_clock();
-
-	cpu_maps_update_begin();
-
-	cpumask_andnot(&avail_cpus, cpu_online_mask, cpu_isolated_mask);
-
-	/* We cannot isolate ALL cpus in the system */
-	if (cpumask_weight(&avail_cpus) == 1) {
-		ret_code = -EINVAL;
-		goto out;
-	}
-
-	if (!cpu_online(cpu)) {
-		ret_code = -EINVAL;
-		goto out;
-	}
-
-	if (++cpu_isolation_vote[cpu] > 1)
-		goto out;
-
-	/*
-	 * There is a race between watchdog being enabled by hotplug and
-	 * core isolation disabling the watchdog. When a CPU is hotplugged in
-	 * and the hotplug lock has been released the watchdog thread might
-	 * not have run yet to enable the watchdog.
-	 * We have to wait for the watchdog to be enabled before proceeding.
-	 */
-	if (!watchdog_configured(cpu)) {
-		msleep(20);
-		if (!watchdog_configured(cpu)) {
-			--cpu_isolation_vote[cpu];
-			ret_code = -EBUSY;
-			goto out;
-		}
-	}
-
-	set_cpu_isolated(cpu, true);
-	cpumask_clear_cpu(cpu, &avail_cpus);
-
-	/* Migrate timers */
-	smp_call_function_any(&avail_cpus, hrtimer_quiesce_cpu, &cpu, 1);
-	smp_call_function_any(&avail_cpus, timer_quiesce_cpu, &cpu, 1);
-
-	stop_cpus(cpumask_of(cpu), do_isolation_work_cpu_stop, 0);
-
-	calc_load_migrate(rq);
-	update_max_interval();
-	sched_update_group_capacities(cpu);
-
-out:
-	cpu_maps_update_done();
-	trace_sched_isolate(cpu, cpumask_bits(cpu_isolated_mask)[0],
-			    start_time, 1);
-	return ret_code;
-}
-
-/*
- * Note: The client calling sched_isolate_cpu() is repsonsible for ONLY
- * calling sched_unisolate_cpu() on a CPU that the client previously isolated.
- * Client is also responsible for unisolating when a core goes offline
- * (after CPU is marked offline).
- */
-int sched_unisolate_cpu_unlocked(int cpu)
-{
-	int ret_code = 0;
-	struct rq *rq = cpu_rq(cpu);
-	u64 start_time = 0;
-
-	if (trace_sched_isolate_enabled())
-		start_time = sched_clock();
-
-	if (!cpu_isolation_vote[cpu]) {
-		ret_code = -EINVAL;
-		goto out;
-	}
-
-	if (--cpu_isolation_vote[cpu])
-		goto out;
-
-	if (cpu_online(cpu)) {
-		unsigned long flags;
-
-		raw_spin_lock_irqsave(&rq->lock, flags);
-		rq->age_stamp = sched_clock_cpu(cpu);
-		raw_spin_unlock_irqrestore(&rq->lock, flags);
-	}
-
-	set_cpu_isolated(cpu, false);
-	update_max_interval();
-	sched_update_group_capacities(cpu);
-
-	if (cpu_online(cpu)) {
-		stop_cpus(cpumask_of(cpu), do_unisolation_work_cpu_stop, 0);
-
-		/* Kick CPU to immediately do load balancing */
-		if (!test_and_set_bit(NOHZ_BALANCE_KICK, nohz_flags(cpu)))
-			smp_send_reschedule(cpu);
-	}
-
-out:
-	trace_sched_isolate(cpu, cpumask_bits(cpu_isolated_mask)[0],
-			    start_time, 0);
-	return ret_code;
-}
-
-int sched_unisolate_cpu(int cpu)
-{
-	int ret_code;
-
-	cpu_maps_update_begin();
-	ret_code = sched_unisolate_cpu_unlocked(cpu);
-	cpu_maps_update_done();
-	return ret_code;
-}
-
-#endif /* CONFIG_HOTPLUG_CPU */
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 
 static void set_rq_online(struct rq *rq);
 static void set_rq_offline(struct rq *rq);

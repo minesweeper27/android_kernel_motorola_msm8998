@@ -65,13 +65,8 @@ static struct rule_node_info *get_node(u32 id, void *data)
 
 	list_for_each_entry(node_it, &node_list, link) {
 		if (node_it->id == id) {
-<<<<<<< HEAD
 			if (id == NB_ID) {
 				if (node_it->data == data) {
-=======
-			if ((id == NB_ID)) {
-				if ((node_it->data == data)) {
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
 					node_match = node_it;
 					break;
 				}

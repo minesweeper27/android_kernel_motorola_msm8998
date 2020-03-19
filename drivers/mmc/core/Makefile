@@ -11,7 +11,4 @@ mmc_core-y			:= core.o bus.o host.o \
 mmc_core-$(CONFIG_OF)		+= pwrseq.o pwrseq_simple.o pwrseq_emmc.o
 mmc_core-$(CONFIG_DEBUG_FS)	+= debugfs.o
 obj-$(CONFIG_MMC_RING_BUFFER)	+= ring_buffer.o
-<<<<<<< HEAD
 obj-$(CONFIG_MMC_FFU)		+= mmc_ffu.o
-=======
->>>>>>> e02b951fa22e3828a842b09f6f65a1d9e971c37d
