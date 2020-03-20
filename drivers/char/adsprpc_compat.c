@@ -119,7 +119,6 @@ struct compat_fastrpc_ioctl_perf {	/* kernel performance data */
 	compat_uptr_t keys;
 };
 
-<<<<<<< HEAD
 #define FASTRPC_CONTROL_LATENCY (1)
 struct compat_fastrpc_ctrl_latency {
 	compat_uint_t enable;
@@ -131,8 +130,6 @@ struct compat_fastrpc_ctrl_smmu {
 	compat_uint_t sharedcb;
 };
 
-=======
->>>>>>> 19194c8ef811... msm: adsprpc: allocate all remote memory in kernel
 #define FASTRPC_CONTROL_KALLOC		(3)
 struct compat_fastrpc_ctrl_kalloc {
 	compat_uint_t kalloc_support; /* Remote memory allocation from kernel */
@@ -141,11 +138,8 @@ struct compat_fastrpc_ctrl_kalloc {
 struct compat_fastrpc_ioctl_control {
 	compat_uint_t req;
 	union {
-<<<<<<< HEAD
 		struct compat_fastrpc_ctrl_latency lp;
 		struct compat_fastrpc_ctrl_smmu smmu;
-=======
->>>>>>> 19194c8ef811... msm: adsprpc: allocate all remote memory in kernel
 		struct compat_fastrpc_ctrl_kalloc kalloc;
 	};
 };
