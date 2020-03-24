@@ -2981,18 +2981,8 @@ int smblib_get_prop_die_health(struct smb_charger *chg,
 
 #define SDP_CURRENT_UA			500000
 #define CDP_CURRENT_UA			1500000
-<<<<<<< HEAD
 #define DCP_CURRENT_UA			1500000
 #define HVDCP_CURRENT_UA		3000000
-=======
-#define DCP_CURRENT_UA			2500000
-#define HVDCP2_CURRENT_UA		2900000
-#if defined(CONFIG_KERNEL_CUSTOM_E7S)
-#define HVDCP_CURRENT_UA		2900000
-#else
-#define HVDCP_CURRENT_UA		2900000
-#endif
->>>>>>> 6355cacbaa46... smb-lib: increase charger speed
 #define TYPEC_DEFAULT_CURRENT_UA	900000
 #define TYPEC_MEDIUM_CURRENT_UA		1500000
 #define TYPEC_HIGH_CURRENT_UA		3000000
